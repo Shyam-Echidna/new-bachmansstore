@@ -58,14 +58,15 @@ function BaseConfig( $stateProvider ) {
                      localStorage.setItem("alf_ticket",ticket);
                         return ticket;
                 })
-                },ticketTemp: function(LoginFact){
+                },
+                /*ticketTemp: function(LoginFact){
                     return LoginFact.GetTemp().then(function(data){
                     console.log(data);           
                     var ticket = data.data.ticket;
                      localStorage.setItem("alfTemp_ticket",ticket);
                         return ticket;
                 })
-                },
+                },*/
             categoryImages: function(CategoryService, ticket){
            // var ticket = localStorage.getItem("alf_ticket");
             return CategoryService.GetCategoryImages(ticket).then(function(res){
