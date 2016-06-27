@@ -31,13 +31,14 @@
             </div>
          </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-block">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-block " >
          <div ng-show="login.loginTab==1" class="logInForm">
+         <span class="errormsg">{{login.errormsg}}</span>
             <form class="panel-body" name="LoginHomeForm" ng-submit="login.submit()" novalidate>
                <div class="login-det">
                    <div class="form-group">
                      <label>Enter Your Email Address</label>
-                     <input type="text" class="form-control" name="loginUsername" id="loginusername" placeholder="Email Address" ng-model="login.credentials.Username" ng-required="true" >
+                     <input type="email" class="form-control" autocomplete="off" name="loginEmail" id="loginusername" placeholder="Email Address" ng-model="login.credentials.Username" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginEmail.$invalid && !LoginHomeForm.loginEmail.$pristine)  || login.invaliduser }" ng-model-options="{updateOn: 'blur'}">
                      </div> 
                   <!--<div class="form-group">
                      <label>Enter Your Email Address</label>
@@ -45,19 +46,20 @@
                   </div>-->
                   <div class="form-group">
                      <label>Enter Your Password</label>
-                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" ng-model="login.credentials.Password" ng-required="true">
+                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/
+" ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}">
                   </div>
                   <div class="form-group remember-block">
                      <!-- <input type="checkbox"><label class="remember-text">Remember Me</label> -->
                      <div class="Checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox" id="remember-me" ng-model="login.rememberMe">
                         <div class="Checkbox-visible"></div>
                      </div>
-                     <label class="remember-text">Remember Me</label>
+                     <label class="remember-text" for="remember-me">Remember Me</label>
                      <label class="pull-right forgot-text"><a href="" class="forgot-pwd-link" ng-click="login.showForgotPassword()">Forgot Password?</a></label>
                   </div>
                   <div class="form-group">
-                     <button class="btn btn-lg btn-primary btn-block login-btn" type="submit">LOGIN</button>
+                     <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" ng-disabled="LoginHomeForm.$invalid" ng-class="{'disabledbtn': LoginHomeForm.$invalid }">LOGIN</button>
                   </div>
                   <div class="form-group link-group">
                      <label class="not-a-member">Not a Member? <a href="" class="sign-up" ng-click="login.showSignUp()">Sign Up!</a></label>
@@ -80,64 +82,66 @@
             <form name="forgotPasswordEmail" novalidate>
                <label>Enter your email address and we'll send you a link to reset your password</label>
                <div class="form-group">
-                  <label>Enter Your Email Addresss</label>
-                  <input type="email" class="form-control" name="loginEmail" id="loginEmail" placeholder="Email address" ng-model="login.credentials.Username" ng-required="true" >
-                  <button class="btn btn-lg btn-primary btn-block mail-send-btn" type="submit">SEND</button>
+                  <label>Enter Your Email Address</label>
+                  <input type="email" class="form-control" name="loginEmail" id="loginEmail" placeholder="Email address" ng-model="login.credentials.Username" ng-required="true" ng-model-options="{updateOn: 'blur'}">
+                  <button class="btn btn-lg btn-primary btn-block mail-send-btn" type="submit" ng-disabled="forgotPasswordEmail.$invalid" ng-class="{'disabledbtn': forgotPasswordEmail.$invalid }">SEND</button>
                   <label class="not-a-member ">Back to <a href="" class="forgot-login-link" ng-click="login.showLogin()">Log In</a></label>
                </div>
             </form>
          </div>
-         <div ng-show="login.loginTab==2" class="signUpForm">
-            <form class="panel-body" name="SigninHomeForm" ng-submit="login.create()" novalidate>
+         <div ng-show="login.loginTab==2" class="signUpForm" >
+            <form class="panel-body" name="SignupHomeForm" ng-submit="login.create()" novalidate>
                <!-- <div class="form-group">
                   <label>Enter Your Username</label>
                   <input type="text" class="form-control" name="loginUsername" id="loginUsername" placeholder="Username" ng-model="login.credentials.Username" ng-required="true" >
                   </div> -->
                <div class="form-group">
                   <label>Enter Your First Name</label>
-                  <input type="text" class="form-control" name="loginFirstname" id="loginFirstname" placeholder="First Name" ng-model="login.newUser.Firstname" ng-required="true" >
+                  <input type="text" class="form-control" name="loginFirstname" id="loginFirstname" placeholder="First Name" ng-model="login.newUser.Firstname" ng-required="true" ng-model-options="{updateOn: 'blur'}">
                </div>
                <div class="form-group">
                   <label>Enter Your Last Name</label>
-                  <input type="text" class="form-control" name="loginLastname" id="loginLastname" placeholder="Last Name" ng-model="login.newUser.Lastname" ng-required="true" >
+                  <input type="text" class="form-control" name="loginLastname" id="loginLastname" placeholder="Last Name" ng-model="login.newUser.Lastname" ng-required="true" ng-model-options="{updateOn: 'blur'}">
                </div>
                <div class="form-group">
-                  <label>Enter Your Email Addresss</label>
-                  <input type="email" class="form-control" name="loginEmailRegistration" id="loginEmailRegistration" placeholder="Email address" ng-model="login.newUser.Email" ng-required="true" >
+                  <label>Enter Your Email Address</label>
+                  <input type="email" class="form-control" name="loginEmailRegistration" id="loginEmailRegistration" placeholder="Email address" ng-model="login.newUser.Email" ng-required="true" ng-model-options="{updateOn: 'blur'}">
                </div>
                <div class="form-group">
                   <label>Enter Your Password</label>
-                  <input type="password" class="form-control" name="loginPasswordRegistration" id="loginPasswordRegistration" placeholder="Password" ng-model="login.newUser.Password" ng-required="true">
+                  <input type="password" class="form-control" name="loginPasswordRegistration" id="loginPasswordRegistration" placeholder="Password" ng-model="login.newUser.Password" ng-required="true" ng-model-options="{updateOn: 'blur'}" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/">
+                  <p class="password-instruction">Password must be Alphanumeric, minimum 8 characters</p>
                </div>
                <div class="form-group">
                   <label>Confirm Your Password</label>
-                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true">
+                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/">
                </div>
                <div class="form-group phone-block">
                   <label>Enter Your Phone Number</label>
                   <div class="row phone-txt">
-                     <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="login.newUser.Phone1" ng-keypress="login.IsNumeric($event)"></div>
+                     <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="login.newUser.Phone1" ng-keypress="login.IsNumeric($event)" ></div>
                      <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="login.newUser.Phone2" ng-keypress="login.IsNumeric($event)" ></div>
-                     <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="login.newUser.Phone3" ng-keypress="login.IsNumeric($event)"></div>
+                     <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="login.newUser.Phone3" ng-keypress="login.IsNumeric($event)" ></div>
                   </div>
+                  <!-- <p class="phone-instruction">Please enter at least 3 characters</p> -->
                </div>
                <div class="form-group purple-perks-block">
                   <div class="Checkbox">
-                     <input type="checkbox" checked="checked">
+                     <input type="checkbox" checked="checked" id="p-perks">
                      <div class="Checkbox-visible"></div>
                   </div>
-                  <label class="remember-text">Sign me up for Purple Perks</label>
+                  <label class="remember-text" for="p-perks">Sign me up for Purple Perks</label>
                </div>
                <div class="form-group purple-perks-block">
                   <div class="Checkbox">
-                     <input type="checkbox" >
+                     <input type="checkbox" id="c-employee">
                      <div class="Checkbox-visible"></div>
                   </div>
-                  <label class="remember-text corporate-emp">Select, if you are a Corporate <br class="visible-xs visible-sm visible-md">Employee</label>
+                  <label class="remember-text corporate-emp" for="c-employee">Select, if you are a Corporate <br class="visible-xs visible-sm visible-md">Employee</label>
                </div>
-               <div class="form-group security-qtn-block">
+               <!-- <div class="form-group security-qtn-block">
                   <label for="security-select">Choose a Security Question</label>
-                  <select class="form-control" id="security-select" ng-model="login.newUser.securityQuestion">
+                  <select class="form-control" id="security-select">
                      <option>What was your high school mascot?</option>
                      <option>In what city were you born?</option>
                      <option>What is the make or model of your first car?</option>
@@ -146,10 +150,24 @@
                      <option>What is your favorite game?</option>
                   </select>
 
-                  <input type="text" class="form-control" ng-model="login.newUser.securityAnswer" placeholder="Enter Your Answer">
-               </div>
+                  <input type="text" class="form-control"  placeholder="Enter Your Answer">
+               </div> -->
+                <div class="form-group security-qtn-block">
+                   <label for="security-select1">Choose a Security Question</label>
+                   <div uib-dropdown class="form-control " id="security-select1" ng-model="login.newUser.securityQuestion">
+                     <div id="sort-dropdown" uib-dropdown-toggle>
+                     <p class="sort-active-show">{{login.selectedItem}}</p></div>
+                     <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="sort-dropdown">
+                        <li role="menuitem" ng-repeat="item in login.sortItems" ng-click="login.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
+                           <a data-value="{{item.value}}" href="">{{item.label}}</a>
+                        </li>
+                     </ul>
+                     
+                  </div>
+                  <input type="text" name = "securityAnswer" class="form-control security-answer" ng-model="login.newUser.securityAnswer" placeholder="Enter Your Answer" ng-required="true">
+      </div>
                <div class="form-group">
-                  <button class="btn btn-lg btn-primary btn-block login-btn" type="submit">SIGN UP</button>
+                  <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" ng-disabled="SignupHomeForm.$invalid" ng-class="{'disabledbtn': SignupHomeForm.$invalid }">SIGN UP</button>
                </div>
                <div class="form-group link-group">
                   <label class="not-a-member">Already a Member? <a href="" class="log-in" ng-click="login.showLogin()">Log In</a></label>
@@ -1174,7 +1192,9 @@
                <div class="p0 col-xs-12 col-sm-12 col-md-12 col-lg-12 taCenter promotion-txt">
                   <h5>Get Free Rewards with</h5>
                   <h2>Purple Perks</h2>
-                  <button class="promo-button">Register Now</button>
+                  <form action="http://192.168.100.182:3000/purplePerks" target="_blank">
+                  <button class="promo-button" type="submit" >Register Now</button>
+               </form>
                </div>
             </div>
             <div class="p0 col-xs-12 col-sm-12 col-md-12 col-lg-12 promotion-desc">

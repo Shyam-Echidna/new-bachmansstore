@@ -6,6 +6,18 @@
 .loginModalBg.modal-backdrop.in {
     opacity: 0.6;
 }
+.hasError{
+    border : 1px solid #a94442 !important;
+}
+.errormsg
+{
+     color: #a94442 !important;
+     padding-left : 15px;
+}
+.disabledbtn{
+    background-color : darkgray !important;
+    border : none !important;
+}
 .loginModalBg{
     .modal-dialog {
         //width: 73%;
@@ -51,7 +63,7 @@ body {
                         stroke-width: 2;
                     }
                     &:hover {
-                        fill: #666;
+                        fill: #888;
                     }
                 }
             }
@@ -63,8 +75,10 @@ body {
         float: none;
         display: table-cell;
         width: 55%;
-        padding:0px 50px;
+       // padding:0px 50px;
+        padding:0px 0px;
         cursor: default;
+        vertical-align: top;
         a{
             outline: 0;
         }
@@ -131,7 +145,11 @@ body {
                   scrollbar-arrow-color: black;
                   scrollbar-shadow-color: #C0C0C0;
                     overflow: auto;
-
+            .logInForm{
+                form{
+                    padding:0 60px;
+                }
+            }
             .signUpForm{
                 max-height: 400px;
                 overflow-y: scroll;
@@ -149,6 +167,9 @@ body {
                 &::-webkit-scrollbar-thumb:hover {
                     //background-color: @base-bg-purple-light;
                     cursor: pointer;
+                }
+                form{
+                    padding:0 60px;
                 }
             }
         }
@@ -183,10 +204,10 @@ body {
             //margin: auto;
             & + .password-instruction{
                 display: none;
-                font: 0.75em @proxima-light;
-                color: #666;
+                font: 0.8em @proxima-light;
+                color: @base-bg-purple-light;
                 margin: 10px 0px;
-                padding-left: 10px;
+                
             }
             &+span.has-error{
                 text-align: left;
@@ -259,6 +280,7 @@ body {
                         background-repeat: no-repeat;
                         background-position: right center;
                         background-size: 35px 11px;
+                        cursor: pointer;
                         &.open{
                              background-image: url(../../assets/images/button-up.svg);
                         }
@@ -271,18 +293,20 @@ body {
                         } 
                  
                 ul{
-                    width: 100%;
+                    width: 101%;
                     border-radius: 0px;
                     margin: 0px;
+                    margin-left: -2px;
                     li{
                         a{
                             width: 100%;
                             white-space: pre-line;
                             padding:7px;
+                            font: 1em @proxima-regular;
                             &:hover{
                             color: @base-bg-purple-light;
                             background: transparent;
-                            font: 1em @proxima-regular;
+                            
                         }
 
                         }
@@ -330,6 +354,7 @@ body {
             margin: 0px 0px 20px 0px;
             //width: 380px;
             //margin: auto;
+
         }
         .not-a-member {
             font: 0.999em @proxima-regular;
@@ -413,7 +438,23 @@ body {
     }
     .phone-block {
         margin: 15px 0px 25px 0px;
-        
+        &.has-error{
+            input[type=text]{
+                &+ span.has-error{
+                    display: none;
+                }
+                
+                } 
+                .phone-instruction{
+            display: block;
+            font: 0.9em @proxima-regular;
+            color: #a94442; 
+            margin: 10px 0px;       
+        }
+        }
+        .phone-instruction{
+            display: none;
+        }
     }
 }
 .promotion-block {
@@ -492,7 +533,11 @@ body {
 .forgot-possword-block {
     color: #666666;
     margin-top: 30px;
+    form{
+        padding:0 60px;
+    }
     h3 {
+        padding:0 60px;
         font: 1.314em @proxima-bold;
         //padding: 0px 35px;
     }
@@ -862,3 +907,17 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0; /* Removes leftover margin */
 }
+
+.form-group{
+   input[type=password]{
+        &+ span.has-error{
+            &+.password-instruction{
+                display: none;
+            }
+        }
+    } 
+}
+
+
+
+
