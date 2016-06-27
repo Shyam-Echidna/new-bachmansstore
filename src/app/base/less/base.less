@@ -47,6 +47,94 @@
 
 /* basecamp fonts files */
 
+/*For General pages ICONS START*/
+@font-face {
+    font-family: 'icomoon';
+    src:    url('../fonts/icomoon.eot?f011o4');
+    src:    url('../fonts/icomoon.eot?f011o4#iefix') format('embedded-opentype'),
+        url('../fonts/icomoon.ttf?f011o4') format('truetype'),
+        url('../fonts/icomoon.woff?f011o4') format('woff'),
+        url('../fonts/icomoon.svg?f011o4#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fb:before {
+    content: "\eaf6";
+}
+.icon-Bolgger:before {
+    content: "\e900";
+}
+.icon-instagram:before {
+    content: "\ea9d";
+}
+/*.icon-instagram2 .path1:before {
+    content: "\e901";
+    color: rgb(80, 127, 166);
+}
+.icon-instagram2 .path2:before {
+    content: "\e902";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+}
+.icon-instagram2 .path3:before {
+    content: "\e903";
+    margin-left: -1em;
+    color: rgb(80, 127, 166);
+}
+.icon-instagram2 .path4:before {
+    content: "\e904";
+    margin-left: -1em;
+    color: rgb(80, 127, 166);
+}
+.icon-instagram2 .path5:before {
+    content: "\e905";
+    margin-left: -1em;
+    color: rgb(80, 127, 166);
+}
+.icon-instagram2 .path6:before {
+    content: "\e906";
+    margin-left: -1em;
+    color: rgb(80, 127, 166);
+}*/
+.icon-linkedin3:before {
+    content: "\e907";
+}
+.icon-mail5:before {
+    content: "\e908";
+}
+.icon-pintrest:before {
+    content: "\e909";
+}
+.icon-print:before {
+    content: "\e90a";
+}
+.icon-twitter2:before {
+    content: "\e90b";
+}
+.icon-wp:before {
+    content: "\e90c";
+}
+.icon-youtube3:before {
+    content: "\e90d";
+}
+/*For General pages ICONS END*/
+
 
 /*@font-face {
   font-family: 'Proxima Bold';
@@ -159,7 +247,7 @@
 		> input:checked + .Checkbox-visible {
 			background: #fff;
 			border-color: #dcdcdc;
-			background-image: url("../../images/right.svg");
+			background-image: url("../../assets/images/right.svg");
 			background-position: 13px;
 		}
 		> input:hover + .Checkbox-visible {
@@ -948,7 +1036,7 @@ ordercloud-minicart {
 	height: 50px;
 }
 .maincat_dropdown.maincat_dropdown-login {
-	div {
+	div{
 		span {
 			display: block;
 			font: 12px @proxima-bold;
@@ -973,7 +1061,7 @@ ordercloud-minicart {
 		width: 192px;
 		background-color: transparent;
 		border-radius: 0;
-		//height: 0px;
+		height: 0px;
 		overflow: hidden;
 		//display: none;
 		transition: height 2s;
@@ -989,7 +1077,8 @@ ordercloud-minicart {
 	}
 	&:hover {
 		.dropdown-menu-login-cont {
-			display: block;
+			//display: block;
+			display: none;
 			height: 222px;
 			.dropdown-menu-login {
 				height: 222px;
@@ -1732,7 +1821,7 @@ btn-primary:hover:hover {
 	&:hover {
 		width: 100%;
 		/*box-shadow: 0px 25px 40px 0px #d9d9d9;*/
-		box-shadow: 0px 15px 10px 5px rgba(0, 0, 0, .4);
+		//box-shadow: 0px 15px 10px 5px rgba(0, 0, 0, .4);
 		//border-bottom: 1px solid #8c58b5;
 		ul.empty-div {
 			width: 21%;
@@ -1981,13 +2070,16 @@ ul.empty-div {
 			.p0;
 			display: none;
 			margin-top: -4px;
-			.loggedIn-user {
-				padding: 13px 10px 0 25px;
+			.loggedIn-user { 
+				//padding: 13px 10px 0 25px;
 				text-align: left;
+				.block-vertical-center(relative);
+				padding: 0 10px 0 25px;
 				.user-name {
 					//font: 13px/16px @proxima-regular;
 					font: 0.813em/16px @proxima-regular;
 					text-transform: capitalize;
+					display:none;	
 				}
 				.user-account {
 					//font: 14px/16px @proxima-regular;
@@ -1995,11 +2087,15 @@ ul.empty-div {
 					text-transform: uppercase;
 					display: block;
 					white-space: nowrap;
+					&.loginSignup{
+						display:none; 
+
+					}
 				}
 			}
 		}
 		.info-acc-icon,
-		.info-cart-icon {
+		.info-cart-icon { 
 			position: absolute;
 			right: 0;
 			top: 0;
@@ -5159,13 +5255,54 @@ body {
 .menuScrollCont-arrow{
 	//display:none;
 }
-.expandAccBlockLoggedIn{
+.expandAccBlockLoggedIn, .expandAccBlockSignedIn{
 	width:220px !important;
-	background-color: #8c58b5 !important;
+	background-color: #8c58b5 ;
 	.info-acc-text{
 		display:inline-block !important;
 	}
 	.info-acc-icon{
 		display:inline-block !important;
 	}
+	&:hover{
+		.dropdown-menu-login-cont {
+			display: block;
+		}
+	}
+	&.info-bar-acc .info-acc-text{
+		margin-top:-1px !important;
+		.loggedIn-user{
+			.block-vertical-center(relavtie);
+			padding: 0 10px 0 25px;
+		}
+	} 
 }  
+.expandAccBlockLoggedIn{
+	.loggedIn-user{
+		.user-name.login{
+			display:block !important;	
+		}
+		.user-account{
+			display:none !important;
+		}
+		.user-account.loginSignup{
+			display:block !important;
+		}
+	}
+} 
+.expandAccBlockSignedIn{
+	.loggedIn-user{
+		.user-name.signup{
+			display:block !important;	
+		}
+		.user-account{
+			display:none !important;
+		}
+		.user-account.loginSignup{
+			display:block !important;
+		}
+	}
+}
+.thisIsHovered{
+	box-shadow: 0px 15px 10px 5px rgba(0, 0, 0, 0.4);
+}

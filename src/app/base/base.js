@@ -216,7 +216,7 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
 	$scope.is = function(name){
 	   return $state.is(name);
 	}
-
+	vm.alf_ticket = ticket;
 	//console.log('asdfghj',minicartData);
 	vm.currentOrder = BaseService.MinicartData();
 	console.log(vm.currentOrder);
