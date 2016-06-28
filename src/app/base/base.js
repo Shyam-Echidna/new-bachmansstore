@@ -1358,8 +1358,8 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		$http({
 			method: 'GET',
 			dataType:"json",
-			//url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
-			url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
+			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -1377,7 +1377,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 			method: 'GET',
 			dataType:"json",
 			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+subfolder+"?alf_ticket="+ticket,
-			url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -1394,8 +1394,8 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		$http({
 			method: 'GET',
 			dataType:"json",
-			//url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
-            url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
+           // url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
 			headers: {
 				'Content-Type': 'application/json'
 			}
