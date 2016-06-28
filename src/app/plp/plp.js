@@ -79,8 +79,8 @@ function PlpConfig($stateProvider) {
             controller: 'PlpCtrl',
             controllerAs: 'plp'
         })
-}
 
+}
 
 function PlpService($q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, alfrescourl, $cookieStore) {
 
@@ -351,12 +351,13 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
 
 
     vm.selectionLength = vm.selection.length;
-     var owl2 = angular.element("#owl-carousel-selected-cat");   
+
+     /*var owl2 = angular.element("#owl-carousel-selected-cat");   
       owl2.owlCarousel({
         nav:true,
         autoWidth:true
-      });
-      vm.facetOwlReinitialise = function(){
+      });*/
+      /*vm.facetOwlReinitialise = function(){
         owl2.trigger('destroy.owl.carousel');
         owl2.find('.owl-stage-outer').children().unwrap();
         if(vm.selection.length > vm.selectionLength){
@@ -373,9 +374,9 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
           },100);
           
         }
-      }
+      }*/
  
-      var fixOwl = function(){
+     /* var fixOwl = function(){
         var $stage = $('.owl-stage'),
             stageW = $stage.width(),
             $el = $('.owl-item'),
@@ -386,24 +387,24 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
         if ( elW > stageW ) {
             $stage.width( elW );
         };
-      }
+      }*/
 
       vm.togglFaceteSelection = function togglFaceteSelection(facetName, isFromTopBar) {
         var idx = vm.selection.indexOf(facetName);
         // is currently selected
         if(isFromTopBar){
           vm.facetName[facetName] = false;
-           vm.facetOwlReinitialise();
+           ///vm.facetOwlReinitialise();
         }
         if (idx > -1) {
           vm.selection.splice(idx, 1);
-         vm.facetOwlReinitialise();
+         //vm.facetOwlReinitialise();
 
         }
         // is newly selected
         else {
           vm.selection.push(facetName);
-         vm.facetOwlReinitialise();
+         //vm.facetOwlReinitialise();
         }
       };
 
@@ -496,7 +497,7 @@ vm.selectColor = function($index, $event, prod){
     });
     },500);
 
- vm.addedToCartPopUp = function() {
+ /*vm.addedToCartPopUp = function() {
      // alert(10000);
      setTimeout(function(){
          var modalInstance = $uibModal.open({
@@ -513,7 +514,8 @@ vm.selectColor = function($index, $event, prod){
              angular.noop();
          });
      },1000)
- }
+ }*/
+
 
  vm.addedToCartPopUp = function() {
      // alert(10000);
@@ -607,13 +609,31 @@ vm.selectColor = function($index, $event, prod){
         },1000)
 
 
+
   vm.shiftSelectedCategoryRight= function(){
     var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos + 100);
+    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
+    $('#owl-carousel-selected-cat').scrollLeft(currentPos + posToShift);
+    $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
+    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').length > 0 ) { // if target element exists in DOM
+      if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
+        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','none');
+      } else {
+        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','inline-block');
+      }
+    }*/
   }
   vm.shiftSelectedCategoryLeft= function(){
     var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos - 100);
+    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
+    $('#owl-carousel-selected-cat').scrollLeft(currentPos - posToShift);
+    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').length > 0 ) { // if target element exists in DOM
+      if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
+        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','none');
+      } else {
+        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','inline-block');
+      }
+    }*/
   }      
   /* Plp banner from alfresco */
   var ticket = localStorage.getItem("alf_ticket");
@@ -1015,9 +1035,28 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
 
 function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,OrderCloud,PlpService) {
     var vm = this;
-      $scope.cancel = function () {
+    /*  $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
-    };
+    };*/
+ setTimeout(function(){
+    var owlC = angular.element("#owlC");   
+    owlC.owlCarousel({
+      loop:true,
+      margin:10,
+      nav:true,
+      responsive:{
+          0:{
+              items:1
+          },
+          600:{
+              items:3
+          },
+          1000:{
+              items:5
+          }
+      }
+    })
+    },1000)
 
         // added to cart carousel-pdt
      setTimeout(function(){
@@ -1044,8 +1083,8 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
 
       // added to cart carousel-frequent-pdt
      setTimeout(function(){
-        var owl2 = angular.element("#owl-carousel-added-cart-frequent-pdt");   
-        owl2.owlCarousel({
+        var owlcart = angular.element("#owl-carousel-added-cart-frequent-pdt");   
+        owlcart.owlCarousel({
             //responsive: true,
             loop:true,
             nav:true,

@@ -9,11 +9,7 @@
 .hasError{
     border : 1px solid #a94442 !important;
 }
-.errormsg
-{
-     color: #a94442 !important;
-     padding-left : 15px;
-}
+
 .disabledbtn{
     background-color : darkgray !important;
     border : none !important;
@@ -145,6 +141,11 @@ body {
                   scrollbar-arrow-color: black;
                   scrollbar-shadow-color: #C0C0C0;
                     overflow: auto;
+                    .errormsg{
+                             color: #a94442 !important;
+                             padding-left : 60px;
+                             margin-bottom: 5px;
+                            }
             .logInForm{
                 form{
                     padding:0 60px;
@@ -645,6 +646,8 @@ body {
         .form-block {
             padding: 0px;
             padding-bottom: 0%;
+            width: 100%;
+            float: left;
             .form-title {
                 padding: 10px 0px 30px 0px;
                 margin: 0px;
@@ -660,12 +663,38 @@ body {
             }
             .text-block {
                 padding: 0px;
+                .errormsg{
+                    padding-left: 10px;
+                }
+                .logInForm,.signUpForm,.forgot-possword-block{
+                    form{
+                        padding: 0px 10px;
+                    }
+                }
+                .signUpForm{
+                    max-height: initial;
+                    form{
+                        padding: 0px 0px 0px 10px;
+                    }
+                }
+                .forgot-possword-block{
+                    form{
+                        padding: 0px;
+                    }
+                }
             }
         }
         .panel-body .form-group {
             label, .not-a-member, input[type=email], input[type=password], input[type=text], select {
                 font-size: 0.875em;
 
+            }
+            .phone-txt{
+                div{
+                    input[type="text"]{
+                        width: 100%;
+                    }
+                }
             }
             label {
                 color: #000000;
@@ -757,6 +786,33 @@ body {
                 padding: 0px;
             } 
     }
+}
+
+ 
+//for sam tab portrait & iphone landscape
+@media screen and (max-width:737px) and (min-width:560px) {
+    .login-model{
+        .panel-body{
+           .form-group{
+            .phone-txt{
+                div{
+                    input[type="text"]{
+                        width: 100%;
+                    }
+                }
+            }
+            .remember-text{
+                vertical-align: bottom;
+                &.corporate-emp{
+                    vertical-align: bottom;
+                    .visible-sm{
+                        display: none !important;
+                    }
+                }
+                }
+           } 
+        }
+        }   
 }
 /* media queries for Tablets & Ipad -- landscape*/
 
@@ -874,14 +930,19 @@ body {
     select::-ms-expand {
     display: none;
     }
+    
         .login-model{
             .form-block,.promotion-block{
-                float: initial;
+               
+                vertical-align: top;
                 display: initial;
+                float: none;
 
             }
             .promotion-block{
                 vertical-align: top;
+                display: initial;
+                float: none;
             }
             } 
 
@@ -918,6 +979,12 @@ input[type=number]::-webkit-outer-spin-button {
     } 
 }
 
+// firefox media
+@-moz-document url-prefix(){
+    .login-model{
+        overflow-y: hidden !important;
+    }
 
+ }
 
 

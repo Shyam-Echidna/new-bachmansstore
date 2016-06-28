@@ -16,7 +16,7 @@ function PdpConfig( $stateProvider ) {
 			templateUrl:'pdp/templates/pdp.tpl.html',
 			resolve: {
 				productDetail: function(PlpService, PdpService, $q, $stateParams, $http, OrderCloud){
-						var filter ={"xp.sequencenumber":$stateParams.sequence};
+						//var filter ={"xp.sequencenumber":$stateParams.sequence};
 					    // return OrderCloud.Me.ListProducts(null, 1, 100, null, null, filter, null).then(function(res){
 				     // 	console.log('Product response data',res);
 				     // 	return res;

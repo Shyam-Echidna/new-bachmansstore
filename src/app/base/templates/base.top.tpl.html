@@ -98,7 +98,7 @@
 	    </div>
 		<div class="base-header-bottom row">
 			<ul class="menu-hover-cont1">
-				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" id="menu-li">
+				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" ng-mouseleave="base.hideOnClick=false" id="menu-li">
 					<div class="start-shopping btn-group fl">
 						<button type="button" class="maincat_dropdown btn btn-primary">
 						<div id="menu-icon">
@@ -111,7 +111,7 @@
 					</div>
 					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -2" >
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -2" >
 							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -198,7 +198,7 @@ $.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addCl
 						</li>
 					</ul>
 				</li>
-				<li class="menuLiContTab" ng-class="{changeToClose: base.hideOnClickTab==true, changeToMenu: base.hideOnClickTab==false}">
+				<li class="menuLiContTab" ng-class="{changeToClose: base.hideOnClickTab==true, changeToMenu: base.hideOnClickTab==false}" >
 					<div class="start-shopping btn-group fl" ng-click="base.megaMenuTab()";>
 						<button type="button" class="maincat_dropdown btn btn-primary">
 						<div id="menu-icon">
@@ -211,7 +211,7 @@ $.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addCl
 					</div>
 					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTab" id="menuCont">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">
 							<a class="maincat_link" >{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -324,16 +324,17 @@ $.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').ad
 							</svg>
 						</a>
 					</div>
-					<div class=" info-bar-acc" id="info-bar-acc" ng-mouseover="base.showAccountDropdown=true">
+					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
 						<div class="info-bar-acc-empty-div"></div>
-
 						<a class="info-acc-text" >
 							<div class="loggedIn-user">
-								<span class="user-name">Hello,{{baseTop.currentUser.Username}}</span>
-								<span class="user-account">MY ACCOUNT</span>
-							</div>
+								<span class="user-name login">Hello, {{baseTop.currentUser.FirstName}}</span>
+								<span class="user-name signup">Hello, user</span>
+								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account loginSignup">MY ACCOUNT</span>
+							</div> 
 						</a>
-						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.	showuserdetail" class="info-acc-icon">
+						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
 						<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
 							<span class="loggedOut-user">					
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -354,7 +355,7 @@ $.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').ad
 								</svg>
 							</span>
 						</a>
-						<div ng-show="base.showAccountDropdown" class="dropdown-menu-login-cont">
+						<div class="dropdown-menu-login-cont">
 							<ul class="dropdown-menu-login">
 								<li class="sub-nav">
 									<a class="maincat_link " ui-sref="account.profile">My Account</a>
@@ -474,7 +475,7 @@ $.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').ad
 		</div>
 		<div class="base-header-bottom row">
 			<ul class="menu-hover-cont1">
-				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" id="menu-li">
+				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" ng-mouseleave="base.hideOnClick=false" id="menu-li">
 					<div class="start-shopping btn-group fl">
 						<button type="button" class="maincat_dropdown btn btn-primary">
 						<div id="menu-icon">
@@ -487,7 +488,7 @@ $.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').ad
 					</div>
 					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav" ng-if="$index !=  base.tree.length -2">
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav" ng-if="$index !=  base.tree.length -2">
 							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -585,7 +586,7 @@ $.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').ad
 					</div>
 					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTabSticky" id="menuCont">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">			
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">			
 							<a class="maincat_link" >{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -692,12 +693,14 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 							</svg>
 						</a>
 					</div>
-					<div class=" info-bar-acc" id="info-bar-acc" ng-mouseover="base.showAccountDropdown=true">
+					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
 					<div class="info-bar-acc-empty-div"></div>
 						<a class="info-acc-text" >
 							<div class="loggedIn-user">
-								<span class="user-name">Hello,{{baseTop.currentUser.Username}}</span>
-								<span class="user-account">MY ACCOUNT</span>
+								<span class="user-name login">Hello, {{baseTop.currentUser.FirstName}}</span>
+								<span class="user-name signup">Hello, user</span>
+								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div>
 						</a>
 						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
@@ -721,7 +724,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 								</svg>
 							</span>
 						</a>
-						<div class="dropdown-menu-login-cont" ng-show="base.showAccountDropdown">
+						<div class="dropdown-menu-login-cont">
 							<ul class="dropdown-menu-login">
 								<li class="sub-nav">
 									<a class="maincat_link " ui-sref="account.creditCardAccount">My Account</a>

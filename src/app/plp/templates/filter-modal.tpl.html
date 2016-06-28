@@ -1,4 +1,5 @@
 <div class="container-fluid filter-modal" >
+	<div class="scroll-content" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
 	<div class="row">
 	<p class="close-icon" ng-click="cancel()"><a>
 		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
@@ -20,7 +21,7 @@
 		<h3>Filter</h3>
 	</div>
 	<div class="col-xs-6 col-sm-6">
-		<button class="clearAll">Clear All</button>
+		<button class="clearAll" ng-click="filterBtn.clearSelection()">Clear All</button>
 	</div>
     </div>
     <div class="row filter-selections">
@@ -377,8 +378,9 @@
 				</uib-accordion>
 
     </div>
+</div>
     <div class="row apply-filter">
 
-    	<button class="btn btn-block navbar-fixed-bottom">APPLY FILTERS</button>
+    	<button class="btn btn-block">APPLY FILTERS</button>
     </div>
 </div>

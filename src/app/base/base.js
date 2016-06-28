@@ -896,26 +896,26 @@ LoginFact.GetContactInfo(ticket).then(function(res){
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
-});
-  LoginFact.GetStaticTemp(ticket).then(function(res){
-    console.log("static temp", res);
-			vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
-			//vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
-		})
-			LoginFact.GetFolders(ticket).then(function(res){
-			console.log("static temp GetFolders", res);
-			var ajaxarr = [];
-			var deferred = $q.defer();
-			angular.forEach(res.items,function(item){
-				var d = $q.defer();
-				ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
-					console.log("static temp GetSubFolders", response);
-					item["subfolders"]=response
-					deferred.resolve(item);
-					d.resolve();
-					return item;
-				}))
-			})
+// });
+  // LoginFact.GetStaticTemp(ticket).then(function(res){
+    // console.log("static temp", res);
+			// vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
+		//	vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
+		// })
+			// LoginFact.GetFolders(ticket).then(function(res){
+			// console.log("static temp GetFolders", res);
+			// var ajaxarr = [];
+			// var deferred = $q.defer();
+			// angular.forEach(res.items,function(item){
+				// var d = $q.defer();
+				// ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
+					// console.log("static temp GetSubFolders", response);
+					// item["subfolders"]=response
+					// deferred.resolve(item);
+					// d.resolve();
+					// return item;
+				// }))
+			// })
 
 			// angular.forEach(list.Items, function (item) {
    //              var promise = Categories.Get(item.CategoryID);
@@ -927,12 +927,12 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 
    //          });
 
-			$q.all(ajaxarr).then(function(all){
-				vm.ListOfPages = all;
+			// $q.all(ajaxarr).then(function(all){
+				// vm.ListOfPages = all;
 
-			});
+			// });
 
-		});
+		// });
 
 		LoginFact.GetPerplePerksSvg(ticket).then(function(res){
 
@@ -1351,8 +1351,8 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		$http({
 			method: 'GET',
 			dataType:"json",
-			//url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
-			url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
+			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -1370,7 +1370,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 			method: 'GET',
 			dataType:"json",
 			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+subfolder+"?alf_ticket="+ticket,
-			url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
 			headers: {
 				'Content-Type': 'application/json'
 			}
