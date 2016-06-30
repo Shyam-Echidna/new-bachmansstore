@@ -587,11 +587,8 @@
                            </div>
                        </div>
                     </div>
-                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos">
-                       <p ng-repeat="colorprod in groupedProducts | colors " ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
-                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
-                        </p>
-                   </div>
+                  <prod-colors product="groupedProducts"></prod-colors>
+                    
                    <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
                      <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">

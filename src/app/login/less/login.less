@@ -133,14 +133,14 @@ body {
             }
         }
         .text-block{
-            scrollbar-base-color: #C0C0C0;
+            /*scrollbar-base-color: #C0C0C0;
                   scrollbar-base-color: #C0C0C0;
                   scrollbar-3dlight-color: #C0C0C0;
                   scrollbar-highlight-color: #C0C0C0;
                   scrollbar-track-color: #EBEBEB;
                   scrollbar-arrow-color: black;
-                  scrollbar-shadow-color: #C0C0C0;
-                    overflow: auto;
+                  scrollbar-shadow-color: #C0C0C0;*/
+                    //overflow: auto;
                     .errormsg{
                              color: #a94442 !important;
                              padding-left : 60px;
@@ -152,10 +152,10 @@ body {
                 }
             }
             .signUpForm{
-                max-height: 400px;
-                overflow-y: scroll;
-                overflow-x: hidden;
-                 &::-webkit-scrollbar {
+                max-height: 375px;
+                //overflow-y: scroll;
+                //overflow-x: hidden;
+                 /*&::-webkit-scrollbar {
                     background: transparent;
                     cursor: pointer;
                 }
@@ -168,7 +168,7 @@ body {
                 &::-webkit-scrollbar-thumb:hover {
                     //background-color: @base-bg-purple-light;
                     cursor: pointer;
-                }
+                }*/
                 form{
                     padding:0 60px;
                 }
@@ -930,8 +930,9 @@ body {
     select::-ms-expand {
     display: none;
     }
-    
+
         .login-model{
+            overflow: hidden;
             .form-block,.promotion-block{
                
                 vertical-align: top;

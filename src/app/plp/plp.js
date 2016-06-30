@@ -11,6 +11,8 @@ angular.module('orderCloud')
     .controller( 'ProductQuickViewCtrl', ProductQuickViewController)
     .controller ('ProductQuickViewModalCtrl', ProductQuickViewModalController)
     .controller('addedToCartCtrl',addedToCartController)
+    .directive('prodColors', ProdColorsDirective)
+    .controller('productColorCtrl', ProductColorCtrl)
 ;
 
 function PlpConfig($stateProvider) {
@@ -339,6 +341,7 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
     vm.clearSelection = function(){
        vm.selection = [];
        vm.facetName = {};
+        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'none','visibility':'hidden'});
     }
     // Function for navigation to PDP
     vm.detailsPage = function($event){
@@ -606,35 +609,37 @@ vm.selectColor = function($index, $event, prod){
                 }
             }
         });
-        },1000)
+        },500)
 
-
+  /* facet scroll*/
+  vm.selectionLength = vm.selection.length;
 
   vm.shiftSelectedCategoryRight= function(){
-    var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos + posToShift);
-    $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
-    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').length > 0 ) { // if target element exists in DOM
-      if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
-        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','none');
-      } else {
-        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','inline-block');
-      }
-    }*/
+    var currentPos = angular.element('#owl-carousel-selected-cat').scrollLeft();
+    var posToShift = angular.element('#owl-carousel-selected-cat .owl-carousel-item').width();
+    angular.element('#owl-carousel-selected-cat').scrollLeft(currentPos + posToShift);
+    angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
+   // alert(currentPos);
+    var scrollEnd = ((vm.selection.length - 4) * posToShift) - 10;
+    if(currentPos > scrollEnd){
+      angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-blockone','visibility':'hidden'});
+    } else{
+      angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-block','visibility':'visible'});
+    }
   }
   vm.shiftSelectedCategoryLeft= function(){
-    var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos - posToShift);
-    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').length > 0 ) { // if target element exists in DOM
-      if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
-        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','none');
-      } else {
-        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','inline-block');
-      }
-    }*/
-  }      
+    var currentPos = angular.element('#owl-carousel-selected-cat').scrollLeft();
+    var posToShift = angular.element('#owl-carousel-selected-cat .owl-carousel-item').width();
+    angular.element('#owl-carousel-selected-cat').scrollLeft(currentPos - posToShift);
+    angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-block','visibility':'visible'});
+    if(currentPos == 0){
+      angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-blockone','visibility':'hidden'});
+    } else{
+      angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
+    }
+  }     
+  
+
   /* Plp banner from alfresco */
   var ticket = localStorage.getItem("alf_ticket");
 
@@ -879,6 +884,12 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
      $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+     $uibModalInstance.opened.then(function() {
+    $timeout(function() {
+        $scope.$broadcast('rebuild:qvScroll');
+    },200);
+
+});
     vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
     vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails       
     vm.defaultSizeIndex =0; 
@@ -896,12 +907,11 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
   console.log('Size grouped QV products  ', vm.productDetails);
   vm.isSizeAvailable = vm.productDetails[0][0].length;
   $scope.qty =1;
-  $scope.multireceipentText = '<p>Is this for multiple receipents?</p> <button>YES</button><button>NO</button>'
+  $scope.multireceipentText = '<p>Is this for multiple receipents?</p> <button>YES</button><button>NO</button>';
   
   vm.setQvImage = function($event){
     $($event.target).parents('.category-pdt-carousel').find('#img-min-height img').attr('src',$($event.target).attr('src'));
   }
-
   vm.selectVarients = function(selectedSize){
     vm.productVarientImages = [];
     vm.sizeGroupedProducts = sizeGroupedProducts[selectedSize];
@@ -965,7 +975,7 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
   $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
   
   PdpService.GetProductCodeImages(prod.ID).then(function(res){
-    $timeout(function(){
+  $timeout(function(){
   vm.productVarientImages =  res;
 
    // qv image min height -start
@@ -1033,11 +1043,17 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
 }
 
 
-function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,OrderCloud,PlpService) {
+function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,OrderCloud,PlpService, $timeout) {
     var vm = this;
-    /*  $scope.cancel = function () {
+      $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
-    };*/
+    };
+     $uibModalInstance.opened.then(function() {
+    $timeout(function() {
+        $scope.$broadcast('rebuild:cartScroll');
+    },1000);
+
+});
  setTimeout(function(){
     var owlC = angular.element("#owlC");   
     owlC.owlCarousel({
@@ -1059,7 +1075,7 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
     },1000)
 
         // added to cart carousel-pdt
-     setTimeout(function(){
+     /*setTimeout(function(){
         var owl2 = angular.element("#owl-carousel-added-cart-pdt");   
         owl2.owlCarousel({
             //responsive: true,
@@ -1079,10 +1095,10 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
                 }
             }
         });
-        },1000)
+        },1000)*/
 
       // added to cart carousel-frequent-pdt
-     setTimeout(function(){
+     /*setTimeout(function(){
         var owlcart = angular.element("#owl-carousel-added-cart-frequent-pdt");   
         owlcart.owlCarousel({
             //responsive: true,
@@ -1102,7 +1118,8 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
                 }
             }
         });
-        },1000)
+        },1000)*/
+
     var ticket = localStorage.getItem("alf_ticket");
     PlpService.GetAddToCart(ticket).then(function(res){
       vm.pdt1 = alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket;
@@ -1115,6 +1132,26 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
       vm.pdt8 = alfcontenturl+res.items[7].contentUrl+"?alf_ticket="+ticket;
       vm.pdt9 = alfcontenturl+res.items[8].contentUrl+"?alf_ticket="+ticket;
     });
+
+    /* cart popup pdts scroll */
+    vm.shiftSelectedCartRight= function(){
+      var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+      var posToShift = angular.element('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item itemInner').width();
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos + 313);
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item .cartLeftArrow').css({'display':'block'});
+    }
+
+    vm.shiftSelectedCartLeft= function(){
+      var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+      var posToShift = $('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item').width();
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos - 313);
+      if(currentPos == 0){
+        angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'none'});
+      } else{
+        angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'block'});
+      }
+    }
+
   }
 
   function SharedData() {
@@ -1124,3 +1161,46 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
     }
   return service;    
   }
+
+
+function ProdColorsDirective(){
+    return{
+        scope:{
+            product: '='
+        },
+        replace:true,
+        restrict:'E',
+        controller:'productColorCtrl',
+        controllerAs:'productColor',
+         templateUrl:'plp/templates/prod-colors.tpl.html'
+        // template:'<span>fdgsdfg</span>'
+    }
+ } 
+
+ function ProductColorCtrl($scope, Underscore){
+      var groupedProducts = $scope.product;
+      var defaultGroupedProd = [];
+      var sizeGroupedProducts = _.groupBy(groupedProducts, function(item) { 
+          // return "'"+item.xp.SpecsOptions.Size+"'";
+          return item.xp.SpecsOptions.Size;
+      });
+       var data;
+       $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true')  data = i;});
+       var dafaultSize = groupedProducts[data].xp.SpecsOptions.Size;
+       var defaultSizeGroupedProd = sizeGroupedProducts[dafaultSize];
+       if(dafaultSize.toLowerCase() !== 'standard' ){
+        angular.forEach(sizeGroupedProducts["STANDARD"], function(standardValue, key){
+            defaultSizeGroupedProd.push(standardValue);
+        });
+       }
+       angular.forEach(sizeGroupedProducts, function(sizeValue, key){
+         if(dafaultSize !== key && key !== 'standard'){
+           angular.forEach(sizeValue, function(prodVal, key){
+            defaultSizeGroupedProd.push(prodVal);
+        });
+        }
+     });
+       $scope.SrotedColors = defaultSizeGroupedProd;
+       console.log('dir', $scope.SrotedColors );
+
+ }

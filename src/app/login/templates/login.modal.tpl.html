@@ -1,4 +1,5 @@
-<div class="row login-model" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
+
+<div class="row login-model" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'hidden'}">
    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-block">
       <div class="row modal-close visible-xs visible-sm">
          <p class="close-icon" ng-click="cancel()">
@@ -89,7 +90,7 @@
                </div>
             </form>
          </div>
-         <div ng-show="login.loginTab==2" class="signUpForm" >
+         <div ng-show="login.loginTab==2" class="signUpForm signUpScroll" ng-scrollbar rebuild-on="rebuild:signUpScroll">
             <form class="panel-body" name="SignupHomeForm" ng-submit="login.create()" novalidate>
                <!-- <div class="form-group">
                   <label>Enter Your Username</label>

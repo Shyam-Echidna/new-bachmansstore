@@ -81,7 +81,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope ) {
+function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $timeout, $uibModalInstance, $rootScope ) {
 
     var vm = this;
     vm.token = $stateParams.token;
@@ -90,6 +90,11 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
         vm.form = form;
     };
 
+    $uibModalInstance.opened.then(function() {
+          $timeout(function() {
+              $scope.$broadcast('rebuild:signUpScroll');
+          },2000);
+        });
 
     // START: function for sort options selection
       var sortItems=[
@@ -214,6 +219,9 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+        
+
     vm.create = function() {
        //vm.newUser=Users;
        //vm.newUser={};

@@ -59,64 +59,72 @@ body.modal-open {
             background: #424242;
             padding: 18px 10px;
             #owl-carousel-plp-hybrid {
-                .owl-stage-outer {
-                    .owl-stage {
-                        .owl-item {
-                            &.active {
-                                padding: 0px 6px;
-                            }
-                            .owl-carousel-item {
-                                 .category-prod{
-                                            position: relative;
-                                            button {
-                                                margin: 12px auto 0;
-                                                .white-button;
-                                               
-                                                height: 2.500em;
-                                                line-height: 2.500em;
-                                                font: 1.000em @proxima-bold;
-                                                padding: 0 20px;
-                                                border: 1px solid @font-purple-dark;
-                                                color:#fff ;
-                                                background: @font-purple-dark;
-                                                position: absolute;
-                                                margin: auto;
-                                                text-shadow: 1px 1px 20px rgba(0,0,0,.2);
-                                                bottom: 1.655em;
-                                                left: 1.655em;
-                                                right: 0;
-                                                right:1em;
-                                                &:hover{
-                                                    background: @base-bg-purple-light;
-                                                    
-                                                }
-                                            }
-                                        }
-                                .category-prod-desc {
-                                    position: absolute;
-                                    top: 1.875em;
-                                    left: 1.875em;
-                                    cursor: default;
-                                    div {
-
-                                        .category-prod-desc-web {
-                                            p {
-                                                font: 1.5em @proxima-bold;
-                                                color: #464646;
-                                                text-shadow: 1px 1px 20px rgba(0,0,0,.2);
-                                                //font-weight: bold;
-                                                max-width:80%;
-                                            }
-                                          
-                                        }
-                                    }
-                                }
-                            }
-                         
-                         
-                        }
+                display: block;
+                position: relative;
+                overflow: hidden;
+                .owl-item {
+                    &.active {
+                        padding: 0px 6px;
                     }
                 }
+                .owl-stage .owl-carousel-item{
+                    width: auto;
+                    .category-prod-desc{
+                        padding-left:0px;
+                    }
+                }
+                .owl-carousel-item {
+                    width: 33.33%;
+                    float: left;
+                    padding: 0 1%;
+                    position: relative;
+                    .category-prod{
+                        position: relative;
+                        button {
+                            margin: 12px auto 0;
+                            .white-button;
+                           
+                            height: 2.500em;
+                            line-height: 2.500em;
+                            font: 1.000em @proxima-bold;
+                            padding: 0 20px;
+                            border: 1px solid @font-purple-dark;
+                            color:#fff ;
+                            background: @font-purple-dark;
+                            position: absolute;
+                            margin: auto;
+                            text-shadow: 1px 1px 20px rgba(0,0,0,.2);
+                            bottom: 1.655em;
+                            left: 1.655em;
+                            right: 0;
+                            right:1em;
+                            &:hover{
+                                background: @base-bg-purple-light;
+                                
+                            }
+                        }
+                    }
+                    .category-prod-desc {
+                        position: absolute;
+                        top: 1.875em;
+                        left: 1.875em;
+                        cursor: default;
+                        padding-left:10px;
+                        div {
+
+                            .category-prod-desc-web {
+                                p {
+                                    font: 1.5em @proxima-bold;
+                                    color: #464646;
+                                    text-shadow: 1px 1px 20px rgba(0,0,0,.2);
+                                    //font-weight: bold;
+                                    max-width:80%;
+                                }
+                              
+                            }
+                        }
+                    }
+                }          
             }
         }
     }
@@ -161,7 +169,7 @@ body.modal-open {
                     }
                 }
                 .list-items {                 
-                    height: 44px;
+                    //height: 44px;
                     overflow-y:hidden;
                     .p0;
                     .catRightArrow {
@@ -210,7 +218,7 @@ body.modal-open {
                     }
                     #owl-carousel-selected-cat {
                        width:70%;
-                        overflow-x: auto;
+                        overflow-x: hidden;
                         white-space: nowrap;
                         margin: 0 20px;
                         display:inline-block;
@@ -244,8 +252,7 @@ body.modal-open {
                         }
                         .owl-carousel-item {
                             margin: 0;
-                            width:auto;
-                                //width: 25%;
+                                width: 25%;
                             p {
                                 color: #8b5bb3;
                                 font: 1.063em @proxima-regular;
@@ -257,7 +264,7 @@ body.modal-open {
                                     padding-right: 17px;
                                     //padding-left:10px;
                                     padding-right: 17px;
-                                    //width: 80%;
+                                    width: 80%;
                                     overflow: hidden;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
@@ -265,7 +272,7 @@ body.modal-open {
                                 }
                                 svg { 
                                     height: 11px !important;
-                                    //width: 20% !important; 
+                                    width: 20% !important; 
                                     fill: #8c58b5;
                                    // margin-right: 10px;
                                     &:hover {
@@ -352,9 +359,9 @@ body.modal-open {
                     padding-right: 0; 
                     .clearAll {
                         font: 1.063em @proxima-regular;
-                        height:2.585em;
-                        padding: 0px;
-                        line-height:0;
+                        //height:2.585em;
+                        padding: 10px 0;
+                        //line-height:0;
                         width: 100%;
                         vertical-align: middle;
                         text-align: center;
@@ -432,9 +439,6 @@ body.modal-open {
                                 background: none;
                             }
                         }
-                        &:before{
-                            background: none;
-                        }
                     }
                 }
                 &.open {
@@ -450,7 +454,8 @@ body.modal-open {
     padding-bottom: 20px;
     .filter-block {
         h2 {
-            font: 2.125em @neutraface-demi;
+           //font: 2.125em @neutraface-demi;
+            font: 1.25em @neutraface-demi;
             color: #8b5bb3;
             margin-top: -5px;
             padding: 0px 0px 5px 15px;
@@ -481,7 +486,8 @@ body.modal-open {
                             span {
                                 /*font: 14px/18px @proxima-bold;*/
                                 
-                                font: 1.168em @proxima-regular;
+                                //font: 1.168em @proxima-regular;
+                                font: 0.95em @proxima-regular;
                                
                             }
                             i {
@@ -738,32 +744,40 @@ body.modal-open {
                 text-align: center;
                 position: relative;
                 cursor: pointer;
-                height: 95px;
+                height: auto;
                 background-color:#71c139;
                 img {
                     width: 100%;
                 }
                 .desc-text {
-                    position: absolute;
-                    top: 20px;
+                    position: relative;
+                    /*top: 20px;
                     left: 10px;
                     right: 0px;
-                    bottom: 0px;
+                    bottom: 0px;*/
+                    .fl;
                     margin: auto;
+                    padding:20px 10px 20px;
                     text-align: center;
-                    svg {
-                        position: absolute;
-                        top: 0px;
-                        left: 0px;
-                        height: 55px;
-                        width: 65px;
-                        fill: #fff;
-                        &:hover {
-                            fill: #666;
+                    span{
+                        vertical-align: middle;
+                        display: inline-block;
+                        svg {
+                            /*position: absolute;
+                            top: 0px;
+                            left: 0px;*/ 
+                            height: 55px;
+                            width: 65px;
+                            fill: #fff;
+                            &:hover {
+                                fill: #666;
+                            }
                         }
                     }
                     .desc-text-right {
-                        margin-left: 50px;
+                        //margin-left: 50px;
+                        vertical-align: middle;
+                        display: inline-block;
                         h5 {
                             font: 0.875em @proxima-regular;
                             color: #d9f7c5;
@@ -1327,73 +1341,67 @@ body.modal-open {
               .plp-hybrid-slider {
                 padding: 20px 25px;
                 #owl-carousel-plp-hybrid {
-                    .owl-stage-outer {
-                        .owl-stage {
-                            .owl-item {
-                                .owl-carousel-item {
-                                    .category-prod{
-                                        button {
-                                                    font-size: 0.8em;
-                                                    height: 1.875em;
-                                                    line-height: 1.875em;
-                                                    padding: 0px;
-                                                    text-align: center;
-                                                    padding: 0em 0.625em;
-                                                    right:1em;
+                    .owl-carousel-item {
+                        .category-prod{
+                            button {
+                                        font-size: 0.8em;
+                                        height: 1.875em;
+                                        line-height: 1.875em;
+                                        padding: 0px;
+                                        text-align: center;
+                                        padding: 0em 0.625em;
+                                        right:1em;
 
-                                                }
-                                    } 
-                                    .category-prod-desc {
-                                        left: 1.5em;
-                                        div {
-                                            .category-prod-desc-web {
-                                                p {
-                                                    font-size: 0.912em;
-                                                }
-                                                
-                                            }
-                                        }
                                     }
-                                }
-                                &.active {
-                                    padding: 0px;
-                                }
-                                &:nth-child(1) {
-                                    .owl-carousel-item {
-                                        div {
-                                            .category-prod-desc-web {
-                                                button {
-                                                    margin-top: 20px;
-                                                }
-                                            }
-                                        }
+                        } 
+                        .category-prod-desc {
+                            div {
+                                .category-prod-desc-web {
+                                    p {
+                                        font-size: 0.912em;
                                     }
+                                    
                                 }
-                                &:nth-child(2) {
-                                    .owl-carousel-item {
-                                        div {
-                                            .category-prod-desc-web {
-                                                button {
-                                                    margin-top: 30px;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                &:nth-child(3) {
-                                    .owl-carousel-item {
-                                        div {
-                                            .category-prod-desc-web {
-                                                button {
-                                                    margin-top: 40px;
-                                                }
-                                            }
-                                        }
+                            }
+                        }
+                    }
+                    &.active {
+                        padding: 0px;
+                    }
+                    &:nth-child(1) {
+                        .owl-carousel-item {
+                            div {
+                                .category-prod-desc-web {
+                                    button {
+                                        margin-top: 20px;
                                     }
                                 }
                             }
                         }
                     }
+                    &:nth-child(2) {
+                        .owl-carousel-item {
+                            div {
+                                .category-prod-desc-web {
+                                    button {
+                                        margin-top: 30px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    &:nth-child(3) {
+                        .owl-carousel-item {
+                            div {
+                                .category-prod-desc-web {
+                                    button {
+                                        margin-top: 40px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                  
                     .owl-nav {
                         display: block;
                         div {
@@ -1455,12 +1463,11 @@ body.modal-open {
         div:first-child {
             div.btn-group {
                 background: none;
-                border-radius: 0px;
                 button {
                     background: #f1f1f1;
                     color: #424424;
                     border: none;
-                    height: 40px;
+                    height: 36px;
                     text-align: left;
                     background-image: url('../../assets/images/sort-btn-dropdown.svg');
                     background-repeat: no-repeat;
@@ -1468,14 +1475,8 @@ body.modal-open {
                     background-size: 35px 12px;
                     font: 0.875em @proxima-bold;
                     padding: 0px 0px 0px 10px;
-                    //line-height: 40px;
+                    line-height: 36px;
                     border: 1px solid #f1f1f1;
-                    line-height: normal;
-                    border-right: 0px;
-                        .sort-active-show{
-                            color: @font-purple-dark;
-                            font: 0.72em @proxima-regular;
-                        }
                     &:active {
                         background: #f1f1f1;
                         color: #424424;
@@ -1497,13 +1498,6 @@ body.modal-open {
                         }
                         a {
                             padding: 0px;
-                            background: transparent;
-
-                        }
-                        &.active{
-                            a{
-                                color: @font-purple-dark;
-                            }
                         }
                     }
                 }
@@ -1528,19 +1522,18 @@ body.modal-open {
                 .purple-button;
                 background-color: @base-bg-purple-light;
                 color: #fff;
-                height: 40px;
+                height: 35px;
                 text-align: left;
-                border-radius: 0px;
                 svg {
                     position: absolute;
                     height: 13px;
                     width: 13px;
-                    right: 13px;
-                    top: 13px;
+                    right: 10px;
+                    top: 10px;
                 }
                  font: 0.875em @proxima-bold;
                  padding: 0px 0px 0px 10px;
-                 line-height: 40px;
+                 line-height: 35px;
             }
         }
     }
@@ -1976,27 +1969,19 @@ body.modal-open {
             }
             .plp-hybrid-slider{
                 #owl-carousel-plp-hybrid{
-                    .owl-stage-outer{
-                        .owl-stage{
-                           .owl-item{
-                            .owl-carousel-item{
-                               .category-prod{
-                                button{
-                                    right: 1em;
-                                    font-size: 0.9em;
-                                    padding: 0px;
-                                    margin: 0px;
-                                   font-size: 0.8em !important;
-
-                                }
-                               }
-                               
+                    .owl-carousel-item{
+                        .category-prod{
+                            button{
+                                right: 1em;
+                                font-size: 0.9em;
+                                padding: 0px;
+                                margin: 0px;
+                               font-size: 0.8em !important;
                             }
-                           } 
-                        } 
+                        }                      
                     }
                 }
-                }
+             }
         }
         .selected-list {
             .left-part {
@@ -2240,35 +2225,38 @@ body.modal-open {
             }
             .plp-hybrid-slider{
                 #owl-carousel-plp-hybrid{
-                    .owl-stage-outer{
-                        .owl-stage{
-                           .owl-item{
-                            .owl-carousel-item{
-                               .category-prod{
-                                button{
-                                    right: 1em;
-                                    font-size: 0.9em;
-                                }
-                               }
-                               .category-prod-desc{
-                                div{
-                                    .category-prod-desc-web{
-                                        p{
-                                            font-size: 1.1em;
-                                        }
+                    .owl-carousel-item{
+                       .category-prod{
+                            button{
+                                right: 1em;
+                                font-size: 0.9em;
+                            }
+                        }
+                        .category-prod-desc{
+                            padding-left:5px;
+                            div{
+                                .category-prod-desc-web{
+                                    p{
+                                        font-size: 1.1em;
                                     }
                                 }
-                               } 
                             }
-                           } 
                         } 
                     }
                 }
-                }   
-            
+            }   
         }
-
         .selected-list {
+            .left-part div .list-items #owl-carousel-selected-cat .owl-carousel-item p{
+                padding: 10px 5px;
+                margin: 0 5px;
+            }
+            .left-part div .list-items .catLeftArrow{
+                padding:0 12px
+            }
+            .left-part div .list-items .catRightArrow{
+                padding:0 12px
+            }
             .right-part {
                 span.dropdown {
                     background-size: 35px 16px;
@@ -2282,6 +2270,7 @@ body.modal-open {
                     }
                 }
             }
+
         }
         .main-layout {
             .filter-block {
@@ -2332,7 +2321,7 @@ body.modal-open {
                 .side-ban-1 {
                     height: auto;
                     .desc-text {
-                        top: 15px;
+                        //top: 15px;
                         h3 {
                             font-size: 0.950em;
                         }
@@ -2354,13 +2343,14 @@ body.modal-open {
                 .side-ban-3 {
                     height: auto;
                     .desc-text {
-                        top: 10px;
+                        //top: 10px;
                         left: 0px;
-                        svg {
+                        padding: 10px 5px 10px;
+                        span svg {
                             //top: 5px;
                             //left: 0;
                             height: 50px;
-                            width: 55px;
+                            width: 40px;
                         }
                         .desc-text-right {
                             h5 {
@@ -2473,6 +2463,38 @@ body.modal-open {
                     }   
                 }       
     }
+        #owl-carousel-added-cart-pdt{
+        .cartLeftArrow{
+            display:none;
+        }
+        .cartRightArrow{
+            display:none;
+        }
+        .owl-carousel-item{
+            max-height: 200px;
+            -webkit-column-count: 1;
+            -moz-column-count: 1;
+            column-count: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            &>.row{
+                white-space: nowrap;
+                overflow-x: auto;
+                height: 150px;
+                width: 100%;
+                overflow-y: hidden;
+                .itemInner {
+                    display: inline-block;
+                    .img-box{
+                        .p0;
+                    }
+                    h5.iName{
+                        white-space: pre-wrap
+                    }
+                }
+            }
+        }
+    }
 }
 /* added to cart styles */
 
@@ -2489,6 +2511,7 @@ body.modal-open {
         .modal-content {
             border-radius: 0px;
             box-shadow: none;
+
         }
     }
 }
@@ -2669,7 +2692,67 @@ body.modal-open {
                         }
 
                         #owl-carousel-added-cart-pdt{
-                            padding-left: 20px;
+                            padding:0 20px;
+                            position: relative;
+                            .owl-carousel-item{
+                                max-height: 200px;
+                                column-count: 1;
+                                -webkit-column-count: 1;
+                                -moz-column-count: 1;
+                                overflow-x: hidden; 
+                                .itemInner{
+
+                                }
+                            }
+                            .cartRightArrow {
+                                //display:none;
+                                z-index: 1;
+                                position: absolute;
+                                background-size: initial;
+                                background-repeat: no-repeat;
+                                width:20px;
+                                height: 25px;
+                                cursor: pointer;  
+                                right:0px;
+                                top: 0;
+                                bottom: 0;
+                                margin: auto;
+                                svg{
+                                    width:100%;
+                                    height:25px;
+                                    polyline{
+                                        stroke: #8b5bb3;
+                                        fill: none;
+                                        stroke-width: 8px;
+                                    }  
+                                }                   
+                            } 
+                            .cartLeftArrow {   
+                                //display:none;
+                                position: absolute; 
+                                background-size: initial;
+                                width: 20px;
+                                height: 25px;
+                                background-repeat: no-repeat;
+                                -ms-transform: translate(0%, -50%) rotate(180deg);
+                                -webkit-transform: translate(0%, -50%) rotate(180deg);
+                                transform: translate(0%, -50%) rotate(180deg);
+                                left:0px;
+                                cursor: pointer;
+                                top: 0;
+                                bottom: 0;
+                                margin: auto;
+                                svg{
+                                    width:100%;
+                                    height:25px;
+                                    margin-top:-19px;
+                                    polyline{
+                                        stroke: #8b5bb3;
+                                        fill: none;
+                                        stroke-width: 8px;
+                                    }  
+                                }
+                            }
                             .owl-nav {
                                 display: block;
                                 div {
@@ -2752,6 +2835,7 @@ body.modal-open {
                         //padding-top: 20px;
                          //padding-top: 6%;
                         .view-cart-btn {
+                            line-height: 2.5em !important;
                             .purple-button;
                             color: @font-purple-light;
                             background: transparent;
@@ -2764,7 +2848,7 @@ body.modal-open {
                         button {
                             font: 1em @proxima-bold;
                             border-radius: 0px;
-                            height: 2.5em ;
+                            height: 2.5em ; 
                         }
                     }
                 }
@@ -2785,6 +2869,11 @@ body.modal-open {
                 padding: 0px 20px;
                 .owl-item{
                     //padding: 0px 15px;
+                }
+                .owl-carousel-item{
+                    width:18%;
+                    margin: 0 1%;
+                    float: left;
                 }
                 .owl-nav {
                                 display: block;
@@ -3132,7 +3221,10 @@ body.modal-open {
     } 
 }
 .qv-page {
-    padding: 20px 0px 0px 10px;
+    //padding: 20px 0px 0px 10px;
+    .qvPadding{
+        padding: 20px 0px 0px 10px;
+    }
     background: #fbfbfb;
     position: relative;
      &::-webkit-scrollbar {
@@ -3711,7 +3803,7 @@ body.modal-open {
         p {
             font: 1.188em @proxima-regular;
             color: #000;
-            line-height: 25px;
+            line-height: 26px;
             //padding-top: 7px;
         }
         a.all-details {
@@ -3740,7 +3832,7 @@ body.modal-open {
                 display: inline-block;
                 .p0;
                 svg {
-                    height: 23px;
+                    height: 25px;
                     width: 32px;
                     margin: 2px;
                     fill: #fff;
@@ -3865,7 +3957,7 @@ body.modal-open {
     }
 }
 .filter-modal {
-   padding: 0px;
+    padding: 0px 13px;
     //position: relative;
     .scroll-content{
         overflow-x: hidden;
@@ -3893,14 +3985,12 @@ body.modal-open {
     }
     .head-text {
         margin-top: 50px;
-        padding: 0px 13px;
         div {
             padding: 0px;
         }
         h3 {
             font: 1.249em @neutraface-demi;
             color: @font-purple-dark;
-            font-size: 1.6em;
         }
         button {
             font: 0.75em @proxima-regular;
@@ -3916,7 +4006,7 @@ body.modal-open {
     .filter-selections {
         padding: 10px 30px;
         background: @half-white;
-        margin: 15px 0px 0px 0px;
+        margin: 15px -13px 0px -13px;
         #owl-carousel-selected-cat-mobile {
             white-space: nowrap;
     overflow-x: auto;
@@ -4045,7 +4135,6 @@ body.modal-open {
     } 
     .filter-section-mobile {
         margin-top: 5px;
-        padding: 0px 13px;
         .panel-group {
             border: none;
             box-shadow: none;
@@ -4061,7 +4150,7 @@ body.modal-open {
                 }
                 .panel-heading {
                     background-color: @wht-color;
-                    padding: 10px 0px;
+                    //padding: 10px 10px 10px 0px;
                     .panel-title a {
                         text-decoration: none;
                         display: block;
@@ -4332,7 +4421,7 @@ body.modal-open {
                 .side-ban-1 {
                     height: auto;
                     .desc-text {
-                        top: 15px;
+                        //top: 15px;
                         h3 {
                             font-size: 1.125em;
                         }
@@ -4352,10 +4441,10 @@ body.modal-open {
                     }
                 }
                 .side-ban-3 {
-                    height: auto;
+                    //height: auto;
                     .desc-text {
-                        top: 20px;
-                        left: 10px;
+                        //top: 20px;
+                        //left: 10px;
                         svg {
                             //top: 5px;
                             //left: 0;
@@ -4531,7 +4620,7 @@ body.modal-open {
 #carousel-custom-dots {
     display: block;
     text-align: left;
-    overflow: auto;
+    //overflow: auto;
     white-space: nowrap;
     margin: 22px 10px 22px 10px;
     .owl-dot {
