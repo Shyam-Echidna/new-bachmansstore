@@ -7,12 +7,13 @@ angular.module('orderCloud')
 	.controller('template1Ctrl', template1Controller)
 	.controller('historyCtrl', historyController)
 	.controller('staticpageCtrl', staticpageController)
+	.controller('ServiceStaticPageCtrl', ServiceStaticPageController)
 	.controller('perplePerksCtrl', perplePerksController)
 	.controller('servicesCtrl', servicesController)
 	.controller('careAdviceCtrl', careAdviceController)
 	.controller('perplePerksRegisteredCtrl', perplePerksRegisteredController)
-	.controller('eventDescriptionCtrl', eventDescriptionController)
-	.controller('FAQCtrl', FAQController)
+	//.controller('eventDescriptionCtrl', eventDescriptionController)
+	//.controller('FAQCtrl', FAQController)
 	.controller('storeLocatorCtrl', storeLocatorController)
 	.controller('workshopEventCtrl', workshopEventController)
 	.controller('staticPageBaseCtrl', staticPageBaseController)
@@ -57,6 +58,13 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/staticpage.tpl.html',
 			controller: 'staticpageCtrl',
 			controllerAs: 'staticpage'
+		})
+		.state('serviceStatic', {
+			parent: 'base',
+			url: '/serviceStatic',
+			templateUrl: 'staticPage/templates/serviceStaticPage.tpl.html',
+			controller: 'ServiceStaticPageCtrl',
+			controllerAs: 'servicestaticpage'
 		})
 		.state('purplePerks', {
 			parent: 'base',
@@ -266,7 +274,7 @@ function historyController() {
 
 }
 
-function staticpageController($scope, $uibModalInstance) {
+function staticpageController($scope) {
 	var vm = this;
 	/*$scope.status = {
 		open1: true,
@@ -292,9 +300,13 @@ function staticpageController($scope, $uibModalInstance) {
 		open6: true,
 		open6: false
 	};*/
-	$scope.cancel = function () {
+	/*$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
-	};
+	};*/
+}
+
+function ServiceStaticPageController() {
+	var vm = this;
 }
 
 function perplePerksController() {
@@ -386,18 +398,18 @@ function perplePerksRegisteredController() {
 
 }
 
-function eventDescriptionController($scope) {
-	var vm = this;
-	$scope.status = {
-		open1: true,
-		open1: false
-	};
-	$scope.status = {
-		open2: true,
-		open2: false
-	};
+// function eventDescriptionController($scope) {
+// 	var vm = this;
+// 	$scope.status = {
+// 		open1: true,
+// 		open1: false
+// 	};
+// 	$scope.status = {
+// 		open2: true,
+// 		open2: false
+// 	};
 
-}
+// }
 
 
 /*For Workshop event controller function starts*/
