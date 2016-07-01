@@ -12,7 +12,7 @@ angular.module('orderCloud')
     .controller ('ProductQuickViewModalCtrl', ProductQuickViewModalController)
     .controller('addedToCartCtrl',addedToCartController)
     .directive('prodColors', ProdColorsDirective)
-    .controller('productColorCtrl', ProductColorCtrl)
+    // .controller('productColorCtrl', ProductColorCtrl)
 ;
 
 function PlpConfig($stateProvider) {
@@ -1168,39 +1168,54 @@ function ProdColorsDirective(){
         scope:{
             product: '='
         },
-        replace:true,
         restrict:'E',
-        controller:'productColorCtrl',
-        controllerAs:'productColor',
-         templateUrl:'plp/templates/prod-colors.tpl.html'
+        transclude: true,
+        controller: ProductColorCtrl ,
+        templateUrl:'plp/templates/prod-colors.tpl.html',
+        controllerAs :'prodctrl'
         // template:'<span>fdgsdfg</span>'
     }
- } 
+ }
 
  function ProductColorCtrl($scope, Underscore){
-      var groupedProducts = $scope.product;
-      var defaultGroupedProd = [];
-      var sizeGroupedProducts = _.groupBy(groupedProducts, function(item) { 
-          // return "'"+item.xp.SpecsOptions.Size+"'";
-          return item.xp.SpecsOptions.Size;
-      });
-       var data;
-       $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true')  data = i;});
-       var dafaultSize = groupedProducts[data].xp.SpecsOptions.Size;
-       var defaultSizeGroupedProd = sizeGroupedProducts[dafaultSize];
-       if(dafaultSize.toLowerCase() !== 'standard' ){
-        angular.forEach(sizeGroupedProducts["STANDARD"], function(standardValue, key){
-            defaultSizeGroupedProd.push(standardValue);
-        });
-       }
-       angular.forEach(sizeGroupedProducts, function(sizeValue, key){
-         if(dafaultSize !== key && key !== 'standard'){
-           angular.forEach(sizeValue, function(prodVal, key){
-            defaultSizeGroupedProd.push(prodVal);
-        });
-        }
-     });
-       $scope.SrotedColors = defaultSizeGroupedProd;
-       console.log('dir', $scope.SrotedColors );
-
- }
+            var vm = $(this);
+           var groupedProducts = $scope.product;
+            var defaultGroupedProd = [];
+            var sizeGroupedProducts = _.groupBy(groupedProducts, function(item) { 
+                // return "'"+item.xp.SpecsOptions.Size+"'";
+                return item.xp.SpecsOptions.Size;
+            });
+           var data;
+           $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true')  data = i;});
+           var dafaultSize = groupedProducts[data].xp.SpecsOptions.Size;
+           var defaultSizeGroupedProd = sizeGroupedProducts[dafaultSize];
+           if(dafaultSize.toLowerCase() !== 'standard' ){
+            angular.forEach(sizeGroupedProducts["STANDARD"], function(standardValue, key){
+                defaultSizeGroupedProd.push(standardValue);
+            });
+           }
+           angular.forEach(sizeGroupedProducts, function(sizeValue, key){
+             if(dafaultSize !== key && key !== 'standard'){
+               angular.forEach(sizeValue, function(prodVal, key){
+                defaultSizeGroupedProd.push(prodVal);
+            });
+            }
+           });
+           var unique = {};
+            var distinct = [];
+            var distinctObj = [];
+            for( var i in defaultSizeGroupedProd ){
+            if(typeof(defaultSizeGroupedProd[i].xp) !== 'undefined'){
+             if( typeof(unique[defaultSizeGroupedProd[i].xp.SpecsOptions.Color]) == "undefined"){
+              distinct.push(defaultSizeGroupedProd[i].xp.SpecsOptions.Color);
+              distinctObj.push(defaultSizeGroupedProd[i]);
+             }
+             unique[defaultSizeGroupedProd[i].xp.SpecsOptions.Color] = 0;
+            }
+          }
+           $scope.SrotedColors = distinctObj;
+           $scope.selectColor = function($index, $event, prod){
+            console.log("selected color",prod);
+            console.log($scope.$parent.plp);
+           }
+    }

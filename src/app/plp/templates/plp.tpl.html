@@ -12,8 +12,6 @@
          <div class="owl-carousel owl-loaded owl-drag" id="plp-carousel-banner">
             <div class="owl-carousel-item">
                <img src="{{plp.plpBannerImg}}">
-              <!--  <img src="assets/images/Batch_2_Web_Images/04Bachmans_PLP/PLP_Banner.png" class="hidden-xs hidden-sm"> -->
-               
                <div class="promo-banner-txt">
                   <!-- <h4 class="">Roses</h4> -->
                   <h4 class="">{{plp.plpBannerTitle}}</h4>
@@ -36,7 +34,7 @@
             </div>
 
          </div>
-         </div>
+      </div>
    </div>
 <div class="row selected-list hidden-xs hidden-sm target">
       <div class="col-sm-9 col-md-10 col-lg-10 left-part"> 
@@ -127,7 +125,7 @@
             <div class="col-sm-4 col-md-3 col-lg-2">
                <h4>Your Selections</h4>
             </div>
-            <div class="col-sm-6 col-md-7 col-lg-8 list-items">
+            <div class="col-sm-6 col-`-7 col-lg-8 list-items">
               <!--  <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 catLeftArrow" ng-click="plp.shiftSelectedCategoryLeft()"></span>   -->  
                <div class="col-xs-10 col-sm-10 col-md-12 col-lg-12 owl-carousel " id="owl-carousel-selected-cat">
                   <div class="owl-carousel-item" ng-repeat="selectedFacet in plp.selection" style="display:inline-block">
@@ -587,7 +585,12 @@
                            </div>
                        </div>
                     </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
+                <!--   <prod-colors product="groupedProducts"></prod-colors> -->
+                 <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
+                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
+                        </p>
+                   </div>
                     
                    <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
                      <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
