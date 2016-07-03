@@ -1,0 +1,841 @@
+<<<<<<< HEAD
+<div id="recepientmodal" class="pdp-recipient-modal" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
+    <div class="row visible-xs visible-sm modal-close">
+        <p class="close-icon">X</p>
+    </div>
+    <div class="row title-bar">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <h3>Input Recipient Information</h3>
+            <input type="button" ng-click="vm.closeTab()" value="close" />
+        </div>
+
+    </div>
+    <div class="row accordion-block" ng-init="">
+
+        <uib-accordion close-others="vm.oneAtATime" ng-if="vm.singlelerecipent">
+            <uib-accordion-group ng-repeat="lineitem in vm.activeOrders" is-open="activeRecipient">
+                <uib-accordion-heading>
+                    <p ng-class="{'footer-minus': status.open1, 'footer-plus': !status.open1}">Recipient {{$index+1}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
+                </uib-accordion-heading>
+                <div class="panel-body-content">
+                    <!-- <a href="" class="view-address-link">+ VIEW ADDRESS BOOK</a> -->
+                    <div class="row name-block">
+                        <div class="col-md-8 col-lg-8">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="lineitem.ShippingAddress.FirstName">
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName">
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-2 col-lg-2" ng-if="addressType!='Hospital'">
+                                    <fieldset class="form-group">
+                                        <label for="zip-code">ZIP Code</label>
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off">
+                                    </fieldset>
+                                </div>
+                                <div class="location-recipientName" ng-if="addressType=='Hospital'">
+                                    <h3>Patient Name</h3>
+                                    <div class="firstNm">
+                                        <p>First Name*</p>
+                                        <input type="text" ng-model="lineitem.xp.PatientFName">
+                                    </div>
+                                    <div>
+                                        <p>Last Name*</p>
+                                        <input type="text" ng-model="lineitem.xp.PatientLName">
+                                    </div>
+                                </div>
+                                <div class="location-recipientName" ng-if="addressType=='Funeral'">
+                                    <h3>In Memory of:</h3>
+                                    <div class="firstNm">
+                                        <p>First Name*</p>
+                                        <input type="text" ng-model="lineitem.xp.PatientFName">
+                                    </div>
+                                    <div>
+                                        <p>Last Name*</p>
+                                        <input type="text" ng-model="lineitem.xp.PatientLName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-1 col-lg-offset-3 col-lg-1 hidden-xs hidden-sm">
+                            <fieldset class="form-group">
+                                <label for="qty">Qty</label>
+                                <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity" />
+                            </fieldset>
+
+
+                        </div>
+                    </div>
+                    <div class="row radio-btn-group">
+                        <div class="receipient-location" ng-init="addressType = 'Residence'">
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Residence">Residence</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Hospital" ng-click="hospitalDtls($item)">Hospital</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Church" ng-click="hospitalDtls($item)">Church</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Funeral" ng-click="hospitalDtls($item)">Funeral Home</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Shipping">Standard Shipping</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="School">School</label>
+                            <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Will Call">Will Call</label>
+                        </div>
+                    </div>
+                    <div class="row address-block">
+                        <div class="col-md-10 col-lg-10">
+
+                            <div class="row hospital-search" ng-if="addressType=='Hospital'">
+
+                                <div>
+                                    <ordercloud-search servicename="Hospital" controlleras="vm.list" placeholder="Search Hospital Address" uib-dropdown-toggle></ordercloud-search>
+                                    <i class="fa fa-search"></i>
+                                    <div>
+
+                                        <select ng-model="lineitem.xp.ShippingAddress" ng-options="hospital.AddressName for hospital in vm.list.hospitals track by hospital.ID">
+                                        <option value="">-- choose hospital --</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="addressType == 'Funeral'">
+
+                                <div>
+                                    <ordercloud-search servicename="Funeral" controlleras="vm.list" placeholder="Search Funeral Home " uib-dropdown-toggle></ordercloud-search>
+                                    <i class="fa fa-search"></i>
+                                    <div>
+
+                                        <select ng-model="lineitem.xp.ShippingAddress" ng-options="funeralhome.AddressName for funeralhome in vm.list.funeralHomes track by funeralhome.ID">
+                                        <option value="">-- choose funeralHomes --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="addressType == 'Church'">
+
+                                <div>
+                                    <ordercloud-search servicename="Church" controlleras="vm.list" placeholder="Search church address  " uib-dropdown-toggle></ordercloud-search>
+                                    <i class="fa fa-search"></i>
+                                    <div>
+
+                                        <select ng-model="lineitem.xp.ShippingAddress" ng-options="church.AddressName for church in vm.list.churchs track by church.ID">
+                                        <option value="">-- choose church --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="addressType=='School'">
+
+                                <div>
+                                    <ordercloud-search servicename="School" controlleras="vm.list" placeholder="Search school address  " uib-dropdown-toggle></ordercloud-search>
+                                    <i class="fa fa-search"></i>
+                                    <div>
+
+                                        <select ng-model="lineitem.xp.ShippingAddress" ng-options="school.AddressName for school in vm.list.schools track by school.ID">
+                                        <option value="">-- choose school --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="crdmsg">
+                                <div class="row" ng-if="addressType=='Residence'">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="address-1">Address</label>
+                                            <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="address-2">Address 2</label>
+                                            <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="lineitem.ShippingAddress.Street2">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="addressType=='Residence'">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="state">State</label>
+
+                                            <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="country">Country</label>
+                                            <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="addressType=='Residence'">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <fieldset class="form-group phone-box">
+                                            <label for="phone">Phone Number</label>
+                                            <div class="row">
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="addressType=='Will Call' || addressType=='Residence' || addressType=='Hospital'">
+                                    <div class="col-md-6 col-lg-6">
+                                        <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                    <!-- <input type="date" placeholder="MM/DD/YYYY" ng-model="lineitem.xp.deliveryDate"> -->
+                                                    <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineitem.xp.deliveryDate">
+                                                    <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                    <p>Same-Day Available!</p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row save-address">
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="Checkbox">
+                                            <input type="checkbox" checked>
+                                            <div class="Checkbox-visible"></div>
+                                        </div>
+                                        <label> Save this address</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="addressType=='Will Call'">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <fieldset class="form-group">
+                                        <label for="store">Find Store</label>
+                                        <input type="search" id="store" class="form-control" ng-model="lineitem.willSearch" uib-typeahead="st for st in storeNames | filter:$viewValue"
+                                            typeahead-on-select="storesDtls($item)" />
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="cardmsg row" ng-if="crdmsg==false">
+                            <div ng-init="visible=false" class="row">
+                                <div class="no-message">
+                                    <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>
+                                </div>
+                                <div class="message-lines animate-if" ng-class="{'hideItem': !visible}" ng-if="visible==false">
+                                    <p>Line 1</p>
+                                    <input type="text" ng-model="lineitem.xp.CardMessage.line1" />
+                                    <p>Line 2</p>
+                                    <input type="text" ng-model="lineitem.xp.CardMessage.line2" />
+                                    <p>Line 3</p>
+                                    <input type="text" ng-model="lineitem.xp.CardMessage.line3" />
+                                    <p>Line 4</p>
+                                    <input type="text" ng-model="lineitem.xp.CardMessage.line4" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row next-btn">
+                        <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3" ng-if="crdmsg">
+                            <input type="button" class="btn-block" ng-click="crdmsghide()" value="Next" />
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3" ng-if="crdmsg==false">
+                            <input type="button" class="btn-block" ng-click="submitDtls(lineitem,$index)" value="ADD" />
+                        </div>
+
+                    </div>
+
+                </div>
+            </uib-accordion-group>
+            <h3 ng-click="vm.newreceipent()">+ Add Receipent</h3>
+            <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4>
+            <div class="panel-body-content" ng-show="showNewRecipient">
+                <!-- <a href="" class="view-address-link">+ VIEW ADDRESS BOOK</a> -->
+                <div class="row name-block">
+                    <div class="col-md-8 col-lg-8">
+                        <div class="row">
+                            <div class="col-md-5 col-lg-5">
+                                <fieldset class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="line.ShippingAddress.FirstName">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-5 col-lg-5">
+                                <fieldset class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="line.ShippingAddress.LastName">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-lg-2" ng-if="addressType!='Hospital'">
+                                <fieldset class="form-group">
+                                    <label for="zip-code">ZIP Code</label>
+                                    <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="line.ShippingAddress.Zip" autocomplete="off">
+                                </fieldset>
+                            </div>
+                            <div class="location-recipientName" ng-if="addressType=='Hospital'">
+                                <h3>Patient Name</h3>
+                                <div class="firstNm">
+                                    <p>First Name*</p>
+                                    <input type="text" ng-model="line.xp.PatientFName">
+                                </div>
+                                <div>
+                                    <p>Last Name*</p>
+                                    <input type="text" ng-model="line.xp.PatientLName">
+                                </div>
+                            </div>
+                            <div class="location-recipientName" ng-if="addressType=='Funeral'">
+                                <h3>In Memory of:</h3>
+                                <div class="firstNm">
+                                    <p>First Name*</p>
+                                    <input type="text" ng-model="line.xp.PatientFName">
+                                </div>
+                                <div>
+                                    <p>Last Name*</p>
+                                    <input type="text" ng-model="line.xp.PatientLName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-3 col-md-1 col-lg-offset-3 col-lg-1 hidden-xs hidden-sm">
+                        <fieldset class="form-group">
+                            <label for="qty">Qty</label>
+                            <input type="number" id="qty" class="form-control" ng-model="line.Quantity" />
+                        </fieldset>
+
+
+                    </div>
+                </div>
+                <div class="row radio-btn-group">
+                    <div class="receipient-location" ng-init="addressType = 'Residence'">
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Residence">Residence</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Hospital" ng-click="hospitalDtls($item)">Hospital</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Church" ng-click="hospitalDtls($item)">Church</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Funeral" ng-click="hospitalDtls($item)">Funeral Home</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Shipping">Standard Shipping</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="School">School</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Will Call">Will Call</label>
+                    </div>
+                </div>
+                <div class="row address-block">
+                    <div class="col-md-10 col-lg-10">
+
+                        <div class="row hospital-search" ng-if="addressType=='Hospital'">
+
+                            <div>
+                                <ordercloud-search servicename="Hospital" controlleras="vm.list" placeholder="Search Hospital Address" uib-dropdown-toggle></ordercloud-search>
+                                <i class="fa fa-search"></i>
+                                <div>
+
+                                    <select ng-model="line.xp.ShippingAddress" ng-options="hospital.AddressName for hospital in vm.list.hospitals track by hospital.ID">
+                                        <option value="">-- choose hospital --</option>
+                                        </select>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="addressType == 'Funeral'">
+
+                            <div>
+                                <ordercloud-search servicename="Funeral" controlleras="vm.list" placeholder="Search Funeral Home " uib-dropdown-toggle></ordercloud-search>
+                                <i class="fa fa-search"></i>
+                                <div>
+
+                                    <select ng-model="line.xp.ShippingAddress" ng-options="funeralhome.AddressName for funeralhome in vm.list.funeralHomes track by funeralhome.ID">
+                                        <option value="">-- choose funeralHomes --</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="addressType == 'Church'">
+
+                            <div>
+                                <ordercloud-search servicename="Church" controlleras="vm.list" placeholder="Search church address  " uib-dropdown-toggle></ordercloud-search>
+                                <i class="fa fa-search"></i>
+                                <div>
+
+                                    <select ng-model="line.xp.ShippingAddress" ng-options="church.AddressName for church in vm.list.churchs track by church.ID">
+                                        <option value="">-- choose church --</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="addressType=='School'">
+
+                            <div>
+                                <ordercloud-search servicename="School" controlleras="vm.list" placeholder="Search school address  " uib-dropdown-toggle></ordercloud-search>
+                                <i class="fa fa-search"></i>
+                                <div>
+
+                                    <select ng-model="line.xp.ShippingAddress" ng-options="school.AddressName for school in vm.list.schools track by school.ID">
+                                        <option value="">-- choose school --</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="crdmsg">
+                            <div class="row" ng-if="addressType=='Residence'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-1">Address</label>
+                                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="line.ShippingAddress.Street1">
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-2">Address 2</label>
+                                        <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="line.ShippingAddress.Street2">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="addressType=='Residence'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="state">State</label>
+
+                                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="line.ShippingAddress.State">
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="line.ShippingAddress.City">
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="country">Country</label>
+                                        <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="line.ShippingAddress.Country">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="addressType=='Residence'">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <fieldset class="form-group phone-box">
+                                        <label for="phone">Phone Number</label>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="line.ShippingAddress.Phone1"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="line.ShippingAddress.Phone2"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="line.ShippingAddress.Phone3"></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="addressType=='Will Call' || addressType=='Residence' || addressType=='Hospital'">
+                                <div class="col-md-6 col-lg-6">
+                                    <fieldset class="form-group delivery-date">
+                                        <label for="dDate">Delivery Date</label>
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                <!-- <input type="date" placeholder="MM/DD/YYYY" ng-model="lineitem.xp.deliveryDate"> -->
+                                                <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="line.xp.deliveryDate">
+                                                <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                <p>Same-Day Available!</p>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row save-address">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="Checkbox">
+                                        <input type="checkbox" checked>
+                                        <div class="Checkbox-visible"></div>
+                                    </div>
+                                    <label> Save this address</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="addressType=='Will Call'">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <fieldset class="form-group">
+                                    <label for="store">Find Store</label>
+                                    <input type="search" id="store" class="form-control" ng-model="lineitem.willSearch" uib-typeahead="st for st in storeNames | filter:$viewValue"
+                                        typeahead-on-select="storesDtls($item)" />
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="cardmsg row" ng-if="crdmsg==false">
+                        <div ng-init="visible=false" class="row">
+                            <div class="no-message">
+                                <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>
+                            </div>
+                            <div class="message-lines animate-if" ng-class="{'hideItem': !visible}" ng-if="visible==false">
+                                <p>Line 1</p>
+                                <input type="text" ng-model="line.xp.CardMessage.line1" />
+                                <p>Line 2</p>
+                                <input type="text" ng-model="line.xp.CardMessage.line2" />
+                                <p>Line 3</p>
+                                <input type="text" ng-model="line.xp.CardMessage.line3" />
+                                <p>Line 4</p>
+                                <input type="text" ng-model="line.xp.CardMessage.line4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row next-btn">
+                    <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3" ng-if="crdmsg">
+                        <input type="button" class="btn-block" ng-click="crdmsghide()" value="Next" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3" ng-if="crdmsg==false">
+                        <input type="button" class="btn-block" ng-click="submitDtls(line)" value="ADD" />
+                    </div>
+
+                </div>
+
+            </div>
+
+        </uib-accordion>
+
+=======
+
+<div id="recepientmodal" class="pdp-recipient-modal" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
+<div class="row visible-xs visible-sm modal-close">
+    <p class="close-icon">X</p>
+</div>
+    <div class="row title-bar">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <h3>Input Recipient Information</h3>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a href="">Skip & Add at Checkout >></a>
+        </div> -->
+    </div>
+    <div class="row accordion-block" ng-init="nextrecipient['0']=true">
+        <uib-accordion close-others="oneAtATime">
+            <uib-accordion-group ng-repeat="lineitem in activeOrders track by lineitem.ID" is-open="nextrecipient[$index]">
+                
+                    <uib-accordion-heading>
+                        <p ng-class="{'footer-minus': status.open1, 'footer-plus': !status.open1}">Item {{$index+1}} of {{multiplereceipentview.lineitem.length}} - Recipient <span class="panel-head-price">{{lineitem.LineTotal | currency}}</span></p>
+                    
+                    
+                    </uib-accordion-heading>
+                    <div class="panel-body-content">
+                        <!-- <a href="" class="view-address-link">+ VIEW ADDRESS BOOK</a> -->
+                        <div class="row name-block">
+                            <div class="col-md-8 col-lg-8">
+                                <div class="row">
+                                    <div class="col-md-5 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="first-name">First Name</label>
+                                            <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="lineitem.ShippingAddress.FirstName">
+                                          </fieldset>
+                                    </div>
+                                    <div class="col-md-5 col-lg-5">
+                                        <fieldset class="form-group">
+                                            <label for="last-name">Last Name</label>
+                                            <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2">
+                                        <fieldset class="form-group">
+                                            <label for="zip-code">ZIP Code</label>
+                                            <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model='questionableCity'  ng-blur="checkZipCode(questionableCity);getDeliveryCharges(questionableCity); ">
+                                              <select ng-options="city as city.city for city in zipCities" ng-model="zipCity" ng-change="showConfirmation(zipCity)"></select>
+                                          <!--  <select ng-if="zipCities.length > 1" onchange="">
+                                            <option value="">Select</option>
+                                            <option ng-repeat='city in zipCities' data-delivery="{{city.isDevliverable}}" value="{{city.city}}">{{city.city}}</option>
+                                           </select> -->
+                                          
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-3 col-md-1 col-lg-offset-3 col-lg-1 hidden-xs hidden-sm">
+                                <fieldset class="form-group">
+                                    <label for="qty">Qty</label>
+                                    <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity" />
+                                </fieldset>
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="row radio-btn-group">
+                           <div class="receipient-location" ng-init="addressType = lineitem.xp.addressType">
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Residence">Residence</label>
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Hospital">Hospital</label>
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="FuneralorChurch">Church/Funeral</label>
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Shipping">Standard Shipping</label>
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="School">School</label>
+                                <label class="radio-inline"><input type="radio" name="optradio" ng-model="addressType" value="Will Call">Will Call</label>
+                            </div> 
+
+                            </div>
+                            <div ng-if="addressType=='Hospital' || addressType=='FuneralorChurch'">
+                                <label><input type="checkbox" ng-checked="Wire" ng-model="Wire">Outgoing Wire</label>
+                            </div>
+                            
+                            <div class="row address-block" >
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="row" ng-init="multiplereceipentview.GetSearchedVal(lineitem)">
+                                        <div class="row" ng-if="addressType=='Hospital'">
+                                            <fieldset class="form-group">
+                                                <label for="find-hospital">Find Hospital*</label>    
+                                                <input type="search" class="form-control" id="find-hospital" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.hosSearch" />
+                                            </fieldset>
+                                        </div>        
+                                        <div class="row hospital-search" ng-if="addressType=='Funeralor'">
+                                            <fieldset class="form-group">
+                                                <label for="">Find Church/Funeral*</label>
+                                                <input type="date" ng-model="lineitem.xp.pickupDate" class="form-control" id=""/>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="addressType=='FuneralorChurch'">
+                                        <fieldset class="form-group">
+                                            <label for="find-church">Find Church/Funeral*</label>    
+                                            <input type="search" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.churchSearch" class="form-control" id="find-church"/>
+                                        </fieldset>
+                                    </div>
+                                    <div class="row" ng-if="addressType=='School'">
+                                        <fieldset class="form-group">
+                                            <label for="find-school">Find School*</label>        
+                                            <input type="text" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.schSearch" class="form-control" id="find-school"/>
+                                        </fieldset>
+                                    </div>
+                                    <div class="row" ng-if="addressType!='Will Call' && addressType =='Hospital' ">
+                                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                            <fieldset class="form-group">
+                                                <label for="address-1">Address</label>
+                                                <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                            <fieldset class="form-group">
+                                                <label for="address-2">Address 2</label>
+                                                <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="lineitem.ShippingAddress.Street2">
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="addressType!='Will Call'">
+                                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                            <fieldset class="form-group">
+                                                <label for="state">State</label>
+                                                <!-- <select class="form-control" id="state">
+                                                    <option>MN</option>
+                                                    <option>MN</option>
+                                                    <option>MN</option>
+                                                  </select> -->
+                                                <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                            <fieldset class="form-group">
+                                                <label for="city">City</label>
+                                                <input type="text" class="form-control" id="city" placeholder="City" value="Minneapolis" ng-model="lineitem.ShippingAddress.City">
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="addressType!='Will Call'">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <fieldset class="form-group phone-box">  
+                                                <label for="phone">Phone Number</label>
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
+                                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
+                                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="addressType=='Will Call'">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <fieldset class="form-group">  
+                                                <label for="store">Find Store</label>
+                                                <input type="search" id="store" class="form-control" ng-model="lineitem.willSearch" uib-typeahead="st for st in storeNames | filter:$viewValue" typeahead-on-select="storesDtls($item)" />
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="addressType=='Will Call' || addressType=='Residence'">
+                                        <div class="col-md-6 col-lg-6">
+                                            <fieldset class="form-group delivery-date">
+                                                <label for="dDate">Delivery Date</label>
+                                                <div class="row"> 
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                     <!-- <input type="date" placeholder="MM/DD/YYYY" ng-model="lineitem.xp.deliveryDate"> -->
+                                                    <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineitem.xp.deliveryDate"> 
+                                                    <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                        <p>Same-Day Available!</p>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                      <!-- <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                     <fieldset class="form-group phone-box">
+                                      
+                                          <label for="phone">Phone Number</label>
+                                          <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                            </div>
+
+                                      </fieldset>
+                                      </div> -->
+ 
+                                    </div>
+                                    <div class="row save-address">
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="Checkbox">
+                                                <input type="checkbox" checked>
+                                                <div class="Checkbox-visible"></div>
+                                            </div>
+                                            <label> Save this address</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row next-btn">
+                                <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3">
+                                    <input type="button" class="btn-block" ng-click="nextTab(lineitem, $index);lineDtlsSubmit(lineitem)" value="Next" />
+                                </div>
+                            </div>
+                            <!-- <div class="location-selected">
+                                <div class="residence-address" ng-init="multiplereceipentview.GetSearchedVal(lineitem)">
+                                    <div class="hospital-search" ng-if="addressType=='Hospital'">
+                                        <h1>Find Hospital*</h1>
+                                        <input type="search" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.hosSearch" />
+                                    </div>
+                                    
+                                    <div class="hospital-search" ng-if="addressType=='Funeralor">
+                                            <input type="date" ng-model="lineitem.xp.pickupDate" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="hospital-search" ng-if="addressType=='FuneralorChurch'">
+                                        <h1>Find Church/Funeral*</h1>
+                                        <input type="search" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.churchSearch" />
+                                    </div>
+                                    
+                                    <div class="hospital-search" ng-if="addressType=='School'">
+                                        <h1>Find School*</h1>
+                                        <input type="text" uib-typeahead="hosp for hosp in hospitalsList | filter:$viewValue" typeahead-on-select="hospitalDtls($item)" ng-model="lineitem.schSearch" />
+                                    </div>
+                                    
+                                    <div class="willCall-address" ng-if="addressType=='Will Call'">
+                                        <div class="willCall-search">
+                                            <h1>Find store*</h1>
+                                            <input type="search" ng-model="lineitem.willSearch" uib-typeahead="st for st in storeNames | filter:$viewValue" typeahead-on-select="storesDtls($item)" />
+                                        </div>
+                                        <div>
+                                            <h1>Pick-up Date*</h1>
+                                            <p>Delivery Date*</p>
+                                            <input type="date" placeholder="MM/DD/YYYY" ng-model="lineitem.xp.deliveryDate">
+                                        </div>
+                                    </div>
+                                    <div class="location-addressL1" ng-if="addressType!='Will Call'">
+                                        <h1>Address</h1>
+                                        <input type="text" ng-model="lineitem.ShippingAddress.Street1" >
+                                        <input type="text" ng-model="lineitem.ShippingAddress.Street2" >
+                                        <div class="location-addressL2">
+                                            <div class="location-state">
+                                                <p>State</p>
+                                                <select ng-model="lineitems.ShippingAddress.State">
+                                                    <option selected>K</option>
+                                                    <option>RNR</option>
+                                                </select>
+                                                <input type="text" ng-model="lineitem.ShippingAddress.State" />
+                                            </div>
+                                            <div class="location-city">
+                                                <p>City</p>
+                                                <input type="text" ng-model="lineitem.ShippingAddress.City" />
+                                            </div>
+                                        </div>
+                                        <div class="location-contact">
+                                            <p>Recipients Phone Number</p>
+                                            <input type="number" ng-model="lineitem.ShippingAddress.Phone1">
+                                            <input type="number" ng-model="lineitem.ShippingAddress.Phone2">
+                                            <input type="number" ng-model="lineitem.ShippingAddress.Phone3">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="location-recipientName" ng-if="addressType=='Hospital'">
+                                        <h3>Patient Name</h3>
+                                        <div class="firstNm">
+                                            <p>First Name*</p>
+                                            <input type="text" ng-model="lineitem.xp.PatientFName">
+                                        </div>
+                                        <div>
+                                            <p>Last Name*</p>
+                                            <input type="text" ng-model="lineitem.xp.PatientLName">
+                                        </div>
+                                    </div>
+                                </div>  -->
+                  
+                        <div class="row total-block">
+                            <div class="col-xs-12 col-sm-12 col-md-offset-7 col-md-5 col-lg-offset-7 col-lg-5">
+                                <div class="bill-content">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>Item Price</p>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>{{lineitem.UnitPrice | currency}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>Estimated Tax</p>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>$3.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>Estimated Delivery</p>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <p>-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row total-price">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <p>Estimated Total</p>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <p>{{lineitem.LineTotal | currency}}</p>
+                                    </div>
+                                </div>
+                            </div>       
+                        </div>
+                    </div>
+                
+            </uib-accordion-group>
+            <!-- <uib-accordion-group is-open="status.open2">
+                <uib-accordion-heading>
+                    <p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">Item 2 of 3 - Recipient 2 <span class="panel-head-price">$50.00</span></p>
+                </uib-accordion-heading>
+                
+            </uib-accordion-group>
+            <uib-accordion-group is-open="status.open3">
+                <uib-accordion-heading>
+                    <p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open3}">Item 3 of 3 - Recipient 3 <span class="panel-head-price">$50.00</span></p>
+                </uib-accordion-heading>
+                
+            </uib-accordion-group> -->    
+        </uib-accordion>    
+>>>>>>> a6cb6d7afd64a2ad7b9a87cc229ff129e46831cb
+    </div>
+</div>

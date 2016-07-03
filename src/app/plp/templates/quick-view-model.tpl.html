@@ -1,0 +1,649 @@
+<div class="qv-page qvScroll" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}" ng-scrollbar rebuild-on="rebuild:qvScroll">
+    <div class="qvPadding">
+        <p class="close-icon" ng-click="cancel()">
+            <a>
+                <?xml version="1.0" encoding="utf-8"?>
+                <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="3" height="47" />
+                        </g>
+                        <g>
+                            <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="47" height="3" />
+                        </g>
+                    </g>
+                </svg>
+            </a>
+        </p>
+        <div class="row">
+            <div class="col-md-5 col-xs-5">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="category-pdt-carousel">
+                            <div id="img-min-height">
+                                <!-- <div class="owl-carousel owl-theme" id="owl-carousel-qv-images">
+            <div class="owl-carousel-item" ng-repeat="prodImage in productQuickViewModal.productVarientImages"> -->
+                                <div class="category-prod">
+                                    <img ng-src="{{productQuickViewModal.productVarientImages[0]}}" class="img-responsive" title="img" alt="">
+                                </div>
+                            </div>
+                            <!--   </div>
+        </div> -->
+                            <div id="carousel-custom-dots" class="owl-dots">
+                                <div class="owl-dot" ng-repeat="prodImage in productQuickViewModal.productVarientImages track by prodImage">
+                                    <span></span>
+                                    <img ng-src="{{prodImage}}" ng-click="productQuickViewModal.setQvImage($event);" class="img-responsive" title="img" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-xs-7">
+                <div class="detail-container">
+                    <h3 class="prod_title">{{productQuickViewModal.productDetails[productQuickViewModal.selectedSizeIndex][productQuickViewModal.selectedProductIndex].Name | lowercase}}</h3>
+                    <h5 ng-if="productQuickViewModal.productDetails.length > 1">Select Size</h5>
+                    <div class="row radio-btn-container" ng-if="productQuickViewModal.productDetails.length > 1">
+                        <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.productDetails">
+                            <div class="size-box" for="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index == productQuickViewModal.selectedSizeIndex }" ng-click="productQuickViewModal.selectedProductIndex=0;productQuickViewModal.sizeBoxItemClicked($index);">
+                                <input type="radio" id="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-init="$index== productQuickViewModal.selectedSizeIndex?(radio.selectedSize=opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size):'';$index==productQuickViewModal.selectedSizeIndex?productQuickViewModal.selectVarients(radio.selectedSize):''" ng-change="productQuickViewModal.selectVarients(radio.selectedSize)" />
+                                <label for="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="visible-xs visible-sm horizontal-label">
+                                <span class="productQuickViewModal-name">{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}</span>
+                                    <span class="productQuickViewModal-price"><!-- <span class="old-price">$65.00</span> -->
+                                    <!-- <span class="new-price">{{pdp.productDetails.prodPrice | currency}}</pan> -->
+                                    <span ng-repeat="priceItem in opt[productQuickViewModal.defaultSizeIndex].StandardPriceSchedule.PriceBreaks">
+                                 <span class="new-price">{{priceItem.Price | currency}}</span>
+                                    </span>
+                                    </span>
+                                    </span>
+                                    <h5>{{opt[0].xp.SpecsOptions.Size}}</h5>
+                                    <p>
+                                        <span ng-repeat="priceItem in opt[productQuickViewModal.defaultSizeIndex].StandardPriceSchedule.PriceBreaks">
+                                <span class="new-price">{{priceItem.Price | currency}}</span>
+                                        </span>
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row color-selection" ng-if="productQuickViewModal.sizeGroupedProducts.length > 1">
+                        <h5>Select Color</h5>
+                        <div class="color-circle">
+                            <p ng-repeat="coloropt in productQuickViewModal.sizeGroupedProducts" ng-click="productQuickViewModal.colorItemClicked($index,$event, coloropt)" ng-class="{ 'active-circle': $index == productQuickViewModal.selectedProductIndex }">
+                                <a href="" class="" id="{{coloropt.xp.SpecsOptions.Color}}" name="{{coloropt.xp.SpecsOptions.Color}}" value="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row price-block" ng-if="productQuickViewModal.productDetails[0].length == 1 &&  productQuickViewModal.productDetails.length == 1">
+                        <ul ng-repeat="priceItem in productQuickViewModal.productDetails[0][0].StandardPriceSchedule.PriceBreaks">
+                            <li class="new-price">{{priceItem.Price | currency}}</li>
+                            <li class="old-price">{{priceItem.Price | currency}}</li>
+                        </ul>
+                    </div>
+                    <div class="row features-block" ng-if="productQuickViewModal.productDetails[0].length == 1">
+                        <ul>
+                            <li>Wrought Iron Construction</li>
+                            <li>Seats up to 6</li>
+                            <li>Comes with seat cushions</li>
+                        </ul>
+                    </div>
+                    <div class="row dropdown-box" ng-if="productQuickViewModal.productDetails.length > 1">
+                        <h5>Add Something Extra</h5>
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
+                                    <div class="btn-group btn-block dropdown" uib-dropdown>
+                                        <button id="single-button" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                            <span class="category-name hidden-xs hidden-sm">BALLOONS</span>
+                                            <p>Select</p>
+                                        </button>
+                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Single Foll Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Te Amo Mylar Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group btn-block dropdown" uib-dropdown>
+                                        <button id="single-button1" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                            <span class="category-name hidden-xs hidden-sm">PLUSH</span>
+                                            <p>Select</p>
+                                            <span class=""></span>
+                                        </button>
+                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Single Foll Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Te Amo Mylar Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group btn-block dropdown" uib-dropdown>
+                                        <button id="single-button2" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                            <span class="category-name hidden-xs hidden-sm">CHOCOLATE & SWEETS</span>
+                                            <p>Select</p>
+                                            <span class=""></span>
+                                        </button>
+                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Single Foll Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li role="menuitem">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                        <h5>Te Amo Mylar Balloon</h5>
+                                                        <p>$4.99</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row Delivery-info">
+               <h5>Delivery Information</h5>
+               <div class="col-md-8 col-lg-8">
+                   <div class="row">
+                       <div class="col-md-4 col-lg-4">
+                           <input type="text" class="form-control" placeholder="Zip Code">
+                       </div>
+                       
+                       <div class="col-md-7 col-lg-7">
+                           <input type="text" class="form-control" placeholder="Delivery Date"> 
+                            
+                           <p class=""><span>!</span>Not Available for Delivery <a href="">Nationwide</a></p>
+                       </div>
+                       </div>
+                       </div>
+                   </div> -->
+                    <div class="row cart-block">
+                        <!-- <div class="col-md-2 col-lg-2">
+                  <form class="form-horizontal" role="form">
+                      <div class="form-group">
+                          <label for="inputType" class="col-md-3 control-label">Qty</label>
+                          <div class="col-md-9">
+                              <input type="text" class="form-control" id="Qty" placeholder="01" value="01">
+                          </div>
+                      </div>
+                  </form>
+                  </div> -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
+                                    <button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row product-info-block">
+            <div class="col-md-3 col-lg-3 left">
+                <div class="info-text">
+                    <p>Key Product Info</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 middle">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 svg-zone">
+                        <p class="svgParent">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-589 338 100 125" style="enable-background:new -589 338 100 125;" xml:space="preserve">
+                                <path d="M-507.8,416.2c-0.3,0-0.5-0.1-0.7-0.2c-4.4-3.6-4.8-6-5.1-7.6c-0.1-0.7-0.2-1-0.4-1.2c-0.8-0.7-2.5-0.8-4.6-0.8
+                        c-1,0-2.2-0.1-3.4-0.2c-0.2,0-0.4,0-0.6,0c-0.8,0-1.1,0.2-1.1,0.2c0,0.1,0,0.3,0,0.4c0.1,0.2,0.1,0.3,0.1,0.5c0,0.6-0.5,1.1-1.1,1.1
+                        c0,0-0.1,0-0.1,0c-2.3-0.3-4-0.4-5.4-0.4c-2.3,0-2.9,0.4-3.8,1c-0.7,0.4-1.5,0.9-2.9,1.4c-1,0.3-1.6,0.8-2,1.5
+                        c-0.5,1.1-0.1,2.5,0,2.7c0.1,0.1,0.1,0.3,0.1,0.4c0,0.6-0.5,1.1-1.1,1.1c0,0,0,0-0.1,0c-3.9-0.2-5.1-2.8-6.3-5.4
+                        c-0.4-0.9-0.8-1.7-1.3-2.6c-0.4-0.7-0.8-0.9-0.9-0.9c-0.4,0-1.1,0.8-1.4,1.4c-0.1,0.3-0.4,0.5-0.7,0.5c-0.3,0.1-0.6,0-0.9-0.1
+                        l-0.1-0.1c-1.5-0.9-1.7-1.1-3.3-4l-0.3-0.5c-0.6-1.1-1.5-1.6-2.6-1.6c-0.8,0-1.5,0.3-1.5,0.3c-0.2,0.1-0.5,0.1-0.7,0.1
+                        c-10.3-2.8-18-8.1-21.5-14.9c-2.3-4.3-2.7-9-1.3-13.1c2.9-8.3,3.5-14.5,3.5-14.5c0-0.4,0.3-0.7,0.6-0.9c0.3-0.2,0.7-0.2,1.1,0
+                        l1.4,0.8l0-0.1c0-0.4,0.1-0.7,0.4-1c0.3-0.2,0.7-0.3,1-0.2c14.3,4.8,31.7,5.2,36.7,5.2c0.8,0,1.3,0,1.3,0c0.2,0,0.4,0.1,0.6,0.2
+                        c1.2,0.8,5.1,1.4,7.2,1.5c0.3,0,0.6,0.2,0.8,0.5c0.6,0.8,0.1,1.7-0.5,2.3c0.3-0.1,0.6-0.1,0.9-0.2c0.9-0.2,1.8-0.4,2.6-0.4
+                        c1.6,0,2.2,1,2.4,1.6c0.2,0.8,0.1,2-0.1,3.7c0-0.1,0.1-0.2,0.1-0.3c0.7-1.6,2-2.4,3.8-2.4c1,0,1.9,0.4,2.5,1.2
+                        c1.4,1.6,1.4,4.6,1.3,6.5c2.5-1,3-3.6,3-3.6c0.1-0.5,0.5-0.8,1-0.9c3-0.2,3.6-3.2,3.6-3.3c0.1-0.4,0.4-0.8,0.9-0.9
+                        c3.6-0.7,5.8-2.3,5.8-3.2c0-3.8,2-4.8,3.2-4.8c0.6,0,1.1,0.2,1.5,0.6c0.4,0.4,0.6,0.9,0.6,1.5c-0.1,1.9,0.6,2.6,1.1,3.2
+                        c0.3,0.4,0.8,0.8,0.7,1.5c0,0.5-0.3,0.9-0.7,1.2c-3.5,2.8-2.2,5.2-2,5.5c0.2,0.3,0.2,0.7,0.1,1c-0.1,0.3-0.4,0.6-0.8,0.7
+                        c-1.7,0.4-3.4,1.8-4.5,3.7c-1,1.7-1.2,3.6-0.7,5c1.4,3.9-0.2,8.1-4.6,11.9c-3,2.6-3.9,4.2-0.9,8.2c4,5.4,1.1,9.5,1,9.6
+                        c-0.2,0.2-0.5,0.4-0.8,0.4C-507.7,416.2-507.8,416.2-507.8,416.2z M-548.5,405c1.1,0,2.1,0.7,2.9,2.1c0.6,1,1,2,1.4,2.8
+                        c0.9,2.1,1.5,3.3,2.9,3.8c-0.1-0.8,0-1.8,0.5-2.7c0.6-1.3,1.7-2.2,3.3-2.7c1.2-0.4,1.8-0.8,2.4-1.2c1.1-0.7,2.1-1.3,5-1.3
+                        c1.1,0,2.5,0.1,4.2,0.3c0-0.3,0.1-0.6,0.3-0.9c0.5-0.8,1.5-1.3,3-1.3c0.3,0,0.5,0,0.8,0c1.2,0.1,2.2,0.1,3.3,0.2
+                        c2.6,0.1,4.7,0.1,6.1,1.4c0.8,0.7,0.9,1.6,1.1,2.4c0.2,1.2,0.5,2.8,3.3,5.3c0.3-1.2,0.4-3.3-1.5-5.8c-1.9-2.6-2.6-4.6-2.2-6.6
+                        c0.4-1.7,1.6-3.1,3.4-4.7c2.5-2.2,5.3-5.7,4-9.5c-0.7-2.1-0.4-4.6,0.9-6.9c1.1-2,2.9-3.6,4.7-4.4c-0.1-0.4-0.2-0.9-0.2-1.5
+                        c0-1.4,0.5-3.4,2.8-5.4c-0.6-0.7-1.6-1.9-1.6-4.3c-0.3,0.2-0.8,0.9-0.8,2.5c0,2.5-3.5,4.4-6.9,5.3c-0.5,1.6-2,3.7-4.7,4.3
+                        c-0.7,1.8-2.5,4.5-6.1,5c-0.4,0-0.7-0.1-0.9-0.3c-0.2-0.3-0.4-0.6-0.3-1c0.3-1.8,0.4-5.2-0.6-6.4c-0.2-0.3-0.5-0.4-0.8-0.4
+                        c-1.7,0-2.1,1.1-2.3,4.3c-0.1,0.9-0.1,1.8-0.3,2.5c-0.4,1.4-1.3,1.8-1.9,1.9c-0.7,0.1-1.3-0.2-1.7-0.6c-0.9-1.1-0.7-3.3-0.1-6.7
+                        c0.2-1.4,0.6-3.3,0.4-3.9c0,0-0.1,0-0.2,0c-0.5,0-1.3,0.2-2.1,0.4c-1,0.2-2.2,0.5-3.3,0.5c-0.6,0-1-0.1-1.5-0.2
+                        c-0.4-0.1-0.7-0.5-0.8-0.9c-0.1-0.4,0.1-0.8,0.4-1.1c0.5-0.3,0.9-0.7,1.3-1.1c-1.8-0.2-4.6-0.7-6.1-1.5c-0.2,0-0.6,0-1.1,0
+                        c-4.9,0-21.5-0.4-35.8-4.8l0,0.5c0,0.4-0.2,0.8-0.5,1c-0.3,0.2-0.8,0.2-1.2,0l-1.8-1c-0.4,2.4-1.3,7.3-3.4,13.4
+                        c-1.2,3.5-0.8,7.5,1.2,11.3c3.2,6.2,10.3,11,19.8,13.7c0.4-0.1,1.1-0.3,2-0.3c1.9,0,3.6,1,4.5,2.8l0.3,0.5c0.7,1.3,1.1,2,1.4,2.4
+                        c0.1,0.1,0.1,0.2,0.2,0.2C-550.7,405.8-549.7,405-548.5,405z" />
+                            </svg>
+                        </p>
+                        <p>Zone 1-3</p>
+                        <span class="svg-1-3">1-3</span>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-582.3 345.7 27.1 26.2" style="enable-background:new -582.3 345.7 27.1 26.2;" xml:space="preserve">
+                            <g>
+                                <path d="M-568.8,351c-4.5,0-8,3.7-8,8c0,4.5,3.7,8,8,8c4.3,0,8-3.7,8-8C-560.7,354.5-564.3,351-568.8,351z M-568.8,366.4
+                        c-4.1,0-7.4-3.4-7.4-7.4s3.4-7.4,7.4-7.4" />
+                                <path d="M-569.2,347.6v2.8c0,0.1,0.1,0.3,0.3,0.3c0.2,0,0.3-0.1,0.3-0.3v-2.8" />
+                                <path d="M-563.1,352.6c0.1,0,0.2-0.1,0.3-0.1l1.8-2.1c0.1-0.1,0.1-0.3-0.1-0.5c-0.1-0.1-0.3-0.1-0.5,0.1l-1.8,2.2
+                        c-0.1,0.1-0.1,0.3,0.1,0.5C-563.3,352.6-563.2,352.6-563.1,352.6z" />
+                                <path d="M-560.3,357.4C-560.2,357.4-560.2,357.4-560.3,357.4l2.8-0.5c0.2,0,0.3-0.2,0.3-0.4c0-0.2-0.2-0.3-0.4-0.3l-2.8,0.5
+                        c-0.2,0-0.3,0.2-0.3,0.4C-560.6,357.3-560.4,357.4-560.3,357.4z" />
+                                <path d="M-558.8,364.1l-2.4-1.3c-0.1-0.1-0.3-0.1-0.5,0.1c-0.1,0.1-0.1,0.3,0.1,0.5l2.4,1.3c0.1,0,0.1,0.1,0.1,0.1
+                        c0.1,0,0.2-0.1,0.3-0.2C-558.6,364.4-558.6,364.2-558.8,364.1z" />
+                                <path d="M-565.4,366.9c-0.1-0.2-0.3-0.3-0.4-0.2c-0.2,0.1-0.3,0.3-0.2,0.4l0.9,2.6c0.1,0.1,0.2,0.2,0.3,0.2c0.1,0,0.1,0,0.1,0
+                        c0.2-0.1,0.3-0.3,0.2-0.4L-565.4,366.9z" />
+                                <path d="M-571.4,366.8c-0.2-0.1-0.3,0-0.4,0.2l-1,2.6c-0.1,0.2,0,0.3,0.2,0.4c0.1,0,0.1,0,0.1,0c0.1,0,0.3-0.1,0.3-0.2l0.9-2.6
+                        C-571.2,367-571.3,366.8-571.4,366.8z" />
+                                <path d="M-576.3,363l-2.4,1.4c-0.1,0.1-0.2,0.3-0.1,0.5c0.1,0.1,0.2,0.1,0.3,0.1s0.1,0,0.2-0.1l2.4-1.4c0.1-0.1,0.2-0.3,0.1-0.5
+                        C-575.8,363-576,362.9-576.3,363z" />
+                                <path d="M-577.2,357.9c0.1,0,0.3-0.1,0.3-0.3c0-0.2-0.1-0.3-0.3-0.4l-2.8-0.4c-0.2,0-0.3,0.1-0.4,0.3c-0.1,0.2,0.1,0.3,0.3,0.4
+                        L-577.2,357.9C-577.3,357.9-577.2,357.9-577.2,357.9z" />
+                                <path d="M-574,352.6c0.1-0.1,0.1-0.3,0-0.5l-1.8-2.1c-0.1-0.1-0.3-0.1-0.5,0c-0.1,0.1-0.2,0.3-0.1,0.5l1.8,2.2
+                        c0.1,0.1,0.1,0.1,0.3,0.1C-574.2,352.7-574.1,352.7-574,352.6z" />
+                            </g>
+                        </svg>
+                        <p>Full Shade</p>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-610.7 358.6 133.9 52.9" style="enable-background:new -610.7 358.6 133.9 52.9;" xml:space="preserve">
+                            <path d="M-495.9,404.2c-6.8,0-12.4-5.6-12.4-12.4c0-2.1,0.5-4.1,1.5-6l10.8-20.1l11,20.1c1,1.9,1.5,3.9,1.5,6
+                     C-483.5,398.6-489.1,404.2-495.9,404.2z M-504.5,387.1c-0.8,1.4-1.2,3-1.2,4.6c0,5.3,4.3,9.6,9.6,9.6s9.6-4.3,9.6-9.6
+                     c0-1.6-0.4-3.2-1.2-4.6l-8.3-15.5L-504.5,387.1z M-526.9,404.2c-6.8,0-12.4-5.6-12.4-12.4c0-2.1,0.5-4.1,1.5-6l10.8-20.1l11,20.1
+                     c1,1.9,1.5,3.9,1.5,6C-514.5,398.6-520.1,404.2-526.9,404.2z M-535.5,387.1c-0.8,1.4-1.2,3-1.2,4.6c0,5.3,4.3,9.6,9.6,9.6
+                     s9.6-4.3,9.6-9.6c0-1.6-0.4-3.2-1.2-4.6l-8.3-15.5L-535.5,387.1z M-558.9,404.2c-6.8,0-12.4-5.6-12.4-12.4c0-2.1,0.5-4.1,1.5-6
+                     l10.8-20.1l10.8,20.1c1.1,1.8,1.6,3.9,1.7,6C-546.5,398.6-552.1,404.2-558.9,404.2z M-558.7,401.5l2.1-0.5c3.3-0.9,6-3.5,6.8-6.8
+                     l0.5-2.1L-558.7,401.5z M-562.9,400.7l2.9,0.6l10.4-10.4v-0.2c0-0.4-0.1-0.8-0.2-1.2c0-0.2-0.1-0.3-0.1-0.5l-0.2-1.1L-562.9,400.7z
+                     M-565.6,398.5l0.4,0.4c0.3,0.3,0.7,0.7,1.2,0.9l0.4,0.2l12.9-12.9l-1.2-2.3L-565.6,398.5z M-567.8,395.6l0.2,0.4
+                     c0.2,0.5,0.5,0.8,0.8,1.2l0.4,0.6l14-14l-1.2-2.3L-567.8,395.6z M-568.6,391.3v0.4c0,0.6,0.1,1.1,0.2,1.6l0.2,1.1l13.9-14l-1.2-2.3
+                     L-568.6,391.3z M-565.1,382.9l-2.1,4l-1.6,3.6l12.9-13.2l-1.2-2.3L-565.1,382.9z M-561.4,376.1l-2.7,4l6.5-6l-1.3-2.5L-561.4,376.1z
+                     M-592,404.2c-6.8,0-12.4-5.6-12.4-12.4c0-2.1,0.5-4.1,1.5-6l11-20.1l10.8,20.1c1,1.9,1.5,4,1.5,6
+                     C-579.6,398.6-585.2,404.2-592,404.2z" />
+                        </svg>
+                        <p>Low Water</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row share-block">
+            <div class="col-md-8 col-lg-8 left">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3">
+                        <p>Share this Product</p>
+                    </div>
+                    <div class="col-md-8 col-lg-8 share-icons">
+                        <a class="twiter-icon" href="https://twitter.com/shopbachmans" target="_blank">
+                            <svg class="twiter-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 66 57" style="enable-background:new 0 0 66 57;" xml:space="preserve">
+                                <path class="st1" style="stroke-width: 2;" d="M21.1,55.9c-12.4,0-20.6-6.3-20.7-6.3C0.1,49.3,0,49,0.2,48.7c0.1-0.3,0.4-0.5,0.7-0.5c0.4,0,0.9,0,1.3,0
+                        c6.7,0,11-1.4,13.4-2.6c1.3-0.7,2.3-1.3,2.9-1.8c-5-1.1-7.8-3.5-9.4-5.3c-1.9-2.2-2.3-4.3-2.4-4.4c0-0.2,0-0.4,0.1-0.6
+                        c0.1-0.2,0.4-0.3,0.6-0.3h2.5c-3.9-2.1-5.7-4.9-6.6-7c-1.2-3-1-5.5-0.9-5.6c0-0.3,0.2-0.5,0.4-0.6l0.1,0l0.2,0c0.2,0,0.3,0,0.4,0.1
+                        c1.1,0.8,2.3,1.1,3.3,1.2C-0.9,14.2,4.1,4,4.1,3.9c0.1-0.2,0.3-0.4,0.6-0.4c0,0,0,0,0,0c0.3,0,0.5,0.1,0.6,0.3
+                        c10.3,12,19.7,13.8,24.4,13.8c0.7,0,1.2,0,1.6-0.1c-0.3-3.9,0.1-9.2,3.5-12.8c2.2-2.3,4.5-2.8,4.8-2.9c1.6-0.3,3.2-0.5,4.8-0.5
+                        c6.2,0,10.2,2.7,11.4,3.6l7.5-3.1l0.2,0c0.2,0,0.3,0.1,0.5,0.2c0.2,0.2,0.3,0.4,0.3,0.7c-0.3,2.1-2.1,4.1-3.6,5.6l4.4-0.8
+                        c0,0,0,0,0,0c0.4,0,0.6,0.2,0.8,0.4c0.1,0.3,0.1,0.7-0.2,0.9l-6.8,6.1c0.2,2.6,0.5,8.9-2.3,15.5c-5.8,13.8-15,20-21.7,22.8
+                        c-6.2,2.6-11.4,2.8-12.9,2.8L21.1,55.9z M22,54.4c1.4,0,6.4-0.2,12.4-2.7c6.4-2.7,15.2-8.7,20.8-22c2.7-6.5,2.4-12.6,2.2-15.2
+                        c0-0.2,0.1-0.5,0.2-0.6l5.1-4.6l-4.5,0.8c0,0,0,0,0,0c-0.4,0-0.7-0.2-0.8-0.4c-0.1-0.3,0-0.7,0.2-0.9c1-0.7,3.5-2.9,4.6-5l-6.4,2.6
+                        l-0.2,0c-0.2,0-0.4-0.1-0.5-0.2c-0.1,0-1.5-1.3-4-2.3c-2.1-0.8-4.4-1.2-6.8-1.2c-1.5,0-3,0.2-4.5,0.5c-0.1,0-8.5,2-7.1,14.7
+                        c0,0.4-0.2,0.7-0.6,0.8c0,0-1,0.2-2.6,0.2c-1.9,0-3.9-0.3-6-0.8C19.2,16.9,12.3,13.8,5,5.6c-0.4,1.1-1,2.9-1.1,5
+                        c-0.2,4.5,1.6,8.1,5.4,10.7c0.2,0.2,0.4,0.5,0.3,0.8c-0.1,0.3-0.3,0.5-0.6,0.6c-0.1,0-0.6,0.1-1.3,0.1c-1,0-2.5-0.2-3.9-0.9
+                        c0.1,2.7,1.4,8.5,10,11.3c0.4,0.1,0.6,0.5,0.5,0.8c-0.1,0.4-0.4,0.6-0.7,0.6H8.4c0.9,2.1,3.7,6.6,11.6,7.9c0.3,0,0.5,0.2,0.6,0.5
+                        c0.1,0.2,0.1,0.5-0.1,0.7c-0.2,0.2-4.3,5.6-17.1,5.9c3,1.7,9.4,4.7,17.7,4.7l0.6,0L22,54.4z" />
+                            </svg>
+                            <svg class="twiter-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 66 57" style="enable-background:new 0 0 66 57;" xml:space="preserve">
+                                <path class="" d="M21.1,55.9c-12.4,0-20.6-6.3-20.7-6.3C0.1,49.3,0,49,0.2,48.7c0.1-0.3,0.4-0.5,0.7-0.5c0.4,0,0.9,0,1.3,0
+                        c6.7,0,11-1.4,13.4-2.6c1.3-0.7,2.3-1.3,2.9-1.8c-5-1.1-7.8-3.5-9.4-5.3c-1.9-2.2-2.3-4.3-2.4-4.4c0-0.2,0-0.4,0.1-0.6
+                        c0.1-0.2,0.4-0.3,0.6-0.3h2.5c-3.9-2.1-5.7-4.9-6.6-7c-1.2-3-1-5.5-0.9-5.6c0-0.3,0.2-0.5,0.4-0.6h0.1h0.2c0.2,0,0.3,0,0.4,0.1
+                        c1.1,0.8,2.3,1.1,3.3,1.2C-0.9,14.2,4.1,4,4.1,3.9c0.1-0.2,0.3-0.4,0.6-0.4l0,0c0.3,0,0.5,0.1,0.6,0.3c10.3,12,19.7,13.8,24.4,13.8
+                        c0.7,0,1.2,0,1.6-0.1c-0.3-3.9,0.1-9.2,3.5-12.8c2.2-2.3,4.5-2.8,4.8-2.9c1.6-0.3,3.2-0.5,4.8-0.5c6.2,0,10.2,2.7,11.4,3.6l7.5-3.1
+                        h0.2c0.2,0,0.3,0.1,0.5,0.2c0.2,0.2,0.3,0.4,0.3,0.7c-0.3,2.1-2.1,4.1-3.6,5.6l4.4-0.8l0,0c0.4,0,0.6,0.2,0.8,0.4
+                        C66,8.2,66,8.6,65.7,8.8l-6.8,6.1c0.2,2.6,0.5,8.9-2.3,15.5c-5.8,13.8-15,20-21.7,22.8C28.7,55.8,23.5,56,22,56L21.1,55.9z" />
+                            </svg>
+                        </a>
+                        <a class=" fb-icon" href="https://www.facebook.com/BachmansMN" target="_blank">
+                            <svg class="fb-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 55" style="enable-background:new 0 0 53 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <path class="st1" style="stroke-width:2;" d="M0.3,55V2.4h52.5V55H0.3z M51.1,53.3V4.1H2v49.3h27.5V30.3h-4.6v-2.2h4.6v-5.6c0-8.4,1.7-13,10.4-13h0.3
+                        l0.3,0.3v1.9h-0.3c-7.2,0-8.5,2.8-8.5,10.8v5.6h8.8v2.2h-8.8v23.1H51.1z" />
+                            </svg>
+                            <svg class="fb-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-6 1 53 55" style="enable-background:new -6 1 53 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <path class="st0" d="M-5.7,3.4V56h29.2v-1.6V31.3h-4.6v-2.2h4.6v-5.6c0-8.4,1.7-13,10.4-13h0.3l0.3,0.3v1.9h-0.3
+                        c-7.2,0-8.5,2.8-8.5,10.8v5.6h8.8v2.2h-8.8v23.1V56h21.1V3.4H-5.7z" />
+                            </svg>
+                        </a>
+                        <a class=" youtube-icon" href="https://www.youtube.com/user/BachmansFloral" target="_blank">
+                            <svg class="youtube-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 69.5 55" style="enable-background:new 0 0 69.5 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: none;
+                                    stroke: #FFFFFF;
+                                    stroke-width: 0.5;
+                                    stroke-miterlimit: 10;
+                                }
+                                </style>
+                                <g>
+                                    <g>
+                                        <g>
+                                            <g>
+                                                <path class="st1" style="stroke-width:3;" d="M67.4,15.2c0,0-0.7-4.6-2.7-6.7c-2.6-2.7-5.4-2.7-6.7-2.8C48.7,5,34.6,5,34.6,5h0c0,0-14.1,0-23.5,0.7
+                                    C9.7,5.8,6.9,5.8,4.3,8.5c-2,2-2.7,6.7-2.7,6.7S1,20.6,1,26v5.1C1,36.6,1.7,42,1.7,42s0.7,4.6,2.7,6.7c2.6,2.7,5.9,2.6,7.4,2.9
+                                    c5.4,0.5,22.8,0.7,22.8,0.7s14.1,0,23.5-0.7c1.3-0.2,4.2-0.2,6.7-2.8c2-2,2.7-6.7,2.7-6.7s0.7-5.4,0.7-10.9V26
+                                    C68.1,20.6,67.4,15.2,67.4,15.2z M27.6,37.3V18.4l18.1,9.5L27.6,37.3z" />
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <svg class="youtube-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="2 1 69.5 55" style="enable-background:new 2 1 69.5 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <g>
+                                    <polygon class="st0" points="31.1,21.9 31.1,35.9 44.4,28.9    " />
+                                    <path class="st0" d="M69.4,16.2c0,0-0.7-4.6-2.7-6.7c-2.6-2.7-5.4-2.7-6.7-2.8C50.7,6,36.6,6,36.6,6S22.5,6,13.1,6.7
+                           c-1.4,0.1-4.2,0.1-6.8,2.8c-2,2-2.7,6.7-2.7,6.7S3,21.6,3,27v5.1C3,37.6,3.7,43,3.7,43s0.7,4.6,2.7,6.7c2.6,2.7,5.9,2.6,7.4,2.9
+                           c5.4,0.5,22.8,0.7,22.8,0.7s14.1,0,23.5-0.7c1.3-0.2,4.2-0.2,6.7-2.8c2-2,2.7-6.7,2.7-6.7s0.7-5.4,0.7-10.9V27
+                           C70.1,21.6,69.4,16.2,69.4,16.2z M29.1,39.1V18.5l19.7,10.4L29.1,39.1z" />
+                                </g>
+                            </svg>
+                        </a>
+                        <a class="instagram-icon" href="https://www.instagram.com/shopbachmans" target="_blank">
+                            <svg class="instagram-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 54.5 55" style="enable-background:new 0 0 54.5 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 2;" d="M10.9,55c-1,0-2.3,0-3.5-0.3C6,54.5,5,54,4.1,53.3c-0.7-0.5-1.2-1.2-1.7-1.9c-0.7-1.2-0.9-2.6-1.1-3.8
+                              c-0.2-1.4-0.2-3-0.2-4.4l0-3.5v-25c0-1.7,0-3.3,0.2-4.9C1.5,8,1.9,6.7,2.6,5.6C3.1,4.7,3.8,4,4.7,3.5c1.2-0.7,2.7-1.1,4.7-1.2
+                              c2.5-0.1,5.1-0.2,7.7-0.2l8.7,0c0.5,0,1.1,0,1.9,0.1l2.4,0.1c2.3,0.1,5.6,0.1,10.5,0.1l2.8,0c1.8,0,3,0.1,4.1,0.2
+                              c1.1,0.2,2,0.4,2.8,0.8c0.5,0.3,1,0.6,1.3,1.1c0.5,0.6,0.8,1.3,1,2.1c0.3,1,0.4,2.2,0.4,3.9l0,0.6c0,1.5,0.1,6.2,0.2,11.7
+                              c0,0,0.4,21.1,0.4,21.7c-0.1,1.5-0.2,2.8-0.3,3.9c-0.2,1.3-0.4,2.2-0.8,3c-0.3,0.6-0.7,1.1-1.1,1.5c-0.6,0.5-1.4,1-2.4,1.2
+                              c-1.3,0.4-2.8,0.5-4.9,0.5c-4.7,0-9.7,0.1-14.5,0.1c-4.3,0.1-8.3,0.1-11.8,0.1c0,0-3,0-3.1,0C13.9,54.9,11.6,55,10.9,55z
+                              M2.7,39.6l0,3.6c0,1.4,0,2.9,0.2,4.2c0.2,1.4,0.5,2.5,0.9,3.2c0.3,0.6,0.8,1.1,1.3,1.5c0.5,0.4,1,0.7,1.6,0.9
+                              c1,0.4,2.4,0.5,4.2,0.5c0.6,0,3.1-0.1,3.7-0.1l3.2,0c3.4,0,7.4-0.1,11.7-0.1c4.8-0.1,9.8-0.1,14.5-0.1c1.7,0,3-0.1,4-0.3
+                              c1-0.2,1.7-0.5,2.2-0.9c0.3-0.3,0.6-0.6,0.8-1c0.3-0.5,0.5-1.2,0.7-2.1c0.2-1.1,0.3-2.5,0.4-4.3c0-0.6-0.3-18.7-0.3-18.7l-11.9,0
+                              l0.2,0.8c0.2,1,0.3,2.1,0.3,3.2c0,3.2-1.2,6.1-3.3,8.3c-2.3,2.3-5.6,3.6-9.3,3.6c-2.1,0-4.3-0.6-6.2-1.6c-2.2-1.2-3.9-2.9-4.9-5
+                              c-0.8-1.6-1.2-3.3-1.2-5.3c0-1.3,0.1-2.5,0.4-3.7l0.2-0.8h-0.8c-3.7,0-7.3,0-11.8-0.2l-0.7,0V39.6z M27.5,18.5
+                              c-3.2,0-5.7,1-7.6,3.1c-1.9,2-2.9,5-2.9,8.4c0,1.7,0.3,3.2,1,4.6c0.6,1.2,1.5,2.3,2.6,3.2c1.9,1.6,4.6,2.5,7.1,2.5
+                              c3.4,0,6.2-1.1,8.3-3.2c1.9-1.9,2.9-4.4,2.9-7.1c0-1.6-0.3-3.2-0.7-4.5c-0.2-0.7-0.4-1.1-0.7-1.6c-1-2-2.5-3.4-4.5-4.3
+                              C31.4,18.8,29.6,18.5,27.5,18.5l-0.1-0.2L27.5,18.5z M27.5,16.9c2.3,0,4.3,0.4,6.1,1.2c1.6,0.7,2.9,1.7,4,3
+                              c0.7,0.8,1.2,1.7,1.6,2.8l0.2,0.4l7.5,0l4.9,0l0-0.7c-0.1-5.7-0.2-10.8-0.2-12.2l0-0.6c0-1.6-0.1-2.6-0.2-3.4s-0.4-1.4-0.8-1.8
+                              c-0.2-0.3-0.5-0.5-0.8-0.7c-0.5-0.3-1.1-0.5-1.9-0.6c-1-0.2-2.3-0.3-4.1-0.3l-3.1,0c-4.9,0-8.2-0.1-10.5-0.1c0,0-3.9-0.2-4.2-0.2
+                              l-8.8,0c-2.6,0-5.2,0-7.6,0.1C7.6,3.9,6.2,4.3,5.1,5.1C4.3,5.7,3.7,6.5,3.3,7.8c-0.2,0.7-0.4,1.6-0.5,2.6
+                              c-0.1,1.3-0.1,2.7-0.1,4.2v9l0.6,0c5,0.2,8.8,0.2,12.8,0.2h0.4l0.2-0.4c0.5-1.1,1.2-2.2,2-3C20.8,18.2,23.9,16.9,27.5,16.9
+                              L27.5,16.9z" />
+                                    </g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 2;" d="M27.8,36.3c-1.2,0-2.4-0.3-3.5-0.9c-0.8-0.5-2-1.3-2.7-2.8c-0.4-0.9-0.7-1.9-0.7-3c0-2.1,0.6-4,1.8-5.3
+                              c1.2-1.3,2.9-2,4.9-2c1.3,0,2.5,0.2,3.4,0.6c0.9,0.4,1.6,1,2.2,1.7c1.3,1.6,1.6,3.5,1.6,4.8c0,1.8-0.7,3.4-1.9,4.7
+                              C31.7,35.6,29.9,36.3,27.8,36.3L27.8,36.3z M27.6,23.9c-1.6,0-2.8,0.5-3.8,1.5c-0.9,1-1.4,2.5-1.4,4.2c0,0.9,0.2,1.6,0.5,2.3
+                              c0.3,0.6,0.7,1.1,1.3,1.6c0.9,0.8,2.3,1.2,3.5,1.2c1.7,0,3.1-0.5,4.1-1.6c0.9-0.9,1.4-2.2,1.4-3.5c0-1.2-0.2-2.2-0.7-3.1
+                              c-0.5-1-1.2-1.7-2.2-2.1C29.6,24.1,28.7,23.9,27.6,23.9L27.6,23.9z" />
+                                    </g>
+                                    <g>
+                                        <path class="st0" style="stroke-width: 2;" d="M38.1,17.3c-0.4,0-0.8-0.3-0.8-0.7L37.1,9l0.1-0.4l0.4-0.3c2.6,0,6.3-0.2,8-0.3l0.9,0c0.2,0,0.4,0.1,0.6,0.2
+                              c0.2,0.1,0.2,0.4,0.2,0.6v7.8c0,0.4-0.3,0.8-0.8,0.8L38.1,17.3z M45,9.6c-1.5,0.1-3.8,0.1-5.7,0.2l-0.7,0l0.2,6l6.8,0V9.5L45,9.6z
+                              " />
+                                    </g>
+                                </g>
+                            </svg>
+                            <svg class="instagram-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-5 1 54.5 55" style="enable-background:new -5 1 54.5 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <g>
+                                    <path class="st0" d="M31.7,27c-0.2-0.6-0.4-1-0.6-1.4c-0.9-1.8-2.2-3-3.9-3.8c-1.3-0.6-2.9-0.9-4.7-0.9l-0.2-0.2l0.1,0.2
+                           c-2.8,0-5,0.9-6.6,2.7c-1.6,1.8-2.5,4.3-2.5,7.3c0,1.5,0.3,2.8,0.9,4c0.5,1.1,1.3,2,2.2,2.8c1.7,1.4,4,2.2,6.2,2.2
+                           c2.9,0,5.4-1,7.2-2.8c1.6-1.6,2.5-3.9,2.5-6.2C32.3,29.5,32.1,28.2,31.7,27z M27.9,35.3c-1.3,1.3-3.1,2-5.2,2h0
+                           c-1.2,0-2.4-0.3-3.4-0.9c-0.8-0.5-2-1.3-2.7-2.8c-0.4-0.9-0.7-1.9-0.7-2.9c0-2.1,0.6-3.9,1.8-5.2c1.2-1.3,2.9-2,4.8-2
+                           c1.3,0,2.4,0.2,3.4,0.6c0.9,0.4,1.6,1,2.2,1.7c1.3,1.6,1.6,3.5,1.6,4.8C29.7,32.5,29.1,34.1,27.9,35.3z" />
+                                    <path class="st0" d="M25.3,25.6c-0.8-0.3-1.7-0.5-2.7-0.5h0c-1.6,0-2.8,0.5-3.8,1.5c-0.9,1-1.4,2.5-1.4,4.2c0,0.8,0.2,1.6,0.5,2.3
+                           c0.3,0.6,0.7,1.1,1.3,1.6c0.9,0.8,2.3,1.2,3.5,1.2c1.7,0,3.1-0.5,4.1-1.6c0.9-0.9,1.4-2.2,1.4-3.5c0-1.1-0.2-2.2-0.7-3.1
+                           C27,26.7,26.3,26,25.3,25.6z" />
+                                    <path class="st0" d="M33.7,31c0,2.7-1,5.2-2.9,7.1c-2,2.1-4.9,3.2-8.2,3.2c-2.5,0-5.1-0.9-7.1-2.5c-1.1-0.9-2-2-2.6-3.2
+                           c-0.7-1.4-1-2.9-1-4.6c0-1.6,0.2-3.1,0.7-4.4H-3.9v14l0,3.5c0,1.4,0,2.9,0.2,4.4c0.2,1.2,0.4,2.6,1.1,3.8c0.5,0.8,1,1.4,1.7,1.9
+                           C0,55,1,55.4,2.3,55.7C3.6,56,4.9,56,5.8,56c0.7,0,3-0.1,3.8-0.1c0.1,0,3.1,0,3.1,0c3.4,0,7.5-0.1,11.7-0.1
+                           c4.7-0.1,9.7-0.1,14.4-0.1c2.2,0,3.7-0.2,4.9-0.5c1-0.3,1.8-0.7,2.4-1.2c0.5-0.4,0.8-0.9,1.1-1.5c0.4-0.8,0.6-1.7,0.8-2.9
+                           c0.2-1.2,0.2-2.4,0.3-3.9c0-0.5-0.2-13.3-0.3-18.9H33C33.4,28,33.7,29.5,33.7,31z" />
+                                    <path class="st0" d="M34.2,10.9l-0.7,0l0.2,6l6.8,0v-6.2l-0.7,0C38.5,10.8,36.2,10.9,34.2,10.9z" />
+                                    <path class="st0" d="M48.1,24c-0.1-5.4-0.2-10.1-0.2-11.6l0-0.6c0-1.7-0.1-2.9-0.4-3.9c-0.2-0.8-0.6-1.5-1-2.1
+                           c-0.4-0.4-0.8-0.8-1.3-1.1c-0.7-0.4-1.6-0.7-2.8-0.8c-1.1-0.2-2.3-0.2-4.1-0.2l-2.8,0c-4.9,0-8.2-0.1-10.4-0.1l-2.4-0.1
+                           c-0.8,0-1.4-0.1-1.9-0.1l-8.7,0c-2.6,0-5.2,0-7.7,0.2C2.4,3.6,0.9,4-0.3,4.7c-0.9,0.5-1.6,1.2-2.1,2C-3.1,7.9-3.5,9.2-3.7,11
+                           c-0.2,1.5-0.2,3.1-0.2,4.9v9.2h17.1c0.4-0.9,0.9-1.7,1.6-2.4c1.9-2,4.4-3.1,7.6-3.1l-0.1-0.2l0.2,0.2c2,0,3.8,0.3,5.3,1
+                           c2,0.9,3.5,2.3,4.5,4.3c0,0,0,0.1,0.1,0.1h15.7C48.1,24.4,48.1,24,48.1,24z M42.1,17.7c0,0.4-0.3,0.8-0.8,0.8l-8.4,0
+                           c-0.4,0-0.8-0.3-0.8-0.7L32,10.2l0.1-0.4l0.4-0.3c2.5,0,6.3-0.2,7.9-0.3l0.9,0c0.2,0,0.4,0.1,0.6,0.2c0.2,0.1,0.2,0.4,0.2,0.6V17.7
+                           z" />
+                                    <path class="st0" d="M34.2,10.9l-0.7,0l0.2,6l6.8,0v-6.2l-0.7,0C38.5,10.8,36.2,10.9,34.2,10.9z" />
+                                </g>
+                            </svg>
+                        </a>
+                        <a class=" pinterest-icon " href="https://www.pinterest.com/ShopBachmans/" target="_blank">
+                            <svg class="pinterest-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 57.2 55" style="enable-background:new 0 0 57.2 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: none;
+                                    stroke: #FFFFFF;
+                                    stroke-width: 0.5;
+                                    stroke-miterlimit: 10;
+                                }
+                                </style>
+                                <g>
+                                    <path class="st1" style="stroke-width: 3;" d="M18.1,52.2C8.8,48,2.2,38.7,2.2,27.8c0-14.7,11.9-26.6,26.5-26.6s26.5,11.9,26.5,26.6S43.4,54.4,28.8,54.4
+                           c-2.6,0-5.1-0.4-7.5-1.1L18.1,52.2z M21.2,53.3l5.5-28.6c0,0-2.7,8.2-0.8,13.2l0.3,1.1c0.8,1.5,3.1,2.8,5.5,2.8
+                           c7.3,0,12.2-6.6,12.2-15.5c0-6.7-5.7-13-14.3-13c-10.7,0-16.1,7.7-16.1,14.1c0,3.9,1.5,7.4,4.6,8.7" />
+                                </g>
+                            </svg>
+                            <svg class="pinterest-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-3 1 57.2 55" style="enable-background:new -3 1 57.2 55;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <path class="st0" d="M25.7,2.4c-14.8,0-26.8,12-26.8,26.8c0,11,6.6,20.4,16.1,24.6l2.4,0.8l4.1-21.2c0.3-3.9,1.4-7.4,1.5-7.6
+                        l1.6,0.4L23,33.5c-0.1,1.9,0,3.9,0.6,5.6l0.3,1.2c0.5,1,2.5,2.3,4.8,2.3c6.8,0,11.5-6.1,11.5-14.8c0-6-5.1-12.2-13.6-12.2
+                        c-10.7,0-15.4,7.9-15.4,13.4c0,3.9,1.6,6.9,4.2,8l-0.6,1.5c-3.2-1.3-5.2-4.9-5.2-9.5c0-7.4,6.4-15.1,17.1-15.1
+                        c9.6,0,15.3,7.1,15.3,13.9c0,9.5-5.5,16.5-13.1,16.5c-2.6,0-5.3-1.4-6.3-3.3L22,39.6c0-0.1-0.1-0.3-0.1-0.4l-3,15.8L18,54.9
+                        c2.4,0.7,5,1.1,7.6,1.1c14.8,0,26.8-12,26.8-26.8C52.5,14.4,40.5,2.4,25.7,2.4z" />
+                            </svg>
+                        </a>
+                        <a class=" print-icon " href="" target="_blank">
+                            <svg class="print-icon-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-707 433.2 113.1 110.3" style="enable-background:new -707 433.2 113.1 110.3;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: none;
+                                    stroke: #FFFFFF;
+                                    stroke-width: 0.5;
+                                    stroke-miterlimit: 10;
+                                }
+                                </style>
+                                <g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 3;" d="M-616.4,475.6h-68.2c-5.4,0-9.7,4.3-9.7,9.7v20.8c0,5.4,4.3,9.7,9.7,9.7h11.9v-3.5h-11.9c-3.5,0-6.2-2.8-6.2-6.2v-20.8
+                              c0-3.5,2.8-6.2,6.2-6.2h68.2c3.5,0,6.2,2.8,6.2,6.2v20.8c0,3.5-2.8,6.2-6.2,6.2h-11.1v3.5h11.1c5.4,0,9.7-4.3,9.7-9.7v-20.8
+                              C-606.5,479.9-611,475.6-616.4,475.6z" />
+                                    </g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 3;" d="M-624,479.1h-52.1v-35.7h52.1V479.1z M-672.7,475.6h45.2v-28.7h-45.2V475.6z" />
+                                    </g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 3;" d="M-676.1,497.7v35.7h52.1v-35.7H-676.1z M-627.5,529.9h-45.2v-28.7h45.2V529.9z" />
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <rect x="-666.3" y="507.1" width="33.1" height="2.6" />
+                                        </g>
+                                        <g>
+                                            <rect x="-666.3" y="514.5" width="33.1" height="2.6" />
+                                        </g>
+                                        <g>
+                                            <rect x="-666.3" y="521.8" width="16.6" height="2.6" />
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <svg class="print-icon-svg-hover" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-707 433.2 113.1 110.3" style="enable-background:new -707 433.2 113.1 110.3;" xml:space="preserve">
+                                <style type="text/css">
+                                .st0 {
+                                    fill: #FFFFFF;
+                                }
+                                </style>
+                                <g>
+                                    <g>
+                                        <path class="st0" d="M-616.4,475.6h-68.2c-5.4,0-9.7,4.3-9.7,9.7v20.8c0,5.4,4.3,9.7,9.7,9.7h11.9v-3.5h-11.9c-3.5,0-6.2-2.8-6.2-6.2v-20.8
+                              c0-3.5,2.8-6.2,6.2-6.2h68.2c3.5,0,6.2,2.8,6.2,6.2v20.8c0,3.5-2.8,6.2-6.2,6.2h-11.1v3.5h11.1c5.4,0,9.7-4.3,9.7-9.7v-20.8
+                              C-606.5,479.9-611,475.6-616.4,475.6z" />
+                                    </g>
+                                    <g>
+                                        <path class="st0" d="M-624,479.1h-52.1v-35.7h52.1V479.1z M-672.7,475.6h45.2v-28.7h-45.2V475.6z" />
+                                    </g>
+                                    <g>
+                                        <path class="st0" d="M-676.1,497.7v35.7h52.1v-35.7H-676.1z M-627.5,529.9h-45.2v-28.7h45.2V529.9z" />
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <rect x="-666.3" y="507.1" width="33.1" height="2.6" />
+                                        </g>
+                                        <g>
+                                            <rect x="-666.3" y="514.5" width="33.1" height="2.6" />
+                                        </g>
+                                        <g>
+                                            <rect x="-666.3" y="521.8" width="16.6" height="2.6" />
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 right">
+                <a class="all-details" href="{{productQuickViewModal.gotoPdp}}" ng-click="cancel();">
+            Show All Details 
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+               <style type="text/css">
+                  .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+               </style>
+               <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+            </svg>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+               <style type="text/css">
+                  .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+               </style>
+               <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+            </svg>
+         </a>
+            </div>
+        </div>
+    </div>
+</div>

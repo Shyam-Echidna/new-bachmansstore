@@ -1,0 +1,417 @@
+.sub-header-style{
+	font:1.188em @proxima-regular;
+	color:#000;
+	font-weight:bold;
+}
+.active-box{
+		background:#fff;
+		box-shadow: 0px 0px 2px 2px #f0f0f0;
+		padding:10px !important;
+	}
+
+	
+				.detail-container{
+					input[type="text"]{
+					    border: 1px solid #e4e4e4;
+						box-shadow: none;
+						-webkit-appearance: none;
+										&::-webkit-input-placeholder {
+										/*font: 16px @proxima-regular;*/
+										font: 1.000em @proxima-regular;
+										color: #000;
+										text-transform: capitalize;
+										border-radius: 2px;
+									}
+									    padding: 0;
+									    padding-left: 10px;
+									    line-height: inherit;
+									    vertical-align: middle;
+
+					}
+					h3{
+						font:2.125em @neutraface-demi;
+						color:@font-purple-dark;
+						padding-bottom:20px;
+					}
+					h5{
+						.sub-header-style;
+					}
+					.radio-btn-container{
+						margin:5px 0px 20px 0px;
+						div{
+							padding:0px;
+							.size-box{
+								text-align:center;
+								padding: 10px;
+								margin-top:6px;
+								label {
+									display: inline-block;
+									cursor: pointer;
+									position: relative;
+									padding-left: 0;
+									width:100%;
+									margin: 0px;
+									font-weight:normal;
+									text-transform: capitalize;
+									h5{
+										text-transform: lowercase;
+										&:first-letter{
+											text-transform: uppercase;
+										}
+									}
+								}
+
+								input[type=radio] {
+									display: none;
+								}
+								input[type=radio]{
+									opacity: 0;
+									&:not(old){
+										&+ label .radioOutline, &:checked + label .radioOutline{
+										    border: 1px solid @base-bg-purple-dark;
+										    border-radius: 50%;
+										    background: transparent;
+											display: inline-block;
+										    width: 18px;
+										    height: 18px;
+											text-align: center;
+										}
+										&:checked + label .radioOutline .radioInside{
+											display: block;
+										    width: 10px;
+										    height: 10px;
+										    border-radius: 50%;
+											display: inline-block;
+										    background-color: @base-bg-purple-dark;
+									        position: absolute;
+										    top: 0;
+										    left: 0;
+										    right: 0;
+										    bottom: 0;
+										    margin: auto;
+										}
+										&+ label .radioOutline .radioInside{
+											display: block;
+										    width: 10px;
+										    height: 10px;
+										    border-radius: 50%;
+											display: inline-block;
+										    background-color: transparent;
+										    position: absolute;
+										    top: 0;
+										    left: 0;
+										    right: 0;
+										    bottom: 0;
+										    margin: auto;
+										}
+									}	
+								}
+								
+							/*label:before {
+								content: "";
+								display: inline-block;
+								width: 17px;
+								height: 17px;
+								margin-right: 10px;
+								position: absolute;
+								left: 0;
+								bottom: 1px;
+								border: 1px solid #ccc;
+								background-color: transparent;
+								border-radius: 10px;
+							}
+						
+							input[type=radio]:checked + label:before {
+								content: "\2022";
+								color: @base-bg-purple-dark;
+								font-size: 44px;
+								text-align: center;
+								line-height: 15px;
+								-webkit-transition:color 0.3s linear;
+								-o-transition:color 0.3s linear;
+								-moz-transition:color 0.3s linear;
+								transition:color 0.3s linear;
+							}*/
+								h5{
+									font:1em @proxima-regular;
+									color:#666;
+									text-transform: capitalize;
+								}
+								p{
+									font:0.875em @proxima-regular;
+									padding-top:8px;
+									.old-price{
+										color:#bebebe;
+										text-decoration: line-through;
+									}
+									.new-price{
+										color:#666;
+										font-weight:bold;
+									}
+								}
+								.active-box{
+									background:#fff;
+									box-shadow: 0px 0px 2px 2px #f0f0f0;
+								}
+							}
+							
+						}
+					}
+					.price-block{
+						margin-top: 20px;
+						ul{
+							li.new-price{
+								font:1.50em @proxima-regular;
+								color:#666;
+								font-weight:bold
+							}
+							li.old-price{
+								font:1.063em @proxima-regular;
+								color:#bebebe;
+								text-decoration: line-through;
+								padding-top:8px;
+							}
+						}
+					}
+					.features-block{
+						margin:25px 0px 60px 30px;
+						ul{
+							li{
+								font:1.125em @neutraface-demi;
+								list-style-type: disc;
+							    list-style-position: outside;
+							    color: #666666;
+							    padding-bottom: 8px;
+							}
+						}
+					}
+					.color-selection{
+						.color-circle{
+							padding-top:10px;
+							margin-bottom:25px;
+							
+						}
+					}
+					.dropdown-box{
+						h5{
+							margin-bottom:15px;
+						}
+						div{
+							padding:0px;
+							div{
+								div{
+									padding:0px;
+								
+									div{
+										button{
+											text-align:left;
+											background-color: #f4f4f4;
+											padding:0px 10px;
+											border: 1px solid #e4e4e4;
+											border-radius: 2px;
+										  
+										    margin-bottom:7px;
+									        // background-image: url('../assets/images/dropdown-black.svg');
+									        background-image: url('../../assets/images/button-down.svg');
+										    background-repeat: no-repeat;
+										    background-position: right center;
+										    background-size: 35px 11px;
+										    height: 45px;
+										    line-height: 1.013em;
+											.category-name{
+												font:0.625em @proxima-regular;
+												color:#333;
+												font-size: 0.7em;
+											}
+											p{
+											font:0.875em @proxima-regular;
+											color:#000;
+											// padding-top:3px;
+											font-weight:bold;
+											margin-top: 5px;
+											}
+											.caret{
+												position: absolute;
+											    top: 50%;
+											    right: 12px;
+											    margin-top: -2px;
+											    vertical-align: middle;
+											    color: #000;
+											}
+											&:active{
+												border: 1px solid #e4e4e4;
+											}
+										}
+										ul{
+											min-width: 100%;
+											border-radius: 0px;
+											padding:5px 10px;
+											margin:0px;
+										    border: 1px solid #e4e4e4;
+										    box-shadow: none;
+												li{
+													border-bottom:1px solid #e5e5e5;
+													padding:5px 0px;
+													div{
+
+														div{
+															&:first-child{
+
+															}
+															&:last-child{
+																padding-left:7px;
+																font:0.875em @proxima-regular;
+																color:#464646;
+																h5{
+																	font-weight:normal;
+																	margin-bottom:0px;
+																}
+																p{
+																	padding-top:10px;
+																}
+															}
+														}
+													}
+													&:last-child{
+														border-bottom:none;
+													}
+												}
+										}
+									}
+									
+								}
+							}
+						}
+						div{
+							.row{
+								div{
+									button:active{
+											background:#f4f4f4;
+										}
+									.open{
+										button{
+											background:#f4f4f4;
+											//background-image: url('../assets/images/dropdownup-black.svg');
+											background-image: url('../../assets/images/button-up.svg');
+										    background-repeat: no-repeat;
+										    background-position: right center;
+										    background-size: 35px 11px;
+										    border: 1px solid #e4e4e4;
+										    
+										}
+										ul{
+											margin-top: -7px;
+										}
+									}
+								}
+							}
+						}
+						
+					}
+
+					.Delivery-info{
+						margin:25px 0px 10px 0px;
+						h5{
+							margin:0px 0px 15px 0px;
+						}
+						div{
+							padding:0px;
+							div{
+							div{
+								
+								&:first-child,&:last-child{
+									input[type="text"],select{
+										background:#f4f4f4;
+										font:1em @proxima-regular;
+										color:#000;
+										border-radius:0px;
+										height: 45px;
+										border-radius: 2px;
+									
+															
+									}
+									}
+									&:last-child{
+										padding-right: 10px;
+									}
+									&:last-child{
+										padding:0px 10px;
+										input[type="text"]{
+											background-image: url('../../assets/images/calender.svg');
+										    background-repeat: no-repeat;
+										    background-position: right center;
+										    background-size: 40px 25px;
+										}
+									    
+										p{
+											font:0.813em @proxima-regular;
+											color:#d80c0c;
+											margin-top:5px;
+											a{
+												color:@font-purple-light;
+												text-decoration: underline;
+												padding-left:7px;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					.cart-block{
+						margin:20px 0px 25px 0px;
+						div:nth-child(1){
+							padding:0px;
+								form{
+									input[type="text"]{
+										background:#f4f4f4;
+										font:1em @proxima-regular;
+										color:#000;
+										border-radius:2px;
+										height: 45px;
+										text-align: center;
+										padding: 0px;
+										&:focus{
+											box-shadow: none;
+											border: 1px solid #e4e4e4;
+										}
+								}
+								div{
+									div{
+										padding-left:15px;
+									}
+								}
+								.form-group{
+									label{
+										line-height: 45px;
+									}
+									&.has-success,&.has-feedback{
+										label{
+											color:#000;
+										}
+									}
+								}
+								}
+						}
+						div.buttons-area{
+							padding:0px 15px 0px 30px;
+							.add-cart-btn{
+								.green-button;
+								font-weight: bold;
+								font-size: 0.875em;
+							}
+							.add-list-link{
+								background:none;
+								border:none;
+								text-align: left;
+								font-size: 0.75em;
+							}
+							button{
+								border-radius:0px;
+								height:45px;
+								font: 1em @proxima-bold;
+							}
+						}
+					}
+				}
+			

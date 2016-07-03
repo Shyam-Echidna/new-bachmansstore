@@ -1,0 +1,65 @@
+<div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
+
+	<div class="container-fluid p0 purple">
+		<div class="breadcrumb-box">
+			<ul class="breadcrumb">
+				<li><a href="index.html">HOME</a> </li>
+				<li class="text-ellipsis">CARE, ADVICE & INFORMATION</li>
+				<li>CARE GUIDES & INFORMATION</li>
+
+			</ul>
+
+		</div>
+		<div class="banner-img">
+			<img src="assets/images/08_Care_Advice_Information_Landing_banner.png" class="hidden-xs hidden-sm">
+			<img src="assets/images/mobile-08_Care_Advice_Information_Landing_banner.png" class="hidden-md hidden-lg">
+			<div class="banner-title">
+				<h4>Care & Information Guides</h4>
+				<h5>Florem ipsum lily of the valley</h5>
+			</div>
+		</div>
+	</div>
+
+	<div class="container careadvice-container">
+
+
+		<!-- Sidebar -->
+		<div class=" col-xs-12 col-sm-12 col-md-3 col-lg-3 hidden-xs hidden-sm" id=" sidebar-wrapper">
+            <div class="receipient-details hidden-xs hidden-sm">
+
+                <div class="first-head">
+                    Care, Advice & Information
+                </div>
+                <uib-accordion close-others="oneAtATime">
+                    <uib-accordion-group ng-init="status.open = true" is-open="status.open" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !=''">
+                        <uib-accordion-heading>
+                            <svg class="close" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
+                                 height="24" viewBox="0 0 24 24">
+                                <g>
+                                    <rect x="10" width="4" height="24"/>
+                                    <rect y="10" width="24" height="4"/>
+                                </g>
+
+
+                            </svg>
+                            <svg class="open" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
+                                 height="92" viewBox="0 0 92 92">
+                                <rect y="10" width="50" height="8"/>
+                            </svg>
+                            {{folder.title}}
+                        </uib-accordion-heading>
+                        <div class="receipient-drpDown">
+                            <ul>
+                                <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''"><a ng-click="staticPageBase.getThingsFromALfresco(folder.fileName,subFolder.fileName)" >{{subFolder.title}}</a></li>
+                            </ul>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+                </div>
+</div>
+		<!-- /#sidebar-wrapper -->
+<div ng-include="staticPageBase.staticTempright"></div>
+	</div>
+</div>

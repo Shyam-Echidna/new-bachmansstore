@@ -1,0 +1,684 @@
+<div class="container-fluid plp-page" id="plpPage">
+	<div class="row plpBannerPlusHybrid">
+      <!-- <div class="breadcrumb-box hidden-lg hidden-md">
+         <ul class="breadcrumb">
+            <li><a href="index.html">HOME</a> </li>
+            <li>PERENNIALS</li>
+            <li>GARDEN PERENNIALS</li>
+         </ul>
+      </div> -->
+      <div class="plp-banner">
+         <div class="visible-xs visible-sm hidden-md hidden-lg pad-top" ></div>
+         <div class="owl-carousel owl-loaded owl-drag" id="plp-carousel-banner">
+            <div class="owl-carousel-item">
+               <img src="{{plp.plpBannerImg}}">
+               <div class="promo-banner-txt">
+                  <!-- <h4 class="">Roses</h4> -->
+                  <h4 class="">{{plp.plpBannerTitle}}</h4>
+               </div>
+            </div>
+         </div>
+      </div>
+       <div class="category-pdt-carousel plp-hybrid-slider">
+         <div class="owl-carousel owl-theme" id="owl-carousel-plp-hybrid">
+            <div class="owl-carousel-item" ng-repeat="hybridBanner in plp.hybridBanners">
+               <div class="category-prod">
+                  <img class="" src="{{hybridBanner.contentUrl}}" />
+                  <button class="promo-button">{{hybridBanner.description}}</button>
+               </div>
+               <div class="category-prod-desc">
+                  <div class="">
+                     <div class="category-prod-desc-web"><p>{{hybridBanner.title}}</p></div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div>
+<div class="row selected-list hidden-xs hidden-sm target">
+      <div class="col-sm-9 col-md-10 col-lg-10 left-part"> 
+         <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-2">
+               <h4>Your Selections</h4>
+            </div>
+            <div class="col-sm-6 col-md-9 col-lg-10 list-items">
+               <span class="col-xs-1 col-sm-1 fl catLeftArrow" ng-click="plp.shiftSelectedCategoryLeft()">
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                     <style type="text/css">
+                        .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                     </style>
+                     <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                  </svg>
+               </span>		
+               <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 owl-carousel " id="owl-carousel-selected-cat">
+                  <div class="owl-carousel-item " ng-repeat="selectedFacet in plp.selection" style="display:inline-block">
+                     <p>
+                        <span>{{selectedFacet}}</span>
+                        <svg version="1.1" ng-click="plp.togglFaceteSelection(selectedFacet,true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
+                           <g>
+                              <g>
+                                 <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
+                              </g>
+                              <g>
+                                 <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
+                              </g>
+                           </g>
+                        </svg>
+                     </p>
+                  </div>
+                  <!-- <div class="owl-carousel-item">
+                     <p>
+                     	<span>$80.00-$280.00 </span>
+                     	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
+                     </p>
+                     </div>
+                     <div class="owl-carousel-item">
+                     <p>
+                     	<span>$80.00-$280.00 </span>
+                     	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
+                     </p>
+                     </div> -->
+                  <!-- <div class="owl-carousel-item last-selected-item">
+                     <p>
+                     	<span>last-item</span>
+                     	</p>
+                     </div> -->
+               </div>
+               <div class="col-sm-2 col-md-2 col-lg-2 clear-button-block"  ng-if="plp.selection.length > 0">
+                  <button class="clearAll"  ng-click="plp.clearSelection()">Clear All</button>
+               </div>
+               <span ng-if="plp.selection.length > 4" class="col-xs-1 col-sm-1 fl catRightArrow" ng-click="plp.shiftSelectedCategoryRight()">
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                     <style type="text/css">
+                        .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                     </style>
+                     <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                  </svg>
+               </span>
+            </div>
+<!--             <div class="col-sm-2 col-md-2 col-lg-2 clear-button-block"  ng-if="plp.selection.length > 0">
+               <button class="clearAll"  ng-click="plp.clearSelection()">Clear All</button>
+            </div> -->
+         </div>
+      </div>
+      <div class="col-sm-3 col-md-2 right-part " style="float:right">
+         <!-- <h4>SORT BY<span>+</span></h4> -->
+         <span class="col-lg-12 col-md-12 col-sm-12" uib-dropdown >
+            <a href id="sort-dropdown" uib-dropdown-toggle>
+            SORT BY
+            </a>
+            <p class="sort-active-show">{{plp.selectedItem}}</p>
+            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="sort-dropdown">
+               <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
+                  <a data-value="{{item.value}}" href="">{{item.label}}</a>
+               </li>
+            </ul>
+         </span>
+      </div>
+   </div>
+   <div class="row selected-list hidden-xs hidden-sm fixThisBar">
+      <div class="col-sm-9 col-md-10 col-lg-10 left-part">
+         <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-2">
+               <h4>Your Selections</h4>
+            </div>
+            <div class="col-sm-6 col-md-7 col-lg-8 list-items">
+              <!--  <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 catLeftArrow" ng-click="plp.shiftSelectedCategoryLeft()"></span>   -->  
+               <div class="col-xs-10 col-sm-10 col-md-12 col-lg-12 owl-carousel " id="owl-carousel-selected-cat">
+                  <div class="owl-carousel-item" ng-repeat="selectedFacet in plp.selection" style="display:inline-block">
+                     <p>
+                        <span>{{selectedFacet}}</span>
+                        <svg version="1.1" ng-click="plp.togglFaceteSelection(selectedFacet,true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
+                           <g>
+                              <g>
+                                 <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
+                              </g>
+                              <g>
+                                 <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
+                              </g>
+                           </g>
+                        </svg>
+                     </p>
+                  </div>
+               </div>
+              <!--  <span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 catRightArrow" ng-click="plp.shiftSelectedCategoryRight()"></span> -->
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2 clear-button-block"  ng-if="plp.selection.length > 0">
+               <button class="clearAll"  ng-click="plp.clearSelection()">Clear All</button>
+            </div>
+         </div>
+      </div>
+      <div class="col-sm-3 col-md-2 right-part " style="float:right">
+         <span class="col-lg-12 col-md-12 col-sm-12" uib-dropdown >
+            <a href id="sort-dropdown" uib-dropdown-toggle>
+            SORT BY
+            </a>
+            <p class="sort-active-show">{{plp.selectedItem}}</p>
+            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="sort-dropdown">
+               <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
+                  <a data-value="{{item.value}}" href="">{{item.label}}</a>
+               </li>
+            </ul>
+         </span>
+      </div>
+   </div>
+<div class="row visible-xs visible-sm xs-filter">
+	<div class="col-xs-6">
+		<div class="btn-group btn-block dropdown" uib-dropdown="" is-open="status.isopen" style="">
+                                  <button id="sort-by-filter" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                   
+                                    <span class="category-name">SORT BY</span>
+                                    <!-- <p class="sort-active-show">{{plp.selectedItem}}</p> -->
+                                
+                                  </button>
+                                  <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="sort-by-filter">
+                                    <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
+                                       <a data-value="{{item.value}}" href="">{{item.label}}</a>
+                                    </li>
+                                  </ul>
+                            </div>
+	</div>
+	<div class="col-xs-6">
+		<button class="filter-button btn-block" ng-click="plp.filterBtnModal()">FILTER 
+			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;position: absolute;height: 13px;width: 13px;right: 10px;top: 10px;" xml:space="preserve">
+						<style type="text/css">
+								.st0 {
+									fill: #fff;
+								}
+
+							</style>
+							<g>
+								<rect x="11" class="st0" width="3" height="25"></rect>
+								<rect y="11" class="st0" width="25" height="3"></rect>
+							</g>
+						</svg>
+		</button>
+	</div>
+</div>
+<!-- <article class="container-fluid">
+	<header class="jumbotron text-center">
+		<h2>PLP</h2>
+		<div ng-repeat=" plp in plp.productList track by $index">
+		<a ui-sref="base.pdp({productId:plp.ID})">
+
+		<p>{{plp.Name}}</p>
+		<img id="shyam" src= "{{plp.imgContent.contentUrl}}"
+		</a>
+		<div ng-repeat="pricelist in plp.StandardPriceSchedule.PriceBreaks">
+	
+		<p>{{pricelist.Price | currency}}</p>
+		</div>
+		</div>
+	</header>
+</article> -->
+
+<div class="row main-layout">
+	<div class="col-sm-4 col-md-3 col-lg-3 filter-block hidden-xs hidden-sm">
+         <h2>Refine</h2>
+         <uib-accordion close-others="oneAtATime">
+            <uib-accordion-group ng-init="status.open1 = true" is-open="status.open1">
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Category
+               </uib-accordion-heading>
+               <div class="">
+                  <ul>
+                     <li>
+                        <div class="Checkbox">
+                           <input  id="radio1" ng-model="plp.facetName.Annuals" type="checkbox" ng-checked="plp.selection.indexOf('Annuals') > -1" ng-click="plp.togglFaceteSelection('Annuals',false)"  >
+                           <div  class="Checkbox-visible"></div>
+                        </div>
+                        <label for="radio1">Annuals<label>(<span>2456</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input id="radio2" ng-model="plp.facetName.Perennials" type="checkbox"  ng-checked="plp.selection.indexOf('Anuals') > -1" ng-click="plp.togglFaceteSelection('Perennials',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="radio2">Perennials<label>(<span>656</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input  id="radio3" ng-model="plp.facetName.Vines" type="checkbox" ng-checked="plp.selection.indexOf('Vines',false) > -1" ng-click="plp.togglFaceteSelection('Vines',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="radio3">Vines<label>(<span>4356</span>)</label></label>
+                     </li>
+                  </ul>
+                  <a href="" class="view-more-link">View more</a>
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group ng-init="status.open2 = true" is-open="status.open2">
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Type
+               </uib-accordion-heading>
+               <div class="">
+                  <ul>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-model="plp.facetName.GardenPerennials" id="GardenPerennials" ng-checked="plp.selection.indexOf('GardenPerennials') > -1" ng-click="plp.togglFaceteSelection('GardenPerennials',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="GardenPerennials">GardenPerennials<label>(<span>6533</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox" >
+                           <input type="checkbox" id="Vines1" ng-model="plp.facetName.Vines1" ng-checked="selection.indexOf('Vines1') > -1" ng-click="plp.togglFaceteSelection('Vines1',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="Vines1">Vines1<label>(<span>944</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox" id="GroundCovers" ng-model="plp.facetName.GroundCovers"  ng-checked="selection.indexOf('GroundCovers') > -1" ng-click="plp.togglFaceteSelection('GroundCovers',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="GroundCovers">GroundCovers<label>(<span>1668</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  id="Natives" ng-model="plp.facetName.Natives" ng-checked="selection.indexOf('Natives') > -1" ng-click="plp.togglFaceteSelection('Natives',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="Natives">Natives<label>(<span>854</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox" id="Waterplants" ng-model="plp.facetName.Waterplants" ng-checked="selection.indexOf('Waterplants') > -1" ng-click="plp.togglFaceteSelection('Waterplants',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="Waterplants">Waterplants<label>(<span>5784</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox" id="Others" ng-model="plp.facetName.Others" ng-checked="selection.indexOf('Others') > -1" ng-click="plp.togglFaceteSelection('Others',false)" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label for="Others">Others<label>(<span>12356</span>)</label></label>
+                     </li>
+                  </ul>
+                  <!-- <a href="" class="view-more-link">View more</a> -->
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group ng-init="status.open3 = true" is-open="status.open3">
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Plant
+               </uib-accordion-heading>
+               <div class="">
+                  <ul>
+                     <li>
+                        <div class="Checkbox" >
+                           <input type="checkbox"  ng-checked="selection.indexOf('Achillea') > -1" ng-click="plp.toggleSelection('Achillea')"  checked="checked">
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Achillea<label>(<span>8493</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-checked="selection.indexOf('Aquilegia') > -1" ng-click="plp.toggleSelection('Aquilegia')" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Aquilegia<label>(<span>1485</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-checked="selection.indexOf('Aster') > -1" ng-click="plp.toggleSelection('Aster')" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Aster<label>(<span>4233</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-checked="selection.indexOf('Astilbe') > -1" ng-click="plp.toggleSelection('Astilbe')" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Astilbe<label>(<span>3385</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-checked="selection.indexOf('Campanula') > -1" ng-click="plp.toggleSelection('Campanula')" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Campanula<label>(<span>6374</span>)</label></label>
+                     </li>
+                     <li>
+                        <div class="Checkbox">
+                           <input type="checkbox"  ng-checked="selection.indexOf('Coreopsis') > -1" ng-click="plp.toggleSelection('Coreopsis')" >
+                           <div class="Checkbox-visible"></div>
+                        </div>
+                        <label>Coreopsis<label>(<span>1543</span>)</label></label>
+                     </li>
+                  </ul>
+                 <!--  <a href="" class="view-more-link">View more</a> -->
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group ng-init="status.open4 = true" is-open="status.open4">
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Price
+               </uib-accordion-heading>
+               <div class="price-slider">
+                  <!-- <input id="price-slider" type ="range" min ="20.99" max="319.00" step ="1"/> -->
+                  <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p>	
+                  <p class="price-bar"></p>	
+                  <input type="hidden" class="slider-input range-slider slider" value="23" />
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group ng-init="status.open5 = true" is-open="status.open5">
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Color
+               </uib-accordion-heading>
+               <div class="color-selection-panel">
+               
+               <p >
+                  <span class=" " style="background-color:#f5977d"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#c5de9e"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#fcc58e"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#fff69f"></span>
+               </p>  
+               <p>
+                  <span class=" " style="background-color:#a4d29e"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#72d0f4"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#488dc8"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#8562a7"></span>
+               </p>  
+               <p>
+                  <span class=" " style="background-color:#84c99e"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#72d0f4"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#FC5F2F"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#7dccc7"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#AB5B6E"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#84c99e"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#f5977d"></span>
+               </p>
+               <p>
+                  <span class=" " style="background-color:#B60103"></span>
+               </p>        
+               
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group>
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Florem Ipsum
+               </uib-accordion-heading>
+               <div class="">
+                  Florem Ipsum	
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group>
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Calalilly Florem
+               </uib-accordion-heading>
+               <div class="">
+                  Calalilly Florem	
+               </div>
+            </uib-accordion-group>
+            <uib-accordion-group>
+               <uib-accordion-heading>
+                  <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                     <g>
+                        <rect x="12" class="" width="3" height="27"></rect>
+                        <rect y="12" class="" width="27" height="3"></rect>
+                     </g>
+                  </svg>
+                  <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                     <rect y="10"  width="50" height="4"/>
+                  </svg>
+                  Ipsum Florem
+               </uib-accordion-heading>
+               <div class="">
+                  Ipsum Florem	
+               </div>
+            </uib-accordion-group>
+         </uib-accordion>
+         <div class="side-promo col-md-11">
+            <div class="row side-ban-1">
+               <!-- <img src="{{plp.needHelp}}}"> -->
+               <!-- <img src="assets/images/Batch_2_Web_Images/04Bachmans_PLP/x.jpg"> -->
+               <span ng-include="plp.plp_promo_svgDesign"></span>
+               <div class="desc-text">
+                  <!-- <h3>NEED SOME HELP?</h3>
+                  <p>Find Care, Advice & Information <br> from Bachman's Experts</p> -->
+                  <h3>{{plp.needHelpTitle}}</h3>
+                  <p>{{plp.needHelpDescription}}</p>
+               </div>
+            </div>
+            <div class="row side-ban-2">
+               <img src="{{plp.leftPromo}}">
+               <!-- <img src="assets/images/Batch_2_Web_Images/04Bachmans_PLP/y.jpg"> -->
+              <!--  <div class="desc-text">
+                  <button>SHOP VALENTINE'S FLOWERS</button>
+               </div> -->
+            </div>
+            <div class="row side-ban-3">
+               <!-- <img src="assets/images/Batch_2_Web_Images/04Bachmans_PLP/w.png"> -->
+               <?xml version="1.0" encoding="utf-8"?>
+               <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+               <div class="desc-text">
+                  <span ng-include="plp.giftCard"></span>
+                  <div class="desc-text-right">
+                     <!-- <h5>Make Someone's Day</h5>
+                     <p>BUY A GIFT CARD</p> -->
+                     <h5>{{plp.giftCardTitle}}</h5>
+                     <p>{{plp.giftCardDescription}}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block">
+
+		
+  
+
+   <div class="feature-products">
+      
+   <div class="row">
+      <div class="owl-carousel" id="owl-carousel-feature-products">
+         <div ng-repeat="groupedProducts in plp.productList track by $index">
+            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false">
+               <div class="product-box">
+                  <div id="feature-label" class="feature-label">
+                     <div class="ribbon-wrapper">
+                        <div class="ribbon-front">
+                           <p>Featured</p>
+                        </div>
+                     
+                     </div>
+                  </div>
+                  <div ng-repeat="prod in groupedProducts  track by $index">
+                       <!-- <div ui-sref="pdp({sequence:prod.xp.SequenceNumber, prodId:prod.ID})" ng-click="detailsPage(prod.xp.SequenceNumber, prod.ID);" ng-if="prod.xp.IsDefaultProduct == 'true'" class="prodImagewrap"> -->
+                       <div ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                           <img  ng-src= "{{prod.imgContent[0].contentUrl}}"/>
+                           <div class="price-box">
+                              <p class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
+                             
+                              <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                       </div>
+                    </div>
+                <!--   <prod-colors product="groupedProducts"></prod-colors> -->
+                 <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
+                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
+                        </p>
+                   </div>
+                    
+                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+                     <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                              <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
+                           </div>
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+      </div>  
+   </div>
+       <div class="row feature-product-text">
+       <h3>FEATURED PRODUCTS</h3>
+      </div>  
+   </div>
+   <div class="row sorted-products">
+            <div ng-repeat="groupedProducts in plp.productList">
+               <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
+                  <div class="product-box">
+                     <div id="new-label" class="new-label">
+                        <div class="ribbon-wrapper">
+                           <div class="ribbon-front">
+                              <p>New</p>
+                           </div> 
+                        </div>
+                     </div>
+                    <div ng-repeat="prod in groupedProducts  track by $index">
+                       <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                           <img  ng-src= "{{prod.imgContent[0].contentUrl}}"/>
+                           <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box">
+                              <p class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
+                              <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                       </div>
+                    </div>
+                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
+                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
+                        </p>
+                   </div>
+                   
+                   <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view>
+                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                              <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
+                           </div>
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                           </div>
+                        </div>
+                    </div>
+                  </div>
+               </div> 
+         </div>
+         </div>
+	      <div class="row pagination-block">
+             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10">
+               <pagination total-items="plp.totalItems" ng-model="plp.currentPage" ng-change="plp.pageChanged()" class="pagination-sm" items-per-page="plp.itemsPerPage" max-size="plp.maxSize" boundary-link-numbers="true"  next-text="Next" previous-text="Previous" ></pagination>
+            </div>
+            <!-- <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+               <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                     <label for="inputType" class="col-xs-6 col-sm-6 col-md-6 control-label">Items</label>
+                     <div class="col-xs-6 col-sm-6 col-md-6 select-option-block">
+                        <select ng-model="selectedOption" ng-change="plp.setItemsPerPage(selectedOption)" ng-init="selectedOption='9'">
+                           <option>3</option>
+                           <option value="9">9</option>
+                           <option>15</option>
+                           <option>20</option>
+                        </select>
+                     </div>
+                  </div>
+               </form>
+            </div> -->
+           
+         </div>
+
+		
+	</div>
+</div>
+
+</div>
+
+

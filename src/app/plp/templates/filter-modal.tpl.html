@@ -1,0 +1,386 @@
+<div class="container-fluid filter-modal" >
+	<div class="scroll-content" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
+	<div class="row">
+	<p class="close-icon" ng-click="cancel()"><a>
+		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                  <g>
+                     <g>
+                        <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
+                     </g>
+                     <g>
+                        <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
+                     </g>
+                  </g>
+               </svg>
+	</a>
+
+    </p>
+</div>
+    <div class="row head-text">
+	<div class="col-xs-6 col-sm-6">
+		<h3>Filter</h3>
+	</div>
+	<div class="col-xs-6 col-sm-6">
+		<button class="clearAll" ng-click="filterBtn.clearSelection()">Clear All</button>
+	</div>
+    </div>
+    <div class="row filter-selections">
+
+    	<div class="" id="owl-carousel-selected-cat-mobile">
+			<div class="owl-carousel-item" ng-repeat="selectedFacet in filterBtn.selection" >
+                <p class="selection-name">{{selectedFacet}}</p>
+                <svg version="1.1" ng-click="filterBtn.togglFaceteSelection(selectedFacet,true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
+                   <g>
+                      <g>
+                         <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
+                      </g>
+                      <g>
+                         <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
+                      </g>
+                   </g>
+                </svg>
+            </div>
+		</div>
+    </div>
+
+    <div class="row filter-section-mobile">
+    	<uib-accordion close-others="oneAtATime">
+				<uib-accordion-group ng-init="status.open1 = true" is-open="status.open1">
+					<uib-accordion-heading>
+					<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Category
+					</uib-accordion-heading>
+					<div class="">
+						<ul>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input  id="radio1" ng-model="filterBtn.facetName.Annuals" type="checkbox" ng-checked="selection.indexOf('Annuals') > -1" ng-click="filterBtn.togglFaceteSelection('Annuals',false)"  >
+		                           <div  class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="radio1"><p>Annuals<label>(<span>2456</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input id="radio2" ng-model="filterBtn.facetName.Perennials" type="checkbox"  ng-checked="selection.indexOf('Anuals') > -1" ng-click="filterBtn.togglFaceteSelection('Perennials',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="radio2"><p>Perennials<label>(<span>656</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input  id="radio3" ng-model="filterBtn.facetName.Vines" type="checkbox" ng-checked="selection.indexOf('Vines',false) > -1" ng-click="filterBtn.togglFaceteSelection('Vines',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="radio3"><p>Vines<label>(<span>4356</span>)</label></p></label>
+		                     </li>
+		                 </ul>
+                  		<a href="" class="view-more-link">View more</a>
+					</div>
+					</uib-accordion-group>
+				<uib-accordion-group ng-init="status.open2 = true" is-open="status.open2">
+					<uib-accordion-heading>
+						<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Type
+					</uib-accordion-heading>
+					<div class="">
+						<ul>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-model="filterBtn.facetName.GardenPerennials" id="GardenPerennials" ng-checked="filterBtn.selection.indexOf('GardenPerennials') > -1" ng-click="filterBtn.togglFaceteSelection('GardenPerennials',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="GardenPerennials"><p>GardenPerennials<label>(<span>6533</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox" >
+		                           <input type="checkbox" id="Vines1" ng-model="filterBtn.facetName.Vines1" ng-checked="filterBtn.selection.indexOf('Vines1') > -1" ng-click="filterBtn.togglFaceteSelection('Vines1',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="Vines1"><p>Vines1<label>(<span>944</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox" id="GroundCovers" ng-model="filterBtn.facetName.GroundCovers"  ng-checked="filterBtn.selection.indexOf('GroundCovers') > -1" ng-click="filterBtn.togglFaceteSelection('GroundCovers',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="GroundCovers"><p>GroundCovers<label>(<span>1668</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  id="Natives" ng-model="filterBtn.facetName.Natives" ng-checked="filterBtn.selection.indexOf('Natives') > -1" ng-click="filterBtn.togglFaceteSelection('Natives',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="Natives"><p>Natives<label>(<span>854</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox" id="Waterplants" ng-model="filterBtn.facetName.Waterplants" ng-checked="filterBtn.selection.indexOf('Waterplants') > -1" ng-click="filterBtn.togglFaceteSelection('Waterplants',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="Waterplants"><p>Waterplants<label>(<span>5784</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox" id="Others" ng-model="filterBtn.facetName.Others" ng-checked="filterBtn.selection.indexOf('Others') > -1" ng-click="filterBtn.togglFaceteSelection('Others',false)" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label for="Others"><p>Others<label>(<span>12356</span>)</label></p></label>
+		                     </li>
+		                 </ul>
+					</div>
+					</uib-accordion-group>
+					
+					<uib-accordion-group ng-init="status.open3 = true" is-open="status.open3">
+					<uib-accordion-heading>
+					<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Plant
+					</uib-accordion-heading>
+					<div class="">
+						<ul>
+		                     <li>
+		                        <div class="Checkbox" >
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Achillea') > -1" ng-click="filterBtn.toggleSelection('Achillea')"  checked="checked">
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Achillea<label>(<span>8493</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Aquilegia') > -1" ng-click="filterBtn.toggleSelection('Aquilegia')" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Aquilegia<label>(<span>1485</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Aster') > -1" ng-click="filterBtn.toggleSelection('Aster')" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Aster<label>(<span>4233</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Astilbe') > -1" ng-click="filterBtn.toggleSelection('Astilbe')" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Astilbe<label>(<span>3385</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Campanula') > -1" ng-click="filterBtn.toggleSelection('Campanula')" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Campanula<label>(<span>6374</span>)</label></p></label>
+		                     </li>
+		                     <li>
+		                        <div class="Checkbox">
+		                           <input type="checkbox"  ng-checked="filterBtn.selection.indexOf('Coreopsis') > -1" ng-click="plp.toggleSelection('Coreopsis')" >
+		                           <div class="Checkbox-visible"></div>
+		                        </div>
+		                        <label><p>Coreopsis<label>(<span>1543</span>)</label></p></label>
+		                     </li>
+		                </ul>
+					</div>
+					</uib-accordion-group>
+					<uib-accordion-group ng-init="status.open4 = true" is-open="status.open4">
+					<uib-accordion-heading>
+						<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Price
+					</uib-accordion-heading>
+					  <div class="price-slider">
+                  <!-- <input id="price-slider" type ="range" min ="20.99" max="319.00" step ="1"/> -->
+                  <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p>	
+                  <p class="price-bar"></p>	
+                  <input type="hidden" class="slider-input range-slider slider" value="23" />
+               </div>
+					</uib-accordion-group>
+					<uib-accordion-group ng-init="status.open5 = true" is-open="status.open5">
+					<uib-accordion-heading>
+						<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Color
+					</uib-accordion-heading>
+
+					
+					<div class="color-selection-panel">
+					
+					<p >
+						<span class=" btn-primary"></span>
+					</p>
+					<p>
+						<span class=" btn-success"></span>
+					</p>
+					<p>
+						<span class=" btn-warning"></span>
+					</p>
+					<p>
+						<span class=" btn-info"></span>
+					</p>	
+					<p>
+						<span class=" btn-primary"></span>
+					</p>
+					<p>
+						<span class=" btn-success"></span>
+					</p>
+					<p>
+						<span class=" btn-warning"></span>
+					</p>
+					<p>
+						<span class=" btn-info"></span>
+					</p>	
+					<p>
+						<span class=" btn-primary"></span>
+					</p>
+					<p>
+						<span class=" btn-success"></span>
+					</p>
+					<p>
+						<span class=" btn-warning"></span>
+					</p>
+					<p>
+						<span class=" btn-info"></span>
+					</p>
+					<p>
+						<span class=" btn-primary"></span>
+					</p>
+					<p>
+						<span class=" btn-success"></span>
+					</p>
+					<p>
+						<span class=" btn-warning"></span>
+					</p>
+					<p>
+						<span class=" btn-info"></span>
+					</p>			
+					
+					</div>		
+					
+			
+					</uib-accordion-group>
+					<uib-accordion-group>
+					<uib-accordion-heading>
+						<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Florem Ipsum
+					</uib-accordion-heading>
+					<div class="">
+						Florem Ipsum	
+					
+					</div>
+					</uib-accordion-group>
+					<uib-accordion-group>
+					<uib-accordion-heading>
+					<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Calalilly Florem
+					</uib-accordion-heading>
+					<div class="">
+						Calalilly Florem	
+					
+					</div>
+					</uib-accordion-group>
+					<uib-accordion-group>
+					<uib-accordion-heading>
+						<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+						<g>
+								<rect x="12" class="" width="3" height="27"></rect>
+								<rect y="12" class="" width="27" height="3"></rect>
+							</g>
+	
+								
+						</svg>
+						<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+						<rect y="10"  width="50" height="4"/>
+						
+						</svg>
+						Ipsum Florem
+					</uib-accordion-heading>
+					<div class="">
+						Ipsum Florem	
+					
+					</div>
+					</uib-accordion-group>
+
+				</uib-accordion>
+
+    </div>
+</div>
+    <div class="row apply-filter">
+
+    	<button class="btn btn-block">APPLY FILTERS</button>
+    </div>
+</div>

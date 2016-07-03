@@ -1,0 +1,1229 @@
+<!-- <div id="BaseTop">
+	<div class="link">
+        <a ng-click="application.toggleLeftNav()"><i class="fa fa-bars"></i></a>
+    </div>
+    <div class="logo">
+        <a href="" ui-sref="home"><ordercloud-logo data-width="60px" data-height="50px" data-color="#333" data-icon="true"></ordercloud-logo></a>
+    </div>
+    <div class="link" uib-dropdown>
+        <a href uib-dropdown-toggle>
+            <i class="fa fa-user"></i>
+        </a>
+        <ul class="dropdown-menu-right" uib-dropdown-menu>
+            <li class="dropdown-header">{{base.currentUser.FirstName + ' ' + base.currentUser.LastName}}</li>
+            <li>
+                <a href="" ui-sref="account">Account</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a ng-click="application.logout()">Logout</a>
+            </li>
+            <li ng-if="application.isImpersonating">
+                <a ng-click="application.EndImpersonation()">Stop Impersonation</a>
+            </li>
+        </ul>
+    </div>
+</div> -->
+
+<div id="BaseTop2" class="base-header base-header-desktop base-header-non-sticky" ng-class="constantheader">
+	<div class="sticky-background"></div>
+	<div class="base-header-inner">
+		<div class="base-header-top row">
+			<div class="main-logo col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<!-- <a href="#"><img src="assets/images/logo.svg" alt="BACHMAN'S" /></a> -->
+				<a ui-sref="home" ng-include="base.logo"></a>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5 delivery-details">
+				<div class="delivery-details-cont row">
+					<div class="fl col-xs-8 col-sm-8 col-md-9 col-lg-9">
+						<h1>{{base.delivery.deliveryheader}}</h1>
+						<h3>{{base.delivery.deliverymsg}}</h3>
+					</div>
+					<h3 class="countdown fl col-xs-4 col-sm-4 col-md-3 col-lg-3">
+					<span>	
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+							<circle cx="29.3" cy="32.7" r="25"/>
+							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+						</svg>
+					</span>
+				 <span>{{countdown}}</span>
+
+					<!--  <span>10:30 More Hours</span>  -->
+				</h3>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-4 delivery-contact">
+				<div class="delivery-contact-cont">
+					<h2><a>{{base.contact.label}}</a><span></span><a>{{base.storeloc.label}}</a></h2>
+					<nav class="row">
+						<a class="col-xs-6 col-sm-12 col-md-12 col-lg-6" ng-repeat="contact in base.contactdetails">{{contact.label}} &nbsp;<span>{{contact.number}}</span></a>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="service-list row">
+			<span class="scrollServiceLeft"></span>
+			<div>
+				<h5 class="" ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
+			</div>
+			<span class="scrollServiceRight"></span>
+		</div>
+		<div class="breadcrumb-box" ng-show="is('plp')">
+			<ul class="breadcrumb">
+				<li>HOME </li>
+				<li>PERENNIALS</li>
+				<li>ROSES</li>
+			</ul>
+		</div>
+		<div class="row breadcrumb-box" ng-show="is('pdp')">
+	        <ul class="breadcrumb" >
+	            <li>HOME</li>
+	            <li>FLOWERS & SPECIALTY PLANTS</li>
+	            <li>FLOWERS</li>                       
+	            <li>STARGAZER</li>                        
+	    	</ul>
+	    </div>
+	    <div class="row breadcrumb-box" ng-show="is('algoliaresults')">
+	        <ul class="breadcrumb" >
+	            <li>HOME</li>
+	            <li>FLOWERS & SPECIALTY PLANTS</li>
+	            <li>FLOWERS</li>                       
+	            <li>STARGAZER</li>                        
+	    	</ul>
+	    </div>
+		<div class="base-header-bottom row">
+			<ul class="menu-hover-cont1">
+				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" ng-mouseleave="base.hideOnClick=false" id="menu-li">
+					<div class="start-shopping btn-group fl">
+						<button type="button" class="maincat_dropdown btn btn-primary">
+						<div id="menu-icon">
+							<span class="line1"></span>
+							<span class="line2"></span>
+							<span class="line3"></span>
+							<span class="line4"></span>
+						</div>
+						</span> SHOP PRODUCTS</button>
+					</div>
+					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
+						<ul class="empty-div"></ul>
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -2" >
+							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
+							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
+								<div class="menuScrollCont-inner">
+									<ul class="menu-hover-cont3-inner" id="lookInMe" onscroll="$.leftofscreen('#lookInMe', '.peek', {threshold :-100}).removeClass('Right').addClass('Left');
+$.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addClass('Right');">
+										<li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" 
+										class="peek submaincat_link_div" ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'" >
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+
+										</li>
+										<li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'"
+											class="peek submaincat_link_div" ng-if="categories.ID !='c1'">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'" >
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+
+										</li>
+										<li class="giftCardCont">
+											<div class="giftCardContInner">
+												<div>
+													<h1>Lucky You!</h1>
+													<p>You’ve found the perfect gift.</p>
+													<h1>Lucky Them!</h1>
+													<p>They’ll get to enjoy it.</p>
+													<button ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c11'})">Buy A Gift Card</button>
+												</div>
+												<div><span><img src="assets/images/Gift-Card.png"/></span></div>
+											</div>
+										</li>
+										<li class="menu-related-info fr">
+											<ul class="subcat menu-l2-container">
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Information</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">How to Shop for a Gas Grill</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Bird Feed Basics</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Services</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Landscape Design & Installation</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Garden Maintenance & Season Decor</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Events & Workshops</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Spring Ideas House</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">A Gathering of Friends Antiques Market</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li class="menu-promo-banner">
+											<!-- <a><img src="assets/images/Promotion_Image.png" /></a> -->
+											<a><img src="{{categories.imgcontent.contentUrl}}" /></a>
+											<div>
+												<h2>Spring Ideas House</h2>
+												<button>GET YOUR TICKETS</button>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="menuScrollCont-arrow">
+									<p ng-click="base.prevL3()" class="menu-prev"></p>
+									<p ng-click="base.nextL3()" class="menu-next"></p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li class="menuLiContTab" ng-class="{changeToClose: base.hideOnClickTab==true, changeToMenu: base.hideOnClickTab==false}" >
+					<div class="start-shopping btn-group fl" ng-click="base.megaMenuTab()";>
+						<button type="button" class="maincat_dropdown btn btn-primary">
+						<div id="menu-icon">
+							<span class="line1"></span>
+							<span class="line2"></span>
+							<span class="line3"></span>
+							<span class="line4"></span>
+						</div>
+						</span> SHOP PRODUCTS</button>
+					</div>
+					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTab" id="menuCont">
+						<ul class="empty-div"></ul>
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">
+							<a class="maincat_link" >{{categories.Name}}</a>
+							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
+								<div class="menuScrollCont-inner">
+									<ul class="menu-hover-cont3-inner" id="lookInMe3" onscroll="$.leftofscreen('#lookInMe3', '.peek3', {threshold :-100}).removeClass('Right3').addClass('Left3');
+$.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').addClass('Right3');">
+										<li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" ><a class="goto-cat">{{categories.Name}} | Home </a></li>
+										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+										<li ng-if="categories.ID !='c1'" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+										
+									</ul>
+									<ul>
+										<li class="giftCardCont">
+											<div class="giftCardContInner">
+												<div>
+													<h1>Lucky You!</h1>
+													<p>You’ve found the perfect gift.</p>
+													<h1>Lucky Them!</h1>
+													<p>They’ll get to enjoy it.</p>
+													<button ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c11'})">Buy A Gift Card</button>
+												</div>
+												<div><span><img src="assets/images/Gift-Card.png"/></span></div>
+											</div>
+										</li>
+										<li class="menu-related-info fr">
+											<ul class="subcat menu-l2-container">
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Information</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">How to Shop for a Gas Grill</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Bird Feed Basics</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Services</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Landscape Design & Installation</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Garden Maintenance & Season Decor</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Events & Workshops</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Spring Ideas House</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">A Gathering of Friends Antiques Market</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li class="menu-promo-banner">
+											<!-- <a><img src="assets/images/Promotion_Image.png" /></a> -->
+											<a><img src="{{categories.imgcontent.contentUrl}}" /></a>
+											<div>
+												<h2>Spring Ideas House</h2>
+												<button>GET YOUR TICKETS</button>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="menuScrollCont-arrow">
+									<p ng-click="base.prevL3Tab()" class="menu-prev"></p>
+									<p ng-click="base.nextL3Tab()" class="menu-next"></p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="headerTransparentDiv"></div>
+			<div class="header-info-bar-position">
+				<div class="header-info-bar fr">
+					<div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div>
+					<div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
+					<div class=" info-bar-search" id="info-bar-search" >
+						<!-- <div class="info-search-text" nextopia-searchbar>
+							<input type="text" ng-controller="TypeaheadCtrl" placeholder="Search" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" />
+                            <input type="text"  placeholder="Search" />
+						</div> -->
+						<algolia-search class="info-search-text">
+                            <!--<input type="text"  placeholder="Search" />-->
+						</algolia-search>
+						<a class="info-search-icon">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
+
+								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+								<circle class="st1" cx="23" cy="21.3" r="19.9" />
+								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+								<circle class="st1" cx="24" cy="21.3" r="19.9" />
+							</svg>
+						</a>
+					</div>
+					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
+						<div class="info-bar-acc-empty-div"></div>
+						<a class="info-acc-text" >
+							<div class="loggedIn-user">
+								<span class="user-name login">Hello, {{baseTop.currentUser.FirstName}}</span>
+								<span class="user-name signup">Hello, user</span>
+								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account loginSignup">MY ACCOUNT</span>
+							</div> 
+						</a>
+						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
+						<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
+							<span class="loggedOut-user">					
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+								<style type="text/css">
+									.st0{fill:#FFFFFF;}
+									.st1{fill:none;stroke:#FFFFFF;stroke-width:1.5;stroke-linecap:round;stroke-miterlimit:10;}
+								</style>
+								<g>
+									<g>
+										<path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
+											C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
+											c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
+									</g>
+									<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
+									<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
+								</g>
+								</svg>
+							</span>
+						</a>
+						<div class="dropdown-menu-login-cont">
+							<ul class="dropdown-menu-login">
+								<li class="sub-nav">
+									<a class="maincat_link " ui-sref="account.profile">My Account</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="account.orders">My Orders</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="account.wishlistAccount">My Wish List</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="account.addresses">Adresses</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="account.perpleperksAccount">My Purple Perks</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link">Sign Out</a>
+								</li>
+							</ul>
+						</div>
+						<!-- <ul uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" class="dropdown-menu-login">
+							<li class="sub-nav">
+								<a class="maincat_link" ui-sref="account">My Account</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Orders</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Wish List</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Purple Perks</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">Sign Out</a>
+							</li>
+						</ul> -->
+					</div>
+					
+					<div class=" info-bar-cart" id="info-bar-cart">
+						<a class="info-cart-text">MY CART</a>
+						<a class="info-cart-icon">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+								<style type="text/css">
+									.st0 {
+										fill: none;
+										stroke: #FFFFFF;
+										stroke-width: 2;
+										stroke-miterlimit: 10;
+									}
+								</style>
+								<g>
+									<circle class="st1" cx="19.3" cy="46.7" r="5.4" />
+									<circle class="st1" cx="47.1" cy="46.7" r="5.4" />
+									<polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
+									<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
+								</g>
+							</svg>
+							<span class="cart-count">2</span>
+						</a>
+					</div>
+					<!-- <ordercloud-minicart order="base.currentOrder" class="pull-right col-xs-1 col-sm-1 col-md-1 col-lg-1 info-bar-cart p0 minicartcontent" id="info-bar-cart"></ordercloud-minicart> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div id="BaseTop2" class="base-header base-header-desktop base-header-sticky sticky" ng-class="constantheader">
+	<div class="sticky-background"></div>
+	<div class="base-header-inner">
+		<div class="base-header-top row">
+			<div class="main-logo col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<!-- <a href="#"><img src="assets/images/logo.svg" alt="BACHMAN'S" /></a> -->
+				<a href="#" ng-include="base.logo"></a>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-6 col-lg-5 delivery-details">
+				<div class="delivery-details-cont row">
+					<div class="fl col-xs-8 col-sm-8 col-md-7 col-lg-9">
+						<h1>{{base.delivery.deliveryheader}}</h1>
+						<h3>{{base.delivery.deliverymsg}}</h3>
+					</div>
+					<h3 class="countdown fl col-xs-4 col-sm-4 col-md-5 col-lg-3">
+					<span>	
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+							<circle cx="29.3" cy="32.7" r="25"/>
+							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+						</svg>
+					</span>
+				 <span>{{countdown}}</span>
+
+					<!--  <span>10:30 More Hours</span>  -->
+				</h3>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 delivery-contact">
+				<div class="delivery-contact-cont">
+					<h2><a>{{base.contact.label}}</a><span></span><a>{{base.storeloc.label}}</a></h2>
+					<nav class="row">
+						<a class="col-xs-6 col-sm-12 col-md-12 col-lg-6" ng-repeat="contact in base.contactdetails">{{contact.label}} &nbsp;<span>{{contact.number}}</span></a>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="service-list row">
+			<span class="scrollServiceLeft"></span>
+			<div>
+				<h5 class="" ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
+			</div>
+			<span class="scrollServiceRight"></span>
+		</div>
+		<div class="base-header-bottom row">
+			<ul class="menu-hover-cont1">
+				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" ng-mouseleave="base.hideOnClick=false" id="menu-li">
+					<div class="start-shopping btn-group fl">
+						<button type="button" class="maincat_dropdown btn btn-primary">
+						<div id="menu-icon">
+							<span class="line1"></span>
+							<span class="line2"></span>
+							<span class="line3"></span>
+							<span class="line4"></span>
+						</div>
+						</span> SHOP PRODUCTS</button>
+					</div>
+					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
+						<ul class="empty-div"></ul>
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav" ng-if="$index !=  base.tree.length -2">
+							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
+							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
+								<div class="menuScrollCont-inner">
+									<ul class="menu-hover-cont3-inner" id="lookInMe2" onscroll="$.leftofscreen('#lookInMe2', '.peek2', {threshold :-100}).removeClass('Right2').addClass('Left2');
+$.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
+										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" class="peek submaincat_link_div">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+										<li ng-if="categories.ID !='c1'" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" class="submaincat_link_div peek">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+										<li class="giftCardCont">
+											<div class="giftCardContInner">
+												<div>
+													<h1>Lucky You!</h1>
+													<p>You’ve found the perfect gift.</p>
+													<h1>Lucky Them!</h1>
+													<p>They’ll get to enjoy it.</p>
+													<button ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c11'})">Buy A Gift Card</button>
+												</div>
+												<div><span><img src="assets/images/Gift-Card.png"/></span></div>
+											</div>
+										</li>
+										<li class="menu-related-info fr">
+											<ul class="subcat menu-l2-container">
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Information</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">How to Shop for a Gas Grill</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Bird Feed Basics</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Services</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Landscape Design & Installation</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Garden Maintenance & Season Decor</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Events & Workshops</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Spring Ideas House</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">A Gathering of Friends Antiques Market</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li class="menu-promo-banner">
+											<!-- <a><img src="assets/images/Promotion_Image.png" /></a> -->
+											<a><img src="{{categories.imgcontent.contentUrl}}" /></a>
+											<div>
+												<h2>Spring Ideas House</h2>
+												<button>GET YOUR TICKETS</button>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="menuScrollCont-arrow">
+									<p ng-click="base.prevL3Sticky()" class="menu-prev"></p>
+									<p ng-click="base.nextL3Sticky()" class="menu-next"></p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li class="menuLiContTab" ng-class="{changeToClose: base.hideOnClickTabSticky==true, changeToMenu: base.hideOnClickTabSticky==false}">
+					<div class="start-shopping btn-group fl" ng-click="base.megaMenuTabSticky()";>
+						<button type="button" class="maincat_dropdown btn btn-primary">
+						<div id="menu-icon">
+							<span class="line1"></span>
+							<span class="line2"></span>
+							<span class="line3"></span>
+							<span class="line4"></span>
+						</div>
+						</span> SHOP PRODUCTS</button>
+					</div>
+					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTabSticky" id="menuCont">
+						<ul class="empty-div"></ul>
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">			
+							<a class="maincat_link" >{{categories.Name}}</a>
+							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
+								<div class="menuScrollCont-inner">
+									<ul class="menu-hover-cont3-inner" id="lookInMe4" onscroll="$.leftofscreen('#lookInMe4', '.peek4', {threshold :-100}).removeClass('Right4').addClass('Left4');
+$.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
+										<li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" ><a class="goto-cat">{{categories.Name}} | Home</a></li>
+										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+										<li ng-if="categories.ID !='c1'" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
+											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
+												<li ng-repeat="subchildcategories in subcategories.children">
+													<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+												</li>
+											</ul>
+											
+										</li>
+									</ul>
+									<ul>
+									<li class="giftCardCont">
+											<div class="giftCardContInner">
+												<div>
+													<h1>Lucky You!</h1>
+													<p>You’ve found the perfect gift.</p>
+													<h1>Lucky Them!</h1>
+													<p>They’ll get to enjoy it.</p>
+													<button ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c11'})">Buy A Gift Card</button>
+												</div>
+												<div><span><img src="assets/images/Gift-Card.png"/></span></div>
+											</div>
+										</li>
+										<li class="menu-related-info fr">
+											<ul class="subcat menu-l2-container">
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Information</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">How to Shop for a Gas Grill</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Bird Feed Basics</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Services</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Landscape Design & Installation</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Garden Maintenance & Season Decor</a>
+														</li>
+													</ul>
+												</li>
+												<li class="submaincat_link_div">
+													<a href="javascript:void(0)" class="submaincat_link">Related Events & Workshops</a>
+													<ul class="subchildcategories menu-l3-container">
+														<li>
+															<a href="javascript:void(0)" class="subchildmaincat_link">Spring Ideas House</a>
+															<a href="javascript:void(0)" class="subchildmaincat_link">A Gathering of Friends Antiques Market</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li class="menu-promo-banner">
+											<!-- <a><img src="assets/images/Promotion_Image.png" /></a> -->
+											<a><img src="{{categories.imgcontent.contentUrl}}" /></a>
+											<div>
+												<h2>Spring Ideas House</h2>
+												<button>GET YOUR TICKETS</button>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="menuScrollCont-arrow">
+									<p ng-click="base.prevL3StickyTab()" class="menu-prev"></p>
+									<p ng-click="base.nextL3StickyTab()" class="menu-next"></p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="headerTransparentDiv"></div>
+			<div class="header-info-bar-position">
+				<div class="header-info-bar fr">
+					<div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div>
+					<div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
+					<div class=" info-bar-search" id="info-bar-search" >
+						<algolia-search class="info-search-text">
+						</algolia-search>
+						<a class="info-search-icon">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
+
+								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+								<circle class="st1" cx="23" cy="21.3" r="19.9" />
+								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+								<circle class="st1" cx="24" cy="21.3" r="19.9" />
+							</svg>
+						</a>
+					</div>
+					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
+					<div class="info-bar-acc-empty-div"></div>
+						<a class="info-acc-text" >
+							<div class="loggedIn-user">
+								<span class="user-name login">Hello, {{baseTop.currentUser.FirstName}}</span>
+								<span class="user-name signup">Hello, user</span>
+								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account loginSignup">MY ACCOUNT</span>
+							</div>
+						</a>
+						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
+						<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
+							<span class="loggedOut-user">					
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+								<style type="text/css">
+									.st0{fill:#FFFFFF;}
+									.st1{fill:none;stroke:#FFFFFF;stroke-width:1.5;stroke-linecap:round;stroke-miterlimit:10;}
+								</style>
+								<g>
+									<g>
+										<path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
+											C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
+											c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
+									</g>
+									<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
+									<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
+								</g>
+								</svg>
+							</span>
+						</a>
+						<div class="dropdown-menu-login-cont">
+							<ul class="dropdown-menu-login">
+								<li class="sub-nav">
+									<a class="maincat_link " ui-sref="account.creditCardAccount">My Account</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="orders">My Orders</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="account.wishlistAccount">My Wish List</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link" ui-sref="addresses">Adresses</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link">My Purple Perks</a>
+								</li>
+								<li class="sub-nav">
+									<a class="maincat_link">Sign Out</a>
+								</li>
+							</ul>
+						</div>
+						<!-- <ul uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" class="dropdown-menu-login">
+							<li class="sub-nav">
+								<a class="maincat_link">My Account</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Orders</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Wish List</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">My Purple Perks</a>
+							</li>
+							<li class="sub-nav">
+								<a class="maincat_link">Sign Out</a>
+							</li>
+						</ul> -->
+					</div>
+					<div class=" info-bar-cart" id="info-bar-cart">
+						<a class="info-cart-text">MY CART</a>
+						<a class="info-cart-icon">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+								<style type="text/css">
+									.st0 {
+										fill: none;
+										stroke: #FFFFFF;
+										stroke-width: 2;
+										stroke-miterlimit: 10;
+									}
+								</style>
+								<g>
+									<circle class="st1" cx="19.3" cy="46.7" r="5.4" />
+									<circle class="st1" cx="47.1" cy="46.7" r="5.4" />
+									<polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
+									<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
+								</g>
+							</svg>
+							<span class="cart-count">2</span>
+						</a>
+					</div>
+					<!-- <ordercloud-minicart order="base.currentOrder" class="pull-right col-xs-1 col-sm-1 col-md-1 col-lg-1 info-bar-cart p0 minicartcontent" id="info-bar-cart" ></ordercloud-minicart> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="BaseTop2" class="base-header base-header-mobile" ng-class="constantheader">
+	<div class="base-header-inner">
+		<div class="base-header-top row">
+			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 delivery-details">
+				<div class="delivery-details-cont row">
+					<div class="fl col-xs-8 col-sm-8 col-md-9 col-lg-9">
+						<h1>{{base.delivery.deliveryheader}}</h1>
+						<h3>{{base.delivery.deliverymsg}}</h3>
+					</div>
+					<h3 class="countdown fl col-xs-4 col-sm-4 col-md-3 col-lg-3">
+						<span>	
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+							<style type="text/css">
+								.st0{fill:none;stroke:#DCFB7C;stroke-width:3;stroke-miterlimit:10;}
+							</style>
+							<circle cx="29.3" cy="32.7" r="25"/>
+							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+							</svg>
+						</span>
+					<span>{{countdown}}</span></h3>
+				</div>
+			</div>
+
+			<div class="header-info-bar col-xs-12 col-sm-12 col-md-3 col-lg-3">
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 menu-logo">
+
+						<div class="burger-icon" uib-dropdown dropdown-append-to-body is-open="base.isopen">
+							<a class="megamenu-icon" uib-dropdown-toggle ng-click="base.initialSetup()">
+								<div id="menu-icon">
+									<span class="line1"></span>
+									<span class="line2"></span>
+									<span class="line3"></span>
+									<span class="line4"></span>
+								</div>
+							</a>
+
+							<div uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" class="mobile-dropdown main-mobile-menu-container" ng-class="menudiv">
+								<div class="mobile-dropdown-cont1">
+									<ul class="sub-nav" ng-click="base.removeHomeSroll()">
+										<p href="" ng-click="base.openMenuLevel1();$event.stopPropagation();">SHOP PRODUCTS</p>
+										<!-- <li>
+											<a href="" ng-click="base.openMenuLevel1();$event.stopPropagation();">SHOP PRODUCTS</a>
+											<ul ng-show="base.menu1" class="menu-container mobile-menu-container mobile-dropdown-cont2">
+												<li><a href=""><span>Menu</span></a></li>
+												<li ng-repeat="categories in base.tree" ng-click="base.openMenuLevel2();$event.stopPropagation();" >
+													<a ui-sref="category({parentId:subcategories.ID,childCount:subcategories.ChildCount,ID:subcategories.ID})" ng-click="base.mobileMenu(categories)">{{categories.Name}}</a>
+													<ul ng-show="base.menu2" class="subcat menu-l2-container mobile-dropdown-cont3">
+														<li ng-repeat="subcategories in categories.children">
+															<a ui-sref="category({parentId:subcategories.ID,childCount:subcategories.ChildCount,ID:subcategories.ID})">{{subcategories.Name}}</a>
+															<ul>
+																<li ng-repeat="subchildcategories in subcategories.children">
+																	<a ui-sref="category({parentId:subchildcategories.ID,childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" >{{subchildcategories.Name}}</a>
+																</li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li> -->
+										<li><a href="">Care, Advice & Information</a></li>
+										<li><a href="">Workshops & Events</a></li>
+										<li><a ng-click="baseTop.login()">My Account</a></li>
+										<!-- <li><a>My Account</a></li> -->
+										<li class="mobile-store-locator"><a href="">Store locator</a></li>
+										<li class="mobile-contact-us">
+											<ul>
+												<li><a href="">Contact Us</a></li>
+												<li><a href="">Order Local <span>(612) 861-7311</span> </a></li>
+												<li><a href="">Toll Free <span>(866) 222-4626</span></a></li>
+											</ul>
+										</li>
+										<li class="mobile-services-list">
+											<ul>
+												<li ng-repeat="service in base.services"><a href="">{{service.title}}</a></li>
+											</ul>
+										</li>
+										
+									</ul>
+									<ul class="mobile-signout">
+										<ul>
+											<li class="fl"><a href="">Hi, Martin Ostrem</a></li>
+											<li class="fr"><a href="">SIGN OUT</a></li>
+										</ul>
+									</ul>
+								</div>
+								<!-- <ul ng-show="base.menu1" class="menu-container mobile-menu-container mobile-dropdown-cont2">
+									<li class="sub-nav" ng-click="base.initialSetup()"><a href=""><span>Menu</span></a></li>
+									<li ng-click="base.openMenuLevel2();$event.stopPropagation();" ng-repeat="categories in base.tree" class="sub-nav">
+										<a class="maincat_link">{{categories.Name}}</a>
+										<ul ng-show="base.menu2" class="subcat menu-l2-container mobile-dropdown-cont3">
+											<p ng-click="base.openMenuLevel1();$event.stopPropagation();"><span>SHOP PRODUCTS</span></p>
+											<li class="shop-title">{{categories.Name}}<span>|Home</span></li>
+											<li ng-click="base.openMenuLevel3();$event.stopPropagation();" ng-repeat="subcategories in categories.children" class="submaincat_link_div">
+												<a class="submaincat_link">{{subcategories.Name}}</a>
+												<ul ng-show="base.menu3" class="subchildcategories menu-l3-container mobile-dropdown-cont4">
+													<li ng-click="base.openMenuLevel2();$event.stopPropagation();"><span>{{categories.Name}}</span></li>
+													<li>{{subcategories.Name}}<span>|Home</span></li>
+													<li ng-repeat="subchildcategories in subcategories.children">
+														<a class="subchildmaincat_link">{{subchildcategories.Name}}</a>
+													</li>
+												</ul>
+											</li>
+											<li class="">
+							<ul class="subcat menu-l2-container">
+								<li class="submaincat_link_div">
+									<a href="javascript:void(0)" class="submaincat_link">Related Information</a>
+									<ul class="subchildcategories menu-l3-container">
+										<li>
+											<a href="javascript:void(0)" class="subchildmaincat_link">How to Shop for a Gas Grill</a>
+											<a href="javascript:void(0)" class="subchildmaincat_link">Bird Feed Basics</a>
+										</li>
+									</ul>
+								</li>
+								<li class="submaincat_link_div">
+									<a href="javascript:void(0)" class="submaincat_link">Related Services</a>
+									<ul class="subchildcategories menu-l3-container">
+										<li>
+											<a href="javascript:void(0)" class="subchildmaincat_link">Landscape Design &amp; Installation</a>
+											<a href="javascript:void(0)" class="subchildmaincat_link">Garden Maintenance &amp; Season Decor</a>
+										</li>
+									</ul>
+								</li>
+								<li class="submaincat_link_div">
+									<a href="javascript:void(0)" class="submaincat_link">Related Events &amp; Workshops</a>
+									<ul class="subchildcategories menu-l3-container">
+										<li>
+											<a href="javascript:void(0)" class="subchildmaincat_link">Spring Ideas House</a>
+											<a href="javascript:void(0)" class="subchildmaincat_link">A Gathering of Friends Antiques Market</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+											<li class="menu-l2-container-inform">
+												<ul class=" menu-l2-container-mobile">
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Information</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">How to Shop for a Gas Grill</a>
+																<a href="javascript:void(0)" class="">Bird Feed Basics</a>
+															</li>
+														</ul>
+													</li>
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Services</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">Landscape Design &amp; Installation</a>
+																<a href="javascript:void(0)" class="">Garden Maintenance &amp; Season Decor</a>
+															</li>
+														</ul>
+													</li>
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Events &amp; Workshops</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">Spring Ideas House</a>
+																<a href="javascript:void(0)" class="">A Gathering of Friends Antiques Market</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+
+											<li>
+												<ul class="mobile-menu-promo-banner">
+													<li>
+														<a><img src="../assets/images/Mega-Menu-only.png"></a>
+														<div>
+															<h2>Spring Ideas House</h2>
+															<button>GET YOUT TICKETS</button>
+														</div>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul> -->
+
+
+
+								<ul ng-show="base.menu1" class="menu-container mobile-menu-container mobile-dropdown-cont2">
+									<li class="sub-nav" ng-click="base.initialSetup2()"><a href=""><span>Menu</span></a></li>
+									<li ng-click="base.openMenuLevel2({childCount:categories.ChildCount,ID:categories.ID})" ng-repeat="categories in base.tree" ng-if="$index !=  base.tree.length -2" class="sub-nav">
+										<a class="maincat_link">{{categories.Name}}</a>
+										<ul ng-show="base.menu2" class="subcat menu-l2-container mobile-dropdown-cont3">
+											<p ng-click="base.openMenuLevel1();$event.stopPropagation();"><span>SHOP PRODUCTS</span></p>
+											<li class="shop-title" ng-click="stateChange(category)">
+												<a ng-click="base.stateChange(categories);$event.stopPropagation();">{{categories.Name}}<span> | Home</span></a>
+											</li>
+											<li ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();" ng-repeat="(ParentIndex, subcategories) in categories.children" class="submaincat_link_div">
+												<a class="submaincat_link">{{subcategories.Name}}</a>
+												<ul ng-show="base.menu3 && base.isShowing(ParentIndex)" class="subchildcategories menu-l3-container mobile-dropdown-cont4">
+													<li ng-click="base.openMenuLevel2({childCount:subcategories.ChildCount,ID:subcategories.ID});$event.stopPropagation();">{{categories.Name}}</li>
+													<li class="shop-title" ng-click="stateChange(subcategories)">
+														<a ng-click="base.stateChange(subcategories);$event.stopPropagation();">{{subcategories.Name}}<span> | Home</span></a>
+													</li>
+													<li ng-repeat="subchildcategories in subcategories.children">
+														<a ng-click="base.stateChange(subchildcategories);$event.stopPropagation();">{{subchildcategories.Name}}</a>
+													</li>
+												</ul>
+												<!-- <ul ng-show="base.menu3" class="subchildcategories menu-l3-container mobile-dropdown-cont4">
+													<li>{{categories.Name}}</li>
+													<li>{{subcategories.Name}}<span>|Home</span></li>
+													<li ng-click="base.openMenuLevel2({parentId:subchildcategories.ID,childCount:subchildcategories.ChildCount,ID:subchildcategories.ID});$event.stopPropagation();" ng-repeat="subchildcategories in subcategories.children">
+														<a >{{subchildcategories.Name}}</a>
+													</li>
+												</ul> -->
+											</li>
+											<li>
+										
+											<li class="menu-l2-container-inform">
+												<ul class="menu-l2-container-mobile">
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Information</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">How to Shop for a Gas Grill</a>
+																<a href="javascript:void(0)" class="">Bird Feed Basics</a>
+															</li>
+														</ul>
+													</li>
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Services</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">Landscape Design &amp; Installation</a>
+																<a href="javascript:void(0)" class="">Garden Maintenance &amp; Season Decor</a>
+															</li>
+														</ul>
+													</li>
+													<li class="">
+														<a href="javascript:void(0)" class="">Related Events &amp; Workshops</a>
+														<ul class=" ">
+															<li>
+																<a href="javascript:void(0)" class="">Spring Ideas House</a>
+																<a href="javascript:void(0)" class="">A Gathering of Friends Antiques Market</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+
+											<li>
+												<ul class="mobile-menu-promo-banner">
+													<li>
+														<a><img src="assets/images/megamenu_Mobile.png"></a>
+														<div>
+															<h2>Spring Ideas House</h2>
+															<button>GET YOUR TICKETS</button>
+														</div>
+													</li>
+												</ul>
+											</li>
+											<li class="menuGCInner">
+												<div>
+													<h1>Lucky You!</h1>
+													<p>You’ve found the perfect gift.</p>
+													<h1>Lucky Them!</h1>
+													<p>They’ll get to enjoy it.</p>
+													<button ng-click="base.giftCardPlp()">Buy A Gift Card</button>
+												</div>
+												<div><span><img src="assets/images/Gift-Card.png"/></span></div>
+											</li>
+										</ul>
+									</li>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="main-logo-block" ng-click="base.logoClick()">
+							<a href="#" ng-include="base.logo"></a>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 info-bar-icons">
+						<div class="come-on-in">
+							<a class="">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									 viewBox="0 0 163.7 100" style="enable-background:new 0 0 163.7 100;" xml:space="preserve">
+								<style type="text/css">
+									.st0{fill:#8D55B7;}
+								</style>
+								<g>
+									<path class="stw" d="M129.4,85V51.3h5.2v-2.5h-8.1c-0.8-14.6-13-26.3-27.9-26.3c-3.3,0-6.4,0.6-9.4,1.6H53.8
+										c0.1-0.7,0.2-1.5,0.2-2.2c0-10.3-8.1-18.6-18-18.6c-10.1,0-18.3,8.4-18.3,18.6c0,11.9,14.4,30,16.7,32.8V85H26v2.5h51.7h14.1h58.1
+										V85H129.4z M124,48.8h-12.6c-0.3-2.7-1.5-5.1-3.3-7.1l8.9-8.9C121,37,123.7,42.6,124,48.8z M106.2,40c-1.8-1.3-3.9-2.1-6.2-2.3
+										V25.1c5.8,0.3,11,2.5,15.1,6L106.2,40z M97.5,37.7c-2.2,0.2-4.2,1-6,2.2l-9-9c4.1-3.4,9.3-5.5,14.9-5.8V37.7z M80.7,32.6l8.9,8.9
+										c-1.9,1.9-3.1,4.5-3.5,7.3H73.4C73.8,42.5,76.5,36.8,80.7,32.6z M98.7,40.2c5.1,0,9.3,3.7,10.1,8.6H88.6
+										C89.4,43.9,93.7,40.2,98.7,40.2z M84.1,26.7c-7.5,4.7-12.7,12.8-13.2,22.1H41.6c4.2-5.8,9.9-14.6,11.7-22.1H84.1z M36,5.8
+										c8.6,0,15.5,7.3,15.5,16.2c0,9.9-11.6,25.3-15.8,30.5C30.9,46.3,20.2,31.5,20.2,22C20.2,13,27.3,5.8,36,5.8z M37,54.8
+										c0.5-0.6,1.5-1.8,2.7-3.5h28.7V85H37V54.8z M80.3,85v-23h9v23H80.3z M77.8,59.5V85h-6.8V51.3h56V85H91.8V59.5H77.8z"/>
+									<rect x="26" y="95" class="st0" width="123.9" height="2.5"/>
+									<path class="stw" d="M43.9,59.5v15.3h11.6V59.5H43.9z M53,72.3h-6.6V62.1H53V72.3z"/>
+									<path class="stw" d="M121.9,59.5H96.5v15.3h25.4V59.5z M119.3,72.3H99.1V62.1h20.3V72.3z"/>
+									<path class="stw" d="M42,21.3c0-3.2-2.7-6-6-6s-6,2.7-6,6c0,3.3,2.7,6,6,6C39.3,27.3,42,24.6,42,21.3z M32.5,21.3
+										c0-2,1.6-3.5,3.5-3.5c2,0,3.5,1.6,3.5,3.5c0,2-1.6,3.5-3.5,3.5S32.5,23.2,32.5,21.3z"/>
+								</g>
+								</svg>
+							</a>
+						</div>
+						<div class=" info-bar-search" ng-click="baseTop.searchPopup()" ng-class="{active:baseTop.searchMobCont == true}">
+							<!-- <a class="info-search-text"><input type="text" placeholder="SEARCH" /></a> -->
+							<a class="info-search-icon">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
+									<style type="text/css">
+										.st0 {
+											fill: none;
+											stroke: #FFFFFF;
+											stroke-width: 4;
+											stroke-miterlimit: 10;
+										}
+										
+										.st1 {
+											fill: none;
+											stroke: #FFFFFF;
+											stroke-width: 4;
+											stroke-miterlimit: 10;
+										}
+									</style>
+									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+									<circle class="st0" cx="23" cy="21.3" r="19.9" />
+									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+									<circle class="st1" cx="24" cy="21.3" r="19.9" />
+								</svg>
+							</a>
+						</div>
+						<div class=" info-bar-cart">
+							<a class="info-cart-icon">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+									<style type="text/css">
+										.st0 {
+											fill: none;
+											stroke: #FFFFFF;
+											stroke-width: 2;
+											stroke-miterlimit: 10;
+										}
+									</style>
+									<g>
+										<circle class="st1" cx="19.3" cy="46.7" r="5.4" />
+										<circle class="st1" cx="47.1" cy="46.7" r="5.4" />
+										<polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
+										<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
+									</g>
+								</svg>
+								<span class="cart-count">2</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div ng-show="baseTop.searchMobCont" class="searchPopupCont">
+					<div class="search_cont">
+						<div class="search_cont_header">
+							<!-- <div class="input-search">
+								<input type="text" placeholder="SEARCH">
+							</div> -->
+							<algolia-search class="input-search info-search-text">
+		                        <!--<input type="text"  placeholder="SEARCH" />-->
+							</algolia-search>
+							<div class="close-search" ng-click="baseTop.searchPopupClose()">
+								<a>
+									<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve">
+										<style type="text/css">.st0{fill:#FFFFFF;}</style>
+										<g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"></rect></g></g>
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--  <div class=" info-bar-acc" uib-dropdown dropdown-append-to-body>
+          <!-- 	<a id="btn-append-to-body" class="info-acc-text" uib-dropdown-toggle>
+						<div class="loggedIn-user" >
+							<span class="user-name">Hello,{{baseTop.currentUser.Username}}</span>
+							<span class="user-account">MY ACCOUNT</span>
+						</div>
+					</a> -->
+				<!--  <a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
+            <span class="loggedOut-user">					
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+							<style type="text/css">
+								.st0{fill:#FFFFFF;}
+								.st1{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;}
+							</style>
+							<g>
+								<g>
+									<path class="st1" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
+										C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
+										c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
+								</g>
+								<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
+								<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
+							</g>
+							</svg>
+						</span>
+          </a>
+          <ul uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" class="dropdown-menu-login">
+            <li class="sub-nav">
+              <a class="maincat_link">My Account</a>
+              <a class="maincat_link">My Orders</a>
+              <a class="maincat_link">My Wish List</a>
+              <a class="maincat_link">My Purple Perks</a>
+              <a class="maincat_link sign-out">Sign Out</a>
+            </li>
+          </ul>
+        </div>
+        -->
+
+			</div>
+		</div>
+	</div>
+	<div class="row breadcrumb-box hidden-lg hidden-md" ng-show="is('plp')" >
+        <ul class="breadcrumb" >
+            <li><a>HOME</a> </li>
+            <li>FLOWERS & SPECIALTY PLANTS</li>
+            <li>FLOWERS</li>                       
+            <li>STARGAZER</li>                      
+        </ul>
+    </div>
+   	<div class="breadcrumb-box hidden-lg hidden-md" ng-show="is('pdp')">
+         <ul class="breadcrumb">
+            <li><a href="index.html">HOME</a> </li>
+            <li>PERENNIALS</li>
+            <li>ROSES</li>
+         </ul>
+      </div>
+</div>
