@@ -614,29 +614,28 @@ vm.selectColor = function($index, $event, prod){
 
 
   vm.shiftSelectedCategoryRight= function(){
-    var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos + posToShift);
-    $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
-    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').length > 0 ) { // if target element exists in DOM
-      if( $('#owl-carousel-selected-cat .owl-carousel-item:last-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
-        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','none');
-      } else {
-        $('.plp-page .selected-list .left-part div .list-items .catRightArrow').css('display','inline-block');
-      }
-    }*/
+    var currentPos = angular.element('#owl-carousel-selected-cat').scrollLeft();
+    var posToShift = angular.element('#owl-carousel-selected-cat .owl-carousel-item').width();
+    angular.element('#owl-carousel-selected-cat').scrollLeft(currentPos + posToShift);
+    angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
+   // alert(currentPos);
+    var scrollEnd = ((vm.selection.length - 4) * posToShift) - 10;
+    if(currentPos > scrollEnd){
+      angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-blockone','visibility':'hidden'});
+    } else{
+      angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-block','visibility':'visible'});
+    }
   }
   vm.shiftSelectedCategoryLeft= function(){
-    var currentPos = $('#owl-carousel-selected-cat').scrollLeft();
-    var posToShift = $('#owl-carousel-selected-cat .owl-carousel-item').width();
-    $('#owl-carousel-selected-cat').scrollLeft(currentPos - posToShift);
-    /*if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').length > 0 ) { // if target element exists in DOM
-      if( $('#owl-carousel-selected-cat .owl-carousel-item:first-child').is_on_screen() ) { // if target element is visible on screen after DOM loaded
-        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','none');
-      } else {
-        $('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css('display','inline-block');
-      }
-    }*/
+    var currentPos = angular.element('#owl-carousel-selected-cat').scrollLeft();
+    var posToShift = angular.element('#owl-carousel-selected-cat .owl-carousel-item').width();
+    angular.element('#owl-carousel-selected-cat').scrollLeft(currentPos - posToShift);
+    angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'inline-block','visibility':'visible'});
+    if(currentPos == 0){
+      angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-blockone','visibility':'hidden'});
+    } else{
+      angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'inline-block','visibility':'visible'});
+    }
   }      
   /* Plp banner from alfresco */
   var ticket = localStorage.getItem("alf_ticket");
@@ -882,6 +881,13 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
      $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $uibModalInstance.opened.then(function() {
+          $timeout(function() {
+              $scope.$broadcast('rebuild:qvScroll');
+          },200);
+        });
+
     vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
     vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails       
     vm.defaultSizeIndex =0; 
@@ -1036,7 +1042,7 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
 }
 
 
-function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,OrderCloud,PlpService) {
+function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,OrderCloud,PlpService,$timeout) {
     var vm = this;
       $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');

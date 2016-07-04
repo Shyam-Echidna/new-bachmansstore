@@ -28,6 +28,7 @@
   background-color: white;
   border: 2px solid @gray-lighter;
   border-radius: 0;
+  z-index:10;
   /*position: absolute;*/
 /*  @media(min-width: @screen-sm-max) {
     width:120%;
@@ -959,27 +960,108 @@
           color: #424242;
           font-weight: bold;
           padding: 10px 0px;
+          margin: 0;
           border:none;
           &:hover{
             background-color:transparent;
           }
         } 
-        color: #8b5bb3;
-        font: 1.063em @proxima-regular;
-        border: 1px solid #bea6d2;
-        padding: 11px 10px 10px;
-        cursor: pointer;
-        display:inline-block;
-        &:hover{
-          background-color:#bea6d2;
-        }
-        a{
-          padding-left:16px;
-          svg{
-           fill: #8c58b5;
+      }
+      div.search-facet-scroll {
+      .p0;
+        div.search-facet-scroll-inner{
+          white-space: nowrap;
+          overflow-x: auto;
+          padding: 0; 
+          position:relative;
+          span{
+            display:inline-block;
+            width: 25%;
+            padding:0px;
+            cursor: pointer;
+            margin: 0;
+            p{
+              padding:10px;
+              font: 1.063em @proxima-regular;
+              border: 1px solid #bea6d2;
+              margin:0 10px;
+              span{
+                padding:0px;      
+                width: 80%;
+                border: none;
+                margin: 0;     
+              }
+              a{
+                width:20%;
+                    display: inline-block;
+              }
+            }
           }
         }
-      } 
+
+        span{
+
+          span{
+            &:hover{
+              background-color:#bea6d2;
+            }
+            a{
+              padding-left:16px;
+              svg{
+               fill: #8c58b5;
+              }
+            }
+          }
+        
+        
+        }
+        .clear-button-block{
+          .p0;
+        }
+        .facetRightArrow {
+            width: 4%;
+            height: 25px;
+            position: relative;
+            top: 9px;
+            cursor: pointer;
+            border:none;
+            right:0;
+            .p0; 
+            .m0;
+            svg{
+                width:100%;
+                height:25px;
+                polyline{
+                    stroke: #8b5bb3;
+                    fill: none;
+                    stroke-width: 8px;
+                }  
+            }                   
+        } 
+        .facetLeftArrow { 
+            display:none;   
+            width: 4%;
+            height: 25px;
+            -ms-transform: translate(0%, -50%) rotate(180deg);
+            -webkit-transform: translate(0%, -50%) rotate(180deg);
+            transform: translate(0%, -50%) rotate(180deg);
+            position: relative;
+            top: 22px;
+            cursor: pointer;
+            border:none;
+            .p0;
+            .m0;
+            svg{
+                width:100%;
+                height:25px;
+                polyline{
+                    stroke: #8b5bb3;
+                    fill: none;
+                    stroke-width: 8px;
+                }  
+            }
+        }
+      }
       .clear-button-block button {
           font: 1.063em @proxima-regular;
           height: 2.500em;

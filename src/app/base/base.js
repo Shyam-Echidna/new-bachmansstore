@@ -589,13 +589,18 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
             // var menuheight = $('.main-mobile-menu-container').innerHeight();
             // $('#DashboardContent').height(menuheight);
 
-            if (vm.menuClass === "unhide"){
-                
+            if (vm.menuClass = "unhide"){
               vm.menuClass = "hide";  
-            }         else{
+            } else{
+              vm.menuClass = "unhide";
+            }
 
-            vm.menuClass = "unhide";
-         }
+            if($('.menu-class').hasClass('unhide')){
+              $('.menu-class').addClass('hide');
+            } else{
+              $('.menu-class').addClass('unhide')
+            }
+            
     }
 
     vm.initialSetup2 = function(){
@@ -641,11 +646,10 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
     }*/
     vm.openMenuLevel2 = function(obj){
     
-        $('.main-mobile-menu-container').css('overflow-y','hidden');
+        $('.main-mobile-menu-container').css({'overflow-y':'hidden','border':'1px solid red'});
         $('.mobile-dropdown-cont2').css('overflow-y','hidden');
         $('.mobile-dropdown-cont3').css('overflow-y','auto');
         $('.mobile-dropdown-cont4').css('overflow-y','hidden');
-        
         if(obj.childCount>0){
                 vm.menu1= true;
                 vm.menu2= true;
@@ -666,7 +670,8 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
         //ev.stopPropagation();     
     }
     vm.openMenuLevel3 = function(obj, index){
-    $('.main-mobile-menu-container').css('overflow-y','hidden');
+
+    $('.main-mobile-menu-container').css({'overflow-y':'hidden','border':'1px solid red'});
     $('.mobile-dropdown-cont2').css('overflow-y','hidden');
     $('.mobile-dropdown-cont3').css('overflow-y','hidden');
     $('.mobile-dropdown-cont4').css('overflow-y','auto');
@@ -682,7 +687,7 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
             }
         //ev.stopPropagation();
     }
-    
+    vm.hidePage = true;
     vm.logoClick = function($event){
       /*  if($scope.menuClass == "unhide"){
             alert(10);
@@ -693,7 +698,7 @@ function BaseController($scope, $timeout, $window, BaseService, $state, LoginSer
             vm.menu2= false;
             vm.menu3= false;
         //if($scope.menuClass == "unhide"){
-            $scope.menuClass = "unhide";
+            //$scope.menuClass = "unhide";
             vm.menuClass = "unhide";
         //}
         vm.isopen = false;
@@ -1422,15 +1427,27 @@ function windowHeightDirective($window) {
 }
 
 function contTopPaddingDirective() {
-	return {
-	    restrict: 'A',
-	    link:function(scope){
-		 	scope.pageTopPadding =  
-			 	angular.element('.base-header-desktop .base-header-inner').height() + 9;
-		 	if($(window).width() <= 810)
-		   		scope.pageTopPadding =  angular.element('.base-header-mobile .base-header-inner').height();
-		}
-	};
+  return {
+    restrict: 'A',
+    link:function(scope){
+      scope.pageTopPadding =  
+      angular.element('.base-header-desktop .base-header-inner').height() + 9;
+      if($(window).width() <= 810){
+        scope.pageTopPadding =  angular.element('.base-header-mobile .base-header-inner').height();
+      }
+      $(window).scroll(function() {
+        var headerHt = $('.base-header-inner').height();
+        if($(this).scrollTop() > headerHt){  
+          scope.pageTopPadding = (angular.element('.base-header-desktop .base-header-inner').height() - 10) + 
+          (angular.element('.base-header.sticky').height());
+        }
+        else{
+          scope.pageTopPadding =  
+          angular.element('.base-header-desktop .base-header-inner').height() + 9;
+        }
+      });
+    }
+  };
 }
 
 function scrollDirective($window) {

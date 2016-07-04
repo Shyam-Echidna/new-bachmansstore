@@ -521,6 +521,33 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
         vm.giftCardTitle = res.items[2].title;
         vm.giftCardDescription = res.items[2].description;    
     }); 
+
+
+    vm.shiftSelectedFacetRight= function(){
+        var currentPos = angular.element('.search-facet-scroll').scrollLeft();
+        var posToShift = angular.element('.search-facet-scroll span').width();
+        angular.element('.search-facet-scroll').scrollLeft(currentPos + posToShift);
+        angular.element('.facetLeftArrow').css({'display':'block'});
+       // alert(currentPos);
+        var scrollEnd = ((vm.Selections.length - 4) * posToShift) - 10;
+        if(currentPos > scrollEnd){
+          angular.element('.faceRightArrow').css({'display':'block'});
+        } else{
+          angular.element('.facetRightArrow').css({'display':'block'});
+        }
+      }
+      vm.shiftSelectedFacetLeft= function(){
+        var currentPos = angular.element('.search-facet-scroll').scrollLeft();
+        var posToShift = angular.element('.search-facet-scroll span').width();
+        angular.element('.search-facet-scroll').scrollLeft(currentPos - posToShift);
+        angular.element('.facetRightArrow').css({'display':'block'});
+        if(currentPos == 0){
+          angular.element('.facetLeftArrow').css({'display':'block'});
+        } else{
+          angular.element('.facetLeftArrow').css({'display':'block'});
+        }
+      } 
+
 }
 
 function AlgoliaService(algolia, $q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, alfrescourl) {

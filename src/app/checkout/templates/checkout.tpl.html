@@ -1,0 +1,1841 @@
+<div class="container-fluid checkout-page">
+    <div class="checkout-header">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="logo">
+                    <a href="#" ng-include="base.logo">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
+                <div class="sign-in">
+                    Sign In
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="continue-shopping-info">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <span></span>Continue Shopping
+            </div>
+        </div>
+    </div>
+    <div class="checkout-info">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 customer-info">
+                <div class="row review-content">
+                    <div class="col-lg-9 col-md-7 col-sm-12 col-xs-12">
+                        <div class="review-order">Review and Place Order</div>
+                    </div>
+                    <div class="col-lg-3 col-md-5 hidden-sm hidden-xs">
+                        <div class="place-order">Place Order</div>
+                    </div>
+                </div>
+                <div class="row accordion-block">
+                    <uib-accordion>
+                        <uib-accordion-group is-open="true">
+                            <uib-accordion-heading>
+                                <p ng-class="{'footer-minus': status.open1, 'footer-plus': !status.open1}">1. Sign In</p>
+                            </uib-accordion-heading>
+                            <div class="panel-body-content registered-customer">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="registered-customer-info">
+                                            <div class="registered-header">Registered Customers</div>
+                                            <div class="registered-form">
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <label for="email">Enter Your Email Address</label>
+                                                        <input type="email" class="form-control" id="email" placeholder="Email Address">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="pwd">Enter Your Password</label>
+                                                        <input type="password" class="form-control" id="pwd" placeholder="Password">
+                                                    </div>
+                                                    <div class="forgot-password">
+                                                        <a href="#">Forgot Password?</a>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default  btn-block">Log in</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="guest-customers-info">
+                                            <div class="guest-header">Guest Customers</div>
+                                            <div class="guest-info">During checkout you can create an account to track your orders, receive Purple Perks points for future purchases, create saved lists and more.</div>
+                                            <div class="continue-guest">Continue as Guest</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="sign-content">
+                                            <span class="sign-in">Signed In as</span><span class="username"> Sam White</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-accordion-group>
+                        <uib-accordion-group is-open="status.open2">
+                            <uib-accordion-heading>
+                                <p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">2. Delivery Information </p>
+                            </uib-accordion-heading>
+                            <div class="panel-body-content delivery-info">
+                                <div class="delivery-client-info">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <span class="client-name">John Snow</span><span class="client-zip-code">55401</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="delivery-client-info recipientopacity">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <span class="recipient-count hidden-sm hidden-xs">Recipient 1</span> <span class="client-name">John Snow</span><span class="client-zip-code">55401</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="delivery-client-info">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <span class="recipient-count hidden-sm hidden-xs">Recipient 2</span> <span class="client-name">Berry Allen </span><span class="client-zip-code">55785</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="delivery-address-details">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="delivery-address">
+                                                <div class="address-header">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="delivery-address-header">Delivery Address</div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                            <div class="view-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                                        
+                                                        <g>
+                                                            <rect x="10" width="2" height="24"></rect>
+                                                            <rect y="10" width="24" height="2"></rect>
+                                                        </g>
+                                                        </svg></span>View Address Book</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="delivery-adddress-form">
+                                                    <div class="signedin-user-info">
+                                                        <div class="signedin-user-content">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+                                                                    <div class="signedin-user-name">
+                                                                        <input type="radio" id="Hospital" name="radio" checked="">
+                                                                        <label for="Hospital">John Snow</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                    <div class="user-zip-code">55401<span>(Default)</span></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="client-address">
+                                                                <p>3648 Blaisdell Ave S</p>
+                                                                <p>Apt 2</p>
+                                                                <p>Minneapolis, MN</p>
+                                                                <p>55401</p>
+                                                            </div>
+                                                            <div class="client-edit"><a href="">Edit</a></div>
+                                                        </div>
+                                                        <div class="signedin-user-content1">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-4">
+                                                                    <div class="signedin-user-name1">
+                                                                        David Snow
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                    <div class="user-zip-code1">55401</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="signedin-user-content1">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-4">
+                                                                    <div class="signedin-user-name1">
+                                                                        Olivia Mun
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                    <div class="user-zip-code1">56781</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="view-more-details">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div class="view-more">View More</div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div class="add-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                                        
+                                                        <g>
+                                                            <rect x="10" width="2" height="24"></rect>
+                                                            <rect y="10" width="24" height="2"></rect>
+                                                        </g>
+                                                        </svg></span>Add a new address</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <form role="form">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-content">
+                                                                <div class="form-group">
+                                                                    <label for="First Name">First Name</label>
+                                                                    <input type="text" name="FirstName" id="FirstName" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label for="Last Name">Last Name</label>
+                                                                    <input type="text" name="LastName" id="LastName" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
+                                                                <div class="form-group">
+                                                                    <label for="ZIP Code">ZIP Code</label>
+                                                                    <input type="text" name="ZIPCode" id="ZIPCode" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                <div class="zip-lookup"><a href="">Zip Code Lookup</a></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row address-lists">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="residence" name="radio" checked/>
+                                                                <label for="residence">Residence</label>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="Hospital" name="radio" checked/>
+                                                                <label for="Hospital">Hospital</label>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="FuneralHome" name="radio" checked/>
+                                                                <label for="FuneralHome">FuneralHome</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row address-lists1">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="Business" name="radio" checked/>
+                                                                <label for="Business"> Business</label>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="School" name="radio" checked/>
+                                                                <label for="School">School</label>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <input type="radio" id="Church" name="radio" checked/>
+                                                                <label for="Church">Church</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label for="Address">Address</label>
+                                                                    <input type="text" name="Address" id="Address" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label for="Address2">Address 2</label>
+                                                                    <input type="text" name="Address2" id="Address2" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
+                                                                <div class="form-group">
+                                                                    <label for="City">City</label>
+                                                                    <input type="text" name="City" id="City" class="form-control input-sm">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label for="State">State</label>
+                                                                    <select class="form-control" id="state">
+                                                                        <option>MN</option>
+                                                                        <option>LA</option>
+                                                                        <option>LV</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group phone-number">
+                                                                    <label>Phone Number</label>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                        <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                        <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                        <input type="tel" name="phone" class="form-control" value="" size="4" maxlength="4" required="required" title="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row client-delivery-info">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label>Delivery Date</label>
+                                                                    <div class="delivery-days-info">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days1">
+                                                                                <div class="deliver-today">
+                                                                                    <p class="delivery-day">Deliver Today</p>
+                                                                                    <p class="delivery-date">March 21st, 2016</p>
+                                                                                    <p class="delivery-avail">Available</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days2">
+                                                                                <div class="deliver-tomorrow">
+                                                                                    <p class="delivery-day">Deliver Tomorrow</p>
+                                                                                    <p class="delivery-date">March 21st, 2016</p>
+                                                                                    <p class="delivery-avail">Available</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
+                                                                                <div class="select-date-info">
+                                                                                    <p class="select-date">Select Date</p>
+                                                                                    <div class="date">DD / MM / YYYY<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
+<g>
+    <g>
+        <g>
+            <g>
+                <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                    c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                    s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+            </g>
+        </g>
+        <g>
+            <g>
+                <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+            </g>
+        </g>
+        <g>
+            <g>
+                <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                     M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+            </g>
+        </g>
+        <g>
+            <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                 M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+        </g>
+        <g>
+            <g>
+                <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+            </g>
+        </g>
+        <g>
+            <g>
+                <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                    c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+            </g>
+        </g>
+        <g>
+            <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+        </g>
+        <g>
+            <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+        </g>
+        <g>
+            <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+        </g>
+        <g>
+            <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+        </g>
+        <g>
+            <g>
+                <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2"></polygon>
+            </g>
+        </g>
+    </g>
+</g>
+</svg></span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label>Delivery Preference</label>
+                                                                    <div class="delivery-days-info">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                <div class="deliver-today">
+                                                                                    <p class="preferences1">No Preference</p>
+                                                                                    <p class="preference-date">9:30AM to 5:30PM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                <div class="deliver-tomorrow">
+                                                                                    <p class="preferences2">Morning</p>
+                                                                                    <p class="preference-date">9:30AM to 1:30PM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                <div class="deliver-today">
+                                                                                    <p class="preferences3">Afternoon</p>
+                                                                                    <p class="preference-date">1:30PM to 5:30PM </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="delivery-instructions">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
+                                                        <div class="delivery-instructions-header">Delivery Instructions</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
+                                                        <div class="instructions-content">
+                                                            <form role="form">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                                                                </div>
+                                                            </form>
+                                                            <div class="instructions-steps">
+                                                                <h1>Instructions</h1>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row message">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="card-message">Card Message</div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="no-message">
+                                                            <div class="Checkbox">
+                                                                <input type="checkbox">
+                                                                <div class="Checkbox-visible"></div>
+                                                            </div>
+                                                            <label>No Message</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div clas="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="Line1">Line 1</label>
+                                                            <input type="text" name="Line1" id="Line1" class="form-control input-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div clas="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="Line2">Line 2</label>
+                                                            <input type="text" name="Line2" id="Line2" class="form-control input-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div clas="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="Line3">Line 3</label>
+                                                            <input type="text" name="Line3" id="Line3" class="form-control input-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div clas="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="Line4">Line 4</label>
+                                                            <input type="text" name="Line4" id="Line4" class="form-control input-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="instructions-steps">
+                                                            <h1>Instructions</h1>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="continue-payement">
+                                                            <button> Continue to Payment</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row review-delivery-info">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <p class="user-name">John Snow</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <p class="plot-no">3648 Blaisdell Ave S</p>
+                                            <p class="apt-name">Apt 2</p>
+                                            <p class="country">Minneapolis, MN</p>
+                                            <p class="country-zip-code">55401</p>
+                                            <p class="phone-no">(651)555-5555</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <p class="delivery-date">Delivery Date</p>
+                                            <p class="delivery-day">March 21st, 2016</p>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <p class="delivery-preference">Delivery Preference</p>
+                                            <p class="delivery-day">Morning</p>
+                                            <p class="delivery-time">9:30AM to 1:30PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-accordion-group>
+                        <uib-accordion-group is-open="status.open3">
+                            <uib-accordion-heading>
+                                <p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}">3. Payment </p>
+                            </uib-accordion-heading>
+                            <div class="panel-body-content payment-info-cont">
+                                <div class="payment-client-info" id="ckeckout-payment">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt selected">
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <div class="arrow-up"></div>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                                <div class="arrow-up"></div>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt">
+                                                <p class="opt-title text-center">Gift Card</p>
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                    </g>
+                                                </svg>
+                                                <div class="arrow-up"></div>
+                                            </div>
+                                            <div class="col-xs-12 card-info-cont">
+                                                <p class="title">Input card information</p>
+                                                <form class="input-card-form" role="form" novalidate>
+                                                    <div class="col-xs-12 form-group holder-name p0">
+                                                        <label for="cardholderName">Cardholder's Name</label>
+                                                        <input type="text" class="form-control" id="cardholderName" placeholder="Name" />
+                                                    </div>
+                                                    <div class="col-xs-12 form-group card-number p0">
+                                                        <label for="cardNumber">Card Number</label>
+                                                        <input type="text" class="form-control" id="cardNumber" placeholder="Number" />
+                                                    </div>
+                                                    <div class="col-xs-6 form-group exp-date p0">
+                                                        <label for="expDate">Expiration Date</label>
+                                                        <select class="form-control" id="month" placeholder="MM">
+                                                            <option>MM</option>
+                                                            <option>MM</option>
+                                                            <option>MM</option>
+                                                        </select>
+                                                        <select class="form-control" id="year" placeholder="YY">
+                                                            <option>YY</option>
+                                                            <option>YY</option>
+                                                            <option>YY</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-xs-4 col-xs-offset-2 form-group cvv-number">
+                                                        <label for="cvvNumber">CVV</label>
+                                                        <input type="text" class="form-control" id="cvvNumber" />
+                                                        <span class="cvv-help">
+                                                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                              viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                          
+                                                            <g>
+                                                             <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                              C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                              c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                              s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                              c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                              c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                            </g>
+                                                           </svg>
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 billing-addr-cont">
+                                            <p class="title">Billing Address</p>
+                                            <div class="same-addr-chk">
+                                                <div class="Checkbox">
+                                                    <input type="checkbox">
+                                                    <div class="Checkbox-visible"></div>
+                                                </div>
+                                                <label>Same as Delivery Address</label>
+                                            </div>
+                                            <div class="billing-addr-div">
+                                                <form class="billing-addr-form" role="form" novalidate>
+                                                    <div class="col-xs-6 form-group first-name">
+                                                        <label for="firstName">First Name</label>
+                                                        <input type="text" class="form-control" id="firstName" />
+                                                    </div>
+                                                    <div class="col-xs-6 form-group last-name">
+                                                        <label for="nickName">Last Name</label>
+                                                        <input type="text" class="form-control" id="lastName" />
+                                                    </div>
+                                                    <div class="col-xs-12 form-group address">
+                                                        <label for="address">Address</label>
+                                                        <input type="text" class="form-control" id="address" />
+                                                    </div>
+                                                    <div class="col-xs-12 form-group address2">
+                                                        <label for="address2">Address2</label>
+                                                        <input type="text" class="form-control" id="address2" />
+                                                    </div>
+                                                    <div class="col-xs-6 form-group city">
+                                                        <label for="address">City</label>
+                                                        <input type="text" class="form-control" id="city" />
+                                                    </div>
+                                                    <div class="col-xs-6 form-group state">
+                                                        <label for="state">State</label>
+                                                        <select class="form-control" id="state">
+                                                            <option>MN</option>
+                                                            <option>LA</option>
+                                                            <option>LV</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-xs-6 form-group zip-code">
+                                                        <label for="zipCode">ZIP Code</label>
+                                                        <input type="number" class="form-control" id="zipCode" />
+                                                    </div>
+                                                    <div class="col-xs-6 form-group zip-code-lookup">
+                                                        <a href="javascript:void(0)" class="zip-code-lookup-link">Zip Code Lookup</a>
+                                                    </div>
+                                                    <div class="col-xs-12 form-group phone-number">
+                                                        <label for="phone1">Phone Number</label>
+                                                        <input type="number" class="form-control col-xs-3" id="phone1" />
+                                                        <input type="number" class="form-control col-xs-3" id="phone2" />
+                                                        <input type="number" class="form-control col-xs-3" id="phone3" />
+                                                    </div>
+                                                    <div class="col-xs-12 form-group email-addr">
+                                                        <label for="address">Enter Your Email Address</label>
+                                                        <input type="text" class="form-control" id="city" placeholder="Email Address" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn green-btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="payment-client-info" id="signed-in-payment">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt selected">
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Gift Card</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0">
+                                            <div class="col-xs-12 p0 card-item">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio1" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio1" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+                                                        <!-- <img src="assets/images/batch3web/visa.png"> -->
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-12 card-cont-body">
+                                                    <div class="col-xs-4 cvv-title">
+                                                        <p>Enter CVV Code</p>
+                                                    </div>
+                                                    <div class="col-xs-8 cvv-value">
+                                                        <form class="cvv-from" role="form" novalidate>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="cvvNumber" />
+                                                                <span class="cvv-help-icon">
+                                                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                      viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                                  
+                                                                    <g>
+                                                                     <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                                      C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                                      c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                                      s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                                      c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                                      c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                                    </g>
+                                                                   </svg>
+                                                                </span>
+                                                                <label for="cvvNumber">CVV code is on the back side of your card-radio</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-xs-4 bill-addr-title">
+                                                        <p>Billing Address</p>
+                                                    </div>
+                                                    <div class="col-xs-8 bill-addr-value">
+                                                        <p>3648 Blaisdell Ave S</p>
+                                                        <p>Apt 2</p>
+                                                        <p>Minneapolis, MN</p>
+                                                        <p>55401</p>
+                                                        <a href="javascript:void(0)" class="edit-link">Edit</a>
+                                                    </div>
+                                                    <div class="col-xs-8 col-xs-offset-4 email-value">
+                                                        <p>john.snow@gmail.com</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio2" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio2" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio3" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio3" class="card-radio-label"></label>
+                                                    </span>
+                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 discount-options">
+                                                <div class="col-xs-4 p0 gift-card">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Have a Gift Card?</label>
+                                                </div>
+                                                <div class="col-xs-8 p0 purple-dollar">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Use Purple Perks <span>500</span> Dollars for -&#x24;20.00 Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn green-btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="payment-client-info" id="signed-in-payment-gift-card">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt">
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt selected">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                     viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                    <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
+                                                    <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z"/>
+                                                    <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"/>
+                                                    <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Gift Card</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 p0 payment-gift-card-info">
+                                            <p class="title">Gift Card Information</p>
+                                            <p class="title-helper">Enter 14 or 16 Digit Gift Card Number</p>
+                                            <form class="pmt-gift-card-form" role="form" novalidate>
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" id="pmt-gift-card-num" />
+                                                    <span class="card-help-icon">
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                          viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                      
+                                                        <g>
+                                                         <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                          C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                          c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                          s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                          c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                          c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                        </g>
+                                                       </svg>
+                                                    </span>
+                                                </div>
+                                                <button type="button" class="btn green-btn" ui-sref="">Add Card</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="payment-client-info" id="signed-in-payment-add-gift-card">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt selected">
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Gift Card</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0">
+                                            <div class="col-xs-12 p0 card-item">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio4" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio4" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-12 card-cont-body">
+                                                    <div class="col-xs-4 cvv-title">
+                                                        <p>Enter CVV Code</p>
+                                                    </div>
+                                                    <div class="col-xs-8 cvv-value">
+                                                        <form class="cvv-from" role="form" novalidate>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="cvvNumber" />
+                                                                <span class="cvv-help-icon">
+                                                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                      viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                                  
+                                                                    <g>
+                                                                     <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                                      C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                                      c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                                      s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                                      c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                                      c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                                    </g>
+                                                                   </svg>
+                                                                </span>
+                                                                <label for="cvvNumber">CVV code is on the back side of your card-radio</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-xs-4 bill-addr-title">
+                                                        <p>Billing Address</p>
+                                                    </div>
+                                                    <div class="col-xs-8 bill-addr-value">
+                                                        <p>3648 Blaisdell Ave S</p>
+                                                        <p>Apt 2</p>
+                                                        <p>Minneapolis, MN</p>
+                                                        <p>55401</p>
+                                                        <a href="javascript:void(0)" class="edit-link">Edit</a>
+                                                    </div>
+                                                    <div class="col-xs-8 col-xs-offset-4 email-value">
+                                                        <p>john.snow@gmail.com</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio5" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio5" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio6" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio6" class="card-radio-label"></label>
+                                                    </span>
+                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 discount-options">
+                                                <div class="col-xs-4 p0 gift-card">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Have a Gift Card?</label>
+                                                </div>
+                                                <div class="col-xs-8 p0 purple-dollar">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Use Purple Perks <span>500</span> Dollars for -&#x24;20.00 Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 p0 payment-gift-card-info info-bg-color">
+                                            <p class="title">Gift Card Information</p>
+                                            <p class="title-helper">Enter 14 or 16 Digit Gift Card Number</p>
+                                            <form class="pmt-gift-card-form" role="form" novalidate>
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" id="pmt-gift-card-num" />
+                                                    <span class="card-help-icon">
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                          viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                      
+                                                        <g>
+                                                         <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                          C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                          c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                          s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                          c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                          c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                        </g>
+                                                       </svg>
+                                                    </span>
+                                                </div>
+                                                <button type="button" class="btn green-btn" ui-sref="">Add Card</button>
+                                            </form>
+                                            <div class="arrow-up"></div>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="payment-client-info" id="signed-in-payment-edit-address">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt selected">
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Gift Card</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0">
+                                            <div class="col-xs-12 p0 card-item">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio7" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio7" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-12 card-cont-body">
+                                                    <div class="col-xs-4 cvv-title">
+                                                        <p>Enter CVV Code</p>
+                                                    </div>
+                                                    <div class="col-xs-8 cvv-value">
+                                                        <form class="cvv-from" role="form" novalidate>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="cvvNumber" />
+                                                                <span class="cvv-help-icon">
+                                                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                      viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                                  
+                                                                    <g>
+                                                                     <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                                      C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                                      c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                                      s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                                      c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                                      c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                                    </g>
+                                                                   </svg>
+                                                                </span>
+                                                                <label for="cvvNumber">CVV code is on the back side of your card-radio</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-xs-4 bill-addr-title">
+                                                        <p>Billing Address</p>
+                                                    </div>
+                                                    <div class="col-xs-8 bill-addr-value">
+                                                        <p>3648 Blaisdell Ave S</p>
+                                                        <p>Apt 2</p>
+                                                        <p>Minneapolis, MN</p>
+                                                        <p>55401</p>
+                                                        <a href="javascript:void(0)" class="edit-link">Edit</a>
+                                                    </div>
+                                                    <div class="col-xs-8 col-xs-offset-4 email-value">
+                                                        <p>john.snow@gmail.com</p>
+                                                    </div>
+                                                    <div class="col-xs-12 billing-addr-cont">
+                                                        <p class="title">Billing Address</p>
+                                                        <div class="billing-addr-div">
+                                                            <form class="billing-addr-form" role="form" novalidate>
+                                                                <div class="col-xs-6 form-group first-name">
+                                                                    <label for="firstName">First Name</label>
+                                                                    <input type="text" class="form-control" id="firstName" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group last-name">
+                                                                    <label for="nickName">Last Name</label>
+                                                                    <input type="text" class="form-control" id="lastName" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group zip-code">
+                                                                    <label for="zipCode">ZIP Code</label>
+                                                                    <input type="number" class="form-control" id="zipCode" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group zip-code-lookup">
+                                                                    <a href="javascript:void(0)" class="zip-code-lookup-link">Zip Code Lookup</a>
+                                                                </div>
+                                                                <div class="col-xs-12 form-group address">
+                                                                    <label for="address">Address</label>
+                                                                    <input type="text" class="form-control" id="address" />
+                                                                </div>
+                                                                <div class="col-xs-12 form-group address2">
+                                                                    <label for="address2">Address2</label>
+                                                                    <input type="text" class="form-control" id="address2" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group city">
+                                                                    <label for="address">City</label>
+                                                                    <input type="text" class="form-control" id="city" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group state">
+                                                                    <label for="state">State</label>
+                                                                    <select class="form-control" id="state">
+                                                                        <option>MN</option>
+                                                                        <option>LA</option>
+                                                                        <option>LV</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-xs-12 form-group phone-number">
+                                                                    <label for="phone1">Phone Number</label>
+                                                                    <input type="number" class="form-control col-xs-3" id="phone1" />
+                                                                    <input type="number" class="form-control col-xs-3" id="phone2" />
+                                                                    <input type="number" class="form-control col-xs-3" id="phone3" />
+                                                                </div>
+                                                                <div class="col-xs-12 form-group email-addr">
+                                                                    <label for="address">Enter Your Email Address</label>
+                                                                    <input type="text" class="form-control" id="city" placeholder="Email Address" />
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio8" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio8" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio9" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio9" class="card-radio-label"></label>
+                                                    </span>
+                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 discount-options">
+                                                <div class="col-xs-4 p0 gift-card">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Have a Gift Card?</label>
+                                                </div>
+                                                <div class="col-xs-8 p0 purple-dollar">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Use Purple Perks <span>500</span> Dollars for -&#x24;20.00 Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="payment-client-info" id="signed-in-payment-add-card">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                            <p class="title">Payment Method</p>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 credit-card-opt selected">
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                            <g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                                    </g>
+                                                                    <g>
+                                                                        <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                                    </g>
+                                                                </g>
+                                                                <g>
+                                                                    <g>
+                                                                        <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt">
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                                         M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                                        c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                                        C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                                        c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                                        c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                                        c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                                        c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                                        C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                                        c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                                        c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                                        c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                                        s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                                        c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                    </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Gift Card</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0">
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio10" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio10" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item card-item-opace">
+                                                <div class="col-xs-12 card-cont-header">
+                                                    <span class="card-checkbox-cont">
+                                                        <input type="radio" id="card-radio11" name="card-radio" class="input-card-radio" />
+                                                        <label for="card-radio11" class="card-radio-label"></label>
+                                                    </span>
+                                                    <span class="visa-icon-cont">
+
+                                                    </span>
+                                                    <span class="card-number">
+                                                        XXXX XXX XXX 1419
+                                                    </span>
+                                                    <span class="date-cont">
+                                                        08/23
+                                                    </span>
+                                                    <span class="name-cont">
+                                                        Sam White
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 card-item">
+                                                <div class="payment-method-cont">
+                                                    <div class="col-xs-12 card-cont-header">
+                                                        <span class="card-checkbox-cont">
+                                                            <input type="radio" id="card-radio12" name="card-radio" class="input-card-radio" />
+                                                            <label for="card-radio12" class="card-radio-label"></label>
+                                                        </span>
+                                                        <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                        <div class="col-xs-12 card-info-cont">
+                                                            <form class="input-card-form" role="form" novalidate>
+                                                                <div class="col-xs-12 form-group holder-name p0">
+                                                                    <label for="cardholderName">Cardholder's Name</label>
+                                                                    <input type="text" class="form-control" id="cardholderName" placeholder="Name" />
+                                                                </div>
+                                                                <div class="col-xs-12 form-group card-number p0">
+                                                                    <label for="cardNumber">Card Number</label>
+                                                                    <input type="text" class="form-control" id="cardNumber" placeholder="Number" />
+                                                                </div>
+                                                                <div class="col-xs-6 form-group exp-date p0">
+                                                                    <label for="expDate">Expiration Date</label>
+                                                                    <select class="form-control" id="month" placeholder="MM">
+                                                                        <option>MM</option>
+                                                                        <option>MM</option>
+                                                                        <option>MM</option>
+                                                                    </select>
+                                                                    <select class="form-control" id="year" placeholder="YY">
+                                                                        <option>YY</option>
+                                                                        <option>YY</option>
+                                                                        <option>YY</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-xs-6 form-group cvv-number">
+                                                                    <label for="cvvNumber">CVV</label>
+                                                                    <input type="text" class="form-control" id="cvvNumber" />
+                                                                    <span class="cvv-help">
+                                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                          viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
+                                                                      
+                                                                        <g>
+                                                                         <path d="M6.6,16.1c-0.7-0.6-1.1-1.4-1.1-2.3c0-0.7,0.2-1.2,0.5-1.8c0.3-0.5,0.8-1,1.3-1.3c0.5-0.4,1-0.7,1.5-1.1
+                                                                          C9.3,9.3,9.7,9,10,8.5c0.3-0.4,0.5-0.9,0.5-1.5c0-0.7-0.3-1.4-0.9-1.9C9.1,4.7,8.3,4.4,7.3,4.4c-1.8,0-3.3,0.8-4.5,2.3L1.4,5.2
+                                                                          c1.5-1.9,3.5-2.9,6.1-2.9c1.7,0,3,0.4,4,1.2c1,0.8,1.5,1.9,1.5,3.1c0,0.8-0.2,1.5-0.6,2.1c-0.4,0.6-0.8,1.1-1.4,1.5
+                                                                          s-1.1,0.8-1.6,1.1c-0.5,0.4-1,0.7-1.3,1.2c-0.4,0.4-0.6,0.9-0.6,1.4c0,0.6,0.2,1,0.7,1.3L6.6,16.1z M8.3,21.1
+                                                                          c-0.3,0.3-0.7,0.4-1.1,0.4c-0.4,0-0.8-0.1-1.1-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1c0.3-0.3,0.7-0.4,1.1-0.4
+                                                                          c0.4,0,0.8,0.1,1.1,0.4c0.3,0.3,0.5,0.7,0.5,1.1C8.7,20.5,8.6,20.8,8.3,21.1z"/>
+                                                                        </g>
+                                                                       </svg>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-xs-12 p0 form-group card-remember">
+                                                                    <div class="Checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="Checkbox-visible"></div>
+                                                                    </div>
+                                                                    <label>Save this card for future payments</label>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 p0 discount-options">
+                                                <div class="col-xs-4 p0 gift-card">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Have a Gift Card?</label>
+                                                </div>
+                                                <div class="col-xs-8 p0 purple-dollar">
+                                                    <div class="Checkbox">
+                                                        <input type="checkbox" checked="">
+                                                        <div class="Checkbox-visible"></div>
+                                                    </div>
+                                                    <label>Use Purple Perks <span>500</span> Dollars for -&#x24;20.00 Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 order-amt-cont">
+                                            <div class="amt-cont-cover">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                    <p class="title">Total Amount Payable</p>
+                                                    <p class="amount">&#x24;525.00</p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                    <button type="button" class="btn green-btn" ui-sref=".create">Review Order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-accordion-group>
+                        <uib-accordion-group is-open="status.open4">
+                            <uib-accordion-heading>
+                                <p ng-class="{'footer-minus': status.open4, 'footer-plus': !status.open4}">4. Review & Confirm Order </p>
+                            </uib-accordion-heading>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+                <div class="row review-content">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="place-order">Place Order</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 order-details">
+                <div class="order-summary-info">
+                    <div class="order-summary-header">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                <div class="order-summary-title">Your Order <span>(6 Items)</span></div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="order-count"><a href="">Edit</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-summary-details">
+                        <div class="client-info">
+                            <div class="row">
+                                <p><span> Recipient</span> <span class="recipient-name">John Snow</span><span> Zip Code</span> <span class="zip-code">55401</span></p>
+                            </div>
+                        </div>
+                        <div class="recipient-order-details">
+                            <div class="row recipient-info">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/chechout-product1.jpg">
+                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile1.png">
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <p class="custom-name">Premium Roses, Long Stemmed
+                                    </p>
+                                    <p class="item-number">Item Number: <span>141927    </span></p>
+                                    <p class="product-type">Type: <span>Deluxe</span></p>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="quantity-info">
+                                                Qty : 1
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="total-amount-info">
+                                                $59.99
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row recipient-info">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/checkout-product2.jpg">
+                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile2.png">
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <p class="custom-name">Starry Night Boutonnière </p>
+                                    <p class="item-number">Item Number: <span>218973  </span></p>
+                                    <p class="product-type">Type: <span>Deluxe</span></p>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="quantity-info">
+                                                Qty : 2
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="total-amount-info">
+                                                $43.98
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row recipient-info">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/checkout-product3.png">
+                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile3.png">
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <p class="custom-name">Sweetest Rose Bowl</p>
+                                    <p class="item-number">Item Number: <span>4686541 </span></p>
+                                    <p class="product-type">Type: <span>Deluxe</span></p>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="quantity-info">
+                                                Qty : 3
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="total-amount-info">
+                                                $179.97
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="sub-total-info">
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="sub-total">Subtotal</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="sub-total-amount">$500.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <p class="delivery-charges">Delivery Charges<span></span></p>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="delivery-amount">$10.99</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="tax-info">Tax<span></span></div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="tax-amount">$0.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="row total-order-info">
+                                            <div class="col-lg-6 col-md-6 col-sm-9 col-xs-9">
+                                                <div class="total-order-summary">Total</div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-3 col-xs-3">
+                                                <div class="total-order-amount">$525.00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="need-help-info">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p class="need-help-header">Need Help?</p>
+                                <p class="call-us hidden-sm hidden-xs">
+                                    <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                                              
+                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span> Call us at 612-891-7311</p>
+                                <p class="mobile-call-us hidden-lg hidden-md">
+                                    <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                                           
+                                           
+                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span> Call us</p>
+                                <div class="help-links">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <ul class="list-inline">
+                                                <li><a href="#">Billing & Shipping</a></li>
+                                                <li><a href="#">Delivery Rates</a></li>
+                                                <li><a href="#">Returns & Exchange</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <ul class="list-inline">
+                                                <li><a href="#">FAQ</a></li>
+                                                <li><a href="#">Terms & Conditions</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>

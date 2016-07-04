@@ -1,0 +1,34 @@
+#minicart {
+  .btn-group {
+    .btn-default {
+      font-weight: bold;
+    }
+  }
+  .dropdown-menu{
+    width: 250px;
+  }
+
+  .express-checkout {
+    margin-top: @form-group-margin-bottom;
+  }
+
+  .badge {
+    background-color:@brand-primary;
+  }
+  #minicart_line_item_list {
+    padding: 0;
+    right: 15px;
+    left: auto;
+    .minicart-body {
+      max-height: 30vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      table {
+        margin-bottom: 0;
+        tr, td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ function PdpConfig($stateProvider) {
 			url: '/pdp/:sequence?prodId',
 			templateUrl: 'pdp/templates/pdp.tpl.html',
 			resolve: {
-	productDetail: function(PlpService, PdpService, $q, $stateParams, $http, OrderCloud){
+				productDetail: function(PlpService, PdpService, $q, $stateParams, $http, OrderCloud){
 						var filter ={"xp.sequencenumber":$stateParams.sequence};
 					    // return OrderCloud.Me.ListProducts(null, 1, 100, null, null, filter, null).then(function(res){
 				     // 	console.log('Product response data',res);
@@ -141,6 +141,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			OrderCloud.LineItems.Create(orderId, lineItem).then(function (res) {
 				console.log(res);
 				//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
+				$rootScope.order = orderId;
 				return $rootScope.$broadcast('LineItemCreated', orderId, res);
 			})
 		}, function () {
@@ -152,6 +153,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 				};
 				productID = prodID;
 				OrderCloud.LineItems.Create(order.ID, lineItem).then(function (lineitem) {
+					$rootScope.order = order.ID;
 					return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
 				})
 			})
@@ -218,30 +220,19 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		vm.activeProducts = vm.sizeGroupedProducts;
 		console.log('Selected size prod', vm.sizeGroupedProducts);
 		//$('body').find('.detail-container .prod_title').text(vm.sizeGroupedProducts[0].Name);
-		PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function (res) {
-			vm.productVarientImages = res;
-
-			var owl2 = angular.element("#owl-carousel-pdp-banner");
-			owl2.trigger('destroy.owl.carousel');
-			setTimeout(function () {
-				owl2.owlCarousel({
-					loop: true,
-					nav: false,
-					dots: true,
-					responsive: {
-						0: { items: 1 },
-						320: {
-							items: 1,
-						},
-						730: {
-							items: 1,
-						},
-						1024: {
-							items: 1
-						}
-					}
-				});
-			}, 300);
+		PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
+		vm.productVarientImages = res;
+		var owl2 = angular.element("#owl-carousel-pdp-banner");   
+		owl2.trigger('destroy.owl.carousel');
+		setTimeout(function(){
+      	owl2.owlCarousel({
+            loop:false,
+            nav:true,
+            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
+            dots:true,
+            items:1
+          }); 
+      	 },300);
 		});
 	};
     $scope.radio = { selectedSize: null };
@@ -250,9 +241,9 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	vm.sizeBoxItemClicked = function ($index) {
 		vm.selectedSizeIndex = $index;
 		// pdp image min height -start
-		var pdpDetailBoxHt = $('.detail-overlay-box ').height();
-		//alert(pdpDetailBoxHt);
-		$('.pdp-banner-top').css('min-height', pdpDetailBoxHt);
+		 var pdpDetailBoxHt = $('.detail-overlay-box ').height();
+		  //alert(pdpDetailBoxHt);
+		  //$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
 
 		// pdp image min height -end
 	}
@@ -262,64 +253,86 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		vm.activeProducts[0] = prod;
 		vm.selectedProductIndex = $index;
 		$($event.target).parents('.detail-container').find('h3').text(prod.Name);
-        $($event.target).parents('.product-box').find('.Price').text('$' + prod.StandardPriceSchedule.PriceBreaks[0].Price);
-		PdpService.GetProductCodeImages(prod.ID).then(function (res) {
-			vm.productVarientImages = res;
+        $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
+		PdpService.GetProductCodeImages(prod.ID).then(function(res){
+		vm.productVarientImages = res;
+		// pdp image min height -start
+		  var pdpDetailBoxHt = $('.detail-overlay-box ').height();
+		  //alert(pdpDetailBoxHt);
+		  //$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
 
-			// pdp image min height -start
-			var pdpDetailBoxHt = $('.detail-overlay-box ').height();
-			//alert(pdpDetailBoxHt);
-			$('.pdp-banner-top').css('min-height', pdpDetailBoxHt);
-
-			// pdp image min height -end
-			var owl2 = angular.element("#owl-carousel-pdp-banner");
-			owl2.trigger('destroy.owl.carousel');
-			setTimeout(function () {
-				owl2.owlCarousel({
-					loop: true,
-					nav: false,
-					dots: true,
-					responsive: {
-						0: { items: 1 },
-						320: {
-							items: 1,
-						},
-						730: {
-							items: 1,
-						},
-						1024: {
-							items: 1
-						}
-					}
-				});
-			}, 300);
+		  // pdp image min height -end
+		var owl2 = angular.element("#owl-carousel-pdp-banner");   
+		owl2.trigger('destroy.owl.carousel');
+		setTimeout(function(){
+      	owl2.owlCarousel({
+	            loop:false,
+	            nav:true,
+	            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
+	            dots:true,
+	            items:1
+          }); 
+      	},300);
 		});
-		$('#owl-carousel-pdp-banner .owl-item img').css({ 'width': '60%', 'padding-right': '30px' });
+	    //$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
+
 	}
 
 	vm.multireceipent = function () {
 		$scope.items = "";
-		var modalInstance = $uibModal.open({
-			animation: true,
-			backdropClass: 'multiRecipentModal',
-			templateUrl: 'pdp/templates/multireceipent.tpl.html',
-			controller: 'MultipleReceipentCtrl',
-			controllerAs: 'vm',
-			param: {
-				//productID: prodID
-			},
-			resolve: {
-				items: function () {
-					return vm.activeProducts;
+		CurrentOrder.Get().then(function (orderId) {
+			$rootScope.order = orderId.ID;
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdropClass: 'multiRecipentModal',
+				templateUrl: 'pdp/templates/multireceipent.tpl.html',
+				controller: 'MultipleReceipentCtrl',
+				controllerAs: 'vm',
+				param: {
+					//productID: prodID
+				},
+				resolve: {
+					items: function () {
+
+						return vm.activeProducts;
+
+
+					}
 				}
-			}
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+			}, function () {
+				angular.noop();
+			});
+		},function(){
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdropClass: 'multiRecipentModal',
+				templateUrl: 'pdp/templates/multireceipent.tpl.html',
+				controller: 'MultipleReceipentCtrl',
+				controllerAs: 'vm',
+				param: {
+					//productID: prodID
+				},
+				resolve: {
+					items: function () {
+
+						return vm.activeProducts;
+
+
+					}
+				}
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+			}, function () {
+				angular.noop();
+			});
 		});
 
-		modalInstance.result.then(function (selectedItem) {
-			$scope.selected = selectedItem;
-		}, function () {
-			angular.noop();
-		});
 	}
 
 
@@ -353,85 +366,80 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 	// carousel
 
-	setTimeout(function () {
-		angular.element("#owl-carousel-pdp-banner").owlCarousel({
-			//responsive: true,
-			items: 1,
-			dots: true,
-			loop: true,
-			autoplay: true,
-			autoplayHoverPause: true,
-			animateOut: 'fadeOut'
+	 /*setTimeout(function(){
+	angular.element("#owl-carousel-pdp-banner").owlCarousel({
+		//responsive: true,
+		items:1,
+		dots:true,
+		loop:true,
+		autoplay:true,
+		autoplayHoverPause:true,
+		animateOut: 'fadeOut'
 
-		});
-		//$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
-	}, 500);
-
-
-	// suggested-carousel
+	});
+	$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
+	},500);*/
 
 
+	 // suggested-carousel
 
-	setTimeout(function () {
-		var pdtCarousal = angular.element("#owl-suggested-pdt-carousel");
+
+
+	setTimeout(function(){
+	    var pdtCarousal = angular.element("#owl-suggested-pdt-carousel");
 		pdtCarousal.owlCarousel({
 			loop: true,
 			center: true,
-			margin: 12,
-			nav: true,
-			navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>', '<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],
+			margin:12,
+			nav:true,
+			navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>','<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],		
 			callbacks: true,
 			URLhashListener: true,
 			autoplayHoverPause: true,
 			startPosition: 'URLHash',
-			responsiveClass: true,
-			responsive: {
+			responsiveClass:true,
+			responsive:{
 				// breakpoint from 0 up
-				0: {
-					items: 1,
-					stagePadding: 120,
+				0:{
+					items:1,
+					stagePadding:120,
 				},
 				// breakpoint from 328 up..... mobile portrait
-				320: {
-					items: 1,
-					dots: true,
-					stagePadding: 30,
-					margin: 45,
+				320:{
+					items:1,
+					dots:true,
+					stagePadding:30,
+					margin:45,
 				},
 				// breakpoint from 328 up..... mobile landscape
-				568: {
-					items: 1,
-					dots: true,
-					stagePadding: 100,
-					margin: 30
+				568:{
+					items:1,
+					dots:true,
+					stagePadding:100,
+					margin:30
 				},
-				960: {
-					items: 1,
-					dots: true,
-					stagePadding: 200,
-					margin: 10
+				960:{
+					items:1,
+					dots:true,
+					stagePadding:200,
+					margin:10
 				},
 				// breakpoint from 768 up
-				768: {
-					items: 1,
-					dots: true,
-					stagePadding: 120
+				768:{
+					items:1,
+					dots:true,
+					stagePadding:120
 				},
-				1024: {
-					items: 2,
-					dots: true,
-					stagePadding: 80
+				1024:{
+					items:2,
+					dots:true,
+					stagePadding:80
 				},
-				1200: {
-					items: 2,
-					dots: true,
-					stagePadding: 130
+				1500:{
+					items:4,
+					dots:true,
+					stagePadding:0
 				},
-				1500: {
-					items: 3,
-					dots: true,
-					stagePadding: 0
-				}
 			},
 			onInitialized: function (event) {
 				var tmp_owl = this;
@@ -488,14 +496,16 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
     var vm = this;
     console.log(PdpService);
     vm.oneAtATime = true;
-	vm.order = "";
-	vm.list={}
+	vm.list = {},
+		$scope.line = null;
+
 	vm.selectedRecipient = false;
 	vm.singlelerecipent = true;
 	$scope.crdmsg = true;
     vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+	vm.getLineItems = getLineItems;
 	$scope.activeRecipient = true;
 	var item = {
 		"ID": "",
@@ -515,14 +525,20 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		"Specs": [],
 		"xp": null
 	};
-
+	vm.order = $rootScope.order;
     vm.activeOrders = [];
+	if (!vm.order) {
+		vm.order = "";
+	}
 	if (vm.order == "") {
 		vm.activeOrders[0] = item;
 	}
+	if ($rootScope.order) {
+		vm.getLineItems();
+	}
 
 	$rootScope.$on('LineItemCreated', function (events, args, lineitem) {
-		vm.order = args;
+		vm.order = $rootScope.order = args;
 		console.log("order id", vm.order)
 		lineitem.ShippingAddress = $rootScope.lineitemdtls.ShippingAddress;
 		lineitem.xp = $rootScope.lineitemdtls.xp;
@@ -540,6 +556,12 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	$scope.submitDtls = function (line, $index) {
 
 		console.log("line", line);
+		if ($scope.showNewRecipient) {
+			$scope.line = item;
+			$scope.line.ShippingAddress = line.ShippingAddress;
+			$scope.line.xp = line.xp;
+			line = $scope.line;
+		}
 		if (line.xp.deliveryDate) {
 			line.xp.deliveryDate = new Date(line.xp.deliveryDate);
 		}
@@ -573,6 +595,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		console.log("line", line);
 		$rootScope.lineitemdtls = line;
 
+
 		if (line.ID == "") {
 
 			PdpService.CreateOrder(line.ProductID);
@@ -602,12 +625,25 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		});
 
 	}
-	vm.getLineItems = function () {
+	function getLineItems() {
 
 		OrderCloud.LineItems.List(vm.order).then(function (res) {
 
 			console.log("Lineitems", res);
+			angular.forEach(res.Items, function (val, key, obj) {
+				if (val.xp.deliveryDate)
+					val.xp.deliveryDate = new Date(val.xp.deliveryDate);
+			})
 			vm.activeOrders = res.Items;
+			if (res.Items.length > 0) {
+				$scope.line = null;
+				item.ShippingAddress=null;
+				item.xp=null;
+				$scope.line = item;
+				$scope.activeRecipient = false;
+				$scope.showNewRecipient = true;
+			}
+
 
 		});
 
@@ -653,6 +689,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			"Specs": [],
 			"xp": null
 		};
+		$scope.line = null;
 		$scope.line = item;
 		$scope.activeRecipient = false;
 		$scope.showNewRecipient = !$scope.showNewRecipient;

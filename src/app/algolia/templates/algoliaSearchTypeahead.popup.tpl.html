@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="row typeahead-right-lower owl-carouse " id="owl-carousel-searc">
-                <div class="hidden-xs hidden-sm col-xs-3 col-sm-3 col-md-3 col-lg-3 thumbnail-selection"
+                <div class="hidden-xs hidden-sm col-xs-3 col-sm-3 col-md-4 col-lg-4 thumbnail-selection"
                     ng-repeat="match in matches | IndexType:'products' | limitTo:4 track by $index">
                     <div class="thumbnail">
                         <img ng-click="$parent.$parent.selectMatch(match)" ng-src="{{match.model.Image}}">

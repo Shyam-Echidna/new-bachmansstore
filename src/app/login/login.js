@@ -90,6 +90,13 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
         vm.form = form;
     };
 
+    vm.showScroll=function(){
+      $uibModalInstance.opened.then(function() {
+          $timeout(function() {
+              $scope.$broadcast('rebuild:signUpScroll');
+          },200);
+        });
+    }
     
     // START: function for sort options selection
       var sortItems=[
@@ -215,14 +222,16 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
     }
     vm.showSignUp = function(){
         vm.loginTab = 2;
-        vm.showYScrollbar=true;
+        
     }
     vm.showForgotPassword = function(){
         vm.loginTab = 3;
     }
-
-    $scope.cancel = function () {
+    vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+        vm.menuClass='unhide';
+        $('.menu-class').removeClass('hide');
+        $('.menu-class').addClass('unhide');
     };
     vm.create = function() {
        //vm.newUser=Users;

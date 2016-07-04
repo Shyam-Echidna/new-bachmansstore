@@ -22,15 +22,77 @@ padding:0px;
 	#owl-carousel-pdp-banner {
 		width: 100%;
 		overflow: hidden;
+		padding-bottom:25px;
 		.owl-item{
 			img{
 				//width: 60%;
 				//padding-right: 30px;
+				padding:0 30px;
 			}
 		}
+ 
+	    .owl-prev{
+	    	span{
+	    		width: 20px;
+                height: 25px;
+                display:block;
+                -ms-transform: translate(0%, -50%) rotate(180deg);
+                -webkit-transform: translate(0%, -50%) rotate(180deg);
+                transform: translate(0%, -50%) rotate(180deg);
+               	position: absolute;
+			    left: 0;
+			    top: 0;
+			    bottom: 0;
+			    margin: auto;
+                svg{
+                    polyline{
+	                    stroke: #8b5bb3;
+					    fill: none;
+					    stroke-width: 8px;
+                    }
+                } 
+	    	}
+	    	&.disabled{
+				svg{
+                    polyline{
+                    	opacity:0;
+                    }
+                }
+	    	}
+	    }
+	    .owl-next{
+	    	span{ 
+		    	z-index: 1;
+                width: 20px;
+                height: 25px;
+                display:block;
+                position: absolute;
+			    right: 0;
+			    top: 0;
+			    bottom: 0;
+			    margin: auto;
+                svg {
+                	margin-top: -30px;
+	                polyline{
+	                    stroke: #8b5bb3;
+					    fill: none;
+					    stroke-width: 8px;
+                    }
+                }
+	    	}
+	    	&.disabled{
+				svg{
+                    polyline{
+                    	opacity:0;
+                    }
+                }
+	    	}
+	    }
+	    
+
 	.owl-dots{
 	    position: absolute;
-		bottom: 30px;
+		bottom: -6px;
 		text-align: center;
 		width: 100%;
 		box-sizing: border-box;
@@ -78,9 +140,21 @@ padding:0px;
 }
 .owl-carousel-pdp-bannerCont{
 	//padding-top:2.6em;
-	    padding-top: 65px;
+	    padding-top:65px;
 	    position:relative;
 	    padding: 0 4%;
+	    min-height: 400px;
+	   	#owl-carousel-pdp-banner{
+		    &.owl-carousel .owl-item{
+		  	  	min-height:400px;
+			    img{
+		   			max-height: 400px;
+		   			width: auto;
+		   			display: inline-block;
+			    }
+		    } 
+	    }
+
 }
 .detail-overlay-box{
 
@@ -242,6 +316,9 @@ padding:0px;
 	    							}
 	    						}
 	    					}
+	    					.radio-btn-container div .size-box:hover {
+							    box-shadow: 0px 0px 1px 1px #f0f0f0;
+							}
 	    				}
 	    			}
 	    		}
@@ -964,16 +1041,20 @@ padding:0px;
 		    margin-top: 0px;
 		    min-height: initial !important;
 		#owl-carousel-pdp-banner {
-		//max-height: 400px;
+
 	.owl-dots{
-		bottom:5px;
+		bottom:-8px;
 		text-align: center;
 		left:0px;
+	}
+	.owl-nav{
+		display:none;
 	}
 	.owl-item{
 		img{
 			padding-top: 0px !important;
 			display:inline-block;
+			max-height: 400px;
 		}
 		} 
 }
@@ -1681,8 +1762,8 @@ padding:0px;
   
 	.slider-banner-container{
 		.owl-carousel-pdp-bannerCont{
-			padding-left:3.6em !important;
-			padding-right:3.6em !important;
+			//padding-left:3.6em !important;
+			//padding-right:3.6em !important;
 		}
 	.detail-overlay-box{
 	    left:initial;
@@ -1708,7 +1789,7 @@ padding:0px;
 	    		.owl-item{
 	    			img{
 	    				    //padding-top: 148px;
-	    				padding-right: 0px !important;
+	    				//padding-right: 0px !important;
 	    			}
 	    			} 
 	    	}
@@ -1773,7 +1854,10 @@ padding:0px;
 	.owl-carousel-pdp-bannerCont{
 		padding: 0em 7.2em !important;
 	}
-	} 
+	.pdp-banner-top #owl-carousel-pdp-banner .owl-item img{
+		max-height:500px;
+	}
+} 
 .detail-overlay-box{
 	.qv-page{
 		.row{
@@ -1798,9 +1882,6 @@ padding:0px;
 		}
 	}
 	}   
-	.owl-carousel-pdp-bannerCont{
-			//max-height:500px; 
-		}
 }
 /* media queries -- all mobiles & ipad portrait */
 @media only screen and (min-width:320px) and (max-width: 768px) {
@@ -1809,12 +1890,20 @@ padding:0px;
 			top:0 !important;
 			padding-top:0;
 			.owl-item img{
-				padding-right:0px !important;	
+				padding:0px !important;	
 				width:auto;
 			}
+			#owl-carousel-pdp-banner.owl-carousel .owl-item{
+				min-height: 350px;
+				img{
+					max-height: 350px;
+				}
+			} 
 		}
+
 		.detail-overlay-box{
 			padding:0 !important;
+			margin:10px 0 0 !important;
 		}
 	}
 	.slider-banner-container{
@@ -2574,8 +2663,8 @@ span.ng-isolate-scope:active{
     	.pdp-banner-top{
     		#owl-carousel-pdp-banner{
     			.owl-dots{
-    				bottom: 0px;
-    				top: 50%;
+    				//bottom: 0px;
+    				//top: 50%;
     			}
     		}
     	}
@@ -3012,6 +3101,7 @@ span.ng-isolate-scope:active{
   			 		img{
     						padding-right: 0;
     						margin: 0;
+    						max-height:500px;
   			 		}
   			 	}
   			 }

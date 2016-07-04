@@ -7,25 +7,50 @@
             </uib-tab-heading>
             <div class="row results-nav hidden-xs hidden-sm">
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <div class="results-selections">
-                        <span>Your Selection</span>
-                        <span class="results-selection" ng-repeat="selection in algoliaSearchResults.Selections">{{selection}}
-                            <a>
-                                <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                   <g>
-                                      <g>
-                                         <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                      </g>
-                                      <g>
-                                         <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                      </g>
-                                   </g>
-                                </svg>
-                            </a>
+                    <div class="results-selections row">
+                      <span class="col-sm-4 col-md-3 col-lg-2">Your Selection</span>
+                      <div class="search-facet-scroll col-sm-6 col-md-9 col-lg-10 ">
+                        <span class="col-xs-1 col-sm-1 fl facetLeftArrow" ng-click="algoliaSearchResults.shiftSelectedFacetLeft()">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                             <style type="text/css">
+                                .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                             </style>
+                             <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                          </svg>
                         </span>
-                        <div class=" col-sm-3 col-md-2 col-lg-2 clear-button-block fr">
-                           <button class="clearAll">Clear All</button>
+                        <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 search-facet-scroll-inner"> 
+                          <span class="results-selection" ng-repeat="selection in algoliaSearchResults.Selections">
+                              <p>
+                                <span>{{selection}}</span>
+                                <a>
+                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
+                                       <g>
+                                          <g>
+                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
+                                          </g>
+                                          <g>
+                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
+                                          </g>
+                                       </g>
+                                    </svg>
+                                </a>
+                              </p>
+                          </span>
                         </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2 clear-button-block fl">
+                          <button class="clearAll">Clear All</button>
+                        </div>
+                        <span class="col-xs-1 col-sm-1 fl facetRightArrow" ng-if="algoliaSearchResults.Selections.length > 0" ng-click="algoliaSearchResults.shiftSelectedFacetRight()">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                             <style type="text/css">
+                                .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                             </style>
+                             <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                          </svg>
+                       </span>
+                      </div>
                     </div>
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

@@ -821,7 +821,8 @@ body.modal-open {
         .feature-product-text {
                 padding-bottom: 1.563em;
                 padding-top: 0.313em;
-                padding: 1.563em 0em;
+                padding: 0 0em 1.563em;
+                margin-top:-15px;
                 font-weight: normal;
             h3 {
                 font: 1.188em @proxima-light;
@@ -837,9 +838,17 @@ body.modal-open {
                 //padding: 0px 10px;
                 .product-box {
                     border-radius:3px;
-
+                    .plp-hover-block{
+                        position: absolute;
+                        top: 0;
+                        bottom: -39px;
+                        left: 0;
+                        right: 0;
+                        box-shadow: 0px 0px 2px 2px #e6e6e6;
+                    }
                     .color-circle {
                             padding-top: 25px;
+                            padding-bottom:2px;
                                 p {
                             position:relative;
                             border-radius: 50%;
@@ -1069,8 +1078,10 @@ body.modal-open {
                     .hover-buttons {
                         //margin-top:15px;
                         position: absolute;
-                        bottom: -45px;
+                        bottom: -36px;
                         padding: 0px;
+                            box-shadow: 0px 0px 2px 2px #e6e6e6;
+                        box-shadow: 0px 2px 2px #e6e6e6, -2px 2px 2px #e6e6e6, 2px 2px 2px #e6e6e6;
                         div {
                             padding: 0px;
                             .green-btn {
@@ -1115,7 +1126,7 @@ body.modal-open {
                         }
                     }
                 }
-                &:hover{
+               /* &:hover{
                     box-shadow: 0px 0px 2px 2px #e6e6e6;
                     padding: 0px;
                     padding-bottom: 46px;
@@ -1128,7 +1139,7 @@ body.modal-open {
                                     }
                                 }
                         }
-                }
+                }*/
             }
         }
     }
@@ -1147,7 +1158,7 @@ body.modal-open {
                 .owl-stage-outer {
                     .owl-stage {
                         .owl-item {
-                            padding: 0px 12px;
+                            padding: 0px 12px 40px;
                             div {
                                 .product-container {
                                     width: 100%;
@@ -2534,7 +2545,7 @@ body.modal-open {
 .added-main {
     cursor: default;
     position: relative;
-    &::-webkit-scrollbar {
+ /*   &::-webkit-scrollbar {
                     background: transparent;
                     cursor: pointer;
                 }
@@ -2547,7 +2558,7 @@ body.modal-open {
                 &::-webkit-scrollbar-thumb:hover {
                     //background-color: @base-bg-purple-light;
                     cursor: pointer;
-                }
+                }*/
     .detail-block {
         padding: 30px 0px 0px 0px;
         background: @half-white;
@@ -3243,7 +3254,7 @@ body.modal-open {
     }
     background: #fbfbfb;
     position: relative;
-     &::-webkit-scrollbar {
+     /*&::-webkit-scrollbar {
                     background: transparent;
                     cursor: pointer;
                 }
@@ -3256,7 +3267,7 @@ body.modal-open {
                 &::-webkit-scrollbar-thumb:hover {
                     //background-color: @base-bg-purple-light;
                     cursor: pointer;
-                }
+                }*/
     .close-icon {
         position: absolute;
         top: 15px;

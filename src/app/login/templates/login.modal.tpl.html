@@ -1,7 +1,7 @@
 <div class="row login-model" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'hidden'}">
    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-block">
       <div class="row modal-close visible-xs visible-sm">
-         <p class="close-icon" ng-click="cancel()">
+         <p class="close-icon" ng-click="login.cancel()">
             <a>
                <?xml version="1.0" encoding="utf-8"?>
                <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -26,7 +26,7 @@
                   <h3 class="loginTop" ng-click="login.showLogin()" ng-class="{'active':login.loginTab==1 || login.loginTab==3}"><a href="" class="form-active loginLink" ><span>L</span>og <span>I</span>n</a></h3>
                </div>
                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h3 class="signUpTop" ng-click="login.showSignUp()" ng-class="{active:login.loginTab==2}"><a href="" class="signUpLink" ><span>S</span>ign <span>U</span>p</a></h3>
+                  <h3 class="signUpTop" ng-click="login.showSignUp(); login.showScroll()" ng-class="{active:login.loginTab==2}"><a href="" class="signUpLink" ><span>S</span>ign <span>U</span>p</a></h3>
                </div>
             </div>
          </div>
@@ -89,7 +89,7 @@
                </div>
             </form>
          </div>
-         <div ng-show="login.loginTab==2" class="signUpForm signUpScroll" ng-scrollbar is-bar-shown="barShown">
+         <div ng-show="login.loginTab==2" class="signUpForm signUpScroll" ng-scrollbar rebuild-on="rebuild:signUpScroll">
             <form class="panel-body" name="SignupHomeForm" ng-submit="login.create()" novalidate>
                <!-- <div class="form-group">
                   <label>Enter Your Username</label>
@@ -137,7 +137,7 @@
                      <input type="checkbox" id="c-employee">
                      <div class="Checkbox-visible"></div>
                   </div>
-                  <label class="remember-text corporate-emp" for="c-employee">Select, if you are a Corporate <br class="visible-xs visible-sm visible-md">Employee</label>
+                  <label class="remember-text corporate-emp" for="c-employee">Select, if you are a Corporate Employee</label>
                </div>
                <!-- <div class="form-group security-qtn-block">
                   <label for="security-select">Choose a Security Question</label>
@@ -178,7 +178,7 @@
    </div>
    <div class="col-sm-5 col-md-5 col-lg-5 promotion-block hidden-xs">
       <div class="row modal-close hidden-xs hidden-sm">
-         <p class="close-icon" ng-click="cancel()">
+         <p class="close-icon" ng-click="login.cancel()">
             <a>
                <?xml version="1.0" encoding="utf-8"?>
                <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
