@@ -3,7 +3,6 @@ angular.module('orderCloud')
     .config(CartConfig)
     .controller('CartCtrl', CartController)
     .controller('MiniCartCtrl', MiniCartController)
-    .controller('ProductRequestCtrl', ProductRequestController)
     .directive('ordercloudMinicart', OrderCloudMiniCartDirective)
 
 ;
@@ -63,7 +62,6 @@ function CartConfig($stateProvider) {
 }
 
 function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsList, LineItemHelpers) {
-function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, LineItemsList, LineItemHelpers) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
@@ -135,7 +133,6 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
 
     vm.clearcart = function(){
         Orders.Delete(vm.order.ID);
-        OrderCloud.Orders.Delete(vm.order.ID);
         $scope.load();
     }
 
@@ -154,17 +151,6 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
         $uibModal.open({
             templateUrl: 'cart/templates/productrequest.tpl.html',
             controller: 'ProductRequestCtrl'
-            controller: 'ProductRequestCtrl',
-            controllerAs: 'productRequest',
-            resolve:{
-                prodrequestdata: function(){
-                    return lineItem;
-                },
-                Order: function(){
-                    var order = vm.order 
-                    return order;
-                }
-            }
         });
     }
 
@@ -182,7 +168,6 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
             var updatefeilds={"FirstName":value.ShippingAddress.FirstName, "LastName":value.ShippingAddress.LastName, "Zip":value.ShippingAddress.Zip};
             console.log(updatefeilds);
             LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-            OrderCloud.LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
                 console.log(res);
             });
         },log);
@@ -197,36 +182,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
             "xp": lastrecp.xp
         }
         LineItems.List(vm.order.ID).then(function(ans){
-        var shippaddr = {};
-        OrderCloud.LineItems.List(vm.order.ID).then(function(ans){
             console.log(ans);
             selectedaddr=_.filter(ans.Items, function(obj) {
                 return ~obj.ShippingAddress.FirstName==changereceipent;
-                return _.indexOf([changereceipent],obj.ShippingAddress.FirstName) > -1
             });
             console.log("selectedaddr",selectedaddr);
-            console.log(selectedaddr.ShippingAddress);
-            angular.forEach(selectedaddr, function(value, key){
-                console.log(value);
-                shippaddr={
-                    "City": value.ShippingAddress.City,
-                    "FirstName": value.ShippingAddress.FirstName,
-                    "LastName": value.ShippingAddress.LastName,
-                    "Street1": value.ShippingAddress.Street1,
-                    "Street2": value.ShippingAddress.Street2,
-                    "State": value.ShippingAddress.State,
-                    "Zip": value.ShippingAddress.Zip,
-                    "Country": value.ShippingAddress.Country,
-                    "Phone": value.ShippingAddress.Phone
-                }
-                OrderCloud.LineItems.Delete(vm.order.ID, data.ID);
-                OrderCloud.LineItems.Create(vm.order.ID, newline).then(function(res){
-                    console.log(res);
-                    OrderCloud.LineItems.SetShippingAddress(vm.order.ID,res.ID,shippaddr).then(function(resq){
-                        $state.reload()
-                    })
-                });
-            })
         })
 
         /*var selectedaddr=_.filter(questions, function(obj) {
@@ -339,21 +299,4 @@ function OrderCloudMiniCartDirective() {
         controller: 'MiniCartCtrl',
         controllerAs: 'minicart'
     };
-}
-
-function ProductRequestController($uibModal, $scope, $stateParams, prodrequestdata, $uibModalInstance, OrderCloud, Order){
-    var vm=this;
-    vm.order=Order;
-    vm.prodrequestdata= prodrequestdata;   
-    vm.cancel = function(){
-        $uibModalInstance.close();
-    }
-
-    vm.save = function(data){
-        console.log(data);
-        var updateline = {"xp":data};
-        OrderCloud.LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function(test){
-            $uibModalInstance.close();
-        })
-    }
 }
