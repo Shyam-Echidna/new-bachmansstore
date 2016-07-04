@@ -10,7 +10,9 @@ angular.module( 'orderCloud' )
 	.directive('windowHeight', windowHeightDirective)
 	.directive('contTopPadding', contTopPaddingDirective)
 	.directive('scroll', scrollDirective)
-  .directive('phoneValidation',phoneValidationDirective)
+  .directive('phoneValidation',phoneValidationDirective)  
+  .directive('customEmailValidation',customEmailValidationDirective)
+  .directive('confirmPassword', ConfirmPasswordValidatorDirective);
 ;
 
 function BaseConfig( $stateProvider ) {
@@ -1494,3 +1496,48 @@ function phoneValidationDirective($parse){
         }
     }
 }
+
+function customEmailValidationDirective(defaultErrorMessageResolver) {
+      defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+          errorMessages['customEmail'] = 'Please enter a valid email address';
+        });
+        
+        return {
+            restrict : 'A',
+            require : 'ngModel',
+          
+            link : function(scope, element, attributes, ngModel) {
+                ngModel.$validators.customEmail = function(modelValue) {
+                  var pattern=/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                    return pattern.test(modelValue);
+                };
+
+                scope.$watch('customEmail', function() {
+                  console.log('---');
+                    ngModel.$validate();
+                });
+            }
+        };
+    }
+     function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
+      defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+          errorMessages['confirmPassword'] = 'Please ensure the passwords match.';
+        });
+        
+        return {
+            restrict : 'A',
+            require : 'ngModel',
+            scope : {
+                confirmPassword : '=confirmPassword'
+            },
+            link : function(scope, element, attributes, ngModel) {
+                ngModel.$validators.confirmPassword = function(modelValue) {
+                    return modelValue === scope.confirmPassword;
+                };
+
+                scope.$watch('confirmPassword', function() {
+                    ngModel.$validate();
+                });
+            }
+        };
+    }
