@@ -1640,6 +1640,7 @@ body.modal-open {
                         }
                         .hover-buttons {
                             margin-top: 10px;
+                            bottom:0;
                             &.ng-hide {
                                 display: block !important;
                             }
@@ -1703,6 +1704,7 @@ body.modal-open {
             }
             .feature-product-text {
                 padding: 0px;
+                margin:0;
                 h3 {
                     padding: 10px 0px 18px 0px;
                 }
@@ -2463,7 +2465,7 @@ body.modal-open {
                             .hover-buttons{
                                 div{
                                     .green-btn,.grey-btn{
-                                        font-size: 0.65em;
+                                        font-size: 0.6em;
                                     }
                                 }
                             }
@@ -3184,6 +3186,24 @@ body.modal-open {
 /* media queries for Tablets & Ipad -- landscape*/
 
 @media screen and (max-width: 1110px) and (min-width: 767px) {
+    .product-block .feature-products div .product-container .product-box .hover-buttons, .product-block .sorted-products div .product-container .product-box .hover-buttons{
+        display:block !important;
+        bottom:0;
+    }
+    .product-block .feature-products div .product-container .product-box #color-circle-pos, .product-block .sorted-products div .product-container .product-box #color-circle-pos{
+        bottom:40px;
+    }
+    .product-block .feature-products div .product-container .product-box .price-box, .product-block .sorted-products div .product-container .product-box .price-box{
+        height:160px;
+    }
+    .product-block .feature-products .feature-product-text, .product-block .sorted-products .feature-product-text{
+        padding: 1.563em 0em 1.563em;
+        margin-top: 0;
+    }
+    .product-block .feature-products .row #owl-carousel-feature-products .owl-stage-outer .owl-stage .owl-item{
+        padding:5px 10px;
+    }
+
     .added-main{
         .detail-block{
             .cart-info{

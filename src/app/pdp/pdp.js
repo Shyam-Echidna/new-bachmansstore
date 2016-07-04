@@ -141,7 +141,6 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			OrderCloud.LineItems.Create(orderId, lineItem).then(function (res) {
 				console.log(res);
 				//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
-				$rootScope.order = orderId;
 				return $rootScope.$broadcast('LineItemCreated', orderId, res);
 			})
 		}, function () {
@@ -153,7 +152,6 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 				};
 				productID = prodID;
 				OrderCloud.LineItems.Create(order.ID, lineItem).then(function (lineitem) {
-					$rootScope.order = order.ID;
 					return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
 				})
 			})
@@ -280,59 +278,27 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 	vm.multireceipent = function () {
 		$scope.items = "";
-		CurrentOrder.Get().then(function (orderId) {
-			$rootScope.order = orderId.ID;
-			var modalInstance = $uibModal.open({
-				animation: true,
-				backdropClass: 'multiRecipentModal',
-				templateUrl: 'pdp/templates/multireceipent.tpl.html',
-				controller: 'MultipleReceipentCtrl',
-				controllerAs: 'vm',
-				param: {
-					//productID: prodID
-				},
-				resolve: {
-					items: function () {
-
-						return vm.activeProducts;
-
-
-					}
+		var modalInstance = $uibModal.open({
+			animation: true,
+			backdropClass: 'multiRecipentModal',
+			templateUrl: 'pdp/templates/multireceipent.tpl.html',
+			controller: 'MultipleReceipentCtrl',
+			controllerAs: 'vm',
+			param: {
+				//productID: prodID
+			},
+			resolve: {
+				items: function () {
+					return vm.activeProducts;
 				}
-			});
-
-			modalInstance.result.then(function (selectedItem) {
-				$scope.selected = selectedItem;
-			}, function () {
-				angular.noop();
-			});
-		},function(){
-			var modalInstance = $uibModal.open({
-				animation: true,
-				backdropClass: 'multiRecipentModal',
-				templateUrl: 'pdp/templates/multireceipent.tpl.html',
-				controller: 'MultipleReceipentCtrl',
-				controllerAs: 'vm',
-				param: {
-					//productID: prodID
-				},
-				resolve: {
-					items: function () {
-
-						return vm.activeProducts;
-
-
-					}
-				}
-			});
-
-			modalInstance.result.then(function (selectedItem) {
-				$scope.selected = selectedItem;
-			}, function () {
-				angular.noop();
-			});
+			}
 		});
 
+		modalInstance.result.then(function (selectedItem) {
+			$scope.selected = selectedItem;
+		}, function () {
+			angular.noop();
+		});
 	}
 
 
@@ -496,16 +462,14 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
     var vm = this;
     console.log(PdpService);
     vm.oneAtATime = true;
-	vm.list = {},
-		$scope.line = null;
-
+	vm.order = "";
+	vm.list={}
 	vm.selectedRecipient = false;
 	vm.singlelerecipent = true;
 	$scope.crdmsg = true;
     vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-	vm.getLineItems = getLineItems;
 	$scope.activeRecipient = true;
 	var item = {
 		"ID": "",
@@ -525,20 +489,14 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		"Specs": [],
 		"xp": null
 	};
-	vm.order = $rootScope.order;
+
     vm.activeOrders = [];
-	if (!vm.order) {
-		vm.order = "";
-	}
 	if (vm.order == "") {
 		vm.activeOrders[0] = item;
 	}
-	if ($rootScope.order) {
-		vm.getLineItems();
-	}
 
 	$rootScope.$on('LineItemCreated', function (events, args, lineitem) {
-		vm.order = $rootScope.order = args;
+		vm.order = args;
 		console.log("order id", vm.order)
 		lineitem.ShippingAddress = $rootScope.lineitemdtls.ShippingAddress;
 		lineitem.xp = $rootScope.lineitemdtls.xp;
@@ -556,12 +514,6 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	$scope.submitDtls = function (line, $index) {
 
 		console.log("line", line);
-		if ($scope.showNewRecipient) {
-			$scope.line = item;
-			$scope.line.ShippingAddress = line.ShippingAddress;
-			$scope.line.xp = line.xp;
-			line = $scope.line;
-		}
 		if (line.xp.deliveryDate) {
 			line.xp.deliveryDate = new Date(line.xp.deliveryDate);
 		}
@@ -595,7 +547,6 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		console.log("line", line);
 		$rootScope.lineitemdtls = line;
 
-
 		if (line.ID == "") {
 
 			PdpService.CreateOrder(line.ProductID);
@@ -625,25 +576,12 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		});
 
 	}
-	function getLineItems() {
+	vm.getLineItems = function () {
 
 		OrderCloud.LineItems.List(vm.order).then(function (res) {
 
 			console.log("Lineitems", res);
-			angular.forEach(res.Items, function (val, key, obj) {
-				if (val.xp.deliveryDate)
-					val.xp.deliveryDate = new Date(val.xp.deliveryDate);
-			})
 			vm.activeOrders = res.Items;
-			if (res.Items.length > 0) {
-				$scope.line = null;
-				item.ShippingAddress=null;
-				item.xp=null;
-				$scope.line = item;
-				$scope.activeRecipient = false;
-				$scope.showNewRecipient = true;
-			}
-
 
 		});
 
@@ -689,7 +627,6 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			"Specs": [],
 			"xp": null
 		};
-		$scope.line = null;
 		$scope.line = item;
 		$scope.activeRecipient = false;
 		$scope.showNewRecipient = !$scope.showNewRecipient;

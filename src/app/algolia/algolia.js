@@ -182,6 +182,69 @@ function AlgoliaConfig($stateProvider) {
                 return deferred.promise;
 
             },
+              productImages: function(PlpService){
+                 var ticket = localStorage.getItem("alf_ticket");
+                 return PlpService.GetProductImages(ticket).then(function(res){
+                 return res.items;
+                 });
+                 },
+            ProductResultsWithVarients : function(productImages,ProductSearchResult, PdpService, $q, Underscore, alfcontenturl){
+               var deferred = $q.defer();
+                var ajaxarr = [];
+                 angular.forEach(ProductSearchResult.hits, function (node) {
+                   var promise =  PdpService.GetSeqProd(node.SequenceNumber)
+                   ajaxarr.push(promise);
+                 });
+                 $q.all(ajaxarr).then(function(items){
+                    console.log("items==",items);
+                      var ticket = localStorage.getItem("alf_ticket");      
+                      var imgcontentArray = [];
+                     var imgcontentArray1=[];
+                      for(var i=0;i<items.length;i++){
+                        var item = items[i].Items;
+                        for(var j=0;j<item.length;j++){
+                    angular.forEach(Underscore.where(productImages, {title: item[j].ID}), function (node) {
+                            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                            item[j].imgContent = node;
+                           imgcontentArray.push (item[j]);
+                        });
+                   
+                    
+                    }
+                    imgcontentArray1.push(imgcontentArray);
+                    imgcontentArray = []; 
+                }
+                console.log("items after ==",imgcontentArray1);
+                  var defaultGroupedProd = [];
+                     angular.forEach(imgcontentArray1, function(value, key){
+                        var data;
+                        $.grep(value, function(e , i){ if(e.xp.IsDefaultProduct == 'true'){ 
+                          data = i;
+                        }});
+                       //var maxValue = _.max(value, _.property('StandardPriceSchedule.PriceBreaks[0].Price'));
+                      // var maxDate = _(value).map('StandardPriceSchedule.PriceBreaks[0]').flatten().max(Price);
+                        var lowest = Number.POSITIVE_INFINITY;
+                        var highest = Number.NEGATIVE_INFINITY;
+                        var tmp;
+                        //console.log("@@@" ,value.StandardPriceSchedule.PriceBreaks);
+                        angular.forEach(value, function(prodValues, key){
+                            tmp = prodValues.StandardPriceSchedule.PriceBreaks[0].Price;
+                            if (tmp < lowest) lowest = tmp;
+                            if (tmp > highest) highest = tmp;
+                        });
+                        
+                        var price = "$"+lowest+" - $"+highest;
+                        value[data].priceRange = price;
+                          var b = value[data];
+                          value[data] = value[0];
+                          value[0] = b;
+                          defaultGroupedProd.push(value);
+                     });
+                     console.log("final ==",defaultGroupedProd);
+                      deferred.resolve(defaultGroupedProd);
+                 });
+                return deferred.promise;
+            },
             ProductResultsWithPriceWindow: function($stateParams, PriceFilterString, AlgoliaSvc, FilterStrings, ProductSearchResult) {
                 var index;
                 if ($stateParams.productssortby) {
@@ -209,7 +272,7 @@ function AlgoliaConfig($stateProvider) {
                 }
 
             },
-            InformationSearchResult: function(AlgoliaSvc, $stateParams) {
+        /*    InformationSearchResult: function(AlgoliaSvc, $stateParams) {
                 var infoIndex;
                 if ($stateParams.infosortby) {
                     infoIndex = AlgoliaSvc.GetIndex($stateParams.infosortby);
@@ -223,7 +286,7 @@ function AlgoliaConfig($stateProvider) {
                     .then(function(data) {
                         return data;
                     })
-            },
+            },*/
             FacetList: function(ProductSearchResult, $stateParams) {
                 if ($stateParams.filters) {
                     var tempArray = $stateParams.filters.split(",");
@@ -260,7 +323,7 @@ function AlgoliaConfig($stateProvider) {
                 if ($stateParams.filters) {
                     var arraySplit = $stateParams.filters.split(",");
                     arraySplit.forEach(function(e) {
-                        result.push(e.split(":")[1])
+                        result.push({"facetname":e.split(":")[0],"value":e.split(":")[1]})
                     })
                 }
                 return result;
@@ -306,7 +369,7 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore) {
     var productIndex = AlgoliaSvc.GetIndex('products');
     var infoIndex = AlgoliaSvc.GetIndex('Information');
 
-    function getBothIndexes(value) {
+   /* function getBothIndexes(value) {
         var deferred = $q.defer();
         var output = [];
         AlgoliaSvc.Search(productIndex, value, null, {hitsPerPage: 9})
@@ -325,6 +388,29 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore) {
                         vm.loading = false;
                         deferred.resolve(output);
                     })
+            });
+        return deferred.promise;
+    }*/
+      function getBothIndexes(value) {
+        var deferred = $q.defer();
+        var output = [];
+        AlgoliaSvc.Search(productIndex, value, null, {hitsPerPage: 9})
+            .then(function(data) {
+                data.hits.forEach(function(e) {
+                    e.index = 'products';
+                });
+                output = data.hits;
+               /* AlgoliaSvc.Search(infoIndex, value, null, {hitsPerPage: 3})
+                    .then(function(data2) {
+                        data2.hits.forEach(function(e) {
+                            e.index = 'information';
+                        });
+                        
+                        output = output.concat(data2.hits);
+                        vm.loading = false;
+                        deferred.resolve(output);
+                    })*/
+                    deferred.resolve(output);
             });
         return deferred.promise;
     }
@@ -383,13 +469,15 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore) {
 
 }
 
-function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, InformationSearchResult, Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, alfcontenturl,OrderCloud,$sce, Underscore) {
+function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult,ProductResultsWithVarients, /*InformationSearchResult,*/ Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, alfcontenturl,OrderCloud,$sce, Underscore ) {
 
     var vm = this;
     vm.FiltersObject = FiltersObject;
     vm.Selections = Selections;
-    vm.ProductResults = ProductSearchResult;
-    vm.InfoResults = InformationSearchResult;
+    vm.ProductResults = ProductResultsWithVarients;
+    console.log("ProductSearchResult==",ProductSearchResult);
+    vm.selectedColorIndex = 0;
+   // vm.InfoResults = InformationSearchResult;
     vm.CustomFacetList = FacetList;
     vm.disjunctives = DisjunctiveFacets;
     
@@ -399,7 +487,8 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
     vm.infoSortTerm = $stateParams.infosortby;
     vm.productSortTerm = $stateParams.productssortby;
 
-    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    // vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    vm.priceValue = "";
 
 
     vm.openOnLoad = true;
@@ -432,9 +521,9 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
             infopage: vm.currentInfoPage || 1,
             tab: vm.activeTab,
             infosortby: vm.infoSortTerm,
-            productssortby: vm.productSortTerm,
+            productssortby: vm.productSortTerm/*,
             min: $stateParams.min || null,
-            max: $stateParams.max || null
+            max: $stateParams.max || null*/
         },
             {reload: true});
     };
@@ -524,11 +613,12 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
 
 
     vm.shiftSelectedFacetRight= function(){
-        var currentPos = angular.element('.search-facet-scroll').scrollLeft();
-        var posToShift = angular.element('.search-facet-scroll span').width();
-        angular.element('.search-facet-scroll').scrollLeft(currentPos + posToShift);
+        debugger;
+        var currentPos = angular.element('.search-facet-scroll-inner').scrollLeft();
+        var posToShift = angular.element('.search-facet-scroll-inner span').width();
+        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos + posToShift);
         angular.element('.facetLeftArrow').css({'display':'block'});
-       // alert(currentPos);
+        alert(currentPos);
         var scrollEnd = ((vm.Selections.length - 4) * posToShift) - 10;
         if(currentPos > scrollEnd){
           angular.element('.faceRightArrow').css({'display':'block'});
@@ -537,9 +627,10 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
         }
       }
       vm.shiftSelectedFacetLeft= function(){
-        var currentPos = angular.element('.search-facet-scroll').scrollLeft();
-        var posToShift = angular.element('.search-facet-scroll span').width();
-        angular.element('.search-facet-scroll').scrollLeft(currentPos - posToShift);
+        debugger;
+        var currentPos = angular.element('.search-facet-scroll-inner').scrollLeft();
+        var posToShift = angular.element('.search-facet-scroll-inner span').width();
+        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos - posToShift);
         angular.element('.facetRightArrow').css({'display':'block'});
         if(currentPos == 0){
           angular.element('.facetLeftArrow').css({'display':'block'});
@@ -552,7 +643,8 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult, Informa
 
 function AlgoliaService(algolia, $q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, alfrescourl) {
 
-    var _client = algolia.Client("DC2GHSK48B", '3ffbd2c0a888682fbfb7a39e5f4e22f5');
+   // var _client = algolia.Client("DC2GHSK48B", '3ffbd2c0a888682fbfb7a39e5f4e22f5');
+   var _client = algolia.Client("SZ66YIOTH7", '24500587dd3f18a7d684b66677ca47e6');
     var lastBaseSearchValue = '';
     var lastBaseSearchResult = {};
 

@@ -184,8 +184,9 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 algolia-products">
                     <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 algolia-products-block" ng-repeat="result in algoliaSearchResults.ProductResults.hits track by $index" ng-mouseover="algoliaSearchResults.activeProduct = $index">
-                            <div class="thumbnail">
+                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 algolia-products-block" ng-repeat="groupedProducts in algoliaSearchResults.ProductResults track by $index" ng-mouseover="algoliaSearchResults.activeProduct = $index">
+                         
+                            <!-- <div class="thumbnail">
                                 <img ng-src="{{result.Image}}" alt="{{result.Name}}">
                                 <div class="caption">
                                     <h4><span>{{result.Name}}</span></h4>
@@ -198,11 +199,48 @@
                                 </div>
                             </div>
                             <div class="results-quick-view " ng-show="algoliaSearchResults.activeProduct == $index">
-                                <!-- <a href="#"  class="search-quick-view-plus btn btn-primary btn-block" role="button">QUICK VIEW</a> -->
+                                
                                 <ordercloud-product-quick-view product="groupedProducts"  class="search-quick-view-plus hidden-xs hidden-sm"></ordercloud-product-quick-view>
                                 <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-cart"><a href="#" role="button">ADD TO CART</a></p>
                                 <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-list"><a href="#" role="button">ADD TO LIST</a></p>
-                            </div>
+                            </div> -->
+               <div class="product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
+                  <div class="thumbnail">
+                     <div id="new-label" class="new-label">
+                        <div class="ribbon-wrapper">
+                           <div class="ribbon-front">
+                              <p>New</p>
+                           </div> 
+                        </div>
+                     </div>
+                    <div ng-repeat="prod in groupedProducts  track by $index">
+                       <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                           <img  ng-src= "{{prod.imgContent.contentUrl}}"/>
+                           <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box caption">
+                              <h4 class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
+                              <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                       </div>
+                    </div>
+                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == algoliaSearchResults.selectedColorIndex} ">
+                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
+                        </p>
+                   </div>
+                   
+                   <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view>
+                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                              <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
+                           </div>
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                           </div>
+                        </div>
+                    </div>
+                  </div>
+               </div> 
                         </div>
                     </div>
                     <div class="pagination-container">

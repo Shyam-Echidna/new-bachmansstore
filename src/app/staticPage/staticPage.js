@@ -387,15 +387,15 @@ function perplePerksRegisteredController() {
 }
 
 function eventDescriptionController($scope) {
-	// var vm = this;
-	// $scope.status = {
-		// open1: true,
-		// open1: false
-	// };
-	// $scope.status = {
-		// open2: true,
-		// open2: false
-	// };
+	var vm = this;
+	$scope.status = {
+		open1: true,
+		open1: false
+	};
+	$scope.status = {
+		open2: true,
+		open2: false
+	};
 
 }
 

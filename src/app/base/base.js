@@ -212,13 +212,18 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
     return service;
 }
 
-function BaseController($scope, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
+function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
 
     var vm = this;
 	vm.currentPath = $location.path();
 	$scope.is = function(name){
 	   return $state.is(name);
 	}
+	defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+        errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
+        //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
+       
+    });
   vm.alf_ticket = ticket;
 	//console.log('asdfghj',minicartData);
 	vm.currentOrder = BaseService.MinicartData();
@@ -1496,7 +1501,6 @@ function phoneValidationDirective($parse){
         }
     }
 }
-
 function customEmailValidationDirective(defaultErrorMessageResolver) {
       defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
           errorMessages['customEmail'] = 'Please enter a valid email address';

@@ -260,7 +260,7 @@
             </uib-accordion-group>
             <h3 ng-click="vm.newreceipent()">+ Add Receipent</h3>
             <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4>
-            <div class="panel-body-content" ng-show="showNewRecipient" ng-init="line=line">
+            <div class="panel-body-content" ng-show="showNewRecipient">
                 <!-- <a href="" class="view-address-link">+ VIEW ADDRESS BOOK</a> -->
                 <div class="row name-block">
                     <div class="col-md-8 col-lg-8">
@@ -495,7 +495,7 @@
                         <input type="button" class="btn-block" ng-click="crdmsghide()" value="Next" />
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-offset-9 col-md-3 col-lg-offset-9 col-lg-3" ng-if="crdmsg==false">
-                        <input type="button" class="btn-block" ng-click="submitDtls(line,$index)" value="ADD" />
+                        <input type="button" class="btn-block" ng-click="submitDtls(line)" value="ADD" />
                     </div>
 
                 </div>

@@ -46,8 +46,8 @@
                   </div>-->
                   <div class="form-group">
                      <label>Enter Your Password</label>
-                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/
-" ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}">
+                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" 
+ ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword">
                   </div>
                   <div class="form-group remember-block">
                      <!-- <input type="checkbox"><label class="remember-text">Remember Me</label> -->
@@ -109,12 +109,12 @@
                </div>
                <div class="form-group">
                   <label>Enter Your Password</label>
-                  <input type="password" class="form-control" name="loginPasswordRegistration" id="loginPasswordRegistration" placeholder="Password" ng-model="login.newUser.Password" ng-required="true" ng-model-options="{updateOn: 'blur'}" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/">
+                  <input type="password" class="form-control" name="loginPasswordRegistration" id="loginPasswordRegistration" placeholder="Password" ng-model="login.newUser.Password" ng-required="true" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword">
                   <p class="password-instruction">Password must be Alphanumeric, minimum 8 characters</p>
                </div>
                <div class="form-group">
                   <label>Confirm Your Password</label>
-                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}" ng-pattern="/^([a-zA-Z0-9_-]){8,16}$/" confirm-password="login.newUser.Password">
+                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword" confirm-password="login.newUser.Password">
                </div>
                <div class="form-group phone-block">
                   <label>Enter Your Phone Number</label>
