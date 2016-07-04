@@ -14,19 +14,19 @@
             <span class="acc-mob-links" ui-sref=".emailsubscription">Email Preferences</span>
         </span>
     </p>
-    <div class="row my-acc-events-cont" >
+    <div class="row my-acc-events-cont">
     	<p class="title">Upcoming Events <span>(1 Event)</span></p>
     	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in profile.eventsDetails">
     		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
     			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
                 <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
     		</div>
-    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info" ng-repeat="line in event.LineItems">
-    			<p class="event-title">{{line.Product.Name}}</p>
+    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info">
+    			<p class="event-title">April 21 "Art in Bloom" Floral Design</p>
     			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
     				<div class="event-date">
     					<p class="title">Event Date</p>
-    					<p class="value">{{event.DateCreated | date:'longDate'}}</p>
+    					<p class="value">{{event.DateCreated}}</p>
     				</div>
     				<div class="event-time">
     					<p class="title">Event Start Time</p>
@@ -49,14 +49,14 @@
                             </svg>
                         </span>
                         Get Directions</p>
-    				<p class="value">{{line.Product.xp.venue}}</p>
-    				<!-- <p class="room">Room No 16</p>
-    				<p class="store">Max Store</p> -->
+    				<p class="value">305 Avenue Garden Minneapolis, MN 55401</p>
+    				<p class="room">Room No 16</p>
+    				<p class="store">Max Store</p>
     			</div>
     		</div>
     	</div>
     </div>
-    <div class="row my-acc-events-cont past-events">
+    <div class="row my-acc-events-cont">
     	<p class="title bordertop">Past Events
     		<a href="javascript:void(0)" class="view-all-link">View All</a>
     	</p>
@@ -65,8 +65,8 @@
     			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
                 <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
     		</div>
-    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info" ng-repeat="line in event.LineItems">
-    			<p class="event-title">{{line.Product.Name}}</p>
+    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info">
+    			<p class="event-title">April 21 "Art in Bloom" Floral Design</p>
     			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
     				<div class="event-date">
     					<p class="title">Event Date</p>
@@ -74,11 +74,11 @@
     				</div>
     				<div class="event-time">
     					<p class="title">Event Start Time</p>
-    					<p class="value">{{line.Product.xp.StartDate}}</p>
+    					<p class="value">10:30 AM</p>
     				</div>
     			</div>
     			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
-    				<p class="title">
+    				<p class="title" ui-sref="account.getdirection" ng-click="account.loadMap()">
                         <span class="location-svg">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">
@@ -93,9 +93,9 @@
                             </svg>
                         </span>
                         Get Directions</p>
-    				<p class="value">{{line.Product.xp.venue}}</p>
-    				<!-- <p class="room">Room No 16</p>
-    				<p class="store">Max Store</p> -->
+    				<p class="value">305 Avenue Garden Minneapolis, MN 55401</p>
+    				<p class="room">Room No 16</p>
+    				<p class="store">Max Store</p>
     			</div>
     		</div>
     	</div>

@@ -40,41 +40,45 @@
 				}
 				.timings {
 					.event-date, .event-time {
-						margin: 15px 0 5px 0;
+						margin: 12px 0 5px 0;
 						.title {
-							font: 0.75em @proxima-regular;
+							font: 0.75em @proxima-light;
+							font-weight: bold;
 							color: #828282;
-							margin-bottom: 5px;
+							margin-bottom: 2px;
 						}
 						.value {
-							font: 0.875em @proxima-regular;
+							font: 0.875em @proxima-light;
+							font-weight: bold;
 						}
 					}
 				}
 				.venue {
 					.title {
-						font: 0.8125em @proxima-regular;
+						font: 0.8125em @proxima-light;
+						font-weight: bold;
 						color: #704197;
-					    margin-bottom: 12px;
+					    margin-bottom: 10px;
 					    .location-svg {
+					    	display: inline-block;
 					    	svg {
 					    		width: 20px;
 							    height: 25px;
 							    position: relative;
-							    top: 5px;
+							    top: 8px;
 							    fill: @base-bg-purple-dark;
 					    	}
 					    }
 					}
 					.value {
-						font: 0.875em @proxima-regular;
-						margin-bottom: 12px;
+						font: 0.875em @proxima-light;
+						font-weight: bold;
+						margin-bottom: 10px;
+						word-break: break-word;
 					}
-					.room {
-						font: 0.875em @proxima-regular;
-					}
-					.store {
-						font: 0.875em @proxima-regular;
+					.room, .store {
+						font: 0.875em @proxima-light;
+						font-weight: bold;
 					}
 				}
 			}
@@ -85,12 +89,17 @@
 			.event-info {
 				.venue {
 					.title {
+						margin-bottom: 8px;
 						.location-svg {
 							svg {
 								width: 15px;
     							height: 20px;
+    							top: 5px;
 							}
 						}
+					}
+					.value {
+						margin-bottom: 8px;
 					}
 				}
 			}
@@ -156,14 +165,20 @@
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
 	.my-account-events-container {
 		.my-acc-events-cont {
+			padding: 10px;
 			.upcoming-event-cont, .past-even-cont {
+				padding: 5px; 
 				.prod-img {
 					width: 40%;
 				}
 				.event-info {
 					width: 60%;
-					.timings, .venue {
-						width: 50%;
+					padding: 0 0 0 5px;
+					.timings {
+						width: 45%;
+					}
+					.venue {
+						width: 55%;
 					}
 					.timings {
 						.event-date, .event-time {
@@ -185,6 +200,15 @@
 					    max-width: 90%;
 					}
 				}
+			}
+			.title {
+				&.bordertop {
+					border-top: none;
+					padding-top: 10px;
+				}
+			}
+			&.past-events {
+				border-top: none;
 			}
 		}
 	}

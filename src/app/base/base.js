@@ -1186,7 +1186,10 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		GetFolders:_getFolders,
 		GetSubFolders:_getSubFolders,
 		GetArtcleList:_getArtcleList,
-		GetPerplePerksSvg: _getPerplePerksSvg
+		GetPerplePerksSvg: _getPerplePerksSvg,
+		GetContactList:_getcontactlist,
+        CreateContactList:_createcontactlist,
+        UpdateEmailPreference:_updateemailpreference
     };
     return service;
 
@@ -1293,7 +1296,67 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
             });
             return defferred.promise;
     }
+	    // starting getcontactlist service(To get EmailPreferences List)
+   function _getcontactlist(){
+    var defferred = $q.defer(); 
+        $http({
+            method: 'GET',
+            dataType:"json",
+            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/getContactList',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {              
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
 
+   }
+    // ending of getcontactlist service
+    function _createcontactlist(userData){
+    var defferred = $q.defer(); 
+        $http({
+            method: 'POST',
+            dataType:"json",
+            data: JSON.stringify(userData),
+            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/createConstantContact',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {              
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
+
+   }
+    //Starting CreateList functionality
+
+    //Ending CreateList Functionality
+//Starting updateemailpreference
+function _updateemailpreference(u_data){
+  var defferred = $q.defer(); 
+        $http({
+            method: 'PUT',
+            dataType:"json",
+            data: JSON.stringify(u_data),
+            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/updateContact',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {              
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
+
+
+}
+//End of updateemailpreference
      function _getServices(ticket) {
         
         var defferred = $q.defer();

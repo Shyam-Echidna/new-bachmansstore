@@ -67,10 +67,10 @@
                 -ms-transition: background-color 0.4s ease-out;
                 transition: background-color 0.4s ease-out;
                 &:hover {
-                    border: 1px solid #969696;
+                    border: 1px solid #696969;
                     color: #fff;
                     background-size: 100% 100%;
-                    background-color: #959595;
+                    background-color: #696969;
                 }
             }
             .my-profile-logininfo-container {
@@ -116,7 +116,7 @@
                             height: 30px;
                             font: 0.875em @proxima-light;
                             font-weight: bold;
-                            box-shadow: inset 0 0 0 0;
+                            .bs-inset-remove;
                         }
                         .changemail-save, .changemail-cancel {
                             width: 48%;
@@ -235,6 +235,19 @@
                             margin: 0;
                         }
                     }
+                    input, select {
+                        .bs-inset-remove;
+                    }
+                    select {
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        text-indent: 1px;
+                        text-overflow: '';
+                        background-image: url('../../assets/images/button-down.svg');
+                        background-repeat: no-repeat;
+                        background-position: right center;
+                        background-size: 35px 12px;
+                    }
                 }
                 .accPro-Edit-AddrFields {
                     padding: 0;
@@ -257,7 +270,7 @@
                         background-position: 15px;
                     }
                 }
-                label {
+                .bill-addr-label, .ship-addr-label {
                     margin: 0px 0px 0px 8px;
                     font: 1em @proxima-light;
                     font-weight: bold;
@@ -269,7 +282,7 @@
             }
             .acc-Pro-Edit-Btns {
                 padding: 0;
-                margin: 25px 0 20px;
+                margin: 25px 0 0;
                 .savebtn,.cancelbtn {
                     padding-left: 0;
                 }
@@ -413,15 +426,60 @@
     }
 }
 
+@media screen and (min-width:900px) and (max-width:962px) {
+    .account-landing-container {
+        .my-account-my-profile {
+            .my-profile-container {
+                border: none;
+                padding: 0;
+                .my-profile-logininfo-container,
+                .my-profile-contactinfo-container {
+                    h2 {
+                        background-color: #666;
+                    }
+                    h5 {
+                        margin-bottom: 25px;
+                        margin-left: 12px;
+                    }
+                    h2,
+                    h3,
+                    h4 {
+                        padding-left: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (min-width:900px) and (max-width:962px) and (orientation:landscape) {
     .account-landing-container {
         .my-account-my-profile {
             .my-profile-container {
+                border: 1px solid #cccccc;
+                padding-bottom: 20px;
                 .my-profile-logininfo-container, .my-profile-contactinfo-container {
                     width: 50%;
+                    h2 {
+                        background-color: #a576ca;
+                    }
+                }
+                .my-profile-contactinfo-container {
+                    width: 60%;
+                    h2, h3, h4 {
+                        padding-left: 0;
+                    }
+                    h5 {
+                        margin-left: 0;
+                    }
+                    .accPro-Edit-Wrap {
+                        padding-left: 0;
+                    }
                 }
                 .my-profile-logininfo-container {
+                    width: 40%;
                     .accPro-ChangePwd {
+                        padding-left: 15px;
                         width: 70%;
                         padding-right: 0;
                     }
@@ -429,6 +487,13 @@
                         .my-profile-changeemail {
                             width: 70%;
                             padding-right: 0;
+                            padding-left: 15px;
+                            h2, h3, h4 {
+                                padding-left: 15px;
+                            }
+                            h5 {
+                                margin-left: 15px;
+                            }
                         }
                     }
                     .my-profile-changeemail {

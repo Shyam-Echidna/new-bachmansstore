@@ -5,35 +5,13 @@
 		</p>
         <div class="email-subscription-container">
             <div class="email-header">Email Subscriptions</div>
-            <div class="email-lists">
-          
-                    <div class="Checkbox">
-                        <input type="checkbox" checked="">
+            <div class="email-lists form-group">
+                    <div class="Checkbox" ng-repeat="email in EmailSubscription.emailsubscribe " ng-click="">
+                        <input type="checkbox" id="email_chk">
                         <div class="Checkbox-visible"></div>
-                         <label>Sales and Promotions Newsletter</label>
+                        <label for="email_chk">{{email.name}}</label> 
                     </div>
-                
-                  
-                    <div class="Checkbox">
-                        <input type="checkbox" checked="">
-                        <div class="Checkbox-visible"></div>
-                         <label>Events Newsletter</label>
-                    </div>
-          
-                    <div class="Checkbox">
-                        <input type="checkbox" checked="">
-                        <div class="Checkbox-visible"></div>
-                         <label>Subscribe to Perple Perks Membership</label>
-                    </div>
-           
-              
-                    <div class="Checkbox checkboxopacity">
-                        <input type="checkbox" checked="">
-                        <div class="Checkbox-visible"></div>
-                         <label>Beautiful Living Newsletter</label>
-                    </div>
-              
-            </div>
+                </div>
             <div class="save-button">
             	<button>save</button>
             </div>

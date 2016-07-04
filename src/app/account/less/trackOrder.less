@@ -67,11 +67,13 @@
                 padding: 25px 70px 0px 0px;
                 .confirm-order {
                     font: 0.875em @proxima-light;
+                    font-weight: bold;
                     color: #424242;
                     float: left;
                 }
                 .delivery {
                     font: 0.875em @proxima-light;
+                    font-weight: bold;
                     color: #424242;
                     float: right;
                     margin-right: 30px;
@@ -136,6 +138,13 @@
                             font-weight: bold;
                         }
                     }
+                }
+            }
+            &.relocated {
+                border-bottom: 2px solid #f1f1f1;
+                padding-bottom: 15px;
+                .order-confirmation {
+                    float: right;
                 }
             }
         }
@@ -543,7 +552,7 @@
                 .order-confirmation {
                     padding: 0 10px 14px 10px;
                     .order-measurement {
-                        margin: 40px 11px 20px 11px;
+                        margin: 35px 11px 20px 11px;
                         .order-bar {
                             width: 100%;
                             &:before, &:after {
@@ -560,7 +569,7 @@
                         font-weight: bold;
                     }
                     .delivery {
-                        margin-right: 0px;
+                        margin-right: 5px;
                     }
                     .delivery-info {
                         .delivery-dates1,
@@ -571,6 +580,12 @@
                         .delivery-exp {
                             margin-top: 5px;
                         }
+                    }
+                }
+                &.relocated {
+                    padding-bottom: 0;
+                    .order-confirmation {
+                        padding: 10px;
                     }
                 }
             }
@@ -791,9 +806,48 @@
         }
     }
 }
+
+@media screen and (max-width:1024px) and (min-width:768px) and (orientation:portrait) {
+    .track-order-container {
+        .order-cont {
+            .order-history-details {
+                .product-details {
+                    .product-info-details {
+                        .prod-img-cont {
+                            .prod-img {
+                                width: auto;
+                                padding: 0 0 0 20px;
+                            }
+                            .prod-desc {
+                                padding: 0 10px 0 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width:1024px) and (min-width:768px) and (orientation:landscape) {
+    .track-order-container {
+        .order-cont {
+            .order-history-details {
+                .product-details {
+                    .ship-bill-cont {
+                        .billing-info-cont {
+                            .related-info {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 /* My Account Track Order Style Ends */
 /*Samsung Tab 4 7 inches*/
-
 @media screen and (max-width:962px) and (min-width:900px) {
     .track-order-container {
         .order-cont {
@@ -824,12 +878,18 @@
                         .prod-img-cont {
                             width: 33.33333333%;
                             .prod-img {
+                                width: 40%;
+                                padding: 0;
                                 .hidden-sm {
                                     display: block !important;
                                 }
                                 .visible-sm {
                                     display: none !important;
                                 }
+                            }
+                            .prod-desc {
+                                width: 60%;
+                                padding: 0 10px 0 10px;
                             }
                         }
                         .delivery-info-cont {
@@ -869,11 +929,13 @@
 @media screen and (max-width:962px) and (min-width:900px) and (orientation: landscape) {
     .track-order-container {
         .order-cont {
-            margin-top: 0;
             .order-status {
                 .order-num {
                     padding-left: 30px;
                 }
+            }
+            &:first-child {
+                margin-top: 0;
             }
         }
     }

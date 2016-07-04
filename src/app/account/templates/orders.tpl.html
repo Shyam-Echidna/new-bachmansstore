@@ -16,7 +16,8 @@
             </span> 
         </p>
         <div class="row order-history-list-cont">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item" ng-repeat="order in profile.showOrders" ng-class="{detailed: orderdetails}">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item" ng-repeat="order in profile.showOrders" ng-class="{detailed: account.selectedIndex == $index}">
+                
                 <div class="col-xs-12 order-highlights">
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-num">
                         <p class="title">Order Number</p>
@@ -26,10 +27,10 @@
                         <p class="title">Order Placed on</p>
                         <p class="value">{{order.DateCreated | date:'longDate'}}</p>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-recipient">
+                    <!-- <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-recipient">
                         <p class="title">Recipient</p>
                         <p class="value">San Paul</p>
-                    </div>
+                    </div> -->
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-amt">
                         <p class="title">Total Amount</p>
                         <p class="value">&#x24;{{order.Subtotal}}</p>
@@ -43,7 +44,7 @@
                         <button type="button" class="btn green-btn mobile-track-btn" ui-sref=".create">Track Order</button>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-1 col-lg-1 ord-expand">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" ng-click="orderdetails=!orderdetails">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" ng-click="account.showOrderDetail($index)">
                             <g>
                                 <rect x="5.5" width="1" height="12"></rect>
                                 <rect y="5.5" width="12" height="1"></rect>
@@ -51,9 +52,9 @@
                         </svg>
                     </div>
                 </div>
-                <div class="col-xs-12 order-history-details" ng-show="orderdetails">
-                    <p class="heading">Order Summary <span>(2 items)</span></p>
-                    <div class="product-details">
+                <div class="col-xs-12 order-history-details" ng-show="account.selectedIndex == $index">
+                    <p class="heading">Order Summary <span>({{order.LineItems.length}}items)</span></p>
+                    <div class="product-details" >
                         <div class="product-header">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 product-count">
@@ -73,16 +74,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 product-info-details">
+                        <div class="col-xs-12 product-info-details" ng-repeat="line in order.LineItems">
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont">
                                 <div class="col-xs-5 prod-img">
                                     <img src="assets/images/batch4web/orderhistory/order1.png" class="hidden-xs hidden-sm" />
                                     <img src="assets/images/batch4web/orderhistory/mobile/order1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
                                 </div>
                                 <div class="col-xs-7 prod-desc">
-                                    <p class="custom-name">Premium Roses, Long Stemmed</p>
-                                    <p class="item-number">Item Number: <span>141927</span></p>
-                                    <p class="product-type">Type: <span>Deluxe</span></p>
+                                    <p class="custom-name">{{line.Product.Name}}</p>
+                                    <p class="item-number">Item Number: <span>{{line.Product.ID}}</span></p>
+                                    <p class="product-type">Type: <span>{{line.Product.Type}}</span></p>
                                     <p class="order-mobile-ddate">Delivery Date: <span>March 21. 2016</span></p>
                                     <p class="order-mobile-dpref">Delivery Preferece: <span>Morning 09:00 AM - 12:00 PM</span></p>
                                     <p class="order-mobile-price">Price: <span>&#x24;269.99</span></p>
@@ -210,6 +211,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item">
                 <div class="col-xs-12 order-highlights">

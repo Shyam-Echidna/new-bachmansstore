@@ -85,6 +85,7 @@
 						    color: #333333;
 						    border-radius: 0px;
 						    border: 1px solid #e2e2e2;
+						    .bs-inset-remove;
 						}
 					}
 					.state {
@@ -168,10 +169,10 @@
 							    text-transform: uppercase;
 								.background-fade;
 								&:hover{
-									border:1px solid #969696;
+									border:1px solid #696969;
 									color: #fff;
 									background-size: 100% 100%;
-									background-color:#959595;
+									background-color:#696969;
 								}
 							}
 						}
@@ -295,9 +296,9 @@
 			width: 100%;
 		}
 		.add-button {
-		    width: 20%;
-			button {
-			}
+		    width: auto;
+		    display: block !important;
+		    float: right;
 		}
 		.add-new-addr-cont {
 		    padding: 0 10px;
@@ -328,6 +329,11 @@
 					.state{
 						select {
 							background-size: 30px 10px;
+						}
+					}
+					.shipping-checkbox, .billing-checkbox {
+						label {
+							font-size: 0.75em;
 						}
 					}
 					.col-xs-6.form-group {
@@ -368,6 +374,9 @@
 				}
 			}
 		}
+		&.for-edit-cont {
+			margin: 0;
+		}
 	}
 	.addr-book-list-cont {
 		.addr-book-list-item {
@@ -403,6 +412,7 @@
 			.address {
 				width: 70%;
     			margin-bottom: 15px;
+    			clear: both;
 				.title {
 					font-size: 0.75em;
 				}
@@ -448,8 +458,11 @@
 			}
 			.add-button {
 				width: 22%;
+				display: block !important;
+				float: right;
 			}
 			.add-new-addr-cont {
+				margin-top: 10px;
 				.add-new-addr-div {
 					width: 100%;
 					.add-new-addr-form {
@@ -475,6 +488,18 @@
 	}
 }
 
+@media screen and (min-width:767px) and (max-width:1110px) {
+	.address-book-container {
+		.row-address-search {
+			.add-button {
+			    width: 28%;
+			    display: block !important;
+			    float: right;
+			}
+		}
+	}
+}
+
 @media screen and (min-width:767px) and (max-width:1110px) and (orientation:landscape) {
 	.address-book-container {
 		.row-address-search {
@@ -484,10 +509,10 @@
 			.add-button {
 				width: 25%;
 				float: left;
-				display: block !important;
 			}
 			.add-new-addr-cont {
-				width: 50%;
+				width: 75%;
+				margin-top: 25px;
 				.add-new-addr-div {
 					.add-new-addr-form {
 						.phone-number {
@@ -501,11 +526,15 @@
 		}
 		.addr-book-list-cont {
 			.addr-book-list-item {
+				padding: 7px;
 				.address {
 					width: 35%;
 				}
 				.phone-number {
 					width: 18%;
+				}
+				.default-address, .name, .address, .phone-number {
+					padding-right: 10px;
 				}
 			}
 		}

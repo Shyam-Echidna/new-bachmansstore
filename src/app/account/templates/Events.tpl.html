@@ -1,0 +1,63 @@
+<div class="container-fluid my-account-events-container">
+	<p class="my-account-content-title">My Events
+        <span class="bachman-chevron hidden-md hidden-lg chevron bottom"></span>
+    </p>
+    <div class="row my-acc-events-cont">
+    	<p class="title">Upcoming Events <span>(1 Event)</span></p>
+    	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in profile.eventsDetails">
+    		<div class="col-xs-3 prod-img p0">
+    			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-sm" />
+                <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-sm hidden-md" />
+    		</div>
+    		<div class="col-xs-9 event-info">
+    			<p class="event-title">April 21 "Art in Bloom" Floral Design</p>
+    			<div class="col-xs-7 timings p0">
+    				<div class="event-date">
+    					<p class="title">Event Date</p>
+    					<p class="value">{{event.DateCreated}}</p>
+    				</div>
+    				<div class="event-time">
+    					<p class="title">Event Start Time</p>
+    					<p class="value">10:30 AM</p>
+    				</div>
+    			</div>
+    			<div class="col-xs-5 venue p0">
+    				<p class="title" ui-sref="account.getdirection" ng-click="loadMap()">Get Directions</p>
+    				<p class="value">305 Avenue Garden Minneapolis, MN 55401</p>
+    				<p class="room">Room No 16</p>
+    				<p class="store">Max Store</p>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div>
+    	<p class="title bordertop">Past Events
+    		<a href="javascript:void(0)" class="view-all-link">View All</a>
+    	</p>
+    	<div class="col-xs-6 past-even-cont" ng-repeat="event in profile.eventsDetails">
+    		<div class="col-xs-3 prod-img p0">
+    			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-sm" />
+                <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-sm hidden-md" />
+    		</div>
+    		<div class="col-xs-9 event-info">
+    			<p class="event-title">April 21 "Art in Bloom" Floral Design</p>
+    			<div class="col-xs-7 timings p0">
+    				<div class="event-date">
+    					<p class="title">Event Date</p>
+    					<p class="value">March 21, 2016</p>
+    				</div>
+    				<div class="event-time">
+    					<p class="title">Event Start Time</p>
+    					<p class="value">10:30 AM</p>
+    				</div>
+    			</div>
+    			<div class="col-xs-5 venue p0">
+    				<p class="title" ui-sref="account.getdirection" ng-click="account.loadMap()">Get Directions</p>
+    				<p class="value">305 Avenue Garden Minneapolis, MN 55401</p>
+    				<p class="room">Room No 16</p>
+    				<p class="store">Max Store</p>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>

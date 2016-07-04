@@ -5,7 +5,7 @@
             <span class="bachman-chevron hidden-md hidden-lg chevron bottom"></span>
         </p>
         <div class="add-button col-md-3 col-lg-3 hidden-xs hidden-sm">
-            <button type="button" class="btn" ng-click="newcreditcard=!newcreditcard"> + Add New Card</button>
+                <button type="button" class="btn" ng-click="newcreditcard=!newcreditcard"> + Add New Card</button>
         </div>
     </div>
     <div class="row credit-card-list-cont">
@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
-                <p class="addr-line1">XXXX XXX XXX {{card.Token}}</p>
+                <p class="addr-line1">XXXX XXX XXX{{card.Token}}</p>
             </div>
             <div class="col-xs-5 col-sm-5 col-md-2 col-lg-2 cr-card-name">
                 <p class="title">Cardholder's Name</p>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="row credit-card-list-cont">
+    <div class="row credit-card-list-cont not-default">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCard.carddata.Items">
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
                 <p class="title">Make Default Payment</p>
@@ -55,7 +55,7 @@
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
-                <p class="addr-line1">XXXX XXX XXX {{card.Token}}</p>
+                <p class="addr-line1">XXXX XXX XXX{{card.Token}}</p>
             </div>
             <div class="col-xs-5 col-sm-5 col-md-2 col-lg-2 cr-card-name">
                 <p class="title">Cardholder's Name</p>
@@ -73,7 +73,7 @@
         </div>
     </div>
     <!-- For Input Card Information STARTS -->
-    <div class="row" ng-hide="!newcreditcard">
+    <div class="row" ng-hide="!newcreditcard" id="bottom">
         <div class="col-xs-12 add-new-credit-card-cont p0">
             <p class="title">Input Card Information</p>
             <div class="add-new-card-div">

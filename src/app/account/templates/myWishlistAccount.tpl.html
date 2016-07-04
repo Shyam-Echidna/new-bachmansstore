@@ -9,7 +9,7 @@
 	<div class="row wishlist-cont">
 		<div class="col-xs-12 p0 hidden-xs hidden-sm wishlist-header">
 			<div class="col-xs-4 product-count">
-				Products ({{account.array_lenth}} items )
+				Products ({{account.array_lenth}} items)
 			</div>
 			<div class="col-xs-1 quantity-header">
                 Qty.
@@ -25,26 +25,26 @@
             <!-- <div ng-repeat="wishn in account.wishList.StandardPriceSchedule.PriceBreaks.Price track by $index"> -->
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
                 <div class="col-xs-4 p0 prod-img">
-                    <img src="assets/images/batch4web/wishlist/wishlist1.png" class="hidden-xs hidden-sm web-img" />
-                    <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg mob-img" />
+                    <img src="assets/images/batch4web/wishlist/wishlist1.png" class="hidden-xs hidden-sm" />
+                    <!-- <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" /> -->
                 </div>
                 <div class="col-xs-8 prod-desc">
                     <p class="custom-name">{{wish.Name}}</p>
                     <p class="item-number">Item Number: <span>{{wish.ID}}</span></p>
                     <p class="product-type">Type: <span>{{wish.Type}}</span></p>
-                    <p class="price-mob hidden-md hidden-lg">Price: <span>&#x24;55.99</span></p>
-                    <p class="qty-mob hidden-md hidden-lg">Qty. <span>01</span></p>
+                    <p class="price-mob hidden-md hidden-lg">Price: <span>247</span></p>
+                    <p class="qty-mob hidden-md hidden-lg">Qty.<span></span></p>
                     <p class="total-mob hidden-md hidden-lg">Total: <span>&#x24;55.99</span></p>
                 </div>
             </div>
             <div class="col-xs-1 quant-cont hidden-xs hidden-sm">
-                <p class="value">01</p>
+                <p class="value">1</p>
             </div>
             <div class="col-xs-2 price-cont hidden-xs hidden-sm">
-                <p class="value">{{final_all_price}}</p>
+                <p class="value">&#x24;245</p>
             </div>
             <div class="col-xs-2 total-amt-cont hidden-xs hidden-sm">
-                <p class="value">&#x24;269.99</p>
+                <p class="value">&#x24;245</p>
             </div>
             <div class="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-2 col-lg-2 addToCart-cont">
                 <button type="button" class="btn green-btn" ui-sref=".create">Add to Cart</button>
@@ -53,8 +53,8 @@
             	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
             </div>
 		</div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 addAllToCart-cont">
+        <button type="button" class="btn white-btn">Add All to Cart</button>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 addAllToCart-cont">
-        <button type="button" class="btn white-btn" ui-sref="">Add All to Cart</button>
-    </div>
+</div>
 </div>
