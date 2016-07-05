@@ -388,6 +388,7 @@ function AccountController( $exceptionHandler, $location, $state, $scope, OrderC
 	};
 	//Wishlist listing starts here
 	var wishlistArr = CurrentUser.xp.WishList;
+	if(wishlistArr!='undefined'){
 	var wishArr = [];
 	for(var i=0;i<wishlistArr.length;i++){
 		vm.array_lenth=wishlistArr.length;
@@ -398,6 +399,7 @@ function AccountController( $exceptionHandler, $location, $state, $scope, OrderC
 		console.log("wish list ====",items);
 		vm.wishList = items;
 	});
+	}
 	//Wishlist Listing Ends Here
 	//---purpleperks functionality starts here---//
 	var arr=[];
