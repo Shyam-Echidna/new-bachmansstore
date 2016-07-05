@@ -81,6 +81,7 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
         OrderCloud.Auth.RemoveToken();
         OrderCloud.Auth.RemoveImpersonationToken();
        // LoginService.Logout();
+	   $('#info-bar-acc, .sticky #info-bar-acc').removeClass('expandAccBlockLoggedIn').removeClass('expandAccBlockSignedIn');
         $state.go('home');
     };
 
