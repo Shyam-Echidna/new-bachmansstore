@@ -5,12 +5,12 @@ angular.module( 'orderCloud' )
     .controller( 'BaseCtrl', BaseController )
   //  .controller( 'BaseLeftCtrl', BaseLeftController )
     .controller( 'BaseTopCtrl', BaseTopController )
-	.controller( 'BaseDownCtrl', BaseDownController )
+  .controller( 'BaseDownCtrl', BaseDownController )
     .factory('LoginFact', LoginFact )
-	.directive('windowHeight', windowHeightDirective)
-	.directive('contTopPadding', contTopPaddingDirective)
-	.directive('scroll', scrollDirective)
-  .directive('phoneValidation',phoneValidationDirective)  
+  .directive('windowHeight', windowHeightDirective)
+  .directive('contTopPadding', contTopPaddingDirective)
+  .directive('scroll', scrollDirective)
+  .directive('phoneValidation',phoneValidationDirective)
   .directive('customEmailValidation',customEmailValidationDirective)
   .directive('confirmPassword', ConfirmPasswordValidatorDirective);
 ;
@@ -74,15 +74,15 @@ function BaseConfig( $stateProvider ) {
             return CategoryService.GetCategoryImages(ticket).then(function(res){
                 return res.items;
             });
-				}/*,
-				minicartData:function($q, CurrentOrder){
-					var dfd = $q.defer();
-					CurrentOrder.Get().then(function(data){
-						var mincart = data;
-						dfd.resolve(mincart);
-					});
-					return dfd.promise;
-				}*/
+        }/*,
+        minicartData:function($q, CurrentOrder){
+          var dfd = $q.defer();
+          CurrentOrder.Get().then(function(data){
+            var mincart = data;
+            dfd.resolve(mincart);
+          });
+          return dfd.promise;
+        }*/
 
             }
         });
@@ -92,8 +92,8 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
     var service = {
        
         GetCategoryTree: _getCategoryTree,
-		AdminLogin: _adminLogin,
-		MinicartData: _minicartData
+    AdminLogin: _adminLogin,
+    MinicartData: _minicartData
     };
     //_adminLogin();
    function _getCategoryTree() {
@@ -111,43 +111,43 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
                 $q.all(queue).then(function(results) {
                     angular.forEach(results, function(result) {
                         categories = categories.concat(result.Items);
-				});
-				//deferred.resolve(categories);
+        });
+        //deferred.resolve(categories);
 
-				function _getnode(node) {
+        function _getnode(node) {
 
-					var children = Underscore.where(categories, {
-						ParentID: node.ID
-					});
-					if (children.length > 0) {
-						node.children = children;
-						angular.forEach(children, function (child) {
-							return _getnode(child);
-						});
-					} else {
-						node.children = [];
-					}
-					return node;
-				}
+          var children = Underscore.where(categories, {
+            ParentID: node.ID
+          });
+          if (children.length > 0) {
+            node.children = children;
+            angular.forEach(children, function (child) {
+              return _getnode(child);
+            });
+          } else {
+            node.children = [];
+          }
+          return node;
+        }
 
-				angular.forEach(Underscore.where(categories, {
-					ParentID: null
-				}), function (node) {
-					tree.push(_getnode(node));
-				});
-				deferred.resolve(tree);
-			});
-			//deferred.resolve(tree);
-		});
-		return deferred.promise;
-	}
+        angular.forEach(Underscore.where(categories, {
+          ParentID: null
+        }), function (node) {
+          tree.push(_getnode(node));
+        });
+        deferred.resolve(tree);
+      });
+      //deferred.resolve(tree);
+    });
+    return deferred.promise;
+  }
 
-	/*function _getCategoryTree() {
-	    var tree = [];
-	    var deferred = $q.defer();
-	    Categories.List(null, 'all', 1, 100).then(function(list) {
-	        console.log(list);
-	        function _getnode(node) {
+  /*function _getCategoryTree() {
+      var tree = [];
+      var deferred = $q.defer();
+      Categories.List(null, 'all', 1, 100).then(function(list) {
+          console.log(list);
+          function _getnode(node) {
                     
                     var children = Underscore.where(categories, { ParentID: node.ID});
                     if (children.length > 0) {
@@ -162,14 +162,14 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
                 }
 
                 angular.forEach(Underscore.where(categories, { ParentID: null}), function(node) {
-	            tree.push(_getnode(node));
-	        });
+              tree.push(_getnode(node));
+          });
 
-	        deferred.resolve(tree);
-	    });
-	    return deferred.promise;
+          deferred.resolve(tree);
+      });
+      return deferred.promise;
 
-	}*/
+  }*/
      function _adminLogin(){
 
     var data = $.param({
@@ -200,38 +200,37 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
             return defferred.promise;
     }
         
-	function _minicartData(){
-		var dfd = $q.defer();
-		CurrentOrder.Get().then(function(data){
-			var mincart = data;
-			console.log(data);
-			dfd.resolve(mincart);
-		});
-		return dfd.promise;
-	}
+  function _minicartData(){
+    var dfd = $q.defer();
+    CurrentOrder.Get().then(function(data){
+      var mincart = data;
+      console.log(data);
+      dfd.resolve(mincart);
+    });
+    return dfd.promise;
+  }
     return service;
 }
 
-function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
-
-    var vm = this;
-	vm.currentPath = $location.path();
-	$scope.is = function(name){
-	   return $state.is(name);
-	}
-	defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+function BaseController($scope, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
+  defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
        
     });
+    var vm = this;
+  vm.currentPath = $location.path();
+  $scope.is = function(name){
+     return $state.is(name);
+  }
   vm.alf_ticket = ticket;
-	//console.log('asdfghj',minicartData);
-	vm.currentOrder = BaseService.MinicartData();
-	console.log(vm.currentOrder);
+  //console.log('asdfghj',minicartData);
+  vm.currentOrder = BaseService.MinicartData();
+  console.log(vm.currentOrder);
 
-	/*window.onorientationchange = function () {
-		window.location.reload();
-	}*/
+  /*window.onorientationchange = function () {
+    window.location.reload();
+  }*/
 
     if($(window).height()<=1024){
          /*vm.tab_menu = function(pID,childCount,cID) {
@@ -320,7 +319,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
           window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
           window.ontouchmove  = preventDefault; // mobile
           document.onkeydown  = preventDefaultForScrollKeys;
-			//angular.element('.breadcrumb-box').css('display','none');
+      //angular.element('.breadcrumb-box').css('display','none');
         }
 
         function enableScroll() {
@@ -330,7 +329,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
             window.onwheel = null; 
             window.ontouchmove = null;  
             document.onkeydown = null;  
-			//angular.element('.breadcrumb-box').css('display','block');
+      //angular.element('.breadcrumb-box').css('display','block');
         }
 
         function bodyScrollHide() {
@@ -370,141 +369,141 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
     },200);
 
 
-	vm.nextL3= function(){
+  vm.nextL3= function(){
         var posByValue = $('.menuScrollCont ul li').width();
         var jumpToposition = $('.menuScrollCont ul').scrollLeft();
-       	$('.menuScrollCont ul').scrollLeft(jumpToposition + (posByValue*3) + 120);
-       	var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
-      	$('.menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	if(ltRtArw.hasClass('Left')){
-       		$('.menuScrollCont-arrow p.menu-next').css('opacity','0');
-       	}
-       	else if(ltRtArw.hasClass('Right')){
-       		$('.menuScrollCont-arrow p.menu-next').css('opacity','1');
-       	}
+        $('.menuScrollCont ul').scrollLeft(jumpToposition + (posByValue*3) + 120);
+        var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
+        $('.menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        if(ltRtArw.hasClass('Left')){
+          $('.menuScrollCont-arrow p.menu-next').css('opacity','0');
+        }
+        else if(ltRtArw.hasClass('Right')){
+          $('.menuScrollCont-arrow p.menu-next').css('opacity','1');
+        }
     }
     vm.prevL3= function(){
         var posByValue = $('.menuScrollCont ul li').width();
         var jumpToposition = $('.menuScrollCont ul').scrollLeft();
-       	$('.menuScrollCont ul').scrollLeft(jumpToposition - (posByValue*3) -120);
-       	$('.menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');    	
-       	if(jumpToposition == 0){
-			$('.menuScrollCont-arrow p.menu-prev').css('opacity','0');
-       	}
-       	else{
-       		$('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	}
+        $('.menuScrollCont ul').scrollLeft(jumpToposition - (posByValue*3) -120);
+        $('.menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');     
+        if(jumpToposition == 0){
+      $('.menuScrollCont-arrow p.menu-prev').css('opacity','0');
+        }
+        else{
+          $('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        }
     }
 
     vm.nextL3Sticky= function(){
-		var posByValue1 = $('.sticky .menuScrollCont ul li').width();
+    var posByValue1 = $('.sticky .menuScrollCont ul li').width();
         var jumpToposition = $('.sticky .menuScrollCont ul').scrollLeft();
-       	$('.sticky .menuScrollCont ul').scrollLeft(jumpToposition + (posByValue1*3) + 120);
-       	var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
-      	$('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	if(ltRtArw.hasClass('Left2')){
-       		$('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','0');
-       	}
-       	else if(ltRtArw.hasClass('Right2')){
-       		$('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
-       	}
+        $('.sticky .menuScrollCont ul').scrollLeft(jumpToposition + (posByValue1*3) + 120);
+        var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
+        $('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        if(ltRtArw.hasClass('Left2')){
+          $('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','0');
+        }
+        else if(ltRtArw.hasClass('Right2')){
+          $('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        }
     }
     vm.prevL3Sticky= function(){
         var posByValue1 = $('.sticky .menuScrollCont ul li').width();
         var jumpToposition = $('.sticky .menuScrollCont ul').scrollLeft();
-       	$('.sticky .menuScrollCont ul').scrollLeft(jumpToposition - (posByValue1*3) -120);
-       	$('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');    	
-       	if(jumpToposition == 0){
-			$('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','0');
-       	}
-       	else{
-       		$('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	}
+        $('.sticky .menuScrollCont ul').scrollLeft(jumpToposition - (posByValue1*3) -120);
+        $('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');     
+        if(jumpToposition == 0){
+      $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','0');
+        }
+        else{
+          $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        }
     }
 
-	vm.nextL3Tab= function(){
-		var posByValue2 = $('.menuLiContTab .menuScrollCont ul li').width();
+  vm.nextL3Tab= function(){
+    var posByValue2 = $('.menuLiContTab .menuScrollCont ul li').width();
         var jumpToposition2 = $('.menuLiContTab .menuScrollCont ul').scrollLeft();
-       	$('.menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition2 + (posByValue2*3) + 120);
-       	var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
-      	$('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	if(ltRtArw.hasClass('Left3')){
-       		$('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','0');
-       	}
-       	else if(ltRtArw.hasClass('Right3')){
-       		$('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-       	}
+        $('.menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition2 + (posByValue2*3) + 120);
+        var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
+        $('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        if(ltRtArw.hasClass('Left3')){
+          $('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','0');
+        }
+        else if(ltRtArw.hasClass('Right3')){
+          $('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        }
     }
     vm.prevL3Tab= function(){
         var posByValue2 = $('.menuLiContTab .menuScrollCont ul li').width();
         var jumpToposition2 = $('.menuLiContTab .menuScrollCont ul').scrollLeft();
-       	$('.menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition2 - (posByValue2*3) -120);
-       	$('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');    	
-       	if(jumpToposition2 == 0){
-			$('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
-       	}
-       	else{
-       		$('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	}
+        $('.menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition2 - (posByValue2*3) -120);
+        $('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');      
+        if(jumpToposition2 == 0){
+      $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
+        }
+        else{
+          $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        }
     }
 
     vm.nextL3StickyTab= function(){
-		var posByValue3 = $('.sticky .menuLiContTab .menuScrollCont ul li').width();
+    var posByValue3 = $('.sticky .menuLiContTab .menuScrollCont ul li').width();
         var jumpToposition3 = $('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft();
-       	$('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition3 + (posByValue3*3) + 120);
-    	var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
-      	$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	if(ltRtArw.hasClass('Left4')){
-       		$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','0');
-       	}
-       	else if(ltRtArw.hasClass('Right4')){
-       		$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-       	}
+        $('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition3 + (posByValue3*3) + 120);
+      var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
+        $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        if(ltRtArw.hasClass('Left4')){
+          $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','0');
+        }
+        else if(ltRtArw.hasClass('Right4')){
+          $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        }
     }
     vm.prevL3StickyTab= function(){
         var posByValue3 = $('.sticky .menuLiContTab .menuScrollCont ul li').width();
         var jumpToposition3 = $('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft();
-       	$('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition3 - (posByValue3*3) -120);
-    	$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
-      	$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');    	
-       	if(jumpToposition3 == 0){
-			$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
-       	}
-       	else{
-       		$('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-       	}
+        $('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition3 - (posByValue3*3) -120);
+      $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
+        $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');      
+        if(jumpToposition3 == 0){
+      $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
+        }
+        else{
+          $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
+        }
     }
     
-	/*setTimeout(function () {
-		$('.classForMenuArrow').hover(function(){
-			if($('.menu-hover-cont3-inner').height() > 350){ 
-		 		$('.menuScrollCont-arrow').css('border','1px solid red')
-		 	}
-		})
-	}, 200);
+  /*setTimeout(function () {
+    $('.classForMenuArrow').hover(function(){
+      if($('.menu-hover-cont3-inner').height() > 350){ 
+        $('.menuScrollCont-arrow').css('border','1px solid red')
+      }
+    })
+  }, 200);
 */
-	if ($(window).width() <= 1110) {
-		setTimeout(function () {
-			var serviceWidth = $('.service-list').width();
-			$(".scrollServiceLeft").click(function () {
-				$(".service-list div").scrollLeft(0);
-			});
-			$(".scrollServiceRight").click(function () {
-				$(".service-list div").scrollLeft(serviceWidth);
-			});
-		}, 200);
-	}
+  if ($(window).width() <= 1110) {
+    setTimeout(function () {
+      var serviceWidth = $('.service-list').width();
+      $(".scrollServiceLeft").click(function () {
+        $(".service-list div").scrollLeft(0);
+      });
+      $(".scrollServiceRight").click(function () {
+        $(".service-list div").scrollLeft(serviceWidth);
+      });
+    }, 200);
+  }
 
     if($(window).width() <= 1024){
         setTimeout(function(){
@@ -523,37 +522,37 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
                 setTimeout(function(){
                     $('.info-bar-care, .info-bar-events').css('display','block');
                 },500)
-			}
+      }
 
-			$("#info-bar-acc, #info-bar-cart").hover(hideOtherLink2, showOtherLink2);
+      $("#info-bar-acc, #info-bar-cart").hover(hideOtherLink2, showOtherLink2);
 
-			function hideOtherLink2() {
-				$('.info-bar-care, .info-bar-events').css({'display': 'none'});
+      function hideOtherLink2() {
+        $('.info-bar-care, .info-bar-events').css({'display': 'none'});
 
-			}
-			function showOtherLink2() {
-				$('.info-bar-care, .info-bar-events').css('display', 'block');
-			}
+      }
+      function showOtherLink2() {
+        $('.info-bar-care, .info-bar-events').css('display', 'block');
+      }
 
 
-		}, 200);
-	}
-	if($(window).width() > 1024){
-		setTimeout(function () {
-			
-				$(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
+    }, 200);
+  }
+  if($(window).width() > 1024){
+    setTimeout(function () {
+      
+        $(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
 
-				function expandSearchWidth() {
-					var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
-					$(this).css('width', expSearchWidthValue + 80);
-				}
+        function expandSearchWidth() {
+          var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
+          $(this).css('width', expSearchWidthValue + 80);
+        }
 
-				function collapseSearchWidth() {
-					$(this).css('width', '90px');
-				}
+        function collapseSearchWidth() {
+          $(this).css('width', '90px');
+        }
 
-		}, 200);
-	}
+    }, 200);
+  }
 
     /*if($(window).width() > 1024){
         setTimeout(function(){
@@ -653,10 +652,11 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
     }*/
     vm.openMenuLevel2 = function(obj){
     
-        $('.main-mobile-menu-container').css({'overflow-y':'hidden','border':'1px solid red'});
+        $('.main-mobile-menu-container').css({'overflow-y':'hidden'});
         $('.mobile-dropdown-cont2').css('overflow-y','hidden');
         $('.mobile-dropdown-cont3').css('overflow-y','auto');
         $('.mobile-dropdown-cont4').css('overflow-y','hidden');
+        
         if(obj.childCount>0){
                 vm.menu1= true;
                 vm.menu2= true;
@@ -667,7 +667,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
                 vm.menu1= true;
                 vm.menu2= true;
                 vm.menu3= false;
-			} else {
+      } else {
             $state.go('category', {childCount: obj.childCount, ID: obj.ID});
           }
         }
@@ -677,8 +677,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
         //ev.stopPropagation();     
     }
     vm.openMenuLevel3 = function(obj, index){
-
-    $('.main-mobile-menu-container').css({'overflow-y':'hidden','border':'1px solid red'});
+    $('.main-mobile-menu-container').css({'overflow-y':'hidden'});
     $('.mobile-dropdown-cont2').css('overflow-y','hidden');
     $('.mobile-dropdown-cont3').css('overflow-y','hidden');
     $('.mobile-dropdown-cont4').css('overflow-y','auto');
@@ -694,7 +693,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
             }
         //ev.stopPropagation();
     }
-    vm.hidePage = true;
+    
     vm.logoClick = function($event){
       /*  if($scope.menuClass == "unhide"){
             alert(10);
@@ -705,7 +704,7 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
             vm.menu2= false;
             vm.menu3= false;
         //if($scope.menuClass == "unhide"){
-            //$scope.menuClass = "unhide";
+            $scope.menuClass = "unhide";
             vm.menuClass = "unhide";
         //}
         vm.isopen = false;
@@ -763,27 +762,27 @@ function BaseController($scope, $timeout, defaultErrorMessageResolver, $window, 
         return vm.SubIndex === index;
     }
 
-	/*vm.stateChange = function (obj) {
-		$state.go('category', {
-			childCount: obj.childCount,
-			ID: obj.ID
-		});
-	}*/
-	vm.stateChange = function (obj) {
-		console.log("qwerty", obj);
-		if(obj.children>0){
-			$state.go('category', {
-				childCount: obj.childCount,
-				ID: obj.ID
-			});
-		}
-		else{
-			$state.go('plp', {
-				catId: obj.ID
-			});
-		}
+  /*vm.stateChange = function (obj) {
+    $state.go('category', {
+      childCount: obj.childCount,
+      ID: obj.ID
+    });
+  }*/
+  vm.stateChange = function (obj) {
+    console.log("qwerty", obj);
+    if(obj.children>0){
+      $state.go('category', {
+        childCount: obj.childCount,
+        ID: obj.ID
+      });
+    }
+    else{
+      $state.go('plp', {
+        catId: obj.ID
+      });
+    }
 
-	}
+  }
 
     vm.mobileMenu = function(data){
         
@@ -911,25 +910,25 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 });
   LoginFact.GetStaticTemp(ticket).then(function(res){
     console.log("static temp", res);
-			vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
-			//vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
-		})
-			LoginFact.GetFolders(ticket).then(function(res){
-			console.log("static temp GetFolders", res);
-			var ajaxarr = [];
-			var deferred = $q.defer();
-			angular.forEach(res.items,function(item){
-				var d = $q.defer();
-				ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
-					console.log("static temp GetSubFolders", response);
-					item["subfolders"]=response
-					deferred.resolve(item);
-					d.resolve();
-					return item;
-				}))
-			})
+      vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
+      //vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
+    })
+      LoginFact.GetFolders(ticket).then(function(res){
+      console.log("static temp GetFolders", res);
+      var ajaxarr = [];
+      var deferred = $q.defer();
+      angular.forEach(res.items,function(item){
+        var d = $q.defer();
+        ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
+          console.log("static temp GetSubFolders", response);
+          item["subfolders"]=response
+          deferred.resolve(item);
+          d.resolve();
+          return item;
+        }))
+      })
 
-			// angular.forEach(list.Items, function (item) {
+      // angular.forEach(list.Items, function (item) {
    //              var promise = Categories.Get(item.CategoryID);
    //              ajaxarr.push(promise);
    //          });
@@ -939,24 +938,24 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 
    //          });
 
-			$q.all(ajaxarr).then(function(all){
-				vm.ListOfPages = all;
+      $q.all(ajaxarr).then(function(all){
+        vm.ListOfPages = all;
 
-			});
+      });
 
-		});
+    });
 
-		LoginFact.GetPerplePerksSvg(ticket).then(function(res){
+    LoginFact.GetPerplePerksSvg(ticket).then(function(res){
 
-			var quicklinkPP = alfcontenturl + res.items[3].contentUrl + "?alf_ticket=" + ticket;
-			vm.quicklinkPP = $sce.trustAsResourceUrl(quicklinkPP);
+      var quicklinkPP = alfcontenturl + res.items[3].contentUrl + "?alf_ticket=" + ticket;
+      vm.quicklinkPP = $sce.trustAsResourceUrl(quicklinkPP);
 
-			var quicklinkPPHover = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
-			vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
-		    
-		});
+      var quicklinkPPHover = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
+      vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
+        
+    });
 
-	}
+  }
 /*floating header*/
     
 /*   $scope.navClass = 'sticky';
@@ -970,66 +969,66 @@ LoginFact.GetContactInfo(ticket).then(function(res){
          }
          $scope.$apply();
    });*/
-	(function($) {
-	    
-	    $.belowthefold = function(lookIn, elements, settings) {
-	        var fold = $(lookIn).height() + $(lookIn).scrollTop();
-	        console.log(elements);
-	        return $(elements).filter(function(){
-	            return fold <= $(this).offset().top - settings.threshold;
-	        });
-	    };
-	    
-	    $.abovethetop = function(lookIn, elements, settings) {
-	        var top = $(lookIn).scrollTop();
-	        return $(elements).filter(function(){
-	            return top >= $(this).offset().top + $(this).height() - settings.threshold;
-	        });
-	    };
-	    
-	    $.rightofscreen = function(lookIn, elements, settings) {
-	        var fold = $(lookIn).width() + $(lookIn).scrollLeft();
-	        return $(elements).filter(function(){
-	            return fold <= $(this).offset().left - settings.threshold;
-	        });
-	    };
-	    
-	    $.leftofscreen = function(lookIn, elements, settings) {
-	        var left = $(lookIn).scrollLeft();
-	        return $(elements).filter(function(){
-	            return left >= $(this).offset().left + $(this).width() - settings.threshold;
-	        });
+  (function($) {
+      
+      $.belowthefold = function(lookIn, elements, settings) {
+          var fold = $(lookIn).height() + $(lookIn).scrollTop();
+          console.log(elements);
+          return $(elements).filter(function(){
+              return fold <= $(this).offset().top - settings.threshold;
+          });
+      };
+      
+      $.abovethetop = function(lookIn, elements, settings) {
+          var top = $(lookIn).scrollTop();
+          return $(elements).filter(function(){
+              return top >= $(this).offset().top + $(this).height() - settings.threshold;
+          });
+      };
+      
+      $.rightofscreen = function(lookIn, elements, settings) {
+          var fold = $(lookIn).width() + $(lookIn).scrollLeft();
+          return $(elements).filter(function(){
+              return fold <= $(this).offset().left - settings.threshold;
+          });
+      };
+      
+      $.leftofscreen = function(lookIn, elements, settings) {
+          var left = $(lookIn).scrollLeft();
+          return $(elements).filter(function(){
+              return left >= $(this).offset().left + $(this).width() - settings.threshold;
+          });
 
-	    };
-	  
-	})(jQuery);
+      };
+    
+  })(jQuery);
 
-	// Call it
-	$.belowthefold("#lookInMe", ".peek", {threshold : 0}).addClass("Below");
-	$.abovethetop("#lookInMe", ".peek", {threshold : 0}).addClass("Above");
-	$.leftofscreen("#lookInMe", ".peek", {threshold : 0}).addClass("Left");
-	$.rightofscreen("#lookInMe", ".peek", {threshold : 0}).addClass("Right");
+  // Call it
+  $.belowthefold("#lookInMe", ".peek", {threshold : 0}).addClass("Below");
+  $.abovethetop("#lookInMe", ".peek", {threshold : 0}).addClass("Above");
+  $.leftofscreen("#lookInMe", ".peek", {threshold : 0}).addClass("Left");
+  $.rightofscreen("#lookInMe", ".peek", {threshold : 0}).addClass("Right");
 
-	$.leftofscreen("#lookInMe2", ".peek2", {threshold : 0}).addClass("Left2");
-	$.rightofscreen("#lookInMe2", ".peek2", {threshold : 0}).addClass("Right2");
+  $.leftofscreen("#lookInMe2", ".peek2", {threshold : 0}).addClass("Left2");
+  $.rightofscreen("#lookInMe2", ".peek2", {threshold : 0}).addClass("Right2");
 
-	$.leftofscreen("#lookInMe3", ".peek3", {threshold : 0}).addClass("Left3");
-	$.rightofscreen("#lookInMe3", ".peek3", {threshold : 0}).addClass("Right3");
+  $.leftofscreen("#lookInMe3", ".peek3", {threshold : 0}).addClass("Left3");
+  $.rightofscreen("#lookInMe3", ".peek3", {threshold : 0}).addClass("Right3");
 
-	$.leftofscreen("#lookInMe4", ".peek4", {threshold : 0}).addClass("Left4");
-	$.rightofscreen("#lookInMe4", ".peek4", {threshold : 0}).addClass("Right4");
+  $.leftofscreen("#lookInMe4", ".peek4", {threshold : 0}).addClass("Left4");
+  $.rightofscreen("#lookInMe4", ".peek4", {threshold : 0}).addClass("Right4");
 
-	vm.hideShowMenuArrow = function(){
-		setTimeout(function(){
-			var contToHideShow=$('.menu-hover-cont3-inner');
+  vm.hideShowMenuArrow = function(){
+    setTimeout(function(){
+      var contToHideShow=$('.menu-hover-cont3-inner');
       $('.menu-hover-cont2.menu-container').addClass('thisIsHovered');
-			if(contToHideShow.scrollWidth>contToHideShow.offsetWidth){
-			    $('.menuScrollCont-arrow').css('display','block');
-			}else{
-	    		$('.menuScrollCont-arrow').css('display','none');
-	    	}
-		},200)
-	}
+      if(contToHideShow.scrollWidth>contToHideShow.offsetWidth){
+          $('.menuScrollCont-arrow').css('display','block');
+      }else{
+          $('.menuScrollCont-arrow').css('display','none');
+        }
+    },200)
+  }
 
   vm.thisHoveredOut = function(){
     setTimeout(function(){
@@ -1117,7 +1116,7 @@ function BaseTopController(LoginFact, BaseService, $uibModal, $rootScope, LoginS
     
     vm.login = function() {
         var modalInstance = $uibModal.open({
-			animation: false,
+      animation: false,
             backdropClass: 'loginModalBg',
             windowClass: 'loginModalBg',
             templateUrl: 'login/templates/login.modal.tpl.html',
@@ -1131,8 +1130,6 @@ function BaseTopController(LoginFact, BaseService, $uibModal, $rootScope, LoginS
         }, function() {
             angular.noop();
         });
-        
-
     }
     vm.logout = function() {
         OrderCloud.Auth.RemoveToken();
@@ -1187,7 +1184,6 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		GetSubFolders:_getSubFolders,
 		GetArtcleList:_getArtcleList,
 		GetPerplePerksSvg: _getPerplePerksSvg,
-		GetContactList:_getcontactlist,
         CreateContactList:_createcontactlist,
         UpdateEmailPreference:_updateemailpreference
     };
@@ -1296,25 +1292,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
             });
             return defferred.promise;
     }
-	    // starting getcontactlist service(To get EmailPreferences List)
-   function _getcontactlist(){
-    var defferred = $q.defer(); 
-        $http({
-            method: 'GET',
-            dataType:"json",
-            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/getContactList',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).success(function (data, status, headers, config) {              
-            defferred.resolve(data);
-        }).error(function (data, status, headers, config) {
-            defferred.reject(data);
-        });
-        return defferred.promise;
-
-   }
-    // ending of getcontactlist service
+     // ending of getcontactlist service
     function _createcontactlist(userData){
     var defferred = $q.defer(); 
         $http({
@@ -1357,6 +1335,8 @@ function _updateemailpreference(u_data){
 
 }
 //End of updateemailpreference
+    
+
      function _getServices(ticket) {
         
         var defferred = $q.defer();
@@ -1400,100 +1380,100 @@ function _updateemailpreference(u_data){
         $http({
             method: 'GET',
             dataType:"json",
-			url: alfrescourl+"StaticTemplate/leftPanel?alf_ticket="+ticket,
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).success(function (data, status, headers, config) {
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-			defferred.reject(data);
-		});
-		return defferred.promise;
-	}
+      url: alfrescourl+"StaticTemplate/leftPanel?alf_ticket="+ticket,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
 
-	function _getPerplePerksSvg(ticket) {
-		var defferred = $q.defer(); 
-		$http({
-			method: 'GET',
-			dataType:"json",
-			url: alfrescourl+"CategoryPage/QuickLinks?alf_ticket="+ticket,
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).success(function (data, status, headers, config) {              
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-			defferred.reject(data);
-		});
-		return defferred.promise;
-	}
+  function _getPerplePerksSvg(ticket) {
+    var defferred = $q.defer(); 
+    $http({
+      method: 'GET',
+      dataType:"json",
+      url: alfrescourl+"CategoryPage/QuickLinks?alf_ticket="+ticket,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {              
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
 
 
-	function _getFolders(ticket) {
-		var defferred = $q.defer();
-		$http({
-			method: 'GET',
-			dataType:"json",
-			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
-			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).success(function (data, status, headers, config) {
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-			defferred.reject(data);
-		});
-		return defferred.promise;
-	}
+  function _getFolders(ticket) {
+    var defferred = $q.defer();
+    $http({
+      method: 'GET',
+      dataType:"json",
+      //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
+      url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
 
-	function _getSubFolders(ticket, subfolder){
-		var defferred = $q.defer();
-		$http({
-			method: 'GET',
-			dataType:"json",
-			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+subfolder+"?alf_ticket="+ticket,
-			//url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).success(function (data, status, headers, config) {
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-			defferred.reject(data);
-		});
-		return defferred.promise;
-	}
+  function _getSubFolders(ticket, subfolder){
+    var defferred = $q.defer();
+    $http({
+      method: 'GET',
+      dataType:"json",
+      url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+subfolder+"?alf_ticket="+ticket,
+      url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
 
-	function _getArtcleList(ticket, route){
-		var defferred = $q.defer();
-		$http({
-			method: 'GET',
-			dataType:"json",
-			url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
-           // url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).success(function (data, status, headers, config) {
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-			defferred.reject(data);
-		});
-		return defferred.promise;
-	}
+  function _getArtcleList(ticket, route){
+    var defferred = $q.defer();
+    $http({
+      method: 'GET',
+      dataType:"json",
+      //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
+            url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
 
 
     }
 
 function windowHeightDirective($window) {
-	return {
-	    restrict: 'A',
-	    link: function(scope, element){
-	        scope.windowHeight = $window.innerHeight - 60;
-	    }
-	};
+  return {
+      restrict: 'A',
+      link: function(scope, element){
+          scope.windowHeight = $window.innerHeight - 60;
+      }
+  };
 }
 
 function contTopPaddingDirective() {
@@ -1517,25 +1497,26 @@ function contTopPaddingDirective() {
         }
       });
     }
-  };
+ };
 }
 
+
 function scrollDirective($window) {
-	return {
-	    restrict: 'A',
-	    link:function(scope, element, attrs) {
-	        angular.element($window).bind("scroll", function() {
-	            if (this.pageYOffset >= 100) {
-	                 scope.boolChangeClass = true;
-	                 console.log('Scrolled below header.');
-	             } else {
-	                 scope.boolChangeClass = false;
-	                 console.log('Header is in view.');
-	             }
-	            scope.$apply();
-	        });
-	    }
-	};
+  return {
+      restrict: 'A',
+      link:function(scope, element, attrs) {
+          angular.element($window).bind("scroll", function() {
+              if (this.pageYOffset >= 100) {
+                   scope.boolChangeClass = true;
+                   console.log('Scrolled below header.');
+               } else {
+                   scope.boolChangeClass = false;
+                   console.log('Header is in view.');
+               }
+              scope.$apply();
+          });
+      }
+  };
 }
 
 

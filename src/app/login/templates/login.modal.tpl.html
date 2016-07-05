@@ -1,5 +1,5 @@
-<div class="row login-model" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'hidden'}">
-   <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 form-block">
+<div class="row login-model" window-height ng-style="{'max-height':windowHeight}">
+   <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7 form-block">
       <div class="row modal-close visible-xs visible-sm">
          <p class="close-icon" ng-click="login.cancel()">
             <a>
@@ -26,19 +26,19 @@
                   <h3 class="loginTop" ng-click="login.showLogin()" ng-class="{'active':login.loginTab==1 || login.loginTab==3}"><a href="" class="form-active loginLink" ><span>L</span>og <span>I</span>n</a></h3>
                </div>
                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h3 class="signUpTop" ng-click="login.showSignUp(); login.showScroll()" ng-class="{active:login.loginTab==2}"><a href="" class="signUpLink" ><span>S</span>ign <span>U</span>p</a></h3>
+                  <h3 class="signUpTop" ng-click="login.showSignUp()" ng-class="{active:login.loginTab==2}"><a href="" class="signUpLink" ><span>S</span>ign <span>U</span>p</a></h3>
                </div>
             </div>
          </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-block " >
-         <div ng-show="login.loginTab==1" class="logInForm">
-         <span class="errormsg">{{login.errormsg}}</span>
+         <div ng-show="login.loginTab==1" class="logInForm" ng-scrollable>
+            <span class="errormsg">{{login.errormsg}}</span>
             <form class="panel-body" name="LoginHomeForm" ng-submit="login.submit()" novalidate>
                <div class="login-det">
                    <div class="form-group">
                      <label>Enter Your Email Address</label>
-                     <input type="email" class="form-control" autocomplete="off" name="loginEmail" id="loginusername" placeholder="Email Address" ng-model="login.credentials.Username" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginEmail.$invalid && !LoginHomeForm.loginEmail.$pristine)  || login.invaliduser }" ng-model-options="{updateOn: 'blur'}" custom-email-validation>
+                     <input type="email" class="form-control" autocomplete="off" name="loginEmail" id="loginusername" placeholder="Email Address"  ng-model="login.credentials.Username" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginEmail.$invalid && !LoginHomeForm.loginEmail.$pristine)  || login.invaliduser }" ng-model-options="{updateOn: 'blur'}" custom-email-validation>
                      </div> 
                   <!--<div class="form-group">
                      <label>Enter Your Email Address</label>
@@ -46,8 +46,7 @@
                   </div>-->
                   <div class="form-group">
                      <label>Enter Your Password</label>
-                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" 
- ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword">
+                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword" ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}">
                   </div>
                   <div class="form-group remember-block">
                      <!-- <input type="checkbox"><label class="remember-text">Remember Me</label> -->
@@ -77,19 +76,21 @@
                <!-- <button id="submit_login" type="button" class="btn btn-primary fr" ng-click="login.showSignUpForm()">Sign Up</button> -->
             </form>
          </div>
-         <div class="forgot-possword-block" ng-show="login.loginTab==3">
+         <div class="forgot-possword-block" ng-show="login.loginTab==3" ng-scrollable>
             <h3>Forgot Password?</h3>
             <form name="forgotPasswordEmail" novalidate>
                <label>Enter your email address and we'll send you a link to reset your password</label>
                <div class="form-group">
                   <label>Enter Your Email Address</label>
-                  <input type="email" class="form-control" name="loginEmail" id="loginEmail" placeholder="Email address" ng-model="login.credentials.Username" ng-required="true" ng-model-options="{updateOn: 'blur'}" custom-email-validation>
+                  <input type="email" class="form-control" name="loginEmail" id="loginEmail" placeholder="Email address" ng-model="login.credentials.Username" ng-required="true" ng-model-options="{updateOn: 'blur'}">
                   <button class="btn btn-lg btn-primary btn-block mail-send-btn" type="submit" ng-disabled="forgotPasswordEmail.$invalid" ng-class="{'disabledbtn': forgotPasswordEmail.$invalid }">SEND</button>
                   <label class="not-a-member ">Back to <a href="" class="forgot-login-link" ng-click="login.showLogin()">Log In</a></label>
                </div>
             </form>
          </div>
-         <div ng-show="login.loginTab==2" class="signUpForm signUpScroll" ng-scrollbar rebuild-on="rebuild:signUpScroll">
+         <div ng-show="login.loginTab==2" class="signUpForm" ng-scrollable>
+		 
+           <span class="signupError">{{login.signupError}}</span>
             <form class="panel-body" name="SignupHomeForm" ng-submit="login.create()" novalidate>
                <!-- <div class="form-group">
                   <label>Enter Your Username</label>
@@ -114,7 +115,7 @@
                </div>
                <div class="form-group">
                   <label>Confirm Your Password</label>
-                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword" confirm-password="login.newUser.Password">
+                  <input type="password" class="form-control" name="confirmPasswordRegistration" id="confirmPasswordRegistration" placeholder="Confirm Password" ng-model="login.newUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}"  confirm-password="login.newUser.Password">
                </div>
                <div class="form-group phone-block">
                   <label>Enter Your Phone Number</label>
@@ -137,7 +138,7 @@
                      <input type="checkbox" id="c-employee">
                      <div class="Checkbox-visible"></div>
                   </div>
-                  <label class="remember-text corporate-emp" for="c-employee">Select, if you are a Corporate Employee</label>
+                  <label class="remember-text corporate-emp" for="c-employee">Select, if you are a Corporate <br class="visible-xs visible-sm visible-md">Employee</label>
                </div>
                <!-- <div class="form-group security-qtn-block">
                   <label for="security-select">Choose a Security Question</label>

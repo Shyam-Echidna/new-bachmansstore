@@ -23,7 +23,8 @@ angular.module( 'orderCloud', [
         'algoliasearch',
         'ui.bootstrap-slider',
         'cb.x2js',
-        'ngScrollbar'
+        'ngScrollbar',
+        'ngScrollable'
     ])
 
     .run( SetBuyerID )

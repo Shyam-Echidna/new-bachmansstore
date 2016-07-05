@@ -953,7 +953,7 @@
     }
     .results-selections{
       background-color:#f1f1f1;
-      padding: 10px 25px;
+      padding: 10px 10px 10px 25px;
       & > span{
         &:first-child{
           font: 1.150em @neutraface-demi;
@@ -970,56 +970,58 @@
       div.search-facet-scroll {
       .p0;
         div.search-facet-scroll-inner{
+          display:inline-block;
           white-space: nowrap;
-          overflow-x: auto;
-          padding: 0 10px; 
+          overflow-x: hidden;
+          padding: 0; 
+          margin-right:0px;
           position:relative;
-          span{
+          width:70%;
+          div{
             display:inline-block;
-            width: 25%;
-            padding:0px;
+            width: 24.5%;
             cursor: pointer;
             margin: 0;
             p{
-              padding:10px;
               font: 1.063em @proxima-regular;
               border: 1px solid #bea6d2;
-              margin:0 10px;
+              padding: 10px;
+              cursor: pointer;
+              margin: 0 10px;
               span{
                 padding:0px;      
                 width: 80%;
                 border: none;
-                margin: 0;     
+                margin: 0;  
+                width: 80%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                float: left; 
+                color: #8b5bb3;  
               }
               a{
                 width:20%;
-                    display: inline-block;
+                display: inline-block;
+                svg{
+                  height: 11px !important;
+                  width: 100% !important;
+                  fill: #8c58b5;
+                }
+              }
+              &:hover{
+                background-color:#bea6d2;
               }
             }
           }
-        }
-
-        span{
-
-          span{
-            &:hover{
-              background-color:#bea6d2;
-            }
-            a{
-              padding-left:16px;
-              svg{
-               fill: #8c58b5;
-              }
-            }
-          }
-        
-        
         }
         .clear-button-block{
-          .p0;
+          padding-right:0;
+          width: 18%;
         }
         .facetRightArrow {
-            width: 4%;
+            display:inline-block;
+            width: 6%;
             height: 25px;
             position: relative;
             top: 9px;
@@ -1039,8 +1041,9 @@
             }                   
         } 
         .facetLeftArrow { 
-            display:none;   
-            width: 4%;
+            display:inline-block;
+            visibility:visible;  
+            width: 6%;
             height: 25px;
             -ms-transform: translate(0%, -50%) rotate(180deg);
             -webkit-transform: translate(0%, -50%) rotate(180deg);

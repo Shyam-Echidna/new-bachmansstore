@@ -152,10 +152,23 @@ body {
                     padding:0 60px;
                 }
             }
-            .signUpForm{
+
+             .logInForm,.signUpForm, .forgot-possword-block{
+
                 max-height:inherit;
                 //overflow-y: scroll;
                 //overflow-x: hidden;
+                height:375px;
+                -webkit-overflow-scrolling: touch; 
+                .scrollable-bar-y{
+                    opacity:1;
+                    background-color: #f1f1f1;
+                    border-radius:5px;
+                    .scrollable-slider {
+                        border: none;
+                        border-radius: 5px;
+                    }
+                }
                  /*&::-webkit-scrollbar {
                     background: transparent;
                     cursor: pointer;
@@ -679,7 +692,7 @@ body {
                         padding: 0px 10px;
                     }
                 }
-                .signUpForm{
+               .logInForm,.signUpForm, .forgot-possword-block{
                     max-height: initial;
                     form{
                         // padding: 0px 0px 0px 10px;
@@ -885,13 +898,19 @@ body {
 }
 //ipad portrait
 @media screen and (max-width: 768px) and (min-width: 738px) {
-          .loginModalBg{
-    .modal-dialog{
+    .login-model .form-block .text-block{
+         .logInForm,.signUpForm, .forgot-possword-block{
+            height:760px;
+            overflow-y:auto;
+        }
+    } 
+    .loginModalBg{
+        .modal-dialog{
             width: 100%;
             position: absolute;
             top: 0px;
             left: 0px;
-    }
+        }
     }
     
     .promotion-block {
@@ -1013,4 +1032,15 @@ input[type=number]::-webkit-outer-spin-button {
 
  }
 
+ //for sam tab portrait & iphone landscape
+@media screen and (max-width:737px) and (min-width:560px) {
+    .login-model .form-block .text-block {
+        .logInForm,.signUpForm, .forgot-possword-block{
+            height:180px;      
+            max-height: initial;   
+        }
+    }
+}
 
+
+  

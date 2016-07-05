@@ -81,7 +81,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout ) {
+function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
 
     var vm = this;
     vm.token = $stateParams.token;
@@ -127,6 +127,7 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
               $uibModalInstance.dismiss('cancel');
                 //$state.go('account.profile');
                 $rootScope.$broadcast('getcurrentuser');
+				$('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
                 LoginService.GetCurrentUser().then(function(res){
                     console.log(res);
                 })
@@ -136,7 +137,7 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
                vm.errormsg = "Email or Password is incorrect!!";
                vm.invaliduser = true;
             })
-            $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+            
     };
 
     var specialKeys = new Array();
@@ -218,11 +219,10 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
 
     vm.loginTab = 1;
     vm.showLogin = function(){
-        vm.loginTab = 1;
+      vm.loginTab = 1;
     }
     vm.showSignUp = function(){
-        vm.loginTab = 2;
-        
+      vm.loginTab = 2;
     }
     vm.showForgotPassword = function(){
         vm.loginTab = 3;
@@ -261,13 +261,15 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
             console.log(res);
             $uibModalInstance.dismiss('cancel');
                // $state.go('home');
+			   $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
 
         },
         function(data){
             console.log(data);
+			 vm.signupError = "User already exists";
         })
         
-         $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
+         
 
     };
         

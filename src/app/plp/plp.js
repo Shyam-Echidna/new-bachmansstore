@@ -1078,7 +1078,7 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
 
     
         // added to cart carousel-pdt
-     setTimeout(function(){
+    /* setTimeout(function(){
         var owl2 = angular.element("#owl-carousel-added-cart-pdt");   
         owl2.owlCarousel({
             //responsive: true,
@@ -1098,10 +1098,10 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
                 }
             }
         });
-        },1000)
+        },1000)*/
 
       // added to cart carousel-frequent-pdt
-     setTimeout(function(){
+     /*setTimeout(function(){
         var owlcart = angular.element("#owl-carousel-added-cart-frequent-pdt");   
         owlcart.owlCarousel({
             //responsive: true,
@@ -1121,7 +1121,7 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
                 }
             }
         });
-        },1000)
+        },1000)*/
     var ticket = localStorage.getItem("alf_ticket");
     PlpService.GetAddToCart(ticket).then(function(res){
       vm.pdt1 = alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket;
@@ -1134,6 +1134,27 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
       vm.pdt8 = alfcontenturl+res.items[7].contentUrl+"?alf_ticket="+ticket;
       vm.pdt9 = alfcontenturl+res.items[8].contentUrl+"?alf_ticket="+ticket;
     });
+
+
+    /* cart popup pdts scroll */
+    vm.shiftSelectedCartRight= function(){
+      var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+      var posToShift = angular.element('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item').width();
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos + posToShift);
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item .cartLeftArrow').css({'display':'block'});
+    }
+
+    vm.shiftSelectedCartLeft= function(){
+      var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+      var posToShift = angular.element('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item').width();
+      angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos - posToShift);
+      if(currentPos == 0){
+        angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'none'});
+      } else{
+        angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'block'});
+      }
+    }
+    
   }
 
   function SharedData() {

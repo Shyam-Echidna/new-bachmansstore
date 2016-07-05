@@ -613,29 +613,26 @@ function AlgoliaSearchResultsController(AlgoliaSvc, ProductSearchResult,ProductR
 
 
     vm.shiftSelectedFacetRight= function(){
-        debugger;
         var currentPos = angular.element('.search-facet-scroll-inner').scrollLeft();
-        var posToShift = angular.element('.search-facet-scroll-inner span').width();
-        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos + posToShift);
+        var posToShift = angular.element('.search-facet-scroll-inner').width();
+        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos + (posToShift/4) );
         angular.element('.facetLeftArrow').css({'display':'block'});
-        alert(currentPos);
         var scrollEnd = ((vm.Selections.length - 4) * posToShift) - 10;
         if(currentPos > scrollEnd){
-          angular.element('.faceRightArrow').css({'display':'block'});
+          angular.element('.algolia-search-results .results-nav .results-selections div.search-facet-scroll .facetRightArrow').css({'display':'block'});
         } else{
-          angular.element('.facetRightArrow').css({'display':'block'});
+          angular.element('.algolia-search-results .results-nav .results-selections div.search-facet-scroll .facetRightArrow').css({'display':'block'});
         }
       }
       vm.shiftSelectedFacetLeft= function(){
-        debugger;
         var currentPos = angular.element('.search-facet-scroll-inner').scrollLeft();
-        var posToShift = angular.element('.search-facet-scroll-inner span').width();
-        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos - posToShift);
-        angular.element('.facetRightArrow').css({'display':'block'});
+        var posToShift = angular.element('.search-facet-scroll-inner').width();
+        angular.element('.search-facet-scroll-inner').scrollLeft(currentPos - (posToShift/4) );
+        angular.element('.algolia-search-results .results-nav .results-selections div.search-facet-scroll .facetLeftArrow').css({'visibility':'visible'});
         if(currentPos == 0){
-          angular.element('.facetLeftArrow').css({'display':'block'});
+          angular.element('.algolia-search-results .results-nav .results-selections div.search-facet-scroll .facetLeftArrow').css({'display':'block'});
         } else{
-          angular.element('.facetLeftArrow').css({'display':'block'});
+          angular.element('.algolia-search-results .results-nav .results-selections div.search-facet-scroll .facetLeftArrow').css({'display':'block'});
         }
       } 
 

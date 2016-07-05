@@ -3,6 +3,7 @@ angular.module('orderCloud')
     .config(CartConfig)
     .controller('CartCtrl', CartController)
     .controller('MiniCartCtrl', MiniCartController)
+    .controller('ProductRequestCtrl', ProductRequestController)
     .directive('ordercloudMinicart', OrderCloudMiniCartDirective)
 
 ;
@@ -61,7 +62,7 @@ function CartConfig($stateProvider) {
         });
 }
 
-function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsList, LineItemHelpers) {
+function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, LineItemsList, LineItemHelpers) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
@@ -133,6 +134,7 @@ function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsLi
 
     vm.clearcart = function(){
         Orders.Delete(vm.order.ID);
+        OrderCloud.Orders.Delete(vm.order.ID);
         $scope.load();
     }
 
@@ -150,13 +152,23 @@ function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsLi
         console.log(lineItem);
         $uibModal.open({
             templateUrl: 'cart/templates/productrequest.tpl.html',
-            controller: 'ProductRequestCtrl'
+            controller: 'ProductRequestCtrl',
+            controllerAs: 'productRequest',
+            resolve:{
+                prodrequestdata: function(){
+                    return lineItem;
+                },
+                Order: function(){
+                    var order = vm.order 
+                    return order;
+                }
+            }
         });
     }
 
     vm.deliverydate = function(date){
         console.log(date);
-        LineItems.Patch(vm.order.ID, date.ID,date.xp).then(function(res){
+        OrderCloud.LineItems.Patch(vm.order.ID, date.ID,date.xp).then(function(res){
             console.log(res);
         })
     }
@@ -167,8 +179,11 @@ function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsLi
         angular.forEach(data, function(value, key){
             var updatefeilds={"FirstName":value.ShippingAddress.FirstName, "LastName":value.ShippingAddress.LastName, "Zip":value.ShippingAddress.Zip};
             console.log(updatefeilds);
-            LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-                console.log(res);
+            OrderCloud.LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
+                OrderCloud.LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
+                    console.log(res);
+                    $scope.load();
+                });
             });
         },log);
     }
@@ -182,29 +197,38 @@ function CartController($q, $rootScope, $timeout, OrderCloud, Order, LineItemsLi
             "xp": lastrecp.xp
         }
         LineItems.List(vm.order.ID).then(function(ans){
-            console.log(ans);
-            selectedaddr=_.filter(ans.Items, function(obj) {
-                return ~obj.ShippingAddress.FirstName==changereceipent;
-            });
-            console.log("selectedaddr",selectedaddr);
+            var shippaddr = {};
+            OrderCloud.LineItems.List(vm.order.ID).then(function(ans){
+                console.log(ans);
+                selectedaddr=_.filter(ans.Items, function(obj) {
+                    return ~obj.ShippingAddress.FirstName==changereceipent;
+                    return _.indexOf([changereceipent],obj.ShippingAddress.FirstName) > -1
+                });
+                console.log("selectedaddr",selectedaddr);
+                console.log(selectedaddr.ShippingAddress);
+                angular.forEach(selectedaddr, function(value, key){
+                    console.log(value);
+                    shippaddr={
+                        "City": value.ShippingAddress.City,
+                        "FirstName": value.ShippingAddress.FirstName,
+                        "LastName": value.ShippingAddress.LastName,
+                        "Street1": value.ShippingAddress.Street1,
+                        "Street2": value.ShippingAddress.Street2,
+                        "State": value.ShippingAddress.State,
+                        "Zip": value.ShippingAddress.Zip,
+                        "Country": value.ShippingAddress.Country,
+                        "Phone": value.ShippingAddress.Phone
+                    }
+                    OrderCloud.LineItems.Delete(vm.order.ID, data.ID);
+                    OrderCloud.LineItems.Create(vm.order.ID, newline).then(function(res){
+                        console.log(res);
+                        OrderCloud.LineItems.SetShippingAddress(vm.order.ID,res.ID,shippaddr).then(function(resq){
+                            $state.reload()
+                        })
+                    });
+                })
+            })
         })
-
-        /*var selectedaddr=_.filter(questions, function(obj) {
-            return ~obj.question.toLowerCase().indexOf("how");
-        });*/
-        var shippaddr={
-            "AddressName": lastrecp.ShippingAddress.AddressName,
-            "City": lastrecp.ShippingAddress.City,
-            "FirstName": lastrecp.ShippingAddress.FirstName,
-            "LastName": lastrecp.ShippingAddress.LastName,
-            "Street1": lastrecp.ShippingAddress.Street1,
-            "Street2": lastrecp.ShippingAddress.Street2,
-            "State": lastrecp.ShippingAddress.State,
-            "Zip": lastrecp.ShippingAddress.Zip,
-            "Country": lastrecp.ShippingAddress.Country,
-            "Phone": lastrecp.ShippingAddress.Phone
-        }
-        console.log(lastrecp);
     }
 }
 
@@ -299,4 +323,21 @@ function OrderCloudMiniCartDirective() {
         controller: 'MiniCartCtrl',
         controllerAs: 'minicart'
     };
+}
+
+function ProductRequestController($uibModal, $scope, $stateParams, prodrequestdata, $uibModalInstance, OrderCloud, Order){
+    var vm=this;
+    vm.order=Order;
+    vm.prodrequestdata= prodrequestdata;   
+    vm.cancel = function(){
+        $uibModalInstance.close();
+    }
+
+    vm.save = function(data){
+        console.log(data);
+        var updateline = {"xp":data};
+        OrderCloud.LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function(test){
+            $uibModalInstance.close();
+        })
+    }
 }
