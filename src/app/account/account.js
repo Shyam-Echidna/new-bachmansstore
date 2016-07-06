@@ -488,10 +488,10 @@ function AccountController( $exceptionHandler, $location, $state, $scope, OrderC
 		console.log("deafult", address);
 		console.log("deafult", vm.addressData);
 		_.filter(vm.addressData,function(row){
-			/*if(row.xp.IsDefault){
+			//if(row.xp.IsDefault){
 				var dataFalse={
 					IsDefault :false
-				};*/
+				};
 				var default_value={
 					"Shipping": row.Shipping,
 		    		"Billing": row.Billing,
@@ -511,7 +511,7 @@ function AccountController( $exceptionHandler, $location, $state, $scope, OrderC
 					console.log("the patchched addres is",res);
 					})
 				
-			}
+			//}
 		});
 		var  dataTrue ={
 	    			IsDefault :true
