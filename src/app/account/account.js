@@ -488,10 +488,10 @@ function AccountController( $exceptionHandler, $location, $state, $scope, OrderC
 		console.log("deafult", address);
 		console.log("deafult", vm.addressData);
 		_.filter(vm.addressData,function(row){
-			if(row.xp.IsDefault){
+			/*if(row.xp.IsDefault){
 				var dataFalse={
 					IsDefault :false
-				};
+				};*/
 				var default_value={
 					"Shipping": row.Shipping,
 		    		"Billing": row.Billing,
@@ -689,7 +689,9 @@ function ProfileController($exceptionHandler,OrderCloud, OrderList, AccountServi
 	})*/
 	
 })
- vm.editAdressDefault=function(default_add){
+    $scope.showdefautEdit=false;
+
+ vm.editAdressDefault=function(showdefautEdit){
 			//vm.editAddr=default_add;
 			$scope.showdefautEdit=false;
 			/*vm.stateData=vm.editAddr.State;
@@ -732,12 +734,12 @@ vm.saveAddressDefault = function(saveAddr, contact){
 	};
     OrderCloud.Me.ListAddresses().then(function(dadd){
 	console.log("addresses are---",dadd)
-			_.filter(dadd.Items,function(row){
+	/*		_.filter(dadd.Items,function(row){
 			if(row.xp.IsDefault){
 				console.log(" default address is---",row)
 				vm.default_add=row;
 		}
-	})
+	})*/
 	
 })
 /*vm.editAdressDefault=function(default_add){
@@ -769,12 +771,12 @@ vm.stateSelected = function(stateSelected){
 	};
 	OrderCloud.Me.ListAddresses().then(function(dadd){
 	console.log("addresses are---",dadd)
-			_.filter(dadd.Items,function(row){
+	/*		_.filter(dadd.Items,function(row){
 			if(row.xp.IsDefault){
 				console.log(" default address is---",row)
 				vm.default_add=row;
 		}
-	})
+	})*/
 	
 })
 //orders functionallity starts here

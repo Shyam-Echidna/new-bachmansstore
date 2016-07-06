@@ -163,11 +163,12 @@
 				<h2>Contact Information</h2>
 				<div>
 					<h3>Name</h3>
-					<h4 class="tt-caps">
+					<!-- <h4 class="tt-caps">
 						{{profile.default_add.FirstName}}
 				    	{{profile.default_add.LastName}}
-					</h4>
-					
+					</h4> -->
+					<h4 class="tt-caps">{{profile.profileData.FirstName}}
+				    {{profile.profileData.LastName}}</h4>
 					<h3>Address</h3>
 					<h4>
 						<span class="disp-block tt-caps">{{profile.default_add.Street1}} </span>
@@ -179,7 +180,8 @@
 					    </span>
 					</h4>
 					<h3>Phone Number</h3>	
-					<h4 class="ph-value">{{profile.default_add.Phone}}</h4>
+					<!-- <h4 class="ph-value">{{profile.default_add.Phone}}</h4> -->
+					<h4 class="ph-value">{{profile.profileData.Phone}}</h4>
 					<h5 class="prof-edit-link" ng-click="showdefautEdit = !showdefautEdit">Edit</h5>
 				</div>
 				<!-- For Edit personal info page starts -->
