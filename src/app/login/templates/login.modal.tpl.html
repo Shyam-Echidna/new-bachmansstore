@@ -32,7 +32,7 @@
          </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-block " >
-         <div ng-show="login.loginTab==1" class="logInForm" ng-scrollable>
+         <div ng-show="login.loginTab==1" class="logInForm" >
             <span class="errormsg">{{login.errormsg}}</span>
             <form class="panel-body" name="LoginHomeForm" ng-submit="login.submit()" novalidate>
                <div class="login-det">
@@ -76,7 +76,7 @@
                <!-- <button id="submit_login" type="button" class="btn btn-primary fr" ng-click="login.showSignUpForm()">Sign Up</button> -->
             </form>
          </div>
-         <div class="forgot-possword-block" ng-show="login.loginTab==3" ng-scrollable>
+         <div class="forgot-possword-block" ng-show="login.loginTab==3">
             <h3>Forgot Password?</h3>
             <form name="forgotPasswordEmail" novalidate>
                <label>Enter your email address and we'll send you a link to reset your password</label>
@@ -88,9 +88,12 @@
                </div>
             </form>
          </div>
+
          <div ng-show="login.loginTab==2" class="signUpForm" ng-scrollable>
-		 
-           <span class="signupError">{{login.signupError}}</span>
+          <span class="signupError">{{login.signupError}}</span>
+
+         
+
             <form class="panel-body" name="SignupHomeForm" ng-submit="login.create()" novalidate>
                <!-- <div class="form-group">
                   <label>Enter Your Username</label>
@@ -166,7 +169,7 @@
                      
                   </div>
                   <input type="text" name = "securityAnswer" class="form-control security-answer" ng-model="login.newUser.securityAnswer" placeholder="Enter Your Answer" ng-required="true">
-      </div>
+               </div>
                <div class="form-group">
                   <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" ng-disabled="SignupHomeForm.$invalid" ng-class="{'disabledbtn': SignupHomeForm.$invalid }">SIGN UP</button>
                </div>

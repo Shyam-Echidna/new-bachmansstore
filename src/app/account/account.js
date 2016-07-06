@@ -681,18 +681,18 @@ function ProfileController($exceptionHandler,OrderCloud, OrderList, AccountServi
     }
     OrderCloud.Me.ListAddresses().then(function(dadd){
 	console.log("addresses are---",dadd)
-			_.filter(dadd.Items,function(row){
+		/*	_.filter(dadd.Items,function(row){
 			if(row.xp.IsDefault){
 				console.log(" default address is---",row)
 				vm.default_add=row;
 		}
-	})
+	})*/
 	
 })
  vm.editAdressDefault=function(default_add){
-			vm.editAddr=default_add;
-			//$scope.showdefautEdit=false;
-			vm.stateData=vm.editAddr.State;
+			//vm.editAddr=default_add;
+			$scope.showdefautEdit=false;
+			/*vm.stateData=vm.editAddr.State;
 			vm.contact={};
 			var phn = vm.editAddr.Phone;
 			var init = phn.indexOf('(');
@@ -703,7 +703,7 @@ function ProfileController($exceptionHandler,OrderCloud, OrderList, AccountServi
 			vm.contact.Phone2 = parseInt(phn.substr(init+1,fin-init-1));
 			init = phn.indexOf('-');
 			vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
-			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
+			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);*/
 
 	}
 vm.saveAddressDefault = function(saveAddr, contact){
@@ -740,7 +740,7 @@ vm.saveAddressDefault = function(saveAddr, contact){
 	})
 	
 })
-vm.editAdressDefault=function(default_add){
+/*vm.editAdressDefault=function(default_add){
 			vm.editAddr=default_add;
 			$scope.showedit=false;
 			vm.stateData=vm.editAddr.State;
@@ -756,7 +756,7 @@ vm.editAdressDefault=function(default_add){
 			vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
 			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
 
-	}
+	}*/
 vm.saveAddressDefault = function(saveAddr, contact){
 				saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 				console.log("saveAddr.Phone", saveAddr.Phone);

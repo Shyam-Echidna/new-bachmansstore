@@ -125,9 +125,12 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
                 OrderCloud.Auth.SetToken(data.access_token);
              // ImpersonationService.StopImpersonating();
               $uibModalInstance.dismiss('cancel');
-                //$state.go('account.profile');
+              vm.menuClass='unhide';
+              $('.menu-class').removeClass('hide');
+              $('.menu-class').addClass('unhide');
+              $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+                  //$state.go('account.profile');
                 $rootScope.$broadcast('getcurrentuser');
-				$('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
                 LoginService.GetCurrentUser().then(function(res){
                     console.log(res);
                 })
@@ -260,17 +263,16 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
         OrderCloud.Users.Create(user).then(function(res){
             console.log(res);
             $uibModalInstance.dismiss('cancel');
-               // $state.go('home');
-			   $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
-
+            // $state.go('home');
+            vm.menuClass='unhide';
+            $('.menu-class').removeClass('hide');
+            $('.menu-class').addClass('unhide');
+            $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
         },
         function(data){
             console.log(data);
-			 vm.signupError = "User already exists";
+            vm.signupError = "User already exists";
         })
-        
-         
-
     };
         
 }
