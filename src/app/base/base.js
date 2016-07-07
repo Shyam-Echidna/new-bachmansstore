@@ -45,7 +45,7 @@ function BaseConfig( $stateProvider ) {
             },
             resolve: {
                 
-              adminLogin : function($q, OrderCloud, BaseService){
+              adminLogin : function($q, OrderCloud, BaseService,$cookieStore){
                  if(!$cookieStore.get('isLoggedIn')){
                      var dfd = $q.defer();
              return BaseService.AdminLogin().then(function (data) {
