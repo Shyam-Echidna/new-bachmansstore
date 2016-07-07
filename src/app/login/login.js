@@ -81,7 +81,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
+function LoginController( OrderCloud,$state, $cookieStore , $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
 
     var vm = this;
     vm.token = $stateParams.token;
