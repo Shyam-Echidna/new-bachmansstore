@@ -2804,6 +2804,15 @@ ul.empty-div {
 					&:hover {
 						color: #e7c8ff;
 					}
+					&.guest-in-mob{
+						display:block;
+					}
+					&.logged-in-mob{
+						display:none;
+					}
+					&.signed-in-mob{
+						display:none;
+					}
 				}
 				.mobile-contact-us ul {
 					padding-bottom: 7px;
@@ -3465,6 +3474,12 @@ ul.empty-div {
 			bottom: 0;
 			width: 100%;
 			margin: 0;
+			&.mobile-signout-guest{
+				display:block;
+			}
+			&.mobile-signout-notGuest{
+				display:none;
+			}
 		}
 	}
 	.main-mobile-menu-container .mobile-dropdown-cont1 .mobile-services-list {
@@ -5318,3 +5333,11 @@ body.modal-open {
     overflow: hidden !important;
     position:fixed;
 }
+
+/*.hideLoginPopup{
+	.loginModalBg{
+		display: none !important;
+	    position: relative;
+	    overflow: initial;
+	}
+}*/

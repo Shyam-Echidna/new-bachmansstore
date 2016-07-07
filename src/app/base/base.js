@@ -46,14 +46,32 @@ function BaseConfig( $stateProvider ) {
             resolve: {
                 
               adminLogin : function($q, OrderCloud, BaseService){
+                 if(!$cookieStore.get('isLoggedIn')){
                      var dfd = $q.defer();
              return BaseService.AdminLogin().then(function (data) {
                   OrderCloud.Auth.SetToken(data.access_token);
                  return data.access_token
               })
                return true;
-
+                  }
                     },
+                     CurrentUser: function($q, $state, OrderCloud, $cookieStore) {
+                       if($cookieStore.get('isLoggedIn')){
+                var dfd = $q.defer();
+                OrderCloud.Me.Get()
+                    .then(function(data) {
+                        dfd.resolve(data);
+                    })
+                    .catch(function(){
+                        OrderCloud.Auth.RemoveToken();
+                        OrderCloud.Auth.RemoveImpersonationToken();
+                        //OrderCloud.BuyerID.Set(null);
+                       // $state.go('login');
+                        dfd.resolve();
+                    });
+                return dfd.promise;
+              }
+            },
                   ticket: function(LoginFact){
                     return LoginFact.Get().then(function(data){
                     console.log(data);           
@@ -1185,6 +1203,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 		GetArtcleList:_getArtcleList,
 		GetPerplePerksSvg: _getPerplePerksSvg,
         CreateContactList:_createcontactlist,
+        GetContactList:_getcontactlist,
         UpdateEmailPreference:_updateemailpreference
     };
     return service;
@@ -1247,6 +1266,26 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
             });
             return defferred.promise;
         }
+
+          // starting getcontactlist service(To get EmailPreferences List)
+   function _getcontactlist(){
+    var defferred = $q.defer(); 
+        $http({
+            method: 'GET',
+            dataType:"json",
+            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/getContactList',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {              
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
+
+   }
+    // ending of getcontactlist service
     function _getLogo(ticket) {
         
         var defferred = $q.defer();

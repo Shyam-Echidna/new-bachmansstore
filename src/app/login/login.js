@@ -124,11 +124,19 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
                 OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
                 OrderCloud.Auth.SetToken(data.access_token);
              // ImpersonationService.StopImpersonating();
+              $cookieStore.put('isLoggedIn', true); 
               $uibModalInstance.dismiss('cancel');
               vm.menuClass='unhide';
               $('.menu-class').removeClass('hide');
               $('.menu-class').addClass('unhide');
               $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+              $('.guest-in-mob').css('display','none');
+              $('.logged-in-mob').css('display','block');
+              $('body').addClass('hideLoginPopup');
+              $('.mobile-signout-guest').css('display','none');
+              $('.mobile-signout-notGuest').css('display','block');
+
+
                   //$state.go('account.profile');
                 $rootScope.$broadcast('getcurrentuser');
                 LoginService.GetCurrentUser().then(function(res){
@@ -268,6 +276,11 @@ function LoginController( OrderCloud,$state, $stateParams, $exceptionHandler, Lo
             $('.menu-class').removeClass('hide');
             $('.menu-class').addClass('unhide');
             $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
+            $('.guest-in-mob').css('display','none');
+            $('.signed-in-mob').css('display','block');
+            $('body').addClass('hideLoginPopup');
+            $('.mobile-signout-guest').css('display','none');
+            $('.mobile-signout-notGuest').css('display','block');
         },
         function(data){
             console.log(data);

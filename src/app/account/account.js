@@ -35,7 +35,7 @@ function AccountConfig( $stateProvider ) {
                         dfd.resolve();
                     });
                 return dfd.promise;
-            },
+            }/*,
             OrderList:function($q,OrderCloud, AccountService){
 					var orders=[];
 					var forders=[];
@@ -54,7 +54,7 @@ function AccountConfig( $stateProvider ) {
 						//dfr.resolve(orders);
 					});
 		
-				}
+				}*/
 			},
 			templateUrl:'account/templates/accountLanding.tpl.html',
 			controller:'AccountCtrl',
@@ -642,9 +642,9 @@ function EmailSubscriptionController( $exceptionHandler,UpdateEmailLIst,CurrentU
 function TrackOrderController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
 }
-function ProfileController($exceptionHandler,OrderCloud, OrderList, AccountService, CurrentUser, Underscore, $q, $scope){
+function ProfileController($exceptionHandler,OrderCloud, /*OrderList,*/ AccountService, CurrentUser, Underscore, $q, $scope){
 	var vm=this;
-	console.log("OrderList==",OrderList);
+	//console.log("OrderList==",OrderList);
 	vm.emaillist = function() {
         var vm=this;
         var modalInstance = $uibModal.open({
@@ -780,9 +780,9 @@ vm.stateSelected = function(stateSelected){
 	
 })
 //orders functionallity starts here
-vm.oooo=OrderList;
-console.log("oooooooooooooooooooo",vm.oooo);
-/*var orders=[];
+/*vm.oooo=OrderList;
+console.log("oooooooooooooooooooo",vm.oooo);*/
+var orders=[];
 var forders=[];
 OrderCloud.Me.ListOutgoingOrders().then(function(oooores){
 	angular.forEach(oooores.Items,function(od){
@@ -793,7 +793,7 @@ OrderCloud.Me.ListOutgoingOrders().then(function(oooores){
 		vm.showOrders=foooo;
 		console.log("orders with line items====",vm.showOrders);
 	});
-})*/
+})
 //Events Functionallity Starts Here
 var ajaxarr=[];
 var arr=[];
