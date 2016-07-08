@@ -103,7 +103,7 @@ function AccountConfig( $stateProvider ) {
 		})
 		.state( 'account.orders', {
 			url: '/orders',
-			templateUrl: 'orders/templates/orders.tpl.html',
+			templateUrl: 'account/templates/orders.tpl.html',
 			controller: 'profilectrl',
 			controllerAs: 'profile'
 		})
@@ -482,22 +482,25 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 			console.log("address are-",addressdatares);
 		})
 	}
-	vm.editAdress=function(editAddr,showedit){
+	vm.editAdress=function(editAddr,index){
+		    vm['showedit' + index] =true;
 			vm.editAddr=editAddr;
 			$scope.showedit=false;
+			vm.contact={};
 			var phn = vm.editAddr.Phone;
-			var init = phn.indexOf('(');
-			var fin = phn.indexOf(')');
-			vm.contact.Phone1 = parseInt(phn.substr(init+1,fin-init-1));
-			init = phn.indexOf(')');
-			fin = phn.indexOf('-');
-			vm.contact.Phone2 = parseInt(phn.substr(init+1,fin-init-1));
-			init = phn.indexOf('-');
-			vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
-			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
+			AccountService.GetPhoneNumber(vm.editAddr.Phone).then(function(res){
+				console.log(" edit response are",res);
+				vm.contact.Phone1 = res[0];
+				vm.contact.Phone2 = res[1];
+				vm.contact.Phone3 = res[2];
+			});
+			
 			$location.hash('top');
 			$anchorScroll();
 
+	}
+	vm.closeShowedit=function(index){
+		vm['showedit'+index]=false;
 	}
 	vm.saveAddress = function(saveAddr, contact){
 				saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
@@ -728,7 +731,7 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Current
 		vm.emailid=rrr;
 	})
     }
-    OrderCloud.Me.ListAddresses().then(function(dadd){
+/*    OrderCloud.Me.ListAddresses().then(function(dadd){
 	console.log("addresses are---",dadd)
 			_.filter(dadd.Items,function(row){
 			if(row.xp.IsDefault){
@@ -737,8 +740,8 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Current
 		}
 	})
 	
-})
- vm.editAdressDefault=function(){
+})*/
+ /*vm.editAdressDefault=function(){
  			vm['showedit' + index] =true;
 			vm.editAddr=editAddr;
 			$scope.showedit=false;
@@ -750,7 +753,7 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Current
 				vm.contact.Phone2 = res[1];
 				vm.contact.Phone3 = res[2];
 			});
-			/*vm.editAddr=default_add;
+			vm.editAddr=default_add;
 			
 			vm.stateData=vm.editAddr.State;
 			vm.contact={};
@@ -763,9 +766,9 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Current
 			vm.contact.Phone2 = parseInt(phn.substr(init+1,fin-init-1));
 			init = phn.indexOf('-');
 			vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
-			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);*/
+			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
 
-	}
+	}*/
 vm.saveAddressDefault = function(saveAddr, contact){
 				saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 				console.log("saveAddr.Phone", saveAddr.Phone);
@@ -790,7 +793,7 @@ vm.saveAddressDefault = function(saveAddr, contact){
 				$exceptionHandler(ex)
 			});
 	};
-    OrderCloud.Me.ListAddresses().then(function(dadd){
+/*    OrderCloud.Me.ListAddresses().then(function(dadd){
 	console.log("addresses are---",dadd)
 			_.filter(dadd.Items,function(row){
 			if(row.xp.IsDefault){
@@ -799,8 +802,8 @@ vm.saveAddressDefault = function(saveAddr, contact){
 		}
 	})
 	
-})
-vm.editAdressDefault=function(default_add){
+})*/
+/*vm.editAdressDefault=function(default_add){
 			vm.editAddr=default_add;
 			$scope.showedit=false;
 			vm.stateData=vm.editAddr.State;
@@ -816,7 +819,7 @@ vm.editAdressDefault=function(default_add){
 			vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
 			console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
 
-	}
+	}*/
 vm.saveAddressDefault = function(saveAddr, contact){
 				saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 				console.log("saveAddr.Phone", saveAddr.Phone);
@@ -827,16 +830,7 @@ vm.saveAddressDefault = function(saveAddr, contact){
 vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};
-	OrderCloud.Me.ListAddresses().then(function(dadd){
-	console.log("addresses are---",dadd)
-			_.filter(dadd.Items,function(row){
-			if(row.xp.IsDefault){
-				console.log(" default address is---",row)
-				vm.default_add=row;
-		}
-	})
 	
-})
 //orders functionallity starts here
 var orders=[];
 var forders=[];
