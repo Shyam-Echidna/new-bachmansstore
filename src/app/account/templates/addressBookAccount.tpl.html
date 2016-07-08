@@ -56,7 +56,7 @@
                     </div>
                     <div class="col-xs-12 form-group address2">
                         <label for="address2">Address 2</label>
-                        <input type="text" class="form-control" id="address2" ng-model="addr.Street2">
+                        <input type="text" class="form-control" id="address2" ng-model="addr.Street1">
                     </div>
                     <div class="col-xs-6 form-group city">
                         <label for="address">City</label>
@@ -102,8 +102,156 @@
             </div>
         </div>
     </div>
-    <div class="row row-address-search for-edit-cont">
+    <!-- <div class="row row-address-search for-edit-cont">
         <div class="col-xs-12 adress-edit-container" ng-hide="showedit">
+            <p class="title">Edit Address</p>
+            <div class="add-new-addr-div">
+                <form class="row add-new-addr-form" role="form" novalidate>
+                    <!-- <div class="col-xs-6 form-group nick-name">
+                        <label for="nickName">Nick Name</label>
+                        <input type="text" class="form-control" id="nickName">
+                    </div> -->
+                    <!-- <div class="col-xs-6 form-group first-name" >
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName">
+                    </div>
+                    <div class="col-xs-6 form-group last-name" >
+                        <label for="nickName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName">
+                    </div>
+                    <div class="col-xs-6 form-group zip-code">
+                        <label for="zipCode">ZIP Code</label>
+                        <input type="text" class="form-control" id="zipCode" ng-model="account.editAddr.Zip">
+                    </div>
+                    <div class="col-xs-12 form-group address" >
+                        <label for="address">Address1</label>
+                        <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1">
+                    </div>
+                    <div class="col-xs-12 form-group address2" >
+                        <label for="address2">Address2</label>
+                        <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2">
+                    </div>
+                    <div class="col-xs-6 form-group city">
+                        <label for="address">City</label>
+                        <input type="text" class="form-control" id="city" ng-model="account.editAddr.City">
+                        <label for="state">State</label>
+                        <div uib-dropdown>
+                            <a href ng-model="account.editAddr.State" uib-dropdown-toggle>
+                                    {{account.stateData}}
+                            </a>
+                            <div uib-dropdown-menu>
+                                <ul>
+                                    <li ng-click="account.stateSelected(account.editAddr.State)">MN</li>
+                                    <li ng-click="account.stateSelected(account.editAddr.State)">jh</li>
+                                    <li ng-click="account.stateSelected(account.editAddr.State)">LhhV</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 form-group state">
+                        <label for="state">State</label>
+                        <select class="form-control" id="state" ng-model="account.editAddr.State">
+                            <option>MN</option>
+                            <option>LA</option>
+                            <option>LV</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 form-group phone-number">
+                        <label for="phone1">Phone Number</label>
+                        <input type="number" class="form-control col-xs-3" id="phone1" ng-model="account.contact.Phone1">
+                        <input type="number" class="form-control col-xs-3" id="phone2" ng-model="account.contact.Phone2">
+                        <input type="number" class="form-control col-xs-3" id="phone3" ng-model="account.contact.Phone3">
+                    </div>
+                    <div class="col-xs-12 form-group shipping-checkbox">
+                        <div class="Checkbox">
+                            <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" />
+                            <div class="Checkbox-visible"></div>
+                        </div>
+                        <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
+                    </div>
+                    <div class="col-xs-12 form-group billing-checkbox">
+                        <div class="Checkbox">
+                            <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling" />
+                            <div class="Checkbox-visible"></div>
+                        </div>
+                        <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
+                    </div>
+                    <div class="col-xs-12 form-group navig-btns">
+                        <div class="col-xs-6 savebtn">
+                            <button type="button" class="btn purple-btn col-xs-6" ng-click="account.saveAddress(account.editAddr,account.contact)">SAVE ADDRESS</button>
+                        </div>
+                        <div class="col-xs-6 cancelbtn">
+                            <button type="button" class="btn gray-btn col-xs-6" ng-click="showedit=!showedit">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   -->
+    <div class="row addr-book-list-cont">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="address.xp.IsDefault">
+            <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
+                <p class="title">Default Address</p>
+                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
+                <div class="Checkbox">
+                  <input type="checkbox" checked>
+                  <div class="Checkbox-visible"></div>
+               </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
+                <p class="title">Name</p>
+                <p class="value">{{address.FirstName}}{{address.LastName}}</p>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 address">
+                <p class="title">Address</p>
+                <p class="addr-line1">{{address.Street1}}
+                    {{address.Street2}}
+                    {{address.City}}
+                    {{address.State}}
+                    {{address.Zip}}</p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 phone-number">
+                <p class="title">Phone Number</p>
+                <p class="value">{{address.Phone}}</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 edit-delete">
+                <a href="javascript:void(0)" ng-click="account.editAdress(address,showedit)">Edit</a>
+                <span class="link-sep">|</span>
+                <a href="javascript:void(0)" ng-click="account.deletePopup(address.ID)">Delete</a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-init="addressBook.showedit[$index]=false" ng-if="!address.xp.IsDefault">
+            <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
+                <p class="title">Make Default Address</p>
+                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
+                <div class="Checkbox">
+                  <input type="checkbox" ng-click="account.makeDefault(address)">
+                  <div class="Checkbox-visible"></div>
+               </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
+                <p class="title">Name</p>
+                <p class="value">{{address.FirstName}}{{address.LastName}}</p>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 address">
+                <p class="title">Address</p>
+                <p class="addr-line1">{{address.Street1}}
+                    {{address.Street2}}
+                    {{address.City}}
+                    {{address.State}}
+                    {{address.Zip}}</p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 phone-number">
+                <p class="title">Phone Number</p>
+                <p class="value">{{address.Phone}}</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 edit-delete">
+                <a href="javascript:void(0)" ng-click="account.editAdress(address,$index)">Edit</a>
+                <span class="link-sep">|</span>
+                <a href="javascript:void(0)" ng-click="account.deletePopup(address.ID)">Delete</a>
+            </div>
+            <div class="row row-address-search for-edit-cont">
+            <div class="col-xs-12 adress-edit-container" ng-show="account.showedit{{$index}}">
             <p class="title">Edit Address</p>
             <div class="add-new-addr-div">
                 <form class="row add-new-addr-form" role="form" novalidate>
@@ -178,79 +326,16 @@
                     </div>
                     <div class="col-xs-12 form-group navig-btns">
                         <div class="col-xs-6 savebtn">
-                            <button type="button" class="btn purple-btn col-xs-6" ng-click="account.saveAddress(account.editAddr,account.contact)">SAVE ADDRESS</button>
+                            <button type="button" class="btn purple-btn col-xs-6" ng-click="account.saveAddress(account.editAddr, account.contact)">SAVE ADDRESS</button>
                         </div>
                         <div class="col-xs-6 cancelbtn">
-                            <button type="button" class="btn gray-btn col-xs-6" ng-click="showedit=!showedit">Cancel</button>
+                            <button type="button" class="btn gray-btn col-xs-6" ng-click="account.closeShowedit($index)">Cancel</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>  
-    <div class="row addr-book-list-cont">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="address.xp.IsDefault">
-            <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
-                <p class="title">Default Address</p>
-                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
-                <div class="Checkbox">
-                  <input type="checkbox" checked>
-                  <div class="Checkbox-visible"></div>
-               </div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
-                <p class="title">Name</p>
-                <p class="value">{{address.FirstName}}{{address.LastName}}</p>
-            </div>
-            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 address">
-                <p class="title">Address</p>
-                <p class="addr-line1">{{address.Street1}}
-                    {{address.Street2}}
-                    {{address.City}}
-                    {{address.State}}
-                    {{address.Zip}}</p>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 phone-number">
-                <p class="title">Phone Number</p>
-                <p class="value">{{address.Phone}}</p>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 edit-delete">
-                <a href="javascript:void(0)" ng-click="account.editAdress(address,showedit)">Edit</a>
-                <span class="link-sep">|</span>
-                <a href="javascript:void(0)" ng-click="account.Deletepopup()">Delete</a>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="!address.xp.IsDefault">
-            <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
-                <p class="title">Make Default Address</p>
-                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
-                <div class="Checkbox">
-                  <input type="checkbox" ng-click="account.makeDefault(address)">
-                  <div class="Checkbox-visible"></div>
-               </div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
-                <p class="title">Name</p>
-                <p class="value">{{address.FirstName}}{{address.LastName}}</p>
-            </div>
-            <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 address">
-                <p class="title">Address</p>
-                <p class="addr-line1">{{address.Street1}}
-                    {{address.Street2}}
-                    {{address.City}}
-                    {{address.State}}
-                    {{address.Zip}}</p>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 phone-number">
-                <p class="title">Phone Number</p>
-                <p class="value">{{address.Phone}}</p>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 edit-delete">
-                <a href="javascript:void(0)" ng-click="account.editAdress(address,showedit)">Edit</a>
-                <span class="link-sep">|</span>
-                <a href="javascript:void(0)" ng-click="account.Del(address.ID)">Delete</a>
-            </div>
-        </div>
-         
     </div>
+        </div>
+</div>
 </div>

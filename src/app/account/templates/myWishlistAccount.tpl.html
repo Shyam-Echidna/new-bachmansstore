@@ -1,6 +1,18 @@
 <div class="container-fluid my-account-wislist-container">
     <p class="my-account-content-title hidden-md hidden-lg">My Wishlist
-        <span class="bachman-chevron hidden-md hidden-lg chevron bottom"></span>
+        <span class="bachman-chevron hidden-md hidden-lg chevron" ng-class="{bottom: !mobilemenus}"></span>
+        <span class="mob-menu-clickable" ng-click="mobilemenus=!mobilemenus"></span>
+        <span class="acc-mob-dropdown" ng-show="mobilemenus">
+            <span class="acc-mob-links" ui-sref="account.profile">My Profile</span>
+            <span class="acc-mob-links" ui-sref="account.addresses">Address Book</span>
+            <span class="acc-mob-links" ui-sref="account.orders">Order History</span>
+            <span class="acc-mob-links" ui-sref="account.trackorders">Track Orders</span>
+            <span class="acc-mob-links" ui-sref="account.event">My Events</span>
+            <span class="acc-mob-links" ui-sref="account.CreditCard">Credit Cards</span>
+            <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
+            <!-- <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span> -->
+            <span class="acc-mob-links" ui-sref="account.emailsubscription">Email Preferences</span>
+        </span>
     </p>
 	<p class="heading">My Wishlist 
 		<span>({{account.array_lenth}} items)</span>
@@ -26,7 +38,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
                 <div class="col-xs-4 p0 prod-img">
                     <img src="assets/images/batch4web/wishlist/wishlist1.png" class="hidden-xs hidden-sm" />
-                    <!-- <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" /> -->
+                    <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
                 </div>
                 <div class="col-xs-8 prod-desc">
                     <p class="custom-name">{{wish.Name}}</p>

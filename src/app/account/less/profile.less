@@ -18,7 +18,7 @@
                 -moz-appearance: none;
                 text-indent: 1px;
                 text-overflow: '';
-                background-image: url('../assets/images/dropdown-black.svg');
+                background-image: url('../../assets/images/button-down.svg');
                 background-repeat: no-repeat;
                 background-position: right center;
                 background-size: 35px 12px;
@@ -140,9 +140,10 @@
                             padding-left: 0;
                             button.purple-btn,
                             button.gray-btn {
-                                height: 30px;
-                                font: 0.75em @proxima-light;
+                                height: 40px;
+                                font: 0.75em @proxima-regular;
                                 font-weight: bold;
+                                letter-spacing: normal;
                             }
                         }
                         div.savebtn {
@@ -308,9 +309,11 @@
                 }
                 .purple-btn,
                 .gray-btn {
-                    font: 0.75em/3em @proxima-bold;
+                    font: 0.75em/3em @proxima-regular;
+                    font-weight: bold;
+                    letter-spacing: normal;
                     line-height: 15px;
-                    height: 35px;
+                    height: 40px;
                 }
                 .my-profile-logininfo-container {
                     .accPro-ChangePwd {
@@ -328,6 +331,9 @@
                     h5 {
                         margin-bottom: 25px;
                         margin-left: 12px;
+                        &.prof-edit-link {
+                            font: 0.75em @proxima-regular;
+                        }
                     }
                     h2,
                     h3,
@@ -339,6 +345,12 @@
                     .my-profile-emailinfo {
                         .my-profile-changeemail {
                             padding: 0 15px 0 12px;
+                        }
+                    }
+                    h5 {
+                        font: 0.75em @proxima-regular;
+                        &.prof-edit-link {
+                            font: 0.75em @proxima-regular;
                         }
                     }
                 }
