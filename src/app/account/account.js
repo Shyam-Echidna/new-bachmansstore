@@ -159,7 +159,7 @@ function AccountConfig( $stateProvider ) {
 		})*/
 		.state( 'account.trackorders', {
 			url: '/trackorders',
-			templateUrl: 'orders/templates/trackorder.tpl.html',
+			templateUrl: 'account/templates/trackorder.tpl.html',
 			controller: 'profilectrl',
 			controllerAs: 'profile'
 		})
