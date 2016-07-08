@@ -174,7 +174,23 @@ function AccountConfig( $stateProvider ) {
 			url: '/emailsubscription',
 			templateUrl: 'account/templates/emailsubscription.tpl.html',
 			controller: 'EmailSubscriptionCtrl',
-			controllerAs: 'EmailSubscription'
+			controllerAs: 'EmailSubscription',
+			resolve: {
+				SelectedEmailList: function(LoginFact) {
+					return LoginFact.GetContactList();
+				},
+				UpdateEmailLIst:function(LoginFact,CurrentUser){
+     			var u_data={
+     							"id":CurrentUser.ID,
+     							"lists": [{
+            									"id": "1923130021",
+        										"status": "ACTIVE"
+        									}],
+       							"email_addresses": [{"email_address":CurrentUser.Email}]
+       						}
+     						return LoginFact.UpdateEmailPreference(u_data);
+     					}
+     				}
 		})
 		/*.state( 'corsageBuilder', {
 			parent: 'base',
@@ -714,8 +730,14 @@ function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $st
 /*function CreditCardAccountController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
 }*/
-function EmailSubscriptionController( $exceptionHandler, toastr, AccountService, $q ) {
+function EmailSubscriptionController( $exceptionHandler,UpdateEmailLIst,CurrentUser, SelectedEmailList, toastr, AccountService,LoginFact) {
 	var vm = this;
+	vm.emailsubscribe=SelectedEmailList;
+	console.log("user email is--",vm.emailsubscribe);
+	vm.userdata=CurrentUser;
+	console.log("update user data are",vm.userdata);
+	vm.updateemail=UpdateEmailLIst;
+	console.log("updated datas are--:",vm.updateemail);
 }
 function TrackOrderController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
