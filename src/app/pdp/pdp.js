@@ -275,7 +275,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	// Function to get colors for selected size
 	vm.selectVarients = function (selectedSize) {
 		vm.sizeGroupedProducts = sizeGroupedProducts[selectedSize];
-		vm.activeProducts = vm.sizeGroupedProducts;
+		//vm.activeProducts = vm.sizeGroupedProducts;
 		console.log('Selected size prod', vm.sizeGroupedProducts);
 		vm.prodDesription = sizeGroupedProducts[selectedSize][vm.selectedProductIndex].Description;
 		// OrderCloud.Products.GetInventory(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
@@ -321,7 +321,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 	// function to retrieve images for selected size and color
 	vm.selectColor = function ($index, $event, prod) {
-		vm.activeProducts[0] = prod;
+	//	vm.activeProducts[0] = prod;
 		vm.selectedProductIndex = $index;
 		vm.prodDesription = prod.xp.WebDescription;
 		$($event.target).parents('.detail-container').find('h3').text(prod.Name);
