@@ -12,7 +12,8 @@ angular.module( 'orderCloud' )
   .directive('scroll', scrollDirective)
   .directive('phoneValidation',phoneValidationDirective)
   .directive('customEmailValidation',customEmailValidationDirective)
-  .directive('confirmPassword', ConfirmPasswordValidatorDirective);
+  .directive('confirmPassword', ConfirmPasswordValidatorDirective)
+  .filter('categoriesAsPerSeason', CategoriesAsPerSeasonFilter)
 ;
 
 function BaseConfig( $stateProvider ) {
@@ -127,9 +128,10 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
                     queue.push(OrderCloud.Categories.List(null, i, 100, null, null, null, null, 'all'));
                 }
                 $q.all(queue).then(function(results) {
-                    angular.forEach(results, function(result) {
-                        categories = categories.concat(result.Items);
-        });
+                  angular.forEach(results, function(result) {
+                    categories = categories.concat(result.Items);
+                  });          
+
         //deferred.resolve(categories);
 
         function _getnode(node) {
@@ -864,10 +866,11 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
     if(ticket){
    // var ticket = localStorage.getItem("alf_ticket");
        LoginFact.GetLogo(ticket).then(function(data){
-           if($cookieStore.get('isLoggedIn')){
-           vm.currentUser = CurrentUser;
-           $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
-           
+        if($cookieStore.get('isLoggedIn')){
+          vm.currentUser = CurrentUser;
+          angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+          angular.element('.mobile-signout-guest').css('display','none');
+          angular.element('.mobile-signout-notGuest').css('display','block');
         }
         console.log(data);
         var logo = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;
@@ -1141,10 +1144,26 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
             angular.noop();
         });
     }*/
-    
+   /* if(!$cookieStore.get('isLoggedIn')){
+      // signout
+      vm.signIn_Out = 'SIGN UP / LOGIN';
+      vm.loggedOut = false;
+      angular.element('.mobile-signout').removeClass('mobile-signout-notGuest');
+      angular.element('.mobile-signout').addClass('mobile-signout-guest');
+
+    }
+    else{
+      // signin
+      vm.signIn_Out = 'SIGN OUT';
+      vm.loggedOut = true;
+      angular.element('.mobile-signout').removeClass('mobile-signout-guest');
+      angular.element('.mobile-signout').addClass('mobile-signout-notGuest');
+    }*/
     vm.login = function() {
+      if(!$cookieStore.get('isLoggedIn')){
+    
         var modalInstance = $uibModal.open({
-      animation: false,
+            animation: false,
             backdropClass: 'loginModalBg',
             windowClass: 'loginModalBg',
             templateUrl: 'login/templates/login.modal.tpl.html',
@@ -1158,11 +1177,17 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         }, function() {
             angular.noop();
         });
+      }
+      else{
+        $state.go('account.profile');
+      }
     }
     vm.logout = function() {
      $cookieStore.remove('isLoggedIn');
 
-           $('#info-bar-acc, .sticky #info-bar-acc').removeClass('expandAccBlockLoggedIn');
+        angular.element('#info-bar-acc, .sticky #info-bar-acc').removeClass('expandAccBlockLoggedIn');
+        angular.element('.mobile-signout-guest').css('display','block');
+        angular.element('.mobile-signout-notGuest').css('display','none');
         OrderCloud.Auth.RemoveToken();
         OrderCloud.Auth.RemoveImpersonationToken();
         //BuyerID.Set(null);
@@ -1573,46 +1598,70 @@ function phoneValidationDirective($parse){
     }
 }
 function customEmailValidationDirective(defaultErrorMessageResolver) {
-      defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
-          errorMessages['customEmail'] = 'Please enter a valid email address';
-        });
-        
-        return {
-            restrict : 'A',
-            require : 'ngModel',
-          
-            link : function(scope, element, attributes, ngModel) {
-                ngModel.$validators.customEmail = function(modelValue) {
-                  var pattern=/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-                    return pattern.test(modelValue);
-                };
+  defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+      errorMessages['customEmail'] = 'Please enter a valid email address';
+    });
+    
+    return {
+        restrict : 'A',
+        require : 'ngModel',
+      
+        link : function(scope, element, attributes, ngModel) {
+            ngModel.$validators.customEmail = function(modelValue) {
+              var pattern=/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                return pattern.test(modelValue);
+            };
 
-                scope.$watch('customEmail', function() {
-                  console.log('---');
-                    ngModel.$validate();
-                });
-            }
-        };
-    }
-     function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
-      defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
-          errorMessages['confirmPassword'] = 'Please ensure the passwords match.';
-        });
-        
-        return {
-            restrict : 'A',
-            require : 'ngModel',
-            scope : {
-                confirmPassword : '=confirmPassword'
-            },
-            link : function(scope, element, attributes, ngModel) {
-                ngModel.$validators.confirmPassword = function(modelValue) {
-                    return modelValue === scope.confirmPassword;
-                };
+            scope.$watch('customEmail', function() {
+              console.log('---');
+                ngModel.$validate();
+            });
+        }
+    };
+}
+function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
+  defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+      errorMessages['confirmPassword'] = 'Please ensure the passwords match.';
+    });
+    
+    return {
+        restrict : 'A',
+        require : 'ngModel',
+        scope : {
+            confirmPassword : '=confirmPassword'
+        },
+        link : function(scope, element, attributes, ngModel) {
+            ngModel.$validators.confirmPassword = function(modelValue) {
+                return modelValue === scope.confirmPassword;
+            };
 
-                scope.$watch('confirmPassword', function() {
-                    ngModel.$validate();
-                });
-            }
-        };
+            scope.$watch('confirmPassword', function() {
+                ngModel.$validate();
+            });
+        }
+    };
+}
+ 
+function CategoriesAsPerSeasonFilter() {
+/*(categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
+  (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
+  (application.cstTime| date:'MM/dd'))*/
+
+  /*return function( item, cateoriges, subcategories, application ) {
+    if( (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
+        (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
+        (application.cstTime| date:'MM/dd')) ) {
+        return item;
     }
+  }*/
+
+  /*return function( item, cateoriges.ID, subcategories.xp.StartDate, application.cstTime, subcategories.xp.EndDate ) {
+    if( (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
+        (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
+        (application.cstTime| date:'MM/dd')) ) {
+        return item;
+    }
+  }*/
+
+
+}

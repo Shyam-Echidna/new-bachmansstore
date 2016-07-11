@@ -86,12 +86,12 @@
 	            <span class="acc-mob-links" ui-sref="account.profile">My Profile</span>
 	            <!-- <span class="acc-mob-links" ui-sref=".addresses">Address Book</span> -->
 	            <span class="acc-mob-links" ui-sref="account.orders">Order History</span>
-	            <span class="acc-mob-links" ui-sref=".trackorders">Track Orders</span>
+	            <span class="acc-mob-links" ui-sref="account.trackorders">Track Orders</span>
 	            <span class="acc-mob-links" ui-sref="account.event">My Events</span>
-	            <span class="acc-mob-links" ui-sref=".CreditCard">Credit Cards</span>
+	            <span class="acc-mob-links" ui-sref="account.CreditCard">Credit Cards</span>
 	            <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
 	            <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span>
-	            <span class="acc-mob-links" ui-sref=".emailsubscription">Email Preferences</span>
+	            <span class="acc-mob-links" ui-sref="account.emailsubscription">Email Preferences</span>
         	</span> 
     	</p>
 		<div class="my-profile-container row">
@@ -200,6 +200,11 @@
                             <label for="lastName">Last Name</label>
                             <input type="text" class="form-control" id="lastName" ng-model="profile.default_add.LastName">
                         </div>
+
+                       <!--  <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 form-group">
+                            <label for="zipCode">ZIP Code</label>
+                            <input type="text" class="form-control" id="zipCode" ng-model="profile.default_add.Zip">
+                        </div> -->
                     </div>
 						
 						<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
@@ -215,10 +220,6 @@
 	                            <input type="text" class="form-control" id="addr2">
 	                        </div>
 	                    </div>
-	                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 form-group">
-                            <label for="zipCode">ZIP Code</label>
-                            <input type="text" class="form-control" id="zipCode" ng-model="profile.default_add.Zip">
-                        </div>
 
 
 						<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">

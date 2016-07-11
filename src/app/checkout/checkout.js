@@ -48,7 +48,7 @@ function CheckoutConfig($stateProvider) {
                             dfd.resolve(null);
                         });
                     return dfd.promise;
-                },
+				},
 				Buyers: function (OrderCloud, $q) {
 					var deferred = $q.defer();
 					OrderCloud.Buyers.Get().then(function (res) {
@@ -64,7 +64,7 @@ function CheckoutConfig($stateProvider) {
 function checkOutService($q, $http) {
 	var service = {
 		getCityState: _getCityState,
-		getSetLineItem:_getSetLineItem
+		getSetLineItem: _getSetLineItem
 	}
 	function _getCityState(zip) {
 		var defered = $q.defer();
@@ -86,8 +86,9 @@ function checkOutService($q, $http) {
 		});
 		return defered.promise;
 	}
-	function _getSetLineItem(line){
-		return { lineitem:line
+	function _getSetLineItem(line) {
+		return {
+			lineitem: line
 		}
 	}
 	return service
@@ -102,7 +103,7 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 	vm.selected = false;
 	vm.limit = 3;
 	vm.more = true;
-	vm.edit=false;
+	vm.edit = false;
 	vm.recipient = [];
 	vm.recipient[0] = true;
 	vm.message = false;
@@ -120,8 +121,8 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 	vm.updateLinedetails = updateLinedetails
 	vm.init();
 
-    $rootScope.$on("ChangedDetails",function(events,lineitem){
-        vm.editedShippingaddress=lineitem;
+    $rootScope.$on("ChangedDetails", function (events, lineitem) {
+        vm.editedShippingaddress = lineitem;
 	});
 	function getGuestLineItems(user) {
 		vm.user = user;
@@ -217,7 +218,7 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 
 	}
 	vm.editPopUp = function (lineitem) {
-		vm.edit=true;
+		vm.edit = true;
 		var modalInstance = $uibModal.open({
 			animation: false,
 			backdropClass: 'edittModal',
@@ -226,7 +227,7 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 			controller: 'editCtrl',
 			controllerAs: 'edit',
 			resolve: {
-				Order: function ($q,CurrentOrder) {
+				Order: function ($q, CurrentOrder) {
                     var dfd = $q.defer();
                     CurrentOrder.Get()
                         .then(function (order) {
@@ -245,17 +246,17 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 		});
 
 		modalInstance.result.then(function () {
-          
+
 		}, function () {
 			angular.noop();
 		});
 	}
 
 }
-function EditController($uibModalInstance, LineItem, Order, checkOutService,$rootScope) {
+function EditController($uibModalInstance, LineItem, Order, checkOutService, $rootScope) {
 	var vm = this;
 	vm.getCityState = getCityState;
-	vm.changeDetails=changeDetails;
+	vm.changeDetails = changeDetails;
 	vm.init = init;
 	init();
 	vm.cancel = function () {
@@ -277,12 +278,12 @@ function EditController($uibModalInstance, LineItem, Order, checkOutService,$roo
 			}
 		}
 	}
-	function changeDetails(lineitem){
+	function changeDetails(lineitem) {
 		if (lineitem.ShippingAddress.Phone1 && lineitem.ShippingAddress.Phone2 && lineitem.ShippingAddress.Phone3) {
-				
-				 lineitem.ShippingAddress.Phone=lineitem.ShippingAddress.Phone1+lineitem.ShippingAddress.Phone2+lineitem.ShippingAddress.Phone3;
-			}
-		return $rootScope.$emit("ChangedDetails",lineitem)
-         
+
+			lineitem.ShippingAddress.Phone = lineitem.ShippingAddress.Phone1 + lineitem.ShippingAddress.Phone2 + lineitem.ShippingAddress.Phone3;
+		}
+		return $rootScope.$emit("ChangedDetails", lineitem)
+
 	}
 }

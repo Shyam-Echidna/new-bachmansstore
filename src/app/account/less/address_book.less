@@ -4,6 +4,9 @@
 	    margin: 15px 0;
 	    border-top: 1px solid #d6d6d6;
     	padding-top: 20px;
+    	&.for-edit-cont{
+    		border-top:none;
+    	}
 		.search-box {
 			position: relative;
 			padding: 0;
@@ -54,12 +57,15 @@
 			    }
 			}
 		}
+		.adress-edit-container {
+			border:none !important;
+		}
 		.add-new-addr-cont, .adress-edit-container {
 			margin: 20px 0 15px;
 			padding: 0 25px;
-			border-top: 1px solid #ddd;
-			border-bottom: 1px solid #ddd;
-			background-color: #fbfbfb;
+			border: 1px solid #ddd;
+			//border-bottom: 1px solid #ddd;
+			background-color: #f7f7f7;
 			.title {
 				color: #2c2c2c;
 				font: 1em @proxima-regular;
@@ -539,4 +545,7 @@
 			}
 		}
 	}
+}
+.address-book-container .row-address-search .adress-edit-container .add-new-addr-div .add-new-addr-form .phone-number{
+	width:auto;
 }

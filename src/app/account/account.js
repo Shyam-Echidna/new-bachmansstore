@@ -39,7 +39,6 @@ function AccountConfig( $stateProvider ) {
 	            },
 
 	            AddressList: function(AccountService, CurrentUser){
-						console.log(AccountService.ListAddress(CurrentUser.ID));
 						return AccountService.ListAddress(CurrentUser.ID);
 				},
 

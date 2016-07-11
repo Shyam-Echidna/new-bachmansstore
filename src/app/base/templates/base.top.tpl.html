@@ -762,7 +762,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 									<a class="maincat_link">My Purple Perks</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ng-click="baseTop.logout()">Sign Out</a>
+									<a class="maincat_link" ng-click="baseTop.logout()" >Sign Out</a>
 								</li>
 							</ul>
 						</div>
@@ -881,8 +881,8 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 										<li><a href="">Workshops & Events</a></li>
 										<li>
 											<a class="guest-in-mob" ng-click="baseTop.login()">My Account</a>
-											<a class="logged-in-mob" ui-sref="account.profile">My Account</a>
-											<a class="signed-in-mob" ui-sref="account.profile">My Account</a>
+											<!-- <a class="logged-in-mob" ui-sref="account.profile">My Account</a>
+											<a class="signed-in-mob" ui-sref="account.profile">My Account</a> -->
 										</li>
 										<!-- <li><a>My Account</a></li> -->
 										<li class="mobile-store-locator"><a href="">Store locator</a></li>
@@ -909,7 +909,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 									<ul class="mobile-signout mobile-signout-notGuest">
 										<ul>
 											<li class="fl"><a href="">Hi, {{base.currentUser.FirstName}}</a></li>
-											<li class="fr"><a href="">SIGN OUT</a></li>
+											<li class="fr"><a href="" ng-click="baseTop.logout()">SIGN OUT</a></li>
 										</ul>
 									</ul>
 								</div>

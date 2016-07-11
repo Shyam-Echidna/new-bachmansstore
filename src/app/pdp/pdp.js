@@ -15,14 +15,28 @@ function PdpConfig($stateProvider) {
 			url: '/pdp/:sequence?prodId',
 			templateUrl: 'pdp/templates/pdp.tpl.html',
 			resolve: {
-				productDetail: function(PlpService, PdpService, $q, $stateParams, $http, OrderCloud){
-						var filter ={"xp.sequencenumber":$stateParams.sequence};
-					    // return OrderCloud.Me.ListProducts(null, 1, 100, null, null, filter, null).then(function(res){
-				     // 	console.log('Product response data',res);
-				     // 	return res;
-				     return PdpService.GetSeqProd($stateParams.sequence).then(function(res){
-			           return res;
-			          });
+				productDetail: function (PlpService, PdpService, $q, $stateParams, $http, OrderCloud) {
+					var filter = { "xp.sequencenumber": $stateParams.sequence };
+       				 var deferred = $q.defer();
+						PdpService.GetSeqProd($stateParams.sequence).then(function(res){
+							var inventoryFilteredList = []; // Array for Products with inventory
+					        angular.forEach(res.Items, function(value, key){
+					        	var promise = PdpService.GetProdInventory(value.ID).then(function(res){
+								if (res.Available > 1){
+									   return value;
+									}
+								});
+					        	console.log(promise);
+					        	inventoryFilteredList.push(promise);
+					        }); 
+					    	$q.all(inventoryFilteredList).then(function (items) {
+						    	var data = items.filter(function( element ) {
+								   return element !== undefined;
+								});
+			                deferred.resolve(data);
+			           		});
+						});
+				     return deferred.promise;
 				},
 				productImages: function (PdpService, $stateParams, $q, $http) {
 					return PdpService.GetProductCodeImages($stateParams.prodId);
@@ -36,6 +50,10 @@ function PdpConfig($stateProvider) {
 		})
 }
 
+var guest = {
+    "ClientID": "8836BE8D-710A-4D2D-98BF-EDBE7227E3BB",
+    "Claims": ["FullAccess"]
+};
 
 function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, x2js, alfrescourl, alfcontenturl, $rootScope) {
 	var service = {
@@ -45,25 +63,34 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		GetProductCodeImages: _getProductCodeImages,
 		GetHelpAndPromo: _getHelpAndPromo,
 		GetSeqProd: _getSeqProd,
-		getCityState: _getCityState
+		getCityState: _getCityState,
+		GetProdInventory : _getProdInventory
 	};
-	function _getCityState(zip){
+	function _getProdInventory(ProdId){
+			var defferred = $q.defer();
+			OrderCloud.Products.GetInventory(ProdId).then(function(res){
+				defferred.resolve(res);
+			});
+			return defferred.promise;
+	}
+
+	function _getCityState(zip) {
 		var defered = $q.defer();
 		$http.defaults.headers.common['Authorization'] = undefined;
-		$http.get('http://maps.googleapis.com/maps/api/geocode/json?address='+zip).then(function(res){
+		$http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + zip).then(function (res) {
 			var city, state;
-			angular.forEach(res.data.results[0].address_components, function(component,index){
+			angular.forEach(res.data.results[0].address_components, function (component, index) {
 				var types = component.types;
-				angular.forEach(types, function(type,index){
-					if(type == 'locality') {
+				angular.forEach(types, function (type, index) {
+					if (type == 'locality') {
 						city = component.long_name;
 					}
-					if(type == 'administrative_area_level_1') {
+					if (type == 'administrative_area_level_1') {
 						state = component.short_name;
 					}
 				});
 			});
-			defered.resolve({"City":city, "State":state});
+			defered.resolve({ "City": city, "State": state });
 		});
 		return defered.promise;
 	}
@@ -106,7 +133,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 	}
     function _addToWishList(productID) {
 		var deferred = $q.defer();
-		OrderCloud.Get().then(function (res) {
+		OrderCloud.Me.Get().then(function (res) {
 			if (res.ID !== "gby8nYybikCZhjMcwVPAiQ") {
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -150,34 +177,39 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
     }
     function _createOrder(prodID) {
 		var productID;
-		CurrentOrder.GetID().then(function (orderId) {
-			var lineItem = {
-				ProductID: prodID,
-				Quantity: 1
-			};
-			console.log(orderId);
-			if (productID == prodID) {
-				alert("qwerty");
-			}
-			OrderCloud.LineItems.Create(orderId, lineItem).then(function (res) {
-				console.log(res);
-				//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
-				return $rootScope.$broadcast('LineItemCreated', orderId, res);
-			})
-		}, function () {
-			OrderCloud.Orders.Create({}).then(function (order) {
-				CurrentOrder.Set(order.ID);
-				var lineItem = {
-					ProductID: prodID,
-					Quantity: 1
-				};
-				productID = prodID;
-				OrderCloud.LineItems.Create(order.ID, lineItem).then(function (lineitem) {
-					return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
+		OrderCloud.Users.GetAccessToken("gby8nYybikCZhjMcwVPAiQ", guest)
+            .then(function (data) {
+				OrderCloud.Auth.SetImpersonationToken(data['access_token']);
+				CurrentOrder.GetID().then(function (orderId) {
+					var lineItem = {
+						ProductID: prodID,
+						Quantity: 1
+					};
+					console.log(orderId);
+					if (productID == prodID) {
+						alert("qwerty");
+					}
+					OrderCloud.As().LineItems.Create(orderId, lineItem).then(function (res) {
+						console.log(res);
+						//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
+						return $rootScope.$broadcast('LineItemCreated', orderId, res);
+					})
+				}, function () {
+					OrderCloud.As().Orders.Create({}).then(function (order) {
+						CurrentOrder.Set(order.ID);
+						var lineItem = {
+							ProductID: prodID,
+							Quantity: 1
+						};
+						productID = prodID;
+						OrderCloud.As().LineItems.Create(order.ID, lineItem).then(function (lineitem) {
+							return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
+						})
+					})
+
 				})
 			})
-		})
-    }
+	}
     function _addressValidation(obj) {
 		var deferred = $q.defer();
 		$http.defaults.headers.common['Authorization'] = 'Basic QXZhbGFyYTpDNGxjdWw0dDNUYXghIQ==';
@@ -185,7 +217,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			deferred.resolve(res);
 		});
 		return deferred.promise;
-    }
+	}
     function _getHelpAndPromo(ticket) {
 		var defferred = $q.defer();
 		$http({
@@ -201,7 +233,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			defferred.reject(data);
 		});
 		return defferred.promise;
-    }
+	}
 	return service;
 }
 
@@ -213,12 +245,19 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	vm.productVarientImages = productImages; // stores product images based on selcted size and color
 	vm.defaultSizeIndex = 0; // static value to retrieve size
 	vm.activeProducts = [];//stores selected products
-	var sizeGroupedProducts = _.groupBy(productDetail.Items, function (item) {
-        return item.xp.SpecsOptions.Size;
-    });
+	var sizeGroupedProducts = _.groupBy(productDetail, function (item) {
+		return item.xp.SpecsOptions.Size;
+	});
 
-    vm.productDetails = Object.keys(sizeGroupedProducts).map(function (key) { return sizeGroupedProducts[key] });;
+	vm.productDetails = Object.keys(sizeGroupedProducts).map(function (key) { return sizeGroupedProducts[key] });;
 	console.log('Array converted all products  ', vm.productDetails);
+
+	var loggedin = {
+		"ClientID": "8836BE8D-710A-4D2D-98BF-EDBE7227E3BB",
+		"Claims": ["FullAccess"]
+	};
+
+
 
 	angular.forEach(vm.productDetails, function (value, key) {
 		$.grep(value, function (e, i) {
@@ -241,41 +280,41 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		vm.prodDesription = sizeGroupedProducts[selectedSize][vm.selectedProductIndex].Description;
 		// OrderCloud.Products.GetInventory(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
 		// if(res.Available > 0){
-				PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
-				vm.productVarientImages = res;
-				var owl2 = angular.element("#owl-carousel-pdp-banner");   
-				owl2.trigger('destroy.owl.carousel');
-				setTimeout(function(){
-		      	owl2.owlCarousel({
-		            loop:false,
-		            nav:true,
-		            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
-		            dots:true,
-		            items:1
-		          }); 
-			  // 		$(".elevateZoom").elevateZoom({
-					// easing : true,
-					// responsive:true,
-					// zoomWindowWidth:400,
-					// borderSize: 1
-					// });
-				    },300);
+		PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function (res) {
+			vm.productVarientImages = res;
+			var owl2 = angular.element("#owl-carousel-pdp-banner");
+			owl2.trigger('destroy.owl.carousel');
+			setTimeout(function () {
+				owl2.owlCarousel({
+					loop: false,
+					nav: true,
+					navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>', '<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],
+					dots: true,
+					items: 1
 				});
+				// 		$(".elevateZoom").elevateZoom({
+				// easing : true,
+				// responsive:true,
+				// zoomWindowWidth:400,
+				// borderSize: 1
+				// });
+			}, 300);
+		});
 
 		// 	}
 		// });
 		//$('body').find('.detail-container .prod_title').text(vm.sizeGroupedProducts[0].Name);
 
 	};
-    $scope.radio = { selectedSize: null };
+	$scope.radio = { selectedSize: null };
 
-    // function to add active class for radio box
+	// function to add active class for radio box
 	vm.sizeBoxItemClicked = function ($index) {
 		vm.selectedSizeIndex = $index;
 		// pdp image min height -start
-		 var pdpDetailBoxHt = $('.detail-overlay-box ').height();
-		  //alert(pdpDetailBoxHt);
-		  //$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
+		var pdpDetailBoxHt = $('.detail-overlay-box ').height();
+		//alert(pdpDetailBoxHt);
+		//$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
 
 		// pdp image min height -end
 	}
@@ -284,30 +323,30 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	vm.selectColor = function ($index, $event, prod) {
 		vm.activeProducts[0] = prod;
 		vm.selectedProductIndex = $index;
-		vm.prodDesription = prod.Description;
+		vm.prodDesription = prod.xp.WebDescription;
 		$($event.target).parents('.detail-container').find('h3').text(prod.Name);
-        $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
-		PdpService.GetProductCodeImages(prod.ID).then(function(res){
-		vm.productVarientImages = res;
-		// pdp image min height -start
-		  var pdpDetailBoxHt = $('.detail-overlay-box ').height();
-		  //alert(pdpDetailBoxHt);
-		  //$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
+		$($event.target).parents('.product-box').find('.Price').text('$' + prod.StandardPriceSchedule.PriceBreaks[0].Price);
+		PdpService.GetProductCodeImages(prod.ID).then(function (res) {
+			vm.productVarientImages = res;
+			// pdp image min height -start
+			var pdpDetailBoxHt = $('.detail-overlay-box ').height();
+			//alert(pdpDetailBoxHt);
+			//$('.pdp-banner-top').css('min-height',pdpDetailBoxHt);
 
-		  // pdp image min height -end
-		var owl2 = angular.element("#owl-carousel-pdp-banner");   
-		owl2.trigger('destroy.owl.carousel');
-		setTimeout(function(){
-      	owl2.owlCarousel({
-	            loop:false,
-	            nav:true,
-	            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
-	            dots:true,
-	            items:1
-          }); 
-      	},300);
+			// pdp image min height -end
+			var owl2 = angular.element("#owl-carousel-pdp-banner");
+			owl2.trigger('destroy.owl.carousel');
+			setTimeout(function () {
+				owl2.owlCarousel({
+					loop: false,
+					nav: true,
+					navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>', '<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],
+					dots: true,
+					items: 1
+				});
+			}, 300);
 		});
-	    //$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
+		//$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
 
 	}
 
@@ -316,7 +355,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		var modalInstance = $uibModal.open({
 			animation: true,
 			backdropClass: 'multiRecipentModal',
-			windowClass:'multiRecipentModal',
+			windowClass: 'multiRecipentModal',
 			templateUrl: 'pdp/templates/multireceipent.tpl.html',
 			controller: 'MultipleReceipentCtrl',
 			controllerAs: 'multipleReceipent',
@@ -329,16 +368,17 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 					return vm.activeProducts;
 				},
 				Order: function ($rootScope, $q, $state, toastr, CurrentOrder) {
-                    var dfd = $q.defer();
-                    CurrentOrder.GetID()
-                        .then(function (order) {
-                            dfd.resolve(order)
-                        })
-                        .catch(function () {
-                            dfd.resolve(null);
-                        });
-                    return dfd.promise;
-                }
+					var dfd = $q.defer();
+					CurrentOrder.GetID()
+						.then(function (order) {
+							dfd.resolve(order)
+						})
+						.catch(function () {
+							dfd.resolve(null);
+						});
+					return dfd.promise;
+
+				}
 			}
 		});
 
@@ -376,83 +416,83 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 
 
-    }
+	}
 
 	// carousel
 
-	 /*setTimeout(function(){
-	angular.element("#owl-carousel-pdp-banner").owlCarousel({
-		//responsive: true,
-		items:1,
-		dots:true,
-		loop:true,
-		autoplay:true,
-		autoplayHoverPause:true,
-		animateOut: 'fadeOut'
-
-	});
-	$('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
-	},500);*/
-
-
-	 // suggested-carousel
+	/*setTimeout(function(){
+   angular.element("#owl-carousel-pdp-banner").owlCarousel({
+	   //responsive: true,
+	   items:1,
+	   dots:true,
+	   loop:true,
+	   autoplay:true,
+	   autoplayHoverPause:true,
+	   animateOut: 'fadeOut'
+ 
+   });
+   $('#owl-carousel-pdp-banner .owl-item img').css({'width':'60%','padding-right': '30px'});
+   },500);*/
 
 
+	// suggested-carousel
 
-	setTimeout(function(){
-	    var pdtCarousal = angular.element("#owl-suggested-pdt-carousel");
+
+
+	setTimeout(function () {
+		var pdtCarousal = angular.element("#owl-suggested-pdt-carousel");
 		pdtCarousal.owlCarousel({
 			loop: true,
 			center: true,
-			margin:12,
-			nav:true,
-			navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>','<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],		
+			margin: 12,
+			nav: true,
+			navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>', '<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],
 			callbacks: true,
 			URLhashListener: true,
 			autoplayHoverPause: true,
 			startPosition: 'URLHash',
-			responsiveClass:true,
-			responsive:{
+			responsiveClass: true,
+			responsive: {
 				// breakpoint from 0 up
-				0:{
-					items:1,
-					stagePadding:120,
+				0: {
+					items: 1,
+					stagePadding: 120,
 				},
 				// breakpoint from 328 up..... mobile portrait
-				320:{
-					items:1,
-					dots:true,
-					stagePadding:30,
-					margin:45,
+				320: {
+					items: 1,
+					dots: true,
+					stagePadding: 30,
+					margin: 45,
 				},
 				// breakpoint from 328 up..... mobile landscape
-				568:{
-					items:1,
-					dots:true,
-					stagePadding:100,
-					margin:30
+				568: {
+					items: 1,
+					dots: true,
+					stagePadding: 100,
+					margin: 30
 				},
-				960:{
-					items:1,
-					dots:true,
-					stagePadding:200,
-					margin:10
+				960: {
+					items: 1,
+					dots: true,
+					stagePadding: 200,
+					margin: 10
 				},
 				// breakpoint from 768 up
-				768:{
-					items:1,
-					dots:true,
-					stagePadding:120
+				768: {
+					items: 1,
+					dots: true,
+					stagePadding: 120
 				},
-				1024:{
-					items:2,
-					dots:true,
-					stagePadding:80
+				1024: {
+					items: 2,
+					dots: true,
+					stagePadding: 80
 				},
-				1500:{
-					items:4,
-					dots:true,
-					stagePadding:0
+				1500: {
+					items: 4,
+					dots: true,
+					stagePadding: 0
 				},
 			},
 			onInitialized: function (event) {
@@ -507,43 +547,44 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 }
 
 function MultipleReceipentController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order) {
-    var vm = this;
-    vm.oneAtATime = true;
+	var vm = this;
+	vm.oneAtATime = true;
 	vm.selectedRecipient = false;
 	vm.list = {},
-    vm.line = null;
-	vm.addressType='Residence';
-    console.log("items", items[0]);
+		vm.line = null;
+	vm.addressType = 'Residence';
+	console.log("items", items[0]);
 	vm.singlelerecipent = true;
 	vm.crdmsg = true;
 	vm.activeOrders = [];
-	vm.crdmsghide =crdmsghide;
-	vm.getCityState=getCityState;
-    vm.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
+	vm.crdmsghide = crdmsghide;
+	vm.getCityState = getCityState;
+	vm.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 	vm.getLineItems = getLineItems;
+	vm.updateLinedetails = updateLinedetails;
 	vm.activeRecipient = true;
-		var item = {
-			"ID": "",
-			"ProductID": items[0].ID,
-			"Quantity": items[0].StandardPriceSchedule.PriceBreaks[0].Quantity,
-			"DateAdded": "",
-			"QuantityShipped": 0,
-			"UnitPrice": items[0].StandardPriceSchedule.PriceBreaks[0].Price,
-			"LineTotal": 0,
-			"CostCenter": null,
-			"DateNeeded": null,
-			"ShippingAccount": null,
-			"ShippingAddressID": null,
-			"ShippingAddress": null,
-			"ShipperID": null,
-			"ShipperName": null,
-			"Specs": [],
-			"xp": null
-		};
-	if(Order){
-      vm.order=Order
+	var item = {
+		"ID": "",
+		"ProductID": items[0].ID,
+		"Quantity": items[0].StandardPriceSchedule.PriceBreaks[0].Quantity,
+		"DateAdded": "",
+		"QuantityShipped": 0,
+		"UnitPrice": items[0].StandardPriceSchedule.PriceBreaks[0].Price,
+		"LineTotal": 0,
+		"CostCenter": null,
+		"DateNeeded": null,
+		"ShippingAccount": null,
+		"ShippingAddressID": null,
+		"ShippingAddress": null,
+		"ShipperID": null,
+		"ShipperName": null,
+		"Specs": [],
+		"xp": null
+	};
+	if (Order) {
+		vm.order = Order
 	}
 	if (!vm.order) {
 		vm.order = "";
@@ -556,7 +597,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	}
 
 	$rootScope.$on('LineItemCreated', function (events, args, lineitem) {
-		vm.order= args;
+		vm.order = args;
 		console.log("order id", vm.order)
 		lineitem.ShippingAddress = vm.lineitemdtls.ShippingAddress;
 		lineitem.xp = vm.lineitemdtls.xp;
@@ -565,16 +606,16 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		vm.updateLinedetails(args, lineitem);
 	});
 
-	
-	 function crdmsghide() {
+
+	function crdmsghide() {
 		alert("test");
 		vm.crdmsg = !vm.crdmsg;
 	}
 
-	
-	vm.submitDetails =submitDetails;
-	 function submitDetails(line, $index) {
-             line.ProductID=vm.activeOrders[0].ProductID;
+
+	vm.submitDetails = submitDetails;
+	function submitDetails(line, $index) {
+		line.ProductID = vm.activeOrders[0].ProductID;
 		console.log("line", line);
 		// if (vm.showNewRecipient) {
 		// 	vm.line = item;
@@ -582,11 +623,12 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		// 	vm.line.xp = line.xp;
 		// 	line = $scope.line;
 		// }
-		if(line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 &&line.ShippingAddress.Phone3){
-          line.ShippingAddress.Phone=line.ShippingAddress.Phone1+line.ShippingAddress.Phone2+line.ShippingAddress.Phone3;
-		  delete line.ShippingAddress.Phone1;
-		  delete line.ShippingAddress.Phone2;
-		  delete line.ShippingAddress.Phone3;
+
+		if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
+			line.ShippingAddress.Phone = line.ShippingAddress.Phone1 + line.ShippingAddress.Phone2 + line.ShippingAddress.Phone3;
+			delete line.ShippingAddress.Phone1;
+			delete line.ShippingAddress.Phone2;
+			delete line.ShippingAddress.Phone3;
 
 		}
 		if (line.xp.deliveryDate) {
@@ -626,20 +668,20 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		if (line.ID == "") {
 			var count = 0;
 			//JSON.stringify(vm.activeOrders[0].ShippingAddress) != JSON.stringify(items[0].ShippingAddress
-			if(vm.order) {
-			angular.forEach(vm.activeOrders, function (val, key, obj) {
-				if (val.ProductID == line.ProductID && val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && val.ShippingAddress.Street1 == line.ShippingAddress.Street1) {
-					val.Quantity++
-					vm.updateLinedetails(vm.order, val);
-					vm.crdmsg = !$scope.crdmsg;
-					vm.activeRecipient = true;
-					vm.showNewRecipient = false;
-					count++
-				}
+			if (vm.order) {
+				angular.forEach(vm.activeOrders, function (val, key, obj) {
+					if (val.ProductID == line.ProductID && val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && val.ShippingAddress.Street1 == line.ShippingAddress.Street1) {
+						val.Quantity++
+						vm.updateLinedetails(vm.order, val);
+						vm.crdmsg = !$scope.crdmsg;
+						vm.activeRecipient = true;
+						vm.showNewRecipient = false;
+						count++
+					}
 
 
-			});
-		 }
+				});
+			}
 			if (count == 0) {
 
 				PdpService.CreateOrder(line.ProductID);
@@ -662,10 +704,12 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 
 	}
-	vm.updateLinedetails = function updateLinedetails(args, newline) {
-		OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
-			console.log("LineItemsUpdate", dat);
-			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
+
+
+	function updateLinedetails(args, newline) {
+		OrderCloud.As().LineItems.Update(args, newline.ID, newline).then(function (dat) {
+			console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
+			OrderCloud.As().LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 				console.log("SetShippingAddress", data);
 				alert("Data submitted successfully");
 				vm.getLineItems();
@@ -675,18 +719,17 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	}
 	function getLineItems() {
 
-		OrderCloud.LineItems.List(vm.order).then(function (res) {
+		OrderCloud.As().LineItems.List(vm.order).then(function (res) {
 
 			console.log("Lineitems", res);
 			angular.forEach(res.Items, function (val, key, obj) {
-				if (val.xp.deliveryDate)
-				{
+				if (val.xp.deliveryDate) {
 					val.xp.deliveryDate = new Date(val.xp.deliveryDate);
 				}
-				if(val.ShippingAddress.Phone){
-					val.ShippingAddress.Phone1=val.ShippingAddress.Phone.slice(0,3);
-					val.ShippingAddress.Phone2=val.ShippingAddress.Phone.slice(3,6);
-					val.ShippingAddress.Phone3=val.ShippingAddress.Phone.slice(6);
+				if (val.ShippingAddress.Phone) {
+					val.ShippingAddress.Phone1 = val.ShippingAddress.Phone.slice(0, 3);
+					val.ShippingAddress.Phone2 = val.ShippingAddress.Phone.slice(3, 6);
+					val.ShippingAddress.Phone3 = val.ShippingAddress.Phone.slice(6);
 				}
 			})
 			vm.activeOrders = res.Items;
@@ -727,7 +770,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		$uibModalInstance.close();
 		vm.addedToCartPopUp();
 	}
-		vm.showNewRecipient = false;
+	vm.showNewRecipient = false;
 	vm.newreceipent = function () {
 		var item = {
 			"ID": "",
@@ -770,29 +813,29 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			angular.noop();
 		});
 	}
-	function getCityState(line,zip){
-     PdpService.getCityState(zip).then(function(res){
-				line.ShippingAddress.City = res.City;
-				line.ShippingAddress.State = res.State;
-			});
+	function getCityState(line, zip) {
+		PdpService.getCityState(zip).then(function (res) {
+			line.ShippingAddress.City = res.City;
+			line.ShippingAddress.State = res.State;
+		});
 	}
 
 }
 
 function pdpAddedToCartController($scope, $uibModalInstance) {
-    var vm = this;
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
+	var vm = this;
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 }
 
 function addedToCartController($scope, $uibModalInstance, $state) {
-    var vm = this;
+	var vm = this;
 	vm.checkout = checkout;
 	function checkout() {
 		$state.go('checkout');
 	}
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 }

@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
-                            <h3 class="prod_title">{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name}}</h3>
+                            <h3 class="prod_title">{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name | lowercase}}</h3>
                             <h5 ng-if="pdp.productDetails.length > 1">Select Size</h5>
                             <div class="row radio-btn-container" ng-if="pdp.productDetails.length > 1">
                                 <div ng-repeat="opt in pdp.productDetails">
@@ -91,7 +91,7 @@
                     <label for="color1"><span ng-style="{'background-color': coloropt}"></span></label> -->
                                     <!-- <a href="" class="btn btn-circle-micro" ng-style="{'background-color': coloropt}"></a> -->
                                     <ul class="list-inline">
-                                        <li ng-model="prodColor" ng-repeat="coloropt in pdp.sizeGroupedProducts " ng-class="{ 'active-circle': $index == pdp.selectedProductIndex }">
+                                        <li ng-model="prodColor" ng-repeat="coloropt in pdp.sizeGroupedProducts  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex }">
                                             <a href="" data-prodid="{{coloropt.ID}}" data-name="{{coloropt.Name}}" class="" id="{{coloropt.xp.SpecsOptions.Color}}" ng-click="pdp.selectColor($index, $event, coloropt)" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a>
                                         </li>
                                     </ul>
@@ -287,8 +287,8 @@
                                   <!--<button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>-->
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
-                                            <!-- <button class="btn btn-block add-list-link" ng-click="pdp.addToWishList(pdp.productDetails.ID);" type="submit">ADD TO WISHLIST</button> -->
-                                            <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button>
+                                            <button class="btn btn-block add-list-link" ng-click="pdp.addToWishList(pdp.productDetails.ID);" type="submit">ADD TO WISHLIST</button>
+                                            <!-- <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -3345,4 +3345,4 @@
         </div>
     </div> -->
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script>
+<!-- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script> -->
