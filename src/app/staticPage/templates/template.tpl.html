@@ -11,8 +11,8 @@
 
 		</div>
 		<div class="banner-img">
-			<img src="assets/images/08_Care_Advice_Information_Landing_banner.png" class="hidden-xs hidden-sm">
-			<img src="assets/images/mobile-08_Care_Advice_Information_Landing_banner.png" class="hidden-md hidden-lg">
+			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/2e34e2c3-5065-4791-88cd-b61bc73eac0e/08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-xs hidden-sm">
+			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/eb629c2f-ef33-4eda-9b4b-fa24ca8971d7/mobile-08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-md hidden-lg">
 			<div class="banner-title">
 				<h4>Care & Information Guides</h4>
 				<h5>Florem ipsum lily of the valley</h5>
@@ -30,8 +30,40 @@
                 <div class="first-head">
                     Care, Advice & Information
                 </div>
-                <uib-accordion close-others="oneAtATime">
-                    <uib-accordion-group ng-init="status.open = true" is-open="status.open" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !=''">
+                <uib-accordion close-others="true">
+                    <uib-accordion-group is-open="true" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index ==0" >
+                        <uib-accordion-heading ng-click="template.populateTabs(folder,folder.subfolders,$index)">
+                            <svg class="close" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
+                                 height="24" viewBox="0 0 24 24">
+                                <g>
+                                    <rect x="10" width="4" height="24"/>
+                                    <rect y="10" width="24" height="4"/>
+                                </g>
+
+
+                            </svg>
+                            <svg class="open" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
+                                 height="92" viewBox="0 0 92 92">
+                                <rect y="10" width="50" height="8"/>
+
+                            </svg>
+                            <span ng-click="template.populateTabs(folder,folder.subfolders,$index)">{{folder.title}}</span>
+                        </uib-accordion-heading>
+                        <div class="receipient-drpDown">
+                            <ul>
+                                <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''">
+                                    <a ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName,$index)">
+                                        {{subFolder.title}}
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </uib-accordion-group>
+                    <uib-accordion-group ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index !=0">
                         <uib-accordion-heading>
                             <svg class="close" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
@@ -49,12 +81,12 @@
                                 <rect y="10" width="50" height="8"/>
 
                             </svg>
-                            {{folder.title}}
+                            <span ng-click="template.populateTabs(folder,folder.subfolders,$index)">{{folder.title}}</span>
                         </uib-accordion-heading>
                         <div class="receipient-drpDown">
                             <ul>
                                 <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''">
-                                    <a ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName)">
+                                    <a ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName,$index)">
                                         {{subFolder.title}}
                                     </a>
                                 </li>
@@ -72,17 +104,17 @@
 		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id=" page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row right-content">
-					<uib-tabset class="tabs">
-						<uib-tab class="in-tabs" index="0" heading="Fresh Cut Flower Articles">
-
+                    <uib-tabset active="template.active" class="tabs" ng-repeat="folder in base.ListOfPages" ng-if="$index==template.folderIndex">
+						<uib-tab class="in-tabs" index="$index" ng-repeat="subFolder in folder.subfolders.items" heading="{{subFolder.title}}" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''" ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName,$parent.$index)">
+                           
 							<span class="shadow-border"></span>
 							<div class="row">
 								<div class="title">
-									<h4>Fresh Cut Flower Articles</h4>
+									<h4>{{subFolder.title}}</h4>
 								</div>
 
 								<div class="input-group changethisone">
-									<input type="text" class="form-control search-text" placeholder="SEARCH" />
+									<input type="text" class="form-control search-text" ng-model="articleSearch.description" placeholder="SEARCH" />
 									<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
 									<style type="text/css">
 										.st0 {
@@ -108,7 +140,7 @@
 
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<table class="table table-responsive care-table hidden-xs hidden-sm">
 									<thead>
 										<tr style="background-color:#fff;">
@@ -118,8 +150,8 @@
 										</tr>
 									</thead>
 									<tbody>
-<!--                                        <tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.title})">-->
-										<tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.fileName})" ng-if="article.nodeType == 'ws:article'">
+<!--                                        <tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.title})"> ui-sref="staticPageImage({pageName:article.fileName})" -->
+										<tr ng-repeat="article in template.articleList.items | filter:articleSearch:strict" ng-if="article.nodeType == 'ws:article'" ng-click="template.navigateToArticle(article)">
 											<td width="60%">
 													<p class="content">{{article.description}}</p>
 													<span class="sub-head">Written By <span class="author">{{article.author}}</span></span>
@@ -129,241 +161,10 @@
 										 </tr>
 									</tbody>
 								</table>
-								<table class="table table-responsive care-table mobile-care-table hidden-md hidden-lg">
-									<tbody>
-										<tr>
-											<td>
-												<p class="mobile-content">Florem ipsum lily of the valley, Obedient plant pink heath Carnation globeflower queen</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-												<p>
-													<label for="">Article Type</label> <span class="guide">Care Guide</span></p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<p class="mobile-content">Tansy safari sunset prairie gentian bottlebrush Barberton daisy snapdragon lupin</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-												<p>
-													<label for="">Article Type</label> <span class="guide">Care Guide</span></p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<p class="mobile-content">Florem ipsum lily of the valley, Obedient plant pink heath Carnation globeflower queen</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-												<p>
-													<label for="">Article Type</label> <span class="guide">Care Guide</span></p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<p class="mobile-content">Tansy safari sunset prairie gentian bottlebrush Barberton daisy snapdragon lupin</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-												<p>
-													<label for="">Article Type</label> <span class="guide">Care Guide</span></p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<p class="mobile-content">Florem ipsum lily of the valley, Obedient plant pink heath Carnation globeflower queen</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-
-												<p>
-													<label for="">Article Type</label> <span class="guide">Care Guide</span></p>
-											</td>
-										</tr>
-								</table>
-							</div>
-							<div class="show-more hidden-md hidden-lg">
-								<span>Show More</span>
-							</div>
-						</uib-tab>
-
-						<uib-tab class="in-tabs" index="1" heading="Indoor Plant Articles">
-							<span class="shadow-border"></span>
-							<span class="shadow-border"></span>
-							<div class="row">
-								<div class="title">
-									<h4>Indoor Plant Articles</h4>
-								</div>
-								<div class="input-group changethisone">
-									<input type="text" class="form-control search-text" placeholder="Search" />
-									<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 2;
-											stroke-miterlimit: 10;
-										}
-										
-										.st1 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 4;
-											stroke-miterlimit: 10;
-										}
-									</style>
-									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-									<circle class="st0" cx="23" cy="21.3" r="19.9" />
-									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-									<circle class="st1" cx="24" cy="21.3" r="19.9" />
-								</svg></span>
-								</div>
-							</div>
-						</uib-tab>
-						<uib-tab class="in-tabs" index="2" heading="Outdoor Plant Articles">
-							<span class="shadow-border"></span>
-							<div class="row">
-								<div class="title">
-									<h4>Outdoor Plant Articles</h4>
-								</div>
-								<div class="input-group changethisone">
-									<input type="text" class="form-control search-text" placeholder="Search" />
-									<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 2;
-											stroke-miterlimit: 10;
-										}
-										
-										.st1 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 4;
-											stroke-miterlimit: 10;
-										}
-									</style>
-									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-									<circle class="st0" cx="23" cy="21.3" r="19.9" />
-									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-									<circle class="st1" cx="24" cy="21.3" r="19.9" />
-								</svg></span>
-								</div>
-							</div>
-						</uib-tab>
-						<uib-tab class="in-tabs" index="3" heading="Gardening Articles">
-							<span class="shadow-border"></span>
-							<div class="row">
-								<div class="title">
-									<h4>Gardening Articles</h4>
-								</div>
-								<div class="input-group changethisone">
-									<input type="text" class="form-control search-text" placeholder="Search" />
-									<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 2;
-											stroke-miterlimit: 10;
-										}
-										
-										.st1 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 4;
-											stroke-miterlimit: 10;
-										}
-									</style>
-									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-									<circle class="st0" cx="23" cy="21.3" r="19.9" />
-									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-									<circle class="st1" cx="24" cy="21.3" r="19.9" />
-								</svg></span>
-								</div>
-							</div>
-
-						</uib-tab>
-
-						<uib-tab active="active" class="in-tabs" index="4" heading="All Care Guides & Information">
-							<span class="shadow-border"></span>
-							<div class="row">
-								<div class="title">
-									<h4>All Care Guides & Information</h4>
-								</div>
-								<div class="input-group changethisone">
-									<input type="text" class="form-control search-text" placeholder="Search" />
-									<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 2;
-											stroke-miterlimit: 10;
-										}
-										
-										.st1 {
-											fill: none;
-											stroke: #FFFFFF;
-											stroke-width: 4;
-											stroke-miterlimit: 10;
-										}
-									</style>
-									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-									<circle class="st0" cx="23" cy="21.3" r="19.9" />
-									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-									<circle class="st1" cx="24" cy="21.3" r="19.9" />
-								</svg></span>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<table class="table table-responsive care-table">
-									<thead>
-										<tr style="background-color:#fff;">
-											<th width="60%">Article Name</th>
-											<th width="25%">&nbsp;</th>
-											<th width="25%">Article Type</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="article in template.articleList">
-											<td width="60%">
-												<p class="content">{{article}}</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%">Care Guide</td>
-										</tr>
-										<tr>
-											<td width="60%">
-												<p class="content">Tansy safari sunset prairie gentian bottlebrush Barberton daisy snapdragon lupin</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%">Information</td>
-										</tr>
-										<tr>
-											<td width="60%">
-												<p class="content">Florem ipsum lily of the valley, Obedient plant pink heath Carnation globeflower queen</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%">Care Guide</td>
-										</tr>
-										<tr>
-											<td width="60%">
-												<p class="content">Tansy safari sunset prairie gentian bottlebrush Barberton daisy snapdragon lupin</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%">Information</td>
-										</tr>
-										<tr>
-											<td width="60%">
-												<p class="content">Florem ipsum lily of the valley, Obedient plant pink heath Carnation globeflower queen</p>
-												<span class="sub-head">Written By <span class="author">Margaret Purcell, Sr. Horticulturist</span></span>
-											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%">Care Guide</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</uib-tab>
-					</uib-tabset>
+                            </div>
+                            
+                        </uib-tab>
+                    </uib-tabset>
 				</div>
 
 			</div>

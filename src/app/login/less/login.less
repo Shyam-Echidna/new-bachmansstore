@@ -635,9 +635,8 @@ body {
 @media only screen and (min-width: 320px) and (max-width: 810px) {
     .login-model .form-block .text-block{
         .logInForm, .signUpForm, .forgot-possword-block{
-            height:375px; 
+            height:440px; 
             overflow-y: auto;
-            height:375px; 
             -webkit-overflow-scrolling: touch;   
             .scrollable-bar-y{
                 display:none !important;
@@ -670,7 +669,7 @@ body {
         border-radius: 5px;
     }
     .modal.in .modal-dialog {
-        bottom: initial;
+        bottom: 0;
         margin: 0;
         .block-vertical-center(absolute);
         top: 0%;
@@ -1076,8 +1075,32 @@ input[type=number]::-webkit-outer-spin-button {
             height:180px;      
             max-height: initial; 
             overflow-y: auto; 
-            display:block !important;
+           // display:block !important;
         }
+    }
+}
+//login screen height for iphone 5
+@media screen and (min-width:320px) and (max-width:374px){
+    .login-model .form-block .text-block{
+        .logInForm, .signUpForm, .forgot-possword-block{
+            height:380px; 
+        }
+    }
+}
+//login screen height for iphone 6
+@media screen and (min-width:375px) and (max-width:413px){
+    .login-model .form-block .text-block{
+        .logInForm, .signUpForm, .forgot-possword-block{
+            height:440px; 
+        }
+    }     
+}
+//login screen height for iphone 6+
+@media screen and (min-width:414px) and (max-width:559px){ 
+    .login-model .form-block .text-block{
+        .logInForm, .signUpForm, .forgot-possword-block{
+            height:440px; 
+        } 
     }
 }
 

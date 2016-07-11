@@ -20,105 +20,20 @@
                           </svg>
                         </span>
                         <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 search-facet-scroll-inner"> 
-                          <div class="results-selection" style="display: inline-block;">
+                          <div class="results-selection" style="display: inline-block;" ng-repeat="selection in algoliaSearchResults.Selections">
                               <p>
-                                <span>selection</span>
+                                <span class="results-selection" >{{selection.value}}</span>
                                 <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
-                                </a>
-                              </p>
-                          </div>
-                           <div class="results-selection" style="display: inline-block;">
-                              <p>
-                                <span>selection</span>
-                                <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
-                                </a>
-                              </p>
-                          </div>
-                           <div class="results-selection" style="display: inline-block;">
-                              <p>
-                                <span>selection</span>
-                                <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
-                                </a>
-                              </p>
-                          </div>
-                           <div class="results-selection" style="display: inline-block;">
-                              <p>
-                                <span>selection</span>
-                                <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
-                                </a>
-                              </p>
-                          </div>
-                           <div class="results-selection" style="display: inline-block;">
-                              <p>
-                                <span>selection</span>
-                                <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
-                                </a>
-                              </p>
-                          </div>
-                           <div class="results-selection" style="display: inline-block;">
-                              <p>
-                                <span>selection</span>
-                                <a>
-                                    <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
-                                       <g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
-                                          </g>
-                                          <g>
-                                             <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
-                                          </g>
-                                       </g>
-                                    </svg>
+                                  <svg version="1.1" ng-click="plp.togglFaceteSelection('{{selectedFacet}}',true)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
+                                     <g>
+                                        <g>
+                                           <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect>
+                                        </g>
+                                        <g>
+                                           <rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6" ></rect>
+                                        </g>
+                                     </g>
+                                  </svg>
                                 </a>
                               </p>
                           </div>
@@ -187,7 +102,7 @@
                 </div>
               </div>
               <div class="col-xs-6">
-                <button class="filter-button btn-block" ng-click="plp.filterBtnModal()">FILTER 
+                <button class="filter-button btn-block" ng-click="algoliaSearchResults.filterBtnModal()">FILTER 
                   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;position: absolute;height: 13px;width: 13px;right: 10px;top: 10px;" xml:space="preserve">
                     <style type="text/css">
                         .st0 {
@@ -234,18 +149,28 @@
                           <!--   <i class="fa" ng-class="{'fa-caret-right': algoliaSearchResults.facetBehavior['price'].close, 'fa-caret-down': !algoliaSearchResults.facetBehavior['price'].close}"></i> -->
                         </a>
                     </div>
-                    <div class="algolia-facet-selections" uib-collapse="algoliaSearchResults.facetBehavior['price'].close" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
-                        <slider ng-model="algoliaSearchResults.sliderValue"
-                                on-stop-slide="algoliaSearchResults.changePriceRange()"
-                                range="true"
-                                min="algoliaSearchResults.ProductResults.facets_stats.Price.floor || algoliaSearchResults.ProductResults.facets_stats.Price.min"
-                                step="algoliaSearchResults.step"
-                                max="algoliaSearchResults.ProductResults.facets_stats.Price.ceiling || algoliaSearchResults.ProductResults.facets_stats.Price.max"
-                                value="algoliaSearchResults.priceValue"></slider>
+                    <div class="algolia-facet-selections price-slider" uib-collapse="algoliaSearchResults.facetBehavior['price'].close" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
+                      <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p> 
+                      <slider ng-model="algoliaSearchResults.sliderValue"
+                        on-stop-slide="algoliaSearchResults.changePriceRange()"
+                        range="true"
+                        min="algoliaSearchResults.ProductResults.facets_stats.Price.floor || algoliaSearchResults.ProductResults.facets_stats.Price.min"
+                        step="algoliaSearchResults.step"
+                        max="algoliaSearchResults.ProductResults.facets_stats.Price.ceiling || algoliaSearchResults.ProductResults.facets_stats.Price.max"
+                        value="algoliaSearchResults.priceValue">
+                      </slider>
                     </div>
+
+                    <div class="price-slider">
+                      <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p> 
+                      <p class="price-bar"></p> 
+                      <input type="hidden" class="slider-input range-slider slider" value="23" />
+                   </div>
+
                     <div class="side-promo col-md-11">
                       <div class="row side-ban-1">
-                        <!--  ng-include="plp.plp_promo_svgDesign"  -->
+                        <span ng-include="algoliaSearchResults.plp_promo_svgDesign"></span>
+                          <!-- <img src="{{algoliaSearchResults.needHelp}}}"> -->
                          <div class="desc-text">
                             <h3>{{algoliaSearchResults.needHelpTitle}}</h3>
                             <p>{{algoliaSearchResults.needHelpDescription}}</p>
@@ -257,9 +182,9 @@
                       <div class="row side-ban-3">
                          <?xml version="1.0" encoding="utf-8"?>
                          <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                         <div class="desc-text">
-                            <span ng-include="plp.giftCard"></span>
-                            <div class="desc-text-right">
+                         <div class="desc-text row">
+                            <span ng-include="algoliaSearchResults.giftCard" class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></span>
+                            <div class="desc-text-right col-xs-12 col-sm-12 col-md-12 col-lg-8">
                                <h5>{{algoliaSearchResults.giftCardTitle}}</h5>
                                <p>{{algoliaSearchResults.giftCardDescription}}</p>
                             </div>
@@ -269,8 +194,9 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 algolia-products">
                     <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 algolia-products-block" ng-repeat="groupedProducts in algoliaSearchResults.ProductResults track by $index" ng-mouseover="algoliaSearchResults.activeProduct = $index">
-                         
+                   
+                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 algolia-products-block" ng-repeat="groupedProducts in algoliaSearchResults.ProductResults track by $index" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false">
+                            <!-- ng-mouseover="algoliaSearchResults.activeProduct = $index" -->
                             <!-- <div class="thumbnail">
                                 <img ng-src="{{result.Image}}" alt="{{result.Name}}">
                                 <div class="caption">
@@ -289,43 +215,53 @@
                                 <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-cart"><a href="#" role="button">ADD TO CART</a></p>
                                 <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-list"><a href="#" role="button">ADD TO LIST</a></p>
                             </div> -->
-               <div class="product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
-                  <div class="thumbnail">
-                     <div id="new-label" class="new-label">
-                        <div class="ribbon-wrapper">
-                           <div class="ribbon-front">
-                              <p>New</p>
-                           </div> 
-                        </div>
-                     </div>
-                    <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
-                           <img  ng-src= "{{prod.imgContent.contentUrl}}"/>
-                           <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box caption">
-                              <h4 class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
-                              <p class="Price">{{prod.priceRange}}</p>
-                           </div>
-                       </div>
-                    </div>
-                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
-                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == algoliaSearchResults.selectedColorIndex} ">
-                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
-                        </p>
-                   </div>
-                   
-                   <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view>
-                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
-                        <div class="row">
-                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
-                              <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
-                           </div>
-                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
-                           </div>
-                        </div>
-                    </div>
-                  </div>
-               </div> 
+                            <div class="product-container" style="">
+                              <div class="thumbnail">
+                                <div id="new-label" class="new-label">
+                                    <div class="ribbon-wrapper">
+                                       <div class="ribbon-front">
+                                          <p>New</p>
+                                       </div> 
+                                    </div>
+                                </div>
+                                <div ng-repeat="prod in groupedProducts  track by $index">
+                                   <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="algoliaSearchResults.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                                       <img  ng-src= "{{prod.imgContent.contentUrl}}"/>
+                                       <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box caption">
+                                          <h4 class="product-name-plp"><span>{{prod.Name | lowercase}}</span></h4>
+                                          <p class="Price">{{prod.priceRange}}</p>
+                                       </div>
+                                   </div>
+                                </div>
+                                <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                                  <a ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == algoliaSearchResults.selectedColorIndex} "><span data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="algoliaSearchResults.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></span></a>
+                                </div>
+<!-- 
+                                <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view>
+                                <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                                  <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                                      <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                      <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                                    </div>
+                                  </div>
+                                </div>
+ -->
+
+                                 <!-- <div class="results-quick-view" ng-show="algoliaSearchResults.activeProduct == $index"></div> -->
+                                 <div class="results-quick-view results-quick-view-plus" ng-show="plusLabel">
+                                  <ordercloud-product-quick-view product="groupedProducts"  selectedId class="search-quick-view-plus hidden-xs hidden-sm" ></ordercloud-product-quick-view>
+                                </div>
+                                <div class="results-quick-view results-quick-view-btns" ng-show="hoveringButtons">
+                                  <div  >
+                                    <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-cart"><a href="#" role="button">ADD TO CART</a></p>
+                                    <p class="col-xs-12 col-sm-12 col-md-6 col-lg-6 search-add-to-list"><a href="#" role="button">ADD TO WISHLIST</a></p>
+                                  </div>
+                                 </div>
+                              </div>
+                          </div> 
                         </div>
                     </div>
                     <div class="pagination-container">
@@ -432,26 +368,24 @@
                             <h5>{{hit.Author}}</h5>
                         </div> -->
                     </div>
-<!--                     <div>
+                    <!--<div>
                         <span ng-bind-html="hit._highlightResult.Content.value"></span>
                     </div> -->
                 </div>
-
             </div>
-
             <div class="pagination-container">
-                <uib-pagination
-                        total-items="algoliaSearchResults.InfoResults.nbHits"
-                        ng-model="algoliaSearchResults.currentInfoPage"
-                        ng-change="algoliaSearchResults.changePage(1)"
-                        class="pagination-sm"
-                        rotate="true"
-                        previous-text="Previous Page"
-                        next-text="Next Page"
-                        boundary-link-numbers="true"
-                        num-pages="algoliaSearchResults.InfoResults.nbPages"></uib-pagination>
+              <uib-pagination
+                total-items="algoliaSearchResults.InfoResults.nbHits"
+                ng-model="algoliaSearchResults.currentInfoPage"
+                ng-change="algoliaSearchResults.changePage(1)"
+                class="pagination-sm"
+                rotate="true"
+                previous-text="Previous Page"
+                next-text="Next Page"
+                boundary-link-numbers="true"
+                num-pages="algoliaSearchResults.InfoResults.nbPages">
+              </uib-pagination>
             </div>
         </uib-tab>
     </uib-tabset>
-
 </article>

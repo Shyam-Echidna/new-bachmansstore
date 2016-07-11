@@ -11,6 +11,7 @@ angular.module( 'orderCloud' )
 	.controller( 'EmailSubscriptionCtrl', EmailSubscriptionController )
 	//.controller( 'corsageBuilderCtrl', corsageBuilderController)
 	.controller('deleteCtrl', DemoController)
+
 	
 
 ;
@@ -35,28 +36,29 @@ function AccountConfig( $stateProvider ) {
                         dfd.resolve();
                     });
                 return dfd.promise;
-            },
+	            },
 
-             AddressList: function(AccountService, CurrentUser){
-					console.log(AccountService.ListAddress(CurrentUser.ID));
-					return AccountService.ListAddress(CurrentUser.ID);
-			},
+	            AddressList: function(AccountService, CurrentUser){
+						console.log(AccountService.ListAddress(CurrentUser.ID));
+						return AccountService.ListAddress(CurrentUser.ID);
+				},
 
-            	WishList: function($q, $state, OrderCloud, CurrentUser) {
+	        	WishList: function($q, $state, OrderCloud, CurrentUser) {
 					var wishlistArr = CurrentUser.xp.WishList;
 					var d= $q.defer();
-				var wishArr = [];
-				for(var i=0;i<wishlistArr.length;i++){
-					
-					var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
-					wishArr.push(promise);
-				}
-				$q.all(wishArr).then(function(items){
-					console.log("wish list ====",items);
-					d.resolve(items);
-				});
+					var wishArr = [];
+					if(wishlistArr != undefined){
+						for(var i=0;i<wishlistArr.length;i++){	
+							var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
+							wishArr.push(promise);
+						}
+						$q.all(wishArr).then(function(items){
+							console.log("wish list ====",items);
+							d.resolve(items);
+						});
+					}
 				return d.promise;
-			}
+				}
 			},
 			templateUrl:'account/templates/accountLanding.tpl.html',
 			controller:'AccountCtrl',
@@ -431,11 +433,18 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 	//Wishlist listing starts here
 	/*var wishlistArr = CurrentUser.xp.WishList;
 	var wishArr = [];
-	for(var i=0;i<wishlistArr.length;i++){
-		vm.array_lenth=wishlistArr.length;
-		var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
-		wishArr.push(promise);
+	if(wishlistArr != undefined){
+		for(var i=0;i<wishlistArr.length;i++){
+			vm.array_lenth=wishlistArr.length;
+			var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
+			wishArr.push(promise);
+		}
+		$q.all(wishArr).then(function(items){
+			console.log("wish list ====",items);
+			vm.wishList = items;
+		});
 	}
+
 	$q.all(wishArr).then(function(items){
 		console.log("wish list ====",items);
 		vm.wishList = items;

@@ -45,17 +45,17 @@ function BaseConfig( $stateProvider ) {
             },
             resolve: {
                 
-              adminLogin : function($q, OrderCloud, BaseService,$cookieStore){
-                 if(!$cookieStore.get('isLoggedIn')){
-                     var dfd = $q.defer();
+            adminLogin : function($q, OrderCloud, BaseService, $cookieStore){
+                    if(!$cookieStore.get('isLoggedIn')){
+                    var dfd = $q.defer();
              return BaseService.AdminLogin().then(function (data) {
                   OrderCloud.Auth.SetToken(data.access_token);
                  return data.access_token
               })
                return true;
-                  }
+                }
                     },
-                     CurrentUser: function($q, $state, OrderCloud, $cookieStore) {
+                    CurrentUser: function($q, $state, OrderCloud, $cookieStore) {
                        if($cookieStore.get('isLoggedIn')){
                 var dfd = $q.defer();
                 OrderCloud.Me.Get()
@@ -86,7 +86,7 @@ function BaseConfig( $stateProvider ) {
                      localStorage.setItem("alfTemp_ticket",ticket);
                         return ticket;
                 })
-                }*/
+                },*/
             categoryImages: function(CategoryService, ticket){
            // var ticket = localStorage.getItem("alf_ticket");
             return CategoryService.GetCategoryImages(ticket).then(function(res){
@@ -230,16 +230,27 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
     return service;
 }
 
-function BaseController($scope, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
+function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
   defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
        
     });
     var vm = this;
+      $rootScope.$on('getcurrentuser', function() {
+      
+         LoginService.GetCurrentUser().then(function(res){
+                    console.log(res);
+                    vm.currentUser = res;
+                    vm.showuserdetail = true;
+                })
+       
+    });
+       
   vm.currentPath = $location.path();
   $scope.is = function(name){
-     return $state.is(name);
+    return $state.is(name);
+
   }
   vm.alf_ticket = ticket;
   //console.log('asdfghj',minicartData);
@@ -542,7 +553,7 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
                 },500)
       }
 
-      $("#info-bar-acc, #info-bar-cart").hover(hideOtherLink2, showOtherLink2);
+     /* $("#info-bar-acc, #info-bar-cart").hover(hideOtherLink2, showOtherLink2);
 
       function hideOtherLink2() {
         $('.info-bar-care, .info-bar-events').css({'display': 'none'});
@@ -550,7 +561,7 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
       }
       function showOtherLink2() {
         $('.info-bar-care, .info-bar-events').css('display', 'block');
-      }
+      }*/
 
 
     }, 200);
@@ -589,9 +600,11 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
             
             vm.menu1= false;
             vm.menu2= false;
-            vm.menu3= false;
+            vm.menu3= false; 
 
-            $('.main-mobile-menu-container').css('overflow-y','auto');
+            $('.main-mobile-menu-container').toggleClass('show-hide-hide');  
+            $('.main-mobile-menu-container').toggleClass('show-hide-show');  
+            $('.main-mobile-menu-container').css({'overflow-y':'auto'});
             $('.mobile-dropdown-cont2').css('overflow-y','hidden');
             $('.mobile-dropdown-cont3').css('overflow-y','hidden');
             $('.mobile-dropdown-cont4').css('overflow-y','hidden');
@@ -605,10 +618,7 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
             $('.main-mobile-menu-container.dropdown-menu').css('height',windowHeight - mobHeaderHt);
             $('.mobile-dropdown-cont2').css({'height':windowHeight - mobHeaderHt});
             $('.mobile-dropdown-cont3').css('height',windowHeight - mobHeaderHt);
-            $('.mobile-dropdown-cont4').css('height',windowHeight - mobHeaderHt);
-
-
-            
+            $('.mobile-dropdown-cont4').css('height',windowHeight - mobHeaderHt);       
             
             // var menuheight = $('.main-mobile-menu-container').innerHeight();
             // $('#DashboardContent').height(menuheight);
@@ -621,9 +631,12 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
 
             if($('.menu-class').hasClass('unhide')){
               $('.menu-class').addClass('hide');
+              $('.menu-class').removeClass('unhide');
             } else{
               $('.menu-class').addClass('unhide')
+              $('.menu-class').removeClass('hide');
             }
+            angular.element('.breadcrumb-box').hide();
             
     }
 
@@ -826,6 +839,7 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
             console.log("megamenuImgs==", megamenuImgs);
         });*/
         BaseService.GetCategoryTree().then(function (data) {
+
             angular.forEach(Underscore.where(categoryImages, {title: 'megamenu'}), function (node) {
                 node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
                 megamenuImgs.push(node);
@@ -850,6 +864,11 @@ function BaseController($scope, defaultErrorMessageResolver,validator, $timeout,
     if(ticket){
    // var ticket = localStorage.getItem("alf_ticket");
        LoginFact.GetLogo(ticket).then(function(data){
+           if($cookieStore.get('isLoggedIn')){
+           vm.currentUser = CurrentUser;
+           $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+           
+        }
         console.log(data);
         var logo = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;
         vm.logo = $sce.trustAsResourceUrl(logo);
@@ -1057,18 +1076,9 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 }
 
 
-function BaseTopController(LoginFact, BaseService, $uibModal, $rootScope, LoginService, $state, OrderCloud, alfcontenturl) {
+function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $rootScope, LoginService, $state, OrderCloud, alfcontenturl) {
     var vm = this;
-     $rootScope.$on('getcurrentuser', function() {
-        //alert(100);
 
-         LoginService.GetCurrentUser().then(function(res){
-                    console.log(res);
-                    vm.currentUser = res;
-                    vm.showuserdetail = true;
-                })
-       
-    });
    /* BaseService.GetCategoryTree().then(function(data){
 
         console.log("tree ==",data);
@@ -1150,6 +1160,9 @@ function BaseTopController(LoginFact, BaseService, $uibModal, $rootScope, LoginS
         });
     }
     vm.logout = function() {
+     $cookieStore.remove('isLoggedIn');
+
+           $('#info-bar-acc, .sticky #info-bar-acc').removeClass('expandAccBlockLoggedIn');
         OrderCloud.Auth.RemoveToken();
         OrderCloud.Auth.RemoveImpersonationToken();
         //BuyerID.Set(null);
@@ -1189,7 +1202,7 @@ function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) 
 
 }
 
-function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
+function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfrescoStaticurl) {
     var service = {
         Get: _get,
         GetTemp: _getTempLogin,
@@ -1198,12 +1211,11 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
         GetServices:_getServices,
         GetContactInfo:_getContactInfo,
         GetStaticTemp:_getStaticTemp,
-		GetFolders:_getFolders,
-		GetSubFolders:_getSubFolders,
-		GetArtcleList:_getArtcleList,
-		GetPerplePerksSvg: _getPerplePerksSvg,
+		    GetFolders:_getFolders,
+		    GetSubFolders:_getSubFolders,
+		    GetArtcleList:_getArtcleList,
+		    GetPerplePerksSvg: _getPerplePerksSvg,
         CreateContactList:_createcontactlist,
-        GetContactList:_getcontactlist,
         UpdateEmailPreference:_updateemailpreference
     };
     return service;
@@ -1249,10 +1261,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 
                 method: 'POST',
                 dataType: "json",
-                url: "http://192.168.101.49:8080/alfresco/service/api/login",
-                //  url: "http://192.168.100.184:8080/alfresco/service/api/login",
-                //  url: "http://103.227.151.31:8080/alfresco/service/api/login",
-
+                url: "http://103.227.151.37:8080/alfresco/service/api/login",
                 data: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
@@ -1266,26 +1275,6 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
             });
             return defferred.promise;
         }
-
-          // starting getcontactlist service(To get EmailPreferences List)
-   function _getcontactlist(){
-    var defferred = $q.defer(); 
-        $http({
-            method: 'GET',
-            dataType:"json",
-            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/getContactList',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).success(function (data, status, headers, config) {              
-            defferred.resolve(data);
-        }).error(function (data, status, headers, config) {
-            defferred.reject(data);
-        });
-        return defferred.promise;
-
-   }
-    // ending of getcontactlist service
     function _getLogo(ticket) {
         
         var defferred = $q.defer();
@@ -1455,7 +1444,7 @@ function _updateemailpreference(u_data){
       method: 'GET',
       dataType:"json",
       //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
-      url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1472,8 +1461,7 @@ function _updateemailpreference(u_data){
     $http({
       method: 'GET',
       dataType:"json",
-      url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+subfolder+"?alf_ticket="+ticket,
-      url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1491,7 +1479,7 @@ function _updateemailpreference(u_data){
       method: 'GET',
       dataType:"json",
       //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
-            url: "http://192.168.101.49:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+            url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1521,12 +1509,12 @@ function contTopPaddingDirective() {
     link:function(scope){
       scope.pageTopPadding =  
       angular.element('.base-header-desktop .base-header-inner').height() + 9;
-      if($(window).width() <= 810){
+      if(angular.element(window).width() <= 810){
         scope.pageTopPadding =  angular.element('.base-header-mobile .base-header-inner').height();
       }
-      $(window).scroll(function() {
-        var headerHt = $('.base-header-inner').height();
-        if($(this).scrollTop() > headerHt){  
+      /*angular.element(window).scroll(function() {
+        var headerHt = angular.element('.base-header-inner').height();
+        if(angular.element(this).scrollTop() > headerHt){  
           scope.pageTopPadding = (angular.element('.base-header-desktop .base-header-inner').height() - 10) + 
           (angular.element('.base-header.sticky').height());
         }
@@ -1534,7 +1522,7 @@ function contTopPaddingDirective() {
           scope.pageTopPadding =  
           angular.element('.base-header-desktop .base-header-inner').height() + 9;
         }
-      });
+      });*/
     }
  };
 }

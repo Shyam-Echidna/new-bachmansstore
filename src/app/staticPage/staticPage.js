@@ -1,7 +1,7 @@
 angular.module('orderCloud')
 
 .config(staticPageConfig)
-
+.factory('staticPageData', staticPageData )
 .controller('contactCtrl', contactController)
 	.controller('templateCtrl', templateController)
 	.controller('template1Ctrl', template1Controller)
@@ -126,6 +126,19 @@ function staticPageConfig($stateProvider) {
 					return $stateParams.pageName;
 				}
 			}
+		})
+        .state('staticPageImage', {
+			parent: 'base',
+			url: '/staticPageImage/:pageName',
+			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
+			controller: 'staticPageBaseCtrl',
+			controllerAs: 'staticPageBase',
+			resolve:
+			{
+				page : function($stateParams){
+					return $stateParams.pageName;
+				}
+			}
 		});
 
 }
@@ -135,32 +148,43 @@ function ladingPageController(folder) {
 	alert(JSON.stringify(folder));
 }
 
-function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact) {
+function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stateParams,x2js,staticPageData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom) {
 	var vm = this;
-	//var ticket = localStorage.getItem("alf_ticket");
-	//$http.get("http://192.168.97.27:8080/alfresco/service/api/search/keyword.html?q="+page+".html&alf_ticket="+ticket).then(function(res){
-    // vm.staticTempright = $sce.trustAsResourceUrl("http://192.168.101.49:8080/share/proxy/alfresco/"+page+"?a=true&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-    console.log("http://192.168.101.49:8080/alfresco/service/api/search/keyword.html?q="+page+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-	$http.get("http://192.168.101.49:8080/alfresco/service/api/search/keyword.html?q="+page+"&alf_ticket="+localStorage.getItem("alfTemp_ticket")).then(function(res){
+    console.log("staticPageData.articleData");
+    var artileMetaData = staticPageData.articleData;
+    vm.articleContentUrl =  localStorage.getItem("contentUrl");
+    vm.articleAuthor =  localStorage.getItem("articleAuthor");
+    vm.articleTitle = localStorage.getItem("articleTitle");
+    var d = new Date(localStorage.getItem("modifiedOn"));
+    var n = d.toString();
+    var date = d.getDate();
+    var year = d.getFullYear();
+    vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
+    vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+vm.articleContentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+    console.log(alfStaticContenturl+vm.articleContentUrl+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+//	$http.get(alfcontentStaticSearchurl+page+"&alf_ticket="+localStorage.getItem("alfTemp_ticket")).then(function(res){
+//        console.log(res);
+//		var staticTemp = res.data.substring(res.data.indexOf("api/node"),res.data.indexOf("/"+page))+"/"+page;
+//
+//		console.log(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+//		vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+//	});
+    $http.get(alfcontentStaticSearchurlAtom+page.replace(".html","banner.png")+"&alf_ticket="+localStorage.getItem("alfTemp_ticket")).then(function(res){
         console.log(res);
-		//var staticTemp = res.data.substring(res.data.indexOf("api/node"),res.data.indexOf("/"+page+".html"))+"/"+page+".html";
-		var staticTemp = res.data.substring(res.data.indexOf("api/node"),res.data.indexOf("/"+page))+"/"+page;
-
-		console.log("http://192.168.101.49:8080/alfresco/service/"+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-		vm.staticTempright = $sce.trustAsResourceUrl("http://192.168.101.49:8080/alfresco/service/"+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-        console.log(vm.staticTempright);
-		//vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+"api/node/content/workspace/SpacesStore/f7e9dc33-2dbf-4719-b95c-405a275508a2/plantZone.html?alf_ticket="+ticket);
+        var json = x2js.xml_str2json(res.data);
+        if(json&&json.feed&&json.feed.entry){
+            if(json.feed.entry.length>0){
+                vm.articleBanner = json.feed.entry[0].link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket")
+            }else{
+                vm.articleBanner = json.feed.entry.link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+            }
+        }
+        console.log(vm.articleBanner);
+		
 	});
-    
+
     vm.getThingsFromALfresco = function(parent, child){
         window.history.back();
-//    	var ticket = localStorage.getItem("alf_ticket");
-//    	var route = parent+"/"+child;
-//    	LoginFact.GetArtcleList(ticket,route).then(function(response){
-//
-//    		console.log("GetArtcleList",response);
-//    		vm.articleList = response;
-//    	});
     }
 }
 
@@ -169,20 +193,25 @@ function contactController() {
 
 }
 
-function templateController($http, alfcontenturl, LoginFact) {
+function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,staticPageData) {
 	var vm = this;
 
-    
-    vm.getThingsFromALfresco = function(parent, child){
+//    vm.subFolderList = BaseService.ListOfPages[0].subfolders;
+      vm.folderIndex = 0;
+      vm.active=0;
+      vm.articleSearch={};
+//    console.log(vm.subFolderList);
+    vm.getThingsFromALfresco = function(parent, child,index){
+        console.log(index);
+        vm.active = index;
     	var ticket = localStorage.getItem("alf_ticket");
     	var route = parent+"/"+child;
     	LoginFact.GetArtcleList(ticket,route).then(function(response){
-
     		console.log("GetArtcleList",response);
     		vm.articleList = response;
     	});
     }
-    vm.getThingsFromALfresco("blog","global");
+    vm.getThingsFromALfresco("CareGuidesInformation","All_Care_Guides_Information",0);
 	setTimeout(function () {
 		var owl2 = angular.element("#owl-carousel-related-products");
 		owl2.owlCarousel({
@@ -204,7 +233,32 @@ function templateController($http, alfcontenturl, LoginFact) {
 				}
 			}
 		});
-	}, 1000)
+	}, 1000);
+    vm.navigateToArticle = function(obj){
+        staticPageData.articleData = obj;
+        localStorage.setItem("contentUrl",obj.contentUrl);
+        localStorage.setItem("articleAuthor",obj.author);
+        localStorage.setItem("articleTitle",obj.title);
+        localStorage.setItem("modifiedOn",obj.modifiedOn);
+       // if(obj.fileName==="TemplateCareAllNoImage.html" || obj.fileName==="Bachmas_ServicesAllCareNoImage.html"){
+            $state.go('staticPageImage', {pageName:obj.fileName});
+     //    }else{
+       //     $state.go('staticPage', {pageName:obj.fileName});
+    //    }
+    }
+    vm.populateTabs = function(f,sf,index){
+        console.log(index);
+        vm.folderIndex = index;
+        var first = true;
+        angular.forEach(sf.items, function(item,i) {
+
+         if(item.nodeType == 'ws:section' && item.title !='' &first){
+             first=false;
+             vm.getThingsFromALfresco(f.fileName,item.fileName,i);
+         }
+        });
+
+    }
 	var staticheaderHt = $('.base-header-desktop .base-header-inner').height();
 	/*		$('.base-header-desktop .base-header-inner').css('border', '1px solid red');*/
 	console.log('staticheaderHt' + staticheaderHt);
@@ -800,3 +854,9 @@ function storeLocatorController($scope, $timeout, $http, $compile) {
 }
 
 
+function staticPageData($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
+    var service = {};
+    return service;
+    
+
+}

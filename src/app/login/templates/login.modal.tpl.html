@@ -34,7 +34,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-block " >
          <div ng-show="login.loginTab==1" class="logInForm" >
             <span class="errormsg">{{login.errormsg}}</span>
-            <form class="panel-body" name="LoginHomeForm" ng-submit="login.submit()" novalidate>
+            <form class="panel-body" name="LoginHomeForm" ng-submit="login.submit(login.credentials)" novalidate>
                <div class="login-det">
                    <div class="form-group">
                      <label>Enter Your Email Address</label>

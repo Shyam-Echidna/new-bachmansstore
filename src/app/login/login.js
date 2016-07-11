@@ -81,7 +81,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, $cookieStore , $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
+function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
 
     var vm = this;
     vm.token = $stateParams.token;
@@ -118,24 +118,28 @@ function LoginController( OrderCloud,$state, $cookieStore , $stateParams, $excep
       };
       // END: function for sort options selection
     
-    vm.submit = function() {
-        OrderCloud.Auth.GetToken( vm.credentials )
+    vm.submit = function(credentials) {
+        OrderCloud.Auth.GetToken( credentials )
             .then(function(data) {
                 OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
                 OrderCloud.Auth.SetToken(data.access_token);
              // ImpersonationService.StopImpersonating();
-              $cookieStore.put('isLoggedIn', true); 
               $uibModalInstance.dismiss('cancel');
               vm.menuClass='unhide';
-              $('.menu-class').removeClass('hide');
-              $('.menu-class').addClass('unhide');
-              $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
-              $('.guest-in-mob').css('display','none');
-              $('.logged-in-mob').css('display','block');
-              $('body').addClass('hideLoginPopup');
-              $('.mobile-signout-guest').css('display','none');
-              $('.mobile-signout-notGuest').css('display','block');
+              angular.element('.menu-class').removeClass('hide');
+              angular.element('.menu-class').addClass('unhide');
+              angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
+              angular.element('.guest-in-mob').css('display','none');
+              angular.element('.logged-in-mob').css('display','block');
+              angular.element('body').addClass('hideLoginPopup');
+              angular.element('.mobile-signout-guest').css('display','none');
+              angular.element('.mobile-signout-notGuest').css('display','block');
 
+              angular.element('.info-acc-icon-guest').css('display','none !important');
+              angular.element('.info-acc-icon-notGuest').css('display','block !important');
+
+              vm.loggedIn = true;
+              $cookieStore.put('isLoggedIn', true); 
 
                   //$state.go('account.profile');
                 $rootScope.$broadcast('getcurrentuser');
@@ -273,14 +277,20 @@ function LoginController( OrderCloud,$state, $cookieStore , $stateParams, $excep
             $uibModalInstance.dismiss('cancel');
             // $state.go('home');
             vm.menuClass='unhide';
-            $('.menu-class').removeClass('hide');
-            $('.menu-class').addClass('unhide');
-            $('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockSignedIn');
-            $('.guest-in-mob').css('display','none');
-            $('.signed-in-mob').css('display','block');
-            $('body').addClass('hideLoginPopup');
-            $('.mobile-signout-guest').css('display','none');
-            $('.mobile-signout-notGuest').css('display','block');
+            angular.element('.menu-class').removeClass('hide');
+            angular.element('.menu-class').addClass('unhide');
+            angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');            angular.element('.guest-in-mob').css('display','none');
+            angular.element('.signed-in-mob').css('display','block');
+            angular.element('body').addClass('hideLoginPopup');
+            angular.element('.mobile-signout-guest').css('display','none');
+            angular.element('.mobile-signout-notGuest').css('display','block');
+
+            angular.element('.info-acc-icon-guest').css('display','none !important');
+            angular.element('.info-acc-icon-notGuest').css('display','block !important');
+
+            console.log(user);
+            vm.submit(user);
+
         },
         function(data){
             console.log(data);

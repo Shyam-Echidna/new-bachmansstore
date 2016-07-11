@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
-                            <h3 class="prod_title">{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name | lowercase}}</h3>
+                            <h3 class="prod_title">{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name}}</h3>
                             <h5 ng-if="pdp.productDetails.length > 1">Select Size</h5>
                             <div class="row radio-btn-container" ng-if="pdp.productDetails.length > 1">
                                 <div ng-repeat="opt in pdp.productDetails">
@@ -621,12 +621,7 @@
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 hidden-xs hidden-sm detail-tabs">
             <uib-tabset type="pills">
                 <uib-tab heading="DESCRIPTION">
-                    <p>
-                        Delight someone special with this showy arrangement of Stargazer Lilies. These gorgeous pink and white flowers are long-lasting and perfect for just about any occasion. Send them to celebrate birthdays, anniversaries, new babies or just to say "thinking of you." Choose from three sizes arranged in a clear glass vase.
-                    </p>
-                    <p>
-                        Available in Select (shown, 6 stems, 20" H x 12" W), Deluxe (9 stems) and Premium (12 stems) sizes. Floral designers work in additional flowers and accents to make Deluxe and Premium bouquets even more spectacular. Because each arrangement is made fresh with the best possible selection, flowers, colors, and containers are subject to availability.
-                    </p>
+                    <p ng-bind="pdp.prodDesription"></p>
                     <!-- <p> {{pdp.productDetails.Description}}</p> -->
                 </uib-tab>
                 <uib-tab heading="SPECIFICATIONS">

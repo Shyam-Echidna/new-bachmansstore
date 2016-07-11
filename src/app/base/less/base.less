@@ -2616,6 +2616,11 @@ ul.empty-div {
 						position: relative;
 						a {
 							padding-left: 0 !important;
+							background-color:#fff;
+							height:90px;
+							img{
+								height:100%;
+							}
 						}
 						div {
 							position: absolute;
@@ -4417,6 +4422,33 @@ body {
 
 //@media only screen and (min-width:801px) and (max-width:1110px)
 @media screen and (max-width:1110px) and (min-width:767px) {
+	.header-info-bar{
+		.info-bar-acc,.info-bar-cart{
+			.info-acc-text .loggedIn-user{
+				padding-left:15px;
+			}info-bar-search
+			.info-cart-text .loggedIn-user{
+				padding-left:15px;
+			}
+		}
+		.info-bar-care, .info-bar-events, .info-bar-search, .info-bar-acc, .info-bar-cart{
+			a{
+				padding-left:15px;
+			}
+		} 
+	}
+	.info-bar-acc.dropdown:hover .info-acc-text{
+		height:3.55em;
+	}
+	.expandAccBlockLoggedIn.info-bar-acc{
+		.info-acc-text, .info-acc-icon{
+			margin-top:0 !important; 
+	   		top:-2px;
+   		}
+	}
+	header-info-bar .info-bar-acc a{
+	    height: 3.125em;  
+	}
 	.menu-container li.sub-nav:first-of-type .menuScrollCont{ 
 		.menuScrollCont-inner {
 		    height: 350px !important;
@@ -4646,6 +4678,7 @@ body {
 				margin: 0 20px;
 			}
 		}
+
 		.header-info-bar {
 			.info-bar-care,
 			.info-bar-events {
@@ -4658,6 +4691,7 @@ body {
 				height: 3.125em;
 			}
 			.info-bar-acc {
+				height: 3.125em;
 				.info-bar-acc-empty-div {
 					height: 3.125em;
 				}
@@ -4666,7 +4700,10 @@ body {
 					//height: 3.125em;
 					//height: 3.125em;
 				}
-			}
+				&:hover{
+					height: auto;
+				}
+			} 
 			.info-bar-cart {
 				height: 3.125em;
 			}
@@ -4797,10 +4834,13 @@ body {
 	.header-info-bar {
 		.info-bar-acc,
 		.info-bar-cart {
-			&:hover,
+			&:hover{
+				width: 200px;
+				//height: 3.125em;
+			}
 			&:active {
 				width: 200px;
-				height: 3.125em;
+				//height: 3.125em;
 			}
 		}
 	}
@@ -5336,8 +5376,20 @@ body.modal-open {
 
 /*.hideLoginPopup{
 	.loginModalBg{
-		display: none !important;
-	    position: relative;
+		display: none !important;show-hide-show
 	    overflow: initial;
 	}
 }*/
+.info-acc-icon-guest{
+	display:block !important;
+}
+.info-acc-icon-notGuest{
+	display:none !important;
+}
+.show-hide-hide{
+	display:block !important;
+	z-index:-1;
+}
+.show-hide-show{
+	// display:none !important;
+}

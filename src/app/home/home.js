@@ -378,6 +378,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 		vm.topPromo = alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket;
 		vm.leftPromo = alfcontenturl+res.items[1].contentUrl+"?alf_ticket="+ticket;
 		vm.rightPromo = alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket;
+		vm.topPromoMobile = alfcontenturl+res.items[7].contentUrl+"?alf_ticket="+ticket;
 
 		vm.topPromoTitle = res.items[0].title;
 		vm.topPromoDescription = res.items[0].description;

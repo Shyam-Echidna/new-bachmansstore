@@ -1,0 +1,138 @@
+<div id="recepientmodal" class="pdp-recipient-modal" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
+    <div class="row visible-xs visible-sm modal-close">
+        <p class="close-icon">X</p>
+    </div>
+    <div class="row title-bar">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Input Recipient Information</h3>
+            <!-- <input type="button" ng-click="vm.closeTab()" value="close" /> -->
+            <p class="close-icon" ng-click="edit.cancel()">
+                <a>
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                  <g>
+                     <g>
+                        <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"/>
+                     </g>
+                     <g>
+                        <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"/>
+                     </g>
+                  </g>
+               </svg>
+                </a>
+            </p>
+        </div>
+
+    </div>
+    <div class="row accordion-block">
+       <uib-accordion close-others="true">
+            <uib-accordion-group ng-init="lineitem=edit.lineitem" is-open="true">
+                <uib-accordion-heading>
+                    <p ng-class="{'footer-minus': status.open1, 'footer-plus': !status.open1}"> {{lineitem.ShippingAddress.FirstName +" "+lineitem.ShippingAddress.LastName}} </p>
+                </uib-accordion-heading>
+                <div class="panel-body-content">
+
+                    <div class="row name-block">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3">
+                                    <fieldset class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="lineitem.ShippingAddress.FirstName" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <fieldset class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-5 col-lg-5">
+                                    <fieldset class="form-group" ng-if="addressType!='Hospital'">
+                                        <label for="zip-code">ZIP Code</label>
+                                        <div class="row">
+                                            <div class="col-md-4 col-lg-4">
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" ng-blur="edit.getCityState(lineitem,lineitem.ShippingAddress.Zip)" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-8 col-lg-8 label-left-align">
+                                                <p class="svg-right">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
+                                                </p>
+                                               
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row address-block">
+                        <div>
+                            <div class="row" ng-if="multipleReceipent.addressType=='Residence'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-1">Address</label>
+                                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1">
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-2">Address 2</label>
+                                        <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="lineitem.ShippingAddress.Street2">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="multipleReceipent.addressType=='Residence'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="state">State</label>
+
+                                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Residence'">
+                                    <fieldset class="form-group phone-box">
+                                        <label for="phone">Phone Number</label>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
+                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row next-btn">
+                        <div class="col-md-6 col-lg-6 btn-click">
+                           
+                            <button class="add-btn"  ng-click="edit.changeDetails(lineitem)">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </uib-accordion-group>
+        </uib-accordion>
+    </div>
+</div>

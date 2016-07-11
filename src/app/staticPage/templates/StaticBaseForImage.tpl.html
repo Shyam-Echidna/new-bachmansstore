@@ -135,8 +135,168 @@
       </div>
 
         <!-- Sidebar -->
-        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-<div ng-include="staticPageBase.staticTempright"></div>
+<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 right-content-Wrap">
+    <div class="right-content template2-content" id=" page-content-wrapper">
+            <div class="container-fluid">
+ 
+                 <div class="row info-banner">
+                    <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-xs hidden-sm">
+                    <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-md hidden-lg">
+                    <p>{{staticPageBase.articleDate}}</p>
+                </div>
+                <div class="row information-content1">
+
+                    <div class="mobile-receipient-details hidden-md hidden-lg">
+                        <uib-accordion>
+                            <uib-accordion-group is-open="status.openfaqs">
+                                <uib-accordion-heading>
+                                    <p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">
+                                        Care, Guides & Information</p>
+                                </uib-accordion-heading>
+                                <div class="head-title">
+                                    <h4>Services</h4>
+                                    <ul>
+                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
+                                        <li><a href="#">Indoor Plant Articles</a></li>
+                                        <li><a href="#">Outdoor Plant Articles</a></li>
+                                        <li><a href="#">Gardening Articles</a></li>
+                                    </ul>
+                                    <h4> Customer Services</h4>
+                                    <ul>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#" class="active">FAQ</a></li>
+                                        <li><a href="#">Returns & Exchanges</a></li>
+                                        <li><a href="#">Store Locator</a></li>
+                                        <li><a href="#">Delivery</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                        <li><a href="#">Perple Perks</a></li>
+                                    </ul>
+                                    <h4> Corporate</h4>
+                                    <ul>
+                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
+                                        <li><a href="#">Indoor Plant Articles</a></li>
+                                        <li><a href="#">Outdoor Plant Articles</a></li>
+                                        <li><a href="#">Gardening Articles</a></li>
+                                    </ul>
+                                </div>
+                            </uib-accordion-group>
+
+                        </uib-accordion>
+                    </div>
+                    <p>
+                    <h4 class="plants-title"> {{staticPageBase.articleTitle}}</h4>
+                    <span class="sub-head"> Written By {{staticPageBase.articleAuthor}}</span>
+                    </p>
+
+                    <div class="row xs-social-buttons hidden-md hidden-lg">
+                        <div class="col-xs-4 col-sm-4">
+                            <button><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-686.7 447.1 76.3 80.7" style="enable-background:new -686.7 447.1 76.3 80.7;" xml:space="preserve">
+<path d="M-626,475c6.6,0,12-5.4,12-12c0-6.6-5.4-12-12-12s-12,5.4-12,12c0,1.2,0.2,2.4,0.5,3.5l-23.9,14.4c-2.1-3-5.6-4.9-9.6-4.9
+	c-6.6,0-12,5.4-12,12c0,6.6,5.4,12,12,12c4,0,7.5-1.9,9.6-4.9l21.9,13.3c-0.3,1.2-0.5,2.4-0.5,3.6c0,6.6,5.4,12,12,12s12-5.4,12-12
+	c0-6.6-5.4-12-12-12c-4,0-7.5,1.9-9.6,4.9l-21.9-13.4c0.3-1.1,0.5-2.3,0.5-3.5c0-1.2-0.2-2.4-0.5-3.5l23.9-14.3
+	C-633.5,473.1-630,475-626,475z M-628,504c4.4,0,8,3.6,8,8c0,4.4-3.6,8-8,8s-8-3.6-8-8C-636,507.6-632.4,504-628,504z M-671,496
+	c-4.4,0-8-3.6-8-8c0-4.4,3.6-8,8-8s8,3.6,8,8C-663,492.4-666.6,496-671,496z M-626,455c4.4,0,8,3.6,8,8c0,4.4-3.6,8-8,8s-8-3.6-8-8
+	C-634,458.6-630.4,455-626,455z"/>
+</svg></span>Share
+                            </button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            <button><span class="email">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-684.8 460.2 72.3 57.3" style="enable-background:new -684.8 460.2 72.3 57.3;" xml:space="preserve">
+<path d="M-627.8,472h-42.3c-1.4,0-2.6,1.2-2.6,2.6v26.8c0,1.4,1.2,2.6,2.6,2.6h42.3c1.4,0,2.6-1.2,2.6-2.6v-26.8
+	C-625.3,473.1-626.4,472-627.8,472z M-648.8,494.2c-0.5,0.5-0.8,0.5-1.3,0l-19.3-20.2h40.7L-648.8,494.2z M-657.3,489.6l-13.5,11.6
+	v-25.6L-657.3,489.6z M-655.9,491l4.4,4.6c0.6,0.6,1.3,1,2.1,1s1.4-0.3,2.1-1l5.1-5.1c0.1,0.1,0.1,0.2,0.2,0.3l12.9,11.3h-39.5
+	L-655.9,491z M-627.5,500.8l-13.2-11.6c-0.1,0-0.1-0.1-0.2-0.1l13.7-13.7v25.8C-627.3,501.1-627.4,500.9-627.5,500.8z"/>
+</svg>
+							</span>Email
+                            </button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            <button><span class="print">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-685 436 129 129" style="enable-background:new -685 436 129 129;" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<g>
+				<path d="M-647.5,557.9c-1.9,0-3.4-1.5-3.4-3.4v-14.2h-23.6c-1.8,0-3.4-1.6-3.4-3.4v-72.8c0-1.9,1.5-3.4,3.4-3.4h23.6v-14.2
+					c0-1.9,1.5-3.4,3.4-3.4h54c1.9,0,3.4,1.5,3.4,3.4v14.2h23.6c1.9,0,3.4,1.5,3.4,3.4v72.8c0,1.9-1.5,3.4-3.4,3.4h-23.6v14.2
+					c0,1.9-1.5,3.4-3.4,3.4H-647.5z M-644.1,551.1h47.2v-35.2h-47.2V551.1z M-590.1,533.5h20.2v-66h-101.2v66h20.3v-17.6h-8
+					c-1.9,0-3.4-1.5-3.4-3.4s1.5-3.4,3.4-3.4h76.7c1.9,0,3.4,1.5,3.4,3.4s-1.5,3.4-3.4,3.4h-8V533.5z M-644.1,460.7h47.2v-10.8
+					h-47.2V460.7z"/>
+			</g>
+			<g>
+				<path d="M-598.8,488.6c-1.9,0-3.4-1.5-3.4-3.4s1.5-3.4,3.4-3.4h10.6c1.9,0,3.4,1.5,3.4,3.4s-1.5,3.4-3.4,3.4H-598.8z"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
+							</span>Print
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- <ul class="social-icons hidden-xs hidden-sm">
+                        <li><a href="">
+                            <p class="icon-fb"> </p>
+                        </a></li>
+                        <li><a href="aaa">
+                            <p class="icon-instagram"></p>
+                        </a></li>
+                        <li><a href="">
+                            <p class="icon-pintrest"></p>
+                        </a></li>
+                        <li><a href="">
+                            <p class="icon-twitter2"></p>
+                        </a></li>
+                        <li><a href=""> 
+                            <p class="icon-youtube3"></p>
+                        </a></li>
+                        <li><a href=""> 
+                            <p class="icon-wp"></p>
+                        </a></li>
+                        <li>
+                            <a href="">
+                                <p class="icon-Bolgger"></p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <p class="icon-linkedin3"></p>
+                            </a></li>
+                        <li><a href=""> 
+                        <p class="icon-mail5"></p>
+                        </a>
+                        </li>
+                        <li><a href=""> 
+                            <p class="icon-print"></p>
+                        </a></li>
+                    </ul> -->
+
+                    <!-- For social icons div structure STARTS -->
+                    <div class="social-icons hidden-xs hidden-sm">
+                        <div><a class="fb-icon addthis_button_facebook"  target="_blank"><p class="icon-fb"> </p></a></div>
+                        <div><p class="icon-instagram"></p></div>
+                        <div> <a class=" pinterest-icon addthis_button_pinterest" target="_blank"><p class="icon-pintrest"></p></a></div>
+                        <div><a class="twiter-icon addthis_button_twitter" target="_blank"><p class="icon-twitter2"></p></a></div>
+                        <div><p class="icon-youtube3"></p></div>
+                        <div><p class="icon-wp"></p></div>
+                        <div><p class="icon-Bolgger"></p></div>
+                        <div><p class="icon-linkedin3"></p> </div>
+                        <div><p class="icon-mail5"></p></div> 
+                        <div><a class=" print-icon hidden-xs hidden-sm addthis_button_print" href="" onclick="window.print();"><p class="icon-print"></p></a></div>
+                    </div>
+                    <!-- For scoial icons div structure ENDS -->
+                    <div ng-include="staticPageBase.staticTempright"></div>
+                </div> 
+            </div>
+
+
+        </div>
+    
 </div>
         <div class="clearfix"></div>
 

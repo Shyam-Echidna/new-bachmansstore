@@ -33,10 +33,11 @@
                     </div>
                 </div>
                 <div class="row accordion-block">
-                    <uib-accordion>
-                        <uib-accordion-group is-open="true">
+                    <uib-accordion close-others="true">
+                        <uib-accordion-group is-open="checkout.signin">
                             <uib-accordion-heading>
-                                <p ng-class="{'footer-minus': status.open1, 'footer-plus': !status.open1}">1. Sign In</p>
+                                <p ng-if="checkout.signin" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In</p>
+                                <p ng-if="!checkout.signin" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In |Continue as {{checkout.user}}</p>
                             </uib-accordion-heading>
                             <div class="panel-body-content registered-customer">
                                 <div class="row">
@@ -65,7 +66,7 @@
                                         <div class="guest-customers-info">
                                             <div class="guest-header">Guest Customers</div>
                                             <div class="guest-info">During checkout you can create an account to track your orders, receive Purple Perks points for future purchases, create saved lists and more.</div>
-                                            <div class="continue-guest">Continue as Guest</div>
+                                            <div class="continue-guest" ng-click="checkout.getGuestLineItems('Guest')">Continue as Guest</div>
                                         </div>
                                     </div>
                                 </div>
@@ -78,243 +79,235 @@
                                 </div>
                             </div>
                         </uib-accordion-group>
-                        <uib-accordion-group is-open="status.open2">
+                        <uib-accordion-group is-open="checkout.delivery">
                             <uib-accordion-heading>
-                                <p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">2. Delivery Information </p>
+                                <p ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">2. Delivery Information </p>
                             </uib-accordion-heading>
-                            <div class="panel-body-content delivery-info">
-                                <div class="delivery-client-info">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <span class="client-name">John Snow</span><span class="client-zip-code">55401</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="delivery-client-info recipientopacity">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <span class="recipient-count hidden-sm hidden-xs">Recipient 1</span> <span class="client-name">John Snow</span><span class="client-zip-code">55401</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="delivery-client-info">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <span class="recipient-count hidden-sm hidden-xs">Recipient 2</span> <span class="client-name">Berry Allen </span><span class="client-zip-code">55785</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="delivery-address-details">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <div class="delivery-address">
-                                                <div class="address-header">
+                            <div class="row accordion-block">
+                                <uib-accordion close-others="true" ng-init="checkout.recipient[0]=true">
+                                    <!--<uib-accordion close-others="true" ng-init="checkout.recipient[0]=true">-->
+                                    <uib-accordion-group is-open="checkout.recipient[$index]" ng-repeat="lineItem in checkout.lineItems">
+                                        <!--<uib-accordion-group is-open="checkout.recipient[$index]" ng-repeat="lineItem in checkout.lineVal"> track by lineItem.ID-->
+                                        <uib-accordion-heading>
+                                            <p ng-class="{'footer-minus': checkout.recipient[$index], 'footer-plus': !checkout.recipient[$index]}">
+                                                <div class="delivery-client-info" ng-class="{'recipientopacity':!checkout.recipient[$index]}">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                            <div class="delivery-address-header">Delivery Address</div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span class="client-name">{{lineItem[0].ShippingAddress.FirstName}} {{lineItem[0].ShippingAddress.LastName}}</span>
+                                                            <span class="client-zip-code">{{lineItem[0].ShippingAddress.Zip}}</span>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                            <div class="view-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                                    </div>
+                                                </div>
+                                            </p>
+                                        </uib-accordion-heading>
+
+                                        <div class="panel-body-content delivery-info">
+
+
+
+                                            <div class="delivery-address-details">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="delivery-address">
+                                                            <div class="address-header">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                        <div class="delivery-address-header">Delivery Address</div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                        <div class="view-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                         
                                                         <g>
                                                             <rect x="10" width="2" height="24"></rect>
                                                             <rect y="10" width="24" height="2"></rect>
                                                         </g>
                                                         </svg></span>View Address Book</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="delivery-adddress-form">
-                                                    <div class="signedin-user-info">
-                                                        <div class="signedin-user-content">
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
-                                                                    <div class="signedin-user-name">
-                                                                        <input type="radio" id="Hospital" name="radio" checked="">
-                                                                        <label for="Hospital">John Snow</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                    <div class="user-zip-code">55401<span>(Default)</span></div>
-                                                                </div>
                                                             </div>
-                                                            <div class="client-address">
-                                                                <p>3648 Blaisdell Ave S</p>
-                                                                <p>Apt 2</p>
-                                                                <p>Minneapolis, MN</p>
-                                                                <p>55401</p>
-                                                            </div>
-                                                            <div class="client-edit"><a href="">Edit</a></div>
-                                                        </div>
-                                                        <div class="signedin-user-content1">
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-4">
-                                                                    <div class="signedin-user-name1">
-                                                                        David Snow
+                                                            <div class="delivery-adddress-form">
+                                                                <div class="signedin-user-info">
+                                                                    <div class="signedin-user-content">
+                                                                        <div class="row">
+                                                                            <!--<div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+                                                                                <div class="signedin-user-name">
+                                                                                    <input type="radio" id="{{Hospital+$index}}" name="radioRecipient" ng-value="{{lineItem.ShippingAddress.Zip==Item.ShippingAddress.Zip}}"
+                                                                                        ng-model="checkout.selected">
+                                                                                    <label for="{{Hospital+$index}}">{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</label>
+                                                                                </div>
+                                                                            </div>-->
+                                                                            <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+                                                                                <div class="">
+
+                                                                                    {{lineItem[0].ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <!--<div class="user-zip-code">{{lineItem[0].ShippingAddress.Zip}}<span ng-if="checkout.selected">(Default)</span></div>-->
+                                                                                <div class="user-zip-code">{{lineItem[0].ShippingAddress.Zip}}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="client-address">
+                                                                            <p>{{lineItem[0].ShippingAddress.Street1}}</p>
+                                                                            <p>{{lineItem[0].ShippingAddress.Street2}}</p>
+                                                                            <p>{{lineItem[0].ShippingAddress.City}}</p>
+                                                                            <p>{{lineItem[0].ShippingAddress.Zip}}</p>
+                                                                        </div>
+                                                                        <div class="client-edit"><a ng-click="checkout.editPopUp(lineItem[0])">Edit</a></div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                    <div class="user-zip-code1">55401</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="signedin-user-content1">
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-4">
-                                                                    <div class="signedin-user-name1">
-                                                                        Olivia Mun
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                    <div class="user-zip-code1">56781</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="view-more-details">
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                    <div class="view-more">View More</div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                    <div class="add-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+
+                                                                    <!--<div class="view-more-details">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                                <div class="view-more" ng-click="checkout.viewMore()" ng-if="checkout.more">
+                                                                                    <span> View More</span>
+
+                                                                                </div>
+                                                                                <div class="view-more" ng-click="checkout.viewLess()" ng-if="!checkout.more">
+
+                                                                                    <span> View less</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-click="checkout.addRecipient()">
+                                                                                <div class="add-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                         
                                                         <g>
                                                             <rect x="10" width="2" height="24"></rect>
                                                             <rect y="10" width="24" height="2"></rect>
                                                         </g>
                                                         </svg></span>Add a new address</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>-->
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <form role="form">
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-content">
-                                                                <div class="form-group">
-                                                                    <label for="First Name">First Name</label>
-                                                                    <input type="text" name="FirstName" id="FirstName" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label for="Last Name">Last Name</label>
-                                                                    <input type="text" name="LastName" id="LastName" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
-                                                                <div class="form-group">
-                                                                    <label for="ZIP Code">ZIP Code</label>
-                                                                    <input type="text" name="ZIPCode" id="ZIPCode" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                <div class="zip-lookup"><a href="">Zip Code Lookup</a></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row address-lists">
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="residence" name="radio" checked/>
-                                                                <label for="residence">Residence</label>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="Hospital" name="radio" checked/>
-                                                                <label for="Hospital">Hospital</label>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="FuneralHome" name="radio" checked/>
-                                                                <label for="FuneralHome">FuneralHome</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row address-lists1">
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="Business" name="radio" checked/>
-                                                                <label for="Business"> Business</label>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="School" name="radio" checked/>
-                                                                <label for="School">School</label>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <input type="radio" id="Church" name="radio" checked/>
-                                                                <label for="Church">Church</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label for="Address">Address</label>
-                                                                    <input type="text" name="Address" id="Address" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label for="Address2">Address 2</label>
-                                                                    <input type="text" name="Address2" id="Address2" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
-                                                                <div class="form-group">
-                                                                    <label for="City">City</label>
-                                                                    <input type="text" name="City" id="City" class="form-control input-sm">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label for="State">State</label>
-                                                                    <select class="form-control" id="state">
+                                                                <form role="form">
+                                                                    <!--<div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-content">
+                                                                            <div class="form-group">
+                                                                                <label for="First Name">First Name</label>
+                                                                                <input type="text" name="FirstName" id="FirstName" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                            <div class="form-group">
+                                                                                <label for="Last Name">Last Name</label>
+                                                                                <input type="text" name="LastName" id="LastName" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
+                                                                            <div class="form-group">
+                                                                                <label for="ZIP Code">ZIP Code</label>
+                                                                                <input type="text" name="ZIPCode" id="ZIPCode" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                            <div class="zip-lookup"><a href="">Zip Code Lookup</a></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row address-lists">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="residence" name="radio" checked/>
+                                                                            <label for="residence">Residence</label>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="Hospital" name="radio" checked/>
+                                                                            <label for="Hospital">Hospital</label>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="FuneralHome" name="radio" checked/>
+                                                                            <label for="FuneralHome">FuneralHome</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row address-lists1">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="Business" name="radio" checked/>
+                                                                            <label for="Business"> Business</label>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="School" name="radio" checked/>
+                                                                            <label for="School">School</label>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <input type="radio" id="Church" name="radio" checked/>
+                                                                            <label for="Church">Church</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="form-group">
+                                                                                <label for="Address">Address</label>
+                                                                                <input type="text" name="Address" id="Address" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="form-group">
+                                                                                <label for="Address2">Address 2</label>
+                                                                                <input type="text" name="Address2" id="Address2" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-content">
+                                                                            <div class="form-group">
+                                                                                <label for="City">City</label>
+                                                                                <input type="text" name="City" id="City" class="form-control input-sm">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                            <div class="form-group">
+                                                                                <label for="State">State</label>
+                                                                                <select class="form-control" id="state">
                                                                         <option>MN</option>
                                                                         <option>LA</option>
                                                                         <option>LV</option>
                                                                     </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group phone-number">
-                                                                    <label>Phone Number</label>
-                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
-                                                                        <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
-                                                                        <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
-                                                                    </div>
-                                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
-                                                                        <input type="tel" name="phone" class="form-control" value="" size="4" maxlength="4" required="required" title="">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row client-delivery-info">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label>Delivery Date</label>
-                                                                    <div class="delivery-days-info">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days1">
-                                                                                <div class="deliver-today">
-                                                                                    <p class="delivery-day">Deliver Today</p>
-                                                                                    <p class="delivery-date">March 21st, 2016</p>
-                                                                                    <p class="delivery-avail">Available</p>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="form-group phone-number">
+                                                                                <label>Phone Number</label>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                                    <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
+                                                                                </div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                                    <input type="tel" name="phone" class="form-control" value="" size="3" maxlength="3" required="required" title="">
+                                                                                </div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                                                                                    <input type="tel" name="phone" class="form-control" value="" size="4" maxlength="4" required="required" title="">
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days2">
-                                                                                <div class="deliver-tomorrow">
-                                                                                    <p class="delivery-day">Deliver Tomorrow</p>
-                                                                                    <p class="delivery-date">March 21st, 2016</p>
-                                                                                    <p class="delivery-avail">Available</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
-                                                                                <div class="select-date-info">
-                                                                                    <p class="select-date">Select Date</p>
-                                                                                    <div class="date">DD / MM / YYYY<span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
+                                                                        </div>
+                                                                    </div>-->
+                                                                    <div class="row client-delivery-info">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="form-group">
+                                                                                <label>Delivery Date</label>
+                                                                                <div class="delivery-days-info">
+                                                                                    <div class="row">
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days1">
+                                                                                            <div class="deliver-today" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.today)">
+                                                                                                <p class="delivery-day">Deliver Today</p>
+                                                                                                <p class="delivery-date">{{checkout.today | date}}</p>
+                                                                                                <p class="delivery-avail">Available</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days2">
+                                                                                            <div class="deliver-tomorrow" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.tomorrow)">
+                                                                                                <p class="delivery-day">Deliver Tomorrow</p>
+                                                                                                <p class="delivery-date">{{checkout.tomorrow | date}}</p>
+                                                                                                <p class="delivery-avail">Available</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
+                                                                                            <div class="select-date-info">
+                                                                                                <p class="select-date">Select Date</p>
+                                                                                                <div class="date"> <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineItem[0].xp.deliveryDate" value="{{ lineItem[0].xp.deliveryDate | date: 'yyyy-MM-dd' }}"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
 <g>
     <g>
         <g>
@@ -370,157 +363,165 @@
     </g>
 </g>
 </svg></span></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label>Delivery Preference</label>
-                                                                    <div class="delivery-days-info">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                                                <div class="deliver-today">
-                                                                                    <p class="preferences1">No Preference</p>
-                                                                                    <p class="preference-date">9:30AM to 5:30PM</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                                                <div class="deliver-tomorrow">
-                                                                                    <p class="preferences2">Morning</p>
-                                                                                    <p class="preference-date">9:30AM to 1:30PM</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                                                <div class="deliver-today">
-                                                                                    <p class="preferences3">Afternoon</p>
-                                                                                    <p class="preference-date">1:30PM to 5:30PM </p>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="form-group">
+                                                                                <label>Delivery Preference</label>
+                                                                                <div class="delivery-days-info" ng-init=" lineItem[0].xp.DeliveryRuns=checkout.DeliveryRuns.Run1">
+                                                                                    <div class="row">
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                            <div class="deliver-today" ng-click="checkout.changePreference(lineItem[0],checkout.DeliveryRuns.Run1)">
+                                                                                                <p class="preferences1">{{checkout.DeliveryRuns.Run1.Name}}</p>
+                                                                                                <p class="preference-date">{{checkout.DeliveryRuns.Run1.TimeSlot}}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                            <div class="deliver-tomorrow" ng-click="checkout.changePreference(lineItem[0],checkout.DeliveryRuns.Run2)">
+                                                                                                <p class="preferences2">{{checkout.DeliveryRuns.Run2.Name}}</p>
+                                                                                                <p class="preference-date">{{checkout.DeliveryRuns.Run2.TimeSlot}}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                                            <div class="deliver-today" ng-click="checkout.changePreference(lineItem[0],checkout.DeliveryRuns.Run3)">
+                                                                                                <p class="preferences3">{{checkout.DeliveryRuns.Run3.Name}}</p>
+                                                                                                <p class="preference-date">{{checkout.DeliveryRuns.Run3.TimeSlot}} </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="delivery-instructions">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
+                                                                    <div class="delivery-instructions-header">Delivery Instructions</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
+                                                                    <div class="instructions-content">
+                                                                        <form role="form">
+                                                                            <div class="form-group">
+                                                                                <textarea class="form-control" rows="5" id="comment" ng-model="lineItem[0].xp.DeliveryNotes" readonly></textarea>
+                                                                            </div>
+                                                                        </form>
+                                                                        <div class="instructions-steps">
+                                                                            <h1>Instructions</h1>
+                                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row message">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div class="card-message">Card Message</div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div class="no-message">
+                                                                        <div class="Checkbox">
+                                                                            <input type="checkbox" checked ng-if="lineItem[0].xp.CardMessage">
+                                                                            <div class="Checkbox-visible"></div>
+                                                                        </div>
+                                                                        <label>No Message</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-if="lineItem[0].xp.CardMessage">
+                                                                <div clas="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="form-group">
+                                                                            <label for="Line1">Line 1</label>
+                                                                            <input type="text" name="Line1" id="Line1" class="form-control input-sm" ng-bind="lineItem[0].xp.CardMessage.line1" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div clas="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="form-group">
+                                                                            <label for="Line2">Line 2</label>
+                                                                            <input type="text" name="Line2" id="Line2" class="form-control input-sm" ng-bind="lineItem[0].xp.CardMessage.line2" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div clas="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="form-group">
+                                                                            <label for="Line3">Line 3</label>
+                                                                            <input type="text" name="Line3" id="Line3" class="form-control input-sm" ng-bind="lineItem[0].xp.CardMessage.line3" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div clas="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="form-group">
+                                                                            <label for="Line4">Line 4</label>
+                                                                            <input type="text" name="Line4" id="Line4" class="form-control input-sm" ng-bind="lineItem[0].xp.CardMessage.line4" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="instructions-steps">
+                                                                            <h1>Instructions</h1>
+                                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="continue-payement">
+                                                                        <button ng-show="$last" ng-click="checkout.updateLinedetails(lineItem,$last)"> Continue to Payment</button>
+                                                                        <button ng-show="!$last" ng-click="checkout.gotoNext($index);checkout.updateLinedetails(lineItem,$last)">Next Recipient</button>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <div class="delivery-instructions">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
-                                                        <div class="delivery-instructions-header">Delivery Instructions</div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-md-12 col-xs-12">
-                                                        <div class="instructions-content">
-                                                            <form role="form">
-                                                                <div class="form-group">
-                                                                    <textarea class="form-control" rows="5" id="comment"></textarea>
-                                                                </div>
-                                                            </form>
-                                                            <div class="instructions-steps">
-                                                                <h1>Instructions</h1>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
-                                                            </div>
-                                                        </div>
+                                                <div class="row review-delivery-info">
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                        <p class="user-name">{{lineItem[0].ShippingAddress.FirstName}} {{lineItem[0].ShippingAddress.LastName}}</p>
+
                                                     </div>
-                                                </div>
-                                                <div class="row message">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <div class="card-message">Card Message</div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                        <p class="plot-no">{{lineItem[0].ShippingAddress.Street1}}</p>
+                                                        <p class="apt-name">{{lineItem[0].ShippingAddress.Street2}}</p>
+                                                        <p class="country">{{lineItem[0].ShippingAddress.City}}</p>
+                                                        <p class="country-zip-code">{{lineItem[0].ShippingAddress.Zip}}</p>
+                                                        <p class="phone-no">{{lineItem[0].ShippingAddress.Phone}}</p>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                        <div class="no-message">
-                                                            <div class="Checkbox">
-                                                                <input type="checkbox">
-                                                                <div class="Checkbox-visible"></div>
-                                                            </div>
-                                                            <label>No Message</label>
-                                                        </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                        <p class="delivery-date">Delivery Date</p>
+                                                        <p class="delivery-day">{{ lineItem[0].xp.deliveryDate | date}}</p>
                                                     </div>
-                                                </div>
-                                                <div clas="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="Line1">Line 1</label>
-                                                            <input type="text" name="Line1" id="Line1" class="form-control input-sm">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div clas="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="Line2">Line 2</label>
-                                                            <input type="text" name="Line2" id="Line2" class="form-control input-sm">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div clas="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="Line3">Line 3</label>
-                                                            <input type="text" name="Line3" id="Line3" class="form-control input-sm">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div clas="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="Line4">Line 4</label>
-                                                            <input type="text" name="Line4" id="Line4" class="form-control input-sm">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="instructions-steps">
-                                                            <h1>Instructions</h1>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm od tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="continue-payement">
-                                                            <button> Continue to Payment</button>
-                                                        </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                        <p class="delivery-preference">Delivery Preference</p>
+                                                        <p class="delivery-day">{{lineItem[0].xp.DeliveryRuns.Name}}</p>
+                                                        <p class="delivery-time">{{lineItem[0].xp.DeliveryRuns.TimeSlot}}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row review-delivery-info">
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                            <p class="user-name">John Snow</p>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                            <p class="plot-no">3648 Blaisdell Ave S</p>
-                                            <p class="apt-name">Apt 2</p>
-                                            <p class="country">Minneapolis, MN</p>
-                                            <p class="country-zip-code">55401</p>
-                                            <p class="phone-no">(651)555-5555</p>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                            <p class="delivery-date">Delivery Date</p>
-                                            <p class="delivery-day">March 21st, 2016</p>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                            <p class="delivery-preference">Delivery Preference</p>
-                                            <p class="delivery-day">Morning</p>
-                                            <p class="delivery-time">9:30AM to 1:30PM</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </uib-accordion-group>
+                                </uib-accordion>
                             </div>
                         </uib-accordion-group>
-                        <uib-accordion-group is-open="status.open3">
+                        <uib-accordion-group is-open="checkout.payment">
                             <uib-accordion-heading>
                                 <p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}">3. Payment </p>
                             </uib-accordion-heading>
@@ -551,7 +552,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -583,13 +585,16 @@
                                                         c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
                                                         s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
                                                         <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
                                                         c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
                                                         <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
                                                         <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
                                                     </g>
                                                 </svg>
                                                 <div class="arrow-up"></div>
@@ -736,7 +741,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -766,13 +772,16 @@
                                                         c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
                                                         s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
                                                         <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
                                                         c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
                                                         <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
                                                         <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
                                                     </g>
                                                 </svg>
                                                 <p class="opt-title text-center">Gift Card</p>
@@ -865,7 +874,7 @@
                                                         <input type="radio" id="card-radio3" name="card-radio" class="input-card-radio" />
                                                         <label for="card-radio3" class="card-radio-label"></label>
                                                     </span>
-                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                    <button type="button" class="btn" ui-sref="pay"> + Add/Pay with a new card</button>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 p0 discount-options">
@@ -923,7 +932,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -936,10 +946,9 @@
                                                 <p class="opt-title text-center">Bachman's Charge</p>
                                             </div>
                                             <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt selected">
-                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                     viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
+                                                <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;" xml:space="preserve">
                                                     <g>
-                                                    <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                                        <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
                                                         h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
                                                          M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
                                                         c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
@@ -956,11 +965,12 @@
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
                                                         c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
                                                         />
-                                                    <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
-                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z"/>
-                                                    <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"/>
-                                                    <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                                        <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                                        c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                                        <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
+                                                        <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
                                                         c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
                                                         />
                                                     </g>
@@ -989,7 +999,7 @@
                                                        </svg>
                                                     </span>
                                                 </div>
-                                                <button type="button" class="btn green-btn" ui-sref="">Add Card</button>
+                                                <button type="button" class="btn green-btn" ui-sref="card">Add Card</button>
                                             </form>
                                         </div>
                                         <div class="col-xs-12 order-amt-cont">
@@ -1030,7 +1040,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -1060,13 +1071,16 @@
                                                         c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
                                                         s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
                                                         <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
                                                         c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
                                                         <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
                                                         <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
                                                     </g>
                                                 </svg>
                                                 <p class="opt-title text-center">Gift Card</p>
@@ -1159,7 +1173,7 @@
                                                         <input type="radio" id="card-radio6" name="card-radio" class="input-card-radio" />
                                                         <label for="card-radio6" class="card-radio-label"></label>
                                                     </span>
-                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                    <button type="button" class="btn" ui-sref="pay"> + Add/Pay with a new card</button>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 p0 discount-options">
@@ -1200,7 +1214,7 @@
                                                        </svg>
                                                     </span>
                                                 </div>
-                                                <button type="button" class="btn green-btn" ui-sref="">Add Card</button>
+                                                <button type="button" class="btn green-btn" ui-sref="card">Add Card</button>
                                             </form>
                                             <div class="arrow-up"></div>
                                         </div>
@@ -1242,7 +1256,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -1272,13 +1287,16 @@
                                                         c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
                                                         s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
                                                         <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
                                                         c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
                                                         <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
                                                         <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
                                                     </g>
                                                 </svg>
                                                 <p class="opt-title text-center">Gift Card</p>
@@ -1423,7 +1441,7 @@
                                                         <input type="radio" id="card-radio9" name="card-radio" class="input-card-radio" />
                                                         <label for="card-radio9" class="card-radio-label"></label>
                                                     </span>
-                                                    <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                    <button type="button" class="btn" ui-sref="card"> + Add/Pay with a new card</button>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 p0 discount-options">
@@ -1481,7 +1499,8 @@
                                                                 <g>
                                                                     <g>
                                                                         <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z" />
+                                                                        C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                        />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -1511,13 +1530,16 @@
                                                         c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
                                                         s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
                                                         c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z" />
+                                                        c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                                        />
                                                         <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
                                                         c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
                                                         <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z" />
+                                                        c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                                        />
                                                         <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z" />
+                                                        c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                                        />
                                                     </g>
                                                 </svg>
                                                 <p class="opt-title text-center">Gift Card</p>
@@ -1571,7 +1593,7 @@
                                                             <input type="radio" id="card-radio12" name="card-radio" class="input-card-radio" />
                                                             <label for="card-radio12" class="card-radio-label"></label>
                                                         </span>
-                                                        <button type="button" class="btn" ui-sref=""> + Add/Pay with a new card</button>
+                                                        <button type="button" class="btn" ui-sref="pay"> + Add/Pay with a new card</button>
                                                         <div class="col-xs-12 card-info-cont">
                                                             <form class="input-card-form" role="form" novalidate>
                                                                 <div class="col-xs-12 form-group holder-name p0">
@@ -1675,85 +1697,40 @@
                     <div class="order-summary-header">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                <div class="order-summary-title">Your Order <span>(6 Items)</span></div>
+                                <div class="order-summary-title">Your Order <span>({{checkout.ordersummarydata.Meta.TotalCount}} Items)</span></div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <div class="order-count"><a href="">Edit</a></div>
+                                <div class="order-count"><a ui-sref="cart">Edit</a></div>
                             </div>
                         </div>
                     </div>
-                    <div class="order-summary-details">
+                    <div class="order-summary-details" ng-repeat="line in checkout.lineVal">
                         <div class="client-info">
                             <div class="row">
-                                <p><span> Recipient</span> <span class="recipient-name">John Snow</span><span> Zip Code</span> <span class="zip-code">55401</span></p>
+                                <p><span> Recipient</span> <span class="recipient-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</span><span> Zip Code</span>
+                                    <span class="zip-code">{{checkout.groups[line][0].ShippingAddress.Zip}}</span>
+                                </p>
                             </div>
                         </div>
                         <div class="recipient-order-details">
-                            <div class="row recipient-info">
+                            <div class="row recipient-info" ng-repeat="lineItem in checkout.groups[line]">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/chechout-product1.jpg">
                                     <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile1.png">
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <p class="custom-name">Premium Roses, Long Stemmed
-                                    </p>
-                                    <p class="item-number">Item Number: <span>141927    </span></p>
+                                    <p class="custom-name">{{lineItem.Product.Name}}</p>
+                                    <p class="item-number">Item Number: <span>{{lineItem.Product.ID}}</span></p>
                                     <p class="product-type">Type: <span>Deluxe</span></p>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <div class="quantity-info">
-                                                Qty : 1
+                                                Qty : {{lineItem.Quantity}}
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <div class="total-amount-info">
-                                                $59.99
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row recipient-info">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/checkout-product2.jpg">
-                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile2.png">
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <p class="custom-name">Starry Night Boutonnière </p>
-                                    <p class="item-number">Item Number: <span>218973  </span></p>
-                                    <p class="product-type">Type: <span>Deluxe</span></p>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="quantity-info">
-                                                Qty : 2
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="total-amount-info">
-                                                $43.98
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row recipient-info">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/checkout-product3.png">
-                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile3.png">
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <p class="custom-name">Sweetest Rose Bowl</p>
-                                    <p class="item-number">Item Number: <span>4686541 </span></p>
-                                    <p class="product-type">Type: <span>Deluxe</span></p>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="quantity-info">
-                                                Qty : 3
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="total-amount-info">
-                                                $179.97
+                                                {{lineItem.LineTotal | currency}}
                                             </div>
                                         </div>
                                     </div>
@@ -1767,7 +1744,7 @@
                                                 <div class="sub-total">Subtotal</div>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <div class="sub-total-amount">$500.00</div>
+                                                <div class="sub-total-amount">{{checkout.orderdata.Subtotal | currency}}</div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -1791,7 +1768,7 @@
                                                 <div class="total-order-summary">Total</div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-3 col-xs-3">
-                                                <div class="total-order-amount">$525.00</div>
+                                                <div class="total-order-amount">{{checkout.orderdata.Total | currency}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1806,12 +1783,12 @@
                                 <p class="call-us hidden-sm hidden-xs">
                                     <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
                                               
-                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span> Call us at 612-891-7311</p>
+                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span>                                    Call us at 612-891-7311</p>
                                 <p class="mobile-call-us hidden-lg hidden-md">
                                     <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
                                            
                                            
-                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span> Call us</p>
+                                            <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image><g><g><g><path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path></g></g></g></svg></span>                                    Call us</p>
                                 <div class="help-links">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">

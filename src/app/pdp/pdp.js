@@ -44,8 +44,29 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		addressValidation: _addressValidation,
 		GetProductCodeImages: _getProductCodeImages,
 		GetHelpAndPromo: _getHelpAndPromo,
-		GetSeqProd: _getSeqProd
+		GetSeqProd: _getSeqProd,
+		getCityState: _getCityState
 	};
+	function _getCityState(zip){
+		var defered = $q.defer();
+		$http.defaults.headers.common['Authorization'] = undefined;
+		$http.get('http://maps.googleapis.com/maps/api/geocode/json?address='+zip).then(function(res){
+			var city, state;
+			angular.forEach(res.data.results[0].address_components, function(component,index){
+				var types = component.types;
+				angular.forEach(types, function(type,index){
+					if(type == 'locality') {
+						city = component.long_name;
+					}
+					if(type == 'administrative_area_level_1') {
+						state = component.short_name;
+					}
+				});
+			});
+			defered.resolve({"City":city, "State":state});
+		});
+		return defered.promise;
+	}
 	function _getSeqProd(sequence) {
 		var defferred = $q.defer();
 		$http({
@@ -217,21 +238,34 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		vm.sizeGroupedProducts = sizeGroupedProducts[selectedSize];
 		vm.activeProducts = vm.sizeGroupedProducts;
 		console.log('Selected size prod', vm.sizeGroupedProducts);
+		vm.prodDesription = sizeGroupedProducts[selectedSize][vm.selectedProductIndex].Description;
+		// OrderCloud.Products.GetInventory(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
+		// if(res.Available > 0){
+				PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
+				vm.productVarientImages = res;
+				var owl2 = angular.element("#owl-carousel-pdp-banner");   
+				owl2.trigger('destroy.owl.carousel');
+				setTimeout(function(){
+		      	owl2.owlCarousel({
+		            loop:false,
+		            nav:true,
+		            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
+		            dots:true,
+		            items:1
+		          }); 
+			  // 		$(".elevateZoom").elevateZoom({
+					// easing : true,
+					// responsive:true,
+					// zoomWindowWidth:400,
+					// borderSize: 1
+					// });
+				    },300);
+				});
+
+		// 	}
+		// });
 		//$('body').find('.detail-container .prod_title').text(vm.sizeGroupedProducts[0].Name);
-		PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
-		vm.productVarientImages = res;
-		var owl2 = angular.element("#owl-carousel-pdp-banner");   
-		owl2.trigger('destroy.owl.carousel');
-		setTimeout(function(){
-      	owl2.owlCarousel({
-            loop:false,
-            nav:true,
-            navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>','<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],		
-            dots:true,
-            items:1
-          }); 
-      	 },300);
-		});
+
 	};
     $scope.radio = { selectedSize: null };
 
@@ -250,6 +284,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	vm.selectColor = function ($index, $event, prod) {
 		vm.activeProducts[0] = prod;
 		vm.selectedProductIndex = $index;
+		vm.prodDesription = prod.Description;
 		$($event.target).parents('.detail-container').find('h3').text(prod.Name);
         $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
 		PdpService.GetProductCodeImages(prod.ID).then(function(res){
@@ -281,16 +316,29 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		var modalInstance = $uibModal.open({
 			animation: true,
 			backdropClass: 'multiRecipentModal',
+			windowClass:'multiRecipentModal',
 			templateUrl: 'pdp/templates/multireceipent.tpl.html',
 			controller: 'MultipleReceipentCtrl',
-			controllerAs: 'vm',
+			controllerAs: 'multipleReceipent',
 			param: {
 				//productID: prodID
 			},
 			resolve: {
 				items: function () {
+
 					return vm.activeProducts;
-				}
+				},
+				Order: function ($rootScope, $q, $state, toastr, CurrentOrder) {
+                    var dfd = $q.defer();
+                    CurrentOrder.GetID()
+                        .then(function (order) {
+                            dfd.resolve(order)
+                        })
+                        .catch(function () {
+                            dfd.resolve(null);
+                        });
+                    return dfd.promise;
+                }
 			}
 		});
 
@@ -458,62 +506,89 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	});
 }
 
-function MultipleReceipentController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService) {
+function MultipleReceipentController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order) {
     var vm = this;
-    console.log(PdpService);
     vm.oneAtATime = true;
-	vm.order = "";
-	vm.list={}
 	vm.selectedRecipient = false;
+	vm.list = {},
+    vm.line = null;
+	vm.addressType='Residence';
+    console.log("items", items[0]);
 	vm.singlelerecipent = true;
-	$scope.crdmsg = true;
+	vm.crdmsg = true;
+	vm.activeOrders = [];
+	vm.crdmsghide =crdmsghide;
+	vm.getCityState=getCityState;
     vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-	$scope.activeRecipient = true;
-	var item = {
-		"ID": "",
-		"ProductID": items[0].ID,
-		"Quantity": items[0].StandardPriceSchedule.PriceBreaks[0].Quantity,
-		"DateAdded": "",
-		"QuantityShipped": 0,
-		"UnitPrice": items[0].StandardPriceSchedule.PriceBreaks[0].Price,
-		"LineTotal": 0,
-		"CostCenter": null,
-		"DateNeeded": null,
-		"ShippingAccount": null,
-		"ShippingAddressID": null,
-		"ShippingAddress": null,
-		"ShipperID": null,
-		"ShipperName": null,
-		"Specs": [],
-		"xp": null
-	};
-
-    vm.activeOrders = [];
+	vm.getLineItems = getLineItems;
+	vm.activeRecipient = true;
+		var item = {
+			"ID": "",
+			"ProductID": items[0].ID,
+			"Quantity": items[0].StandardPriceSchedule.PriceBreaks[0].Quantity,
+			"DateAdded": "",
+			"QuantityShipped": 0,
+			"UnitPrice": items[0].StandardPriceSchedule.PriceBreaks[0].Price,
+			"LineTotal": 0,
+			"CostCenter": null,
+			"DateNeeded": null,
+			"ShippingAccount": null,
+			"ShippingAddressID": null,
+			"ShippingAddress": null,
+			"ShipperID": null,
+			"ShipperName": null,
+			"Specs": [],
+			"xp": null
+		};
+	if(Order){
+      vm.order=Order
+	}
+	if (!vm.order) {
+		vm.order = "";
+	}
 	if (vm.order == "") {
 		vm.activeOrders[0] = item;
 	}
+	if (vm.order) {
+		vm.getLineItems();
+	}
 
 	$rootScope.$on('LineItemCreated', function (events, args, lineitem) {
-		vm.order = args;
+		vm.order= args;
 		console.log("order id", vm.order)
-		lineitem.ShippingAddress = $rootScope.lineitemdtls.ShippingAddress;
-		lineitem.xp = $rootScope.lineitemdtls.xp;
-		lineitem.Quantity = $rootScope.lineitemdtls.Quantity;
-		lineitem.xp.deliveryDate = new Date($rootScope.lineitemdtls.xp.deliveryDate);
+		lineitem.ShippingAddress = vm.lineitemdtls.ShippingAddress;
+		lineitem.xp = vm.lineitemdtls.xp;
+		lineitem.Quantity = vm.lineitemdtls.Quantity;
+		lineitem.xp.deliveryDate = new Date(vm.lineitemdtls.xp.deliveryDate);
 		vm.updateLinedetails(args, lineitem);
 	});
 
-	$scope.crdmsghide = function () {
+	
+	 function crdmsghide() {
 		alert("test");
-		$scope.crdmsg = !$scope.crdmsg;
+		vm.crdmsg = !vm.crdmsg;
 	}
 
-	vm.shippingdata = null;
-	$scope.submitDtls = function (line, $index) {
-
+	
+	vm.submitDetails =submitDetails;
+	 function submitDetails(line, $index) {
+             line.ProductID=vm.activeOrders[0].ProductID;
 		console.log("line", line);
+		// if (vm.showNewRecipient) {
+		// 	vm.line = item;
+		// 	vm.line.ShippingAddress = line.ShippingAddress;
+		// 	vm.line.xp = line.xp;
+		// 	line = $scope.line;
+		// }
+		if(line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 &&line.ShippingAddress.Phone3){
+          line.ShippingAddress.Phone=line.ShippingAddress.Phone1+line.ShippingAddress.Phone2+line.ShippingAddress.Phone3;
+		  delete line.ShippingAddress.Phone1;
+		  delete line.ShippingAddress.Phone2;
+		  delete line.ShippingAddress.Phone3;
+
+		}
 		if (line.xp.deliveryDate) {
 			line.xp.deliveryDate = new Date(line.xp.deliveryDate);
 		}
@@ -522,7 +597,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			console.log("shippingdata", line.xp.ShippingAddress);
 		}
 
-		if (this.visible == true) {
+		if (vm.visible == true) {
 			if (line.xp) {
 				delete line.xp.CardMessage;
 			}
@@ -545,43 +620,103 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			}
 		}
 		console.log("line", line);
-		$rootScope.lineitemdtls = line;
+		vm.lineitemdtls = line;
+
 
 		if (line.ID == "") {
+			var count = 0;
+			//JSON.stringify(vm.activeOrders[0].ShippingAddress) != JSON.stringify(items[0].ShippingAddress
+			if(vm.order) {
+			angular.forEach(vm.activeOrders, function (val, key, obj) {
+				if (val.ProductID == line.ProductID && val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && val.ShippingAddress.Street1 == line.ShippingAddress.Street1) {
+					val.Quantity++
+					vm.updateLinedetails(vm.order, val);
+					vm.crdmsg = !$scope.crdmsg;
+					vm.activeRecipient = true;
+					vm.showNewRecipient = false;
+					count++
+				}
 
-			PdpService.CreateOrder(line.ProductID);
-			$scope.crdmsg = !$scope.crdmsg;
-			$scope.activeRecipient = false;
-			$scope.showNewRecipient = false;
+
+			});
+		 }
+			if (count == 0) {
+
+				PdpService.CreateOrder(line.ProductID);
+				$scope.crdmsg = !$scope.crdmsg;
+				$scope.activeRecipient = false;
+				$scope.showNewRecipient = true;
+
+			}
+
+
 
 		}
-		else {
-			vm.updateLinedetails(vm.order, line);
-			$scope.crdmsg = !$scope.crdmsg;
-			$scope.activeRecipient = false;
-			$scope.showNewRecipient = false;
-		}
+		// else {
+		// 	vm.updateLinedetails(vm.order, line);
+		// 	$scope.crdmsg = !$scope.crdmsg;
+		// 	$scope.activeRecipient = false;
+		// 	$scope.showNewRecipient = false;
+		// }
 
 
 
 	}
 	vm.updateLinedetails = function updateLinedetails(args, newline) {
 		OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
-			console.log("!@#$%", dat);
+			console.log("LineItemsUpdate", dat);
 			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
-				console.log("1234567890", data);
+				console.log("SetShippingAddress", data);
 				alert("Data submitted successfully");
 				vm.getLineItems();
 			});
 		});
 
 	}
-	vm.getLineItems = function () {
+	function getLineItems() {
 
 		OrderCloud.LineItems.List(vm.order).then(function (res) {
 
 			console.log("Lineitems", res);
+			angular.forEach(res.Items, function (val, key, obj) {
+				if (val.xp.deliveryDate)
+				{
+					val.xp.deliveryDate = new Date(val.xp.deliveryDate);
+				}
+				if(val.ShippingAddress.Phone){
+					val.ShippingAddress.Phone1=val.ShippingAddress.Phone.slice(0,3);
+					val.ShippingAddress.Phone2=val.ShippingAddress.Phone.slice(3,6);
+					val.ShippingAddress.Phone3=val.ShippingAddress.Phone.slice(6);
+				}
+			})
 			vm.activeOrders = res.Items;
+			if (res.Items.length > 0) {
+				vm.line = null;
+				var item = {
+					"ID": "",
+					"ProductID": items[0].ID,
+					"Quantity": items[0].StandardPriceSchedule.PriceBreaks[0].Quantity,
+					"DateAdded": "",
+					"QuantityShipped": 0,
+					"UnitPrice": items[0].StandardPriceSchedule.PriceBreaks[0].Price,
+					"LineTotal": 0,
+					"CostCenter": null,
+					"DateNeeded": null,
+					"ShippingAccount": null,
+					"ShippingAddressID": null,
+					"ShippingAddress": null,
+					"ShipperID": null,
+					"ShipperName": null,
+					"Specs": [],
+					"xp": null
+				};
+				item.ShippingAddress = null;
+				item.xp = null;
+				vm.line = item;
+				vm.activeRecipient = false;
+				vm.showNewRecipient = true;
+			}
+
 
 		});
 
@@ -592,22 +727,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		$uibModalInstance.close();
 		vm.addedToCartPopUp();
 	}
-	vm.addedToCartPopUp = function () {
-		var modalInstance = $uibModal.open({
-			animation: false,
-			backdropClass: 'addedToCartModal',
-			templateUrl: 'pdp/templates/added-to-cart.tpl.html',
-			controller: 'addedToCartCtrl',
-			controllerAs: 'addedToCart'
-		});
-
-		modalInstance.result.then(function () {
-
-		}, function () {
-			angular.noop();
-		});
-	}
-	$scope.showNewRecipient = false;
+		vm.showNewRecipient = false;
 	vm.newreceipent = function () {
 		var item = {
 			"ID": "",
@@ -627,12 +747,36 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			"Specs": [],
 			"xp": null
 		};
-		$scope.line = item;
-		$scope.activeRecipient = false;
-		$scope.showNewRecipient = !$scope.showNewRecipient;
+		vm.line = null;
+		vm.line = item;
+		vm.activeRecipient = false;
+		vm.showNewRecipient = !vm.showNewRecipient;
 
 
 	}
+	vm.addedToCartPopUp = function () {
+		var modalInstance = $uibModal.open({
+			animation: false,
+			backdropClass: 'addedToCartModal',
+			windowClass: 'addedToCartModal',
+			templateUrl: 'pdp/templates/added-to-cart.tpl.html',
+			controller: 'addedToCartCtrl',
+			controllerAs: 'addedToCart'
+		});
+
+		modalInstance.result.then(function () {
+
+		}, function () {
+			angular.noop();
+		});
+	}
+	function getCityState(line,zip){
+     PdpService.getCityState(zip).then(function(res){
+				line.ShippingAddress.City = res.City;
+				line.ShippingAddress.State = res.State;
+			});
+	}
+
 }
 
 function pdpAddedToCartController($scope, $uibModalInstance) {
@@ -642,8 +786,12 @@ function pdpAddedToCartController($scope, $uibModalInstance) {
     };
 }
 
-function addedToCartController($scope, $uibModalInstance) {
+function addedToCartController($scope, $uibModalInstance, $state) {
     var vm = this;
+	vm.checkout = checkout;
+	function checkout() {
+		$state.go('checkout');
+	}
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
