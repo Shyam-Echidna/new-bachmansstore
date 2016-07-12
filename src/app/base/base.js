@@ -1229,22 +1229,40 @@ function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) 
 
 function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfrescoStaticurl) {
     var service = {
-        Get: _get,
-        GetTemp: _getTempLogin,
-        GetLogo:_getLogo,
-        GetBrandSpot:_getBrandSpot,
-        GetServices:_getServices,
-        GetContactInfo:_getContactInfo,
-        GetStaticTemp:_getStaticTemp,
+            Get: _get,
+            GetTemp: _getTempLogin,
+            GetLogo:_getLogo,
+            GetBrandSpot:_getBrandSpot,
+            GetServices:_getServices,
+            GetContactInfo:_getContactInfo,
+            GetStaticTemp:_getStaticTemp,
 		    GetFolders:_getFolders,
 		    GetSubFolders:_getSubFolders,
 		    GetArtcleList:_getArtcleList,
-		    GetPerplePerksSvg: _getPerplePerksSvg,
-        CreateContactList:_createcontactlist,
-        UpdateEmailPreference:_updateemailpreference
+            GetPerplePerksSvg: _getPerplePerksSvg,
+             GetContactList:_getcontactlist,
+            CreateContactList:_createcontactlist,
+            UpdateEmailPreference:_updateemailpreference
     };
     return service;
 
+    function _getcontactlist(){
+        var defferred = $q.defer();
+        $http({
+            method: 'GET',
+            dataType:"json",
+            url: 'https://four51trial104401.jitterbit.net/Bachmans_Dev/getContactList',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
+
+    }
     function _get() {
         var data = {
             
