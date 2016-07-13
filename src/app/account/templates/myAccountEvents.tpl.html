@@ -1,19 +1,5 @@
 <div class="container-fluid my-account-events-container">
-	<p class="my-account-content-title">My Events
-        <span class="bachman-chevron hidden-md hidden-lg chevron" ng-class="{bottom: !mobilemenus}"></span>
-        <span class="mob-menu-clickable" ng-click="mobilemenus=!mobilemenus"></span>
-        <span class="acc-mob-dropdown" ng-show="mobilemenus">
-            <span class="acc-mob-links" ui-sref="account.profile">My Profile</span>
-            <span class="acc-mob-links" ui-sref="account.addresses">Address Book</span>
-            <span class="acc-mob-links" ui-sref="account.orders">Order History</span>
-            <span class="acc-mob-links" ui-sref="account.trackorders">Track Orders</span>
-            <!-- <span class="acc-mob-links" ui-sref="account.event">My Events</span> -->
-            <span class="acc-mob-links" ui-sref="account.CreditCard">Credit Cards</span>
-            <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
-            <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span>
-            <span class="acc-mob-links" ui-sref="account.emailsubscription">Email Preferences</span>
-        </span>
-    </p>
+	<p class="my-account-content-title">My Events</p>
     <div class="row my-acc-events-cont" >
     	<p class="title">Upcoming Events <span>(1 Event)</span></p>
     	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in profile.eventsDetails">
@@ -34,7 +20,7 @@
     				</div>
     			</div>
     			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
-    				<p class="title" ui-sref="account.getdirection" ng-click="account.loadMap()">
+    				<p class="title" ui-sref="account.getdirection" ng-click="loadMap()">
                         <span class="location-svg">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">

@@ -12,6 +12,9 @@
                 border-radius: 0px;
                 border: 1px solid #e2e2e2;
                 border-radius: 2px;
+                &:focus{
+                    background: @base-bg-white;
+                }
             }
             select#state {
                 -webkit-appearance: none;
@@ -192,8 +195,9 @@
                     border-bottom: 1px solid #979797;
                     display: inline-block;
                     margin: 4px 0 10px 25px;
-                    &:hover {
+                    &:hover, &:active {
                         color: @font-purple-light;
+                        border-bottom: 1px solid @font-purple-light;
                     }
                     &.prof-edit-link {
                         margin-top: 0;
@@ -327,6 +331,9 @@
                 .my-profile-contactinfo-container {
                     h2 {
                         background-color: #666;
+                        font: 1em/2.5em @proxima-regular;
+                        font-weight: bold;
+                        letter-spacing: normal;
                     }
                     h5 {
                         margin-bottom: 25px;
@@ -340,11 +347,28 @@
                     h4 {
                         padding-left: 12px;
                     }
+                    h3, h4 {
+                        font: 0.875em @proxima-regular;
+                    }
                 }
                 .my-profile-logininfo-container {
                     .my-profile-emailinfo {
                         .my-profile-changeemail {
                             padding: 0 15px 0 12px;
+                            .change-email-form {
+                                label {
+                                    font: 0.875em @proxima-regular;
+                                }
+                                .changemail-save, .changemail-cancel {
+                                    height: 35px;
+                                }
+                            }
+                        }
+                    }
+                    .accPro-ChangePwd {
+                        label {
+                            font: 0.875em @proxima-regular !important;
+                            font-weight: normal !important;
                         }
                     }
                     h5 {

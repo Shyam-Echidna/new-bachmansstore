@@ -4,9 +4,9 @@
 	    margin: 15px 0;
 	    border-top: 1px solid #d6d6d6;
     	padding-top: 20px;
-    	&.for-edit-cont{
-    		border-top:none;
-    	}
+      	 &.for-edit-cont{
+            border-top:none;
+        }
 		.search-box {
 			position: relative;
 			padding: 0;
@@ -18,6 +18,7 @@
                 border-radius: 3px;
                 font: 0.815em @proxima-light;
                 letter-spacing: normal;
+                .bs-inset-remove;
 			}
 			.addr-search-icon {
 				position: absolute;
@@ -58,14 +59,15 @@
 			}
 		}
 		.adress-edit-container {
-			border:none !important;
-		}
+           border:none !important;
+        }
 		.add-new-addr-cont, .adress-edit-container {
 			margin: 20px 0 15px;
 			padding: 0 25px;
-			border: 1px solid #ddd;
-			//border-bottom: 1px solid #ddd;
-			background-color: #f7f7f7;
+           	border: 1px solid #ddd;
+           	//border-bottom: 1px solid #ddd;
+            background-color: #f7f7f7;
+
 			.title {
 				color: #2c2c2c;
 				font: 1em @proxima-regular;
@@ -92,9 +94,12 @@
 						    border-radius: 0px;
 						    border: 1px solid #e2e2e2;
 						    .bs-inset-remove;
+						    &:focus{
+                				background: @base-bg-white;
+                			}
 						}
 					}
-					.state {
+					/*.state {
 						select {
 							-webkit-appearance: none;
 						    -moz-appearance: none;
@@ -105,7 +110,7 @@
 						    background-position: right center;
 						    background-size: 35px 12px;
 						}
-					}
+					}*/
 					.phone-number {
 						label {
 							display: block;
@@ -298,6 +303,7 @@
 	.row-address-search {
 		border-top: 1px solid #f1f1f1;
     	padding-top: 15px;
+	    margin: 15px 0 5px 0;
 		.search-box {
 			width: 100%;
 		}
@@ -305,10 +311,15 @@
 		    width: auto;
 		    display: block !important;
 		    float: right;
+	        margin: 5px 0;
+		    .add-new-addr-btn {
+		    	font: 0.875em @proxima-bold;
+		    	letter-spacing: normal;
+		    }
 		}
-		.add-new-addr-cont {
+		.add-new-addr-cont, .adress-edit-container {
 		    padding: 0 10px;
-		    margin: 15px 0;
+		    margin: 5px 0 15px 0;
 		    width: 100%;
 		    .title {
 		    	font-size: 0.8125em;
@@ -324,7 +335,8 @@
 					}
 					.nick-name, .first-name, .last-name, .zip-code, .address, .address2, .city, .state, .phone-number {
 						label {
-							font-size: 0.75em;
+							font: 0.75em @proxima-regular;
+
 							margin-bottom: 5px;
 						}
 						input, select {
@@ -363,7 +375,8 @@
 								height: 40px;
 								line-height: 40px;
 								padding: 0;
-								font-size: 0.875em;
+								font: 0.875em @proxima-bold;
+								letter-spacing: normal;
 							}
 						}
 						.cancelbtn {
@@ -373,7 +386,8 @@
 								height: 40px;
 								line-height: 40px;
 								padding: 0;
-								font-size: 0.875em;
+								font: 0.875em @proxima-bold;
+								letter-spacing: normal;
 							}
 						}
 					}
@@ -382,18 +396,32 @@
 		}
 		&.for-edit-cont {
 			margin: 0;
+			.adress-edit-container {
+				padding: 0;
+				.add-new-addr-div {
+					width: 100%;
+				}
+			}
 		}
 	}
 	.addr-book-list-cont {
 		.addr-book-list-item {
 			margin-bottom: 5px;
 			padding: 10px;
+			.default-address, .name, .address, .phone-number {
+				.title {
+					font: 0.75em @proxima-regular;
+				}
+				.value, .addr-line1, .addr-line2 {
+					font: 0.8125em @proxima-bold;
+				}
+			}
 			.default-address {
     			width: 30%;
 			    margin-bottom: 15px;
 				.title {
 					margin-bottom: 0;
-					font-size: 0.75em;
+					/*font-size: 0.75em;*/
 				    position: relative;
     				left: 30px;
 				}
@@ -408,34 +436,34 @@
 			    margin-bottom: 15px;
 			    float: right;
 			    padding: 0;
-				.title {
+				/*.title {
 					font-size: 0.75em;
 				}
 				.value {
 					font-size: 0.8125em;
-				}
+				}*/
 			}
 			.address {
 				width: 70%;
     			margin-bottom: 15px;
     			clear: both;
-				.title {
+				/*.title {
 					font-size: 0.75em;
 				}
 				.addr-line1, .addr-line2 {
 					font-size: 0.8125em;
-				}
+				}*/
 			}
 			.phone-number {
 				width: 30%;
     			padding: 0;
     			margin-bottom: 15px;
-				.title {
+				/*.title {
 					font-size: 0.75em;
 				}
 				.value {
 					font-size: 0.8125em;
-				}
+				}*/
 			}
 			.edit-delete {
 				width: 30%;
@@ -547,5 +575,5 @@
 	}
 }
 .address-book-container .row-address-search .adress-edit-container .add-new-addr-div .add-new-addr-form .phone-number{
-	width:auto;
+    width:auto;
 }

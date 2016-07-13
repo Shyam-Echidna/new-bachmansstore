@@ -427,7 +427,25 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 		vm.profile = currentProfile;
 		form.$setPristine(true);
 	};
+	var accountMenu=[
+		{'value':'profile', 'label':'My Profile'},
+		{'value':'addresses', 'label':'Address Book'},
+		{'value':'orders', 'label':'Order History'},
+		{'value':'trackorders', 'label':'Track Orders'},
+		{'value':'event', 'label':'My Events'},
+		{'value':'CreditCard', 'label':'Credit Cards'},
+		{'value':'perpleperksAccount', 'label':'Perple Perks'},
+		{'value':'wishlistAccount', 'label':'My Wishlist'},
+		{'value':'emailsubscription', 'label':'Email Preferences'}
+	];
+	vm.accountMenu = accountMenu;
+	vm.selectedMenu ="My Profile";
+	vm.selectedMenuIndex = 0;
 
+	vm.changeMenuSelection = function changeMenuSelection(selectedMenu, menuIndex){
+		vm.selectedMenu = selectedMenu;
+		vm.selectedMenuIndex = menuIndex;
+	};
 	vm.addressData=AddressList;
 	//Wishlist listing starts here
 	/*var wishlistArr = CurrentUser.xp.WishList;
@@ -536,10 +554,6 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 			vm.contact.Phone2 = res[1];
 			vm.contact.Phone3 = res[2];
 		});
-
-		$location.hash('top');
-		$anchorScroll();
-
 	}
 	vm.closeShowedit=function(index){
 		vm['showedit'+index]=false;
@@ -768,7 +782,7 @@ function EmailSubscriptionController( $exceptionHandler,UpdateEmailLIst,CurrentU
 function TrackOrderController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
 }
-function ProfileController($exceptionHandler,OrderCloud, AccountService, CurrentUser, Underscore, $q, $scope){
+function ProfileController($exceptionHandler,OrderCloud, AccountService, AddressList, CurrentUser, Underscore, $q, $scope){
 	var vm=this;
 	vm.profileData=CurrentUser;
 	vm.changeEmail = function(){
@@ -779,6 +793,27 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Current
 			vm.emailid=rrr;
 		})
 	}
+	//_------FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
+	var specialKeys = new Array();
+	specialKeys.push(8);
+	vm.IsPhone = function ($e) {
+		console.log($e);
+		var keyCode = $e.which ? $e.which : $e.keyCode;
+		var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+		if(!ret)
+			$e.preventDefault();
+	}
+//_------ END FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
+
+	//_------FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
+	vm.Totaladdress=AddressList;
+	_.filter(vm.Totaladdress,function(row){
+		if(row.xp.IsDefault){
+			vm.default_add=row;
+		}
+	})
+	//_------ END FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
+
 	/*    OrderCloud.Me.ListAddresses().then(function(dadd){
 	 console.log("addresses are---",dadd)
 	 _.filter(dadd.Items,function(row){

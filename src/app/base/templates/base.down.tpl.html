@@ -7,7 +7,7 @@
 				<h6 ng-bind="base.description[$index]"></h6>
 			</div>
 		</div>
-	</div>	
+	</div>
 	<hr class="row">
 	<div class="base-footer-details row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -328,12 +328,20 @@
 				<div ng-repeat="list in base.footerlinks" class="footerBlkDiv">
 					<p>{{list.title}}</p>
 					<ul>
-						<li ng-repeat="link in list.links"><a ui-sref="{{link.url}}">{{link.label}}</a></li>
+						<li ng-repeat="link in list.links" ng-if="list.title=='Customer Service'">
+							<a ui-sref="customerService({pageName:link.url})">{{link.label}}</a>
+						</li>
+						<li ng-repeat="link in list.links" ng-if="list.title=='Corporate'">
+							<a ui-sref="corporate({pageName:link.url})">{{link.label}}</a>
+						</li>
+						<li ng-repeat="link in list.links" ng-if="list.title!='Customer Service' && list.title!='Corporate'">
+							<a ui-sref="{{link.url}}">{{link.label}}</a>
+						</li>
 					</ul>
 				</div>
-		
-				
-			</div>		
+
+
+			</div>
 		</div>
 		<div class="contact col-xs-12 col-sm-12 col-md-12 col-lg-12 contact-mobile">
 		  <div class="contact-details-category col-md-12 ">
@@ -361,7 +369,7 @@
 							<li><a>Events Calender</a></li>
 						</ul>
 					</uib-accordion-group>
-					
+
 					<uib-accordion-group is-open="status.open3">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}">Customer Service</p>
@@ -408,7 +416,7 @@
 							<li ng-repeat="service in base.services"><a>{{service.title}}</a></li>
 						</ul>
 					</uib-accordion-group>
-				</uib-accordion>	
+				</uib-accordion>
 			  <!-- <p ng-click="accordion=1">Bachman’s Products</p>
 
 			  <ul ng-show="accordion==1" class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -431,7 +439,7 @@
 							<li><a>Events Calender</a></li>
 						</ul>
 					</uib-accordion-group>
-				</uib-accordion>	
+				</uib-accordion>
 			  <!-- <p ng-click="accordion=2">Workshops & Events</p>
 			  <ul ng-show="accordion==2">
 				<li><a>Design Workshops</a></li>
@@ -439,7 +447,7 @@
 				<li><a>Seminars & Events</a></li>
 				<li><a>Ideas House</a></li>
 				<li><a>Events Calender</a></li>
-			  </ul> 
+			  </ul>
 			</div> -->
 			<!-- <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 customer-service">
 				<uib-accordion>
@@ -465,7 +473,7 @@
 				<li><a>Delivery</a></li>
 				<li><a>Gift Cards</a></li>
 				<li><a>Purple Perks</a></li>
-			  </ul> 
+			  </ul>
 			</div> -->
 			<!-- <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 plant-care">
 				<uib-accordion>
@@ -540,7 +548,7 @@
 	</div>
 	<div class="m0 service-list" style="margin:0;">
 		<div>
-			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5> 
+			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
 		</div>
 	</div>
   </div>

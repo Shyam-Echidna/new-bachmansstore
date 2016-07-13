@@ -45,7 +45,7 @@ function BaseConfig( $stateProvider ) {
                 }
             },
             resolve: {
-                
+
             adminLogin : function($q, OrderCloud, BaseService, $cookieStore){
                     if(!$cookieStore.get('isLoggedIn')){
                     var dfd = $q.defer();
@@ -75,19 +75,19 @@ function BaseConfig( $stateProvider ) {
             },
                   ticket: function(LoginFact){
                     return LoginFact.Get().then(function(data){
-                    console.log(data);           
+                    console.log(data);
                     var ticket = data.data.ticket;
                      localStorage.setItem("alf_ticket",ticket);
                         return ticket;
                 })
-                },/*ticketTemp: function(LoginFact){
+                },ticketTemp: function(LoginFact){
                     return LoginFact.GetTemp().then(function(data){
-                    console.log(data);           
+                    console.log(data);
                     var ticket = data.data.ticket;
                      localStorage.setItem("alfTemp_ticket",ticket);
                         return ticket;
                 })
-                },*/
+                },
             categoryImages: function(CategoryService, ticket){
            // var ticket = localStorage.getItem("alf_ticket");
             return CategoryService.GetCategoryImages(ticket).then(function(res){
@@ -109,7 +109,7 @@ function BaseConfig( $stateProvider ) {
 
 function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, OrderCloud, alfcontenturl, CurrentOrder) {
     var service = {
-       
+
         GetCategoryTree: _getCategoryTree,
     AdminLogin: _adminLogin,
     MinicartData: _minicartData
@@ -130,7 +130,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
                 $q.all(queue).then(function(results) {
                   angular.forEach(results, function(result) {
                     categories = categories.concat(result.Items);
-                  });          
+                  });
 
         //deferred.resolve(categories);
 
@@ -168,7 +168,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
       Categories.List(null, 'all', 1, 100).then(function(list) {
           console.log(list);
           function _getnode(node) {
-                    
+
                     var children = Underscore.where(categories, { ParentID: node.ID});
                     if (children.length > 0) {
                         node.children = children;
@@ -199,7 +199,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
 
         });
         var defferred = $q.defer();
-        
+
         $http({
 
                 method: 'POST',
@@ -219,7 +219,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
             });
             return defferred.promise;
     }
-        
+
   function _minicartData(){
     var dfd = $q.defer();
     CurrentOrder.Get().then(function(data){
@@ -236,19 +236,19 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
   defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
-       
+
     });
     var vm = this;
       $rootScope.$on('getcurrentuser', function() {
-      
+
          LoginService.GetCurrentUser().then(function(res){
                     console.log(res);
                     vm.currentUser = res;
                     vm.showuserdetail = true;
                 })
-       
+
     });
-       
+
   vm.currentPath = $location.path();
   $scope.is = function(name){
     return $state.is(name);
@@ -304,14 +304,14 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
     $http.post('https://Four51TRIAL104401.jitterbit.net/Bachmans_Dev/constantcontact',userdata).then(function(res){
         console.log("alvalara==",res);
     });*/
-    
+
     console.log("categoryImages",categoryImages);
 
     $(window).scroll(function() {
          var headerHt = $('.base-header-inner').height();
          var stickyHeaderHt = $('.base-header.sticky .base-header-top .main-logo').height();
          $('.base-header.sticky .base-header-top .delivery-details').css('height',stickyHeaderHt);
-        if ($(this).scrollTop() > headerHt){  
+        if ($(this).scrollTop() > headerHt){
 
             $('.base-header-sticky').css({'top':0});
 
@@ -333,7 +333,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
           e = e || window.event;
           if (e.preventDefault)
               e.preventDefault();
-          e.returnValue = false;  
+          e.returnValue = false;
         }
 
         function preventDefaultForScrollKeys(e) {
@@ -356,10 +356,10 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         function enableScroll() {
             if (window.removeEventListener)
                 window.removeEventListener('DOMMouseScroll', preventDefault, false);
-            window.onmousewheel = document.onmousewheel = null; 
-            window.onwheel = null; 
-            window.ontouchmove = null;  
-            document.onkeydown = null;  
+            window.onmousewheel = document.onmousewheel = null;
+            window.onwheel = null;
+            window.ontouchmove = null;
+            document.onkeydown = null;
       //angular.element('.breadcrumb-box').css('display','block');
         }
 
@@ -420,7 +420,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         $('.menuScrollCont ul').scrollLeft(jumpToposition - (posByValue*3) -120);
         $('.menuScrollCont-arrow p.menu-next').css('opacity','1');
         $('.menuScrollCont-arrow p.menu-prev').css('opacity','1');
-        var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');     
+        var ltRtArw = $('.menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
         if(jumpToposition == 0){
       $('.menuScrollCont-arrow p.menu-prev').css('opacity','0');
         }
@@ -449,7 +449,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         $('.sticky .menuScrollCont ul').scrollLeft(jumpToposition - (posByValue1*3) -120);
         $('.sticky .menuScrollCont-arrow p.menu-next').css('opacity','1');
         $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-        var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');     
+        var ltRtArw = $('.sticky .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
         if(jumpToposition == 0){
       $('.sticky .menuScrollCont-arrow p.menu-prev').css('opacity','0');
         }
@@ -478,7 +478,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         $('.menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition2 - (posByValue2*3) -120);
         $('.menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
         $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-        var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');      
+        var ltRtArw = $('.menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
         if(jumpToposition2 == 0){
       $('.menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
         }
@@ -507,7 +507,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         $('.sticky .menuLiContTab .menuScrollCont ul').scrollLeft(jumpToposition3 - (posByValue3*3) -120);
       $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-next').css('opacity','1');
         $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
-        var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');      
+        var ltRtArw = $('.sticky .menuLiContTab .menu-container li.sub-nav:hover .subcat.menu-l2-container li.submaincat_link_div:nth-last-child(4)');
         if(jumpToposition3 == 0){
       $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','0');
         }
@@ -515,10 +515,10 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
           $('.sticky .menuLiContTab .menuScrollCont-arrow p.menu-prev').css('opacity','1');
         }
     }
-    
+
   /*setTimeout(function () {
     $('.classForMenuArrow').hover(function(){
-      if($('.menu-hover-cont3-inner').height() > 350){ 
+      if($('.menu-hover-cont3-inner').height() > 350){
         $('.menuScrollCont-arrow').css('border','1px solid red')
       }
     })
@@ -570,7 +570,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
   }
   if($(window).width() > 1024){
     setTimeout(function () {
-      
+
         $(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
 
         function expandSearchWidth() {
@@ -599,18 +599,18 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
     vm.menuClass = "unhide";
 
     vm.initialSetup = function(){
-            
+
             vm.menu1= false;
             vm.menu2= false;
-            vm.menu3= false; 
+            vm.menu3= false;
 
-            $('.main-mobile-menu-container').toggleClass('show-hide-hide');  
-            $('.main-mobile-menu-container').toggleClass('show-hide-show');  
+            $('.main-mobile-menu-container').toggleClass('show-hide-hide');
+            $('.main-mobile-menu-container').toggleClass('show-hide-show');
             $('.main-mobile-menu-container').css({'overflow-y':'auto'});
             $('.mobile-dropdown-cont2').css('overflow-y','hidden');
             $('.mobile-dropdown-cont3').css('overflow-y','hidden');
             $('.mobile-dropdown-cont4').css('overflow-y','hidden');
-            
+
             // $('.base-header-mobile').toggleClass('removeSticky');
             // $('body').toggleClass('hideBodyScroll');
 
@@ -620,13 +620,13 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
             $('.main-mobile-menu-container.dropdown-menu').css('height',windowHeight - mobHeaderHt);
             $('.mobile-dropdown-cont2').css({'height':windowHeight - mobHeaderHt});
             $('.mobile-dropdown-cont3').css('height',windowHeight - mobHeaderHt);
-            $('.mobile-dropdown-cont4').css('height',windowHeight - mobHeaderHt);       
-            
+            $('.mobile-dropdown-cont4').css('height',windowHeight - mobHeaderHt);
+
             // var menuheight = $('.main-mobile-menu-container').innerHeight();
             // $('#DashboardContent').height(menuheight);
 
             if (vm.menuClass = "unhide"){
-              vm.menuClass = "hide";  
+              vm.menuClass = "hide";
             } else{
               vm.menuClass = "unhide";
             }
@@ -639,11 +639,11 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
               $('.menu-class').removeClass('hide');
             }
             angular.element('.breadcrumb-box').hide();
-            
+
     }
 
     vm.initialSetup2 = function(){
-            
+
             vm.menu1= false;
             vm.menu2= false;
             vm.menu3= false;
@@ -651,7 +651,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
             $('.mobile-dropdown-cont2').css('overflow-y','hidden');
             $('.mobile-dropdown-cont3').css('overflow-y','hidden');
             $('.mobile-dropdown-cont4').css('overflow-y','hidden');
-        
+
     }
     vm.openMenuLevel1 = function(){
             vm.menu1= true;
@@ -664,8 +664,8 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
             $('.mobile-dropdown-cont4').css('overflow-y','hidden');
 
 
-          
-        //ev.stopPropagation(); 
+
+        //ev.stopPropagation();
     }
     /*vm.openMenuLevel2 = function(){
         $timeout(function(){
@@ -673,7 +673,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
             vm.menu2= true;
             vm.menu3= false;
         },200);
-        //ev.stopPropagation();     
+        //ev.stopPropagation();
     }
     vm.openMenuLevel3 = function(){
         $timeout(function(){
@@ -684,12 +684,12 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         //ev.stopPropagation();
     }*/
     vm.openMenuLevel2 = function(obj){
-    
+
         $('.main-mobile-menu-container').css({'overflow-y':'hidden'});
         $('.mobile-dropdown-cont2').css('overflow-y','hidden');
         $('.mobile-dropdown-cont3').css('overflow-y','auto');
         $('.mobile-dropdown-cont4').css('overflow-y','hidden');
-        
+
         if(obj.childCount>0){
                 vm.menu1= true;
                 vm.menu2= true;
@@ -706,8 +706,8 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         }
         vm.giftCardPlp = function(){
             $state.go('category', {childCount: obj.childCount, ID: 'c11'});
-        } 
-        //ev.stopPropagation();     
+        }
+        //ev.stopPropagation();
     }
     vm.openMenuLevel3 = function(obj, index){
     $('.main-mobile-menu-container').css({'overflow-y':'hidden'});
@@ -720,13 +720,13 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
                 vm.menu2= true;
                 vm.menu3= true;
             }else{
-               
+
                 $state.go('category', {childCount: obj.childCount, ID: obj.ID});
-                
+
             }
         //ev.stopPropagation();
     }
-    
+
     vm.logoClick = function($event){
       /*  if($scope.menuClass == "unhide"){
             alert(10);
@@ -742,7 +742,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         //}
         vm.isopen = false;
         $state.go('home');
-        var owl = angular.element("#owl-carousel-events");  
+        var owl = angular.element("#owl-carousel-events");
                 owl.owlCarousel({
                     items:2,
                     center:false,
@@ -818,17 +818,17 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
   }
 
     vm.mobileMenu = function(data){
-        
+
         vm.url="#/home";
     }
     vm.removeHomeSroll = function(){
         //$('body').removeClass('hideBodyScroll');
         //vm.isopen = false;
     }
-    
+
 /*BaseService.AdminLogin().then(function(res){
      console.log("token==",res);
-        
+
       Auth.SetToken(res.access_token);*/
    // if(AdminLogin) {
         var megamenuImgs = [];
@@ -862,7 +862,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         //$state.go($state.current.name);
    // }
  //});
-  
+
     if(ticket){
    // var ticket = localStorage.getItem("alf_ticket");
        LoginFact.GetLogo(ticket).then(function(data){
@@ -883,7 +883,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {              
+        }).success(function (data, status, headers, config) {
             console.log("headerlinks==", data);
             vm.delivery = data[2];
             vm.contactdetails = data[1].contactdetails;
@@ -894,7 +894,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
-}); 
+});
              LoginFact.GetServices(ticket).then(function(data){
         console.log("GetServices==",data.items);
                  var services_mobile =[];
@@ -931,7 +931,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
         })
     });
   LoginFact.GetBrandSpot(ticket).then(function(data){
-        vm.brandSpot = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;       
+        vm.brandSpot = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;
         vm.history = $sce.trustAsHtml(data.items[1].description);
         var footerlinks = alfcontenturl+data.items[0].contentUrl+"?alf_ticket="+ticket;
          $http({
@@ -941,9 +941,9 @@ LoginFact.GetContactInfo(ticket).then(function(res){
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {  
+        }).success(function (data, status, headers, config) {
             vm.footerlinks = data;
-           
+
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
@@ -953,37 +953,77 @@ LoginFact.GetContactInfo(ticket).then(function(res){
       vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
       //vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
     })
-      LoginFact.GetFolders(ticket).then(function(res){
-      console.log("static temp GetFolders", res);
-      var ajaxarr = [];
-      var deferred = $q.defer();
-      angular.forEach(res.items,function(item){
-        var d = $q.defer();
-        ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
-          console.log("static temp GetSubFolders", response);
-          item["subfolders"]=response
-          deferred.resolve(item);
-          d.resolve();
-          return item;
-        }))
-      })
+    LoginFact.GetFolders(ticket).then(function(res){
+     console.log("static temp GetFolders", res);
+     var ajaxarr = [];
+     var deferred = $q.defer();
+     angular.forEach(res.items,function(item){
+       var d = $q.defer();
+       ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
+         console.log("static temp GetSubFolders", response);
+         item["subfolders"]=response.items;
+             angular.forEach(response.items,function(subitem,i){
+               LoginFact.GetSubSubFolders(ticket, item.fileName,subitem.fileName).then(function(responseSub){
+                 console.log("static temp GetSubSubFolders", response);
+                 item["subfolders"][i]["subfolders"]=responseSub
+               });
+             });
+           deferred.resolve(item);
+           d.resolve();
+         //deferred.resolve(item);
+         //d.resolve();
 
-      // angular.forEach(list.Items, function (item) {
-   //              var promise = Categories.Get(item.CategoryID);
-   //              ajaxarr.push(promise);
-   //          });
-   //          $q.all(ajaxarr).then(function (items) {
-   //              console.log("_categoryDeatil==", items);
-   //              deferred.resolve(items);
+         return item;
+       }))
+     })
 
-   //          });
+     // angular.forEach(list.Items, function (item) {
+  //              var promise = Categories.Get(item.CategoryID);
+  //              ajaxarr.push(promise);
+  //          });
+  //          $q.all(ajaxarr).then(function (items) {
+  //              console.log("_categoryDeatil==", items);
+  //              deferred.resolve(items);
 
-      $q.all(ajaxarr).then(function(all){
-        vm.ListOfPages = all;
+  //          });
 
-      });
+     $q.all(ajaxarr).then(function(all){
+       vm.ListOfPages = all;
+     });
 
-    });
+   });
+
+  //     LoginFact.GetFolders(ticket).then(function(res){
+  //     console.log("static temp GetFolders", res);
+  //     var ajaxarr = [];
+  //     var deferred = $q.defer();
+  //     angular.forEach(res.items,function(item){
+  //       var d = $q.defer();
+  //       ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
+  //         console.log("static temp GetSubFolders", response);
+  //         item["subfolders"]=response
+  //         deferred.resolve(item);
+  //         d.resolve();
+  //         return item;
+  //       }))
+  //     })
+   //
+  //     // angular.forEach(list.Items, function (item) {
+  //  //              var promise = Categories.Get(item.CategoryID);
+  //  //              ajaxarr.push(promise);
+  //  //          });
+  //  //          $q.all(ajaxarr).then(function (items) {
+  //  //              console.log("_categoryDeatil==", items);
+  //  //              deferred.resolve(items);
+   //
+  //  //          });
+   //
+  //     $q.all(ajaxarr).then(function(all){
+  //       vm.ListOfPages = all;
+   //
+  //     });
+   //
+  //   });
 
     LoginFact.GetPerplePerksSvg(ticket).then(function(res){
 
@@ -992,12 +1032,12 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 
       var quicklinkPPHover = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
       vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
-        
+
     });
 
   }
 /*floating header*/
-    
+
 /*   $scope.navClass = 'sticky';
    $scope.constantheader = 'nohide';
    angular.element($window).bind(
@@ -1010,7 +1050,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
          $scope.$apply();
    });*/
   (function($) {
-      
+
       $.belowthefold = function(lookIn, elements, settings) {
           var fold = $(lookIn).height() + $(lookIn).scrollTop();
           console.log(elements);
@@ -1018,21 +1058,21 @@ LoginFact.GetContactInfo(ticket).then(function(res){
               return fold <= $(this).offset().top - settings.threshold;
           });
       };
-      
+
       $.abovethetop = function(lookIn, elements, settings) {
           var top = $(lookIn).scrollTop();
           return $(elements).filter(function(){
               return top >= $(this).offset().top + $(this).height() - settings.threshold;
           });
       };
-      
+
       $.rightofscreen = function(lookIn, elements, settings) {
           var fold = $(lookIn).width() + $(lookIn).scrollLeft();
           return $(elements).filter(function(){
               return fold <= $(this).offset().left - settings.threshold;
           });
       };
-      
+
       $.leftofscreen = function(lookIn, elements, settings) {
           var left = $(lookIn).scrollLeft();
           return $(elements).filter(function(){
@@ -1040,7 +1080,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
           });
 
       };
-    
+
   })(jQuery);
 
   // Call it
@@ -1088,7 +1128,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         vm.tree = data;
     });*/
    // console.log(Tree);
-    
+
     vm.searchPopup = function() {
         vm.searchMobCont = true;
         $('body').css({'position':'fixed', 'width':'100%'});
@@ -1106,7 +1146,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         console.log('mobileHeaderHt' + mobileHeaderHt);
         var modalInstance = $uibModal.open({
             animation: true,
-            backdropClass: 'searchPopupCont', 
+            backdropClass: 'searchPopupCont',
             template: '<div class="search_cont">'+
                         '<div class="search_cont_header">'+
                             '<div class="input-search">'+
@@ -1139,7 +1179,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
 
 
         modalInstance.result.then(function() {
-            
+
         }, function() {
             angular.noop();
         });
@@ -1161,7 +1201,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
     }*/
     vm.login = function() {
       if(!$cookieStore.get('isLoggedIn')){
-    
+
         var modalInstance = $uibModal.open({
             animation: false,
             backdropClass: 'loginModalBg',
@@ -1173,7 +1213,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         });
 
         modalInstance.result.then(function() {
-            
+
         }, function() {
             angular.noop();
         });
@@ -1195,7 +1235,7 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         $state.go('home');
         vm.showuserdetail = false;
     };
-    
+
 }
 
 function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) {
@@ -1207,7 +1247,7 @@ function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) 
     });*/
  /*   var ticket = localStorage.getItem("alf_ticket");
         LoginFact.GetBrandSpot(ticket).then(function(data){
-        vm.brandSpot = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;       
+        vm.brandSpot = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;
         vm.history = $sce.trustAsHtml(data.items[1].description);
         var footerlinks = alfcontenturl+data.items[0].contentUrl+"?alf_ticket="+ticket;
          $http({
@@ -1217,9 +1257,9 @@ function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) 
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {  
+        }).success(function (data, status, headers, config) {
             vm.footerlinks = data;
-           
+
         }).error(function (data, status, headers, config) {
             console.log(data);
         });
@@ -1238,6 +1278,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
             GetStaticTemp:_getStaticTemp,
 		    GetFolders:_getFolders,
 		    GetSubFolders:_getSubFolders,
+        GetSubSubFolders:_getSubSubFolders,
 		    GetArtcleList:_getArtcleList,
             GetPerplePerksSvg: _getPerplePerksSvg,
              GetContactList:_getcontactlist,
@@ -1265,12 +1306,12 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
     }
     function _get() {
         var data = {
-            
+
             username: "admin",
             password: "echidna"
         };
         var defferred = $q.defer();
-        
+
         $http({
 
                 method: 'POST',
@@ -1285,7 +1326,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
                 }
 
             }).success(function (data, status, headers, config) {
-                
+
                 defferred.resolve(data);
             }).error(function (data, status, headers, config) {
                 defferred.reject(data);
@@ -1319,20 +1360,20 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
             return defferred.promise;
         }
     function _getLogo(ticket) {
-        
+
         var defferred = $q.defer();
-        
+
         $http({
 
                 method: 'GET',
                 dataType:"json",
                 url: alfrescourl+"Header/Logo?alf_ticket="+ticket,
-               
+
                 headers: {
                     'Content-Type': 'application/json'
                 }
 
-            }).success(function (data, status, headers, config) {               
+            }).success(function (data, status, headers, config) {
                 defferred.resolve(data);
             }).error(function (data, status, headers, config) {
                 defferred.reject(data);
@@ -1341,22 +1382,22 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
     }
 
     function _getBrandSpot(ticket) {
-        
+
         var defferred = $q.defer();
-        
+
         $http({
 
                 method: 'GET',
                 dataType:"json",
                   url: alfrescourl+"Footer/BrandSpot?alf_ticket="+ticket,
               //  url: alfrescourl+"HomePage/Quicklinks?alf_ticket="+ticket,
-               
+
                 headers: {
                     'Content-Type': 'application/json'
                 }
 
-            }).success(function (data, status, headers, config) { 
-                  
+            }).success(function (data, status, headers, config) {
+
                 defferred.resolve(data);
             }).error(function (data, status, headers, config) {
                 defferred.reject(data);
@@ -1365,7 +1406,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
     }
      // ending of getcontactlist service
     function _createcontactlist(userData){
-    var defferred = $q.defer(); 
+    var defferred = $q.defer();
         $http({
             method: 'POST',
             dataType:"json",
@@ -1374,7 +1415,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {              
+        }).success(function (data, status, headers, config) {
             defferred.resolve(data);
         }).error(function (data, status, headers, config) {
             defferred.reject(data);
@@ -1387,7 +1428,7 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
     //Ending CreateList Functionality
 //Starting updateemailpreference
 function _updateemailpreference(u_data){
-  var defferred = $q.defer(); 
+  var defferred = $q.defer();
         $http({
             method: 'PUT',
             dataType:"json",
@@ -1396,7 +1437,7 @@ function _updateemailpreference(u_data){
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {              
+        }).success(function (data, status, headers, config) {
             defferred.resolve(data);
         }).error(function (data, status, headers, config) {
             defferred.reject(data);
@@ -1406,23 +1447,23 @@ function _updateemailpreference(u_data){
 
 }
 //End of updateemailpreference
-    
+
 
      function _getServices(ticket) {
-        
+
         var defferred = $q.defer();
-        
+
         $http({
 
                 method: 'GET',
                 dataType:"json",
                 url: alfrescourl+"HomePage/Services?alf_ticket="+ticket,
-               
+
                 headers: {
                     'Content-Type': 'application/json'
                 }
 
-            }).success(function (data, status, headers, config) {               
+            }).success(function (data, status, headers, config) {
                 defferred.resolve(data);
             }).error(function (data, status, headers, config) {
                 defferred.reject(data);
@@ -1431,7 +1472,7 @@ function _updateemailpreference(u_data){
     }
 
     function _getContactInfo(ticket) {
-        var defferred = $q.defer(); 
+        var defferred = $q.defer();
         $http({
             method: 'GET',
             dataType:"json",
@@ -1439,7 +1480,7 @@ function _updateemailpreference(u_data){
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).success(function (data, status, headers, config) {              
+        }).success(function (data, status, headers, config) {
             defferred.resolve(data);
         }).error(function (data, status, headers, config) {
             defferred.reject(data);
@@ -1447,7 +1488,7 @@ function _updateemailpreference(u_data){
         return defferred.promise;
     }
     function _getStaticTemp(ticket) {
-        var defferred = $q.defer(); 
+        var defferred = $q.defer();
         $http({
             method: 'GET',
             dataType:"json",
@@ -1464,7 +1505,7 @@ function _updateemailpreference(u_data){
   }
 
   function _getPerplePerksSvg(ticket) {
-    var defferred = $q.defer(); 
+    var defferred = $q.defer();
     $http({
       method: 'GET',
       dataType:"json",
@@ -1472,7 +1513,7 @@ function _updateemailpreference(u_data){
       headers: {
         'Content-Type': 'application/json'
       }
-    }).success(function (data, status, headers, config) {              
+    }).success(function (data, status, headers, config) {
       defferred.resolve(data);
     }).error(function (data, status, headers, config) {
       defferred.reject(data);
@@ -1487,7 +1528,7 @@ function _updateemailpreference(u_data){
       method: 'GET',
       dataType:"json",
       //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories?alf_ticket="+ticket,
-      url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      url: alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1504,7 +1545,23 @@ function _updateemailpreference(u_data){
     $http({
       method: 'GET',
       dataType:"json",
-      url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      url: alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).success(function (data, status, headers, config) {
+      defferred.resolve(data);
+    }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+    });
+    return defferred.promise;
+  }
+   function _getSubSubFolders(ticket, parentfolder,subfolder){
+    var defferred = $q.defer();
+    $http({
+      method: 'GET',
+      dataType:"json",
+      url: alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+parentfolder+"/"+subfolder+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1522,7 +1579,7 @@ function _updateemailpreference(u_data){
       method: 'GET',
       dataType:"json",
       //url: alfrescofoldersurl+"StaticTemplate/StaticPageCategories/"+route+"?alf_ticket="+ticket,
-            url: alfrescoStaticurl+"Alfresco Quick Start/Bachmans Editorial/root/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+            url: alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/CareAdviceInformation/"+route+"?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -1550,19 +1607,19 @@ function contTopPaddingDirective() {
   return {
     restrict: 'A',
     link:function(scope){
-      scope.pageTopPadding =  
+      scope.pageTopPadding =
       angular.element('.base-header-desktop .base-header-inner').height() + 9;
       if(angular.element(window).width() <= 810){
         scope.pageTopPadding =  angular.element('.base-header-mobile .base-header-inner').height();
       }
       /*angular.element(window).scroll(function() {
         var headerHt = angular.element('.base-header-inner').height();
-        if(angular.element(this).scrollTop() > headerHt){  
-          scope.pageTopPadding = (angular.element('.base-header-desktop .base-header-inner').height() - 10) + 
+        if(angular.element(this).scrollTop() > headerHt){
+          scope.pageTopPadding = (angular.element('.base-header-desktop .base-header-inner').height() - 10) +
           (angular.element('.base-header.sticky').height());
         }
         else{
-          scope.pageTopPadding =  
+          scope.pageTopPadding =
           angular.element('.base-header-desktop .base-header-inner').height() + 9;
         }
       });*/
@@ -1597,11 +1654,11 @@ function phoneValidationDirective($parse){
         require: ['ngModel'],
         link: function(scope, element, attrs, ctrls) {
             var model=ctrls[0], form=ctrls[1];
-            
+
             scope.next = function(){
                 return model.$valid
             }
-            
+
             scope.$watch(scope.next, function(newValue, oldValue){
                 if (newValue && model.$dirty)
                 {
@@ -1619,11 +1676,11 @@ function customEmailValidationDirective(defaultErrorMessageResolver) {
   defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
       errorMessages['customEmail'] = 'Please enter a valid email address';
     });
-    
+
     return {
         restrict : 'A',
         require : 'ngModel',
-      
+
         link : function(scope, element, attributes, ngModel) {
             ngModel.$validators.customEmail = function(modelValue) {
               var pattern=/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
@@ -1641,7 +1698,7 @@ function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
   defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
       errorMessages['confirmPassword'] = 'Please ensure the passwords match.';
     });
-    
+
     return {
         restrict : 'A',
         require : 'ngModel',
@@ -1659,7 +1716,7 @@ function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
         }
     };
 }
- 
+
 function CategoriesAsPerSeasonFilter() {
 /*(categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
   (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >

@@ -333,28 +333,7 @@
 								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div> 
 						</a>
-						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="base.showuserdetail" class="info-acc-icon info-acc-icon-guest">
-							<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
-							<span class="loggedOut-user">					
-								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-									 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
-								<style type="text/css">
-									.st0{fill:#FFFFFF;}
-									.st1{fill:none;stroke:#FFFFFF;stroke-width:1.5;stroke-linecap:round;stroke-miterlimit:10;}
-								</style>
-								<g>
-									<g>
-										<path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
-											C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
-											c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
-									</g>
-									<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
-									<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
-								</g>
-								</svg>
-							</span>
-						</a>
-						<a id="btn-append-to-body" ng-click="" ng-hide="baseTop.showuserdetail" class="info-acc-icon info-acc-icon-notGuest">
+						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="base.showuserdetail" class="info-acc-icon ">
 							<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
 							<span class="loggedOut-user">					
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -747,22 +726,22 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 						<div class="dropdown-menu-login-cont">
 							<ul class="dropdown-menu-login">
 								<li class="sub-nav">
-									<a class="maincat_link " ui-sref="account.creditCardAccount">My Account</a>
+									<a class="maincat_link " ui-sref="account.profile">My Account</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ui-sref="orders">My Orders</a>
+									<a class="maincat_link" ui-sref="account.orders">My Orders</a>
 								</li>
 								<li class="sub-nav">
 									<a class="maincat_link" ui-sref="account.wishlistAccount">My Wish List</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ui-sref="addresses">Adresses</a>
+									<a class="maincat_link" ui-sref="account.addresses">Adresses</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link">My Purple Perks</a>
+									<a class="maincat_link" ui-sref="account.perpleperksAccount">My Purple Perks</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ng-click="baseTop.logout()" >Sign Out</a>
+									<a class="maincat_link" ng-click="baseTop.logout()">Sign Out</a>
 								</li>
 							</ul>
 						</div>
@@ -880,7 +859,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 										<li><a href="">Care, Advice & Information</a></li>
 										<li><a href="">Workshops & Events</a></li>
 										<li>
-											<a class="guest-in-mob" ng-click="baseTop.login()">My Account</a>
+											<a class="" ng-click="baseTop.login()">My Account</a>
 											<!-- <a class="logged-in-mob" ui-sref="account.profile">My Account</a>
 											<a class="signed-in-mob" ui-sref="account.profile">My Account</a> -->
 										</li>

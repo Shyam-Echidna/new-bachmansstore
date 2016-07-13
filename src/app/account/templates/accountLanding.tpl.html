@@ -22,7 +22,7 @@
 				</p>
 				<ul>
 					<li class="my-account-menu-links" ui-sref-active="active" ui-sref="account.profile">My Profile</li>
-					<li class="my-account-menu-links" ui-sref-active="active"  ui-sref="account.addresses">Address Book</li>
+					<li class="my-account-menu-links" ui-sref-active="active"  ui-sref=".addresses">Address Book</li>
 				</ul>
 			</li>
 			<li class="my-account-menu-li">
@@ -135,8 +135,18 @@
 		</ul>	
 	</div>
 	<div class="my-account-menu-content">
-		<div class="my-account-menu-content-inner">
-			<ui-view></ui-view>
+	<div class="my-account-menu-content-inner">
+		<div uib-dropdown class="form-control mobile-account-menu">
+			<div uib-dropdown-toggle>
+				<p class="sort-active-show title">{{account.selectedMenu}}</p>
+			</div>
+			<ul class="dropdown-menu mobile-account-ul" uib-dropdown-menu aria-labelledby="sort-dropdown">
+				<li class="mobile-account-li" role="menuitem" ng-repeat="item in account.accountMenu" ng-click="account.changeMenuSelection(item.label,$index);" ng-class="{active: $index == account.selectedMenuIndex}">
+					<a class="mobile-account-link" data-value="{{item.value}}" ui-sref="account.{{item.value}}">{{item.label}}</a>
+				</li>
+			</ul>
 		</div>
+		<ui-view></ui-view>
 	</div>
+</div>
 </div> 

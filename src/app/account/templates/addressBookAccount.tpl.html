@@ -5,15 +5,15 @@
         <span class="mob-menu-clickable" ng-click="mobilemenus=!mobilemenus"></span>
         <span class="acc-mob-dropdown" ng-show="mobilemenus">
             <span class="acc-mob-links" ui-sref="account.profile">My Profile</span>
-            <span class="acc-mob-links" ui-sref="account.addresses">Address Book</span>
+            <!-- <span class="acc-mob-links" ui-sref=".addresses">Address Book</span> -->
             <span class="acc-mob-links" ui-sref="account.orders">Order History</span>
-            <span class="acc-mob-links" ui-sref="account.trackorders">Track Orders</span>
+            <span class="acc-mob-links" ui-sref=".trackorders">Track Orders</span>
             <span class="acc-mob-links" ui-sref="account.event">My Events</span>
-            <span class="acc-mob-links" ui-sref="account.CreditCard">Credit Cards</span>
+            <span class="acc-mob-links" ui-sref=".CreditCard">Credit Cards</span>
             <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
             <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span>
-            <!-- <span class="acc-mob-links" ui-sref="account.emailsubscription">Email Preferences</span> -->
-        </span>
+            <span class="acc-mob-links" ui-sref=".emailsubscription">Email Preferences</span>
+        </span> 
     </p>
     <div class="row row-address-search">
         <div class="search-box col-xs-12 col-sm-12 col-md-9 col-lg-9">
@@ -64,11 +64,12 @@
                     </div>
                     <div class="col-xs-6 form-group state">
                         <label for="state">State</label>
-                        <select class="form-control" id="state" ng-model="addr.State">
+                        <input type="text" class="form-control" id="state" ng-model="account.editAddr.State">
+                        <!-- <select class="form-control" id="state" ng-model="addr.State">
                             <option>MN</option>
                             <option>LA</option>
                             <option>LV</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="col-xs-12 form-group phone-number">
                         <label for="phone1">Phone Number</label>
@@ -255,10 +256,10 @@
             <p class="title">Edit Address</p>
             <div class="add-new-addr-div">
                 <form class="row add-new-addr-form" role="form" novalidate>
-                    <!-- <div class="col-xs-6 form-group nick-name">
+                   <div class="col-xs-6 form-group nick-name">
                         <label for="nickName">Nick Name</label>
                         <input type="text" class="form-control" id="nickName">
-                    </div> -->
+                    </div>
                     <div class="col-xs-6 form-group first-name" >
                         <label for="firstName">First Name</label>
                         <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName">
@@ -298,11 +299,12 @@
                     </div>
                     <div class="col-xs-6 form-group state">
                         <label for="state">State</label>
-                        <select class="form-control" id="state" ng-model="account.editAddr.State">
+                        <input type="text" class="form-control" id="state" ng-model="account.editAddr.State">
+                        <!-- <select class="form-control" id="state" ng-model="addr.State">
                             <option>MN</option>
                             <option>LA</option>
                             <option>LV</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="col-xs-12 form-group phone-number">
                         <label for="phone1">Phone Number</label>

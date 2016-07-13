@@ -1,20 +1,6 @@
 <ui-view>
     <article class="container-fluid my-account-order-history">
-        <p class="my-account-content-title">Order History
-            <span class="bachman-chevron hidden-md hidden-lg chevron" ng-class="{bottom: !mobilemenus}"></span>
-            <span class="mob-menu-clickable" ng-click="mobilemenus=!mobilemenus"></span>
-            <span class="acc-mob-dropdown" ng-show="mobilemenus">
-                <span class="acc-mob-links" ui-sref="account.profile">My Profile</span>
-                <span class="acc-mob-links" ui-sref="account.addresses">Address Book</span>
-                <!-- <span class="acc-mob-links" ui-sref="account.orders">Order History</span> -->
-                <span class="acc-mob-links" ui-sref="account.trackorders">Track Orders</span>
-                <span class="acc-mob-links" ui-sref="account.event">My Events</span>
-                <span class="acc-mob-links" ui-sref="account.CreditCard">Credit Cards</span>
-                <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
-                <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span>
-                <span class="acc-mob-links" ui-sref="account.emailsubscription">Email Preferences</span>
-            </span> 
-        </p>
+        <p class="my-account-content-title">Order History</p>
         <div class="row order-history-list-cont">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item" ng-repeat="order in profile.showOrders" ng-class="{detailed: account.selectedIndex == $index}">
                 

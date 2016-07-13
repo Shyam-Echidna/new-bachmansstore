@@ -1,21 +1,7 @@
 
 <div class="container-fluid my-account-my-profile">
 	<div class="my-account-menu-content-aside">
-		<p class="my-account-content-title">My Profile
-			<span class="bachman-chevron hidden-md hidden-lg chevron" ng-class="{bottom: !mobilemenus}"></span>
-			<span class="mob-menu-clickable" ng-click="mobilemenus=!mobilemenus"></span>
-	        <span class="acc-mob-dropdown" ng-show="mobilemenus">
-	            <!-- <span class="acc-mob-links" ui-sref="account.profile">My Profile</span> -->
-	            <span class="acc-mob-links" ui-sref=".addresses">Address Book</span>
-	            <span class="acc-mob-links" ui-sref="account.orders">Order History</span>
-	            <span class="acc-mob-links" ui-sref=".trackorders">Track Orders</span>
-	            <span class="acc-mob-links" ui-sref="account.event">My Events</span>
-	            <span class="acc-mob-links" ui-sref=".CreditCard">Credit Cards</span>
-	            <span class="acc-mob-links" ui-sref="account.perpleperksAccount">Perple Perks</span>
-	            <span class="acc-mob-links" ui-sref="account.wishlistAccount">My Wishlist</span>
-	            <span class="acc-mob-links" ui-sref=".emailsubscription">Email Preferences</span>
-	        </span>
-		</p>
+		<p class="my-account-content-title">My Profile</p>
 		<div class="my-profile-container row">
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 my-profile-logininfo-container fl">
 				<h2>Login Information</h2>
@@ -24,16 +10,16 @@
 					<h4>{{profile.profileData.Email}}</h4>
 					<h5 ng-click="changeemail=!changeemail">Change Email</h5>
 					<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 my-profile-changeemail" ng-show="changeemail">
-						<form class="change-email-form" novalidate>
+						<form class="change-email-form" name = "changeEmailForm" novalidate>
 							<div class="form-group">
 								<label>Enter New Email</label>
-								<input type="text" ng-model="profile.change_email" class="form-control" required />
-							</div>
-							<div class="form-group">
-								<button type="submit" class="btn purple-btn changemail-save col-xs-6" ng-click = "profile.changeEmail()">Save</button>
-								<button type="button" class="btn gray-btn changemail-cancel col-xs-6" ng-click="changeemail=!changeemail">Cancel</button>
-							</div>
-						</form>
+				            	<input type="email" ng-model="profile.change_email" class="form-control" required />
+			            	</div>
+			            	<div class="form-group">
+				           		<button type="submit" ng-disabled="changeEmailForm.$invalid" class="btn purple-btn changemail-save col-xs-6" ng-click = "profile.changeEmail()">Save</button>
+				        		<button type="button" class="btn gray-btn changemail-cancel col-xs-6" ng-click="changeemail=!changeemail">Cancel</button>
+				        	</div>
+		        		</form>
 					</div>
 				</div>
 				<div class="my-profile-changepassword">
@@ -43,25 +29,25 @@
 					<h5 ng-click='changepassword=!changepassword'>Change Password</h5>
 					<div class="accPro-ChangePwd col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="changepassword">
 						<form name="ChangePasswordForm">
-							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group current-pwd">
-								<label>Current Password</label>
-								<input type="password"  class="form-control" ng-model="profile.currentUser.CurrentPassword" required />
-							</div>
-							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group new-pwd">
-								<label>New Password</label>
-								<input type="password" class="form-control" ng-model="profile.currentUser.NewPassword" required />
-							</div>
-							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group confirm-pwd">
-								<label>Confirm Password</label>
-								<input type="password" class="form-control" ng-model="profile.currentUser.ConfirmPassword" required />
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group changePwdBtns">
-								<div class="col-xs-6 savebtn">
-									<button type="submit" class="btn purple-btn col-xs-6" ng-click="profile.changePwd()">Save</button>
-								</div>
-								<div class="col-xs-6 cancelbtn">
-									<button type="button" class="btn gray-btn col-xs-6" ng-click='changepassword=!changepassword'>Cancel</button>
-								</div>
+			                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group current-pwd">
+					           	<label>Current Password</label>
+					            <input type="password"  class="form-control" ng-model="profile.currentUser.CurrentPassword" ng-required="true" />
+					        </div>
+					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group new-pwd">
+					            <label>New Password</label>
+					            <input type="password" class="form-control"  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#��*?&]{8,}$" pattern-err-type="customPassword" ng-model="profile.currentUser.NewPassword" ng-required="true" />
+					        </div>
+					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group confirm-pwd">
+					            <label>Confirm Password</label>
+					            <input type="password" class="form-control" ng-model="profile.currentUser.ConfirmPassword" ng-required="true" />
+					        </div>
+			        		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group changePwdBtns">
+			        			<div class="col-xs-6 savebtn">
+				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" class="btn purple-btn col-xs-6" ng-click="profile.changePwd()">Save</button>
+				      	 		</div>
+				      	 		<div class="col-xs-6 cancelbtn">
+				        		<button type="button" class="btn gray-btn col-xs-6" ng-click='changepassword=!changepassword'>Cancel</button>
+				        		</div>
 							</div>
 						</form>
 					</div>
@@ -95,19 +81,20 @@
 
 					<h3>Address</h3>
 					<h4>
-						<span class="disp-block tt-caps">{{address.Street1}} </span>
-						<span class="disp-block tt-caps">{{address.Street2}} </span>
+						<span class="disp-block tt-caps">{{profile.default_add.Street1}} </span>
+					    <span class="disp-block tt-caps">{{profile.default_add.Street2}} </span>
 					    <span class="tt-caps">
-					    	 {{address.City}}
-					    	 {{address.State}}
-					    	 {{address.Zip}}
+					    	 {{profile.default_add.City}}
+					    	 {{profile.default_add.State}}
+					    	 {{profile.default_add.Zip}}
 					    </span>
 					</h4>
-					<h3>Phone Number</h3>
-					<h4 class="ph-value">{{profile.profileData.Phone}}</h4>
-					<h5 class="prof-edit-link" ng-click="editaddress=!editaddress">Edit</h5>
+					<h3>Phone Number</h3>	
+					<h4 class="ph-value">{{profile.contact.Phone3}}</h4>
+					<h5 class="prof-edit-link" ng-click="editaddress=!editaddress" ng-click="profile.editAdressDefault(default_add)">Edit</h5>
 				</div>
 				<!-- For Edit personal info page starts -->
+				<form name="editcontact">
 				<div class="accPro-Edit-Wrap col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-hide="!editaddress">
 					<p class="accPro-edit-title">Edit Information</p>
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
@@ -119,14 +106,14 @@
 						</div>
 
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
-							<label for="firstName">First Name</label>
-							<input type="text" class="form-control" id="firstName" ng-model="profile.default_add.FirstName">
-						</div>
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" ng-model="profile.profileData.FirstName">
+                        </div>
 
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
-							<label for="lastName">Last Name</label>
-							<input type="text" class="form-control" id="lastName" ng-model="profile.default_add.LastName">
-						</div>
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" ng-model="profile.profileData.LastName">
+                        </div>
 
 						<!--  <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 form-group">
                              <label for="zipCode">ZIP Code</label>
@@ -159,25 +146,27 @@
 							<input type="text" class="form-control" id="city" ng-model="profile.default_add.City">
 						</div>
 
+
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 							<label for="state">State</label>
-							<select class="form-control" id="state" ng-model="profile.default_add.State">
-								<option value="Select">Select</option>
-								<option value="MN">MN</option>
-								<option value="IN">IN</option>
-								<option value="NY">NY</option>
-							</select>
+							<input type="text" class="form-control" id="state">
+							<!-- <select class="form-control" id="state">
+                                <option value="Select">Select</option>
+                                <option value="MN">MN</option>
+                                <option value="IN">IN</option>
+                                <option value="NY">NY</option>
+                            </select> -->
 						</div>
 					</div>
 
-					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 form-group">
-							<label for="ph_no" class="ph_num">Phone Number</label>
-							<input type="number" class="form-control ph-TextField col-xs-3" id="ph_no1" ng-model="profile.contact.Phone1">
-							<input type="number" class="form-control ph-TextField col-xs-3" id="ph_no2" ng-model="profile.contact.Phone2">
-							<input type="number" class="form-control ph-TextField col-xs-3" id="ph_no3" ng-model="profile.contact.Phone3">
-						</div>
-					</div>
+						<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
+							<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 form-group">
+	                            <label for="ph_no" class="ph_num">Phone Number</label>
+	                            <input type="number" phone-validation ng-minlength="3" maxlength="3" class="form-control ph-TextField col-xs-3" id="ph_no1" ng-model="profile.contact.Phone1" ng-keypress="profile.IsPhone($event)">
+	                            <input type="number"  phone-validation ng-minlength="3" maxlength="3"class="form-control ph-TextField col-xs-3" id="ph_no2" ng-model="profile.contact.Phone2" ng-keypress="profile.IsPhone($event)">
+	                            <input type="number" phone-validation ng-minlength="3" maxlength="4" class="form-control ph-TextField col-xs-3" id="ph_no3" ng-model="profile.contact.Phone3" ng-keypress="profie.IsPhone($event)">
+	                        </div>
+	                    </div>
 
 					<!-- <div class="acc-ProEdit-btns col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<button class="blueBtn savebtn">save</button>
@@ -200,15 +189,16 @@
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 form-group acc-Pro-Edit-Btns">
-						<div class="col-xs-6 savebtn">
-							<button type="button" class="btn purple-btn col-xs-6">Save</button>
-						</div>
-						<div class="col-xs-6 cancelbtn">
-							<button type="button" class="btn gray-btn col-xs-6" >Cancel</button>
-						</div>
-					</div>
+                        <div class="col-xs-6 savebtn">
+                            <button type="button" class="btn purple-btn col-xs-6" ng-disabled="editcontact.$invalid" ng-click="profile.saveAddressDefault(account.editAddr,account.contact)">Save</button>
+                        </div>
+                        <div class="col-xs-6 cancelbtn">
+                            <button type="button" class="btn gray-btn col-xs-6" ng-click="editaddress=!editaddress">Cancel</button>
+                        </div>
+                    </div>
 
 				</div>
+			</form>
 				<!-- For Edit personal info page Ends -->
 			</div>
 		</div>
