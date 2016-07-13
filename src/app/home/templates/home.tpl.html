@@ -2,10 +2,11 @@
 	<!-- <header class="jumbotron text-center ">	
 		<h2 ng-bind="application.name"></h2>
 	</header> -->
+
 	<div class="owl-carousel" id="owl-carousel-banner">
 		<div class="promo-banner promo-main-banner item" ng-repeat="heroBanner in home.heroBanners track by $index">
-			<img class="desktop-img" src="{{heroBanner.contentUrl}}"/>
-			<img class="mobile-img" src="{{home.heroBanners_mobile[$index]}}"/>
+			<img class="desktop-img" ng-src="{{heroBanner.contentUrl}}"/>
+			<img class="mobile-img" ng-src="{{home.heroBanners_mobile[$index]}}"/>
 			<div class="promo-banner-txt">
 				<h1>{{heroBanner.title}}</h1>
 				<p>{{heroBanner.description}}</p>

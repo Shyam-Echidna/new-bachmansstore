@@ -328,21 +328,25 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 
 
  HomeFact.GetHeroBanner(ticket).then(function(res){
- 		
-		
+
+	 console.log("GetHeroBanner",res);
         var heroBanners = [];
         var heroBanners_mobile = [];
 
         angular.forEach(Underscore.where(res.items), function (node) {
 
-            if (node.title === 'mobile') {
 
-                heroBanners_mobile.push(alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket);
+           if (node.title === 'mobile') {
+			  // var imgurl = node.contentUrl.substring(node.contentUrl.indexOf('re/')+3,node.contentUrl.length);
+			   heroBanners_mobile.push("http://192.168.97.27:8080/BachmanImageResizing/compressImage/"+ node.contentUrl.substring(node.contentUrl.indexOf('re/')+3,node.contentUrl.length) +"?alf_ticket=" + ticket + "&size=0*0");
+                //heroBanners_mobile.push(imgURL);
             }
             else {
-                node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                heroBanners.push(node);
-            }
+			  var imgurl = node.contentUrl.substring(node.contentUrl.indexOf('re/')+3,node.contentUrl.length);
+			   node.contentUrl = "http://192.168.97.27:8080/BachmanImageResizing/compressImage/"+ imgurl+"?alf_ticket=" + ticket + "&size=0*0";
+                //heroBanners.push("http://192.168.97.27:8080/BachmanImageResizing/compressImage/"+ node.contentUrl.substring(node.contentUrl.indexOf('re/')+3,node.contentUrl.length) +"?alf_ticket=" + ticket + "&size=0*0");
+			   heroBanners.push(node);
+		   }
         });
         vm.heroBanners = heroBanners;
         vm.heroBanners_mobile = heroBanners_mobile;
