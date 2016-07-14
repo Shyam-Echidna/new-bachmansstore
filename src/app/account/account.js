@@ -150,7 +150,12 @@ function AccountConfig( $stateProvider ) {
 			url: '/creditCard',
 			templateUrl:'account/templates/accountCreditCard.tpl.html',
 			controller:'CreditCardCtrl',
-			controllerAs: 'creditCard'
+			controllerAs: 'creditCards',
+            resolve: {
+                CreditCards: function(OrderCloud) {
+                   return OrderCloud.Me.ListCreditCards(null, 1, 100)
+                }
+            }
 		})
 		/*		.state( 'account.eventsAccount', {
 		 url: '/eventsAccount',
@@ -529,7 +534,7 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 		var params = {"FirstName":line.FirstName,"LastName":line.LastName,"Street1":line.Street1,"Street2":line.Street2,"City":line.City,"State":line.State,"Zip":line.Zip,"Phone":"("+line.Phone1+")"+line.Phone2+"-"+line.Phone3,"Country":"IN", "xp":{NickName:line.NickName}};
 		OrderCloud.Addresses.Create(params).then(function(data){
 			data.Zip = parseInt(data.Zip);
-			params = {"AddressID": data.ID,"UserID": CurrentUser.ID,"Billing": false,"Shipping": true};
+			params = {"AddressID": data.ID,"UserID": CurrentUser.ID,"IsBilling": false,"IsShipping": true};
 			OrderCloud.Addresses.SaveAssignment(params).then(function(res){
 				$state.go('account.addresses', {}, {reload:true});
 				console.log("Address saved for the user....!" +res);
@@ -707,32 +712,68 @@ function ConfirmPasswordController( $uibModalInstance ) {
 	};
 
 }
-function CreditCardController(OrderCloud,$location,$anchorScroll) {
+function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards) {
 	var vm = this;
-	vm.createCreditCard=function(cards){
-		var obj={
-			"Token":cards.Token,
-			"CardType":cards.CardType,
-			"PartialAccountNumber":cards.PartialAccountNumber,
-			"CardholderName":cards.CardholderName,
-			"ExpirationDate":cards.ExpirationDate,
-			//"xp":
-		};
-		OrderCloud.Me.CreateCreditCard(obj).then(function(rty){
-			console.log("credit card is created",rty);
-			$location.hash('bottom');
-			$anchorScroll();
-		})
-	}
-	OrderCloud.Me.ListCreditCards().then(function(res){
-		console.log("credits cards are-:",res);
-		vm.carddata=res;
-		$location.hash('bottom');
-		$anchorScroll();
-	})
-	OrderCloud.Me.DeleteCreditCard().then(function(cdel){
-		console.log("credit card is deleted--",cdel);
-	})
+    vm.list = CreditCards.Items;
+    vm.newcreditcard = false;
+    vm.editcreditcard = false;
+
+    vm.newCardInput = function() {
+        vm.newcreditcard = true;
+        vm.editcreditcard = false;
+        vm.card = null;
+    };
+
+    vm.editCardInput = function(card) {
+        vm.newcreditcard = false;
+        vm.editcreditcard = true;
+        vm.card = card;
+        vm.card.ExpMonth = vm.card.ExpirationDate.substring(5, 7);
+        vm.card.ExpYear = vm.card.ExpirationDate.substring(0, 4);
+    };
+
+    vm.createCard = function() {
+        CreditCardService.Create(vm.card)
+            .then(function(){
+                vm.card = null;
+                vm.newcreditcard = false;
+                OrderCloud.Me.ListCreditCards(null, 1, 100)
+                    .then(function(ccs){
+                        vm.list = ccs.Items
+                    })
+            })
+            .catch(function(){
+                toastr('Sorry, something went wrong. Please check your card data and try again.')
+            });
+    };
+
+    vm.updateCard = function() {
+        CreditCardService.Update(vm.card)
+            .then(function(){
+                vm.card = null;
+                vm.editcreditcard = false;
+                OrderCloud.Me.ListCreditCards(null, 1, 100)
+                    .then(function(ccs){
+                        vm.list = ccs.Items
+                    })
+            })
+            .catch(function(){
+                toastr('Sorry, something went wrong. Please check your card data and try again.')
+            });
+    };
+
+    vm.deleteCard = function(card) {
+        CreditCardService.Delete(card)
+            .then(function(){
+                OrderCloud.Me.ListCreditCards(null, 1, 100)
+                    .then(function(ccs){
+                        vm.list = ccs.Items
+                    })
+            })
+            .catch(function(){
+                toastr('Sorry, something went wrong. Please try again.')
+            });
+    };
 
 }
 function ChangePasswordController( $state, $exceptionHandler, toastr, AccountService, CurrentUser ) {
@@ -810,6 +851,7 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Address
 	_.filter(vm.Totaladdress,function(row){
 		if(row.xp.IsDefault){
 			vm.default_add=row;
+			vm.defaultAdd = angular.copy(row);
 		}
 	})
 	//_------ END FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//

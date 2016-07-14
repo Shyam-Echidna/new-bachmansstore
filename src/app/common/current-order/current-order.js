@@ -23,7 +23,7 @@ function CurrentOrderService($q, appname, $localForage, OrderCloud) {
                         dfd.resolve(order);
                     })
                     .catch(function() {
-                        Remove();
+                        //Remove();
                         dfd.reject();
                     });
             })
@@ -40,7 +40,7 @@ function CurrentOrderService($q, appname, $localForage, OrderCloud) {
                 if (orderID)
                     dfd.resolve(orderID);
                 else {
-                    Remove();
+                    //Remove();
                     dfd.reject();
                 }
             })
@@ -79,10 +79,11 @@ function CurrentOrderService($q, appname, $localForage, OrderCloud) {
                     angular.forEach(results, function(result) {
                         lineItems = lineItems.concat(result.Items);
                     });
+
                     deferred.resolve(lineItems);
                 });
             });
+             return deferred.promise;
     };
 
-    return deferred.promise;
 }

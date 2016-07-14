@@ -17,18 +17,19 @@ function CheckoutConfig($stateProvider) {
 			resolve: {
                 LineItems: function (OrderCloud, $rootScope, $q, CurrentOrder, toastr, $state, LineItemHelpers) {
 					var deferred = $q.defer();
-					CurrentOrder.Get()
-						.then(function (order) {
-							var order = order;
-							OrderCloud.LineItems.List(order.ID).then(function (res) {
-								LineItemHelpers.GetProductInfo(res.Items)
-                                    .then(function () {
-                                        deferred.resolve(res);
-                                    });
-							}).catch(function () {
-								deferred.resolve(null);
-							});
-
+					CurrentOrder.GetID()
+						.then(function (data) {
+							OrderCloud.As().Orders.Get(data).then(function(order){
+								var order = order;
+								OrderCloud.As().LineItems.List(order.ID).then(function (res) {
+									LineItemHelpers.GetProductInfo(res.Items)
+	                                    .then(function () {
+	                                        deferred.resolve(res);
+	                                    });
+								}).catch(function () {
+									deferred.resolve(null);
+								});
+							})
 						}).catch(function () {
                             toastr.error('You do not have an active open order.', 'Error');
                             if ($state.current.name.indexOf('checkout') > -1) {
@@ -38,17 +39,19 @@ function CheckoutConfig($stateProvider) {
                         });
 					return deferred.promise;
                 },
-                Order: function ($rootScope, $q, $state, toastr, CurrentOrder) {
+                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
                     var dfd = $q.defer();
-                    CurrentOrder.Get()
-                        .then(function (order) {
-                            dfd.resolve(order)
+                    CurrentOrder.GetID()
+                        .then(function (data) {
+                        	OrderCloud.As().Orders.Get(data).then(function(order){
+                            	dfd.resolve(order)
+                        	})
                         })
                         .catch(function () {
                             dfd.resolve(null);
                         });
                     return dfd.promise;
-				},
+                },
 				Buyers: function (OrderCloud, $q) {
 					var deferred = $q.defer();
 					OrderCloud.Buyers.Get().then(function (res) {
@@ -57,6 +60,22 @@ function CheckoutConfig($stateProvider) {
 						deferred.resolve(null);
 					});
 					return deferred.promise;
+				},
+				CreditCard: function (OrderCloud, $q){
+					var deferred = $q.defer();
+					OrderCloud.Me.ListCreditCards().then(function(res){
+						deferred.resolve(res);
+					}).catch(function () {
+						deferred.resolve(null);
+					});
+					return deferred.promise;
+				},
+				LoggedinUser: function(OrderCloud, $q){
+					var deferred = $q.defer();
+					OrderCloud.Me.Get().then(function(res){
+						deferred.resolve(res);
+					})
+					return deferred.promise;
 				}
 			}
 		})
@@ -64,7 +83,7 @@ function CheckoutConfig($stateProvider) {
 function checkOutService($q, $http) {
 	var service = {
 		getCityState: _getCityState,
-		getSetLineItem: _getSetLineItem
+		getSetLineItem:_getSetLineItem
 	}
 	function _getCityState(zip) {
 		var defered = $q.defer();
@@ -86,14 +105,13 @@ function checkOutService($q, $http) {
 		});
 		return defered.promise;
 	}
-	function _getSetLineItem(line) {
-		return {
-			lineitem: line
+	function _getSetLineItem(line){
+		return { lineitem:line
 		}
 	}
 	return service
 }
-function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers) {
+function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser) {
 
 	var vm = this;
 	var date = new Date();
@@ -103,13 +121,16 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 	vm.selected = false;
 	vm.limit = 3;
 	vm.more = true;
-	vm.edit = false;
+	vm.edit=false;
 	vm.recipient = [];
 	vm.recipient[0] = true;
 	vm.message = false;
 	vm.today = new Date();;
 	vm.tomorrow = date.setDate(date.getDate() + 1);
 	vm.payment = false;
+	vm.giftcardcheckbox=false;
+	vm.editbillingaddr=false;
+	vm.newcard=false;
 	vm.DeliveryRuns = Buyers.xp.DeliveryRuns[0];
 	vm.changedeliveryDate = changedeliveryDate;
 	vm.getGuestLineItems = getGuestLineItems
@@ -118,11 +139,13 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 	vm.ordersummarydata = LineItems;
 	vm.orderdata = Order;
 	vm.init = init;
+	vm.creditcards= CreditCard;
+	vm.signnedinuser = LoggedinUser;
 	vm.updateLinedetails = updateLinedetails
 	vm.init();
-
-    $rootScope.$on("ChangedDetails", function (events, lineitem) {
-        vm.editedShippingaddress = lineitem;
+	console.log("vm.creditcards",vm.creditcards);
+    $rootScope.$on("ChangedDetails",function(events,lineitem){
+        vm.editedShippingaddress=lineitem;
 	});
 	function getGuestLineItems(user) {
 		vm.user = user;
@@ -195,9 +218,9 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 					newline[i].xp = newline[0].xp;
 				}
 
-				OrderCloud.LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
+				OrderCloud.As().LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
 					console.log("LineItems Data", dat);
-					OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
+					OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
 						console.log("1234567890", data);
 						alert("Data submitted successfully");
 
@@ -206,9 +229,9 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 			}
 		}
 		else {
-			OrderCloud.LineItems.Update(Order.ID, newline[0].ID, newline[0]).then(function (dat) {
+			OrderCloud.As().LineItems.Update(Order.ID, newline[0].ID, newline[0]).then(function (dat) {
 				console.log("LineItems Data", dat);
-				OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
+				OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
 					console.log("1234567890", data);
 					alert("Data submitted successfully");
 
@@ -218,7 +241,7 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 
 	}
 	vm.editPopUp = function (lineitem) {
-		vm.edit = true;
+		vm.edit=true;
 		var modalInstance = $uibModal.open({
 			animation: false,
 			backdropClass: 'edittModal',
@@ -227,11 +250,13 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 			controller: 'editCtrl',
 			controllerAs: 'edit',
 			resolve: {
-				Order: function ($q, CurrentOrder) {
+				Order: function ($q,CurrentOrder) {
                     var dfd = $q.defer();
-                    CurrentOrder.Get()
-                        .then(function (order) {
-                            dfd.resolve(order)
+                    CurrentOrder.GetID()
+                        .then(function (data) {
+                        	OrderCloud.As().Orders.Get(data).then(function(order){
+                            	dfd.resolve(order)
+                            })
                         })
                         .catch(function () {
                             dfd.resolve(null);
@@ -246,17 +271,38 @@ function CheckoutController($scope, $window, HomeFact, PlpService, $q, $sce, alf
 		});
 
 		modalInstance.result.then(function () {
-
+          
 		}, function () {
 			angular.noop();
 		});
 	}
 
+	function viewMore(){
+		vm.more=false;
+		vm.limit=LineItems.Items.length;
+	}
+	function viewLess(){
+		vm.more=true;
+		vm.limit=3;
+	}
+	function addRecipient(){
+
+	}
+	vm.giftcard = function(data){
+		console.log(data);
+		console.log(vm.signnedinuser);
+		OrderCloud.UserGroups.ListUserAssignments(null, vm.signnedinuser.ID).then(function(dat){
+			OrderCloud.SpendingAccounts.Get(data).then(function(resp){
+				console.log(resp);
+			})
+		})
+	}
+
 }
-function EditController($uibModalInstance, LineItem, Order, checkOutService, $rootScope) {
+function EditController($uibModalInstance, LineItem, Order, checkOutService,$rootScope) {
 	var vm = this;
 	vm.getCityState = getCityState;
-	vm.changeDetails = changeDetails;
+	vm.changeDetails=changeDetails;
 	vm.init = init;
 	init();
 	vm.cancel = function () {
@@ -271,19 +317,19 @@ function EditController($uibModalInstance, LineItem, Order, checkOutService, $ro
 	function init() {
 		if (LineItem) {
 			vm.lineitem = LineItem;
-			if (lineitem.ShippingAddress.Phone) {
-				lineitem.ShippingAddress.Phone1 = lineitem.ShippingAddress.Phone.slice(0, 3);
-				lineitem.ShippingAddress.Phone2 = lineitem.ShippingAddress.Phone.slice(3, 6);
-				lineitem.ShippingAddress.Phone3 = lineitem.ShippingAddress.Phone.slice(6);
+			if (vm.lineitem.ShippingAddress.Phone) {
+				vm.lineitem.ShippingAddress.Phone1 = vm.lineitem.ShippingAddress.Phone.slice(0, 3);
+				vm.lineitem.ShippingAddress.Phone2 = vm.lineitem.ShippingAddress.Phone.slice(3, 6);
+				vm.lineitem.ShippingAddress.Phone3 = vm.lineitem.ShippingAddress.Phone.slice(6);
 			}
 		}
 	}
-	function changeDetails(lineitem) {
+	function changeDetails(lineitem){
 		if (lineitem.ShippingAddress.Phone1 && lineitem.ShippingAddress.Phone2 && lineitem.ShippingAddress.Phone3) {
-
-			lineitem.ShippingAddress.Phone = lineitem.ShippingAddress.Phone1 + lineitem.ShippingAddress.Phone2 + lineitem.ShippingAddress.Phone3;
-		}
-		return $rootScope.$emit("ChangedDetails", lineitem)
-
+				
+				 lineitem.ShippingAddress.Phone=lineitem.ShippingAddress.Phone1+lineitem.ShippingAddress.Phone2+lineitem.ShippingAddress.Phone3;
+			}
+		return $rootScope.$emit("ChangedDetails",lineitem)
+         
 	}
 }

@@ -13,10 +13,10 @@
 						<form class="change-email-form" name = "changeEmailForm" novalidate>
 							<div class="form-group">
 								<label>Enter New Email</label>
-				            	<input type="email" ng-model="profile.change_email" class="form-control" required />
+				            	<input type="email" ng-model="profile.change_email" class="form-control" autocomplete="off"  ng-required="true"  ng-model-options="{updateOn: 'blur'}" custom-email-validation />
 			            	</div>
 			            	<div class="form-group">
-				           		<button type="submit" ng-disabled="changeEmailForm.$invalid" class="btn purple-btn changemail-save col-xs-6" ng-click = "profile.changeEmail()">Save</button>
+				           		<button type="submit" ng-disabled="changeEmailForm.$invalid" ng-class="{'disabledbtn': changeEmailForm.$invalid }" class="btn purple-btn changemail-save col-xs-6" ng-click = "profile.changeEmail()">Save</button>
 				        		<button type="button" class="btn gray-btn changemail-cancel col-xs-6" ng-click="changeemail=!changeemail">Cancel</button>
 				        	</div>
 		        		</form>
@@ -31,19 +31,19 @@
 						<form name="ChangePasswordForm">
 			                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group current-pwd">
 					           	<label>Current Password</label>
-					            <input type="password"  class="form-control" ng-model="profile.currentUser.CurrentPassword" ng-required="true" />
+					            <input type="password" class="form-control" ng-model="profile.currentUser.CurrentPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword"/>
 					        </div>
 					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group new-pwd">
 					            <label>New Password</label>
-					            <input type="password" class="form-control"  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#��*?&]{8,}$" pattern-err-type="customPassword" ng-model="profile.currentUser.NewPassword" ng-required="true" />
+					            <input type="password" class="form-control"  ng-model="profile.currentUser.NewPassword" ng-required="true"  ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword"/>
 					        </div>
 					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group confirm-pwd">
 					            <label>Confirm Password</label>
-					            <input type="password" class="form-control" ng-model="profile.currentUser.ConfirmPassword" ng-required="true" />
+					            <input type="password" class="form-control" ng-model="profile.currentUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}"  confirm-password="profile.currentUser.NewPassword"/>
 					        </div>
 			        		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group changePwdBtns">
 			        			<div class="col-xs-6 savebtn">
-				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" class="btn purple-btn col-xs-6" ng-click="profile.changePwd()">Save</button>
+				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" ng-class="{'disabledbtn': ChangePasswordForm.$invalid }" class="btn purple-btn col-xs-6" ng-click="profile.changePwd()">Save</button>
 				      	 		</div>
 				      	 		<div class="col-xs-6 cancelbtn">
 				        		<button type="button" class="btn gray-btn col-xs-6" ng-click='changepassword=!changepassword'>Cancel</button>
@@ -90,7 +90,7 @@
 					    </span>
 					</h4>
 					<h3>Phone Number</h3>	
-					<h4 class="ph-value">{{profile.contact.Phone3}}</h4>
+					<h4 class="ph-value">{{profile.profileData.Phone}}</h4>
 					<h5 class="prof-edit-link" ng-click="editaddress=!editaddress" ng-click="profile.editAdressDefault(default_add)">Edit</h5>
 				</div>
 				<!-- For Edit personal info page starts -->
@@ -124,26 +124,26 @@
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
 							<label for="address">Address</label>
-							<input type="text" class="form-control" id="address" ng-model="profile.default_add.Street1">
+							<input type="text" class="form-control" id="address" ng-model="profile.defaultAdd.Street1">
 						</div>
 					</div>
 
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
 							<label for="addr2">Address 2</label>
-							<input type="text" class="form-control" id="addr2" ng-model="profile.default_add.Street2">
+							<input type="text" class="form-control" id="addr2" ng-model="profile.defaultAdd.Street2">
 						</div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-6 col-sm-6 col-md-10 col-lg-10">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 							<label for="zipCode">ZIP Code</label>
-							<input type="text" class="form-control" id="zipCode" ng-model="profile.default_add.Zip">
+							<input type="text" class="form-control" id="zipCode" ng-model="profile.defaultAdd.Zip">
 						</div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 							<label for="city">City</label>
-							<input type="text" class="form-control" id="city" ng-model="profile.default_add.City">
+							<input type="text" class="form-control" id="city" ng-model="profile.defaultAdd.City">
 						</div>
 
 
@@ -162,10 +162,16 @@
 						<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 							<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 form-group">
 	                            <label for="ph_no" class="ph_num">Phone Number</label>
-	                            <input type="number" phone-validation ng-minlength="3" maxlength="3" class="form-control ph-TextField col-xs-3" id="ph_no1" ng-model="profile.contact.Phone1" ng-keypress="profile.IsPhone($event)">
+	                           <!--<input type="number" phone-validation ng-minlength="3" maxlength="3" class="form-control ph-TextField col-xs-3" id="ph_no1" ng-model="profile.contact.Phone1" ng-keypress="profile.IsPhone($event)">
 	                            <input type="number"  phone-validation ng-minlength="3" maxlength="3"class="form-control ph-TextField col-xs-3" id="ph_no2" ng-model="profile.contact.Phone2" ng-keypress="profile.IsPhone($event)">
-	                            <input type="number" phone-validation ng-minlength="3" maxlength="4" class="form-control ph-TextField col-xs-3" id="ph_no3" ng-model="profile.contact.Phone3" ng-keypress="profie.IsPhone($event)">
-	                        </div>
+	                            <input type="number" phone-validation ng-minlength="3" maxlength="4" class="form-control ph-TextField col-xs-3" id="ph_no3" ng-model="profile.contact.Phone3" ng-keypress="profile.IsPhone($event)">
+-->
+								<div class="row phone-txt">
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.contact.Phone1" ng-keypress="profile.IsPhone($event)" ></div>
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.contact.Phone2" ng-keypress="profile.IsPhone($event)" ></div>
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="profile.contact.Phone3" ng-keypress="profile.IsPhone($event)" ></div>
+								</div>
+							</div>
 	                    </div>
 
 					<!-- <div class="acc-ProEdit-btns col-xs-12 col-sm-12 col-md-12 col-lg-12">

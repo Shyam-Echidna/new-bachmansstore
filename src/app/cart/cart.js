@@ -17,12 +17,18 @@ function CartConfig($stateProvider) {
             templateUrl: 'cart/templates/cart.tpl.html',
             controller: 'CartCtrl',
             controllerAs: 'cart',
+            params: {
+                ID: null
+            },
             resolve: {
-                Order: function($rootScope, $q, $state, toastr, CurrentOrder) {
+                Order: function($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
                     var dfd = $q.defer();
-                    CurrentOrder.Get()
-                        .then(function(order) {
-                            dfd.resolve(order)
+                    CurrentOrder.GetID()
+                        .then(function(data) {
+                            OrderCloud.As().Orders.Get(data).then(function(order){
+                                console.log(order);
+                                dfd.resolve(order);
+                            })
                         })
                         .catch(function() {
                             dfd.resolve(null);
@@ -36,7 +42,7 @@ function CartConfig($stateProvider) {
                 },
                 LineItemsList: function($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
                     var dfd = $q.defer();
-                    OrderCloud.LineItems.List(Order.ID)
+                    OrderCloud.As().LineItems.List(Order.ID)
                         .then(function(data) {
                             if (!data.Items.length) {
                                 toastr.error("Your order does not contain any line items.", 'Error');
@@ -62,13 +68,13 @@ function CartConfig($stateProvider) {
         });
 }
 
-function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, LineItemsList, LineItemHelpers) {
+function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
     vm.removeItem = LineItemHelpers.RemoveItem;
     vm.pagingfunction = PagingFunction;
-
+    console.log(vm.order);
     vm.updateQuantity = function(cartOrder,lineItem){
         $timeout.cancel();
         $timeout(function(){
@@ -79,7 +85,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
     function PagingFunction() {
         var dfd = $q.defer();
         if (vm.lineItems.Meta.Page < vm.lineItems.Meta.TotalPages) {
-            OrderCloud.LineItems.List(vm.order.ID, vm.lineItems.Meta.Page + 1, vm.lineItems.Meta.PageSize)
+            OrderCloud.As().LineItems.List(vm.order.ID, vm.lineItems.Meta.Page + 1, vm.lineItems.Meta.PageSize)
                 .then(function(data) {
                     vm.lineItems.Meta = data.Meta;
                     vm.lineItems.Items = [].concat(vm.lineItems.Items, data.Items);
@@ -133,9 +139,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
     }
 
     vm.clearcart = function(){
-        Orders.Delete(vm.order.ID);
         OrderCloud.Orders.Delete(vm.order.ID);
-        $scope.load();
+        $state.reload();
     }
 
     vm.closePopover = function () {
@@ -168,7 +173,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
 
     vm.deliverydate = function(date){
         console.log(date);
-        OrderCloud.LineItems.Patch(vm.order.ID, date.ID,date.xp).then(function(res){
+        OrderCloud.As().LineItems.Patch(vm.order.ID, date.ID,date.xp).then(function(res){
             console.log(res);
         })
     }
@@ -179,10 +184,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
         angular.forEach(data, function(value, key){
             var updatefeilds={"FirstName":value.ShippingAddress.FirstName, "LastName":value.ShippingAddress.LastName, "Zip":value.ShippingAddress.Zip};
             console.log(updatefeilds);
-            OrderCloud.LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-                OrderCloud.LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-                    console.log(res);
-                    $scope.load();
+            OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
+                console.log(res);
+                OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res1){
+                    console.log(res1);
+                    $state.reload();
                 });
             });
         },log);
@@ -196,12 +202,12 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
             "Quantity": lastrecp.Quantity,
             "xp": lastrecp.xp
         }
-        LineItems.List(vm.order.ID).then(function(ans){
-            var shippaddr = {};
-            OrderCloud.LineItems.List(vm.order.ID).then(function(ans){
+        //OrderCloud.As().LineItems.List(vm.order.ID).then(function(ans){
+            
+            OrderCloud.As().LineItems.List(vm.order.ID).then(function(ans){
                 console.log(ans);
+                var shippaddr = {};
                 selectedaddr=_.filter(ans.Items, function(obj) {
-                    return ~obj.ShippingAddress.FirstName==changereceipent;
                     return _.indexOf([changereceipent],obj.ShippingAddress.FirstName) > -1
                 });
                 console.log("selectedaddr",selectedaddr);
@@ -219,16 +225,16 @@ function CartController($q, $uibModal, $rootScope, $timeout, OrderCloud, Order, 
                         "Country": value.ShippingAddress.Country,
                         "Phone": value.ShippingAddress.Phone
                     }
-                    OrderCloud.LineItems.Delete(vm.order.ID, data.ID);
-                    OrderCloud.LineItems.Create(vm.order.ID, newline).then(function(res){
+                    OrderCloud.As().LineItems.Delete(vm.order.ID, data.ID);
+                    OrderCloud.As().LineItems.Create(vm.order.ID, newline).then(function(res){
                         console.log(res);
-                        OrderCloud.LineItems.SetShippingAddress(vm.order.ID,res.ID,shippaddr).then(function(resq){
+                        OrderCloud.As().LineItems.SetShippingAddress(vm.order.ID,res.ID,shippaddr).then(function(resq){
                             $state.reload()
                         })
                     });
                 })
             })
-        })
+        //})
     }
 }
 
@@ -278,7 +284,7 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
     vm.lineItemCall = function /*getLineItems*/(order) {
         var dfd = $q.defer();
         var queue = [];
-        OrderCloud.LineItems.List(order.ID)
+        OrderCloud.As().LineItems.List(order.ID)
             .then(function(li) {
                 vm.LineItems = li;
                 if (li.Meta.TotalPages > li.Meta.Page) {
@@ -336,7 +342,7 @@ function ProductRequestController($uibModal, $scope, $stateParams, prodrequestda
     vm.save = function(data){
         console.log(data);
         var updateline = {"xp":data};
-        OrderCloud.LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function(test){
+        OrderCloud.As().LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function(test){
             $uibModalInstance.close();
         })
     }

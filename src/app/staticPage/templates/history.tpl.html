@@ -2,11 +2,10 @@
 
 	<div class="container-fluid p0">
 		<div class="history-banner">
-			<img src="assets/images/history-banner.png" class="hidden-xs hidden-sm">
+			<img ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title=='BannerImage'" ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 			<img src="assets/images/mobile-history-banner.png" class="hidden-md- hidden-lg">
 			<div class="banner-content">
 				<h4>Bachman's History</h4>
-
 			</div>
 		</div>
 	</div>
@@ -15,10 +14,10 @@
 
 		<!-- Sidebar -->
 		<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" id=" sidebar-wrapper">
-			<div class="receipient-details hidden-xs hidden-sm">
-				<uib-accordion close-others="oneAtATime">
-					<uib-accordion-group ng-init="status.open = true" is-open="status.open">
-						<uib-accordion-heading>
+			<div class="receipient-details hidden-xs hidden-sm" >
+				<uib-accordion close-others="oneAtATime" >
+					<uib-accordion-group is-open="$index==history.isOpen" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
+						<uib-accordion-heading >
 							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
 								<g>
 									<rect x="10" width="4" height="24" />
@@ -29,80 +28,27 @@
 							</svg>
 							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
 								<rect y="10" width="50" height="8" />
-
 							</svg>
-							Services
+							<!-- <span ng-click="history.accordianOpen($index)" ng-init="history.activeIndex = (history.parentPath == folder.fileName) ? $index : 0;">{{history.isOpen}}{{folder.title}}</span> -->
+							<span ng-click="history.accordianOpen($index)" ng-init="history.assignIndex(folder.fileName,$index)">{{folder.title}}</span>
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='corporate'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="corporate({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='services'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="services({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
 							</ul>
 
 
 						</div>
 					</uib-accordion-group>
-					<uib-accordion-group>
-						<uib-accordion-heading>
-							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
-								<g>
-									<rect x="10" width="4" height="24" />
-									<rect y="10" width="24" height="4" />
-								</g>
-
-
-							</svg>
-							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
-								<rect y="10" width="50" height="8" />
-
-							</svg>
-							Customer Services
-						</uib-accordion-heading>
-						<div class="receipient-drpDown">
-							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
-							</ul>
-
-
-						</div>
-					</uib-accordion-group>
-					<uib-accordion-group>
-						<uib-accordion-heading>
-							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
-								<g>
-									<rect x="10" width="4" height="24" />
-									<rect y="10" width="24" height="4" />
-								</g>
-
-
-							</svg>
-							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
-								<rect y="10" width="50" height="8" />
-
-							</svg>
-							Corporate
-						</uib-accordion-heading>
-						<div class="receipient-drpDown">
-							<ul>
-								<li><a href="#">Bachman’s History</a></li>
-								<li><a href="#">Employment</a></li>
-								<li><a href="#">Our Partners</a></li>
-								<li><a href="#">Bachman’s Herritage Room</a></li>
-								<li><a href="#">Flagship Store Tour</a></li>
-								<li><a href="#">Contact Us</a></li>
-							</ul>
-
-
-						</div>
-					</uib-accordion-group>
-
 				</uib-accordion>
-
 			</div>
 			<div class="mobile-receipient-details hidden-md hidden-lg">
 				<uib-accordion>
@@ -153,7 +99,8 @@
 
 		<!-- Page Content -->
 		<div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id=" page-content-wrapper">
-			<div class="container-fluid p0">
+			<div ng-include="history.staticTempPage"></div>
+			<!-- <div class="container-fluid p0">
 
 
 				<div class="row right-content">
@@ -223,34 +170,32 @@
 				</div>
 
 
-			</div>
+			</div> -->
 		</div>
 
 
 
 	</div>
 	<div class="history-carousel">
-		<div class="row bachman-herritage">
+		<div class="row bachman-herritage" >
 			<h4>The Bachman’s Heritage</h4>
 
-
-
 			<div class="owl-carousel owl-theme" id="owl-carousel-history">
-				<div class="owl-carousel-item">
+				<div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title!='BannerImage'">
 					<div class="">
 						<div class="grid_1">
-							<a href="single.html"><img src="assets/images/11_History_Page_07.jpg" title="prod1" alt="" class="hidden-xs hidden-sm">
+							<a href="single.html"><img ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 								<img src="assets/images/mobile-11_History_Page_07.png" title="prod1" alt="" class="hidden-md hidden-lg">
 							</a>
 							<div class="grid_desc">
-								<p class="title">The Bachman family home at 60th and Lyndale, circa 1894. Henry and Hattie built this large 15-room house in the early 1890's to accommodate their growing family.</p>
+								<p class="title">{{carousel.title}}</p>
 
 							</div>
 						</div>
 						<div class="clear"></div>
 					</div>
 				</div>
-				<div class="owl-carousel-item">
+				 <!-- <div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'">
 					<div class="">
 						<div class="grid_1">
 							<a href="single.html"><img src="assets/images/11_History_Page_09.jpg" title="prod1" alt="" class="hidden-xs hidden-sm">
@@ -264,7 +209,7 @@
 						<div class="clear"></div>
 					</div>
 				</div>
-				<div class="owl-carousel-item">
+				 <div class="owl-carousel-item">
 					<div class="">
 						<div class="grid_1">
 							<a href="single.html"><img src="assets/images/11_History_Page_11.jpg" title="prod1" alt="" class="hidden-xs hidden-sm">
@@ -278,10 +223,11 @@
 						<div class="clear"></div>
 					</div>
 				</div>
-				<div class="owl-carousel-item">
+				 <div class="owl-carousel-item">
 					<div class="">
 						<div class="grid_1">
-							<a href="single.html"><img src="assets/images/11_History_Page_13.jpg" title="prod1" alt="" class="hidden-xs hidden-sm">
+							<a href="single.html">
+								<img src="assets/images/11_History_Page_13.jpg" title="prod1" alt="" class="hidden-xs hidden-sm">
 								<img src="assets/images/mobile-11_History_Page_07.png" title="prod1" alt="" class="hidden-md hidden-lg">
 							</a>
 							<div class="grid_desc">
@@ -292,7 +238,7 @@
 						</div>
 						<div class="clear"></div>
 					</div>
-				</div>
+				</div> -->
 
 			</div>
 

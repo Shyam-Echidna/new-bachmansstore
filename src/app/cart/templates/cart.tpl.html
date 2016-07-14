@@ -112,9 +112,7 @@
                         {{linegrp}} {{$index}}
                     </div> -->
                     <div class="left-shopping" ng-repeat="line in cart.lineVal">
-                    {{line}}
                         <div class="client-info" ng-init="edit=true">
-                            {{cart.groups[line][$index].ShippingAddress.FirstName}}
                             <div class="recipient-details">Recipient:<span><input type="text" value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" /> <input type="text" value="{{cart.groups[line][0].ShippingAddress.LastName}}" ng-model="cart.groups[line][0].ShippingAddress.LastName" ng-class="{strike: edit==false}" ng-readonly="edit" /></span> <span><input type="text" value="{{cart.groups[line][0].ShippingAddress.Zip}}" ng-model="cart.groups[line][0].ShippingAddress.Zip" ng-class="{strike: edit==false}" ng-readonly="edit" /></span></div>
                             <div class="client-eidt">
                                 <a href="javascript:void(0)" ng-click="edit=!edit" ng-show="edit==true">Edit</a>
@@ -298,7 +296,6 @@
                                                         <div class="showproductrequestdiv" click-outside="cart.closePopover()">
                                                             <p>Product request for Bachman's</p>
                                                             <span ng-click="cart.productrequestpopup(lineItem)">EDIT</span>
-                                                            <textarea ng-readonly="true">{{lineItem.xp.productrequests}}</textarea>
                                                             <textarea ng-readonly="true">{{lineItem.xp.productRequest}}</textarea>
                                                         </div>
                                                     </script>
@@ -336,7 +333,6 @@
                                                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                                 <div class="recipient-qty">Qty.</div>
                                                                                 <div class="qty-list">
-                                                                                    <input type="text" name="quantity" class="input-lg">
                                                                                     <input type="text" name="quantity" class="input-lg">
                                                                                 </div>
                                                                             </div>

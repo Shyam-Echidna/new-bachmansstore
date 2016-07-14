@@ -4,7 +4,7 @@ angular.module( 'orderCloud' )
     .factory( 'LoginService', LoginService )
     .controller( 'LoginCtrl', LoginController )
 
-;
+;   
 
 function LoginConfig( $stateProvider ) {
     $stateProvider

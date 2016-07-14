@@ -1,5 +1,5 @@
-<div class="container-fluid general-static-block howToWrapper p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
-    <div class="container-fluid how-to-nav p0">
+<!-- <div class="container-fluid general-static-block howToWrapper p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}"> -->
+    <!-- <div class="container-fluid how-to-nav p0">
 
         <div class="breadcrumb-box howToBreadcrumbs-Section">
             <ul class="breadcrumb hidden-xs hidden-sm">
@@ -16,8 +16,8 @@
             </ul>
         </div>
 
-    </div>
-    <div class="container-fluid mobile-how-to-nav hidden-sm hidden-md hidden-lg p0">
+    </div> -->
+    <!-- <div class="container-fluid mobile-how-to-nav hidden-sm hidden-md hidden-lg p0">
 
         <div class="breadcrumb-box">
             <ul class="breadcrumb hidden-xs hidden-sm">
@@ -34,81 +34,11 @@
             </ul>
         </div>
 
-    </div>
-    <div class="container-fluid mt60 plr40">
+    </div> -->
+    <!-- <div class="container-fluid mt60 plr40"> -->
       <!-- Sidebar -->
-      <div class=" col-xs-12 col-sm-12 col-md-3 col-lg-3 hidden-xs hidden-sm" id=" sidebar-wrapper">
-        <div class="receipient-details hidden-xs hidden-sm">
-
-            <div class="first-head">
-                Care, Advice & Information
-            </div>
-            <uib-accordion close-others="true">
-                <uib-accordion-group is-open="true" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index ==0" >
-                    <uib-accordion-heading ng-click="template.populateTabs(folder,folder.subfolders,$index)">
-                        <svg class="close" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
-                             height="24" viewBox="0 0 24 24">
-                            <g>
-                                <rect x="10" width="4" height="24"/>
-                                <rect y="10" width="24" height="4"/>
-                            </g>
-
-
-                        </svg>
-                        <svg class="open" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
-                             height="92" viewBox="0 0 92 92">
-                            <rect y="10" width="50" height="8"/>
-
-                        </svg>
-                        <span ng-click="template.populateTabs(folder,folder.subfolders,$index)">{{folder.title}}</span>
-                    </uib-accordion-heading>
-                    <div class="receipient-drpDown">
-                        <ul>
-                            <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''">
-                                <a ng-click="staticPageBase.getThingsFromALfresco(folder.fileName,subFolder.fileName,$index)">
-                                    {{subFolder.title}}
-                                </a>
-                            </li>
-                        </ul>
-
-
-                    </div>
-                </uib-accordion-group>
-                <uib-accordion-group ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index !=0">
-                    <uib-accordion-heading>
-                        <svg class="close" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
-                             height="24" viewBox="0 0 24 24">
-                            <g>
-                                <rect x="10" width="4" height="24"/>
-                                <rect y="10" width="24" height="4"/>
-                            </g>
-
-
-                        </svg>
-                        <svg class="open" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
-                             height="92" viewBox="0 0 92 92">
-                            <rect y="10" width="50" height="8"/>
-
-                        </svg>
-                        <span ng-click="template.populateTabs(folder,folder.subfolders,$index)">{{folder.title}}</span>
-                    </uib-accordion-heading>
-                    <div class="receipient-drpDown">
-                        <ul>
-                            <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''">
-                                <a ng-click="staticPageBase.getThingsFromALfresco(folder.fileName,subFolder.fileName,$index)">
-                                    {{subFolder.title}}
-                                </a>
-                            </li>
-                        </ul>
-
-
-                    </div>
-                </uib-accordion-group>
-            </uib-accordion>
+      <!-- <div class=" col-xs-12 col-sm-12 col-md-3 col-lg-3 hidden-xs hidden-sm" id=" sidebar-wrapper">
+            <div class="receipient-details hidden-xs hidden-sm" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName =='CareAdviceInformation'" ng-init="template.tabSetdata(folder)">
             </div>
           <ul class="related-articles hidden-xs hidden-sm">
               <div class="first-head">
@@ -132,13 +62,13 @@
               </li>
 
           </ul>
-      </div>
+      </div> -->
 
         <!-- Sidebar -->
 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 right-content-Wrap">
     <div class="right-content template2-content" id=" page-content-wrapper">
             <div class="container-fluid">
- 
+
                  <div class="row info-banner">
                     <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-xs hidden-sm">
                     <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-md hidden-lg">
@@ -238,7 +168,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <!-- <ul class="social-icons hidden-xs hidden-sm">
                         <li><a href="">
                             <p class="icon-fb"> </p>
@@ -252,10 +182,10 @@
                         <li><a href="">
                             <p class="icon-twitter2"></p>
                         </a></li>
-                        <li><a href=""> 
+                        <li><a href="">
                             <p class="icon-youtube3"></p>
                         </a></li>
-                        <li><a href=""> 
+                        <li><a href="">
                             <p class="icon-wp"></p>
                         </a></li>
                         <li>
@@ -267,11 +197,11 @@
                             <a href="">
                                 <p class="icon-linkedin3"></p>
                             </a></li>
-                        <li><a href=""> 
+                        <li><a href="">
                         <p class="icon-mail5"></p>
                         </a>
                         </li>
-                        <li><a href=""> 
+                        <li><a href="">
                             <p class="icon-print"></p>
                         </a></li>
                     </ul> -->
@@ -286,17 +216,17 @@
                         <div><p class="icon-wp"></p></div>
                         <div><p class="icon-Bolgger"></p></div>
                         <div><p class="icon-linkedin3"></p> </div>
-                        <div><p class="icon-mail5"></p></div> 
+                        <div><p class="icon-mail5"></p></div>
                         <div><a class=" print-icon hidden-xs hidden-sm addthis_button_print" href="" onclick="window.print();"><p class="icon-print"></p></a></div>
                     </div>
                     <!-- For scoial icons div structure ENDS -->
                     <div ng-include="staticPageBase.staticTempright"></div>
-                </div> 
+                </div>
             </div>
 
 
         </div>
-    
+
 </div>
         <div class="clearfix"></div>
 
@@ -444,5 +374,5 @@
                                 </div><div class="clear"></div>
                             </div>
 </div> -->
-    </div>
-</div>
+    <!-- </div>
+</div> -->

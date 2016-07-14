@@ -24,11 +24,22 @@
                     <button type="button" class="btn btn-default">SEE ALL</button>
                 </div>
             </div>
+            <span class="col-xs-1 col-sm-1 fl catLeftArrow">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                    <style type="text/css">
+                        .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                    </style>
+                    <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                </svg>
+            </span>
             <div class="row typeahead-right-lower owl-carouse " id="owl-carousel-searc">
-                <div class="hidden-xs hidden-sm col-xs-3 col-sm-3 col-md-4 col-lg-4 thumbnail-selection"
+                <div class="hidden-xs hidden-sm col-xs-3 col-sm-3 col-md-6 col-lg-6 thumbnail-selection"
                     ng-repeat="match in matches | IndexType:'products' | limitTo:4 track by $index">
                     <div class="thumbnail">
-                        <img ng-click="$parent.$parent.selectMatch(match)" ng-src="{{match.model.Image}}">
+                        <div class="img-div">
+                            <img ng-click="$parent.$parent.selectMatch(match)" ng-src="{{match.model.Image}}" >
+                        </div>
                         <div class="caption">
                             <h6><span>{{match.model.Name}}</span></h6>
                             <span>{{match.model.Price}}</span>
@@ -36,13 +47,12 @@
 
                     </div>
                 </div>
-                <div class="visible-xs visible-sm media col-xs-4 col-sm-4"
+                <div class="visible-xs visible-sm media col-xs-6 col-sm-6 thumbnail-selection"
                     ng-repeat="match in matches | IndexType:'products' | limitTo:9 track by $index">
-                    <div class="media-left">
-                        <a href="#">
-                            <img ng-click="$parent.$parent.selectMatch(match)" class="media-object"
-                                 ng-src="{{match.model.Image}}">
-                        </a>
+                    <div class="media-left thumbnail p0">
+                        <div class="img-div">
+                            <img ng-click="$parent.$parent.selectMatch(match)" class="media-object" ng-src="{{match.model.Image}}">
+                        </div>
                     </div>
                     <div class="media-body">
                         <h6 class="media-heading"><span>{{match.model.Name}}</span></h6>
@@ -51,6 +61,15 @@
                     <!-- <hr> -->
                 </div>
             </div>
+            <span class="col-xs-1 col-sm-1 fl catRightArrow" >
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                        <style type="text/css">
+                            .st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
+                        </style>
+                    <polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/>
+                </svg>
+            </span>
         </div>
     </div>
     <div class="col-xs-12 typeahead-bottom"> <!--border top-->

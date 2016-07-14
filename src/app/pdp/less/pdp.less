@@ -67,10 +67,11 @@ padding:0px;
                 height: 25px;
                 display:block;
                 position: absolute;
-			    right: 0;
+			    right: 52%;
 			    top: 0;
 			    bottom: 0;
 			    margin: auto;
+			    padding-bottom:28px;
                 svg {
                 	margin-top: -30px;
 	                polyline{
@@ -94,10 +95,9 @@ padding:0px;
 	    position: absolute;
 		bottom: -6px;
 		text-align: center;
-		width: 100%;
 		box-sizing: border-box;
 		left:0;
-		right:0;
+		right:50%;
 
 		.owl-dot{
 			width:14px;
@@ -151,6 +151,7 @@ padding:0px;
 		   			max-height: 400px;
 		   			width: auto;
 		   			display: inline-block;
+		   			.p0;
 			    }
 		    } 
 	    }
@@ -283,7 +284,7 @@ padding:0px;
 	    								.row{
 	    									div{
 	    										button{
-	    											font-size:0.75em;
+	    											font-size:0.875em;
 	    											line-height: 2.813em;
 	    											vertical-align: middle;
 	    											
@@ -512,7 +513,7 @@ padding:0px;
 	background-image: linear-gradient(to bottom, #f9f9f9,@base-bg-white);
 	background-repeat:no-repeat;
 	h3{
-		font:1.563em @neutraface-demi;
+		font:1.463em @neutraface-demi;
 		color:#92bdef;
 		text-align: center;
 	}
@@ -520,6 +521,7 @@ padding:0px;
 		    margin-top: 40px;
 	.img-side{
 		position:relative;
+		cursor: pointer;
 		.text{
 			color:#fff;
 			position:absolute;
@@ -626,7 +628,7 @@ padding:0px;
 				    background: #fafafa;
 				    border: 2px solid #c2c2c2;
 				   // height: 45px;
-				    padding: 0px 40px;
+				    padding: 0px 25px;
 				    margin-right: 10px;
 				    line-height: normal;
 				    	a{
@@ -645,6 +647,15 @@ padding:0px;
 					   			//padding: 11px 15px;
 					   			//padding: 9px 15px;
 					   		}
+					   	&:hover{
+					   		background-color:#666666;
+					   	}
+					   }
+					   &:hover{
+					       background-color: rgba(102,102,102,0.5);
+    					   a{
+    					   		color: #fff;
+    					   }
 					   }
 				}
 			}
@@ -1046,6 +1057,7 @@ padding:0px;
 		bottom:-8px;
 		text-align: center;
 		left:0px;
+		right:0;
 	}
 	.owl-nav{
 		display:none;
@@ -1139,6 +1151,7 @@ padding:0px;
 	    								}
 	    								&.active-box{
 	    									padding:0px;
+	    									box-shadow: 0px 0px 2px 2px #f0f0f0;
 	    								}
 	    							}
 	    						}
@@ -1548,18 +1561,24 @@ padding:0px;
     									font:1em @proxima-bold;
     										span{
     											p{
-    													&.footer-plus {
-						background-image: url('../../assets/images/plus-care.svg');
-						.background-img(18px,
-						right);
-					}
-					&.footer-minus {
-						background-image: url('../../assets/images/minus-care.svg');
-						.background-img(18px,
-						right);
+							    					span{
+														border-bottom: 1px solid #fff;
+													    width: auto;
+													    display: inline-block;
+													    padding-right: 20px;
+														padding-bottom: 10px;
+													}
+							    					&.footer-plus {
+														background-image: url('../../assets/images/plus-care.svg');
+														.background-img(18px,
+														right);
+													}
+													&.footer-minus {
+														background-image: url('../../assets/images/minus-care.svg');
+														.background-img(18px,
+														right);
 
-
-					}
+													}
     											}
     										}
     								}
@@ -1931,6 +1950,7 @@ padding:0px;
 								margin:0px;
 								p{
 									padding-top: 0px;
+									font: 0.875em "ProximaNova-Regular",Arial,sans-serif;
 								}
 							}
 						}
@@ -3036,3 +3056,28 @@ span.ng-isolate-scope:active{
   		}
   		} 
 } 
+.slider-banner-container .pdp-banner-top #owl-carousel-pdp-banner, .slider-banner-container .detail-overlay-box{
+	z-index:0;
+}
+.zoomLens{
+	opacity:0.6 !important;
+}
+.zoomLens, .zoomWindow{
+    border:1px solid #ddd !important;
+}
+
+
+/* wishlist modal */
+
+
+.wishListModal{
+    .modal-dialog {
+        width: 80%;
+        position: absolute;
+        left: 10%;
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: none;
+        }
+    }
+}

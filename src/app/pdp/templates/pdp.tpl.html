@@ -46,10 +46,10 @@
                 <li>STARGAZER</li>                      
             </ul>
         </div> -->
-        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-6 col-lg-6" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'3.6em'}">
+        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'3.6em'}">
             <div class="owl-carousel" id="owl-carousel-pdp-banner">
-                <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item">
-                    <img src="{{prodImage}}" />
+                <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <img class="elevateZoom" src="{{prodImage}}" data-zoom-image="{{prodImage}}"  />
                 </div>
             </div>
         </div>
@@ -58,12 +58,13 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
-                            <h3 class="prod_title">{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name | lowercase}}</h3>
+                            <h3 class="prod_title" ng-if="pdp.baseTitle == true" >{{pdp.productDetails[pdp.selectedSizeIndex][pdp.selectedProductIndex].Name | lowercase}}</h3>
+                            <h3 class="prod_title" ng-if="pdp.baseTitle == false" >{{pdp.baseProductTitle | lowercase}}</h3>
                             <h5 ng-if="pdp.productDetails.length > 1">Select Size</h5>
                             <div class="row radio-btn-container" ng-if="pdp.productDetails.length > 1">
                                 <div ng-repeat="opt in pdp.productDetails">
                                     <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex }" ng-click="pdp.selectedProductIndex=0;pdp.sizeBoxItemClicked($index); ">
-                                        <input type="radio" id="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-init="$index== pdp.selectedSizeIndex?(radio.selectedSize=opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size):'';$index==pdp.selectedSizeIndex?pdp.selectVarients(radio.selectedSize):''" ng-change="pdp.selectVarients(radio.selectedSize)" />
+                                        <input type="radio" id="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-init="$index== pdp.selectedSizeIndex?(radio.selectedSize=opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size):'';$index==pdp.selectedSizeIndex?pdp.selectVarients(radio.selectedSize):''"  name="sizeopt" ng-model="radio.selectedSize" value="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}"  ng-change="pdp.selectVarients(radio.selectedSize)" />
                                         <label for="{{opt[pdp.defaultSizeIndex].xp.SpecsOptions.Size}}">
                                             <span class="radioOutline"><span class="radioInside"></span></span>
                                             <span class="visible-xs visible-sm horizontal-label">
@@ -111,144 +112,33 @@
                                     <li>Comes with seat cushions</li>
                                 </ul>
                             </div>
+                           
                             <div class="row dropdown-box" ng-if="pdp.productDetails.length > 1">
                                 <h5>Add Something Extra</h5>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="row">
-                                        
-                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
+                                    <div class="row" >
+                                                <div ng-repeat="extras in pdp.productExtras track by $index" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder" >
                                                     <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
                                                     <div class="btn-group btn-block dropdown" uib-dropdown>
-                                                        <button id="single-button" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
-                                                            <span class="category-name hidden-xs hidden-sm">BALLOONS</span>
+                                                        <button id="single-button{{$index}}" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="category-name hidden-xs hidden-sm">{{extras[0].CategoryName}}</span>
                                                             <p>Select</p>
                                                         </button>
-                                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
-                                                            <li role="menuitem">
+                                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button" >
+                                                            <li role="menuitem" ng-repeat="extra in extras">
                                                                 <div class="row">
                                                                     <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
                                                                         <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
                                                                     </div>
                                                                     <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Single Foll Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Te Amo Mylar Balloon</h5>
-                                                                        <p>$4.99</p>
+                                                                        <h5>{{extra.Title}}</h5>
+                                                                        <p>{{extra.Price}}</p>
                                                                     </div>
                                                                 </div>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
-                                                    <p class="visible-xs visible-sm mobile-show-title">Plush</p>
-                                                    <div class="btn-group btn-block dropdown" uib-dropdown>
-                                                        <button id="single-button1" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
-                                                            <span class="category-name hidden-xs hidden-sm">PLUSH</span>
-                                                            <p>Select</p> <span class=""></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Single Foll Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Te Amo Mylar Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
-                                                    <p class="visible-xs visible-sm mobile-show-title">Chocolate & Sweets</p>
-                                                    <div class="btn-group btn-block dropdown" uib-dropdown>
-                                                        <button id="single-button2" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
-                                                            <span class="category-name hidden-xs hidden-sm">CHOCOLATE & SWEETS</span>
-                                                            <p>Select</p> <span class=""></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Single Foll Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_09.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li role="menuitem">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_18.png" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>Te Amo Mylar Balloon</h5>
-                                                                        <p>$4.99</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                           
+                                                </div>                                               
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +177,7 @@
                                   <!--<button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>-->
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
-                                            <button class="btn btn-block add-list-link" ng-click="pdp.addToWishList(pdp.productDetails.ID);" type="submit">ADD TO WISHLIST</button>
+                                            <button class="btn btn-block add-list-link" ng-click="pdp.addToWishList(pdp.selectedProductId);" type="submit">ADD TO WISHLIST</button>
                                             <!-- <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button> -->
                                         </div>
                                     </div>
@@ -2137,7 +2027,7 @@
                 <uib-accordion>
                     <uib-accordion-group ng-init="status.open4 = true" is-open="status.open4">
                         <uib-accordion-heading>
-                            <p ng-class="{'footer-minus': status.open4, 'footer-plus': !status.open4}">Tips for Growing Plants</p>
+                            <p ng-class="{'footer-minus': status.open4, 'footer-plus': !status.open4}"><span>Tips for Growing Plants</span></p>
                         </uib-accordion-heading>
                         <ul>
                             <li><a>Basic Care for Blooming Plants</a></li>
@@ -2147,7 +2037,7 @@
                     </uib-accordion-group>
                     <uib-accordion-group is-open="status.open5">
                         <uib-accordion-heading>
-                            <p ng-class="{'footer-minus': status.open5, 'footer-plus': !status.open5}">Wedding & Event Planning</p>
+                            <p ng-class="{'footer-minus': status.open5, 'footer-plus': !status.open5}"><span>Wedding & Event Planning</span></p>
                         </uib-accordion-heading>
                         <ul>
                             <li><a>Wedding Flowers</a></li>
@@ -2158,7 +2048,7 @@
                     </uib-accordion-group>
                     <uib-accordion-group is-open="status.open6">
                         <uib-accordion-heading>
-                            <p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}">Bouquet Arranging</p>
+                            <p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}"><span>Bouquet Arranging</span></p>
                         </uib-accordion-heading>
                         <ul>
                             <li><a>Arranging 101</a></li>
@@ -3345,4 +3235,4 @@
         </div>
     </div> -->
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
-<!-- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script> -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script>

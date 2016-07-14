@@ -1,0 +1,280 @@
+.orderConfirmation {
+    padding: 50px 0px 100px 0px;
+    width: 60%;
+    text-align: center;
+    cursor: default;
+    .wish-title {
+        font: 1.750em @proxima-bold;
+        color: @font-purple-dark;
+        text-transform: uppercase;
+    }
+    .order-id {
+        margin: 25px 0px 35px 0px;
+        h5 {
+            font: 1.250em @proxima-regular;
+            color: #666;
+        }
+        p {
+            font: 1.063em @proxima-regular;
+            color: #000;
+            margin: 10px 0px 20px 0px;
+            span {
+                font-family: @proxima-light;
+                color: #000;
+                font-weight: bold;
+            }
+        }
+        .next-links {
+            margin: 0px;
+            a {
+                font: 0.750em @proxima-regular;
+                color: #666;
+                border-bottom: 1px solid #ddd;
+                &:last-child {
+                    margin-left: 20px;
+                }
+                &:hover {
+                    color: @base-bg-purple-dark;
+                }
+            }
+        }
+    }
+    .registration-form {
+        background: #fbfbfb;
+        padding: 35px 30px;
+        border: 1px solid #f5f5f5;
+        p {
+            font: 1.188em @neutraface-demi;
+            color: #464646;
+            &.one-step {
+                margin-top: 7px;
+            }
+        }
+        button {
+            .purple-button;
+            height: 45px;
+            line-height: 45px;
+            width: 13.00em;
+            padding: 0px;
+            font: 0.875em @proxima-bold;
+            color: #fff;
+            border-radius: 0px;
+            text-transform: uppercase;
+            background: @base-bg-purple-dark;
+            &:hover {
+                background: @base-bg-purple-light;
+            }
+        }
+        .auto-details {
+            margin: 30px 0px;
+            position: relative;
+            left: 35%;
+            text-align: left;
+            p {
+                font: 0.938em @proxima-regular;
+                color: #000;
+                span {
+                    font-family: @proxima-light;
+                    font-weight: bold;
+                    margin-left: 12px;
+                }
+                &.phone {
+                    margin: 12px 0px;
+                }
+            }
+        }
+        .fill-form {
+            form {
+                .form-group {
+                    margin-bottom: 7px;
+                }
+                label {
+                    font: 1em @proxima-regular;
+                    color: #464646;
+                    padding: 0px;
+                    line-height: 45px;
+                }
+                input {
+                    height: 45px;
+                    background: #f4f4f4;
+                    border: 1px solid #e9e9e9;
+                    box-shadow: none;
+                    border-radius: 0px;
+                    width: 350px;
+                    -webkit-appearance: none;
+                }
+                .checkbox-block {
+                    .cuctom-checkbox;
+                    .checkbox {
+                        text-align: left;
+                        label {
+                            font: 0.875em @proxima-regular;
+                            color: #464646;
+                            margin-left: 7px;
+                        }
+                        .Checkbox-visible {
+                            height: 17px;
+                            width: 17px;
+                        }
+                    }
+                    margin: 10px 0px 25px 0px;
+                }
+                
+            }
+        }
+        .after-register {
+            padding: 10px 0px;
+            h4 {
+                font: 1.313em @neutraface-demi;
+                color: @font-purple-dark;
+                margin-bottom: 35px;
+            }
+            p {
+                a {
+                    font: 0.8em @proxima-regular;
+                    color: #464646;
+                    border-bottom: 1px solid #ddd;
+                    margin-right: 25px;
+                    &:last-child {
+                        margin: 0px;
+                    }
+                    &:hover {
+                        color: @base-bg-purple-dark;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* media queries */
+
+@media screen and (min-width:320px) and (max-width:810px) {
+    .orderConfirmation {
+    padding: 30px 5px 15px 5px;
+    width: 100%;
+    div{
+        padding: 0px;
+    }
+    .wish-title {
+        font-size: 1.125em;
+    }
+    .order-id {
+        margin: 15px 0px 20px 0px;
+        h5 {
+            font-size: 0.813em;
+        }
+        p {
+            font-size: 0.875em;
+            span {
+                display: block;
+                margin-top: 7px;
+            }
+        }
+        .next-links {
+            a {
+                font-size: 0.8em;
+                 &:first-child {
+                    float: left
+                }
+                &:last-child {
+                    margin-left:0px;
+                    float: right
+                }
+            }
+        }
+    }
+    .registration-form {
+        //padding: 20px 10px 6px 10px;
+        padding: 0px;
+        margin-top: 55px;
+        clear: both;
+        background: transparent;
+        border: none;
+        .bgColor-mobile{
+            background: #fbfbfb;
+            border: 1px solid #f5f5f5;
+            padding: 20px 10px 6px 10px;
+        }
+        p {
+            font-size: 0.813em;
+            &.one-step {
+                margin-top: 7px;
+            }
+        }
+        button {
+            height: 35px;
+            line-height: 35px;
+            width: inherit;
+            font-size: 0.875em;
+        }
+        .mobileButton{
+            margin-top: 15px;
+            border-bottom: 2px solid #edede9;
+            padding-bottom: 50px;
+        }
+        .auto-details {
+            margin: 22px 0px;
+            left:0%;
+            p {
+                font-size: 0.8em;
+                &.phone {
+                    margin: 7px 0px;
+                }
+            }
+        }
+        .fill-form {
+            form {
+                text-align: left;
+                .form-group {
+                    margin: 0px;
+                    margin-bottom: 14px;
+                }
+                label {
+                    font-size: 0.8em;
+                    line-height: inherit;
+                }
+                input {
+                    height: 35px;
+                    width: inherit;
+                }
+                .checkbox-block {
+                    .cuctom-checkbox;
+                    .checkbox {
+                        label {
+                            font-size: 0.7em;
+                            color: #464646;
+                            margin-left: 7px;
+                        }
+                    }
+                    margin: 0px 0px 10px 0px;
+                }
+                
+            }
+        }
+        .after-register {
+            padding: 20px 0px;
+            background: #fbfbfb;
+            border: 1px solid #f5f5f5;
+            h4 {
+                font-size: 1.188em;
+                margin-bottom: 20px;
+            }
+            p {
+                a {
+                    font-size: 0.8em;
+                    margin-right: 0px;
+                    display: block;
+                    margin-bottom: 18px;
+                    border: none;
+                    text-decoration: underline;
+                        &:last-child{
+                            margin:0px;
+                        }
+                }
+            }
+        }
+    }
+}
+}

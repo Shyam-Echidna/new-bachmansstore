@@ -11,6 +11,7 @@ angular.module('orderCloud')
     .controller( 'ProductQuickViewCtrl', ProductQuickViewController)
     .controller ('ProductQuickViewModalCtrl', ProductQuickViewModalController)
     .controller('addedToCartCtrl',addedToCartController)
+    .directive('prodColors', ProdColorsDirective)
 ;
 
 function PlpConfig($stateProvider) {
@@ -62,7 +63,16 @@ function PlpConfig($stateProvider) {
                         });
                         
                         var price = "$"+lowest+" - $"+highest;
-                        value[data].priceRange = price;
+                        
+                        var baseData;
+                         $.grep(value, function(e , i){ if(e.xp.IsBaseProduct  == 'true'){ 
+                          baseData = i;
+                        }});
+                         value[baseData].priceRange = price;
+                        angular.forEach(Underscore.where(productImages, {title: value[0].xp.ProductCode}), function (node) {
+                            value[baseData].xp.BaseImageUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                           
+                        });
                           var b = value[data];
                           value[data] = value[0];
                           value[0] = b;
@@ -344,9 +354,13 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
     vm.detailsPage = function($event){
       var id = $($event.target).parents('.prodImagewrap').attr('data-prodid');
       var seq= $($event.target).parents('.prodImagewrap').attr('data-sequence');
-      
-      var href= "/pdp/"+ seq + "/prodId="+id;
-      $state.go('pdp', { 'sequence':seq , 'prodId':id });
+      if(typeof id != "undefined"){
+         var href= "/pdp/"+ seq + "/prodId="+id;
+         $state.go('pdp', { 'sequence':seq , 'prodId':id });
+       }else{
+        var href= "/pdp/"+ seq ;
+        $state.go('pdp', { 'sequence':seq });
+      }
     }
 
 
@@ -459,19 +473,7 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
 // Start : color selection
 
 vm.selectedColorIndex = 0;
-vm.selectColor = function($index, $event, prod){
-  vm.selectedColorIndex = $index;
-   //console.log(prodId.imgContent);
-   $($event.target).parents('.product-box').find('img')[0].src = prod.imgContent[0].contentUrl;
-   $($event.target).parents('.product-box').find('.product-name-plp span').text(prod.Name);
-   //$($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
-   $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-sequence', prod.xp.SequenceNumber);
-   $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-prodid', prod.ID);
-   SharedData.SelectedProductId = prod.ID;
-   SharedData.SelectedSequence = prod.xp.SequenceNumber;
-   $event.stopPropagation();
- 
-}
+
 // END : End color selection
    setTimeout(function(){
     angular.element("#owl-carousel-feature-products").owlCarousel({
@@ -492,7 +494,7 @@ vm.selectColor = function($index, $event, prod){
                 1024:{ 
                     items:3
                 },
-                1440:{ 
+                1900:{ 
                     items:4
                 }
             }
@@ -1164,3 +1166,73 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
     }
   return service;    
   }
+
+
+function ProdColorsDirective(){
+    return{
+        scope:{
+            product: '='
+        },
+        restrict:'E',
+        transclude: true,
+        controller: ProductColorCtrl ,
+        templateUrl:'plp/templates/prod-colors.tpl.html',
+        controllerAs :'prodctrl'
+        // template:'<span>fdgsdfg</span>'
+    }
+ }
+
+ function ProductColorCtrl($scope, Underscore){
+            var vm = $(this);
+           var groupedProducts = $scope.product;
+            var defaultGroupedProd = [];
+            var sizeGroupedProducts = _.groupBy(groupedProducts, function(item) { 
+                // return "'"+item.xp.SpecsOptions.Size+"'";
+                return item.xp.SpecsOptions.Size;
+            });
+           var data;
+           $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true')  data = i;});
+           var dafaultSize = groupedProducts[data].xp.SpecsOptions.Size; // pushing default product on top
+           
+           var defaultSizeGroupedProd = sizeGroupedProducts[dafaultSize];
+           if(dafaultSize.toLowerCase() !== 'standard' ){
+            angular.forEach(sizeGroupedProducts["STANDARD"], function(standardValue, key){
+                defaultSizeGroupedProd.push(standardValue); // pushing standard size products
+            });
+           }
+           angular.forEach(sizeGroupedProducts, function(sizeValue, key){
+             if(dafaultSize !== key && key !== 'standard'){
+               angular.forEach(sizeValue, function(prodVal, key){
+                defaultSizeGroupedProd.push(prodVal); // pushin  remaining SKU
+            });
+            }
+           });
+
+           // Color filtering for default size criteria
+           var unique = {};
+            var distinct = [];
+            var distinctObj = [];
+            for( var i in defaultSizeGroupedProd ){
+            if(typeof(defaultSizeGroupedProd[i].xp) !== 'undefined'){
+             if( typeof(unique[defaultSizeGroupedProd[i].xp.SpecsOptions.Color]) == "undefined"){
+              distinct.push(defaultSizeGroupedProd[i].xp.SpecsOptions.Color);
+              distinctObj.push(defaultSizeGroupedProd[i]);
+             }
+             unique[defaultSizeGroupedProd[i].xp.SpecsOptions.Color] = 0;
+            }
+          }
+           $scope.SrotedColors = distinctObj;
+           $scope.selectColor = function($index, $event, prod){
+            $scope.selectedColorIndex = $index;
+             //console.log(prodId.imgContent);
+             $($event.target).parents('.product-box').find('img')[0].src = prod.imgContent[0].contentUrl;
+             $($event.target).parents('.product-box').find('.product-name-plp span').text(prod.Name);
+             //$($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
+             $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-sequence', prod.xp.SequenceNumber);
+             $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-prodid', prod.ID);
+             SharedData.SelectedProductId = prod.ID;
+             SharedData.SelectedSequence = prod.xp.SequenceNumber;
+             $event.stopPropagation();
+           }
+
+    }

@@ -13,8 +13,8 @@
 		<div class="col-md-3" id=" sidebar-wrapper">
 			<div class="receipient-details hidden-xs hidden-sm">
 				<uib-accordion close-others="oneAtATime">
-					<uib-accordion-group ng-init="status.open = true" is-open="status.open">
-						<uib-accordion-heading>
+					<uib-accordion-group is-open="$index==services.isOpen" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
+						<uib-accordion-heading >
 							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
 								<g>
 									<rect x="10" width="4" height="24" />
@@ -25,72 +25,21 @@
 							</svg>
 							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
 								<rect y="10" width="50" height="8" />
-
 							</svg>
-							Services
+							<!-- <span ng-click="services.accordianOpen($index)" ng-init="services.activeIndex = (services.parentPath == folder.fileName) ? $index : 0;">{{services.isOpen}}{{folder.title}}</span> -->
+							<span ng-click="services.accordianOpen($index)" ng-init="services.assignIndex(folder.fileName,$index)">{{folder.title}}</span>
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
-							</ul>
-
-
-						</div>
-					</uib-accordion-group>
-					<uib-accordion-group>
-						<uib-accordion-heading>
-							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
-								<g>
-									<rect x="10" width="4" height="24" />
-									<rect y="10" width="24" height="4" />
-								</g>
-
-
-							</svg>
-							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
-								<rect y="10" width="50" height="8" />
-
-							</svg>
-							Customer Services
-						</uib-accordion-heading>
-						<div class="receipient-drpDown">
-							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
-							</ul>
-
-
-						</div>
-					</uib-accordion-group>
-					<uib-accordion-group>
-						<uib-accordion-heading>
-							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
-								<g>
-									<rect x="10" width="4" height="24" />
-									<rect y="10" width="24" height="4" />
-								</g>
-
-
-							</svg>
-							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
-								<rect y="10" width="50" height="8" />
-
-							</svg>
-							Corporate
-						</uib-accordion-heading>
-						<div class="receipient-drpDown">
-							<ul>
-								<li><a href="#">Bachman’s History</a></li>
-								<li><a href="#">Employment</a></li>
-								<li><a href="#">Our Partners</a></li>
-								<li><a href="#">Bachman’s Herritage Room</a></li>
-								<li><a href="#">Flagship Store Tour</a></li>
-								<li><a href="#">Contact Us</a></li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='corporate'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="corporate({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='services'" ng-click="history.changePageData(subfolder,$index)">
+									<a ui-sref="services({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								</li>
 							</ul>
 
 
@@ -149,7 +98,8 @@
 
 		<!-- Page Content -->
 		<div class="col-md-9 service-templates" id=" page-content-wrapper">
-			<div class="container-fluid">
+			<div ng-include="services.staticTempPage"></div>
+			<!-- <div class="container-fluid">
 
 				<div class="row service-full-content">
 					<div class="col-xs-12 col-md-12">
@@ -187,7 +137,7 @@
 				</div>
 
 
-			</div>
+			</div> -->
 
 
 
@@ -247,13 +197,26 @@
 
 
 
-			<div class="owl-carousel owl-theme" id="owl-carousel-services">
-				<div class="owl-carousel-item">
+			<div class="owl-carousel owl-theme" id="owl-carousel-history">
+				<!-- <div class="owl-carousel-item">
 					<div class="">
 						<div class="grid_1">
 							<a href=""><img src="assets/images/services-carousal1.png" title="prod1" alt=""> </a>
 							<div class="grid_desc">
 								<p class="title">Bridal Bounquet</p>
+
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div> -->
+				<div class="owl-carousel-item" ng-repeat="carousel in services.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title!='BannerImage'">
+					<div class="">
+						<div class="grid_1">
+							<a href="single.html"><img ng-src="{{services.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{services.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
+							</a>
+							<div class="grid_desc">
+								<p class="title">{{carousel.title}}</p>
 
 							</div>
 						</div>

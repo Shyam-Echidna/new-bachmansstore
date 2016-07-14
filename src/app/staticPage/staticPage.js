@@ -8,7 +8,7 @@ angular.module('orderCloud')
 	.controller('historyCtrl', historyController)
 	.controller('staticpageCtrl', staticpageController)
 	.controller('perplePerksCtrl', perplePerksController)
-	.controller('servicesCtrl', servicesController)
+	.controller('servicesCtrl', historyController)
 	.controller('careAdviceCtrl', careAdviceController)
 	.controller('perplePerksRegisteredCtrl', perplePerksRegisteredController)
 	.controller('eventDescriptionCtrl', eventDescriptionController)
@@ -37,6 +37,19 @@ function staticPageConfig($stateProvider) {
 			controller: 'templateCtrl',
 			controllerAs: 'template'
 		})
+
+		.state( 'plantZone.staticPage', {
+			url: '/staticPage/:pageName',
+			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
+			controller: 'staticPageBaseCtrl',
+			controllerAs: 'staticPageBase',
+			resolve:
+			{
+				page : function($stateParams){
+					return $stateParams.pageName;
+				}
+			}
+		})
 		.state('howto', {
 			parent: 'base',
 			url: '/howto',
@@ -50,6 +63,32 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/history.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history'
+		})
+		.state('customerService', {
+			parent: 'base',
+			url: '/customerService/:pageName',
+			templateUrl: 'staticPage/templates/history.tpl.html',
+			controller: 'historyCtrl',
+			controllerAs: 'history',
+			resolve:
+						{
+							page : function($stateParams){
+								return $stateParams.pageName;
+							}
+						}
+		})
+		.state('corporate', {
+			parent: 'base',
+			url: '/corporate/:pageName',
+			templateUrl: 'staticPage/templates/history.tpl.html',
+			controller: 'historyCtrl',
+			controllerAs: 'history',
+			resolve:
+						{
+							page : function($stateParams){
+								return $stateParams.pageName;
+							}
+						}
 		})
 		.state('heritage', {
 			parent: 'base',
@@ -71,6 +110,19 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'servicesCtrl',
 			controllerAs: 'services'
+		})
+		.state('services', {
+			parent: 'base',
+			url: '/services/:pageName',
+			templateUrl: 'staticPage/templates/history.tpl.html',
+			controller: 'historyCtrl',
+			controllerAs: 'history',
+			resolve:
+						{
+							page : function($stateParams){
+								return $stateParams.pageName;
+							}
+						}
 		})
 		.state('careGuides', {
 			parent: 'base',
@@ -114,32 +166,32 @@ function staticPageConfig($stateProvider) {
 			controller: 'workshopEventCtrl',
 			controllerAs: 'workshopEvent'
 		})
-		.state('staticPage', {
-			parent: 'base',
-			url: '/staticPage/:pageName',
-			templateUrl: 'staticPage/templates/StaticBase.tpl.html',
-			controller: 'staticPageBaseCtrl',
-			controllerAs: 'staticPageBase',
-			resolve:
-			{
-				page : function($stateParams){
-					return $stateParams.pageName;
-				}
-			}
-		})
-        .state('staticPageImage', {
-			parent: 'base',
-			url: '/staticPageImage/:pageName',
-			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
-			controller: 'staticPageBaseCtrl',
-			controllerAs: 'staticPageBase',
-			resolve:
-			{
-				page : function($stateParams){
-					return $stateParams.pageName;
-				}
-			}
-		});
+//		.state('staticPage', {
+//			parent: 'base',
+//			url: '/staticPage/:pageName',
+//			templateUrl: 'staticPage/templates/StaticBase.tpl.html',
+//			controller: 'staticPageBaseCtrl',
+//			controllerAs: 'staticPageBase',
+//			resolve:
+//			{
+//				page : function($stateParams){
+//					return $stateParams.pageName;
+//				}
+//			}
+//		})
+//        .state('staticPageImage', {
+//			parent: 'base',
+//			url: '/staticPageImage/:pageName',
+//			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
+//			controller: 'staticPageBaseCtrl',
+//			controllerAs: 'staticPageBase',
+//			resolve:
+//			{
+//				page : function($stateParams){
+//					return $stateParams.pageName;
+//				}
+//			}
+//		});
 
 }
 
@@ -180,7 +232,7 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
             }
         }
         console.log(vm.articleBanner);
-		
+
 	});
 
     vm.getThingsFromALfresco = function(parent, child){
@@ -195,23 +247,44 @@ function contactController() {
 
 function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,staticPageData) {
 	var vm = this;
-
+		vm.bannerHideArticle = true;
 //    vm.subFolderList = BaseService.ListOfPages[0].subfolders;
       vm.folderIndex = 0;
       vm.active=0;
       vm.articleSearch={};
+			vm.mainCatName = "";
+      var getFirstTag = true;
 //    console.log(vm.subFolderList);
     vm.getThingsFromALfresco = function(parent, child,index){
-        console.log(index);
+        console.log(index+" .... "+vm.active);
         vm.active = index;
+        console.log(index+" .... "+vm.active);
     	var ticket = localStorage.getItem("alf_ticket");
     	var route = parent+"/"+child;
     	LoginFact.GetArtcleList(ticket,route).then(function(response){
     		console.log("GetArtcleList",response);
     		vm.articleList = response;
     	});
+			$state.go('plantZone');
     }
-    vm.getThingsFromALfresco("CareGuidesInformation","All_Care_Guides_Information",0);
+    vm.getFirstThingsFromALfresco = function(pp,parent, subFolder,index){
+        console.log(index+" .... "+vm.active);
+      //  vm.active = index;
+        if(subFolder.nodeType == 'ws:section' && subFolder.title !='' && getFirstTag){
+					vm.mainCatName = pp;
+            console.log(index+" .... "+vm.active);
+            getFirstTag = false;
+            var ticket = localStorage.getItem("alf_ticket");
+            var route = parent+"/"+subFolder.fileName;
+            LoginFact.GetArtcleList(ticket,route).then(function(response){
+                console.log("GetArtcleList",response);
+                vm.active = index;
+                vm.articleList = response;
+            });
+        }
+    }
+    vm.isOpen = 0;
+  //  vm.getThingsFromALfresco("CareGuidesInformation","All_Care_Guides_Information",0);
 	setTimeout(function () {
 		var owl2 = angular.element("#owl-carousel-related-products");
 		owl2.owlCarousel({
@@ -240,16 +313,20 @@ function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,
         localStorage.setItem("articleAuthor",obj.author);
         localStorage.setItem("articleTitle",obj.title);
         localStorage.setItem("modifiedOn",obj.modifiedOn);
+					vm.bannerHideArticle = false;
        // if(obj.fileName==="TemplateCareAllNoImage.html" || obj.fileName==="Bachmas_ServicesAllCareNoImage.html"){
-            $state.go('staticPageImage', {pageName:obj.fileName});
+            $state.go('.staticPage', {pageName:obj.fileName});
      //    }else{
        //     $state.go('staticPage', {pageName:obj.fileName});
     //    }
     }
     vm.populateTabs = function(f,sf,index){
-        console.log(index);
-        vm.folderIndex = index;
+      //  vm.folderIndex = index;
+			vm.mainCatName = sf.title;
         var first = true;
+        vm.isOpen = index;
+        getFirstTag = true;
+        vm.tabsData = sf;
         angular.forEach(sf.items, function(item,i) {
 
          if(item.nodeType == 'ws:section' && item.title !='' &first){
@@ -257,7 +334,27 @@ function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,
              vm.getThingsFromALfresco(f.fileName,item.fileName,i);
          }
         });
+				$state.go('plantZone');
 
+    }
+    var keepGoing = true;
+    vm.tabSetdata = function(folders){
+        angular.forEach(folders.subfolders,function(item){
+            if(keepGoing) {
+            if(item.nodeType == 'ws:section' && item.title !=''){
+                vm.tabsData = item;
+                keepGoing = false;
+                return;
+            }
+            }
+        });
+    }
+
+    vm.isFirstOpen = function(i){
+        if(vm.open == i){
+            return true;
+        }
+        return false;
     }
 	var staticheaderHt = $('.base-header-desktop .base-header-inner').height();
 	/*		$('.base-header-desktop .base-header-inner').css('border', '1px solid red');*/
@@ -297,27 +394,91 @@ function template1Controller() {
 
 }
 
-function historyController() {
+function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,alfrescoStaticurl) {
 	var vm = this;
-
+	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
-	owlHistory.owlCarousel({
-
-		/*responsive: true,*/
-		loop: true,
-		animateOut: 'fadeOut',
-		nav: true,
-		navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>', '<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],
-		responsive: {
-			0: {
-				items: 1
-			},
-			1024: {
-				items: 4
-			}
+	vm.accordianOpen = function(index){
+			vm.isOpen = index;
+	}
+	vm.alfStaticContenturl = alfStaticContenturl;
+	vm.parentPathChilde = $state.current;
+	vm.pageName = page;
+	// alert(vm.parentPathChilde);
+	var curl = "";
+	if(page=="BachmansHistory"){
+		curl = "api/node/content/workspace/SpacesStore/be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
+	}else if(page=="WeddingEventPlanning"){
+		curl = "api/node/content/workspace/SpacesStore/37336391-9195-4845-9349-89f648848edd/WeddingEventPlanning.html";
+	}else if(page=="BachmansHerritageRoom"){
+		curl = "api/node/content/workspace/SpacesStore/b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
+	}else if(page=="FAQs"){
+		curl = "api/node/content/workspace/SpacesStore/0e19ff94-e9c5-4703-b3b6-78db5faca9e0/faqs.html";
+	}else if(page=="LandscapeGardenServices"){
+		curl = "api/node/content/workspace/SpacesStore/03c73a0a-ce73-4510-86e0-7cfd4501380a/LandscapeGardenServices.html";
+	}else if(page=="CorporateAccounts"){
+		curl = "api/node/content/workspace/SpacesStore/47fa3916-365f-43b7-b4f3-000868214c71/CorporateAccounts.html";
+	}
+	vm.activeIndex = 0;
+	vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+curl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+  vm.assignIndex = function(data,i){
+		if(vm.parentPathChilde.name == data){
+			vm.isOpen = i;
 		}
-	});
+	}
+	var dataUrl = alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+page+"/Media";
 
+  vm.assignActiveIndex = function(data,i){
+		if(page.toLowerCase() == data.toLowerCase()){
+			vm.activeIndex = i;
+		}
+	}
+	vm.siteToken = localStorage.getItem('alfTemp_ticket');
+
+	// vm.changePageData = function(fl,i){
+	// 	 if(fl.location.path.indexOf('services')>=0){
+	// 		 $state.go('services', {pageName:fl.fileName});
+	// 	 }else{
+	// 		 owlHistory.trigger('destroy.owl.carousel');
+	// 		 vm.carouselData = [];
+	// 		 vm.activeIndex = i;
+	// 		 vm.getMediaData(alfrescoStaticurl+fl.location.path+"/"+fl.fileName+"/Media");
+	// 	 }
+	// }
+ vm.showCarouselData = false;
+  vm.getMediaData = function(url){
+		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
+				console.log(data);
+				vm.carouselData = data.items;
+				if(vm.carouselData.length>2){
+					vm.showCarouselData = true;
+					setTimeout(function(){
+						owlHistory.owlCarousel({
+							/*responsive: true,*/
+							loop: true,
+							animateOut: 'fadeOut',
+							nav: true,
+							navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>', '<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],
+							responsive: {
+								0: {
+									items: 1
+								},
+								1024: {
+									items: 4
+								}
+							}
+						});
+					},1000);
+				}else{
+					$(".history-carousel").hide();
+					vm.showCarouselData = false;
+				}
+
+		},function(data){
+				console.log(data);
+		});
+	}
+	vm.getMediaData(dataUrl);
 }
 
 function staticpageController($scope, $uibModalInstance) {
@@ -457,7 +618,7 @@ function eventDescriptionController($scope) {
 /*For Workshop event controller function starts*/
 function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope) {
 	var vm = this;
-    
+
     function EventsList(){
 
 			 var ajaxarr = [];
@@ -469,26 +630,26 @@ function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sc
          	ajaxarr.push(promise);
          });
        $q.all(ajaxarr).then(function(items){
-         	
-         	var productArr = Underscore.flatten(items); 	
+
+         	var productArr = Underscore.flatten(items);
 
 			var ajaxarr1 = [];
 			for(var i=0;i<productArr.length;i++){
-			
+
 				var promise = PlpService.ProductList(productArr[i].ProductID).then(function(data){
-				
+
 					return PlpService.GetStandardPriceScheduleID(data);
-         
+
 
 				});
-					ajaxarr1.push(promise);	
+					ajaxarr1.push(promise);
 			}
-			
+
 			 $q.all(ajaxarr1).then(function(items){
 			console.log("items==",items) ;
 			vm.eventsList = items;
 			setTimeout(function(){
-				var owl = angular.element("#owl-carousel-events");	
+				var owl = angular.element("#owl-carousel-events");
 				owl.owlCarousel({
 					items:2,
 					center:false,
@@ -525,18 +686,18 @@ function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sc
 						owl.find('.owl-item.active').last().addClass('fadeGrid');
 					}
   /*   onChanged: function(event){
-      		
+
       		owl.find('.owl-item').removeClass('fadeGrid');
       		console.log("owl==",owl.find('.active'));
         owl.find('.owl-item.active').last().addClass('fadeGrid');
      }*/
-   
+
 				});
 				owl.on('changed.owl.carousel', function(event) {
 					setTimeout(function(){
 						console.log("owl==",owl.find('.owl-item.active'));
 						owl.find('.owl-item').removeClass('fadeGrid');
-						
+
 						owl.find('.owl-item.active').last().addClass('fadeGrid');
 					},200);
 				})
@@ -549,7 +710,7 @@ function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sc
 		}
 
 	EventsList();
-    
+
    var ticket = localStorage.getItem("alf_ticket");
 
 	HomeFact.GetGridimgs(ticket).then(function(res){
@@ -561,10 +722,10 @@ function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sc
 		});
 
 	});
- 
-    
+
+
 }
-/*For Workshop event controller function -- end*/ 
+/*For Workshop event controller function -- end*/
 
 
 function storeLocatorController($scope, $timeout, $http, $compile) {
@@ -842,10 +1003,10 @@ function storeLocatorController($scope, $timeout, $http, $compile) {
 		}
 		return false;
 	};
-	
+
 
 		$(".store_info .banner-rewards.storeLoc-Banner-Section .banner-left-wrap img.deskop-img").load(function(){
-			var topBannerHeight = $(this).height();	
+			var topBannerHeight = $(this).height();
 			$('.store_info .banner-rewards.storeLoc-Banner-Section .promoBanner-firstSection img.desktop-img').css('height',topBannerHeight);
 			/*$('.banner-rewards .promo-banner.promo-banner-top .promo-banner-txt').css('height',topBannerHeight);*/
 
@@ -855,8 +1016,26 @@ function storeLocatorController($scope, $timeout, $http, $compile) {
 
 
 function staticPageData($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
-    var service = {};
+    var service = {
+			GetFolders:_getFolders
+		};
+		function _getFolders(url,ticket) {
+			var defferred = $q.defer();
+			$http({
+				method: 'GET',
+				dataType:"json",
+				url: url+"?alf_ticket="+ticket,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).success(function (data, status, headers, config) {
+				defferred.resolve(data);
+			}).error(function (data, status, headers, config) {
+				defferred.reject(data);
+			});
+			return defferred.promise;
+		}
     return service;
-    
+
 
 }

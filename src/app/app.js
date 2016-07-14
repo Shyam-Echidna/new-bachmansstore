@@ -16,6 +16,7 @@ angular.module( 'orderCloud', [
         'ordercloud-assignment-helpers',
         'ordercloud-paging-helpers',
         'ordercloud-auto-id',
+        'ordercloud-credit-card',
         'ordercloud-current-order',
         'ordercloud-address',
         'ordercloud-lineitems',
@@ -59,7 +60,7 @@ function ErrorHandling( $provide ) {
     function handler( $delegate, $injector ) {
         return function( ex, cause ) {
             $delegate(ex, cause);
-           // $injector.get('toastr').error(ex.data ? (ex.data.error || (ex.data.Errors ? ex.data.Errors[0].Message : ex.data)) : ex.message, 'Error');
+            //$injector.get('toastr').error(ex.data ? (ex.data.error || (ex.data.Errors ? ex.data.Errors[0].Message : ex.data)) : ex.message, 'Error');
         };
     }
 }
@@ -109,12 +110,12 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
 
       function getCsttime(data){
 
-  
+
   // success example
   //$http.get('http://192.168.97.27:8010/Bachman/localdeliverytime')
        // .success(function(data, status){
-            //window.alert(JSON.stringify(data.time).substring(12,17)+":00");   
-                      
+            //window.alert(JSON.stringify(data.time).substring(12,17)+":00");
+
 
 
   function toSeconds(time_str) {
@@ -147,8 +148,8 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
   //document.getElementById("abc").innerHTML = result;
 var a = result.split(':');
 var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-           
-            
+
+
    var upgradeTime = seconds;
 var seconds = upgradeTime;
 function timer() {
@@ -159,13 +160,13 @@ function timer() {
     var minutes     = Math.floor(minutesLeft/60);
     var remainingSeconds = seconds % 60;
     if (remainingSeconds < 10) {
-        remainingSeconds = "0" + remainingSeconds; 
+        remainingSeconds = "0" + remainingSeconds;
     }
     if (hours < 10) {
-        hours = "0" + hours; 
+        hours = "0" + hours;
     }
     if (minutes < 10) {
-        minutes = "0" + minutes; 
+        minutes = "0" + minutes;
     }
    // console.log("time==",hours + ":" + minutes + ":" + remainingSeconds);
    if(aSec>=bSec){
@@ -188,7 +189,7 @@ function timer() {
         seconds--;
     }
     }
-    var countdownTimer = setInterval(timer, 1000);         
+    var countdownTimer = setInterval(timer, 1000);
 //});
     }
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
@@ -199,7 +200,7 @@ function timer() {
         LoginService.RememberMe();
     });*/
     $rootScope.$on('OC:AccessForbidden', function(){
-        toastr.warning("I'm sorry, it doesn't look like you have permission to access this page.", 'Warning:');
+      //  toastr.warning("I'm sorry, it doesn't look like you have permission to access this page.", 'Warning:');
     })
 }
 

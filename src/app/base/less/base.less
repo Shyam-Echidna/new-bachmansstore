@@ -602,15 +602,17 @@ svg:hover {
 					&.line2 {
 						-webkit-transform: rotate(45deg);
 						-moz-transform: rotate(45deg);
+						-ms-transform: rotate(45deg);
 						-o-transform: rotate(45deg);
 						transform: rotate(45deg);
 						width: 20px;
 					}
 					&.line3 {
-						-webkit-transform: rotate(-45deg);
-						-moz-transform: rotate(-45deg);
-						-o-transform: rotate(-45deg);
-						transform: rotate(-45deg);
+						-webkit-transform: rotate(45deg);
+						-moz-transform: rotate(45deg);
+						-ms-transform: rotate(45deg);
+						-o-transform: rotate(45deg);
+						transform: rotate(45deg);
 						width: 20px;
 					}
 					&.line4 {
@@ -1226,10 +1228,11 @@ ordercloud-minicart {
 				&.place-order span svg {
 					fill: #fff;
 					stroke: @svg-fill;
-					-ms-transform: rotate(270deg);
 					-webkit-transform: rotate(270deg);
-					transform: rotate(270deg);
-				}
+					-moz-transform: rotate(270deg);
+					-ms-transform: rotate(270deg);
+					-o-transform: rotate(270deg);
+					transform: rotate(270deg);				}
 				&.come-on-in span svg {
 					width: 85px;
 					right: 20px;
@@ -1494,8 +1497,10 @@ btn-primary:hover:hover {
 						float:left;
 						&.menu-prev{
 							background-image: url('../../images/arrow-big-next.svg');
-							-ms-transform: rotate(180deg);
 							-webkit-transform: rotate(180deg);
+							-moz-transform: rotate(180deg);
+							-ms-transform: rotate(180deg);
+							-o-transform: rotate(180deg);
 							transform: rotate(180deg);
 							position:relative;
 							top:1px;
@@ -2563,7 +2568,12 @@ ul.empty-div {
 								    background-size: 15px 20px;
 								    width: 15px;
 								    height: 45px;
-								    transform: rotate(180deg);
+								    -webkit-transform: rotate(180deg);
+									-moz-transform: rotate(180deg);
+									-ms-transform: rotate(180deg);
+									-o-transform: rotate(180deg);
+									transform: rotate(180deg);
+								    left:15px;
 								}
 							}
 							font: 16px/44px @proxima-bold;
@@ -4591,8 +4601,10 @@ body {
 		background-repeat: no-repeat;
 		background-size: initial;
 		background-position: center center;
-		-ms-transform: rotate(180deg);
 		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
 		transform: rotate(180deg);
 		height: 16px;
 		width: 20px;
@@ -5446,6 +5458,10 @@ input:-webkit-autofill{
 		left: 5px;
 		position: relative;
 		top: 5px;
+		-webkit-transform: rotate-(45deg);
+		-moz-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		-o-transform: rotate(-45deg);
 		transform: rotate(-45deg);
 		vertical-align: top;
 		width: 14px;
@@ -5453,16 +5469,31 @@ input:-webkit-autofill{
 	&.right:before {
 		top: 0;
 		left: 0;
+		-webkit-transform: rotate(45deg);
+		-moz-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		-o-transform: rotate(45deg);
 		transform: rotate(45deg);
 	}
 	&.bottom:before {
 		top: -2px;
+		-webkit-transform: rotate(135deg);
+		-moz-transform: rotate(135deg);
+		-ms-transform: rotate(135deg);
+		-o-transform: rotate(135deg);
 		transform: rotate(135deg);
 	}
 	&.left:before {
 		top: 0;
 		left: 5px;
+		-webkit-transform: rotate(-135deg);
+		-moz-transform: rotate(-135deg);
+		-ms-transform: rotate(-135deg);
+		-o-transform: rotate(-135deg);
 		transform: rotate(-135deg);
 	}
 }
 /*Bachman - Accordion Chevron Ends */
+ordercloud-minicart{
+	background-color:transparent;
+}

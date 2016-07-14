@@ -1,21 +1,21 @@
 <div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
 
 	<div class="container-fluid p0 purple">
-		<div class="breadcrumb-box">
+		<div class="breadcrumb-box" ng-if="template.bannerHideArticle">
 			<ul class="breadcrumb">
 				<li><a href="index.html">HOME</a> </li>
-				<li class="text-ellipsis">CARE, ADVICE & INFORMATION</li>
+				<li class="text-ellipsis">CARE, ADVICE & INFORMATION </li>
 				<li>CARE GUIDES & INFORMATION</li>
 
 			</ul>
 
 		</div>
-		<div class="banner-img">
+		<div class="banner-img" ng-if="template.bannerHideArticle">
 			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/2e34e2c3-5065-4791-88cd-b61bc73eac0e/08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-xs hidden-sm">
 			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/eb629c2f-ef33-4eda-9b4b-fa24ca8971d7/mobile-08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-md hidden-lg">
 			<div class="banner-title">
-				<h4>Care & Information Guides</h4>
-				<h5>Florem ipsum lily of the valley</h5>
+				<h4>{{template.mainCatName}}</h4>
+				<!-- <h5>Florem ipsum lily of the valley</h5> -->
 			</div>
 		</div>
 	</div>
@@ -25,17 +25,17 @@
 
 		<!-- Sidebar -->
 		<div class=" col-xs-12 col-sm-12 col-md-3 col-lg-3 hidden-xs hidden-sm" id=" sidebar-wrapper">
-            <div class="receipient-details hidden-xs hidden-sm">
+            <div class="receipient-details hidden-xs hidden-sm" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName =='CareAdviceInformation'" ng-init="template.tabSetdata(folder)">
 
                 <div class="first-head">
-                    Care, Advice & Information
+                    {{folder.title}}
                 </div>
                 <uib-accordion close-others="true">
-                    <uib-accordion-group is-open="true" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index ==0" >
-                        <uib-accordion-heading ng-click="template.populateTabs(folder,folder.subfolders,$index)">
+                    <uib-accordion-group is-open="$index==template.isOpen" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" >
+                        <uib-accordion-heading >
                             <svg class="close" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
-                                 height="24" viewBox="0 0 24 24">
+                                 height="24" viewBox="0 0 24 24" ng-if="subfolder.subfolders.items.length>2">
                                 <g>
                                     <rect x="10" width="4" height="24"/>
                                     <rect y="10" width="24" height="4"/>
@@ -45,17 +45,17 @@
                             </svg>
                             <svg class="open" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
-                                 height="92" viewBox="0 0 92 92">
+                                 height="92" viewBox="0 0 92 92" ng-if="subfolder.subfolders.items.length>2">
                                 <rect y="10" width="50" height="8"/>
 
                             </svg>
-                            <span ng-click="template.populateTabs(folder,folder.subfolders,$index)">{{folder.title}}</span>
+                            <span ng-click="template.populateTabs(folder,subfolder,$index)">{{subfolder.title}}</span>
                         </uib-accordion-heading>
                         <div class="receipient-drpDown">
                             <ul>
-                                <li ng-repeat="subFolder in folder.subfolders.items" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''">
-                                    <a ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName,$index)">
-                                        {{subFolder.title}}
+                                <li ng-repeat="subsubFolder in subfolder.subfolders.items" ng-if="subsubFolder.nodeType == 'ws:section' && subsubFolder.title !=''">
+                                    <a ng-click="template.bannerHideArticle = true;template.getThingsFromALfresco(subfolder.fileName,subsubFolder.fileName,$index)"  ng-style="template.active === $index ? { 'color':'#8c58b5'} : {}">
+                                      {{subsubFolder.title}}
                                     </a>
                                 </li>
                             </ul>
@@ -63,6 +63,7 @@
 
                         </div>
                     </uib-accordion-group>
+<!--
                     <uib-accordion-group ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.title !='' && $index !=0">
                         <uib-accordion-heading>
                             <svg class="close" xmlns="http://www.w3.org/2000/svg"
@@ -95,21 +96,45 @@
 
                         </div>
                     </uib-accordion-group>
+-->
                 </uib-accordion>
+                 <ul class="related-articles hidden-xs hidden-sm" ng-if="!template.bannerHideArticle">
+              <div class="first-head">
+                  Related articles
+              </div>
+
+              <li>
+                  <a href="#">The house Experts by Dr. D. G. Hessayon</a>
+              </li>
+              <li>
+                  <a href="#">Orthos Guide to successful Houseplant</a>
+              </li>
+              <li>
+                  <a href="#">Batchman's Information Sheet Favourite Blooming Plants</a>
+              </li>
+              <li>
+                  <a href="#">Batchman's Information Sheet General Care for Indoor Plants</a>
+              </li>
+              <li>
+                  <a href="#">Batchman's Information Sheet Watering Basics for Indoor Plants</a>
+              </li>
+
+          </ul>
                 </div>
 </div>
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
+        <ui-view>
 		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id=" page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row right-content">
-                    <uib-tabset active="template.active" class="tabs" ng-repeat="folder in base.ListOfPages" ng-if="$index==template.folderIndex">
-						<uib-tab class="in-tabs" index="$index" ng-repeat="subFolder in folder.subfolders.items" heading="{{subFolder.title}}" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''" ng-click="template.getThingsFromALfresco(folder.fileName,subFolder.fileName,$parent.$index)">
-                           
+                    <uib-tabset active="template.active" class="tabs">
+						<uib-tab class="in-tabs" index="$index" ng-repeat="subFolder in template.tabsData.subfolders.items" heading="{{subFolder.title}}" ng-if="subFolder.nodeType == 'ws:section' && subFolder.title !=''" ng-click="template.getThingsFromALfresco(template.tabsData.fileName,subFolder.fileName,$index)" >
+
 							<span class="shadow-border"></span>
 							<div class="row">
-								<div class="title">
+								<div class="title" ng-init="template.getFirstThingsFromALfresco(template.tabsData.title,template.tabsData.fileName,subFolder,$index)">
 									<h4>{{subFolder.title}}</h4>
 								</div>
 
@@ -123,7 +148,7 @@
 											stroke-width: 2;
 											stroke-miterlimit: 10;
 										}
-										
+
 										.st1 {
 											fill: none;
 											stroke: #FFFFFF;
@@ -162,14 +187,14 @@
 									</tbody>
 								</table>
                             </div>
-                            
+
                         </uib-tab>
                     </uib-tabset>
 				</div>
 
 			</div>
 		</div>
-
+        </ui-view>
 		<div class="bottom-divider"></div>
 
 	</div>

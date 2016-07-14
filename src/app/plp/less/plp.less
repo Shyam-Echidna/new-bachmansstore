@@ -64,7 +64,7 @@ body.modal-open {
                 overflow: hidden;
                 .owl-item {
                     &.active {
-                        padding: 0px 6px;
+                        padding: 0px 5px;
                     }
                 }
                 .owl-stage .owl-carousel-item{
@@ -497,9 +497,9 @@ body.modal-open {
                             svg.close {
                                 width: 22px;
                                 height: 22px;
-                                padding: 4px;
+                                padding: 3px 4px 4px;
                                 float: right;
-                                margin-top: 6px;
+                                margin-top: 0px;
                                 display: inline-block;
                                 fill: #000;
                                 opacity: 1;
@@ -758,7 +758,7 @@ body.modal-open {
                     bottom: 0px;*/
                     .fl;
                     margin: auto;
-                    padding:20px 10px 20px;
+                    padding:18px 8px 12px;
                     text-align: center;
                     span{
                         vertical-align: middle;
@@ -779,6 +779,8 @@ body.modal-open {
                         //margin-left: 50px;
                         vertical-align: middle;
                         display: inline-block;
+                        top: 6px;
+                        left: 6px;
                         h5 {
                             font: 0.875em @proxima-regular;
                             color: #d9f7c5;
@@ -1098,7 +1100,7 @@ body.modal-open {
                                 display: table-cell;
                                 vertical-align: middle;
                                 float: none;
-                                line-height: 40px;
+                                line-height: 39px;
                                 //font-weight: bold;
                             }
                             .grey-btn {
@@ -1526,6 +1528,16 @@ body.modal-open {
                         }
                         a {
                             padding: 0px;
+                            &:hover,&:focus{
+                                background-color: transparent;
+                                color: #8c58b5;
+                            }  
+                        }
+                        &.active{
+                            a{
+                                background-color: transparent;
+                                color: #8c58b5;
+                            }  
                         }
                     }
                 }
@@ -1675,12 +1687,12 @@ body.modal-open {
                         .new-label {
                             .ribbon-wrapper {
                                 .ribbon-front {
-                                    height: 0.938em;
+                                    height: 1.1em;
                                     width: 3.438em;
                                     p {
                                         font-size: 0.65em;
                                         line-height: 0;
-                                        padding-top: 0.586em;
+                                        padding-top: 0.786em;
                                     }
                                 }
                                 .ribbon-edge-bottomright {
@@ -1692,7 +1704,7 @@ body.modal-open {
                         .new-label {
                             .ribbon-wrapper {
                                 .ribbon-front {
-                                    height: 0.938em;
+                                    height: 1.1em;
                                     width: 2.5em;
                                 }
                                 .ribbon-edge-bottomright {
@@ -2092,7 +2104,7 @@ body.modal-open {
                                     svg.close {
                                         width: 20px;
                                         height: 20px;
-                                        padding: 4px;
+                                        padding: 3px 4px 4px;
                                         float: right;
                                         display: inline-block;
                                         fill: #000;
@@ -2641,7 +2653,7 @@ body.modal-open {
                         color: #464646;
                         display: inline-block;
                         font-size: 21px;
-                        font-family: @proxima-light;
+                        font-family: @proxima-regular;
                     }
                 }
             }
@@ -2899,21 +2911,24 @@ body.modal-open {
         //padding: 0px 25px;
         margin: 25px 0px 50px 0px;
         h3 {
-            font: 1.813em @neutraface-demi;
+            font: 1.613em @neutraface-demi;
             color: #8b5bb3;
             padding: 0px 0px 0px 20px;
         }
         .feature-product-block {
             margin: 25px 0px 0px 0px;
             #owl-carousel-added-cart-frequent-pdt{
-                padding: 0px 20px;
+                padding: 0px 15px;
                 .owl-item{
                     //padding: 0px 15px;
                 }
                 .owl-carousel-item{
-                    width:18%;
-                    margin: 0 1%;
+                    width:20%;
+                    margin: 0%;
                     float: left;
+                    div{
+                        padding: 10px;
+                    }
                 }
                 .owl-nav {
                                 display: block;
@@ -3097,6 +3112,7 @@ body.modal-open {
                                         h5.iName {
                                             font: 0.750em @proxima-regular;
                                             font-weight: bold;
+                                            white-space:pre-wrap;
                                         }
                                         p.cat,
                                         p.qty,
@@ -3110,6 +3126,7 @@ body.modal-open {
                                 padding: 0px;
                                 div{
                                     margin-bottom: 0px;
+                                    vertical-align: top;
                                 }
                             }
                         }
@@ -3158,8 +3175,8 @@ body.modal-open {
             }
             .feature-product-block {
                 margin: 25px 0px 0px 0px;
-                div {
-                    margin-bottom: 20px;
+                div { 
+                    //margin-bottom: 20px; 
                     img {
                         margin: auto;
                     }
@@ -3176,6 +3193,35 @@ body.modal-open {
             }
         }
     }
+    .added-main .frequent-block .feature-product-block #owl-carousel-added-cart-frequent-pdt .owl-carousel-item{
+        width:50%
+    }
+    .added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt{
+        .cartLeftArrow{
+            left:6px;
+        }
+        .cartRightArrow{
+            right:6px; 
+        }
+        .owl-carousel-item{
+            padding:0 30px;
+            .row{
+                white-space:nowrap;
+                overflow-x:auto;
+                .itemInner{
+                    width: 50%;
+                    float: none;
+                    display: inline-block;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+    .addedToCartModal {
+        .modal-dialog{
+            width:100%;
+        }
+    } 
 }
 //ipad portrait
 @media screen and (max-width: 768px) and (min-width: 738px) {
@@ -3395,7 +3441,7 @@ body.modal-open {
                     color: @font-purple-dark;
                     padding-bottom: 20px;
                     cursor: default;
-                    text-transform: lowercase;
+                    text-transform: capitalize;
                     &:first-letter{
                         text-transform: uppercase;
                     }
@@ -4018,10 +4064,13 @@ body.modal-open {
     }
 }
 .filter-modal {
-    padding: 0px 13px;
+    padding: 0px;
     //position: relative;
     .scroll-content{
         overflow-x: hidden;
+        .row{
+            padding: 0px 13px;
+        }
     }
     .close-icon {
         position: absolute;
@@ -4065,41 +4114,93 @@ body.modal-open {
         }
     }
     .filter-selections {
-        padding: 10px 30px;
+        padding: 10px 50px !important;
         background: @half-white;
         margin: 15px -13px 0px -13px;
+        position:relative;
+        span{
+            &.cartRightArrow {
+                //display:none;
+                z-index: 1;
+                position: absolute;
+                background-size: initial;
+                background-repeat: no-repeat;
+                width:20px;
+                height: 25px;
+                cursor: pointer;  
+                right:22px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                svg{
+                    width:100%;
+                    height:25px;
+                    polyline{
+                        stroke: #8b5bb3;
+                        fill: none;
+                        stroke-width: 8px;
+                    }  
+                }                   
+            } 
+            &.cartLeftArrow {   
+                //display:none;
+                position: absolute; 
+                background-size: initial;
+                width: 20px;
+                height: 25px;
+                background-repeat: no-repeat;
+                -ms-transform: translate(0%, -50%) rotate(180deg);
+                -webkit-transform: translate(0%, -50%) rotate(180deg);
+                transform: translate(0%, -50%) rotate(180deg);
+                left:22px;
+                cursor: pointer;
+                top: 12px;
+                bottom: 0;
+                margin: auto;
+                svg{
+                    width:100%;
+                    height:25px;
+                    margin-top:-19px;
+                    polyline{
+                        stroke: #8b5bb3;
+                        fill: none;
+                        stroke-width: 8px;
+                    }  
+                }
+            }
+        }
         #owl-carousel-selected-cat-mobile {
             white-space: nowrap;
-    overflow-x: auto;
-        .owl-carousel-item {
-                            color: #8b5bb3;
-                            font: 0.813em @proxima-regular;
-                            border: 1px solid #bea6d2;
-                            padding: 7px 6px;
-                            margin: 0px 3px 0px 0px;
-                            cursor: pointer;
-                            display:inline-block;
-                            width:49%;
-                            position: relative;
-                            p {
-                                width: 80px;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                vertical-align: middle;
-                            }
-                            svg {
-                                height: 9px;
-                                width: 9px;
-                                fill: #8c58b5;
-                                position: absolute;
-                                top: 0;
-                                right: 0;
-                                bottom: 0;
-                                margin: auto;
-                                margin-right: 10px;
-                            }
-                        }
+            overflow-x: auto;
+            .owl-carousel-item {
+                color: #8b5bb3;
+                font: 0.813em @proxima-regular;
+                border: 1px solid #bea6d2;
+                padding: 7px 6px;
+                margin: 0px 3px 0px 0px;
+                cursor: pointer;
+                display:inline-block;
+                width:49%;
+                position: relative;
+                p {
+                    width: 80px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    vertical-align: middle;
+                }
+                svg {
+                    height: 9px;
+                    width: 9px;
+                    fill: #8c58b5;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    margin: auto;
+                    margin-right: 10px;
+                }
+            }
             .owl-stage-outer {
                 .owl-stage {
                     .owl-item {
@@ -4209,9 +4310,12 @@ body.modal-open {
                 &+ .panel {
                     margin-top: 0px;
                 }
+                &:last-child{
+                    border:none;
+                }
                 .panel-heading {
                     background-color: @wht-color;
-                    //padding: 10px 10px 10px 0px;
+                    padding: 10px 15px 11px;
                     .panel-title a {
                         text-decoration: none;
                         display: block;
@@ -4226,7 +4330,7 @@ body.modal-open {
                             svg.close {
                                 width: 20px;
                                 height: 20px;
-                                padding: 4px;
+                                padding: 3px 4px 4px;
                                 float: right;
                                 display: inline-block;
                                 fill: #000;

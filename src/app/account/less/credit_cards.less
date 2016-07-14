@@ -159,17 +159,20 @@
 	                        height: 40px;
 	                        border-radius: 2px;
 	                        .bs-inset-remove;
+	                        &:focus {
+    							background-color: #fff;
+	    					}
 	    				}
 	    				select {
 	    					.custom-select-box;
 	    				}
 	    			}
 	    			.exp-date {
-	    				select#month {
+	    				select#month, select#monthEdit {
 	    					width: 47%;
     						display: inline-block;
 	    				}
-	    				select#year {
+	    				select#year, select#yearEdit {
 	    					width: 47%;
     						display: inline-block;
     						float: right;
@@ -193,7 +196,10 @@
 	                        font: 1em @proxima-regular;
 	                        height: 40px;
 	                        border-radius: 2px;
-	                        .bs-inset-remove
+	                        .bs-inset-remove;
+	                        &:focus {
+    							background-color: #fff;
+	    					}
 	    				}
 	    				select {
 	    					.custom-select-box;
@@ -369,15 +375,20 @@
 		    				}
 		    			}
 		    			.exp-date {
-		    				margin-bottom: 0;
-		    				select#month {
+		    				/*margin-bottom: 0;*/
+		    				select#month, select#monthEdit {
 		    					width: 47%;
 	    						display: inline-block;
 		    				}
-		    				select#year {
+		    				select#year, select#yearEdit {
 		    					width: 47%;
 	    						display: inline-block;
 	    						float: right;
+		    				}
+		    			}
+		    			.card-number {
+		    				&:last-child {
+		    					margin-bottom: 0;
 		    				}
 		    			}
 	    			}
@@ -470,7 +481,7 @@
 							}
 						}
 						.exp-date {
-							select#month, select#year {
+							select#month, select#year, select#monthEdit, select#yearEdit {
 								width: 49%;
 							}
 						}
