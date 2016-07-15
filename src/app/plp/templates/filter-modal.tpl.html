@@ -1,19 +1,19 @@
 <div class="container-fluid filter-modal" >
 	<div class="scroll-content" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
 	<div class="row">
-	<p class="close-icon" ng-click="cancel()"><a>
-		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
-                  <g>
-                     <g>
-                        <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
-                     </g>
-                     <g>
-                        <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
-                     </g>
-                  </g>
-               </svg>
-	</a>
-
+	<p class="close-icon" ng-click="cancel()">
+		<a>
+			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+	          <g>
+	             <g>
+	                <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
+	             </g>
+	             <g>
+	                <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
+	             </g>
+	          </g>
+	      	</svg>
+		</a>
     </p>
 </div>
     <div class="row head-text">
@@ -24,10 +24,10 @@
 		<button class="clearAll" ng-click="filterBtn.clearSelection()">Clear All</button>
 	</div>
     </div>
-    <div class="row filter-selections">
-		<span class=" fl cartLeftArrow" >
+    <div class="row filter-selections" ng-if="filterBtn.selection.length>0">
+		<span class=" fl cartLeftArrow" ng-if="filterBtn.selection.length > 2">
           	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
+                viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
              	<style type="text/css">
                 	.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}
              	</style>
@@ -49,7 +49,7 @@
                 </svg>
             </div>
 		</div>
-	    <span class=" fr cartRightArrow">
+	    <span class=" fr cartRightArrow" ng-if="filterBtn.selection.length > 2">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
                 <style type="text/css">

@@ -22,6 +22,7 @@ function HomeConfig( $stateProvider ) {
 function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope) {
 
 	var vm = this;
+	$rootScope.showBreadCrumb = false;
 	function EventsList(){
 		var ajaxarr = [];
 		  CategoryService.listChild("c10").then(function(catList) {

@@ -337,9 +337,10 @@ function _getProductList(res, productImages){
 }
 
 
-function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, productList, $scope, alfcontenturl,OrderCloud,$sce) {
+function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, productList, $scope, $rootScope, alfcontenturl,OrderCloud,$sce) {
 
     var vm = this;
+    $rootScope.showBreadCrumb = true;
     vm.productList = productList;
         // START: function for facet selection logic
     vm.selection=[];
@@ -895,6 +896,7 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
     vm.defaultSizeIndex =0; 
     vm.sizeGroupedProducts = [];
     var sizeGroupedProducts = SelectedProduct;
+    vm.selectedProductId = 0; //Holds selected SKU Id
     vm.productDetails = Object.keys(sizeGroupedProducts).map(function (key) {return sizeGroupedProducts[key]});;
     angular.forEach(vm.productDetails, function(value, key){
     $.grep(value, function(e , i){ 
@@ -909,6 +911,10 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
   $scope.qty =1;
   $scope.multireceipentText = '<p>Is this for multiple receipents?</p> <button>YES</button><button>NO</button>'
   
+  //Extras for products
+  var extrasData =  PdpService.GetExtras();
+  extrasData = Object.keys(extrasData).map(function (key) { return extrasData[key] });;
+  vm.productExtras = extrasData;
   vm.setQvImage = function($event){
     $($event.target).parents('.category-pdt-carousel').find('#img-min-height img').attr('src',$($event.target).attr('src'));
   }
@@ -918,6 +924,7 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
     vm.sizeGroupedProducts = sizeGroupedProducts[selectedSize];
     vm.selectedColorIndex = 0;
     vm.gotoPdp = "/pdp/"+sizeGroupedProducts[selectedSize][vm.selectedProductIndex].xp.SequenceNumber+"?prodId="+sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID ; 
+    vm.selectedProductId = sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID;
     $('body').find('.detail-container .prod_title').text(vm.sizeGroupedProducts[0].Name);
     PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
     $timeout(function(){
@@ -967,6 +974,13 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
   vm.selectedColorIndex = 0;
   vm.productVarientImages = productImages;
   console.log('testimg', vm.productVarientImages)
+
+  // Add to wishList
+  vm.addToWishList = function (productID) {
+    return PdpService.AddToWishList(productID).then(function (item) {
+      return item;
+    });
+  }
   vm.colorItemClicked = function ($index, $event, prod) {
      vm.productVarientImages = [];
   vm.selectedProductIndex = $index;
@@ -975,6 +989,8 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
   $($event.target).parents('.detail-container').find('h3').text(prod.Name);
   $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
   
+
+
   PdpService.GetProductCodeImages(prod.ID).then(function(res){
     $timeout(function(){
   vm.productVarientImages =  res;
@@ -1222,6 +1238,7 @@ function ProdColorsDirective(){
             }
           }
            $scope.SrotedColors = distinctObj;
+            $scope.selectedColorIndex = -1;
            $scope.selectColor = function($index, $event, prod){
             $scope.selectedColorIndex = $index;
              //console.log(prodId.imgContent);

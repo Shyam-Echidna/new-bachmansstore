@@ -441,6 +441,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 
 function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpService, productDetail, alfcontenturl, $sce, CurrentOrder, $rootScope, $scope, PdpService, productImages, selectedProduct) {
 	var vm = this;
+	$rootScope.showBreadCrumb = true;
 	vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
 	vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails     	
 	vm.sizeGroupedProducts = []; // stores prodcuts in accrging to size 

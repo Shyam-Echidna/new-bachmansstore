@@ -4015,11 +4015,27 @@ body.modal-open {
                     &:first-child {
                         padding: 0px;
                     }
+                    display:inline-block;
+                    vertical-align:middle;
+                    &.addthis_toolbox{
+                        .share-icons{
+                            a{
+                                //margin:0px;
+                            }
+                        }
+                    }
+                    p{
+                        margin-top:-5px;
+                        margin-right:40px;
+                    }
                 }
             }
         }
         .right{
             padding-right: 30px;
+                a{
+                    line-height:40px;
+                }
         }
     }
     input[type="text"] {
@@ -4315,7 +4331,7 @@ body.modal-open {
                 }
                 .panel-heading {
                     background-color: @wht-color;
-                    padding: 10px 15px 11px;
+                    padding: 10px 15px 11px 0;
                     .panel-title a {
                         text-decoration: none;
                         display: block;

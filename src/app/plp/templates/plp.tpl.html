@@ -575,25 +575,18 @@
                      </div>
                   </div>
                   <div ng-repeat="prod in groupedProducts  track by $index">
-                       <!-- <div ui-sref="pdp({sequence:prod.xp.SequenceNumber, prodId:prod.ID})" ng-click="detailsPage(prod.xp.SequenceNumber, prod.ID);" ng-if="prod.xp.IsDefaultProduct == 'true'" class="prodImagewrap"> -->
-                       <!-- data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  -->
                        <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
                            <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
                               <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
-                             
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
                        </div>
                     </div>
                   <prod-colors product="groupedProducts"></prod-colors>
-                <!--  <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
-                       <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
-                           <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
-                        </p>
-                   </div> -->
-                    
+                   
                    <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+
                      <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
@@ -624,7 +617,19 @@
                            </div> 
                         </div>
                      </div>
-                    <div ng-repeat="prod in groupedProducts  track by $index">
+                                       <div ng-repeat="prod in groupedProducts  track by $index">
+                       <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                           <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                           <div class="price-box">
+                              <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                              <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                       </div>
+                    </div>
+                  <prod-colors product="groupedProducts"></prod-colors>
+                   
+                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+                    <!-- <div ng-repeat="prod in groupedProducts  track by $index">
                        <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
                            <img  ng-src= "{{prod.imgContent[0].contentUrl}}"/>
                            <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box">
@@ -639,7 +644,7 @@
                         </p>
                    </div>
                    
-                   <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view>
+                   <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
                    <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">

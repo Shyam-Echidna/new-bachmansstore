@@ -11,6 +11,7 @@ angular.module( 'orderCloud' )
 	.controller( 'EmailSubscriptionCtrl', EmailSubscriptionController )
 	//.controller( 'corsageBuilderCtrl', corsageBuilderController)
 	.controller('deleteCtrl', DemoController)
+	.controller('deleteWishlistCtrl', DelWishlistController)
 
 
 
@@ -386,7 +387,7 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore) {
 
 		function changePasswordfun() {
 			currentUser.Password = newcurrUser.NewPassword;
-			Users.Update(currentUser.ID, currentUser)
+			OrderCloud.Users.Update(currentUser.ID, currentUser)
 				.then(function() {
 					deferred.resolve();
 				})
@@ -396,7 +397,7 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore) {
 				})
 		};
 
-		Credentials.Get(checkPasswordCredentials).then(
+		OrderCloud.Auth.GetToken(checkPasswordCredentials).then(
 			function() {
 				alert("Are you sure to change password????");
 				changePasswordfun();
@@ -489,47 +490,21 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 	var filter={
 		"Name":"Purple Perks"
 	};
-	OrderCloud.SpendingAccounts.List(null, 1,100,null,null,filter).then(function(purple){
+	OrderCloud.SpendingAccounts.ListAssignments(null, CurrentUser.ID,null,null,1,null,null).then(function(purple){
 		console.log("perple account is---:",purple);
 		for(var i=0;i<purple.Items.length;i++){
-			var ppp=purple.Items[0].xp;
-			arr.push(ppp);
+			var ppp=OrderCloud.SpendingAccounts.Get(purple.Items[2].SpendingAccountID).then(function(pres){
+				console.log("gggggg",pres);
+				vm.purpleperk=pres;
+			});
+			//arr.push(ppp);
 		}
-		$q.all(arr).then(function(res){
-			console.log("points are=:",res);
-			vm.Perpelperk=res;
+		//return $q.all(arr);
+			//console.log("points are=:",arr);
+			//vm.Perpelperk=arr;
 		})
-	})
 	//---purpleperks functionality ends here---//
-
-	/*vm.createAdd=function(addr){
-		var obj =  {
-			Shipping: addr.IsShipping,
-			Billing: addr.IsBilling,
-			// AddressName:addr.AddressName,
-			FirstName:addr.FirstName,
-			LastName:addr.LastName,
-			Street1:addr.Street1,
-			Street2:addr.Street2,
-			City:addr.City,
-			State:addr.State,
-			Zip:addr.Zip,
-			Country:'US',
-			Phone:"("+addr.Phone1+")"+addr.Phone2+"-"+addr.Phone3,
-			xp:{}
-		}
-		$scope.newaddress=false;
-		OrderCloud.Me.CreateAddress(obj).then(function(res){
-			console.log("adress new are-",res);
-			$state.go('account.addresses',{}, {reload: true});
-			$location.hash('bottom');
-			$anchorScroll();
-		})
-		OrderCloud.Me.ListAddresses().then(function(addressdatares){
-			console.log("address are-",addressdatares);
-		})
-	}*/
-	vm.CreateAddress = function(line){
+		vm.CreateAddress = function(line){
 		var $this = this;
 		var params = {"FirstName":line.FirstName,"LastName":line.LastName,"Street1":line.Street1,"Street2":line.Street2,"City":line.City,"State":line.State,"Zip":line.Zip,"Phone":"("+line.Phone1+")"+line.Phone2+"-"+line.Phone3,"Country":"IN", "xp":{NickName:line.NickName}};
 		OrderCloud.Addresses.Create(params).then(function(data){
@@ -616,7 +591,53 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 			angular.noop();
 		});
 	}
+	vm.deleteWishList = function(prodid){
+		var modalInstance = $uibModal.open({
+			animation: false,
+			windowClass: 'deletePopup',
+			template: '<div class="">'+
+			'<div class="">'+
+			'<div class="">'+
+			'<a>'+
+			/*'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"'+
+			 ' viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve">'+
+			 '<style type="text/css">'+
+			 '.st0{fill:#FFFFFF;}'+
+			 '</style>'+
+			 '<g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '</g>'+
+			 '</svg>'+*/
+			'</a>'+
+			'</div>'+
+			'<p>Are you sure you want to delete?</p>'+
+			'<button class="save-btn" ng-click="DeleteWishListProduct()">Ok</button>'+
+			'<button class="cancel-btn" ng-click="canceldel()">Cancel</button>'+
+			'</div>'+
+			'</div>',
+			controller: 'deleteWishlistCtrl',
+			controllerAs: 'deletewishctrl',
+			resolve: {
+				SelectedWishList: function () {
+					return prodid;
+				},
+				CurrentUser: function () {
+					return CurrentUser;
+				}
+			}
+		});
+		modalInstance.result.then(function() {
 
+		}, function() {
+			angular.noop();
+		});
+
+	}
 	vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};
@@ -794,7 +815,26 @@ function ChangePasswordController( $state, $exceptionHandler, toastr, AccountSer
 			});
 	};
 }
-function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $state) {
+function DelWishlistController($uibModalInstance, $scope, OrderCloud,  $state, SelectedWishList, CurrentUser) {
+	var vm = this;
+	$scope.canceldel = function () {
+
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	$scope. DeleteWishListProduct =  function(){
+
+		$uibModalInstance.dismiss('cancel');
+		var indx = CurrentUser.xp.WishList.indexOf(SelectedWishList);
+		CurrentUser.xp.WishList.splice(indx,1);
+		OrderCloud.Me.Patch(CurrentUser)
+			.then(function(data) {
+				console.log(data);
+				$state.go($state.current, {}, {reload: true});
+			})
+	}
+}
+function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $state, SelectedWishList) {
 	var vm = this;
 	$scope.canceldel = function () {
 
@@ -807,6 +847,7 @@ function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $st
 			$state.go('account.addresses', {}, {reload: true});
 		})
 	}
+
 }
 /*function CreditCardAccountController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
  var vm = this;

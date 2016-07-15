@@ -129,14 +129,10 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
               angular.element('.menu-class').removeClass('hide');
               angular.element('.menu-class').addClass('unhide');
               angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
-              angular.element('.guest-in-mob').css('display','none');
-              angular.element('.logged-in-mob').css('display','block');
-              angular.element('body').addClass('hideLoginPopup');
+              angular.element('.main-mobile-menu-container').toggleClass('show-hide');
+
               angular.element('.mobile-signout-guest').css('display','none');
               angular.element('.mobile-signout-notGuest').css('display','block');
-
-              angular.element('.info-acc-icon-guest').css('display','none !important');
-              angular.element('.info-acc-icon-notGuest').css('display','block !important');
 
               vm.loggedIn = true;
               $cookieStore.put('isLoggedIn', true); 
@@ -247,6 +243,7 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
         vm.menuClass='unhide';
         $('.menu-class').removeClass('hide');
         $('.menu-class').addClass('unhide');
+        $('.main-mobile-menu-container').toggleClass('show-hide');
     };
     vm.create = function() {
        //vm.newUser=Users;
@@ -280,13 +277,9 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
             angular.element('.menu-class').removeClass('hide');
             angular.element('.menu-class').addClass('unhide');
             angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');            angular.element('.guest-in-mob').css('display','none');
-            angular.element('.signed-in-mob').css('display','block');
-            angular.element('body').addClass('hideLoginPopup');
+            angular.element('.main-mobile-menu-container').toggleClass('show-hide');
             angular.element('.mobile-signout-guest').css('display','none');
             angular.element('.mobile-signout-notGuest').css('display','block');
-
-            angular.element('.info-acc-icon-guest').css('display','none !important');
-            angular.element('.info-acc-icon-notGuest').css('display','block !important');
 
             console.log(user);
             vm.submit(user);

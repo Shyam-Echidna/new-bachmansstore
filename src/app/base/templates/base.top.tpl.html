@@ -73,14 +73,14 @@
 			</div>
 			<span class="scrollServiceRight"></span>
 		</div>
-		<div class="breadcrumb-box" ng-show="is('plp')">
+		<div class="breadcrumb-box" ng-show="showBreadCrumb">
 			<ul class="breadcrumb">
 				<li>HOME </li>
 				<li>PERENNIALS</li>
 				<li>ROSES</li>
 			</ul>
 		</div>
-		<div class="row breadcrumb-box" ng-show="is('pdp')">
+		<!-- <div class="row breadcrumb-box" ng-show="is('pdp')">
 	        <ul class="breadcrumb" >
 	            <li>HOME</li>
 	            <li>FLOWERS & SPECIALTY PLANTS</li>
@@ -95,7 +95,7 @@
 	            <li>FLOWERS</li>                       
 	            <li>STARGAZER</li>                        
 	    	</ul>
-	    </div>
+	    </div> -->
 		<div class="base-header-bottom row">
 			<ul class="menu-hover-cont1">
 				<li class="menuLiContDesktop" ng-mouseover="base.hideOnClick=true" ng-mouseleave="base.hideOnClick=false" id="menu-li">
@@ -1232,7 +1232,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 			</div>
 		</div>
 	</div>
-	<div class="row breadcrumb-box hidden-lg hidden-md" ng-show="is('plp')" >
+	<div class="row breadcrumb-box hidden-lg hidden-md" ng-show="showBreadCrumb" >
         <ul class="breadcrumb" >
             <li><a>HOME</a> </li>
             <li>FLOWERS & SPECIALTY PLANTS</li>
@@ -1240,11 +1240,11 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
             <li>STARGAZER</li>                      
         </ul>
     </div>
-   	<div class="breadcrumb-box hidden-lg hidden-md" ng-show="is('pdp')">
+   <!-- 	<div class="breadcrumb-box hidden-lg hidden-md" ng-show="is('pdp')">
          <ul class="breadcrumb">
             <li><a href="index.html">HOME</a> </li>
             <li>PERENNIALS</li>
             <li>ROSES</li>
          </ul>
-      </div>
+      </div> -->
 </div>

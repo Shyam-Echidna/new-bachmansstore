@@ -1,7 +1,7 @@
 <div class="color-circle" id="color-circle-pos"> 
-      <p ng-repeat="colorprod in SrotedColors">
+      <p ng-repeat="colorprod in SrotedColors" ng-class="{ 'active-circle': $index == selectedColorIndex }" >
       	 <!--{{selectedColorIndex}}  @@ {{$index}} -->
-         <a  href="" ng-class="{ 'active-circle': $index == selectedColorIndex }" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
+         <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
       </p>
 
 </div>

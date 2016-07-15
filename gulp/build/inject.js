@@ -10,7 +10,7 @@ gulp.task('clean:inject', function() {
 
 gulp.task('inject', ['clean:inject', 'scripts', 'app-config', 'bower-fonts', 'styles'], function() {
     var target = gulp.src(config.index),
-        bowerFiles = gulp.src([].concat(mainBowerFiles({filter: ['**/*.js', '**/*.css']}), 'bower_components/algoliasearch/dist/algoliasearch.angular.js'), {read: false}),
+        bowerFiles = gulp.src([].concat(mainBowerFiles({filter: ['**/*.js', '**/*.css']}), 'bower_components/algoliasearch/dist/algoliasearch.angular.js' , 'bower_components/elevatezoom/jquery.elevateZoom-2.2.3.min.js'), {read: false}),
         appFiles = gulp.src([].concat(config.appFiles, config.components.styles.css), {read: false});
 
     return target

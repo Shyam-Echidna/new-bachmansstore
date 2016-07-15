@@ -42,12 +42,13 @@
     "angular-bootstrap-slider": "^0.1.28",
     "angular-x2js": "^0.2.0",
     "ng-scrollbar": "^0.0.8",
-    "ngScrollable": "ng-scrollable#^0.2.5"
+    "ngScrollable": "ng-scrollable#^0.2.5",
+    "elevatezoom": "^2.2.3"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.0"
   },
   "resolutions": {
-    "angular": "1.5.5"
+    "angular": ">=1.5.0"
   }
 }

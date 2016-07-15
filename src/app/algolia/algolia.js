@@ -365,8 +365,9 @@ function AlgoliaSearchDirective() {
     }
 }
 
-function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore) {
+function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$rootScope) {
     var vm = this;
+    $rootScope.showBreadCrumb = false;
     vm.searchWidth = $scope.searchWidth;
     var productIndex = AlgoliaSvc.GetIndex('products');
     var infoIndex = AlgoliaSvc.GetIndex('Information');
@@ -472,6 +473,7 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore) {
 
 function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResult,ProductResultsWithVarients, /*InformationSearchResult,*/ Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, alfcontenturl,OrderCloud,$sce, Underscore, $uibModal) {
     var vm = this;
+    $rootScope.showBreadCrumb = true;
     vm.FiltersObject = FiltersObject;
     vm.Selections = Selections;
     vm.ProductResults = ProductResultsWithVarients;
