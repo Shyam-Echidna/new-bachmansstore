@@ -1,8 +1,8 @@
- <article class="container-fluid">
-    <div class="showproductrequestpopupdiv">
-        <p>Product request for Bachman's</p>
-        <textarea ng-model="productRequest.prodrequestdata.xp.productRequest">{{productRequest.prodrequestdata.xp.productRequest}}</textarea>
+<div class="container-fluid showproductrequestpopupdiv">
+    <p>Product request for Bachman's</p>
+    <textarea ng-model="productRequest.prodrequestdata.xp.productRequest" rows="7">{{productRequest.prodrequestdata.xp.productRequest}}</textarea>
+    <div class="action-buttons">
         <button ng-click="productRequest.save(productRequest.prodrequestdata.xp)">Save</button>
-        <button ng-click="productRequest.cancel()">Cancel</button>
+        <a ng-click="productRequest.cancel()">Cancel</a>
     </div>
- </article>
+</div>

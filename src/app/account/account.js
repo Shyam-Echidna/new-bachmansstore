@@ -9,7 +9,6 @@ angular.module( 'orderCloud' )
 	.controller( 'CreditCardCtrl', CreditCardController)
 	.controller( 'TrackOrderCtrl', TrackOrderController )
 	.controller( 'EmailSubscriptionCtrl', EmailSubscriptionController )
-	//.controller( 'corsageBuilderCtrl', corsageBuilderController)
 	.controller('deleteCtrl', DemoController)
 	.controller('deleteWishlistCtrl', DelWishlistController)
 

@@ -73,6 +73,7 @@ function CheckoutConfig($stateProvider) {
 				LoggedinUser: function(OrderCloud, $q){
 					var deferred = $q.defer();
 					OrderCloud.Me.Get().then(function(res){
+						console.log(res);
 						deferred.resolve(res);
 					})
 					return deferred.promise;
@@ -111,7 +112,7 @@ function checkOutService($q, $http) {
 	}
 	return service
 }
-function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser) {
+function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore) {
 
 	var vm = this;
 	var date = new Date();
@@ -298,6 +299,46 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 		})
 	}
 
+	vm.submit = function(credentials){
+		console.log(credentials);
+		console.log($cookieStore.get("BachmanStoreFront.token"));
+		OrderCloud.Auth.GetToken( credentials )
+            .then(function(data) {
+            	console.log('data',data);
+                OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
+                OrderCloud.Auth.SetToken(data.access_token);
+             // ImpersonationService.StopImpersonating();
+                LoginService.GetCurrentUser().then(function(res){
+                    console.log('res',JSON.stringify(res));
+                    OrderCloud.Me.CreateFromTempUser(res,$cookieStore.get("BachmanStoreFront.impersonation.token")).then(function(resp){
+                    	console.log(resp);
+                    })
+                })
+            })
+            .catch(function(ex) {
+               // $exceptionHandler(ex);
+               vm.errormsg = "Email or Password is incorrect!!";
+               vm.invaliduser = true;
+            })
+	}
+
+	vm.bachmanscharge = function(){
+		OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
+			angular.forEach(result.Items, function(value, key) {
+				console.log(value);
+				OrderCloud.SpendingAccounts.Get(value.UserID).then(function(data){
+					console.log(data);
+				})
+			})
+		})
+	}
+
+	vm.hideBillingAddress=function(){
+		$('.gift-card-opt').on('click',function(){$('.billing-addr-cont').hide()});
+	}
+	vm.showBillingAddress=function(){
+		$('.credit-card-opt').on('click',function(){$('.billing-addr-cont').show()});
+	}
 }
 function EditController($uibModalInstance, LineItem, Order, checkOutService,$rootScope) {
 	var vm = this;

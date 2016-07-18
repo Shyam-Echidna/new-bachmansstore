@@ -115,7 +115,7 @@
                                                             <li role="menuitem" ng-repeat="extra in extras">
                                                                 <div class="row">
                                                                     <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img src="assets/images/Batch_2_Web_Images/07Bachmans_QV_Variation1_Dropdown/z_06.png" class="img-responsive" title="img" alt="">
+                                                                        <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
                                                                     </div>
                                                                     <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
                                                                         <h5>{{extra.Title}}</h5>

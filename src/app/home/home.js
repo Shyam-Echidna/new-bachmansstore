@@ -480,7 +480,8 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 			1500:{
 				items:3,
 				dots:true,
-				stagePadding:0
+				stagePadding:80,
+				margin:0
 			}
 		},
 		onInitialized : function(event){

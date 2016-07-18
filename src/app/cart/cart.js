@@ -157,6 +157,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         console.log(lineItem);
         $uibModal.open({
             templateUrl: 'cart/templates/productrequest.tpl.html',
+            backdropClass:'productrequestpopup',
+            windowClass:'productrequestpopup',
             controller: 'ProductRequestCtrl',
             controllerAs: 'productRequest',
             resolve:{
@@ -177,7 +179,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             console.log(res);
         })
     }
+    vm.edIt=function(){
+         alert('ss');
+        $('.recipient-details').find('span').attr('contenteditable','true');
 
+    }
     vm.editreceipent = function(data){
         console.log(data);
         var log=[];

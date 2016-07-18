@@ -684,10 +684,39 @@
                                                 .row {
                                                     .payment-method-cont {
                                                         padding-left: 0;
+                                                        padding-right: 10px;
                                                         .title {
                                                             padding-top: 20px;
                                                             font: 1.125em @proxima-bold;
                                                             margin-bottom: 25px;
+                                                        }
+                                                        ul{
+                                                            &.nav-tabs{
+                                                                li{
+                                                                    a{
+                                                                        padding: 0px;
+                                                                        border: none;
+                                                                    }
+                                                                    //border: 1px solid #e4e4e4;
+                                                                    margin-right: 1%;
+                                                                    .arrow-up{
+                                                                            display: none !important;
+                                                                        }
+                                                                    &.active{
+                                                                        .credit-card-opt,
+                                                                        .bachmans-opt,
+                                                                        .gift-card-opt{
+                                                                            border: 1px solid #8b5bb3;
+                                                                        }
+                                                                        .arrow-up{
+                                                                            display: block !important;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        .tab-content{
+                                                            box-shadow: none;
                                                         }
                                                         .credit-card-opt,
                                                         .bachmans-opt,
@@ -697,9 +726,10 @@
                                                             height: 80px;
                                                             position: relative;
                                                             cursor: pointer;
+                                                            width: 100%;
                                                             .opt-title {
                                                                 color: #464646;
-                                                                font: 1em @proxima-regular;
+                                                                font: 0.95em @proxima-regular;
                                                                 position: relative;
                                                                 top: 40%;
                                                                 opacity: 0.6;
@@ -727,11 +757,11 @@
                                                                 position: absolute;
                                                                 left: 50%;
                                                                 transform: translateX(-50%);
-                                                                bottom: -30px;
-                                                                display: none;
+                                                                bottom: -25px;
+                                                                //display: none;
                                                             }
                                                             &.selected {
-                                                                border: 1px solid #8b5bb3;
+                                                                //border: 1px solid #8b5bb3;
                                                                 .arrow-up {
                                                                     display: block;
                                                                 }
@@ -748,24 +778,31 @@
                                                         }
                                                         .credit-card-opt {
                                                             padding: 5px;
-                                                            width: 38%;
+                                                            //width: 38%;
                                                             /*max-width: 165px;*/
                                                             margin-right: 2%;
                                                         }
                                                         .bachmans-opt {
                                                             padding: 10px;
-                                                            width: 38%;
+                                                            //width: 38%;
                                                             /*max-width: 165px;*/
                                                             margin-right: 2%;
                                                         }
                                                         .gift-card-opt {
                                                             padding: 10px;
-                                                            width: 20%;
+                                                            //width: 20%;
                                                             /*max-width: 100px;*/
+                                                            &.selected{
+                                                               .arrow-up{
+                                                                display: none;
+                                                                opacity: 0;
+                                                            } 
+                                                            }
+                                                            
                                                         }
                                                         .card-info-cont {
                                                             background-color: #fafafa;
-                                                            margin: 25px 0 0 0;
+                                                            //margin: 25px 0 0 0;
                                                             padding-bottom: 25px;
                                                             .title {
                                                                 font: 0.875em @proxima-bold;
@@ -1020,9 +1057,10 @@
                                                     }
                                                     .payment-gift-card-info {
                                                         position: relative;
+                                                        //background: #fafafa;
                                                         .title {
                                                             font: 0.9375em @proxima-bold;
-                                                            margin-top: 40px;
+                                                            //margin-top: 40px;
                                                             text-transform: uppercase;
                                                         }
                                                         .title-helper {

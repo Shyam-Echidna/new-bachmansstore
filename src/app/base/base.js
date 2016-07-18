@@ -108,29 +108,28 @@ function BaseConfig( $stateProvider ) {
 }
 
 function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, OrderCloud, alfcontenturl, CurrentOrder) {
-    var service = {
-
-        GetCategoryTree: _getCategoryTree,
+  var service = {
+    GetCategoryTree: _getCategoryTree,
     AdminLogin: _adminLogin,
     MinicartData: _minicartData
-    };
+  };
     //_adminLogin();
-   function _getCategoryTree() {
-        var tree = [];
-        var categories = [];
-        var deferred = $q.defer();
-        var queue = [];
+  function _getCategoryTree() {
+  var tree = [];
+  var categories = [];
+  var deferred = $q.defer();
+  var queue = [];
 
-        OrderCloud.Categories.List(null, 1, 100, null, null, null, null, 'all').then(function(data) {
-            console.log(data);
-            categories = categories.concat(data.Items);
-                for (var i = 2; i <= data.Meta.TotalPages; i++) {
-                    queue.push(OrderCloud.Categories.List(null, i, 100, null, null, null, null, 'all'));
-                }
-                $q.all(queue).then(function(results) {
-                  angular.forEach(results, function(result) {
-                    categories = categories.concat(result.Items);
-                  });
+  OrderCloud.Categories.List(null, 1, 100, null, null, null, null, 'all').then(function(data) {
+    console.log(data);
+    categories = categories.concat(data.Items);
+      for (var i = 2; i <= data.Meta.TotalPages; i++) {
+          queue.push(OrderCloud.Categories.List(null, i, 100, null, null, null, null, 'all'));
+      }
+      $q.all(queue).then(function(results) {
+        angular.forEach(results, function(result) {
+          categories = categories.concat(result.Items);
+        });
 
         //deferred.resolve(categories);
 
@@ -309,18 +308,18 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
     console.log("categoryImages",categoryImages);
 
     $(window).scroll(function() {
-         var headerHt = $('.base-header-inner').height();
-         var stickyHeaderHt = $('.base-header.sticky .base-header-top .main-logo').height();
-         $('.base-header.sticky .base-header-top .delivery-details').css('height',stickyHeaderHt);
-        if ($(this).scrollTop() > headerHt){
-
-            $('.base-header-sticky').css({'top':0});
-
-            $('.base-header-mobile').addClass("sticky");
+      var headerHt = $('.base-header-inner').height();
+      var stickyHeaderHt = $('.base-header.sticky .base-header-top .main-logo').height();
+      $('.base-header.sticky .base-header-top .delivery-details').css('height',stickyHeaderHt);
+      if ($(this).scrollTop() > headerHt*2){
+        $('.base-header-sticky').css({'top':0});
+        $('.base-header-mobile').addClass("sticky");
+        //$('.base-header-inner').css({'position':'fixed','top':'0','transition': 'all 1s ease'});
       }
       else{
-            $('.base-header-sticky').css({'top':-headerHt});
-            $('.base-header-mobile').removeClass("sticky");
+        $('.base-header-sticky').css({'top':-headerHt});
+        $('.base-header-mobile').removeClass("sticky");
+        //$('.base-header-inner').css({'position':'absolute','top':'0'});
       }
     });
 
@@ -634,9 +633,12 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
       if($('.menu-class').hasClass('unhide')){
         $('.menu-class').addClass('hide');
         $('.menu-class').removeClass('unhide');
+        $('.main-mobile-menu-container').addClass('unhide');
       } else{
         $('.menu-class').addClass('unhide')
         $('.menu-class').removeClass('hide');
+        $('.main-mobile-menu-container').addClass('hide');
+
       }
 
       $rootScope.showBreadCrumb = false;
@@ -1727,18 +1729,11 @@ function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
     };
 }
 
-function CategoriesAsPerSeasonFilter() {
-/*(categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
-  (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
-  (application.cstTime| date:'MM/dd'))*/
-
-  /*return function( item, cateoriges, subcategories, application ) {
-    if( (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
-        (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
-        (application.cstTime| date:'MM/dd')) ) {
-        return item;
-    }
-  }*/
+function CategoriesAsPerSeasonFilter(BaseService) {
+  //console.log('categories', categories);
+  return function( item ) {
+    return item;
+  }
 
   /*return function( item, cateoriges.ID, subcategories.xp.StartDate, application.cstTime, subcategories.xp.EndDate ) {
     if( (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
@@ -1747,6 +1742,4 @@ function CategoriesAsPerSeasonFilter() {
         return item;
     }
   }*/
-
-
 }

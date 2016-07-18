@@ -508,7 +508,7 @@ vm.selectedColorIndex = 0;
      setTimeout(function(){
          var modalInstance = $uibModal.open({
              animation: true,
-             backdropClass: 'addedToCartModal',
+             backdropClass:'addedToCartModal',
              templateUrl: 'plp/templates/added-to-cart.tpl.html',
              controller:'CartCopyCtrl',
              controllerAs: 'cartCopy'
@@ -977,9 +977,13 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
 
   // Add to wishList
   vm.addToWishList = function (productID) {
+   if(productID >1){
     return PdpService.AddToWishList(productID).then(function (item) {
       return item;
     });
+  }else{
+    alert('Please Select a product from available options');
+  }
   }
   vm.colorItemClicked = function ($index, $event, prod) {
      vm.productVarientImages = [];

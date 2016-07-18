@@ -848,8 +848,8 @@ h3.accordion {
 						.aside-img {
 							margin: 50px 0 40px 0;
 						}
-						.history-body2 {
-							/*margin-left: 16px;*/
+						.history-body2{
+							margin-top:10px;
 						}
 					}
 				}
@@ -1058,6 +1058,7 @@ h3.accordion {
 										span svg {
 											.st0 {
 												fill: @half-white;
+												stroke-width:0px !important;
 											}
 										}
 										&:focus {
@@ -1120,6 +1121,7 @@ h3.accordion {
 											padding: 20px 24px;
 											border: 0;
 											background: transparent;
+											vertical-align:middle;
 											font: 1em @proxima-regular;
 											/*font: 16px @proxima-regular;*/
 											p.content {
@@ -1127,6 +1129,7 @@ h3.accordion {
 											}
 											.sub-head {
 												font: 0.750em @proxima-bold;
+												font-style:italic;
 												/*font: 12px @proxima-bold;*/
 												.author {
 													color: @font-purple-dark;
@@ -1474,7 +1477,7 @@ h3.accordion {
 
 .static-full-content,
 .service-full-content {
-	margin-top: 130px;
+	margin-top:0px;
 	h4 {
 		font: 1em @proxima-bold;
 		color: @blk-color;
@@ -1756,6 +1759,7 @@ h3.accordion {
 	.col-md-9 {
 		&.template2-content {
 			padding-right: 50px;
+			padding-left:0px;
 			.template2-table {
 				padding-right: 15px;
 			}
@@ -2014,19 +2018,29 @@ h3.accordion {
 					font: 1em @proxima-regular;
 				}
 				.content-body-block {
-					margin-top: 23px;
+					margin-top:0px;
 					>p {
 						font: 0.875em @proxima-regular;
-						margin-bottom: 25px;
 						line-height: 1.5em;
+						 margin-bottom: 30px
+					}
+					.videocontent{
+						margin-top: 50px;
+						.videheader{
+						  font:1.125em @proxima-bold;
+						  color:#333333;
+						  margin-bottom:10px;
+						}
 					}
 					h5 {
 						font: 1em @proxima-bold;
 						margin-bottom: 10px;
+						
 					}
 					h6 {
 						font: 1em @proxima-bold;
-						margin-bottom: 10px
+						margin-bottom: 10px;
+
 					}
 					table {
 						&.table > tbody + tbody {
@@ -2038,8 +2052,7 @@ h3.accordion {
 							}
 							tr td {
 								&:first-child {
-									font: 0.875em @proxima-light;
-                                    font-weight:bold;
+									font: 0.875em @proxima-bold;
                                     color:#333;
 									padding: 20px 0 0 25px;
 									width: 25%;

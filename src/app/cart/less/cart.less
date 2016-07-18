@@ -120,9 +120,11 @@
                                 font: 1.313em @neutraface-demi;
                                 span {
                                     font: 0.875em @proxima-regular;
-                                    padding: 0px 12px;
-                                    &:first-child {
-                                        border-right: 1px solid #d6d6d6;
+                                    //padding: 0px 12px;
+                                    &:last-child {
+                                        border-left: 1px solid #d6d6d6;
+                                        padding-left: 7px;
+                                        margin-left: 7px;
                                     }
                                     input{
                                         background: transparent;
@@ -270,7 +272,7 @@
                                                             position: relative;
                                                             .change-recipient {
                                                                 position: absolute;
-                                                                top: 25px;
+                                                                top: 40px;
                                                                 left: 0px;
                                                                 width: 400px;
                                                                 z-index: 1;
@@ -280,6 +282,77 @@
                                                                 &:hover {
                                                                     >.change-recipient {
                                                                         display: block;
+                                                                    }
+                                                                }
+                                                            }
+                                                            li{
+                                                                border-bottom: none;
+                                                                a{
+                                                                    color: #2c2c2c;
+                                                                    border-bottom: 1px solid #d1d1d1;
+                                                                }
+                                                                &:first-child{
+                                                                     border-right: 2px solid #d1d1d1;
+                                                                     padding-right: 5px;
+                                                                     .popover{
+                                                                        z-index: 1;
+                                                                        top: 0 !important;
+                                                                        left: 0 !important;
+                                                                        border: transparent;
+                                                                            .arrow{
+                                                                                display: none;
+                                                                                &:after{
+                                                                                    opacity: 0;
+                                                                                }
+                                                                            }
+                                                                     }
+                                                                }
+                                                                &:last-child{
+                                                                    .popover{
+                                                                        max-width: 400px;
+                                                                        z-index: 1;
+                                                                        background: #f4f4f4;
+                                                                            .arrow:after{
+                                                                                border-bottom-color: #f4f4f4;
+                                                                            }
+                                                                    }
+                                                                    .showproductrequestdiv{
+                                                                        background: #f4f4f4;
+                                                                        width: 350px;
+                                                                        padding: 10px;
+                                                                        .head-text{
+                                                                            margin-bottom: 10px;
+                                                                            p{
+                                                                              font: 1em @proxima-regular;
+                                                                              font-weight: bold;
+                                                                              color: #424242;
+                                                                              display: inline-block;
+                                                                              vertical-align: top;
+                                                                              &.editLink{
+                                                                                font-weight: normal;
+                                                                                border-bottom: 1px solid #d9d9d9;
+                                                                                font-family: @proxima-regular;
+                                                                                text-transform: capitalize;
+                                                                                float: right;
+                                                                                    &:hover{
+                                                                                        color: @base-bg-purple-dark;
+                                                                                    }
+                                                                              }  
+                                                                            }
+                                                                        }
+                                                                        textarea{
+                                                                                background: #cccccc;
+                                                                                font: 1em @proxima-regular;
+                                                                                color: #333333;
+                                                                                border-radius: 2px;
+                                                                                border: none;
+                                                                                border: 1px solid #e2e2e2;
+                                                                                box-shadow: none;
+                                                                                -webkit-appearance: none;
+                                                                                outline: 0;
+                                                                                width: 100%;
+                                                                        }
+                                                                            
                                                                     }
                                                                 }
                                                             }
@@ -347,7 +420,12 @@
                                                         fill: #767676;
                                                         width: 17px;
                                                         height: 13px;
+                                                        &:hover{
+                                                        fill:@base-bg-purple-dark;
+                                                       
                                                     }
+                                                    }
+
                                                 }
                                             }
                                         }
@@ -370,7 +448,8 @@
                                             border-left: 1px solid #d1d1d1;
                                         }
                                         .change-recipient-info {
-                                            border: 1px solid #d1d1d1;
+                                            //border: 1px solid #d1d1d1;
+                                            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); 
                                             border-radius: 5px;
                                             .recipient-header {
                                                 font: 0.875em @proxima-bold;
@@ -502,6 +581,7 @@
                                                 }
                                             }
                                         }
+
                                     }
                                 }
                                 hr {
@@ -1670,3 +1750,59 @@
 
 //for sam tab portrait & iphone landscape
 @media screen and (max-width:737px) and (min-width:560px) {}
+
+
+/* productrequestpopup */
+
+.productrequestpopup{
+    .modal-dialog {
+        width: 40%;
+        position: absolute;
+        left: 30%;
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: none;
+        }
+    }
+    .showproductrequestpopupdiv{
+        background: #f4f4f4;
+        padding: 10px 15px;
+            p{
+                font: 1.2em @proxima-regular;
+                color: #000;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            textarea{
+                background: #fff;
+                font: 1em @proxima-regular;
+                color: #333333;
+                border-radius: 2px;
+                border: none;
+                border: 1px solid #e2e2e2;
+                box-shadow: none;
+                -webkit-appearance: none;
+                outline: 0;
+                width: 100%;
+                margin: 10px 0px;
+    }
+    .action-buttons{
+        button{
+            .green-button;
+            font: 1em @proxima-regular;
+            height: 2em;
+            line-height: 2em;
+            padding: 0px 20px;
+        }
+        a{
+            font: 1em @proxima-regular;
+            color: #464646;
+            margin-left: 20px;
+                &:hover{
+                    color: @font-purple-dark;
+                    line-height: 2em;
+                }
+        }
+    }
+    }
+}
