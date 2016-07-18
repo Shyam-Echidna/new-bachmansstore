@@ -4,6 +4,7 @@ angular.module('orderCloud')
     .controller('CartCtrl', CartController)
     .controller('MiniCartCtrl', MiniCartController)
     .controller('ProductRequestCtrl', ProductRequestController)
+    .controller('ChangeReceipentPopupCtrl', ChangeReceipentPopupController)
     .directive('ordercloudMinicart', OrderCloudMiniCartDirective)
 
 ;
@@ -34,12 +35,12 @@ function CartConfig($stateProvider) {
                             dfd.resolve(null);
                         });
                     return dfd.promise;
-                },
+                },/*
                 CurrentOrderResolve: function(Order, $state) {
                     if (!Order) {
                         $state.go('home');
                     }
-                },
+                },*/
                 LineItemsList: function($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
                     var dfd = $q.defer();
                     OrderCloud.As().LineItems.List(Order.ID)
@@ -200,6 +201,19 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         },log);
     }
 
+    vm.changereceipentpopup = function(){
+        $uibModal.open({
+            templateUrl: 'cart/templates/changereceipentpopup.tpl.html',
+            backdropClass:'changereceipentpopup',
+            windowClass:'changereceipentpopup',
+            controller: 'ChangeReceipentPopupCtrl',
+            controllerAs: 'changeReceipentPopup',
+            resolve:{
+
+            }
+        });
+    }
+
     vm.changeReceipentfun = function(data, changereceipent){
         console.log(data, changereceipent);
         var lastrecp=data, selectedaddr=[];
@@ -352,4 +366,12 @@ function ProductRequestController($uibModal, $scope, $stateParams, prodrequestda
             $uibModalInstance.close();
         })
     }
+}
+function ChangeReceipentPopupController($uibModal, $scope, $uibModalInstance){
+    var vm=this;
+    vm.oneAtATime=true;
+    vm.selectedRecipient=false;
+      vm.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 }

@@ -237,6 +237,8 @@
                                         .dropdown {
                                             ul {
                                                 z-index: 1;
+                                                height: 200px;
+                                                overflow-y: auto;
                                                 li {
                                                     .row {
                                                         div {
@@ -245,6 +247,9 @@
                                                             }
                                                         }
                                                     }
+                                                }
+                                                .scrollable-content{
+                                                    padding:0 10px;
                                                 }
                                             }
                                         }
@@ -2202,7 +2207,7 @@
 @media screen and (min-width:1600px) {
     .slider-banner-container {
         .detail-overlay-box {
-            top: 227px;
+           // top: 227px;
         }
     }
 }

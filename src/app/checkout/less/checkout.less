@@ -696,6 +696,19 @@
                                                                     a{
                                                                         padding: 0px;
                                                                         border: none;
+
+                                                                        .credit-card-opt,
+                                                                        .bachmans-opt,
+                                                                        .gift-card-opt{
+                                                                            &.selected{
+                                                                                svg{
+                                                                                display: none;
+                                                                            }
+                                                                            .opt-title{
+                                                                                top: 40%;
+                                                                            }
+                                                                            }
+                                                                        }
                                                                     }
                                                                     //border: 1px solid #e4e4e4;
                                                                     margin-right: 1%;
@@ -707,10 +720,25 @@
                                                                         .bachmans-opt,
                                                                         .gift-card-opt{
                                                                             border: 1px solid #8b5bb3;
+                                                                             &.selected{
+                                                                                svg{
+                                                                                display: block;
+                                                                            }
+                                                                             .opt-title{
+                                                                                top:60%;
+                                                                            }
+                                                                            }
                                                                         }
                                                                         .arrow-up{
                                                                             display: block !important;
                                                                         }
+                                                                    }
+                                                                    &:hover{
+                                                                        .credit-card-opt,
+                                                                        .bachmans-opt,
+                                                                        .gift-card-opt{
+                                                                            border: 1px solid #8b5bb3;
+                                                                             }
                                                                     }
                                                                 }
                                                             }
@@ -805,7 +833,8 @@
                                                             //margin: 25px 0 0 0;
                                                             padding-bottom: 25px;
                                                             .title {
-                                                                font: 0.875em @proxima-bold;
+                                                                font: 0.875em @proxima-regular;
+                                                                font-weight: bold;
                                                                 text-transform: uppercase;
                                                                 margin-bottom: 0;
                                                             }
@@ -861,13 +890,19 @@
                                                                         display: inline-block;
                                                                     }
                                                                     .cvv-help{
-                                                                        margin-left: 5px;
+                                                                        height: 17px;
+                                                                        width: 17px;
+                                                                        border: 1px solid #8c58b5;
+                                                                        border-radius: 50%;
+                                                                        margin-left: 10px;
+                                                                        text-align: center;
+                                                                        padding: 0px 1px;
                                                                         svg{
                                                                             width: 15px;
                                                                             height: 15px;
                                                                             fill: @font-purple-dark;
                                                                             vertical-align: middle;
-                                                                            margin-left: 10px;
+                                                                            //margin-left: 10px;
                                                                         }
                                                                     }
                                                                 }
@@ -1080,12 +1115,19 @@
                                                                 display: inline-block;
                                                             }
                                                             .card-help-icon {
+                                                                height: 17px;
+                                                                width: 17px;
+                                                                border: 1px solid @base-bg-purple-dark;
+                                                                border-radius: 50%;
+                                                                margin-left: 10px;
+                                                                text-align: center;
+                                                                padding: 0px 1px;
                                                                 svg {
                                                                     width: 15px;
                                                                     height: 15px;
                                                                     fill: @font-purple-dark;
                                                                     vertical-align: middle;
-                                                                    margin-left: 10px;
+                                                                    
                                                                 }
                                                             }
                                                             button {
@@ -1095,9 +1137,12 @@
                                                                 font: 0.875em @proxima-bold;
                                                                 height: 45px;
                                                                 width: 150px;
-                                                                -moz-border-radius: 2px;
+                                                                /*-moz-border-radius: 2px;
                                                                 -webkit-border-radius: 2px;
-                                                                border-radius: 2px;
+                                                                border-radius: 2px;*/
+                                                                -moz-border-radius: 0px;
+                                                                -webkit-border-radius: 0px;
+                                                                border-radius: 0px;
                                                             }
                                                         }
                                                         .arrow-up {
@@ -1559,7 +1604,16 @@
                         uib-accordion {
                             .panel-group {
                                 .panel {
+                                    border: none;
+                                    //border-top: 1px solid #f1f1f1;
+                                   border-bottom: 1px solid #ccc;
+                                     margin: 0px;
+                                     &:first-child{
+                                        border-top: 1px solid #f1f1f1;
+                                     }
                                     .panel-heading {
+                                        border: none;
+                                        //border-top: 1px solid #f1f1f1;
                                         .panel-title {
                                             font: 0.750em @proxima-bold;
                                         }
@@ -1567,8 +1621,9 @@
                                     &.panel-open {
                                         .panel-heading {
                                             background: #676767;
-                                            border-top: 2px solid #c2c2c2;
-                                            border-bottom: 1px solid #a4a4a4;
+                                           //border-top: 2px solid #c2c2c2;
+                                            //border-bottom: 1px solid #a4a4a4;
+
                                             .panel-title {
                                                 font: 0.750em @proxima-bold;
                                             }
@@ -1577,18 +1632,21 @@
                                     .panel-collapse {
                                         .panel-body {
                                             .registered-customer {
-                                                padding: 20px 15px;
+                                                padding: 20px 10px;
                                                 .row {
                                                     div {
                                                         .registered-customer-info {
                                                             padding-right: 0px;
+                                                            border: none;
                                                             .registered-header {
                                                                 padding-bottom: 20px;
                                                                 font: 0.875em @proxima-bold;
                                                             }
                                                             .registered-form {
+                                                                padding: 0px 5px;
                                                                 form {
                                                                     .form-group {
+                                                                        margin-bottom: 15px;
                                                                         label {
                                                                             font: 0.749em @proxima-regular;
                                                                         }
@@ -1598,6 +1656,9 @@
                                                                     }
                                                                     .btn-default {
                                                                         font: 0.874em @proxima-bold;
+                                                                    }
+                                                                    .forgot-password{
+                                                                        margin-top: 0px;
                                                                     }
                                                                 }
                                                             }
@@ -1832,16 +1893,26 @@
                                                 .payment-client-info {
                                                     .row {
                                                         .payment-method-cont {
+                                                            padding: 0px;
                                                             .title {
                                                                 padding-top: 0;
                                                                 margin-bottom: 10px;
                                                                 font-size: 0.875em;
                                                             }
+                                                            ul.nav-tabs{
+                                                                li{
+                                                                    width: 33%;
+                                                                    margin-right: 3%;
+                                                                    a{
+                                                                        width: 100%;
+                                                                    }
+                                                                }
+                                                            }
                                                             .credit-card-opt,
                                                             .bachmans-opt,
                                                             .gift-card-opt {
-                                                                width: 31%;
-                                                                margin-right: 3%;
+                                                                width: 100%;
+                                                                //margin-right: 3%;
                                                                 .opt-title {
                                                                     font-size: 0.75em;
                                                                 }
@@ -1885,6 +1956,9 @@
                                                                         width: 38%;
                                                                         input {
                                                                             width: 70px;
+                                                                        }
+                                                                        .cvv-help{
+                                                                            margin-left: 3px;
                                                                         }
                                                                     }
                                                                 }

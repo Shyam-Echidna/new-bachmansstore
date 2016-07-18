@@ -322,17 +322,31 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
             })
 	}
 
-	vm.bachmanscharge = function(){
+	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
+		angular.forEach(result.Items, function(value, key) {
+			console.log(value);
+			OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function(data){
+				if(data.Name=="Purple Perks"){
+					vm.purpleperksacc=data;
+				}
+			})
+		})
+	})
+
+	vm.bachmanscharge =function(){
 		OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
 			angular.forEach(result.Items, function(value, key) {
 				console.log(value);
-				OrderCloud.SpendingAccounts.Get(value.UserID).then(function(data){
+				OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function(data){
 					console.log(data);
+					if(data.Name=="Bachman Charges"){
+						console.log(data);
+						vm.bachmanschargeacc=data;
+					}
 				})
 			})
 		})
 	}
-
 	vm.hideBillingAddress=function(){
 		$('.gift-card-opt').on('click',function(){$('.billing-addr-cont').hide()});
 	}

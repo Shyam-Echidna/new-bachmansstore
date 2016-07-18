@@ -998,10 +998,10 @@
                                                                 </div>
                                                                 <div class="col-xs-8 p0 purple-dollar">
                                                                     <div class="Checkbox">
-                                                                        <input type="checkbox" checked="">
+                                                                        <input type="checkbox" checked="" ng-click="checkout.purpleperks()">
                                                                         <div class="Checkbox-visible"></div>
                                                                     </div>
-                                                                    <label>Use Purple Perks <span>500</span> Dollars for -&#x24;20.00 Discount</label>
+                                                                    <label>Use Purple Perks <span>{{checkout.purpleperksacc.Balance}}</span> Dollars for -&#x24;20.00 Discount</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1033,7 +1033,7 @@
                                                        
                                                     </div>
                                                 </uib-tab>
-                                                <uib-tab ng-if="checkout.orderdata.FromUserID!='gby8nYybikCZhjMcwVPAiQ'">
+                                                <uib-tab ng-if="checkout.orderdata.FromUserID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.bachmanscharge()">
                                                     <uib-tab-heading>
                                                         <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt selected">
                                                             <p class="opt-title text-center">Bachman's Charge</p>
@@ -1045,7 +1045,7 @@
                                                         <div>
                                                             <div class="payment-container-header">
                                                                 <span>Bachman's Charge Limit Available</span>
-                                                                <span class="total">$100</span>
+                                                                <span class="total">{{checkout.bachmanschargeacc.Balance | currency}}</span>
                                                             </div>
                                                             <div class="payment-container row">
                                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

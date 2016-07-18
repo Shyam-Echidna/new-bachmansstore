@@ -43,6 +43,27 @@
         }
     }
     .shopping-cart-info {
+        .no-products {
+            text-align: center;
+            margin: 6.250em 0px;
+            cursor: default;
+            width: 75%;
+            p {
+                font: 0.9em @proxima-regular;
+                color: #464646;
+                &:first-child {
+                    font-size: 1.4em;
+                    font-weight: bold;
+                }
+                &:last-child {
+                    color: @font-purple-light;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    margin-top: 10px;
+                }
+            }
+        }
+
         .shopping-header {
             border-top: 1px solid #cccccc;
             margin: 20px 16px;
@@ -1804,5 +1825,148 @@
                 }
         }
     }
+    }
+}
+
+
+
+/* change recipent popup */
+
+.changereceipentpopup{
+    .modal-dialog {
+        width: 70%;
+        position: absolute;
+        left: 15%;
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: none;
+        }
+    }
+}
+
+.change-recipient-modal{
+    padding: 30px;
+    .head-title{
+        margin-bottom: 30px;
+        .title{
+            font: 1.5em @proxima-bold;
+            color: @font-purple-dark;
+            text-transform: capitalize;
+        }
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            color: #666;
+            z-index: 1;
+            a {
+                svg {
+                    height: 18px;
+                    width: 18px;
+                    fill: @svg-fill;
+                    rect {
+                        stroke-width: 2;
+                    }
+                    &:hover {
+                        fill: #888;
+                    }
+                }
+            }
+        }
+    }
+    
+    input[type=text],
+    select,
+    input[type=number],
+    input[type=date],
+    input[type="search"] {
+        font: 1em @proxima-regular;
+        background: #f6f6f6;
+        color: #000;
+        height: 2.813em;
+        border: 1px solid #e4e4e4;
+        box-shadow: none;
+        padding: 0px 0px 0px 10px;
+        line-height: 2.813em;
+        vertical-align: middle;
+        border-radius: 2px;
+        -webkit-appearance: none;
+        &:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
+        &:focus:-moz-placeholder {
+            color: transparent;
+        }
+        /* FF 4-18 */
+        &:focus::-moz-placeholder {
+            color: transparent;
+        }
+        /* FF 19+ */
+        &:focus:-ms-input-placeholder {
+            color: transparent;
+        }
+        /* IE 10+ */
+        &:focus {
+            background: @base-bg-white;
+        }
+    }
+    .name-block{
+        div{
+            padding: 0px;
+            .row{
+                div{
+                    padding: 0px 10px;
+                    &:first-child{
+                        padding-left: 0px;
+                    }
+                    &:last-child{
+                        .row{
+                            padding: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .address-block{
+        div{
+            padding: 0px;
+            &.col-lg-offset-1,&.col-md-offset-1{
+                margin-left: 5%;
+            }
+        }
+        .phone-box{
+            .row{
+                div{
+                    padding: 0px 5px;
+                }
+            }
+        }
+    }
+    .save-btn{
+        text-align: right;
+        button{
+            .purple-button;
+            background-color: @base-bg-purple-light;
+            color: #fff;
+            height: 2.5em;
+            width: 9em;
+            line-height: 2.5em;
+            text-transform: uppercase;
+            margin: 0px;
+            text-align: center;
+
+                &.cancel-btn{
+                    background-color: #666;
+                    border-color:#666;
+                        &:hover{
+                            background-color: transparent;
+                            color: #666;
+                        }
+                        margin-right: 20px; 
+                }
+        }
+        
     }
 }

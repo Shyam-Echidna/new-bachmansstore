@@ -1708,7 +1708,7 @@ function customEmailValidationDirective(defaultErrorMessageResolver) {
 }
 function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
   defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
-      errorMessages['confirmPassword'] = 'Please ensure the passwords match.';
+      errorMessages['confirmPassword'] = 'Password does not match';
     });
 
     return {
