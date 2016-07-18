@@ -37,11 +37,46 @@ function AccountConfig( $stateProvider ) {
 						});
 					return dfd.promise;
 				},
-
+				OrderList:function($q, $state, OrderCloud,AccountService){
+							var orders=[];
+							var vm=this;
+							var d= $q.defer();
+							OrderCloud.Me.ListOutgoingOrders().then(function(oooores){
+								angular.forEach(oooores.Items,function(od){
+									var promise=AccountService.GetOrderDetails(od.ID);
+									orders.push(promise);
+								});
+								$q.all(orders).then(function(foooo){
+									vm.showOrders=foooo;
+									console.log("orders with line items====",vm.showOrders);
+									d.resolve(foooo);
+								});
+							})
+							return d.promise;
+				},
 				AddressList: function(AccountService, CurrentUser){
 					return AccountService.ListAddress(CurrentUser.ID);
 				},
-
+				/*EventList:function($q, $state, OrderCloud,AccountService){
+					var d= $q.defer();
+					var vm=this;
+					var ajaxarr=[];
+					var arr=[];
+					var filter ={
+						"xp.IsEvent":true
+					};
+					OrderCloud.Me.ListOutgoingOrders(null, 1, 100, null, null, filter, null, null).then(function(re){
+						angular.forEach(re.Items, function(order){
+							var promise =  AccountService.GetOrderDetails(order.ID);
+							ajaxarr.push(promise);
+						});
+						$q.all(ajaxarr).then(function(items){
+							vm.eventsDetails=items;
+							console.log("events are=====",vm.eventsDetails);
+						});
+					})
+					return d.promise;
+				},*/
 				WishList: function($q, $state, OrderCloud, CurrentUser) {
 					var wishlistArr = CurrentUser.xp.WishList;
 					var d= $q.defer();
@@ -57,6 +92,9 @@ function AccountConfig( $stateProvider ) {
 						});
 					}
 					return d.promise;
+				},
+				SelectedEmailList: function(LoginFact) {
+					return LoginFact.GetContactList();
 				}
 			},
 			templateUrl:'account/templates/accountLanding.tpl.html',
@@ -108,12 +146,6 @@ function AccountConfig( $stateProvider ) {
 			controller: 'profilectrl',
 			controllerAs: 'profile'
 		})
-		/*.state( 'account.orders.event', {
-		 url:'event',
-		 templateUrl: 'orders/templates/event.tpl.html',
-		 controller: 'OrdersCtrl',
-		 controllerAs: 'orders'
-		 })*/
 		.state( 'account.event', {
 			url:'event',
 			templateUrl: 'account/templates/myAccountEvents.tpl.html',
@@ -126,26 +158,6 @@ function AccountConfig( $stateProvider ) {
 			controller: 'profilectrl',
 			controllerAs: 'profile'
 		})
-		.state( 'account.addresses.create', {
-			url: '/addresses/create',
-			//templateUrl:'account/templates/addressCreate.tpl.html',
-			controller:'AddressCreateCtrl',
-			controllerAs: 'addressCreate'
-		})
-		.state( 'account.addresses.edit', {
-			url: '/:addressid/edit',
-			templateUrl:'account/templates/addressEdit.tpl.html',
-			controller:'AddressEditCtrl',
-			controllerAs: 'addressEdit',
-			resolve: {
-				SelectedAddress: function($stateParams, $state, Addresses) {
-					return Addresses.Get($stateParams.addressid).catch(function() {
-						$state.go('^');
-					});
-				}
-			}
-		})
-
 		.state( 'account.CreditCard', {
 			url: '/creditCard',
 			templateUrl:'account/templates/accountCreditCard.tpl.html',
@@ -157,35 +169,23 @@ function AccountConfig( $stateProvider ) {
                 }
             }
 		})
-		/*		.state( 'account.eventsAccount', {
-		 url: '/eventsAccount',
-		 templateUrl: 'orders/templates/myAccountEvents.tpl.html',
-		 controller: 'MyEventsCtrl',
-		 controllerAs: 'MyEventsController'
-		 })*/
 		.state( 'account.trackorders', {
 			url: '/trackorders',
 			templateUrl: 'account/templates/trackorder.tpl.html',
 			controller: 'profilectrl',
-			controllerAs: 'profile'
+			controllerAs: 'profile',
+			
 		})
-
-		/*.state( 'account.trackOrder', {
-		 url: '/trackOrder',
-		 templateUrl: 'orders/templates/trackorder.tpl.html',
-		 controller: 'TrackOrderCtrl',
-		 controllerAs: 'TrackOrderController'
-		 })*/
 		.state( 'account.emailsubscription', {
 			url: '/emailsubscription',
 			templateUrl: 'account/templates/emailsubscription.tpl.html',
 			controller: 'EmailSubscriptionCtrl',
-			controllerAs: 'EmailSubscription',
-			resolve: {
-				SelectedEmailList: function(LoginFact) {
+			controllerAs: 'EmailSubscription'
+
+				/*SelectedEmailList: function(LoginFact) {
 					return LoginFact.GetContactList();
-				},
-				UpdateEmailLIst:function(LoginFact,CurrentUser){
+				},*/
+				/*UpdateEmailLIst:function(LoginFact,CurrentUser){
 					var u_data={
 						"id":CurrentUser.ID,
 						"lists": [{
@@ -195,8 +195,7 @@ function AccountConfig( $stateProvider ) {
 						"email_addresses": [{"email_address":CurrentUser.Email}]
 					}
 					return LoginFact.UpdateEmailPreference(u_data);
-				}
-			}
+				}*/
 		})
 	/*.state( 'corsageBuilder', {
 	 parent: 'base',
@@ -206,7 +205,7 @@ function AccountConfig( $stateProvider ) {
 	 controllerAs: 'corsageBuilder'
 	 })*/
 }
-function AccountService( $q, $uibModal,OrderCloud,Underscore) {
+function AccountService( $q, $uibModal,OrderCloud,Underscore,$http) {
 	var service = {
 		Update: _update,
 		ChangePassword: _changePassword,
@@ -214,7 +213,31 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore) {
 		GetLineItemDetails: _getLineItemDetails,
 		GetPhoneNumber:_getphonenumber,
 		ListAddress: _listAddresses,
+		getCityState: _getCityState
 	};
+	//*** START ZIP,CITY,STATE VALIDATION**//
+	function _getCityState(zip){
+		var d = $q.defer();
+		$http.defaults.headers.common['Authorization'] = undefined;
+		$http.get('http://maps.googleapis.com/maps/api/geocode/json?address='+zip).then(function(res){
+			var city, state;
+			angular.forEach(res.data.results[0].address_components, function(component,index){
+				var types = component.types;
+				angular.forEach(types, function(type,index){
+					if(type == 'locality') {
+						city = component.long_name;
+					}
+					if(type == 'administrative_area_level_1') {
+						state = component.short_name;
+					}
+				});
+			});
+			d.resolve({"City":city, "State":state});
+		});
+		return d.promise;
+	}
+	//*** END ZIP,CITY,STATE VALIDATION**//
+
 
 	//******LIST ADDRESS STARTS*****
 	function _listAddresses(userId, size) {
@@ -410,7 +433,7 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore) {
 	return service;
 }
 
-function AccountController( $uibModal, WishList, AddressList, $exceptionHandler, $location, $state, $scope, OrderCloud, toastr, CurrentUser, AccountService, $anchorScroll, $q ) {
+function AccountController( $uibModal, WishList, AddressList,$exceptionHandler, $location, $state, $scope, OrderCloud, toastr, CurrentUser, AccountService, $anchorScroll, $q ) {
 	var vm = this;
 	vm.profile = angular.copy(CurrentUser);
 	var currentProfile = CurrentUser;
@@ -453,27 +476,9 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 	};
 	vm.addressData=AddressList;
 	//Wishlist listing starts here
-	/*var wishlistArr = CurrentUser.xp.WishList;
-	 var wishArr = [];
-	 if(wishlistArr != undefined){
-	 for(var i=0;i<wishlistArr.length;i++){
-	 vm.array_lenth=wishlistArr.length;
-	 var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
-	 wishArr.push(promise);
-	 }
-	 $q.all(wishArr).then(function(items){
-	 console.log("wish list ====",items);
-	 vm.wishList = items;
-	 });
-	 }
-
-	 $q.all(wishArr).then(function(items){
-	 console.log("wish list ====",items);
-	 vm.wishList = items;
-	 });*/
 	vm.wishList = WishList;
 	console.log("WishList===",WishList);
-	vm. DeleteWishListProduct =  function(prodid){
+	/*vm. DeleteWishListProduct =  function(prodid){
 
 		var indx = CurrentUser.xp.WishList.indexOf(prodid);
 		CurrentUser.xp.WishList.splice(indx,1);
@@ -482,27 +487,32 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 				console.log(data);
 				$state.go($state.current, {}, {reload: true});
 			})
-	}
+	}*/
 	//Wishlist Listing Ends Here
 	//---purpleperks functionality starts here---//
-	var arr=[];
-	var filter={
-		"Name":"Purple Perks"
-	};
+	
 	OrderCloud.SpendingAccounts.ListAssignments(null, CurrentUser.ID,null,null,1,null,null).then(function(purple){
 		console.log("perple account is---:",purple);
 		for(var i=0;i<purple.Items.length;i++){
-			var ppp=OrderCloud.SpendingAccounts.Get(purple.Items[2].SpendingAccountID).then(function(pres){
-				console.log("gggggg",pres);
-				vm.purpleperk=pres;
+			var ppp=OrderCloud.SpendingAccounts.Get(purple.Items[0].SpendingAccountID).then(function(pres){
+			vm.purpleperk=pres;
 			});
-			//arr.push(ppp);
 		}
-		//return $q.all(arr);
-			//console.log("points are=:",arr);
-			//vm.Perpelperk=arr;
-		})
+	})
 	//---purpleperks functionality ends here---//
+	vm.getLocation=function(zip){
+		AccountService.getCityState(zip).then(function(res){
+			console.log("response are city and state==",res);
+			$scope.addr.City = res.City;
+			$scope.addr.State = res.State;
+		});
+	}
+	vm.getLoactionEdit=function(zip){
+		AccountService.getCityState(zip).then(function(res){
+			vm.editAddr.City = res.City;
+			vm.editAddr.State = res.State;
+		});
+	}
 		vm.CreateAddress = function(line){
 		var $this = this;
 		var params = {"FirstName":line.FirstName,"LastName":line.LastName,"Street1":line.Street1,"Street2":line.Street2,"City":line.City,"State":line.State,"Zip":line.Zip,"Phone":"("+line.Phone1+")"+line.Phone2+"-"+line.Phone3,"Country":"IN", "xp":{NickName:line.NickName}};
@@ -514,16 +524,11 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 				console.log("Address saved for the user....!" +res);
 			});
 		})
-		/*data.Zip = parseInt(data.Zip);
-		 params = {"AddressID": data.ID,"UserID": CurrentUser.ID,"IsBilling": false,"IsShipping": true};
-		 OrderCloud.Addresses.SaveAssignment(params).then(function(res){
-		 $state.go('account.addresses', {}, {reload:true});
-		 console.log("Address saved for the user....!" +res);
-		 });*/
 	}
 	vm.editAdress=function(editAddr,index){
 		vm['showedit' + index] =true;
 		vm.editAddr=editAddr;
+		vm.stateData=vm.editAddr.State;
 		$scope.showedit=false;
 		vm.contact={};
 		var phn = vm.editAddr.Phone;
@@ -649,7 +654,6 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 				var default_value={
 					"Shipping": row.Shipping,
 					"Billing": row.Billing,
-					//"AddressName":row.AddressName,
 					"FirstName":row.FirstName,
 					"LastName":row.LastName,
 					"Street1":row.Street1,
@@ -692,6 +696,15 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 
 
 	}
+	var specialKeys = new Array();
+    specialKeys.push(8);
+    vm.IsNumeric = function ($e) {
+        console.log($e);
+        var keyCode = $e.which ? $e.which : $e.keyCode;
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        if(!ret)
+            $e.preventDefault();
+    }
 	$scope.loadMap = function(){
 		setTimeout(function(){
 			// starting map showing
@@ -717,7 +730,14 @@ function AccountController( $uibModal, WishList, AddressList, $exceptionHandler,
 			document.getElementById("panel2").style.display = "none";},3000);
 		//ending map showing
 	}
-
+	//order details accordiaan
+	vm.showOrderDetail = function(index) {
+	  	if(index == vm.selectedIndex) {
+	   		vm.selectedIndex = null;
+	  	} else {
+	   		vm.selectedIndex = index;
+	  	}
+    }
 }
 
 function ConfirmPasswordController( $uibModalInstance ) {
@@ -781,8 +801,7 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
                 toastr('Sorry, something went wrong. Please check your card data and try again.')
             });
     };
-
-    vm.deleteCard = function(card) {
+ vm.deleteCard = function(card) {
         CreditCardService.Delete(card)
             .then(function(){
                 OrderCloud.Me.ListCreditCards(null, 1, 100)
@@ -851,27 +870,26 @@ function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $st
 /*function CreditCardAccountController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
  var vm = this;
  }*/
-function EmailSubscriptionController( $exceptionHandler,UpdateEmailLIst,CurrentUser, SelectedEmailList, toastr, AccountService,LoginFact) {
+function EmailSubscriptionController( $exceptionHandler,CurrentUser, SelectedEmailList, toastr, AccountService,LoginFact) {
 	var vm = this;
 	vm.emailsubscribe=SelectedEmailList;
-	console.log("user email is--",vm.emailsubscribe);
 	vm.userdata=CurrentUser;
 	console.log("update user data are",vm.userdata);
-	vm.updateemail=UpdateEmailLIst;
-	console.log("updated datas are--:",vm.updateemail);
+	//vm.updateemail=UpdateEmailLIst;
+	//console.log("updated datas are--:",vm.updateemail);
 }
 function TrackOrderController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
 }
-function ProfileController($exceptionHandler,OrderCloud, AccountService, AddressList, CurrentUser, Underscore, $q, $scope){
+function ProfileController($exceptionHandler,$state,OrderCloud,AccountService,OrderList, AddressList, CurrentUser, Underscore, $q, $scope){
 	var vm=this;
 	vm.profileData=CurrentUser;
+	console.log("profile data are --",vm.profileData);
 	vm.changeEmail = function(){
 		var obj = {"Email":vm.change_email};
-		alert("r u sure want to save???");
 		OrderCloud.Users.Patch(CurrentUser.ID, obj).then(function(rrr){
-			console.log("res===",rrr);
 			vm.emailid=rrr;
+			$state.go($state.current, {}, {reload: true});
 		})
 	}
 	//_------FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
@@ -887,13 +905,13 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Address
 //_------ END FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
 
 	//_------FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
-	vm.Totaladdress=AddressList;
+	/*vm.Totaladdress=AddressList;
 	_.filter(vm.Totaladdress,function(row){
 		if(row.xp.IsDefault){
 			vm.default_add=row;
 			vm.defaultAdd = angular.copy(row);
 		}
-	})
+	})*/
 	//_------ END FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
 
 	/*    OrderCloud.Me.ListAddresses().then(function(dadd){
@@ -906,16 +924,16 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Address
 	 })
 
 	 })*/
-	/*vm.editAdressDefault=function(){
+	/*ervice.GetPhoneNumber(vm.editAddr.Phone).then(function(res){
+	 console.log(" edit response are",res);
+	 vm.contact.Phone1 = res[0];
+	 vm.contactvm.editAdressDefault=function(){
 	 vm['showedit' + index] =true;
 	 vm.editAddr=editAddr;
 	 $scope.showedit=false;
 	 vm.contact={};
 	 var phn = vm.editAddr.Phone;
-	 AccountService.GetPhoneNumber(vm.editAddr.Phone).then(function(res){
-	 console.log(" edit response are",res);
-	 vm.contact.Phone1 = res[0];
-	 vm.contact.Phone2 = res[1];
+	 AccountS.Phone2 = res[1];
 	 vm.contact.Phone3 = res[2];
 	 });
 	 vm.editAddr=default_add;
@@ -934,13 +952,26 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Address
 	 console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
 
 	 }*/
-	vm.saveAddressDefault = function(saveAddr, contact){
+	 vm.getPlace=function(zip){
+		AccountService.getCityState(zip).then(function(res){
+			console.log("response are city and state==",res);
+			$scope.addr.City = res.City;
+			$scope.addr.State = res.State;
+		});
+	}
+	vm.getPlaceEdit=function(zip){
+		AccountService.getCityState(zip).then(function(res){
+			vm.editAddr.City = res.City;
+			vm.editAddr.State = res.State;
+		});
+	}
+	/*vm.saveAddressDefault = function(saveAddr, contact){
 		saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 		console.log("saveAddr.Phone", saveAddr.Phone);
-		OrderCloud.Me.UpdateAddress(saveAddr.ID, saveAddr).then(function(){
+		OrderCloud.Addresses.Update(saveAddr.ID, saveAddr).then(function(){
 			$state.go('account.addresses', {}, {reload: true});
 		})
-	}
+	}*/
 	vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};
@@ -996,20 +1027,13 @@ function ProfileController($exceptionHandler,OrderCloud, AccountService, Address
 		vm.stateData=stateSelected;
 	};
 
-//orders functionallity starts here
-	var orders=[];
-	var forders=[];
-	OrderCloud.Me.ListOutgoingOrders().then(function(oooores){
-		angular.forEach(oooores.Items,function(od){
-			var promise=AccountService.GetOrderDetails(od.ID);
-			orders.push(promise);
-		});
-		$q.all(orders).then(function(foooo){
-			vm.showOrders=foooo;
-			console.log("orders with line items====",vm.showOrders);
-		});
-	})
+//orders function call starts here
+	vm.showOrders=OrderList;
+	console.log("the proper orders are",vm.showOrders);
+//orders function call ends here
 //Events Functionallity Starts Here
+/*vm.eventsDetails=EventList;
+console.log("the proper events are",vm.eventsDetails);*/
 	var ajaxarr=[];
 	var arr=[];
 	var filter ={

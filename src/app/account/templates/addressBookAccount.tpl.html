@@ -22,46 +22,44 @@
                 <form class="add-new-addr-form" role="form" novalidate>
                     <div class="col-xs-6 form-group nick-name">
                         <label for="nickName">Nick Name</label>
-                        <input type="text" class="form-control" id="nickName" ng-model="addr.AddressName">
+                        <input type="text" class="form-control" id="nickName" ng-model="addr.NickName" autocomplete="off">
                     </div>
                     <div class="col-xs-6 form-group first-name">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" ng-model="addr.FirstName">
+                        <input type="text" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off">
                     </div>
                     <div class="col-xs-6 form-group last-name">
                         <label for="nickName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" ng-model="addr.LastName">
+                        <input type="text" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off">
                     </div>
                     <div class="col-xs-6 form-group zip-code">
                         <label for="zipCode">ZIP Code</label>
-                        <input type="text" class="form-control" id="zipCode" ng-model="addr.Zip">
+                        <input type="number" class="form-control" id="zipCode" ng-model="addr.Zip" autocomplete="off" ng-blur="account.getLocation(addr.Zip)">
                     </div>
                     <div class="col-xs-12 form-group address">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" ng-model="addr.Street1">
+                        <label for="address">Address 1</label>
+                        <input type="text" class="form-control" id="address" ng-model="addr.Street1" autocomplete="off">
                     </div>
                     <div class="col-xs-12 form-group address2">
                         <label for="address2">Address 2</label>
-                        <input type="text" class="form-control" id="address2" ng-model="addr.Street2">
+                        <input type="text" class="form-control" id="address2" ng-model="addr.Street" autocomplete="off">
                     </div>
                     <div class="col-xs-6 form-group city">
                         <label for="address">City</label>
-                        <input type="text" class="form-control" id="city" ng-model="addr.City">
+                        <input type="text" class="form-control" id="city" ng-model="addr.City" autocomplete="off">
                     </div>
                     <div class="col-xs-6 form-group state">
                         <label for="state">State</label>
-                        <input type="text" class="form-control" id="state" ng-model="account.editAddr.State">
-                        <!-- <select class="form-control" id="state" ng-model="addr.State">
-                            <option>MN</option>
-                            <option>LA</option>
-                            <option>LV</option>
-                        </select> -->
+                        <input type="text" class="form-control" id="state" ng-model="addr.State" autocomplete="off">
                     </div>
                     <div class="col-xs-12 form-group phone-number">
                         <label for="phone1">Phone Number</label>
-                        <input type="text" class="form-control col-xs-3" id="phone1" ng-model="addr.Phone1">
-                        <input type="text" class="form-control col-xs-3" id="phone2" ng-model="addr.Phone2">
-                        <input type="text" class="form-control col-xs-3" id="phone3" ng-model="addr.Phone3">
+                        <div class="row phone-txt">
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone1" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone2" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="addr.Phone3" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
+                                
+                        </div>
                     </div>
                     <div class="col-xs-12 form-group shipping-checkbox">
                         <div class="Checkbox">
@@ -89,92 +87,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="row row-address-search for-edit-cont">
-        <div class="col-xs-12 adress-edit-container" ng-hide="showedit">
-            <p class="title">Edit Address</p>
-            <div class="add-new-addr-div">
-                <form class="row add-new-addr-form" role="form" novalidate>
-                    <!-- <div class="col-xs-6 form-group nick-name">
-                        <label for="nickName">Nick Name</label>
-                        <input type="text" class="form-control" id="nickName">
-                    </div> -->
-                    <!-- <div class="col-xs-6 form-group first-name" >
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName">
-                    </div>
-                    <div class="col-xs-6 form-group last-name" >
-                        <label for="nickName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName">
-                    </div>
-                    <div class="col-xs-6 form-group zip-code">
-                        <label for="zipCode">ZIP Code</label>
-                        <input type="text" class="form-control" id="zipCode" ng-model="account.editAddr.Zip">
-                    </div>
-                    <div class="col-xs-12 form-group address" >
-                        <label for="address">Address1</label>
-                        <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1">
-                    </div>
-                    <div class="col-xs-12 form-group address2" >
-                        <label for="address2">Address2</label>
-                        <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2">
-                    </div>
-                    <div class="col-xs-6 form-group city">
-                        <label for="address">City</label>
-                        <input type="text" class="form-control" id="city" ng-model="account.editAddr.City">
-                        <label for="state">State</label>
-                        <div uib-dropdown>
-                            <a href ng-model="account.editAddr.State" uib-dropdown-toggle>
-                                    {{account.stateData}}
-                            </a>
-                            <div uib-dropdown-menu>
-                                <ul>
-                                    <li ng-click="account.stateSelected(account.editAddr.State)">MN</li>
-                                    <li ng-click="account.stateSelected(account.editAddr.State)">jh</li>
-                                    <li ng-click="account.stateSelected(account.editAddr.State)">LhhV</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 form-group state">
-                        <label for="state">State</label>
-                        <select class="form-control" id="state" ng-model="account.editAddr.State">
-                            <option>MN</option>
-                            <option>LA</option>
-                            <option>LV</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-12 form-group phone-number">
-                        <label for="phone1">Phone Number</label>
-                        <input type="number" class="form-control col-xs-3" id="phone1" ng-model="account.contact.Phone1">
-                        <input type="number" class="form-control col-xs-3" id="phone2" ng-model="account.contact.Phone2">
-                        <input type="number" class="form-control col-xs-3" id="phone3" ng-model="account.contact.Phone3">
-                    </div>
-                    <div class="col-xs-12 form-group shipping-checkbox">
-                        <div class="Checkbox">
-                            <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" />
-                            <div class="Checkbox-visible"></div>
-                        </div>
-                        <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
-                    </div>
-                    <div class="col-xs-12 form-group billing-checkbox">
-                        <div class="Checkbox">
-                            <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling" />
-                            <div class="Checkbox-visible"></div>
-                        </div>
-                        <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
-                    </div>
-                    <div class="col-xs-12 form-group navig-btns">
-                        <div class="col-xs-6 savebtn">
-                            <button type="button" class="btn purple-btn col-xs-6" ng-click="account.saveAddress(account.editAddr,account.contact)">SAVE ADDRESS</button>
-                        </div>
-                        <div class="col-xs-6 cancelbtn">
-                            <button type="button" class="btn gray-btn col-xs-6" ng-click="showedit=!showedit">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>   -->
     <div class="row addr-book-list-cont">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="address.xp.IsDefault">
             <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
@@ -213,41 +125,44 @@
                     <form class="row add-new-addr-form" role="form" novalidate>
                        <div class="col-xs-6 form-group nick-name">
                             <label for="nickName">Nick Name</label>
-                            <input type="text" class="form-control" id="nickName">
+                            <input type="text" class="form-control" id="nickName" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group first-name" >
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName">
+                            <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group last-name" >
                             <label for="nickName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName">
+                            <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group zip-code">
                             <label for="zipCode">ZIP Code</label>
-                            <input type="text" class="form-control" id="zipCode" ng-model="account.editAddr.Zip">
+                            <input type="number" class="form-control" id="zipCode" ng-model="account.editAddr.Zip" autocomplete="off" ng-blur="account.getLoactionEdit(account.editAddr.Zip)">
                         </div>
                         <div class="col-xs-12 form-group address" >
                             <label for="address">Address1</label>
-                            <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1">
+                            <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1" autocomplete="off">
                         </div>
                         <div class="col-xs-12 form-group address2" >
                             <label for="address2">Address2</label>
-                            <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2">
+                            <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group city">
                             <label for="address">City</label>
-                            <input type="text" class="form-control" id="city" ng-model="account.editAddr.City">
+                            <input type="text" class="form-control" id="city" ng-model="account.editAddr.City" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group state">
                             <label for="state">State</label>
-                            <input type="text" class="form-control" id="state" ng-model="account.editAddr.State">
+                            <input type="text" class="form-control" id="state" ng-model="account.editAddr.State" autocomplete="off">
                         </div>
                         <div class="col-xs-12 form-group phone-number">
                             <label for="phone1">Phone Number</label>
-                            <input type="number" class="form-control col-xs-3" id="phone1" ng-model="account.contact.Phone1">
-                            <input type="number" class="form-control col-xs-3" id="phone2" ng-model="account.contact.Phone2">
-                            <input type="number" class="form-control col-xs-3" id="phone3" ng-model="account.contact.Phone3">
+                            <div class="row phone-txt">
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="account.contact.Phone1" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="account.contact.Phone2" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="account.contact.Phone3" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                
+                        </div>
                         </div>
                         <div class="col-xs-12 form-group shipping-checkbox">
                             <div class="Checkbox">
@@ -313,48 +228,36 @@
                         <form class="row add-new-addr-form" role="form" novalidate>
                            <div class="col-xs-6 form-group nick-name">
                                 <label for="nickName">Nick Name</label>
-                                <input type="text" class="form-control" id="nickName">
+                                <input type="text" class="form-control" id="nickName" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group first-name" >
                                 <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName">
+                                <input type="text" class="form-control" id="firstName" ng-model="account.editAddr.FirstName" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group last-name" >
                                 <label for="nickName">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName">
+                                <input type="text" class="form-control" id="lastName" ng-model="account.editAddr.LastName" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group zip-code">
                                 <label for="zipCode">ZIP Code</label>
-                                <input type="text" class="form-control" id="zipCode" ng-model="account.editAddr.Zip">
+                                <input type="number" class="form-control" id="zipCode" ng-model="account.editAddr.Zip" autocomplete="off" ng-blur="account.getLoactionEdit(account.editAddr.Zip)">
                             </div>
                             <div class="col-xs-12 form-group address" >
-                                <label for="address">Address1</label>
-                                <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1">
+                                <label for="address1">Address1</label>
+                                <input type="text" class="form-control" id="address" ng-model="account.editAddr.Street1" autocomplete="off">
                             </div>
                             <div class="col-xs-12 form-group address2" >
                                 <label for="address2">Address2</label>
-                                <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2">
+                                <input type="text" class="form-control" id="address2" ng-model="account.editAddr.Street2" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group city">
                                 <label for="address">City</label>
-                                <input type="text" class="form-control" id="city" ng-model="account.editAddr.City">
-                                <!-- <label for="state">State</label>
-                                <div uib-dropdown>
-                                    <a href ng-model="account.editAddr.State" uib-dropdown-toggle>
-                                            {{account.stateData}}
-                                    </a>
-                                    <div uib-dropdown-menu>
-                                        <ul>
-                                            <li ng-click="account.stateSelected(account.editAddr.State)">MN</li>
-                                            <li ng-click="account.stateSelected(account.editAddr.State)">jh</li>
-                                            <li ng-click="account.stateSelected(account.editAddr.State)">LhhV</li>
-                                        </ul>
-                                    </div>
-                                </div> -->
+                                <input type="text" class="form-control" id="city" ng-model="account.editAddr.City" autocomplete="off">
+                                
                             </div>
                             <div class="col-xs-6 form-group state">
                                 <label for="state">State</label>
-                                <input type="text" class="form-control" id="state" ng-model="account.editAddr.State">
+                                <input type="text" class="form-control" id="state" ng-model="account.editAddr.State" autocomplete="off">
                                 <!-- <select class="form-control" id="state" ng-model="addr.State">
                                     <option>MN</option>
                                     <option>LA</option>
@@ -363,20 +266,23 @@
                             </div>
                             <div class="col-xs-12 form-group phone-number">
                                 <label for="phone1">Phone Number</label>
-                                <input type="number" class="form-control col-xs-3" id="phone1" ng-model="account.contact.Phone1">
-                                <input type="number" class="form-control col-xs-3" id="phone2" ng-model="account.contact.Phone2">
-                                <input type="number" class="form-control col-xs-3" id="phone3" ng-model="account.contact.Phone3">
+                                <div class="row phone-txt">
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="account.contact.Phone1" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="account.contact.Phone2" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="account.contact.Phone3" ng-keypress="account.IsNumeric($event)" autocomplete="off"></div>
+                                
+                        </div>
                             </div>
                             <div class="col-xs-12 form-group shipping-checkbox">
                                 <div class="Checkbox">
-                                    <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" />
+                                    <input type="checkbox" id="ship-addr-chkb" ng-model="editAddr.IsShipping" />
                                     <div class="Checkbox-visible"></div>
                                 </div>
                                 <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
                             </div>
                             <div class="col-xs-12 form-group billing-checkbox">
                                 <div class="Checkbox">
-                                    <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling" />
+                                    <input type="checkbox" id="bill-addr-chkb" ng-model="editAddr.IsBilling" />
                                     <div class="Checkbox-visible"></div>
                                 </div>
                                 <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>

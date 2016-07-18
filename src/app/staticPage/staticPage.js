@@ -114,7 +114,7 @@ function staticPageConfig($stateProvider) {
 		.state('services', {
 			parent: 'base',
 			url: '/services/:pageName',
-			templateUrl: 'staticPage/templates/history.tpl.html',
+			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
 			resolve:

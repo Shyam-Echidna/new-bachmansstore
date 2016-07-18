@@ -10,10 +10,10 @@
 
 
 		<!-- Sidebar -->
-		<div class="col-md-3" id=" sidebar-wrapper">
-			<div class="receipient-details hidden-xs hidden-sm">
-				<uib-accordion close-others="oneAtATime">
-					<uib-accordion-group is-open="$index==services.isOpen" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
+		<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" id=" sidebar-wrapper">
+			<div class="receipient-details hidden-xs hidden-sm" >
+				<uib-accordion close-others="oneAtATime" >
+					<uib-accordion-group is-open="$index==history.isOpen" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
 						<uib-accordion-heading >
 							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
 								<g>
@@ -26,8 +26,8 @@
 							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
 								<rect y="10" width="50" height="8" />
 							</svg>
-							<!-- <span ng-click="services.accordianOpen($index)" ng-init="services.activeIndex = (services.parentPath == folder.fileName) ? $index : 0;">{{services.isOpen}}{{folder.title}}</span> -->
-							<span ng-click="services.accordianOpen($index)" ng-init="services.assignIndex(folder.fileName,$index)">{{folder.title}}</span>
+							<!-- <span ng-click="history.accordianOpen($index)" ng-init="history.activeIndex = (history.parentPath == folder.fileName) ? $index : 0;">{{history.isOpen}}{{folder.title}}</span> -->
+							<span ng-click="history.accordianOpen($index)" ng-init="history.assignIndex(folder.fileName,$index)">{{folder.title}}</span>
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
@@ -45,15 +45,13 @@
 
 						</div>
 					</uib-accordion-group>
-
 				</uib-accordion>
-
 			</div>
 			<div class="mobile-receipient-details hidden-md hidden-lg">
 				<uib-accordion>
 					<uib-accordion-group is-open="status.openfaqs">
 						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">Bachman’s Heritage Room</p>
+							<p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">Bachman’s History</p>
 						</uib-accordion-heading>
 						<div class="head-title">
 							<h4>Services</h4>
@@ -98,8 +96,8 @@
 
 		<!-- Page Content -->
 		<div class="col-md-9 service-templates" id=" page-content-wrapper">
-			<div ng-include="services.staticTempPage"></div>
-			<!-- <div class="container-fluid">
+			<div ng-include="history.staticTempPage"></div>
+			 <!-- <div class="container-fluid">
 
 				<div class="row service-full-content">
 					<div class="col-xs-12 col-md-12">

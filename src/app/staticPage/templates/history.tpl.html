@@ -35,7 +35,12 @@
 						<div class="receipient-drpDown">
 							<ul>
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
-									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index && $parent.$index == history.isOpen ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+									<!-- <ul>
+										<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
+											<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+										</li>
+									</ul> -->
 								</li>
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='corporate'" ng-click="history.changePageData(subfolder,$index)">
 									<a ui-sref="corporate({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
@@ -98,12 +103,58 @@
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
-		<div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id=" page-content-wrapper">
+
+		<div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id="page-content-wrapper">
+		   <!-- <div ng-include="history.staticTempPage"></div> -->
+		   	<div class="landscapeservices">
+		   		<h4>Installation & Design</h4>
+		   		<p class="static-block">
+		   			Our talented team of landscape designers. horticulturists. and installers have been transforming residential landscapes for over 70 years. You can trust Bachman's to provide unique landscape designs. high-quality products. professional expertise. outstanding customer service. and great value. Projects starting at $2.500 and up. Meet our designers.
+	 	   		</p>
+		   		<p class="static-block">
+		   			Taking good care of your garden benefits your family and business in many ways. Not only is it a place to enjoy nature, but with regular maintenance your garden becomes an enjoyable, relaxing extension of your home. property or business. Our talented anci creative Garden Maintenance and Seasonal Decor teams provide routine maintenance and care of your landscape anci gardens. Your plants. shrubs and trees will thrive and your resicience will impress with seasonal solutions for garden beds. planters. decor and more! 
+		   		</p>
+		   		<h4>Garden Coaching</h4>
+		   		<p class="static-block">
+		   			Help is at your fingertips! Garden coaching brings Bachman's expertise to your yard. A horticulturist will work with you to provide hands-on guidance. 
+		   		</p>
+		   		<h4>Garden Maintenance  Services</h4>
+		   		<p class="static-block">
+		   		    We offer a complete range of residential and commercial garden services. including:</p>
+		   		    <ul class="static-lists">
+		   		    	<li>Annual and perennial anci small shrub planting anci maintenance </li>
+		   		    	<li>Container and garden bed planting and maintenance </li>
+		   		    	<li>Four-season plantings and decor </li>
+		   		    </ul>
+		   		    <p>Whether you want us to do all of the above, or just a few things at a time. you can customize a plan that is managed by a member of Bachman's highlight</p>
+		   		
+		   		<h4>Seasonal Decor by Bachman’s</h4>
+		   		<p class="static-block">
+			   		Want to refresh the look of your outdoor decor to match the season? If you're not sure where to begin. or just plain don't have the time. let Bachmar Seasonal Decor Services<br>
+					No matter what season or holiciay is around the corner, you can relax while we do all the decorating work.
+		   		</p>
+		   		<ul class="static-lists">
+	   		    	<li>- Seasonal Designs & Decor</li>
+	   		    	<li>- Containers</li>
+	   		    	<li>- Window Boxes</li>
+	   		    	<li> - Wreaths. Garlands, Trees and Lights </li>
+	   		    	<li>- Fresh a. Permanent Outdoor Decor</li>
+		   		</ul>
+		   		<p>During the holiday season. we can also trim your trees and deck your halls! </p>
+		   	</div>
+			
+			
+
+
+		<!-- <div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id=" page-content-wrapper"> -->
+		<div class="col-md-9 service-templates" id=" page-content-wrapper">
 			<div ng-include="history.staticTempPage"></div>
+
 			<!-- <div class="container-fluid p0">
 
 
 				<div class="row right-content">
+					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
 						<img src="assets/images/henry_Bachman.png" width="100%" class="hidden-xs hidden-sm">

@@ -1,7 +1,7 @@
 <div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
 
 	<div class="container-fluid p0 purple">
-		<div class="breadcrumb-box" ng-if="template.bannerHideArticle">
+		<div class="breadcrumb-box breadcrumbStatic">
 			<ul class="breadcrumb">
 				<li><a href="index.html">HOME</a> </li>
 				<li class="text-ellipsis">CARE, ADVICE & INFORMATION </li>
@@ -98,7 +98,10 @@
                     </uib-accordion-group>
 -->
                 </uib-accordion>
-                 <ul class="related-articles hidden-xs hidden-sm" ng-if="!template.bannerHideArticle">
+
+</div>
+            <ul class="related-articles hidden-xs hidden-sm" ng-if="!template.bannerHideArticle">
+
               <div class="first-head">
                   Related articles
               </div>
@@ -120,13 +123,12 @@
               </li>
 
           </ul>
-                </div>
-</div>
+
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
         <ui-view>
-		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id=" page-content-wrapper">
+		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 p0" id=" page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row right-content">
                     <uib-tabset active="template.active" class="tabs">
