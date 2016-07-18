@@ -93,7 +93,7 @@ qwertyuiop
       <div class="shopping-header">
          <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-               <div class="shopping-title">My Shopping Cart <span ng-if="cart.order>0">({{cart.lineItems.Meta.TotalCount}} items)</span><span ng-if="cart.order==0">({{cart.order}} items)</span></div>
+               <div class="shopping-title">My Shopping Cart <span ng-if="cart.order!=0">({{cart.lineItems.Meta.TotalCount}} items)</span><span ng-if="cart.order==0">({{cart.order}} items)</span></div>
             </div>
             <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
                <div class="shopping-links">
@@ -106,13 +106,17 @@ qwertyuiop
             </div>
          </div>
       </div>
-        <div class="no-products" ng-if="cart.order==0">
-          <p>Sorry, Your cart is empty.</p>`
-          <p ui-sref="home">Continue Shopping to add products to cart</p>
-      </div>
+        
 
       <div class="products-description">
          <div class="row">
+             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" ng-if="cart.order==0">
+                <div class="no-products">
+                      <p>Sorry, Your cart is empty.</p>`
+                      <p ui-sref="home">Continue Shopping to add products to cart</p>
+                </div>
+              </div>
+
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                <!-- <div ng-repeat="linegrp in cart.groups track by linegrp">
                   {{linegrp}} {{$index}}
@@ -791,13 +795,13 @@ qwertyuiop
                <div class="order-summary-title">Order Summary</div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-               <div class="order-count" ng-if="cart.order>0">({{cart.lineItems.Meta.TotalCount}} items)</div>
+               <div class="order-count" ng-if="cart.order!=0">({{cart.lineItems.Meta.TotalCount}} items)</div>
                <div class="order-count" ng-if="cart.order==0">({{cart.order}} items)</div>
             </div>
          </div>
       </div>
       <div class="order-summary-details">
-         <div class="row" ng-if="cart.order>0">
+         <div class="row" ng-if="cart.order!=0">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div class="promo-code">
                   <div class="promo-code-header">
@@ -824,7 +828,7 @@ qwertyuiop
                         <div class="sub-total">Subtotal</div>
                      </div>
                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <div class="sub-total-amount" ng-if="cart.order>0">{{cart.order.Subtotal | currency}}</div>
+                        <div class="sub-total-amount" ng-if="cart.order!=0">{{cart.order.Subtotal | currency}}</div>
                         <div class="sub-total-amount" ng-if="cart.order==0">$0.00</div>
                      </div>
                   </div>
@@ -891,7 +895,7 @@ qwertyuiop
                         <div class="total-order-summary">Total</div>
                      </div>
                      <div class="col-lg-6 col-md-6 col-sm-3 col-xs-3">
-                        <div class="total-order-amount" ng-if="cart.order>0">{{cart.order.Total | currency}}</div>
+                        <div class="total-order-amount" ng-if="cart.order!=0">{{cart.order.Total | currency}}</div>
                         <div class="total-order-amount" ng-if="cart.order==0">$0.00</div>
                      </div>
                   </div>
@@ -907,12 +911,12 @@ qwertyuiop
          </div>
       </div>
    </div>
-   <div class="purple-points-info  hidden-sm hidden-xs" ng-if="cart.order>0 || cart.order.Items.FromUserID=='gby8nYybikCZhjMcwVPAiQ'">
+   <div class="purple-points-info  hidden-sm hidden-xs" ng-if="cart.order!=0 && cart.order.FromUserID!='gby8nYybikCZhjMcwVPAiQ'">
       <div class="row">
          <div class="col-lg-12 col-md-12">
             <div class="current-purle-points">
                <div class="purple-points-header">
-                  Current Purple Perks Points Balance<span>500</span>
+                  Current Purple Perks Points Balance<span>{{cart.purpleperksacc.Balance}}</span>
                </div>
                <div class="points-info">*Points earned today will be reflected within 24hrs</div>
             </div>

@@ -64,17 +64,26 @@ function CartConfig($stateProvider) {
                             dfd.reject();
                         });
                     return dfd.promise;
+                },
+                LoggedinUser: function(OrderCloud, $q){
+                    var deferred = $q.defer();
+                    OrderCloud.Me.Get().then(function(res){
+                        console.log(res);
+                        deferred.resolve(res);
+                    })
+                    return deferred.promise;
                 }
             }
         });
 }
 
-function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService) {
+function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService, LoggedinUser) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
     vm.removeItem = LineItemHelpers.RemoveItem;
     vm.pagingfunction = PagingFunction;
+    vm.signnedinuser = LoggedinUser;
     console.log(vm.order);
     vm.updateQuantity = function(cartOrder,lineItem){
         $timeout.cancel();
@@ -213,6 +222,17 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             }
         });
     }
+
+    OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
+        angular.forEach(result.Items, function(value, key) {
+            console.log(value);
+            OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function(data){
+                if(data.Name=="Purple Perks"){
+                    vm.purpleperksacc=data;
+                }
+            })
+        })
+    })
 
     vm.changeReceipentfun = function(data, changereceipent){
         console.log(data, changereceipent);
