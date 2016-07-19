@@ -400,7 +400,7 @@ h3.accordion {
 	margin-top:0;
 	top:0;
 	width: 100%;
-    padding:0 0 10px;
+     padding: 15px 0px;
 		.breadcrumb {
 			background-color: @wht-color;
 			color: @blk-color;
@@ -787,6 +787,17 @@ h3.accordion {
 					padding-top: 9px;
 					li {
 						padding: 9px 0 9px 28px;
+						.sub-cat{
+
+							li{
+							  padding:9px 0 9px 10px;
+								a{
+									&:hover{
+									  color:#5f5757;
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -5008,6 +5019,31 @@ h4 {
       	color: #000;
       	border-bottom:1px solid #ccc;
       }
+   }
+   .motifs-gallery,.wedding-gallery{
+        background: #f7f7f7;
+	   
+	    padding:20px 30px;
+   	  .gallery-header{
+   	  	font: 2em @proxima-bold;
+        color: #8c58b5;
+        margin-bottom:25px;
+   	 }
+   	 .gallery-content{
+   	 	margin-top:30px;
+   	 	.gallery-desc{
+   	 	 background:#fff;
+   	 	 padding:10px;
+   	 	 h3{
+   	 	 	font:1.000em @proxima-bold;
+   	 	 	color:#333;
+   	 	 }
+   	 	 p{
+   	 	 	color:#999;
+   	 	 }
+   	 	}
+   	 }
+   	 margin-bottom:40px;
    }
 }
 

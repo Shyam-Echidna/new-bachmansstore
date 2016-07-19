@@ -111,7 +111,7 @@
          <div class="row">
              <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" ng-if="cart.order==0">
                 <div class="no-products">
-                      <p>Sorry, Your cart is empty.</p>`
+                      <p>Sorry, Your cart is empty.</p>
                       <p ui-sref="home">Continue Shopping to add products to cart</p>
                 </div>
               </div>
@@ -122,7 +122,7 @@
                   </div> -->
                <div class="left-shopping" ng-repeat="line in cart.lineVal">
                   <div class="client-info" ng-init="edit=true">
-                     <div class="recipient-details">Recipient:
+                     <!-- <div class="recipient-details">Recipient:
                         <span>
                         <input type="text" value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" /> 
                         <input type="text" value="{{cart.groups[line][0].ShippingAddress.LastName}}" ng-model="cart.groups[line][0].ShippingAddress.LastName" ng-class="{strike: edit==false}" ng-readonly="edit" />
@@ -130,13 +130,12 @@
                         <span>
                         <input type="text" value="{{cart.groups[line][0].ShippingAddress.Zip}}" ng-model="cart.groups[line][0].ShippingAddress.Zip" ng-class="{strike: edit==false}" ng-readonly="edit" />
                         </span>
+                     </div> -->
+                    <div class="recipient-details">Recipient:
+                        <span  value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" ng-attr-contenteditable="edit || undefined">{{cart.groups[line][0].ShippingAddress.FirstName}}</span> 
+                        <span  value="{{cart.groups[line][0].ShippingAddress.LastName}}" ng-model="cart.groups[line][0].ShippingAddress.LastName" ng-class="{strike: edit==false}" ng-readonly="edit">{{cart.groups[line][0].ShippingAddress.LastName}}</span> 
+                        <span  value="{{cart.groups[line][0].ShippingAddress.Zip}}" ng-model="cart.groups[line][0].ShippingAddress.Zip" ng-class="{strike: edit==false}" ng-readonly="edit">{{cart.groups[line][0].ShippingAddress.Zip}}</span> 
                      </div>
-                     <!-- <div class="recipient-details">Recipient:
-                        <span value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" contenteditable=false>{{cart.groups[line][0].ShippingAddress.FirstName}}</span>
-                        <span value="{{cart.groups[line][0].ShippingAddress.LastName}}" ng-model="cart.groups[line][0].ShippingAddress.LastName" ng-class="{strike: edit==false}" ng-readonly="edit" contenteditable=false>{{cart.groups[line][0].ShippingAddress.LastName}} </span>
-                        <span value="{{cart.groups[line][0].ShippingAddress.Zip}}" ng-model="cart.groups[line][0].ShippingAddress.Zip" ng-class="{strike: edit==false}" ng-readonly="edit" contenteditable=false>
-                        {{cart.groups[line][0].ShippingAddress.Zip}}</span>
-                        </div> -->
                      <div class="client-eidt">
                         <a href="javascript:void(0)" ng-click="edit=!edit;cart.edIt()" ng-show="edit==true">Edit</a>
                         <a href="javascript:void(0)" ng-click="edit=!edit; cart.editreceipent(cart.groups[line])" ng-show="edit==false">Save</a>
@@ -168,162 +167,7 @@
                         </div>
                      </div>
                      <div class="products-info-details">
-                        <div class="row mobile-edit-links">
-                           <div class=" hidden-lg hidden-md col-sm-12 col-xs-12">
-                              <div class="edit-links">
-                                 <ul class="list-inline">
-                                    <!-- <li>Edit</li> | -->
-                                    <li>Move to Wishlist</li>
-                                    <li class="change-recipient-links">
-                                       <ul class="list-inline change-link">
-                                          <li ng-mouseover='changeRecipientToolti1=true' ng-mouseleave='changeRecipientTooltip1=false'>
-                                             Change Recipient
-                                             <div ng-show="changeRecipientTooltip1" class="change-recipient">
-                                                <div class="arrow-up"></div>
-                                                <div class="change-recipient-info">
-                                                   <div class="recipient-header">
-                                                      Change Recipient
-                                                   </div>
-                                                   <div class="recipient-info">
-                                                      <div class="row">
-                                                         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-5 recipient-content">
-                                                            <div class="recipient-names">Recipient</div>
-                                                            <div class="recipient-list">
-                                                               <ul>
-                                                                  <li>
-                                                                     <div class="Checkbox">
-                                                                        <input type="checkbox" checked="">
-                                                                        <div class="Checkbox-visible"></div>
-                                                                     </div>
-                                                                     <label> June Cleever</label>
-                                                                  </li>
-                                                                  <li>
-                                                                     <div class="Checkbox">
-                                                                        <input type="checkbox" checked="false">
-                                                                        <div class="Checkbox-visible"></div>
-                                                                     </div>
-                                                                     <label> John Snow</label>
-                                                                  </li>
-                                                               </ul>
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3 ">
-                                                            <div class="recipient-zip-code">Zip Code</div>
-                                                            <div class="zip-code-list">
-                                                               <ul>
-                                                                  <li>55401</li>
-                                                                  <li>55785</li>
-                                                               </ul>
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2">
-                                                            <div class="recipient-qty">Qty.</div>
-                                                            <div class="qty-list">
-                                                               <input type="text" name="quantity" class="input-lg">
-                                                               <input type="text" name="quantity" class="input-lg">
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="create-recipient">
-                                                               <span>
-                                                                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                                     viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                                                                     <g>
-                                                                        <rect x="10" width="2" height="24"/>
-                                                                        <rect y="10" width="24" height="2"/>
-                                                                     </g>
-                                                                  </svg>
-                                                               </span>
-                                                               Create a New Recipient
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="new-recipient-form">
-                                                               <form role="form">
-                                                                  <div class="row">
-                                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                        <label>Name</label>
-                                                                     </div>
-                                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                        <div class="form-group">
-                                                                           <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
-                                                                        </div>
-                                                                     </div>
-                                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                        <div class="form-group">
-                                                                           <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
-                                                                        </div>
-                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                            <div class="create-recipient">
-                                                                                <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                         viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                                                    
-                                                    <g>
-                                                        <rect x="10" width="2" height="24"/>
-                                                        <rect y="10" width="24" height="2"/>
-                                                    </g>
-                                                    </svg>
-                                                    </span><span ng-click="cart.changereceipentpopup()">Create a New Recipient</span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                            <div class="new-recipient-form">
-                                                                                <form role="form">
-                                                                                    <div class="row">
-                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                            <label>Name</label>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                                            <div class="form-group">
-                                                                                                <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                                            <div class="form-group">
-                                                                                                <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                                                            <label>Zip Code</label>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                                            <div class="form-group">
-                                                                                                <input type="text" name="zip" id="zip" class="form-control input-sm">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                                            <div class="zip-code-lookup"><a href="">Zip Code Lookup</a></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                                            <div class="save-recipient">
-                                                                                                Save Recipient
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div> -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </li>
-                                          |
-                                          <li>Show Product Requests</li>
-                                       </ul>
-                                    </li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </div>
+
                         <div class="row" ng-repeat="lineItem in cart.groups[line]">
                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  recipient-products">
                               <div class="level-promo">
@@ -334,133 +178,266 @@
                                     <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/Shooping cart/shopping-product2.jpg">
                                     <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile2.png">
                                  </div>
-                                 <div class="col-lg-8 col-md-8 hidden-sm hidden-xs desktop-recipent-info">
-                                    <p class="custom-name">{{lineItem.Product.Name}}</p>
-                                    <p class="item-number">Item Number: {{lineItem.Product.ID}}</p>
-                                    <p class="product-type">Type: Deluxe</p>
-                                    <div class="edit-links">
-                                       <ul class="list-inline">
-                                          <!-- <li>Edit</li> | -->
-                                          <li ng-click="cart.wishlist(lineItem.Product.ID)">Move to Wishlist</li>
-                                          <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
-                                             <ul class="list-inline change-link">
-                                                <li>
-                                                   <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip = !lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
-                                                </li>
-                                                <li>
-                                                   <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Show Product Requests</a>
-                                                </li>
-                                             </ul>
-                                          </li>
-                                       </ul>
-                                       <script type="text/ng-template" id="showproductrequest.html">
-                                          <div class="showproductrequestdiv" click-outside="cart.closePopover()">
-                                              <div class="head-text">
-                                                  <p>Product request for Bachmans</p>
-                                                  <p class="editLink" ng-click="cart.productrequestpopup(lineItem)">Edit</p>
-                                              </div>
-                                              <textarea ng-readonly="true" rows="7">{{lineItem.xp.productRequest}}</textarea>
-                                          </div>
-                                       </script>
-                                       <script type="text/ng-template" id="deleteNote.html">
-                                          <div class="change-recipient" click-outside="cart.closePopover()">
-                                              <div class="arrow-up"></div>
-                                              <div class="change-recipient-info">
-                                                  <div class="recipient-header">
-                                                      Change Recipient
-                                                  </div>
-                                                  <div class="recipient-info">
-                                                      <div class="row">
-                                                          <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6     recipient-content">
-                                                              <div class="recipient-names">Recipient</div>
-                                                              <div class="recipient-list">
-                                                                  <ul>
-                                                                      <li ng-repeat="changereceipent in cart.lineVal track by $index" name="changereceipent">
-                                                                          <div class="Checkbox">
-                                                                              <input type="radio" ng-click="cart.changeReceipentfun(lineItem, cart.groups[changereceipent][0].ShippingAddress.FirstName)" value="line" name="check" ng-checked="changereceipent==line">
-                                                                              <!-- <div class="Checkbox-visible"></div> -->
-                                                                          
-                                    </div>
-                                    <label>{{changereceipent}}</label>
-                                    </li>
-                                    </ul>
-                                 </div>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                              <div class="recipient-zip-code">Zip Code</div>
-                              <div class="zip-code-list">
-                              <ul>
-                              <li ng-repeat="changereceipent in cart.lineVal track by $index">{{cart.groups[changereceipent][0].ShippingAddress.Zip}}</li>
-                              </ul>
-                              </div>
-                              </div>
-                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                              <div class="recipient-qty">Qty.</div>
-                              <div class="qty-list">
-                              <input type="text" name="quantity" class="input-lg">
-                              </div>
-                              </div>
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="create-recipient" ng-click="cart.changereceipentpopup()">
-                              <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                              <g>
-                              <rect x="10" width="2" height="24"/>
-                              <rect y="10" width="24" height="2"/>
-                              </g>
-                              </svg>
-                              </span>Create a New Recipient
-                              </div>
-                              </div>
-                              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="new-recipient-form">
-                              <form role="form">
-                              <div class="row">
-                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                              <label>Name</label>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                              <div class="form-group">
-                              <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
-                              </div>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                              <div class="form-group">
-                              <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
-                              </div>
-                              </div>
-                              </div>
-                              <div class="row">
-                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                              <label>Zip Code</label>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                              <div class="form-group">
-                              <input type="text" name="zip" id="zip" class="form-control input-sm">
-                              </div>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                              <div class="zip-code-lookup"><a href="">Zip Code Lookup</a></div>
-                              </div>
-                              </div>
-                              <div class="row">
-                              <div class="col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <div class="save-recipient">
-                              Save Recipient
-                              </div>
-                              </div>
-                              </div>
-                              </form>
-                              </div>
-                              </div> -->
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  </script>
-               </div>
-            </div>
-            <div class="hidden-lg hidden-md col-sm-8 col-xs-8 mobile-recipent-info">
+                                 <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8 desktop-recipent-info">
+                                    <p class="custom-name">{{lineItem.Product.Name}}
+                                      <span class="visible-xs visible-sm">
+                                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 93.1 93.1" style="enable-background:new 0 0 93.1 93.1;" xml:space="preserve">
+                                            <polygon points="93.1,4.5 90.3,1.6 46.6,43.7 4.5,0 1.6,2.8 43.7,46.5 0,88.6 2.8,91.5 46.5,49.4 88.6,93.1 91.5,90.3 49.4,46.6 "/>
+                                         </svg>
+                                      </span>
+                                    </p>
+                                    <p class="item-number">Item Number: <span>{{lineItem.Product.ID}}</span></p>
+                                    <p class="product-type">Type: <span>Deluxe</span></p>
+                                    <div class="edit-links hidden-xs hidden-sm">
+                                        <ul class="list-inline">
+                                            <!-- <li>Edit</li> | -->
+                                            <li ng-click="cart.wishlist(lineItem.Product.ID)">Move to Wishlist</li>
+                                            <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
+                                                <ul class="list-inline change-link">
+                                                    <li>
+                                                        <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip = !lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Show Product Requests</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <script type="text/ng-template" id="showproductrequest.html">
+                                            <div class="showproductrequestdiv" click-outside="cart.closePopover()">
+                                                <div class="head-text">
+                                                    <p>Product request for Bachmans</p>
+                                                    <p class="editLink" ng-click="cart.productrequestpopup(lineItem)">Edit</p>
+                                                </div>
+                                                <textarea ng-readonly="true" rows="7">{{lineItem.xp.productRequest}}</textarea>
+                                            </div>
+                                        </script>
+                                        <script type="text/ng-template" id="deleteNote.html">
+                                            <div class="change-recipient" click-outside="cart.closePopover()">
+                                                <div class="arrow-up"></div>
+                                                <div class="change-recipient-info">
+                                                    <div class="recipient-header">
+                                                        Change Recipient
+                                                    </div>
+                                                    <div class="recipient-info">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 col-md-5 col-sm-4 col-xs-4     recipient-content">
+                                                                <div class="recipient-names">Recipient</div>
+                                                                <div class="recipient-list">
+                                                                    <ul>
+                                                                        <li ng-repeat="changereceipent in cart.lineVal track by $index" name="changereceipent">
+                                                                            <input type="radio" ng-click="cart.changeReceipentfun(lineItem, cart.groups[changereceipent][0].ShippingAddress.FirstName)" value="line" name="check" ng-checked="changereceipent==line">
+                                                                            <label for="">
+                                                                                <span class="radioOutline">
+                                                                                    <span class="radioInside"></span>
+                                                                                </span>
+                                                                                <span class="label-text">{{changereceipent}}</span>
+                                                                            </label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="recipient-zip-code">Zip Code</div>
+                                                                <div class="zip-code-list">
+                                                                    <ul>
+                                                                        <li ng-repeat="changereceipent in cart.lineVal track by $index">{{cart.groups[changereceipent][0].ShippingAddress.Zip}}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                                                <div class="recipient-qty">Qty.</div>
+                                                                <div class="qty-list">
+                                                                    <input type="text" name="quantity" class="input-lg">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="create-recipient" ng-click="cart.changereceipentpopup()">
+                                                                    <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                     viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                                                  <g>
+                                                                  <rect x="10" width="2" height="24"/>
+                                                                  <rect y="10" width="24" height="2"/>
+                                                                  </g>
+                                                                  </svg>
+                                                                  </span>Create a New Recipient
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="new-recipient-form">
+                                                                    <form role="form">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <label>Name</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <label>Zip Code</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="zip" id="zip" class="form-control input-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="zip-code-lookup"><a href="">Zip Code Lookup</a></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                                <div class="save-recipient">
+                                                                                    Save Recipient
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </script>
+                                  </div>
+
+                          </div>
+                          <div class="col-xs-12 col-sm-12 hidden-md hidden-lg mobile-edit-links">
+                            <div class="edit-links">
+                                        <ul class="list-inline">
+                                            <!-- <li>Edit</li> | -->
+                                            <li ng-click="cart.wishlist(lineItem.Product.ID)">Move to Wishlist</li>
+                                            <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
+                                                <ul class="list-inline change-link">
+                                                    <li class="change-recipent-link">
+                                                        <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip = !lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
+                                                    </li>
+                                                    <li class="product-request-link">
+                                                        <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Show Product Requests</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <script type="text/ng-template" id="showproductrequest.html">
+                                            <div class="showproductrequestdiv" click-outside="cart.closePopover()">
+                                                <div class="head-text">
+                                                    <p>Product request for Bachmans</p>
+                                                    <p class="editLink" ng-click="cart.productrequestpopup(lineItem)">Edit</p>
+                                                </div>
+                                                <textarea ng-readonly="true" rows="7">{{lineItem.xp.productRequest}}</textarea>
+                                            </div>
+                                        </script>
+                                        <script type="text/ng-template" id="deleteNote.html">
+                                            <div class="change-recipient" click-outside="cart.closePopover()">
+                                                <div class="arrow-up"></div>
+                                                <div class="change-recipient-info">
+                                                    <div class="recipient-header">
+                                                        Change Recipient
+                                                    </div>
+                                                    <div class="recipient-info">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 col-md-5 col-sm-4 col-xs-4     recipient-content">
+                                                                <div class="recipient-names">Recipient</div>
+                                                                <div class="recipient-list">
+                                                                    <ul>
+                                                                        <li ng-repeat="changereceipent in cart.lineVal track by $index" name="changereceipent">
+                                                                            <input type="radio" ng-click="cart.changeReceipentfun(lineItem, cart.groups[changereceipent][0].ShippingAddress.FirstName)" value="line" name="check" ng-checked="changereceipent==line">
+                                                                            <label for="">
+                                                                                <span class="radioOutline">
+                                                                                    <span class="radioInside"></span>
+                                                                                </span>
+                                                                                <span class="label-text">{{changereceipent}}</span>
+                                                                            </label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="recipient-zip-code">Zip Code</div>
+                                                                <div class="zip-code-list">
+                                                                    <ul>
+                                                                        <li ng-repeat="changereceipent in cart.lineVal track by $index">{{cart.groups[changereceipent][0].ShippingAddress.Zip}}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                                                <div class="recipient-qty">Qty.</div>
+                                                                <div class="qty-list">
+                                                                    <input type="text" name="quantity" class="input-lg">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="create-recipient" ng-click="cart.changereceipentpopup()">
+                                                                    <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                     viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                                                  <g>
+                                                                  <rect x="10" width="2" height="24"/>
+                                                                  <rect y="10" width="24" height="2"/>
+                                                                  </g>
+                                                                  </svg>
+                                                                  </span>Create a New Recipient
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="new-recipient-form">
+                                                                    <form role="form">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <label>Name</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <label>Zip Code</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="form-group">
+                                                                                    <input type="text" name="zip" id="zip" class="form-control input-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="zip-code-lookup"><a href="">Zip Code Lookup</a></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                                <div class="save-recipient">
+                                                                                    Save Recipient
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </script>
+                                  </div>
+                          </div>
+            <!-- <div class="hidden-lg hidden-md col-sm-8 col-xs-8 mobile-recipent-info">
                <p class="custom-name">
                   Starry Night Boutonnière
                   <span>
@@ -491,7 +468,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> -->
          </div>
       </div>
       <div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
@@ -524,7 +501,7 @@
          </div>
       </div>
    </div>
-   <div class="row mobile-edit-links">
+   <!-- <div class="row mobile-edit-links">
       <div class=" hidden-lg hidden-md col-sm-12 col-xs-12">
          <div class="edit-links">
             <ul class="list-inline">
@@ -647,8 +624,8 @@
             </ul>
          </div>
       </div>
-   </div>
-   <hr>
+   </div> -->
+   <!-- <hr>
    <div class="row mobile-edit-links">
       <div class=" hidden-lg hidden-md col-sm-12 col-xs-12">
          <div class="edit-links">
@@ -772,7 +749,7 @@
             </ul>
          </div>
       </div>
-   </div>
+   </div> -->
    <div class="recipient-total">
       <div class="row">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -324,7 +324,7 @@
 							</svg>
 						</a>
 					</div>
-					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
+					<div class=" info-bar-acc" id="info-bar-acc"  ng-click="baseTop.login()" uib-dropdown dropdown-append-to-body>
 						<div class="info-bar-acc-empty-div"></div>
 						<a class="info-acc-text" >
 							<div class="loggedIn-user">
@@ -333,7 +333,7 @@
 								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div> 
 						</a>
-						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="base.showuserdetail" class="info-acc-icon ">
+						<a id="btn-append-to-body" ng-hide="base.showuserdetail" class="info-acc-icon ">
 							<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
 							<span class="loggedOut-user">					
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -692,7 +692,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 							</svg>
 						</a>
 					</div>
-					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body>
+					<div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body ng-click="baseTop.login()">
 						<div class="info-bar-acc-empty-div"></div>
 						<a class="info-acc-text" >
 							<div class="loggedIn-user">
@@ -702,7 +702,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div>
 						</a>
-						<a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
+						<a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
 							<!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
 							<span class="loggedOut-user">					
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -782,7 +782,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 									<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
 								</g>
 							</svg>
-							<span class="cart-count">2</span>
+							<span class="cart-count"></span>
 						</a>
 					</div>
 					<!-- <ordercloud-minicart order="base.currentOrder" class="pull-right col-xs-1 col-sm-1 col-md-1 col-lg-1 info-bar-cart p0 minicartcontent" id="info-bar-cart" ></ordercloud-minicart> -->
@@ -1153,7 +1153,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 										<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
 									</g>
 								</svg>
-								<span class="cart-count">2</span>
+								<span class="cart-count"></span>
 							</a>
 						</div>
 					</div>

@@ -5,7 +5,7 @@
 			<img ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title=='BannerImage'" ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 			<img src="assets/images/mobile-history-banner.png" class="hidden-md- hidden-lg">
 			<div class="banner-content">
-				<h4>Bachman's History</h4>
+				<h4>{{history.activePageTitle}}</h4>
 			</div>
 		</div>
 	</div>
@@ -34,6 +34,7 @@
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
+
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
 									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
 									<!-- <ul>
@@ -41,12 +42,21 @@
 											<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
 										</li>
 									</ul> -->
+									<ul class="sub-cat">
+										<li><a href="">Terminology</a></li>
+										<li><a href="">Memory Motifs</a></li>
+										<li><a href="">Sympathy FAQs</a></li>
+									</ul>
 								</li>
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='corporate'" ng-click="history.changePageData(subfolder,$index)">
 									<a ui-sref="corporate({pageName:subfolder.fileName})" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
 								</li>
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='services'" ng-click="history.changePageData(subfolder,$index)">
 									<a ui-sref="services({pageName:subfolder.fileName})" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-click="history.changePageData(subfolder,$index)">
+									<a ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+
 								</li>
 							</ul>
 
@@ -105,9 +115,14 @@
 		<!-- Page Content -->
 
 		<div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id="page-content-wrapper">
-		   <!-- <div ng-include="history.staticTempPage"></div> -->
-		   <!--Landscapesservices start-->
+		   <!-- <div ng-include="history.staticTempPage"></div>
+
+		</div> -->
+		   <!--<div ng-include="history.staticTempPage"></div>-->
+
+
 		   	 <div class="services-content">
+		   	 <!--Landscapesservices start-->
 		   		<h4>Installation & Design</h4>
 		   		<p class="static-block">
 		   			Our talented team of landscape designers. horticulturists. and installers have been transforming residential landscapes for over 70 years. You can trust Bachman's to provide unique landscape designs. high-quality products. professional expertise. outstanding customer service. and great value. Projects starting at $2.500 and up. Meet our designers.
@@ -128,7 +143,7 @@
 		   		    	<li><a href="">Four-season plantings and decor</a></li>
 		   		    </ul>
 		   		    <p class="static-block">Whether you want us to do all of the above, or just a few things at a time. you can customize a plan that is managed by a member of Bachman's highlight</p>
-		   		
+
 		   		<h4>Seasonal Decor by Bachman’s</h4>
 		   		<p>
 			   		Want to refresh the look of your outdoor decor to match the season? If you're not sure where to begin. or just plain don't have the time. let Bachmar Seasonal Decor Services<br>
@@ -142,41 +157,41 @@
 	   		    	<li><a href="">- Fresh a. Permanent Outdoor Decor</a></li>
 		   		</ul>
 		   		<p>During the holiday season. we can also trim your trees and deck your halls! </p>
-		 
+
 			<!--Landscapes services end-->
-			
+
 			<!--Hardscapes start-->
-			
+
 				<h4>Bachman's Hardscape Centers</h4>
 				<p class="static-block">Twin Cities residents can shop at two convenient locations for all of their hardscaping needs. Bachman's Minneapolis Hardscape Center is located at Bachman's on Lyndale, a great central location for the Minneapolis/St. Paul metro area. Our Hardscape Center in Farmington, MN, offers hardscapes and select nursery stock.</p>
 				<h4>Hardscape Products for Pick-up or Delivery</h4>
 				<p class="static-block">Whether you're a homeowner looking for DIY landscaping supplies or an experienced landscaper in need of materials to finish your latest job, we've got you covered. Bachman's Minneapolis Hardscape Center features 26 bins of bulk product plus the most popular hardscaping tools and supplies. You may purchase them for pick-up or arrange to have them delivered for an added fee.</p>
 				<h4>Shop a quality selection of</h4>
 				<ul class="static-lists">
-					<li>-Bulk mulches, soils, and decorative rock</li>
-					<li>-Fieldstone boulders of all sizes</li>
-					<li>-Natural stone outcroppings, flagstone, steppers, and wall stone</li>
-					<li>-Concrete pavers, wall systems, and associated supplies </li>
-					<li>-Bagged mulches, soils, grass seed, and soil amendments</li>
-					<li>-Landscape fabric, poly, and edging supplies</li>
-					<li>-Tools and related supplies</li>
+					<li><a href="">-Bulk mulches, soils, and decorative rock</a></li>
+					<li><a href="">-Fieldstone boulders of all sizes</a></li>
+					<li><a href="">-Natural stone outcroppings, flagstone, steppers, and wall stone</a></li>
+					<li><a href="">-Concrete pavers, wall systems, and associated supplies</a> </li>
+					<li><a href="">-Bagged mulches, soils, grass seed, and soil amendments</a></li>
+					<li><a href="">-Landscape fabric, poly, and edging supplies</a></li>
+					<li><a href="">-Tools and related supplies</a></li>
 				</ul>
 				<div class="bachmans-center">
-				  
+
 					<div class="row">
 					<div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 center-header">Bachman's Hardscape Center Locations</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 address">
 						<h4>Minneapolis</h4>
 						<p class="static-block">
-						 The Minneapolis Hardscape Center is located at the south end of Bachman's flagship store on Lyndale Avenue. Enter the property at the south entrance on Lyndale Avenue and follow the signs to our Hardscape headquarters building. 	
+						 The Minneapolis Hardscape Center is located at the south end of Bachman's flagship store on Lyndale Avenue. Enter the property at the south entrance on Lyndale Avenue and follow the signs to our Hardscape headquarters building.
 						</p>
 						<p class="static-block">
 						610 Lyndale Ave. S.,<br>
-						Minneapolis, MN 55419<br>	
-						612-861-9266 
+						Minneapolis, MN 55419<br>
+						612-861-9266
 						</p>
 						<p>
-							<a href="">Get directions and store hours</a>	
+							<a href="">Get directions and store hours</a>
 						</p>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 address1">
@@ -190,13 +205,161 @@
 						 952-469-9665<br>
 						</p>
 						<p>
-							<a href="">Get directions and store hours</a>	
+							<a href="">Get directions and store hours</a>
 						</p>
 					</div>
 				  </div>
 				</div>
+				<!--Hardscapes end-->
+
+				<!--Sympathy Motifs start-->
+				<h4>Memory Motifs</h4>
+				<p class="static-block">
+				 Nine distinct styles have been designed as a  starting point for helping you find  the appropriate flowers to honor and remember your lost loved one.
+				</p>
+				<p class="static-block">
+				 Customization is key, Focus  on the  overall look and style  before the exact flowers and colors. Your order can be tailored to your liking, with the highest quality seasonal blooms available. If you want to start fresh with your own look, please speak to a Bachman's consultant. We'd be happy to design something completely unique.
+				</p>
+				<div class="motifs-gallery">
+						<div class="gallery-header col-xs-12 xol-sm-12 col-md-12 col-lg-12">Shop Our Memory Motifs</div>
+						<div class="row gallery-content">
+
+			            <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+
+			            </div>
+			             <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+			            </div>
+			            <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+			            </div>
+		        	</div>
+		        	<div class="row gallery-content">
+
+			            <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+			            </div>
+			             <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+			            </div>
+			            <div class="col-md-4 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Flowers for the Home
+			                </h3>
+			                <p>Send your sympathy to bring comfort to those in need of healing.</p>
+			                </div>
+			            </div>
+		        	</div>
+				</div>
+				<!--Sympathy Motifs end-->
+				<!--Wedding Trends start-->
+					<h4>Top Trends for Wedding Flowers</h4>
+					<p class="static-block">
+					 Wedding flower trends follow fashion trends, and change just as frequently! Rest assured, Bachman's wedding designers stay on top of the latest styles to  make sure your wedding is modern, yet timeless.
+					</p>
+					<h4>Trends for spring/Summer</h4>
+					<p class="static-block">
+					 The word trend has taken on whole new  meaning nad scale due to personalization becoming even more of a factor in the wedding industry and beyond. This year is booming with new trends; here are four of the latest, with examples depicting the styles created by  our own talented wedding designers.
+					</p>
+					<div class="wedding-gallery">
+						<div class="gallery-header col-xs-12 xol-sm-12 col-md-12 col-lg-12">Wedding Trend Inspiration</div>
+						<div class="row gallery-content">
+
+			            <div class="col-md-3 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                   Wedding Trend1
+			                </h3>
+			                </div>
+			         	</div>
+			            <div class="col-md-3 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                    Wedding Trend1
+			                </h3>
+			                </div>
+			         	</div>
+			           <div class="col-md-3 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                     Wedding Trend1
+			                </h3>
+			                </div>
+			         	</div>
+			         	<div class="col-md-3 portfolio-item">
+			                <a href="#">
+			                    <img class="img-responsive" src="assets/images/wedding trend/galleryimg.jpg" alt="">
+			                </a>
+			                <div class="gallery-desc">
+			                 <h3>
+			                     Wedding Trend1
+			                </h3>
+			                </div>
+			         	</div>
+		        	 </div>
+					</div>
+					<h4>Beyond the Trends</h4>
+					<p class="static-block">
+					 Didn't see what you're looking for in thr trends slideshow? No problem! Bring in your ideas found in magazines, on websites, or from your own imagination. Our wedding designers love a good challenge and enjoy working with brides to make their dream flowers a reality!
+					</p>
+				<!--Wedding Trends end-->
 			</div>
-			<!--Hardscapes end-->
+
 
 
 		<!-- <div class="col-xs-12  col-sm-12 col-md-9  col-lg-9" id=" page-content-wrapper"> -->
@@ -274,7 +437,7 @@
 				</div>
 
 
-			</div> -->
+			</div>
 		</div>-->
 
 

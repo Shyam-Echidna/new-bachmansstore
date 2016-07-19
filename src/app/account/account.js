@@ -510,13 +510,13 @@ function AccountController( $uibModal, WishList, AddressList,$exceptionHandler, 
 			params = {"AddressID": data.ID,"UserID": CurrentUser.ID,"IsBilling": false,"IsShipping": true};
 			OrderCloud.Addresses.SaveAssignment(params).then(function(res){
 				$state.go('account.addresses', {}, {reload:true});
-				console.log("Address saved for the user....!" +res);
 			});
 		})
 	}
 	vm.editAdress=function(editAddr,index){
 		vm['showedit' + index] =true;
 		vm.editAddr=editAddr;
+		vm.editAddr.Zip = parseInt(vm.editAddr.Zip);
 		vm.stateData=vm.editAddr.State;
 		$scope.showedit=false;
 		vm.contact={};
@@ -1006,13 +1006,13 @@ function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,Account
 	 console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);
 
 	 }*/
-	vm.saveAddressDefault = function(saveAddr, contact){
+	/*vm.saveAddressDefault = function(saveAddr, contact){
 		saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 		console.log("saveAddr.Phone", saveAddr.Phone);
 		OrderCloud.Me.UpdateAddress(saveAddr.ID, saveAddr).then(function(){
 			$state.go('account.addresses', {}, {reload: true});
 		})
-	}
+	}*/
 	vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};

@@ -3,43 +3,45 @@
     <div class="row my-acc-events-cont" >
     	<p class="title">Upcoming Events <span>(1 Event)</span></p>
     	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in profile.eventsDetails">
-    		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
-    			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
-                <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
-    		</div>
-    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info" ng-repeat="line in event.LineItems">
-    			<p class="event-title">{{line.Product.Name}}</p>
-    			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
-    				<div class="event-date">
-    					<p class="title">Event Date</p>
-    					<p class="value">{{event.DateCreated | date:'longDate'}}</p>
-    				</div>
-    				<div class="event-time">
-    					<p class="title">Event Start Time</p>
-    					<p class="value">10:30 AM</p>
-    				</div>
-    			</div>
-    			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
-    				<p class="title" ui-sref="account.getdirection" ng-click="loadMap()">
-                        <span class="location-svg">
-                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">
-                                <g>
-                                    <path d="M-221.6,434.3c-1.1-0.2-2.1,0.5-2.4,1.5c-0.2,1.1,0.5,2.1,1.5,2.4c6.9,1.5,11,3.9,11,5.7c0,3.3-11.2,7-25,7
-                                        c-13.8,0-25-3.7-25-7c0-1.8,4.2-4.3,11.3-5.7c1.1-0.2,1.8-1.3,1.6-2.4c-0.2-1.1-1.3-1.8-2.4-1.6c-8.8,1.8-14.4,5.1-14.4,9.6
-                                        c0,6.7,13,11,29,11s29-4.3,29-11C-207.4,439.5-212.9,436.2-221.6,434.3z"/>
-                                    <path d="M-233.8,442.9c0,0,27.4-31.4,27.4-47.9s-13.4-30-30-30s-30,13.4-30,30s27.4,48,27.4,48
-                                        C-237.5,444.6-235.2,444.6-233.8,442.9z M-251.4,395c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15c0,8.3-6.7,15-15,15
-                                        C-244.6,410-251.4,403.2-251.4,395z"/>
-                                </g>
-                            </svg>
-                        </span>
-                        Get Directions</p>
-    				<p class="value">{{line.Product.xp.venue}}</p>
-    				<!-- <p class="room">Room No 16</p>
-    				<p class="store">Max Store</p> -->
-    			</div>
-    		</div>
+            <div class="col-xs-12 event-line-item" ng-repeat="line in event.LineItems">
+        		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
+        			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
+                    <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
+        		</div>
+        		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info">
+        			<p class="event-title">{{line.Product.Name}}</p>
+        			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
+        				<div class="event-date">
+        					<p class="title">Event Date</p>
+        					<p class="value">{{event.DateCreated | date:'longDate'}}</p>
+        				</div>
+        				<div class="event-time">
+        					<p class="title">Event Start Time</p>
+        					<p class="value">10:30 AM</p>
+        				</div>
+        			</div>
+        			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
+        				<p class="title" ui-sref="account.getdirection" ng-click="loadMap()">
+                            <span class="location-svg">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">
+                                    <g>
+                                        <path d="M-221.6,434.3c-1.1-0.2-2.1,0.5-2.4,1.5c-0.2,1.1,0.5,2.1,1.5,2.4c6.9,1.5,11,3.9,11,5.7c0,3.3-11.2,7-25,7
+                                            c-13.8,0-25-3.7-25-7c0-1.8,4.2-4.3,11.3-5.7c1.1-0.2,1.8-1.3,1.6-2.4c-0.2-1.1-1.3-1.8-2.4-1.6c-8.8,1.8-14.4,5.1-14.4,9.6
+                                            c0,6.7,13,11,29,11s29-4.3,29-11C-207.4,439.5-212.9,436.2-221.6,434.3z"/>
+                                        <path d="M-233.8,442.9c0,0,27.4-31.4,27.4-47.9s-13.4-30-30-30s-30,13.4-30,30s27.4,48,27.4,48
+                                            C-237.5,444.6-235.2,444.6-233.8,442.9z M-251.4,395c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15c0,8.3-6.7,15-15,15
+                                            C-244.6,410-251.4,403.2-251.4,395z"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            Get Directions</p>
+        				<p class="value">{{line.Product.xp.venue}}</p>
+        				<!-- <p class="room">Room No 16</p>
+        				<p class="store">Max Store</p> -->
+        			</div>
+        		</div>
+            </div>
     	</div>
     </div>
     <div class="row my-acc-events-cont past-events">
@@ -47,43 +49,45 @@
     		<a href="javascript:void(0)" class="view-all-link">View All</a>
     	</p>
     	<div class="col-xs-6 past-even-cont" ng-repeat="event in profile.eventsDetails">
-    		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
-    			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
-                <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
-    		</div>
-    		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info" ng-repeat="line in event.LineItems">
-    			<p class="event-title">{{line.Product.Name}}</p>
-    			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
-    				<div class="event-date">
-    					<p class="title">Event Date</p>
-    					<p class="value">{{event.DateCreated | date:'longDate'}}</p>
-    				</div>
-    				<div class="event-time">
-    					<p class="title">Event Start Time</p>
-    					<p class="value">{{line.Product.xp.StartDate}}</p>
-    				</div>
-    			</div>
-    			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
-    				<p class="title">
-                        <span class="location-svg">
-                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">
-                                <g>
-                                    <path d="M-221.6,434.3c-1.1-0.2-2.1,0.5-2.4,1.5c-0.2,1.1,0.5,2.1,1.5,2.4c6.9,1.5,11,3.9,11,5.7c0,3.3-11.2,7-25,7
-                                        c-13.8,0-25-3.7-25-7c0-1.8,4.2-4.3,11.3-5.7c1.1-0.2,1.8-1.3,1.6-2.4c-0.2-1.1-1.3-1.8-2.4-1.6c-8.8,1.8-14.4,5.1-14.4,9.6
-                                        c0,6.7,13,11,29,11s29-4.3,29-11C-207.4,439.5-212.9,436.2-221.6,434.3z"/>
-                                    <path d="M-233.8,442.9c0,0,27.4-31.4,27.4-47.9s-13.4-30-30-30s-30,13.4-30,30s27.4,48,27.4,48
-                                        C-237.5,444.6-235.2,444.6-233.8,442.9z M-251.4,395c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15c0,8.3-6.7,15-15,15
-                                        C-244.6,410-251.4,403.2-251.4,395z"/>
-                                </g>
-                            </svg>
-                        </span>
-                        Get Directions</p>
-    				<p class="value">{{line.Product.xp.venue}}</p>
-    				<!-- <p class="room">Room No 16</p>
-    				<p class="store">Max Store</p> -->
-    			</div>
-    		</div>
+            <div class="col-xs-12 event-line-item" ng-repeat="line in event.LineItems">
+        		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
+        			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
+                    <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
+        		</div>
+        		<div class="col-xs-8 col-sm-9 col-md-9 col-lg-9 event-info">
+        			<p class="event-title">{{line.Product.Name}}</p>
+        			<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 timings p0">
+        				<div class="event-date">
+        					<p class="title">Event Date</p>
+        					<p class="value">{{event.DateCreated | date:'longDate'}}</p>
+        				</div>
+        				<div class="event-time">
+        					<p class="title">Event Start Time</p>
+        					<p class="value">{{line.Product.xp.StartDate}}</p>
+        				</div>
+        			</div>
+        			<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 venue p0">
+        				<p class="title">
+                            <span class="location-svg">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="-272.5 357.6 75.7 106.4" style="enable-background:new -272.5 357.6 75.7 106.4;" xml:space="preserve">
+                                    <g>
+                                        <path d="M-221.6,434.3c-1.1-0.2-2.1,0.5-2.4,1.5c-0.2,1.1,0.5,2.1,1.5,2.4c6.9,1.5,11,3.9,11,5.7c0,3.3-11.2,7-25,7
+                                            c-13.8,0-25-3.7-25-7c0-1.8,4.2-4.3,11.3-5.7c1.1-0.2,1.8-1.3,1.6-2.4c-0.2-1.1-1.3-1.8-2.4-1.6c-8.8,1.8-14.4,5.1-14.4,9.6
+                                            c0,6.7,13,11,29,11s29-4.3,29-11C-207.4,439.5-212.9,436.2-221.6,434.3z"/>
+                                        <path d="M-233.8,442.9c0,0,27.4-31.4,27.4-47.9s-13.4-30-30-30s-30,13.4-30,30s27.4,48,27.4,48
+                                            C-237.5,444.6-235.2,444.6-233.8,442.9z M-251.4,395c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15c0,8.3-6.7,15-15,15
+                                            C-244.6,410-251.4,403.2-251.4,395z"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            Get Directions</p>
+        				<p class="value">{{line.Product.xp.venue}}</p>
+        				<!-- <p class="room">Room No 16</p>
+        				<p class="store">Max Store</p> -->
+        			</div>
+        		</div>
+            </div>
     	</div>
     </div>
 </div>

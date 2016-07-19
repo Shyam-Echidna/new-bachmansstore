@@ -498,7 +498,7 @@
                                                                 margin-bottom: 10px;
                                                                 .cuctom-checkbox;
                                                                 border-bottom: 1px solid transparent;
-                                                                .Checkbox {
+                                                                /*.Checkbox {
                                                                     &-visible {
                                                                         width: 17px;
                                                                         height: 17px;
@@ -510,13 +510,63 @@
                                                                     > input:checked + .Checkbox-visible {
                                                                         background-position: 15px;
                                                                     }
+                                                                }*/
+                                                                label{
+                                                                    cursor: pointer;
                                                                 }
-                                                                label {
+                                                                .label-text{
+                                                                    vertical-align: middle;
                                                                     color: #888888;
-                                                                    font: 0.750em @proxima-regular;
+                                                                    font: 0.850em @proxima-regular;
                                                                     vertical-align: middle;
                                                                     margin-bottom: 0px;
-                                                                    margin-left: 5px;
+                                                                }
+                                                                input[type=radio] {
+                                                                    display: none;
+                                                                }
+                                                                input[type=radio] {
+                                                                    opacity: 0;
+                                                                    &:not(old) {
+                                                                        &+ label .radioOutline,
+                                                                        &:checked + label .radioOutline {
+                                                                            border: 1px solid @base-bg-purple-dark;
+                                                                            border-radius: 50%;
+                                                                            background: transparent;
+                                                                            display: inline-block;
+                                                                            width: 16px;
+                                                                            height: 16px;
+                                                                            text-align: center;
+                                                                            vertical-align: middle;
+                                                                        }
+                                                                        &:checked + label .radioOutline .radioInside {
+                                                                            display: block;
+                                                                            width: 8px;
+                                                                            height: 8px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: @base-bg-purple-dark;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                        &+ label .radioOutline .radioInside {
+                                                                            display: block;
+                                                                            width: 10px;
+                                                                            height: 10px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: transparent;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -576,6 +626,8 @@
                                                                     background: #f6f6f6;
                                                                     border: 1px solid #e4e4e4;
                                                                     height: 31px;
+                                                                    box-shadow: none;
+                                                                    -webkit-appearance:none;
                                                                 }
                                                             }
                                                             .zip-code-lookup {
@@ -1150,24 +1202,16 @@
                                     display: none;
                                 }
                                 .products-info-details {
-                                    hr {
-                                        margin: 14px 0px;
-                                    }
-                                    padding:10px 10px 0 10px;
-                                    .level-promo {
-                                        font: 0.556em @neutraface-book !important;
-                                        span {
-                                            font: 1.000em @neutraface-bold !important;
-                                        }
-                                    }
-                                    .product-info {
+                                    .row{
+                                        .recipient-products{
+                                            .product-info {
                                         .events-calender {
                                             font: 0.667em @proxima-regular !important;
                                         }
-                                        .mobile-recipent-info {
+                                        .desktop-recipent-info{
                                             padding: 0px 10px;
                                             .custom-name {
-                                                font: 0.778em @proxima-bold;
+                                                font-size: 0.875em;
                                                 span {
                                                     float: right;
                                                     position: absolute;
@@ -1186,8 +1230,7 @@
                                             .price-info,
                                             .quantity-info,
                                             .total-amount-info {
-                                                font: 0.667em @proxima-regular;
-                                                color: #828282;
+                                                font-size: 0.8em;
                                                 padding: 5px 0px;
                                                 span {
                                                     color: #464646;
@@ -1214,8 +1257,7 @@
                                                 }
                                             }
                                         }
-                                    }
-                                    .mobile-edit-links {
+                                        .mobile-edit-links {
                                         .view-location,
                                         .edit-product,
                                         .wishlist-link {
@@ -1248,6 +1290,77 @@
                                             }
                                             .change-link {
                                                 position: relative;
+                                                li{
+                                                    border: none;
+                                                    a{
+                                                        color: #2c2c2c;
+                                                        border-bottom: 1px solid #cacaca;
+                                                    }
+
+
+                                                    border-right: 1px solid #909090;
+                                                    padding-right: 7px;
+                                                    &.change-recipent-link{
+                                                        .popover {
+                                                            left: 0px !important;
+                                                            .arrow{
+                                                                opacity: 0;
+                                                            }
+                                                        }
+
+                                                    }
+                                                    &.product-request-link{
+                                                        border-right: none;
+                                                        padding-right: 0px;
+
+                                                        .popover{
+                                                                        max-width: 400px;
+                                                                        z-index: 1;
+                                                                        background: #f4f4f4;
+                                                                            .arrow:after{
+                                                                                border-bottom-color: #f4f4f4;
+                                                                            }
+                                                                    }
+                                                                    .showproductrequestdiv{
+                                                                        background: #f4f4f4;
+                                                                        width: 350px;
+                                                                        padding: 10px;
+                                                                        .head-text{
+                                                                            margin-bottom: 10px;
+                                                                            p{
+                                                                              font: 1em @proxima-regular;
+                                                                              font-weight: bold;
+                                                                              color: #424242;
+                                                                              display: inline-block;
+                                                                              vertical-align: top;
+                                                                              &.editLink{
+                                                                                font-weight: normal;
+                                                                                border-bottom: 1px solid #d9d9d9;
+                                                                                font-family: @proxima-regular;
+                                                                                text-transform: capitalize;
+                                                                                float: right;
+                                                                                    &:hover{
+                                                                                        color: @base-bg-purple-dark;
+                                                                                    }
+                                                                              }  
+                                                                            }
+                                                                        }
+                                                                        textarea{
+                                                                                background: #cccccc;
+                                                                                font: 1em @proxima-regular;
+                                                                                color: #333333;
+                                                                                border-radius: 2px;
+                                                                                border: none;
+                                                                                border: 1px solid #e2e2e2;
+                                                                                box-shadow: none;
+                                                                                -webkit-appearance: none;
+                                                                                outline: 0;
+                                                                                width: 100%;
+                                                                        }
+                                                                            
+                                                                    }
+                                                    }
+                                                }
                                                 .change-rec-li {
                                                     &:hover {
                                                         >.change-recipient {
@@ -1262,6 +1375,7 @@
                                                     font-size: 18px;
                                                     z-index: 1;
                                                     .change-recipient-info {
+                                                        padding: 0px 5px !important;
                                                         .create-recipient {
                                                             padding-left: 15px;
                                                         }
@@ -1273,6 +1387,7 @@
                                                                 ul {
                                                                     li {
                                                                         font-size: 18px;
+                                                                        border: none;
                                                                         label {
                                                                             font: 0.667em @proxima-regular;
                                                                         }
@@ -1284,6 +1399,7 @@
                                                                     ul {
                                                                         li {
                                                                             line-height: 33px;
+                                                                            border: none;
                                                                         }
                                                                     }
                                                                 }
@@ -1305,9 +1421,24 @@
                                             }
                                         }
                                     }
+                                    }
+                                        }
+                                    }
+                                    hr {
+                                        margin: 14px 0px;
+                                    }
+                                    padding:10px 10px 0 10px;
+                                    .level-promo {
+                                        font: 0.556em @neutraface-book !important;
+                                        span {
+                                            font: 1.000em @neutraface-bold !important;
+                                        }
+                                    }
+                                    
+                                    
                                     .recipient-total {
-                                        padding: 14px 0px;
-                                        margin-top: 14px;
+                                        padding: 14px 10px 14px 0px;
+                                        margin:15px -10px 0px -10px;
                                         .recipient-total-info {
                                             font: 0.722em @proxima-regular;
                                             span {
@@ -1422,6 +1553,82 @@
                                 }
                             }
                         }
+            .need-help-info {
+            margin: 10px 0px;
+            padding: 10px;
+            border: 1px solid #ededed;
+            background: #fbfbfb;
+            .need-help-header {
+                font: 0.778em @neutraface-demi;
+                color: #464646;
+                font-weight: bold;
+            }
+            .mobile-call-us {
+                font: 0.667em @proxima-regular;
+                text-transform: uppercase;
+                margin: 10px 0px;
+                color: #8c58b5;
+                border: 1px solid #8c58b5;
+                display: inline-block;
+                padding: 5px 15px;
+                span {
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                        cursor: initial;
+                        fill: #8c58b5;
+                        vertical-align: middle;
+                    }
+                }
+            }
+            .help-links {
+                .list-inline {
+                    column-count: 2;
+                    li {
+                        display: block;
+                        a {
+                            font: 0.667em @proxima-regular;
+                            color: #464646;
+                            border-bottom: 1px solid #d1d1d1;
+                        }
+                    }
+                }
+            }
+        }
+        .secure-shopping {
+            padding: 0px;
+            padding: 14px;
+            border: 1px solid #ededed;
+            .secure-shopping-info {
+                .secure-shopping-header {
+                    font: 0.778em @proxima-bold;
+                    color: #464646;
+                    font-weight: bold;
+                    
+                }
+                .secure-info {
+                    font: 0.667em @proxima-regular;
+                    color: #464646;
+                    border-bottom: 2px solid @half-white;
+                    padding-bottom: 14px;
+                    margin: 5px 0px 15px 0px;
+                    span a {
+                        color: rgb(0, 0, 0);
+                        font-weight: bold;
+                        border-bottom: 1px solid rgb(210, 210, 210);
+                    }
+                }
+                .credit-card {
+                    padding: 0px 45px;
+                    ul {
+                        li {
+                            width: 50%;
+                            float: left;
+                        }
+                    }
+                }
+            }
+        }
                     }
                 }
             }
@@ -1545,79 +1752,7 @@
                 }
             }
         }
-        .need-help-info {
-            margin: 10px 0px;
-            padding: 10px;
-            border: 1px solid #ededed;
-            background: #fbfbfb;
-            .need-help-header {
-                font: 0.778em @neutraface-demi;
-                color: #464646;
-            }
-            .mobile-call-us {
-                font: 0.667em @proxima-regular;
-                text-transform: uppercase;
-                margin: 10px 0px;
-                color: #8c58b5;
-                border: 1px solid #8c58b5;
-                display: inline-block;
-                padding: 5px 15px;
-                span {
-                    svg {
-                        width: 20px;
-                        height: 20px;
-                        cursor: initial;
-                        fill: #8c58b5;
-                        vertical-align: middle;
-                    }
-                }
-            }
-            .help-links {
-                .list-inline {
-                    column-count: 2;
-                    li {
-                        display: block;
-                        a {
-                            font: 0.667em @proxima-regular;
-                            color: #464646;
-                            border-bottom: 1px solid #d1d1d1;
-                        }
-                    }
-                }
-            }
-        }
-        .secure-shopping {
-            padding: 0px;
-            padding: 14px;
-            border: 1px solid #ededed;
-            .secure-shopping-info {
-                .secure-shopping-header {
-                    font: 0.778em @proxima-bold;
-                    color: #464646;
-                    padding-bottom: 10px;
-                }
-                .secure-info {
-                    font: 0.667em @proxima-regular;
-                    color: #464646;
-                    border-bottom: 2px solid @half-white;
-                    padding-bottom: 14px;
-                    span a {
-                        color: rgb(0, 0, 0);
-                        font-weight: bold;
-                        border-bottom: 1px solid rgb(210, 210, 210);
-                    }
-                }
-                .credit-card {
-                    padding: 0px 45px;
-                    ul {
-                        li {
-                            width: 50%;
-                            float: left;
-                        }
-                    }
-                }
-            }
-        }
+
     }
 }
 
@@ -1783,6 +1918,7 @@
         .modal-content {
             border-radius: 0px;
             box-shadow: none;
+            border: none;
         }
     }
     .showproductrequestpopupdiv{
@@ -1840,12 +1976,14 @@
         .modal-content {
             border-radius: 0px;
             box-shadow: none;
+            border: none;
         }
     }
 }
 
 .change-recipient-modal{
     padding: 30px;
+    position: relative;
     .head-title{
         margin-bottom: 30px;
         .title{
@@ -1926,6 +2064,12 @@
                         }
                     }
                 }
+                label{
+                    font: 1em @proxima-regular;
+                    padding: 0px;
+                    margin-bottom: 7px;
+                    color: #464646;
+                }
             }
         }
     }
@@ -1935,6 +2079,12 @@
             &.col-lg-offset-1,&.col-md-offset-1{
                 margin-left: 5%;
             }
+            label{
+                font: 1em @proxima-regular;
+                padding: 0px;
+                margin-bottom: 7px;
+                color: #464646;
+                }
         }
         .phone-box{
             .row{
@@ -1956,6 +2106,8 @@
             text-transform: uppercase;
             margin: 0px;
             text-align: center;
+            font: 1em @proxima-regular;
+            text-transform: capitalize;
 
                 &.cancel-btn{
                     background-color: #666;
@@ -1968,5 +2120,81 @@
                 }
         }
         
+    }
+}
+
+
+/* Media Querties */
+
+@media only screen and (min-width:320px) and (max-width: 810px) {
+    .changereceipentpopup {
+        .modal-dialog {
+            width: 100%;
+            left: 0%;
+        }
+    }
+    .change-recipient-modal {
+        padding: 20px 10px;
+        max-height: 100% !important;
+        input[type=text],
+        select,
+        input[type=number],
+        input[type=date],
+        input[type="search"] {
+            height: 2.5em;
+        }
+        .name-block,
+        .address-block {
+            div {
+                .row {
+                    div {
+                        padding: 0px;
+                    }
+                }
+            }
+        }
+        .address-block {
+            div {
+                &.col-md-offset-1 {
+                    margin-left: 0px;
+                }
+            }
+        }
+        .save-btn {
+            text-align: left;
+            margin-top: 15px;
+            div {
+                padding: 0px;
+            }
+            button {
+                width: auto;
+                min-width: 9em;
+            }
+        }
+    }
+
+    /* product request popup */
+   .productrequestpopup{
+    .modal-dialog {
+        width: 100%;
+        left: 0%;
+        top: 50% !important;
+        position: absolute;
+        transform: translateY(-50%) !important;
+    }
+    .showproductrequestpopupdiv{
+    .action-buttons{
+       text-align: center;
+    }
+    }
+}
+}
+
+/* Iphone landscape */
+@media screen and (max-width:737px) and (min-width:560px) {
+    .change-recipient-modal{
+        .save-btn{
+            text-align: center;
+        }
     }
 }

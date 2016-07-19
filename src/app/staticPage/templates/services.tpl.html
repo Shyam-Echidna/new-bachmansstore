@@ -1,8 +1,12 @@
 <div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
 	<div class="container-fluid p0">
 		<div class="history-banner">
-			<img src="assets/images/service-sliders.png">
+			<img ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title=='BannerImage'" ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
+			<!-- <img src="assets/images/service-sliders.png"> -->
 			<!--<img src="assets/images/mobile-service-sliders.png" class="hidden-md hidden-lg">-->
+			<div class="banner-content">
+				<h4>{{history.activePageTitle}}</h4>
+			</div>
 		</div>
 	</div>
 
@@ -31,14 +35,11 @@
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
-								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='customerService'" ng-click="history.changePageData(subfolder,$index)">
-									<a ui-sref="customerService({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
-								</li>
-								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='corporate'" ng-click="history.changePageData(subfolder,$index)">
-									<a ui-sref="corporate({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
-								</li>
-								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !='' && folder.fileName=='services'" ng-click="history.changePageData(subfolder,$index)">
-									<a ui-sref="services({pageName:subfolder.fileName})" ng-style="history.activeIndex === $index ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder.fileName,$index)" >{{subfolder.title}}</a>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-click="history.changePageData(subfolder,$index)">
+									<a ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+									<ul class="sub-cat" >
+										<li ng-repeat="subsubfolders in subfolder.subfolders" ng-if="subsubfolders.nodeType == 'ws:section' && subsubfolders.title !=''"><a href="">Terminology</a></li>
+									</ul>
 								</li>
 							</ul>
 
@@ -208,50 +209,13 @@
 						<div class="clear"></div>
 					</div>
 				</div> -->
-				<div class="owl-carousel-item" ng-repeat="carousel in services.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title!='BannerImage'">
+				<div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title!='BannerImage'">
 					<div class="">
 						<div class="grid_1">
-							<a href="single.html"><img ng-src="{{services.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{services.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
+							<a href="single.html"><img ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 							</a>
 							<div class="grid_desc">
 								<p class="title">{{carousel.title}}</p>
-
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<div class="owl-carousel-item">
-					<div class="">
-						<div class="grid_1">
-							<a href=""><img src="assets/images/services-carousal2.png" title="prod1" alt=""></a>
-							<div class="grid_desc">
-								<p class="title">Wedding Center Pieces.</p>
-
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<div class="owl-carousel-item">
-					<div class="">
-						<div class="grid_1">
-							<a href=""><img src="assets/images/services-carousal3.png" title="prod1" alt=""></a>
-							<div class="grid_desc">
-								<p class="title">Corporate Events</p>
-
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<div class="owl-carousel-item">
-					<div class="">
-						<div class="grid_1">
-							<a href=""><img src="assets/images/services-carousal4.png" title="prod1" alt=""></a>
-							<div class="grid_desc">
-								<p class="title">Holidays Flowers.</p>
-
 
 							</div>
 						</div>

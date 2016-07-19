@@ -194,7 +194,6 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-init="addressBook.showedit[$index]=false" ng-if="!address.xp.IsDefault">
             <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
                 <p class="title">Make Default Address</p>
-                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
                 <div class="Checkbox">
                   <input type="checkbox" ng-click="account.makeDefault(address)">
                   <div class="Checkbox-visible"></div>

@@ -79,14 +79,17 @@ function staticPageConfig($stateProvider) {
 		})
 		.state('corporate', {
 			parent: 'base',
-			url: '/corporate/:pageName',
-			templateUrl: 'staticPage/templates/history.tpl.html',
+			url: '/corporate/:pageName/:fileName',
+			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
 			resolve:
 						{
 							page : function($stateParams){
 								return $stateParams.pageName;
+							},
+							fileName : function($stateParams){
+								return $stateParams.fileName;
 							}
 						}
 		})
@@ -113,7 +116,7 @@ function staticPageConfig($stateProvider) {
 		})
 		.state('services', {
 			parent: 'base',
-			url: '/services/:pageName',
+			url: '/services/:pageName/:fileName',
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
@@ -121,6 +124,9 @@ function staticPageConfig($stateProvider) {
 						{
 							page : function($stateParams){
 								return $stateParams.pageName;
+							},
+							fileName : function($stateParams){
+								return $stateParams.fileName;
 							}
 						}
 		})
@@ -256,16 +262,14 @@ function templateController($http, alfcontenturl, $state, $stateParams ,LoginFac
       var getFirstTag = true;
 
     vm.getThingsFromALfresco = function(parent, child,index){
-        console.log(index+" .... "+vm.active);
         vm.active = index;
-        console.log(index+" .... "+vm.active);
-    	var ticket = localStorage.getItem("alf_ticket");
-    	var route = parent+"/"+child;
-    	LoginFact.GetArtcleList(ticket,route).then(function(response){
-    		console.log("GetArtcleList",response);
-    		vm.articleList = response;
-    	});
-			$state.go('plantZone');
+	    	var ticket = localStorage.getItem("alf_ticket");
+	    	var route = parent+"/"+child;
+	    	LoginFact.GetArtcleList(ticket,route).then(function(response){
+	    		console.log("GetArtcleList",response);
+	    		vm.articleList = response;
+	    	});
+				$state.go('plantZone');
     }
     vm.getFirstThingsFromALfresco = function(pp,parent, subFolder,index){
         console.log(index+" .... "+vm.active);
@@ -394,7 +398,7 @@ function template1Controller() {
 
 }
 
-function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,alfrescoStaticurl) {
+function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl) {
 	var vm = this;
 	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
@@ -410,21 +414,16 @@ function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,a
 	vm.pageName = page;
 	// alert(vm.parentPathChilde);
 	var curl = "";
+	if(fileName){
+		curl = decodeURIComponent(fileName);
+	}
 	if(page=="BachmansHistory"){
-		curl = "api/node/content/workspace/SpacesStore/be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
-	}else if(page=="WeddingEventPlanning"){
-		curl = "api/node/content/workspace/SpacesStore/37336391-9195-4845-9349-89f648848edd/WeddingEventPlanning.html";
+		curl = "be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
 	}else if(page=="BachmansHerritageRoom"){
-		curl = "api/node/content/workspace/SpacesStore/b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
-	}else if(page=="FAQs"){
-		curl = "api/node/content/workspace/SpacesStore/0e19ff94-e9c5-4703-b3b6-78db5faca9e0/faqs.html";
-	}else if(page=="LandscapeGardenServices"){
-		curl = "api/node/content/workspace/SpacesStore/03c73a0a-ce73-4510-86e0-7cfd4501380a/LandscapeGardenServices.html";
-	}else if(page=="CorporateAccounts"){
-		curl = "api/node/content/workspace/SpacesStore/47fa3916-365f-43b7-b4f3-000868214c71/CorporateAccounts.html";
+		curl = "b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
 	}
 	vm.activeIndex = 0;
-	vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+curl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+	vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+"api/node/content/workspace/SpacesStore/"+curl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
   vm.assignIndex = function(data,i){
 		if(vm.parentPathChilde.name == data){
 			vm.isOpen = i;
@@ -433,22 +432,32 @@ function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,a
 	var dataUrl = alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+page+"/Media";
 
   vm.assignActiveIndex = function(data,i){
-		if(page.toLowerCase() == data.toLowerCase()){
-			vm.activeIndex = data;
+		if(page.toLowerCase() == data.fileName.toLowerCase()){
+			vm.activeIndex = data.fileName;
+			vm.activePageTitle = data.title;
 		}
 	}
 	vm.siteToken = localStorage.getItem('alfTemp_ticket');
 
-	// vm.changePageData = function(fl,i){
-	// 	 if(fl.location.path.indexOf('services')>=0){
-	// 		 $state.go('services', {pageName:fl.fileName});
-	// 	 }else{
-	// 		 owlHistory.trigger('destroy.owl.carousel');
-	// 		 vm.carouselData = [];
-	// 		 vm.activeIndex = i;
-	// 		 vm.getMediaData(alfrescoStaticurl+fl.location.path+"/"+fl.fileName+"/Media");
-	// 	 }
-	// }
+	vm.changePageData = function(filename,folder){
+		console.log(folder);
+		vm.activeIndex = folder.fileName;
+		var param = null;
+		angular.forEach(folder.subfolders.items,function(item){
+			if(item.nodeType=="ws:article"){
+				param = item.contentUrl.split('api/node/content/workspace/SpacesStore/')[1];
+			}
+		})
+		$state.go(filename, {pageName:folder.fileName,fileName:param});
+		//  if(fl.location.path.indexOf('services')>=0){
+		// 	 $state.go('services', {pageName:fl.fileName});
+		//  }else{
+		// 	 owlHistory.trigger('destroy.owl.carousel');
+		// 	 vm.carouselData = [];
+		// 	 vm.activeIndex = i;
+		// 	 vm.getMediaData(alfrescoStaticurl+fl.location.path+"/"+fl.fileName+"/Media");
+		//  }
+	}
  vm.showCarouselData = false;
   vm.getMediaData = function(url){
 		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
