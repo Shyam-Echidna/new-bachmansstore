@@ -61,7 +61,6 @@
     <bu tton type="button" ui-sref="checkout" class="btn btn-success pull-right">Checkout</button>
 </article> -->
 <!-- Bachmans shopping cart -->
-qwertyuiop
 <div class="container-fluid cart-page" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
    <div class="promo-banner">
       <div class="row">
@@ -117,7 +116,7 @@ qwertyuiop
                 </div>
               </div>
 
-            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" ng-if="cart.order!=0">
                <!-- <div ng-repeat="linegrp in cart.groups track by linegrp">
                   {{linegrp}} {{$index}}
                   </div> -->
@@ -413,7 +412,7 @@ qwertyuiop
                               </span>Create a New Recipient
                               </div>
                               </div>
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="new-recipient-form">
                               <form role="form">
                               <div class="row">
@@ -453,7 +452,7 @@ qwertyuiop
                               </div>
                               </form>
                               </div>
-                              </div>
+                              </div> -->
                            </div>
                         </div>
                      </div>

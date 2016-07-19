@@ -26,13 +26,13 @@
                                 <div class="col-md-3 col-lg-3">
                                     <fieldset class="form-group">
                                         <label for="first-name">First Name</label>
-                                        <input type="text" class="form-control" id="first-name" placeholder="First Name">
+                                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="changeReceipentPopup.dtls.FirstName">
                                     </fieldset>
                                 </div>
                                 <div class="col-md-3 col-lg-3">
                                     <fieldset class="form-group">
                                         <label for="last-name">Last Name</label>
-                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name">
+                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="changeReceipentPopup.dtls.LastName">
                                     </fieldset>
                                 </div>
                                 <div class="col-md-5 col-lg-5">
@@ -40,7 +40,7 @@
                                         <label for="zip-code">ZIP Code</label>
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off">
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model="changeReceipentPopup.dtls.Zip">
                                             </div>
                                             <!-- <div class="col-md-8 col-lg-8 label-left-align">
                                                 <p class="svg-right">
@@ -62,13 +62,13 @@
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="address-1">Address</label>
-                                        <input type="text" class="form-control" id="address-1" placeholder="Address">
+                                        <input type="text" class="form-control" id="address-1" placeholder="Address"  ng-model="changeReceipentPopup.dtls.Street1">
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="address-2">Address 2</label>
-                                        <input type="text" class="form-control" id="address-2" placeholder="Address 2">
+                                        <input type="text" class="form-control" id="address-2" placeholder="Address 2"  ng-model="changeReceipentPopup.dtls.Street2">
                                     </fieldset>
                                 </div>
                             </div>
@@ -76,13 +76,13 @@
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="state">State</label>
-                                        <input type="text" class="form-control" id="state" placeholder="State">
+                                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="changeReceipentPopup.dtls.State">
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="city">City</label>
-                                        <input type="text" class="form-control" id="city" placeholder="City">
+                                        <input type="text" class="form-control" id="city" placeholder="City"  ng-model="changeReceipentPopup.dtls.City">
                                     </fieldset>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         <label for="phone">Recipient Number</label>
                                         <div class="row">
                                             <div class="col-sm-4 col-md-4 col-xs-4">
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control"  ng-model="changeReceipentPopup.dtls.Phone">
                                             </div>
                                             <div class="col-sm-4 col-md-4 col-xs-4">
                                                 <input type="text" class="form-control">
@@ -104,9 +104,9 @@
                                 </div>
                     </div>
                     <div class="row save-btn">
-                    <div class="col-md-12 col-lg-12 btn-click">
+                    <div class="col-md-12 col-lg-12 btn-click" id="changereceipentid">
                         <button class="cancel-btn" ng-click="changeReceipentPopup.cancel()">Cancel</button>
-                        <button class="save-btn">Save</button>
+                        <button class="save-btn" ng-click="changeReceipentPopup.changedtls(changeReceipentPopup.dtls)">Save</button>
                     </div>
                 </div>
 </div>

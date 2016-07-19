@@ -32,7 +32,7 @@ function CartConfig($stateProvider) {
                             })
                         })
                         .catch(function() {
-                            dfd.resolve(null);
+                            dfd.resolve(0);
                         });
                     return dfd.promise;
                 },/*
@@ -43,7 +43,8 @@ function CartConfig($stateProvider) {
                 },*/
                 LineItemsList: function($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
                     var dfd = $q.defer();
-                    OrderCloud.As().LineItems.List(Order.ID)
+                    if(Order!=0){
+                        OrderCloud.As().LineItems.List(Order.ID)
                         .then(function(data) {
                             if (!data.Items.length) {
                                 toastr.error("Your order does not contain any line items.", 'Error');
@@ -63,6 +64,11 @@ function CartConfig($stateProvider) {
                             toastr.error("Your order does not contain any line items.", 'Error');
                             dfd.reject();
                         });
+                    }
+                    else{
+                        dfd.resolve(0);
+                    }
+                    
                     return dfd.promise;
                 },
                 LoggedinUser: function(OrderCloud, $q){
@@ -143,10 +149,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.lineVal = [];
     vm.lineTotal = {};
     vm.changereceipentarr=[];
-    for(var n in data){
+    for(var n in vm.groups){
         vm.lineVal.push(n);
         vm.lineTotal[n] = _.reduce(_.pluck(data[n], 'LineTotal'), function(memo, num){ return memo + num; }, 0);
     }
+    console.log("vm.lineVal", vm.groups);
 
     vm.clearcart = function(){
         OrderCloud.Orders.Delete(vm.order.ID);
@@ -276,6 +283,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             })
         //})
     }
+    console.log(angular.element(document.getElementById("changereceipentid")).scope());
 }
 
 function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder) {
@@ -391,7 +399,11 @@ function ChangeReceipentPopupController($uibModal, $scope, $uibModalInstance){
     var vm=this;
     vm.oneAtATime=true;
     vm.selectedRecipient=false;
-      vm.cancel = function () {
+    vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+    vm.changedtls = function(data){
+        console.log(data);
+        console.log($scope);
+    }
 }
