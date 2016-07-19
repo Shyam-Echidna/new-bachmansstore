@@ -245,7 +245,7 @@ function contactController() {
 
 }
 
-function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,staticPageData) {
+function templateController($http, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData) {
 	var vm = this;
 		vm.bannerHideArticle = true;
 //    vm.subFolderList = BaseService.ListOfPages[0].subfolders;
@@ -254,7 +254,7 @@ function templateController($http, alfcontenturl, $state ,LoginFact,BaseService,
       vm.articleSearch={};
 			vm.mainCatName = "";
       var getFirstTag = true;
-//    console.log(vm.subFolderList);
+
     vm.getThingsFromALfresco = function(parent, child,index){
         console.log(index+" .... "+vm.active);
         vm.active = index;
@@ -399,7 +399,11 @@ function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,a
 	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
 	vm.accordianOpen = function(index){
+		if(vm.isOpen != index){
 			vm.isOpen = index;
+		}else{
+			vm.isOpen = undefined;
+		}
 	}
 	vm.alfStaticContenturl = alfStaticContenturl;
 	vm.parentPathChilde = $state.current;
@@ -430,7 +434,7 @@ function historyController(alfStaticContenturl,$sce,$state,page,staticPageData,a
 
   vm.assignActiveIndex = function(data,i){
 		if(page.toLowerCase() == data.toLowerCase()){
-			vm.activeIndex = i;
+			vm.activeIndex = data;
 		}
 	}
 	vm.siteToken = localStorage.getItem('alfTemp_ticket');

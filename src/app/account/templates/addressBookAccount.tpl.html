@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="row addr-book-list-cont">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="address.xp.IsDefault">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addr-book-list-item" ng-repeat="address in account.addressData | filter:search:strict" ng-if="address.xp.IsDefault==true">
             <div class="col-xs-8 col-sm-8 col-md-2 col-lg-2 default-address">
                 <p class="title">Default Address</p>
                 <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
@@ -258,11 +258,6 @@
                             <div class="col-xs-6 form-group state">
                                 <label for="state">State</label>
                                 <input type="text" class="form-control" id="state" ng-model="account.editAddr.State" autocomplete="off">
-                                <!-- <select class="form-control" id="state" ng-model="addr.State">
-                                    <option>MN</option>
-                                    <option>LA</option>
-                                    <option>LV</option>
-                                </select> -->
                             </div>
                             <div class="col-xs-12 form-group phone-number">
                                 <label for="phone1">Phone Number</label>

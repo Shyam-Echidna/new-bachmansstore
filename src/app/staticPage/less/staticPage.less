@@ -4965,9 +4965,10 @@ div.store {
 
 
 /*Static page css*/
-.landscapeservices{
+.services-content{
+margin-top:100px;
 h4 {
-	 font: 1em "ProximaNova-Bold",Arial,sans-serif;
+	 font: 1em @proxima-bold;
      color: #000;
 	}
  p {
@@ -4975,6 +4976,38 @@ h4 {
    }
    .static-block{
    	margin-bottom: 20px;
+   }
+   .static-lists{
+     margin:0 0 0 25px;
+     li{
+      a{
+      	font: 0.875em/24px @proxima-regular;
+      	color: #000;
+      }
+     }
+   }
+   .bachmans-center{
+        background: #f7f7f7;
+	    float: left;
+	    padding: 30px;
+	    margin-top: 30px;
+	    .address{
+	    	border-right:1px solid #ccc;
+	    }
+	    .address1{
+	    	width:47%;
+	    	margin-left:25px;
+	    }
+      .center-header{
+      	font: 2em @proxima-bold;
+        color: #8c58b5;
+        margin-bottom: 25px;
+      }
+      a{
+      	font: 0.875em/24px @proxima-regular;
+      	color: #000;
+      	border-bottom:1px solid #ccc;
+      }
    }
 }
 

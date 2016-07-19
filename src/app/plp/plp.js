@@ -350,6 +350,8 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
     vm.clearSelection = function(){
        vm.selection = [];
        vm.facetName = {};
+      angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({'display':'none','visibility':'hidden'});
+      angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({'display':'none','visibility':'hidden'});
     }
     // Function for navigation to PDP
     vm.detailsPage = function($event){
@@ -714,6 +716,16 @@ vm.selectedColorIndex = 0;
       }
     }
   });*/
+  vm.btnText = 'ADD TO WISHLIST';
+  vm.addToWL = function(){
+    vm.btnText = $sce.trustAsHtml('<span class="svg-added">'+
+                  '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 137.5 93.3" style="enable-background:new 0 0 137.5 93.3;" xml:space="preserve">'+
+                      '<g>'+
+                        '<path d="M116.3,23.6L70.2,69.7l-8.7,8.7c-1.1,1.1-2.7,1.8-4.3,1.8s-3.2-0.6-4.3-1.8l-8.7-8.7l-23-23c-1.1-1.1-1.8-2.7-1.8-4.3 s0.6-3.2,1.8-4.3l-0.1,0.1c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8l27.5,27.3L107.6,15c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8 l0,0c1.1,1.1,1.8,2.7,1.8,4.3S117.4,22.5,116.3,23.6z"/>'+
+                      '</g>'+
+                  '</svg>'+
+                '</span> ADDED');
+  }
 }
 
 function QuickviewController($scope, $uibModalInstance) {

@@ -168,18 +168,22 @@
 <div class="row visible-xs visible-sm xs-filter">
    <div class="col-xs-6">
       <div class="btn-group btn-block dropdown" uib-dropdown="" is-open="status.isopen" style="">
-                                  <button id="sort-by-filter" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
-                                   
-                                    <span class="category-name">SORT BY</span>
-                                    <!-- <p class="sort-active-show">{{plp.selectedItem}}</p> -->
-                                
-                                  </button>
-                                  <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="sort-by-filter">
-                                    <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
-                                       <a data-value="{{item.value}}" href="">{{item.label}}</a>
-                                    </li>
-                                  </ul>
-                            </div>
+         <button id="sort-by-filter" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">          
+            <span class="category-name">SORT BY</span>
+            <!-- <p class="sort-active-show">{{plp.selectedItem}}</p> -->
+         </button>
+         <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="sort-by-filter">
+            <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}">
+               <a data-value="{{item.value}}" href="">{{item.label}}</a>
+            </li>
+         </ul>
+      </div>
+      <!-- <div class="select-wrapper">
+         <select class="btn-group btn-block dropdown">
+            <option selected >SORT BY</option>
+            <option  ng-repeat="item in plp.sortItems" ng-click="plp.changeSortSelection(item.label,$index);" ng-class="{active: $index == plp.selectedMenu}" ><a data-value="{{item.value}}" >{{item.label}}</a></option>
+         </select>
+      </div> -->
    </div>
    <div class="col-xs-6">
       <button class="filter-button btn-block" ng-click="plp.filterBtnModal()">FILTER 
@@ -593,7 +597,7 @@
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
                            </div>
                         </div>
                      </div>
@@ -651,7 +655,7 @@
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
                            </div>
                         </div>
                     </div>
@@ -702,7 +706,7 @@
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
                            </div>
                         </div>
                     </div>
@@ -753,7 +757,8 @@
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <input type="button" class="grey-btn btn" value="ADD TO WISHLIST">
+                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> -->
+                             <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
                            </div>
                         </div>
                     </div>

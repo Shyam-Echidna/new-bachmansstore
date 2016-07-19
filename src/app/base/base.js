@@ -314,12 +314,14 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
       if ($(this).scrollTop() > headerHt*2){
         $('.base-header-sticky').css({'top':0});
         $('.base-header-mobile').addClass("sticky");
-        //$('.base-header-inner').css({'position':'fixed','top':'0','transition': 'all 1s ease'});
+       /* $('#BaseTop2').addClass('base-header-sticky sticky');
+        $('.base-header-inner').css({'position':'fixed','top':'0'});*/
       }
       else{
         $('.base-header-sticky').css({'top':-headerHt});
         $('.base-header-mobile').removeClass("sticky");
-        //$('.base-header-inner').css({'position':'absolute','top':'0'});
+        /*$('#BaseTop2').removeClass('base-header-sticky sticky');
+        $('.base-header-inner').css({'position':'absolute','top':'0'});*/
       }
     });
 

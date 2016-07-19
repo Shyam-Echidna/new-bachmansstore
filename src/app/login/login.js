@@ -229,14 +229,18 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
     };*/
 
     vm.loginTab = 1;
+    vm.showPPReg = true;
     vm.showLogin = function(){
       vm.loginTab = 1;
+      vm.showPPReg = true;
     }
     vm.showSignUp = function(){
       vm.loginTab = 2;
+      vm.showPPReg = false;
     }
     vm.showForgotPassword = function(){
         vm.loginTab = 3;
+        vm.showPPReg = true;
     }
     vm.cancel = function () {
         $uibModalInstance.dismiss('cancel');

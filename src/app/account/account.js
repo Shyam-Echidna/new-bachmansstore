@@ -478,17 +478,6 @@ function AccountController( $uibModal, WishList, AddressList,$exceptionHandler, 
 	//Wishlist listing starts here
 	vm.wishList = WishList;
 	console.log("WishList===",WishList);
-	/*vm. DeleteWishListProduct =  function(prodid){
-
-		var indx = CurrentUser.xp.WishList.indexOf(prodid);
-		CurrentUser.xp.WishList.splice(indx,1);
-		OrderCloud.Me.Patch(CurrentUser)
-			.then(function(data) {
-				console.log(data);
-				$state.go($state.current, {}, {reload: true});
-			})
-	}*/
-	//Wishlist Listing Ends Here
 	//---purpleperks functionality starts here---//
 	
 	OrderCloud.SpendingAccounts.ListAssignments(null, CurrentUser.ID,null,null,1,null,null).then(function(purple){
@@ -852,7 +841,7 @@ function DelWishlistController($uibModalInstance, $scope, OrderCloud,  $state, S
 			})
 	}
 }
-function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $state, SelectedWishList) {
+function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $state) {
 	var vm = this;
 	$scope.canceldel = function () {
 
@@ -881,7 +870,7 @@ function EmailSubscriptionController( $exceptionHandler,CurrentUser, SelectedEma
 function TrackOrderController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
 	var vm = this;
 }
-function ProfileController($exceptionHandler,$state,OrderCloud,AccountService,OrderList, AddressList, CurrentUser, Underscore, $q, $scope){
+function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,AccountService,OrderList, AddressList, CurrentUser, Underscore, $q, $scope){
 	var vm=this;
 	vm.profileData=CurrentUser;
 	console.log("profile data are --",vm.profileData);
@@ -902,6 +891,7 @@ function ProfileController($exceptionHandler,$state,OrderCloud,AccountService,Or
 		if(!ret)
 			$e.preventDefault();
 	}
+	
 //_------ END FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
 
 	//_------FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
