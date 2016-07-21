@@ -46,7 +46,7 @@
                   </div>-->
                   <div class="form-group">
                      <label>Enter Your Password</label>
-                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$" pattern-err-type="customPassword" ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" ng-model-options="{updateOn: 'blur'}">
+                     <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password"  ng-model="login.credentials.Password" ng-required="true" ng-class="{ 'hasError' : (LoginHomeForm.loginPassword.$invalid && !LoginHomeForm.loginPassword.$pristine) || login.invaliduser }" >
                   </div>
                   <div class="form-group remember-block">
                      <!-- <input type="checkbox"><label class="remember-text">Remember Me</label> -->
@@ -58,7 +58,7 @@
                      <label class="pull-right forgot-text"><a href="" class="forgot-pwd-link" ng-click="login.showForgotPassword()">Forgot Password?</a></label>
                   </div>
                   <div class="form-group">
-                     <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" ng-disabled="LoginHomeForm.$invalid" ng-class="{'disabledbtn': LoginHomeForm.$invalid }">LOGIN</button>
+                     <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" ng-disabled="LoginHomeForm.$invalid" ng-class="{'disabledbtn': LoginHomeForm.$invalid }">LOG IN</button>
                   </div>
                   <div class="form-group link-group">
                      <label class="not-a-member">Not a Member? <a href="" class="sign-up" ng-click="login.showSignUp()">Sign Up!</a></label>

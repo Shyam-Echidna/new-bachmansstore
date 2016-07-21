@@ -117,8 +117,8 @@
 								<div class="menuScrollCont-inner">
 									<ul class="menu-hover-cont3-inner" id="lookInMe" onscroll="$.leftofscreen('#lookInMe', '.peek', {threshold :-100}).removeClass('Right').addClass('Left');
 									$.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addClass('Right');">
-										<li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" 
-										class="peek submaincat_link_div" ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))">
+										<li ng-if="categories.ID =='c1'" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstTime" 
+										class="peek submaincat_link_div" >
 											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
 											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
 												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'" >
@@ -127,8 +127,7 @@
 											</ul>
 
 										</li>
-										<li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'"
-											class="peek submaincat_link_div" ng-if="categories.ID !='c1'">
+										<li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" class="peek submaincat_link_div" ng-if="categories.ID !='c1'">
 											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
 											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
 												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'" >
@@ -218,7 +217,7 @@
 									<ul class="menu-hover-cont3-inner" id="lookInMe3" onscroll="$.leftofscreen('#lookInMe3', '.peek3', {threshold :-100}).removeClass('Right3').addClass('Left3');
 									$.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').addClass('Right3');">
 										<li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" ><a class="goto-cat">{{categories.Name}} | Home </a></li>
-										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+										<li ng-if="categories.ID =='c1'" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstTime"  class="peek submaincat_link_div">
 											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
 											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
 												<li ng-repeat="subchildcategories in subcategories.children">
@@ -329,7 +328,7 @@
 						<a class="info-acc-text" >
 							<div class="loggedIn-user">
 								<span class="user-name login">Hello, {{base.currentUser.FirstName}}</span>
-								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account">LOG IN / SIGN UP</span>
 								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div> 
 						</a>
@@ -430,7 +429,7 @@
 		<div class="base-header-top row">
 			<div class="main-logo col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<!-- <a href="#"><img src="assets/images/logo.svg" alt="BACHMAN'S" /></a> -->
-				<a href="#" ng-include="base.logo"></a>
+				<a ui-sref="home"  ng-include="base.logo"></a>
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-6 col-lg-5 delivery-details">
 				<div class="delivery-details-cont row">
@@ -492,8 +491,8 @@
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
 									<ul class="menu-hover-cont3-inner" id="lookInMe2" onscroll="$.leftofscreen('#lookInMe2', '.peek2', {threshold :-100}).removeClass('Right2').addClass('Left2');
-$.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
-										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'" class="peek submaincat_link_div">
+									$.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
+										<li ng-if="categories.ID =='c1'" ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'| categoriesAsPerSeason:application.cstTime" class="peek submaincat_link_div">
 											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
 											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
 												<li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'">
@@ -590,9 +589,9 @@ $.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').ad
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
 									<ul class="menu-hover-cont3-inner" id="lookInMe4" onscroll="$.leftofscreen('#lookInMe4', '.peek4', {threshold :-100}).removeClass('Right4').addClass('Left4');
-$.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
+									$.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
 										<li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" ><a class="goto-cat">{{categories.Name}} | Home</a></li>
-										<li ng-if=" (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') < (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') > (application.cstTime| date:'MM/dd'))" ng-repeat="subcategories in categories.children" class="peek submaincat_link_div">
+										<li ng-if="categories.ID =='c1'" ng-repeat="subcategories in categories.children |  categoriesAsPerSeason:application.cstTime" class="peek submaincat_link_div">
 											<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
 											<ul class="menu-hover-cont4 subchildcategories menu-l3-container">
 												<li ng-repeat="subchildcategories in subcategories.children">
@@ -698,7 +697,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 							<div class="loggedIn-user">
 								<span class="user-name login">Hello, {{base.currentUser.FirstName}}</span>
 								<span class="user-name signup">Hello, user</span>
-								<span class="user-account">LOGIN / SIGN UP</span>
+								<span class="user-account">LOG IN / SIGN UP</span>
 								<span class="user-account loginSignup">MY ACCOUNT</span>
 							</div>
 						</a>
@@ -882,7 +881,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 									<ul class="mobile-signout mobile-signout-guest" >
 										<ul>
 											<li class="fl"><a href=""></a></li>
-											<li class="fr"><a href="" ng-click="baseTop.login()" >SIGN UP / LOGIN</a></li>
+											<li class="fr"><a href="" ng-click="baseTop.login()" >SIGN UP / LOG IN</a></li>
 										</ul>
 									</ul>
 									<ul class="mobile-signout mobile-signout-notGuest">
@@ -998,7 +997,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 											<li class="shop-title" ng-click="stateChange(category)">
 												<a ng-click="base.stateChange(categories);$event.stopPropagation();">{{categories.Name}}<span> | Home</span></a>
 											</li>
-											<li ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();" ng-repeat="(ParentIndex, subcategories) in categories.children" class="submaincat_link_div">
+											<li ng-if="categories.ID =='c1'" ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();" ng-repeat="(ParentIndex, subcategories) in categories.children| orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstTime" class="submaincat_link_div">
 												<a class="submaincat_link">{{subcategories.Name}}</a>
 												<ul ng-show="base.menu3 && base.isShowing(ParentIndex)" class="subchildcategories menu-l3-container mobile-dropdown-cont4">
 													<li ng-click="base.openMenuLevel2({childCount:subcategories.ChildCount,ID:subcategories.ID});$event.stopPropagation();">{{categories.Name}}</li>
@@ -1016,6 +1015,18 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 														<a >{{subchildcategories.Name}}</a>
 													</li>
 												</ul> -->
+											</li>
+											<li ng-if="categories.ID !='c1'" ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();" ng-repeat="(ParentIndex, subcategories) in categories.children" class="submaincat_link_div">
+												<a class="submaincat_link">{{subcategories.Name}}</a>
+												<ul ng-show="base.menu3 && base.isShowing(ParentIndex)" class="subchildcategories menu-l3-container mobile-dropdown-cont4">
+													<li ng-click="base.openMenuLevel2({childCount:subcategories.ChildCount,ID:subcategories.ID});$event.stopPropagation();">{{categories.Name}}</li>
+													<li class="shop-title" ng-click="stateChange(subcategories)">
+														<a ng-click="base.stateChange(subcategories);$event.stopPropagation();">{{subcategories.Name}}<span> | Home</span></a>
+													</li>
+													<li ng-repeat="subchildcategories in subcategories.children">
+														<a ng-click="base.stateChange(subchildcategories);$event.stopPropagation();">{{subchildcategories.Name}}</a>
+													</li>
+												</ul>
 											</li>
 											</li>
 											<li>
@@ -1080,7 +1091,7 @@ $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').ad
 							</div>
 						</div>
 						<div class="main-logo-block" ng-click="base.logoClick()">
-							<a href="#" ng-include="base.logo"></a>
+							<a ui-sref="home" ng-include="base.logo"></a>
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 info-bar-icons">

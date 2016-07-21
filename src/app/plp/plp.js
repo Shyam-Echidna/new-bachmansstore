@@ -430,7 +430,7 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
       // START: function for sort options selection
       var sortItems=[
       {'value':'BestSellers','label':'Best Sellers'},
-      {'value':'Relavance','label':'Relavance'},
+      {'value':'Relevance','label':'Relevance'},
       {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest'},
       {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest'},
       {'value':'AZ','label':'A - Z'},

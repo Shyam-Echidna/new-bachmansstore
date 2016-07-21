@@ -955,11 +955,11 @@ LoginFact.GetContactInfo(ticket).then(function(res){
             console.log(data);
         });
 });
-  LoginFact.GetStaticTemp(ticket).then(function(res){
+ /* LoginFact.GetStaticTemp(ticket).then(function(res){
     console.log("static temp", res);
       vm.staticTempleft = $sce.trustAsResourceUrl(alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket);
       //vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
-    })
+    })*/
     LoginFact.GetFolders(ticket).then(function(res){
      console.log("static temp GetFolders", res);
      var ajaxarr = [];
@@ -1731,17 +1731,20 @@ function ConfirmPasswordValidatorDirective(defaultErrorMessageResolver) {
     };
 }
 
-function CategoriesAsPerSeasonFilter(BaseService) {
-  //console.log('categories', categories);
-  return function( item ) {
-    return item;
-  }
-
-  /*return function( item, cateoriges.ID, subcategories.xp.StartDate, application.cstTime, subcategories.xp.EndDate ) {
-    if( (categories.ID =='c1') && ((subcategories.xp.StartDate| date:'MM/dd') <
-        (application.cstTime| date:'MM/dd')) && ((subcategories.xp.EndDate| date:'MM/dd') >
-        (application.cstTime| date:'MM/dd')) ) {
-        return item;
+function CategoriesAsPerSeasonFilter($filter) {
+  return function(item, appCstTime) {
+    var newArray =[];
+    for(var i=0; i<item.length; i++) {
+      var startDate = item[i].xp.StartDate;
+      var endDate = item[i].xp.EndDate;
+      var startDate = $filter('date')(new Date(startDate), 'MM/dd');
+      var endDate = $filter('date')(new Date(endDate), 'MM/dd');
+      var cstTime = "2016-07-21T21:32:38.000Z";
+      var cstTime = $filter('date')(new Date(appCstTime), 'MM/dd');
+      if( (startDate < cstTime) && (endDate > cstTime) ){      
+        newArray.push(item[i]);
+      }
     }
-  }*/
+    return newArray;
+  }
 }

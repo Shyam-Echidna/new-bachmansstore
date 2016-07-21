@@ -423,46 +423,77 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 		curl = "b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
 	}
 	vm.activeIndex = 0;
-	vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+"api/node/content/workspace/SpacesStore/"+curl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+ 	vm.siteToken = localStorage.getItem('alfTemp_ticket');
+	///api/node/content/workspace/SpacesStore/c5567137-543e-47ba-822c-148a57dce11d/Untitled%20Document.docx
+	staticPageData.GetFolders(alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+decodeURIComponent(page),vm.siteToken).then(function(data){
+		console.log(data);
+		angular.forEach(data.items,function(item){
+			if(item.nodeType=="ws:article"){
+				vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+			}
+			if(item.fileName == "Media"){
+				vm.getMediaData(alfrescoStaticurl+item.location.path+"/"+item.fileName);
+			}
+		})
+	});
+
   vm.assignIndex = function(data,i){
 		if(vm.parentPathChilde.name == data){
 			vm.isOpen = i;
 		}
 	}
-	var dataUrl = alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+page+"/Media";
+//	var dataUrl = alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+page+"/Media";
 
   vm.assignActiveIndex = function(data,i){
-		if(page.toLowerCase() == data.fileName.toLowerCase()){
-			vm.activeIndex = data.fileName;
-			vm.activePageTitle = data.title;
+		var pages = decodeURIComponent(page).split('/');
+		if(pages.length > 0){
+			if(pages[0].toLowerCase() == data.fileName.toLowerCase()){
+				vm.activeIndex = data.fileName;
+				vm.activePageTitle = data.title;
+				vm.childactiveIndex = pages[1];
+				vm.childCount = 2;
+				console.log(vm.activeIndex+"="+vm.activePageTitle+"="+vm.childactiveIndex);
+			}
+		}else{
+			if(page.toLowerCase() == data.fileName.toLowerCase()){
+				vm.activeIndex = data.fileName;
+				vm.activePageTitle = data.title;
+			}
 		}
 	}
-	vm.siteToken = localStorage.getItem('alfTemp_ticket');
-
 	vm.changePageData = function(filename,folder){
+		console.log(filename);
 		console.log(folder);
 		vm.activeIndex = folder.fileName;
-		var param = null;
-		angular.forEach(folder.subfolders.items,function(item){
-			if(item.nodeType=="ws:article"){
-				param = item.contentUrl.split('api/node/content/workspace/SpacesStore/')[1];
-			}
-		})
-		$state.go(filename, {pageName:folder.fileName,fileName:param});
-		//  if(fl.location.path.indexOf('services')>=0){
-		// 	 $state.go('services', {pageName:fl.fileName});
-		//  }else{
-		// 	 owlHistory.trigger('destroy.owl.carousel');
-		// 	 vm.carouselData = [];
-		// 	 vm.activeIndex = i;
-		// 	 vm.getMediaData(alfrescoStaticurl+fl.location.path+"/"+fl.fileName+"/Media");
-		//  }
+		vm.childCount = 0;
+		var param = folder.location.path.split(filename+'/')[1];
+		if(param)
+			param +="/"+folder.fileName;
+		else
+		 	param = folder.fileName;
+		if(folder.subfolders && folder.subfolders.items){
+			angular.forEach(folder.subfolders.items,function(item){
+				if(item.nodeType=="ws:section"){
+					vm.childCount ++;
+				}
+			})
+		}
+		if(vm.childCount > 2){
+		//	alert(count);
+		}else{
+			$state.go(filename, {pageName:param});
+		}
 	}
  vm.showCarouselData = false;
   vm.getMediaData = function(url){
 		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
 				console.log(data);
 				vm.carouselData = data.items;
+				angular.forEach(data.items,function(carousel){
+					if(carousel.nodeType=='ws:image' && carousel.title=='BannerImage'){
+						vm.templateBannerImage = carousel.contentUrl;
+					}
+				})
 				if(vm.carouselData.length>2){
 					vm.showCarouselData = true;
 					setTimeout(function(){
@@ -491,7 +522,7 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 				console.log(data);
 		});
 	}
-	vm.getMediaData(dataUrl);
+	//vm.getMediaData(dataUrl);
 }
 
 function staticpageController($scope, $uibModalInstance) {
@@ -616,15 +647,7 @@ function perplePerksRegisteredController() {
 
 function eventDescriptionController($scope) {
 	var vm = this;
-	$scope.status = {
-		open1: true,
-		open1: false
-	};
-	$scope.status = {
-		open2: true,
-		open2: false
-	};
-
+	
 }
 
 

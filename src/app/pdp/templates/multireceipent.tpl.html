@@ -1,7 +1,4 @@
-<div id="recepientmodal" class="pdp-recipient-modal" window-height ng-style="{'max-height':windowHeight, 'overflow-y':'auto'}">
-    <div class="row visible-xs visible-sm modal-close">
-        <p class="close-icon">X</p>
-    </div>
+<div id="recepientmodal" class="pdp-recipient-modal" window-height ng-style="{'max-height':windowHeight}">
     <div class="row title-bar">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h3>Input Recipient Information</h3>
@@ -31,7 +28,7 @@
                     <p ng-class="{'footer-minus': multipleReceipent.activeRecipient, 'footer-plus': !multipleReceipent.activeRecipient}">Recipient {{$index+1}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
                 </uib-accordion-heading>
                 <div class="panel-body-content">
-                    <a href="" class="view-address-link"><span class="svg-outer">
+                    <a href="" class="view-address-link" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="multipleReceipent.addressBook()"><span class="svg-outer">
                         <?xml version="1.0" encoding="utf-8"?>
                         <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -45,8 +42,19 @@
                         </g>
                         </svg>
 
-                    </span> 
-                    VIEW ADDRESS BOOK</a>
+                    </span>VIEW ADDRESS BOOK
+                    </a>
+                    <div class="addressbookdiv" ng-if="multipleReceipent.showaddress==true">
+                            <label ng-repeat="addressbook in multipleReceipent.addressbook.Items track by addressbook.ID">
+                                <input type="radio" name="addressbook" ng-model="multipleReceipent.address1" value="{{$index}}" />
+                                <span>{{addressbook.FirstName}} {{addressbook.LastName}}</span>
+                                <span>{{addressbook.Street1}}, {{addressbook.Street2}}</span>
+                                <span>{{addressbook.City}}, {{addressbook.State}}</span>
+                                <span>{{addressbook.Country}}, Zip- {{addressbook.Zip}}</span>
+                                <span>Phone: {{addressbook.Phone}}</span>
+                            </label>
+                            <button ng-click="lineitem.ShippingAddress = multipleReceipent.addressbook.Items[multipleReceipent.address1]">Save</button>
+                    </div>
                     <div class="row name-block">
                         <div class="col-md-12 col-lg-12">
                             <div class="row">
@@ -290,15 +298,22 @@
                             </div>
                             <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+
                                     <fieldset class="form-group">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
+
+                                   <fieldset class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
-                                    <fieldset class="form-group">
-                                        <label for="city">City</label>
-                                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
+                                    
+                                     <fieldset class="form-group">
+                                        <label for="state">State</label>
+
+                                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
                                     </fieldset>
                                 </div>
                             </div>
@@ -306,14 +321,20 @@
                                 <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <fieldset class="form-group">
+
                                             <label for="state">State</label>
                                             <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
+
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
                                         </fieldset>
                                     </div>
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                        
                                         <fieldset class="form-group">
-                                            <label for="city">City</label>
-                                            <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City">
+                                            <label for="state">State</label>
+
+                                            <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State">
                                         </fieldset>
                                     </div>
                                 </div>
@@ -342,21 +363,283 @@
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
-                                        <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
+\
+                                        <!-- <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}"> -->
+                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+
+                                        <!-- <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
+                                        <span class="date-svg">
+                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                    s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                     M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                 M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span> -->
+                                        <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                            <span class="input-group-btn date-svg">
+                                                <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                    s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                     M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                 M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                            </span>
                                     </fieldset>
                                 </div>
                                 <div ng-show="multipleReceipent.name">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
+                                      <!--   <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+
+                                            <!-- <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}"> -->
+                                            <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </fieldset>
                                         <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
-                                            <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
-                                        </fieldset>
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <span class="input-group-btn date-svg">
+                                                    <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                    <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
+                                    </fieldset>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Will Call'">
-                                        <fieldset class="form-group delivery-date">
+                                        <!-- <fieldset class="form-group delivery-date">
                                             <label for="dDate">PickUp Date</label>
                                             <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.pickupDate" ng-attr-min="{{lineitem.xp.MinDays.InStorePickUp}}">
-                                        </fieldset>
+                                        </fieldset> -->
+                                         <fieldset class="form-group delivery-date">
+                                            <label for="dDate">PickUp Date</label>
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.pickupDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: lineitem.xp.MinDays.InStorePickUp, startingDay: 1}" ng-required="true" />
+                                                <span class="input-group-btn date-svg">
+                                                    <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                    <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
+                                    </fieldset>
                                     </div>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
@@ -381,24 +664,26 @@
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1">
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" >
                                                 </div>
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2">
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)">
                                                 </div>
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3">
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)" >
                                                 </div>
                                             </div>
                                         </fieldset>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row save-address">
+                            {{line}}
+                            <div class="row save-address" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'">
                                 <div class="col-md-4 col-lg-4">
                                     <div class="Checkbox">
-                                        <input type="checkbox" checked>
-                                        <div class="Checkbox-visible"></div>
+                                        <input type="checkbox" ng-model="multipleReceipent.saveaddressdata">
+                                        <!-- <input type="checkbox" ng-click="multipleReceipent.saveaddress(lineitem.ShippingAddress)"> -->
+                                        <div class="Checkbox-visible" ></div>
                                     </div>
                                     <label> Save this address</label>
                                 </div>
@@ -460,6 +745,287 @@
                         <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal">Next</button>
                         <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(lineitem,$index)">Add</button>
                     </div>
+
+
+                </div>
+
+
+            </uib-accordion-group>
+            <uib-accordion-group ng-repeat="lineitem in multipleReceipent.activeOrders" is-open="multipleReceipent.openRecipient[$index]" ng-if="multipleReceipent.isMultiplerecipient" ng-init="multipleReceipent.openRecipient[$index]=false;multipleReceipent.addAddress[$index]=false">
+                <uib-accordion-heading>
+                    <p ng-class="{'footer-minus': multipleReceipent.activeRecipient, 'footer-plus': !multipleReceipent.openRecipient[$index]}">
+                        <!-- <input type="checkbox" ng-model="multipleReceipent.addAddress[$index]" ng-change="multipleReceipent.checkAddRecipient(lineitem,$index)">Recipient {{$index+1}} --> 
+
+                        <div class="Checkbox">
+                           <input  id="check{{$index+1}}" type="checkbox" ng-model="multipleReceipent.addAddress[$index]" ng-change="multipleReceipent.checkAddRecipient(lineitem,$index)" >
+                           <div  class="Checkbox-visible"></div>
+                        </div>
+                        <label for="check{{$index+1}}">Recipient {{$index+1}}</label>
+                        <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span>
+                    </p>
+                </uib-accordion-heading>
+
+                <div class="panel-body-content disable-fields">
+                    <a href="" class="view-address-link"><span class="svg-outer">
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                        <style type="text/css">
+                            .stmp{fill:#a576ca;}
+                        </style>
+                        <g>
+                            <rect x="10" class="stmp" width="4" height="24"/>
+                            <rect y="10" class="stmp" width="24" height="4"/>
+                        </g>
+                        </svg>
+
+                    </span> 
+                    VIEW ADDRESS BOOK</a>
+                    <div class="row name-block">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3">
+                                    <fieldset class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="lineitem.ShippingAddress.FirstName" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <fieldset class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="zip-code">ZIP Code</label>
+                                        <div class="row">
+                                            <div class="col-md-4 col-lg-4">
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip"  autocomplete="off" readonly>
+                                            </div>
+                                            <div class="col-md-8 col-lg-8 label-left-align" ng-show="multipleReceipent.sameDay">
+                                                <p class="svg-right">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
+                                                </p>
+                                                <p class="delivery-text">Same-Day Available</p>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+
+                                </div>
+
+                                <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
+                                    <fieldset class="form-group">
+                                        <label for="qty">Qty</label>
+                                        <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity" />
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row radio-btn-group">
+
+                        <div class="receipient-location" >
+                            <div class="radio-inline">
+                                <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence">
+                                <label for="residnce-opt" id="first-label">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Residence</span>
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" >
+                                <label for="hospital-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Hospital</span>
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" >
+                                <label for="church-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Church</span>
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral">
+                                <label for="funeral-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Funeral Home</span>
+                                </label>
+                            </div>
+                           
+                            <div class="radio-inline">
+                                <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School">
+                                <label for="school-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">School</span>
+                                </label>
+                            </div>
+                           
+
+
+                        </div>
+                    </div>
+
+                    <div class="row address-block">
+                      
+
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-1">Address</label>
+                                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    <fieldset class="form-group">
+                                        <label for="address-2">Address 2</label>
+                                        <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="lineitem.ShippingAddress.Street2" readonly>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                   <fieldset class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="lineitem.ShippingAddress.City" readonly>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    
+                                     <fieldset class="form-group">
+                                        <label for="state">State</label>
+
+                                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="lineitem.ShippingAddress.State" readonly>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                                    <fieldset class="form-group">
+                                        <label for="country">Country</label>
+                                        <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country" readonly>
+                                    </fieldset>
+                                </div>
+                                <div>
+                                   
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                                  <!--   <fieldset class="form-group delivery-date">
+                                         <label for="dDate">Delivery Date</label>
+                                        <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
+
+
+                                    </fieldset> -->
+                                    <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <span class="input-group-btn date-svg">
+                                                    <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                    <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
+                                    </fieldset>
+                                </div>
+                               
+
+                              
+                                <div ng-show="multipleReceipent.name">
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" >
+                                        <fieldset class="form-group phone-box">
+                                            <label for="phone">Phone Number</label>
+                                            <div class="row">
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                        </div>
+
+
+                    </div>
+                    
+                </div>
+                <div class="row next-btn">
+                   
+                    <div class="col-md-12 col-lg-12 btn-click">
+                        <button class="add-btn"  ng-click="multipleReceipent.submitRecipientDetails(lineitem,$index)" ng-disabled="multipleReceipent.notLocal ||!multipleReceipent.addAddress[$index]">Add</button>
+                    </div>
+
                 </div>
             </uib-accordion-group>
             <div class="row next-btn">
@@ -694,7 +1260,8 @@
                             </div>
                         </div>
                         <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
-                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                               
                                 <fieldset class="form-group">
                                     <label for="state">State</label>
                                     <input type="text" class="form-control" id="state" placeholder="State" ng-model="line.ShippingAddress.State">
@@ -709,7 +1276,8 @@
                         </div>
                         <div ng-show="multipleReceipent.name">
                             <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
-                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                                    
                                     <fieldset class="form-group">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control" id="state" placeholder="State" ng-model="line.ShippingAddress.State">
@@ -747,14 +1315,152 @@
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
                                 <fieldset class="form-group delivery-date">
                                     <label for="dDate">Delivery Date</label>
-                                    <input type="date" class="form-control" id="dDate" ng-model="line.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
+                                    <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                    <!-- <input type="date" class="form-control" id="dDate" ng-model="line.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}"> -->
                                 </fieldset>
+                                <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="multipleReceipent.line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <span class="input-group-btn date-svg">
+                                                    <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                    <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
+                                    </fieldset>
                             </div>
                             <div ng-show="multipleReceipent.name">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
-                                        <input type="date" class="form-control" id="dDate" ng-model="line.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
+                                        <!-- <input type="date" class="form-control" id="dDate" ng-model="line.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}"> -->
+                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </fieldset>
+                                    <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="multipleReceipent.line.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <span class="input-group-btn date-svg">
+                                                    <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
+                                                    <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Will Call'">

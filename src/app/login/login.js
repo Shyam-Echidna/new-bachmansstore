@@ -145,7 +145,7 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
             })
             .catch(function(ex) {
                // $exceptionHandler(ex);
-               vm.errormsg = "Email or Password is incorrect!!";
+               vm.errormsg = "Email or Password is incorrect";
                vm.invaliduser = true;
             })
             

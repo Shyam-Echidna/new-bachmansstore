@@ -1,7 +1,7 @@
 <div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
 	<div class="container-fluid p0">
 		<div class="history-banner">
-			<img ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title=='BannerImage'" ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
+			<img ng-src="{{history.alfStaticContenturl}}{{history.templateBannerImage}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 			<!-- <img src="assets/images/service-sliders.png"> -->
 			<!--<img src="assets/images/mobile-service-sliders.png" class="hidden-md hidden-lg">-->
 			<div class="banner-content">
@@ -10,7 +10,7 @@
 		</div>
 	</div>
 
-	<div class="container history-aside">
+	<div class="container history-aside" ng-style="!history.templateBannerImage ? { 'margin-top':'80px'} : {}">
 
 
 		<!-- Sidebar -->
@@ -35,10 +35,11 @@
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
-								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-click="history.changePageData(subfolder,$index)">
-									<a ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
-									<ul class="sub-cat" >
-										<li ng-repeat="subsubfolders in subfolder.subfolders" ng-if="subsubfolders.nodeType == 'ws:section' && subsubfolders.title !=''"><a href="">Terminology</a></li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
+									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName && history.childCount >=2">
+										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !=''">
+											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a></li>
 									</ul>
 								</li>
 							</ul>

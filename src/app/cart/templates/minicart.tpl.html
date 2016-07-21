@@ -1,83 +1,62 @@
-<div id="minicart" class="dropdown" uib-dropdown is-open="minicart.showLineItems" >
-    <!-- <div class="btn-group" uib-dropdown-toggle>
-        <div class="btn btn-default">
-            <span>
-                <i class="fa fa-shopping-cart"></i>
-                <i class="badge">{{minicart.LineItems.Meta.TotalCount}}</i>
-            </span>
-        </div>
-        <div class="btn btn-default">{{order.Subtotal | currency}} <span class="caret"></span></div>
-    </div> -->
-    <div class=" info-bar-cart" id="info-bar-cart" uib-dropdown-toggle>
-        <a class="info-cart-text">MY CART</a>
-        <a class="info-cart-icon">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
-                <style type="text/css">
-                    .st0 {
-                        fill: none;
-                        stroke: #FFFFFF;
-                        stroke-width: 2;
-                        stroke-miterlimit: 10;
-                    }
-                </style>
-                <g>
-                    <circle class="st1" cx="19.3" cy="46.7" r="5.4" />
-                    <circle class="st1" cx="47.1" cy="46.7" r="5.4" />
-                    <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8     " />
-                    <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
-                </g>
-            </svg>
-            <span class="cart-count">{{minicart.LineItems.Meta.TotalCount}}</span>
-        </a>
-    </div>
-    <div id="minicart_line_item_list" uib-dropdown-menu role="menu" class="panel panel-primary">
-        <!-- <div class="panel-heading">
-            <div class="panel-title">
-            <ng-pluralize count="minicart.LineItems.Meta.TotalCount"
-                          when="{
-                     'one': '1 item in your cart',
-                     'other': '{} items in your cart'}">
-            </ng-pluralize>
-            </div>
-        </div>
-        <div class="minicart-body">
-            <table class="table table-hover table-striped">
-                <tr ng-repeat="lineItem in minicart.LineItems.Items">
-                    <td>{{lineItem.Quantity}}</td>
-                    <td>
-                        <a href="#">{{lineItem.Product.Name}}</a><br>
-                        <small class="text-muted">{{lineItem.ProductID}}</small>
-                        </br>
-                    </td>
-                    <td style="padding-right: 25px;">
-                        <b class="text-success">{{lineItem.LineTotal | currency}}</b>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div ng-class="{'col-xs-6': minicart.checkForCheckout(), 'col-xs-12': !minicart.checkForCheckout()}">
-                    <button class="btn btn-info btn-block" ng-click="minicart.goToCart()">Cart</button>
-                </div>
-                <div class="col-xs-6"  ng-if="minicart.checkForCheckout()">
-                    <button class="btn btn-success btn-block" ui-sref="checkout">Checkout</button>
-                </div>
-            </div>
-            <div class="row express-checkout" ng-if="minicart.checkForExpress()">
-                <div class="col-xs-12">
-                    <button class="btn btn-success btn-block" ui-sref="expressCheckout">Express Checkout</button>
-                </div>
-            </div>
-        </div> -->
-        <div class="minicart-body" style="max-height: 300px;overflow-y: auto;">
-            <ul class="dropdown-menu-login dropdown-menu-cart">
-                <!-- <li ng-repeat="lineItem in minicart.LineItems.Items"> -->
-                <li>
-                    <div class="shopping-cart-blocks">
-                        <div class="row">
-                            <div class="col-md-5 cart-product">
-                                <div><img src="assets/images/batch3web/minicart/flowers1.png" /></div>
+<div class="container-fluid shopingCart-container ">
+    
+    <div id="minicart" class="dropdown-cart col-md-12" uib-dropdown is-open="minicart.showLineItems" style="height:300px;">
+        <div class="btn-group col-md-12" uib-dropdown-toggle ng-disabled>
+           <!--  <a>My Cart</a> -->
+            <!-- <label class="btn btn-primary">
+                <span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <i class="badge">{{minicart.LineItems.Meta.TotalCount}}</i>
+                </span>
+            </label>
+            <label class="btn btn-default">{{order.Subtotal | currency}} <i class="fa fa-caret-down"></i></label>-->
+
+                     <div class="info-cart-empty-div"></div>
+                    <a class="info-cart-text">MY CART</a>
+                    <a class="info-cart-icon">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+                            <style type="text/css">
+                                .st0 {
+                                    fill: none;
+                                    stroke: #FFFFFF;
+                                    stroke-width: 2;
+                                    stroke-miterlimit: 10;
+                                }
+                            </style>
+                            <g>
+                                <circle class="st1" cx="19.3" cy="46.7" r="5.4" />
+                                <circle class="st1" cx="47.1" cy="46.7" r="5.4" />
+                                <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8     " />
+                                <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
+                            </g>
+                        </svg>
+                        <span class="cart-count">2</span>
+                    </a>
+                
+            <div id="minicart_line_item_list" uib-dropdown-menu role="menu" class="panel panel-default">
+                <div class="minicart-body" style="max-height: 300px;overflow-y: auto;">
+                    <!-- <table class="table table-hover">
+                    <colgroup>
+
+                    </colgroup>
+                    <tr ng-repeat="lineItem in minicart.LineItems.Items">
+                        <td>{{lineItem.Quantity}}</td>
+                        <td>
+                            <a href="#">{{lineItem.Product.Name}}</a><br>
+                            <small class="text-muted">{{lineItem.ProductID}}</small></br>
+                        </td>
+                        <td>
+                            <b class="text-success">{{lineItem.LineTotal | currency}}</b>
+                        </td>
+                    </tr>
+                </table> -->
+                    <ul class="dropdown-menu-login dropdown-menu-cart">
+                        <!-- <li ng-repeat="lineItem in minicart.LineItems.Items"> -->
+                        <li>
+                            <div class="shopping-cart-blocks">
+                                <div class="row">
+                                    <div class="col-md-5 cart-product">
+                                        <div><img src="assets/images/batch3web/minicart/flowers1.png" /></div>
 
                             </div>
                             <div class="col-md-7 cart-product-desc">
@@ -137,4 +116,6 @@
             </div>
         </div>
     </div>
+</div>
+  </div>
 </div>
