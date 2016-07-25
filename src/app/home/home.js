@@ -25,82 +25,63 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 	$rootScope.showBreadCrumb = false;
 	function EventsList(){
 		var ajaxarr = [];
-		  CategoryService.listChild("c10").then(function(catList) {
-
-         angular.forEach(catList, function(cat) {
-       //  var promise = OrderCloud.Me.ListProducts(cat.ID);
-          var promise =  OrderCloud.Me.ListProducts(null, 1, 100, null, null, null, cat.ID).then(function(res){
-          	return res.Items
-          })
-         	ajaxarr.push(promise);
-         });
-          
-           $q.all(ajaxarr).then(function(items){
-		   
-		   	console.log("events===",Underscore.flatten(items));
-		   	vm.eventsList = Underscore.flatten(items);
-		   	setTimeout(function(){
-				var owl = angular.element("#owl-carousel-events");	
-				owl.owlCarousel({
-					items:2,
-					center:false,
-					loop: false,
-					nav:true,
-					//navText: ['<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>','<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>'],
-					navText: ['<span class="events-arrow-prev" aria-hidden="true"></span>','<span class="events-arrow-next" aria-hidden="true"></span>'],
-					autoWidth:true,
-					//responsive: true,
-					responsive : {
-						0 : {
-							/*stagePadding:30,*/
-							margin:30
+		CategoryService.listChild("c10").then(function(catList) {
+	        angular.forEach(catList, function(cat) {
+	       	//  var promise = OrderCloud.Me.ListProducts(cat.ID);
+	        	var promise =  OrderCloud.Me.ListProducts(null, 1, 100, null, null, null, cat.ID).then(function(res){
+	          		return res.Items
+	          	})
+	         	ajaxarr.push(promise);
+	        });
+           	$q.all(ajaxarr).then(function(items){
+			   	console.log("events===",Underscore.flatten(items));
+			   	vm.eventsList = Underscore.flatten(items);
+			   	setTimeout(function(){
+					var owl = angular.element("#owl-carousel-events");	
+					owl.owlCarousel({
+						items:2,
+						center:false,
+						loop: false,
+						nav:true,
+						navText: ['<span class="events-arrow-prev" aria-hidden="true"></span>','<span class="events-arrow-next" aria-hidden="true"></span>'],
+						autoWidth:true,
+						responsive : {
+							0 : {
+								margin:30
+							},
+							320 : {
+								margin:5
+							},
+							560 : {
+								margin:10
+							},
+							768 : {
+								margin:20
+							},
+							1024 : {
+								margin:20
+							}
 						},
-						320 : {
-							/*stagePadding:50,*/
-							margin:5
-						},
-						560 : {
-							/*stagePadding:50,*/
-							margin:10
-						},
-						768 : {
-							/*stagePadding:30,*/
-							margin:20
-						},
-						1024 : {
-							/*stagePadding:30,*/
-							margin:20
+						onInitialized : function(event){
+							console.log("owl==",owl.find('.owl-item.active').last());
+							owl.find('.owl-item.active').last().addClass('fadeGrid');
 						}
-					},
-					onInitialized : function(event){
-						console.log("owl==",owl.find('.owl-item.active').last());
-						owl.find('.owl-item.active').last().addClass('fadeGrid');
-					}
-  /*   onChanged: function(event){
-      		
-      		owl.find('.owl-item').removeClass('fadeGrid');
-      		console.log("owl==",owl.find('.active'));
-        owl.find('.owl-item.active').last().addClass('fadeGrid');
-     }*/
-   
-				});
-				owl.on('changed.owl.carousel', function(event) {
-					setTimeout(function(){
-						console.log("owl==",owl.find('.owl-item.active'));
-						owl.find('.owl-item').removeClass('fadeGrid');
-						
-						owl.find('.owl-item.active').last().addClass('fadeGrid');
-					},200);
-				})
-			},1000)
-		   });
-     });
-
-		  
+	  				});
+					owl.on('changed.owl.carousel', function(event) {
+						setTimeout(function(){
+							console.log("owl==",owl.find('.owl-item.active'));
+							owl.find('.owl-item').removeClass('fadeGrid');
+							
+							owl.find('.owl-item.active').last().addClass('fadeGrid');
+						},200);
+					})
+				},1000)
+			});
+   		});  
 	}
-		function EventsList1(){
+	function EventsList1(){
 
-			 var ajaxarr = [];
+		var ajaxarr = [];
 
         CategoryService.listChild("c10").then(function(catList) {
 
@@ -108,7 +89,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
          var promise = PlpService.GetProductAssign(cat.ID);
          	ajaxarr.push(promise);
          });
-       $q.all(ajaxarr).then(function(items){
+       	$q.all(ajaxarr).then(function(items){
          	
          	var productArr = Underscore.flatten(items); 	
 
@@ -164,12 +145,12 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 						console.log("owl==",owl.find('.owl-item.active').last());
 						owl.find('.owl-item.active').last().addClass('fadeGrid');
 					}
-  /*   onChanged: function(event){
-      		
-      		owl.find('.owl-item').removeClass('fadeGrid');
-      		console.log("owl==",owl.find('.active'));
-        owl.find('.owl-item.active').last().addClass('fadeGrid');
-     }*/
+			  /*   onChanged: function(event){
+			      		
+			      		owl.find('.owl-item').removeClass('fadeGrid');
+			      		console.log("owl==",owl.find('.active'));
+			        owl.find('.owl-item.active').last().addClass('fadeGrid');
+			     }*/
    
 				});
 				owl.on('changed.owl.carousel', function(event) {
@@ -186,7 +167,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 		});
         })
 
-		}
+	}
 
 	EventsList();
 	//var vm = this;	

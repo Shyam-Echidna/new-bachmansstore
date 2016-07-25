@@ -2,7 +2,7 @@
     <article class="container-fluid my-account-order-history">
         <p class="my-account-content-title">Order History</p>
         <div class="row order-history-list-cont">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item" ng-repeat="order in profile.showOrders" ng-class="{detailed: account.selectedIndex == $index}">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 order-history-list-item" ng-repeat="order in orders.showOrders" ng-class="{detailed: orders.selectedIndex == $index}">
                 
                 <div class="col-xs-12 order-highlights">
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-num">
@@ -13,10 +13,6 @@
                         <p class="title">Order Placed on</p>
                         <p class="value">{{order.DateCreated | date:'longDate'}}</p>
                     </div>
-                    <!-- <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-recipient">
-                        <p class="title">Recipient</p>
-                        <p class="value">San Paul</p>
-                    </div> -->
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 ord-amt">
                         <p class="title">Total Amount</p>
                         <p class="value">&#x24;{{order.Subtotal}}</p>
@@ -30,7 +26,7 @@
                         <button type="button" class="btn green-btn mobile-track-btn" ui-sref=".create">Track Order</button>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-1 col-lg-1 ord-expand">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" ng-click="account.showOrderDetail($index)">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" ng-click="orders.showOrderDetail($index)">
                             <g>
                                 <rect x="5.5" width="1" height="12"></rect>
                                 <rect y="5.5" width="12" height="1"></rect>
@@ -38,7 +34,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="col-xs-12 order-history-details" ng-show="account.selectedIndex == $index">
+                <div class="col-xs-12 order-history-details" ng-show="orders.selectedIndex == $index">
                     <p class="heading">Order Summary <span>({{order.LineItems.length}}items)</span></p>
                     <div class="product-details" >
                         <div class="product-header">

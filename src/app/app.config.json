@@ -6,10 +6,11 @@
     "alfrescourl": "http://103.227.151.31:8080/alfresco/service/slingshot/doclib/doclist/documents/site/bachmansstorefront/documentLibrary/",
     "alfcontenturl": "http://103.227.151.31:8080/alfresco/service/",
     "alflogin": "http://103.227.151.31:8080/alfresco/service/api/login",
+    "alfStaticlogin": "http://52.206.111.191:8080/alfresco/service/api/login",
     "alfrescofoldersurl": "http://103.227.151.31:8080/alfresco/service/slingshot/doclib/doclist/folders/site/bachmansstorefront/documentLibrary/",
     "localdeliverytimeurl": "http://103.227.151.31:8080/Bachman/localdeliverytime",
-    "alfrescoStaticurl": "http://103.227.151.37:8080/alfresco/service/slingshot/doclib/doclist/folders/site/testsite/documentLibrary/",
-    "alfStaticContenturl": "http://103.227.151.37:8080/alfresco/service/",
-    "alfcontentStaticSearchurl": "http://103.227.151.37:8080/alfresco/service/api/search/keyword.html?q=",
-    "alfcontentStaticSearchurlAtom": "http://103.227.151.37:8080/alfresco/service/api/search/keyword.atom?q="
+    "alfrescoStaticurl": "http://52.206.111.191:8080/alfresco/service/slingshot/doclib/doclist/folders/site/bachmansstorefront/documentLibrary/",
+    "alfStaticContenturl": "http://52.206.111.191:8080/alfresco/service/",
+    "alfcontentStaticSearchurl": "http://52.206.111.191:8080/alfresco/service/api/search/keyword.html?q=",
+    "alfcontentStaticSearchurlAtom": "http://52.206.111.191:8080/alfresco/service/api/search/keyword.atom?q="
 }

@@ -95,6 +95,7 @@ body {
                     &:hover {
                         color: @font-purple-dark;
                     }
+                    
                 }
                 &.active {
                     color: @font-purple-dark;
@@ -133,7 +134,7 @@ body {
             }
         }
         .text-block{
-            max-height: 375px;
+            max-height: 430px;
             /*scrollbar-base-color: #C0C0C0;
                   scrollbar-base-color: #C0C0C0;
                   scrollbar-3dlight-color: #C0C0C0;
@@ -158,7 +159,7 @@ body {
                 max-height:inherit;
                 //overflow-y: scroll;
                 //overflow-x: hidden;
-                height:375px; 
+                height:430px; 
                 -webkit-overflow-scrolling: touch; 
                 .scrollable-bar-y{
                     opacity:1;
@@ -1113,7 +1114,155 @@ input[type=number]::-webkit-outer-spin-button {
 .has-error{
     border-color: #a94442 !important;
 }
-
-
-
   
+//email subscription popup styles starts
+.signUpConfirmationBg{
+    .modal.in .modal-dialog{
+        width: 68%;
+        margin: 0 16%;
+    }
+    .email-subscription {
+        overflow-y: auto;
+        padding: 40px;
+        position: relative;
+        .top-content {
+            h3 {
+                font: 1.5em @proxima-bold;
+                color: @font-purple-dark;
+                text-transform: capitalize;
+            }
+            p {
+                font: 0.9em @proxima-regular;
+                color: #666;
+                margin: 12px 0px;
+                a {
+                    color: @font-purple-dark;
+                }
+            }
+            .close-icon {
+                position: absolute;
+                padding: 0px;
+                margin: 0px;
+                top: 15px;
+                right: 15px;
+                font-size: 20px;
+                color: #666;
+                z-index: 1;
+                a {
+                    svg {
+                        height: 18px;
+                        width: 18px;
+                        fill: @svg-fill;
+                        rect {
+                            stroke-width: 2;
+                        }
+                        &:hover {
+                            fill: #888;
+                        }
+                    }
+                }
+            }
+            border-bottom: 1px solid #ccc;
+        }
+        .body-content {
+            .text {
+                margin: 12px 0px 20px 0px;
+                p {
+                    font: 0.75em @proxima-light;
+                    color: #464646;
+                    line-height: 15px;
+                }
+            }
+            .selections {
+                width: 100%;
+                ul {
+                    width: 100%;
+                    li {
+                        display: inline-block;
+                        width: 48%;
+                        margin-bottom: 12px;
+                        .cuctom-checkbox;
+                        label {
+                            font: 1em @proxima-regular;
+                            color: #000;
+                            margin-left: 7px;
+                            margin-bottom: 0px;
+                            position: relative;
+                            top: 2px;
+                        }
+                        .Checkbox {
+                            .Checkbox-visible {
+                                height: 18px;
+                                width: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+            .next {
+                .purple-button;
+                height: 2.813em;
+                width: 12.500em;
+                line-height: 2.813em;
+                padding: 0px;
+                font: 1em @proxima-bold;
+                text-transform: uppercase;
+                margin-top: 20px;
+            }
+        }
+    }
+}
+// media queries -- all mobiles portrait
+@media only screen and (min-width: 320px) and (max-width: 810px) {
+    .email-subscription {
+        padding: 30px 10px 20px 10px;
+        max-height: 100% !important;
+        .top-content {
+            h3 {
+                font-size: 1.2em;
+            }
+            p {
+                font-size: 0.8em;
+                margin: 10px 0px;
+                a {
+                    color: @font-purple-dark;
+                }
+            }
+        }
+        .body-content {
+            .text {
+                p {
+                    font-size: 0.77em;
+                }
+            }
+            .selections {
+                ul {
+                    li {
+                        width: 100%;
+                        display: block;
+                        margin-bottom: 10px;
+                        label {
+                            font-size: 0.875em;
+                            top: 1px;
+                        }
+                        .Checkbox {
+                            .Checkbox-visible {
+                                height: 16px;
+                                width: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+            .next {
+                height: 2.5em;
+                width: 90%;
+                line-height: 2.5em;
+                margin-left: 5%;
+                font-size: 0.875em;
+                margin-top: 30px;
+            }
+        }
+    }
+} 
+// email subscription popup styles ends

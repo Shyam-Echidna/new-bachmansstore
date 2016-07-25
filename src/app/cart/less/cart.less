@@ -332,13 +332,13 @@
                                                                     .popover{
                                                                         max-width: 400px;
                                                                         z-index: 1;
-                                                                        background: #f4f4f4;
+                                                                        background: #fff;
                                                                             .arrow:after{
-                                                                                border-bottom-color: #f4f4f4;
+                                                                                border-bottom-color: #fff;
                                                                             }
                                                                     }
                                                                     .showproductrequestdiv{
-                                                                        background: #f4f4f4;
+                                                                        background: #fff;
                                                                         width: 350px;
                                                                         padding: 10px;
                                                                         .head-text{
@@ -362,7 +362,7 @@
                                                                             }
                                                                         }
                                                                         textarea{
-                                                                                background: #cccccc;
+                                                                                background: #f4f4f4;
                                                                                 font: 1em @proxima-regular;
                                                                                 color: #333333;
                                                                                 border-radius: 2px;
@@ -372,6 +372,35 @@
                                                                                 -webkit-appearance: none;
                                                                                 outline: 0;
                                                                                 width: 100%;
+                                                                        }
+                                                                        .save-btn{
+                                                                            text-align: left;
+                                                                            margin-top: 10px;
+                                                                            div{
+                                                                                padding: 0px;
+                                                                            }
+                                                                            button{
+                                                                                .purple-button;
+                                                                                background-color: @base-bg-purple-light;
+                                                                                color: #fff;
+                                                                                height: 2.5em;
+                                                                                width: 6em;
+                                                                                line-height: 2.5em;
+                                                                                text-transform: uppercase;
+                                                                                margin: 0px;
+                                                                                text-align: center;
+                                                                                font: 1em @proxima-regular;
+                                                                                    &.cancel-btn{
+                                                                                        background-color: #666;
+                                                                                        border-color:#666;
+                                                                                            &:hover{
+                                                                                                background-color: transparent;
+                                                                                                color: #666;
+                                                                                            }
+                                                                                            margin-left: 10px; 
+                                                                                    }
+                                                                            }
+                                                                            
                                                                         }
                                                                             
                                                                     }
@@ -1970,9 +1999,9 @@
 
 .changereceipentpopup{
     .modal-dialog {
-        width: 70%;
+        width: 80%;
         position: absolute;
-        left: 15%;
+        left: 10%;
         .modal-content {
             border-radius: 0px;
             box-shadow: none;
@@ -1985,9 +2014,10 @@
     padding: 30px;
     position: relative;
     .head-title{
-        margin-bottom: 30px;
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 15px;
         .title{
-            font: 1.5em @proxima-bold;
+            font: 1.7em @proxima-bold;
             color: @font-purple-dark;
             text-transform: capitalize;
         }
@@ -2013,7 +2043,99 @@
             }
         }
     }
-    
+    .address-book{
+        margin: 15px 0px;
+        .view-address-link,.show-all {
+            font: 0.95em @proxima-regular;
+            color: @font-purple-dark;
+            font-weight: bold;
+            margin-top: 5px;
+            .svg-outer {
+                margin-right: 5px;
+                svg {
+                    height: 15px;
+                    width: 15px;
+                }
+            }
+        }
+        .show-all{
+            float: right;
+            text-transform: uppercase;
+            font-size: 0.875em;
+        }
+        .addressbookdiv {
+            margin-top: 20px;
+            .parentP {
+                width: 25%;
+                margin-bottom: 15px;
+                input[type=radio] {
+                    display: none;
+                }
+                input[type=radio] {
+                    opacity: 0;
+                    &:not(old) {
+                        &+ label .radioOutline,
+                        &:checked + label .radioOutline {
+                            border: 1px solid @base-bg-purple-dark;
+                            border-radius: 50%;
+                            background: transparent;
+                            display: inline-block;
+                            width: 18px;
+                            height: 18px;
+                            text-align: center;
+                            vertical-align: top;
+                            display: inline-block;
+                            cursor: pointer;
+                        }
+                        &:checked + label .radioOutline .radioInside {
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            background-color: @base-bg-purple-dark;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            margin: auto;
+                        }
+                        &+ label .radioOutline .radioInside {
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            background-color: transparent;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            margin: auto;
+                        }
+                    }
+                }
+                label {
+                    p {
+                        display: inline-block;
+                        vertical-align: top;
+                        max-width: 90%;
+                        padding-left: 5px;
+                        cursor: pointer;
+                        span{
+                            display: block;
+                            font:0.875em @proxima-regular;
+                            color: #000;
+                            line-height: 18px;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
     input[type=text],
     select,
     input[type=number],
@@ -2050,11 +2172,14 @@
         }
     }
     .name-block{
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
         div{
             padding: 0px;
             .row{
                 div{
-                    padding: 0px 10px;
+                    padding: 0px 15px;
                     &:first-child{
                         padding-left: 0px;
                     }
@@ -2071,6 +2196,9 @@
                     color: #464646;
                 }
             }
+            #qty{
+                width: 70%;
+            }
         }
     }
     .address-block{
@@ -2085,17 +2213,131 @@
                 margin-bottom: 7px;
                 color: #464646;
                 }
+                .uib-datepicker-popup{
+                    border: none;
+                    border-radius: 0;
+                    width: 100%;
+                    -webkit-appearance:none;
+                    outline: 0;
+                        li{
+                            -webkit-appearance:none;
+                            outline: 0;
+                            table{
+                                -webkit-appearance:none;
+                                outline: 0;
+                                width: 100%;
+                               th, tr td{
+                                    button{
+                                        border-radius: 0px;
+                                        border: none;
+                                        span{
+                                            color: #000;
+                                            &.text-muted{
+                                                color: #ccc;
+                                            }
+                                        }
+                                        &:hover,&.active,&.active:hover,&:active,&.btn-info{
+                                            background: @base-bg-purple-light;
+                                            border-color: @base-bg-purple-dark;
+                                            box-shadow: none;
+                                            -webkit-appearance:none;
+                                            span{
+                                                color: #fff;
+                                            }
+                                            i{
+                                                color:#fff;
+                                            }
+                                        }
+                                        &:hover{
+                                            background: transparent;
+                                             span ,i{
+                                                color: @base-bg-purple-dark;
+                                             }
+                                        }
+                                        
+                                    }
+                                    small,strong{
+                                        color: @base-bg-purple-dark;
+                                    }
+                                }
+                                th{
+                                    button{
+                                        &:active,&:focus{
+                                            background: transparent;
+                                            box-shadow: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        &:active,&:focus,&:hover,&:active:hover{
+                            border: none;
+                        }
+                }
+            .date-svg{
+                        position: absolute;
+                        top: 50%;
+                        right: 15%;
+                        svg{
+                            height: 23px;
+                            width: 23px;
+                            fill:#464646;
+                            &:hover{
+                                fill:@base-bg-purple-dark;
+                            }
+                        }
+                    }
         }
         .phone-box{
             .row{
                 div{
                     padding: 0px 5px;
+                    width: 28%;
                 }
             }
         }
+        .row{
+                    div{
+                        padding: 0px 15px;
+                        &:first-child{
+                        padding-left: 0px;
+                    }
+                    &:last-child{
+                        .row{
+                            padding: 0px;
+                        }
+                    }
+                    }
+                }
     }
+    .save-address {
+        div{
+            padding: 0px;
+        }
+                .cuctom-checkbox;
+                .Checkbox {
+                    display: inline-block;
+                     .Checkbox-visible {
+                        height: 18px;
+                        width: 18px;
+                    }
+                }
+                label {
+                    margin-left: 5px;
+                    margin-bottom: 0px;
+                    font: 1em @proxima-regular;
+                    color: #666;
+                    position: relative;
+                    top: 2px;
+
+                }
+            }
     .save-btn{
-        text-align: right;
+        text-align: left;
+        margin-top: 40px;
+        div{
+            padding: 0px;
+        }
         button{
             .purple-button;
             background-color: @base-bg-purple-light;
@@ -2116,7 +2358,7 @@
                             background-color: transparent;
                             color: #666;
                         }
-                        margin-right: 20px; 
+                        margin-left: 10px; 
                 }
         }
         

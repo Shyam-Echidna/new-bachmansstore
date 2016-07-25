@@ -196,6 +196,9 @@
                                     border: 1px solid transparent;
                                     display: inline-block;
                                     margin-right: 12px;
+                                    input{
+                                        display:none;
+                                    }
                                     a {
                                         position: absolute;
                                         border-radius: 50%;
@@ -209,6 +212,12 @@
                                     &:hover {
                                         border: 1px solid #ccc;
                                     }
+                                    &.disable-color{
+                                        a{
+                                            opacity: 0.1;
+                                        }
+                                    }
+
                                 }
                             }
                         }
@@ -1131,7 +1140,8 @@
                                                 .pdp-name {
                                                     padding-right: 10px;
                                                     text-transform: lowercase;
-                                                    &:first-letter {
+                                                    display: inline-block;
+                                                    &::first-letter {
                                                         text-transform: uppercase !important;
                                                     }
                                                 }
@@ -2272,10 +2282,12 @@ span.ng-isolate-scope:active {
     }
     .panel-body-content {
         padding: 0px 30px;
-        .view-address-link {
+        padding-top: 10px;
+        .view-address-link,.show-all {
             font: 1em @proxima-regular;
             color: @font-purple-dark;
             font-weight: bold;
+            margin-top: 5px;
             .svg-outer {
                 margin-right: 5px;
                 svg {
@@ -2284,6 +2296,84 @@ span.ng-isolate-scope:active {
                 }
             }
         }
+        .show-all{
+            float: right;
+            text-transform: uppercase;
+            font-size: 0.875em;
+        }
+        .addressbookdiv {
+            margin-top: 20px;
+            .parentP {
+                width: 25%;
+                margin-bottom: 15px;
+                input[type=radio] {
+                    display: none;
+                }
+                input[type=radio] {
+                    opacity: 0;
+                    &:not(old) {
+                        &+ label .radioOutline,
+                        &:checked + label .radioOutline {
+                            border: 1px solid @base-bg-purple-dark;
+                            border-radius: 50%;
+                            background: transparent;
+                            display: inline-block;
+                            width: 18px;
+                            height: 18px;
+                            text-align: center;
+                            vertical-align: top;
+                            display: inline-block;
+                            cursor: pointer;
+                        }
+                        &:checked + label .radioOutline .radioInside {
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            background-color: @base-bg-purple-dark;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            margin: auto;
+                        }
+                        &+ label .radioOutline .radioInside {
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            background-color: transparent;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            margin: auto;
+                        }
+                    }
+                }
+                label {
+                    p {
+                        display: inline-block;
+                        vertical-align: top;
+                        max-width: 90%;
+                        padding-left: 5px;
+                        cursor: pointer;
+                        span{
+                            display: block;
+                            font:0.875em @proxima-regular;
+                            color: #000;
+                            line-height: 18px;
+                        }
+                    }
+                }
+
+            }
+        }
+
         .row {
             div {
                 padding: 0px;

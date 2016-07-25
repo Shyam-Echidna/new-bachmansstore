@@ -53,7 +53,7 @@ function BaseConfig( $stateProvider ) {
                   OrderCloud.Auth.SetToken(data.access_token);
                  return data.access_token
               })
-               return true;
+              // return true;
                 }
                     },
                     CurrentUser: function($q, $state, OrderCloud, $cookieStore) {
@@ -86,6 +86,8 @@ function BaseConfig( $stateProvider ) {
                     var ticket = data.data.ticket;
                      localStorage.setItem("alfTemp_ticket",ticket);
                         return ticket;
+                }, function(){
+                  return "";
                 })
                 },
             categoryImages: function(CategoryService, ticket){
@@ -718,6 +720,7 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
     $('.main-mobile-menu-container').css({'overflow-y':'hidden'});
     $('.mobile-dropdown-cont2').css('overflow-y','hidden');
     $('.mobile-dropdown-cont3').css('overflow-y','hidden');
+    $('.mobile-dropdown-cont3').scrollTop(0);
     $('.mobile-dropdown-cont4').css('overflow-y','auto');
         vm.SubIndex = index;
         if(obj.childCount>0){
@@ -1281,7 +1284,7 @@ function BaseDownController(LoginFact,  BaseService, $sce, alfcontenturl,$http) 
 
 }
 
-function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfrescoStaticurl) {
+function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofoldersurl,alfrescoStaticurl) {
     var service = {
             Get: _get,
             GetTemp: _getTempLogin,
@@ -1352,6 +1355,10 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
 
                 username: "admin",
                 password: "echidna"
+            };var dataw = {
+
+                username: "admin",
+                password: "Bachmans"
             };
             var defferred = $q.defer();
 
@@ -1359,8 +1366,8 @@ function LoginFact($http, $q, alfrescourl, alflogin, alfrescofoldersurl,alfresco
 
                 method: 'POST',
                 dataType: "json",
-                url: "http://103.227.151.37:8080/alfresco/service/api/login",
-                data: JSON.stringify(data),
+                url: alfStaticlogin,
+                data: JSON.stringify(dataw),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -1739,8 +1746,8 @@ function CategoriesAsPerSeasonFilter($filter) {
       var endDate = item[i].xp.EndDate;
       var startDate = $filter('date')(new Date(startDate), 'MM/dd');
       var endDate = $filter('date')(new Date(endDate), 'MM/dd');
-      var cstTime = "2016-07-21T21:32:38.000Z";
       var cstTime = $filter('date')(new Date(appCstTime), 'MM/dd');
+      //var cstTime = date+month;
       if( (startDate < cstTime) && (endDate > cstTime) ){      
         newArray.push(item[i]);
       }

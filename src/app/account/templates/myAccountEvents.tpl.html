@@ -2,7 +2,7 @@
 	<p class="my-account-content-title">My Events</p>
     <div class="row my-acc-events-cont" >
     	<p class="title">Upcoming Events <span>(1 Event)</span></p>
-    	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in profile.eventsDetails">
+    	<div class="col-xs-7 upcoming-event-cont" ng-repeat="event in Events.eventsDetails">
             <div class="col-xs-12 event-line-item" ng-repeat="line in event.LineItems">
         		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
         			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />
@@ -48,7 +48,7 @@
     	<p class="title bordertop">Past Events
     		<a href="javascript:void(0)" class="view-all-link">View All</a>
     	</p>
-    	<div class="col-xs-6 past-even-cont" ng-repeat="event in profile.eventsDetails">
+    	<div class="col-xs-6 past-even-cont" ng-repeat="event in Events.eventsDetails">
             <div class="col-xs-12 event-line-item" ng-repeat="line in event.LineItems">
         		<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 prod-img p0">
         			<img src="assets/images/batch3web/Shooping cart/shopping-product1.jpg" class="hidden-xs hidden-sm" />

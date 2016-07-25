@@ -169,7 +169,7 @@
 						<p>{{event.Description}}</p>
 						<p class="more-details">More details</p>
 						<div class="row events-date">
-							<div class="event-date">27<span>Feb</span><span class="event-day">saturday</span></div>
+							<div class="event-date">{{event.xp.EventDate | date : "dd" }}<span>{{event.xp.EventDate | date : "MMM" }}</span><span class="event-day">{{event.xp.EventDate | date : "EEEE" }}</span></div>
 							<div class="">
 								<button class="event-register">Register Now</button>
 								<div class="event-time">
@@ -209,6 +209,7 @@
 						</div> -->
 					</div>
 				</div>
+				<!-- last child starts-->
 				<div class="events-slider-block events-slider-block-w" >
 					<div class="p0 m0 events-promo"></div>
 					<div class="events-desc">
@@ -223,6 +224,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- last child ends-->
 				<!-- <div class="events-slider-block events-slider-block-wi">
 					<div class="p0 m0 events-promo">
 						<img class="desktop-img" src="assets/images/Home_Page/Workshops-&-Events-Thumbnail.png" />

@@ -92,7 +92,7 @@ body.modal-open {
                             color:#fff ;
                             background: @font-purple-dark;
                             position: absolute;
-                            margin: auto;
+                            margin-left:0;
                             text-shadow: 1px 1px 20px rgba(0,0,0,.2);
                             bottom: 1.655em;
                             left: 1.655em;
@@ -1322,6 +1322,12 @@ body.modal-open {
 /* media queries -- all mobiles portrait */
 
 @media only screen and (min-width: 320px) and (max-width: 810px) {
+    .added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item{
+        height:auto !important;
+        .itemInner img{
+            height:auto !important;
+        }
+    } 
     .breadcrumb-box {
         padding: 0px;
         margin: 0px;
@@ -1377,7 +1383,7 @@ body.modal-open {
                 padding: 20px 5px;
                 #owl-carousel-plp-hybrid {
                     .owl-carousel-item {
-                        padding:0 20px;
+                        padding:0 10px;
                         .category-prod{
                             button {
                                 font-size: 0.8em;
@@ -1448,7 +1454,7 @@ body.modal-open {
                             .p0;
                             color: transparent;
                             &.owl-prev {
-                                left: 0px;
+                                left: -2px;
                                 background-image: url('../../assets/images/arrow-big-next-white.svg');
                                 background-size: initial;
                                 width: 15px;
@@ -1463,7 +1469,7 @@ body.modal-open {
                                 }
                             }
                             &.owl-next {
-                                right: 0px;
+                                right: -2px;
                                 background-image: url('../../assets/images/arrow-big-next-white.svg');
                                 z-index: 1;
                                 background-size: initial;
@@ -1515,6 +1521,9 @@ body.modal-open {
                     &:active {
                         background: #f1f1f1;
                         color: #424424;
+                    }
+                    span{
+                        //font: 0.875em @proxima-bold;
                     }
                 }
                 ul {
@@ -1618,6 +1627,9 @@ body.modal-open {
                  font: 0.875em @proxima-bold;
                  padding: 0px 0px 0px 10px;
                  line-height: 35px;
+                 span{
+                    //font: 0.875em @proxima-bold;
+                 }
             }
         }
     }
@@ -1707,18 +1719,18 @@ body.modal-open {
                                         margin-bottom: 10px;
                                     }
                                     .green-btn {
-                                        padding: 7px 0px;
+                                        //padding: 7px 0px;
                                         font: 0.750em @proxima-bold;
                                         text-align: center;
                                         height: 35px;
-                                        line-height: 0;
+                                        line-height: 35px;
                                     }
                                     .grey-btn {
                                         font: 0.750em @proxima-regular;
-                                        padding: 7px 0px;
+                                        //padding: 7px 0px;
                                         text-align: center;
                                         height: 38px;
-                                        line-height: 0;
+                                        line-height: 38px;
                                     }
                                 }
                             }
@@ -2791,13 +2803,20 @@ body.modal-open {
                             padding:0 20px;
                             position: relative;
                             .owl-carousel-item{
-                                max-height: 200px;
+                                height: 12em;
                                 column-count: 1;
                                 -webkit-column-count: 1;
                                 -moz-column-count: 1;
+                                -webkit-column-gap: 0px;
+                                -moz-column-gap: 0px;
+                                column-gap: 0px;
                                 overflow-x: hidden; 
                                 .itemInner{
-
+                                    margin:0 0 0.313em 0;
+                                    height:5.687em;
+                                    img{
+                                        height: 5.687em;
+                                    }
                                 }
                             }
                             .cartRightArrow {
@@ -2891,7 +2910,7 @@ body.modal-open {
                             }
                         }
                         div{
-                            margin: 0px 0px 5px 0px;
+                            //margin: 0px 0px 5px 0px;
                             .row {
                                     padding: 0px;
                                                                    

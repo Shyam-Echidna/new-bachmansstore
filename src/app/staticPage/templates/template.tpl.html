@@ -180,11 +180,13 @@
 <!--                                        <tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.title})"> ui-sref="staticPageImage({pageName:article.fileName})" -->
 										<tr ng-repeat="article in template.articleList.items | filter:articleSearch:strict" ng-if="article.nodeType == 'ws:article'" ng-click="template.navigateToArticle(article)">
 											<td width="60%">
+													<p style='font: 1.6em "ProximaNova-Bold", Arial, sans-serif;
+    color: #8c58b5;'>{{article.title}}</p>
 													<p class="content">{{article.description}}</p>
 													<span class="sub-head">Written By <span class="author">{{article.author}}</span></span>
 											</td>
 											<td width="25%">&nbsp;</td>
-											<td width="25%"><span class="guide">Care Guide</span></td>
+											<td width="25%"><span class="guide">{{article.tags[0]}}</span></td>
 										 </tr>
 									</tbody>
 								</table>

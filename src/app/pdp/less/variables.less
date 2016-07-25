@@ -44,6 +44,16 @@
 								text-align:center;
 								padding: 10px;
 								margin-top:6px;
+								&.disable-box{
+									background:#f4f4f4;
+									cursor:initial;
+									input[type=radio]:not(old):checked + label .radioOutline .radioInside{
+										background:transparent !important;
+									}
+									&:hover{
+										cursor:pointer;
+									}
+								}
 								label {
 									display: inline-block;
 									cursor: pointer;
@@ -221,7 +231,7 @@
 											.category-name{
 												font:0.625em @proxima-regular;
 												color:#333;
-												font-size: 0.7em;
+												font-size: 0.85em;
 											}
 											p{
 											font:0.875em @proxima-regular;
@@ -252,6 +262,7 @@
 												li{
 													border-bottom:1px solid #e5e5e5;
 													padding:5px 0px;
+													cursor:pointer;
 													div{
 
 														div{

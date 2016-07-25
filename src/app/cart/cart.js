@@ -137,6 +137,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         PdpService.AddToWishList(productID);
     }
 
+    angular.forEach(vm.lineItems.Items, function (line) {
+        
+        line.xp.deliveryDate = new Date(line.xp.deliveryDate);
+    });
+
     var data = _.groupBy(vm.lineItems.Items, function(value){
         if(value.ShippingAddress != null){
             //totalCost += value.xp.TotalCost;

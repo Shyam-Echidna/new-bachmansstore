@@ -132,19 +132,32 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 	}
 
 	function _getBestSellerProducts(){
-     // var defferred = $q.defer(); 
-     
-		var filter ={
-        "xp.BestSeller":true
-    };
-     var defferred = $q.defer(); 
-     OrderCloud.Me.ListProducts(null, 1, 100, null, null, filter, null).then(function(res){
-     	console.log("462==",res);
-     	defferred.resolve(res.Items);
-     })
-		
+	     // var defferred = $q.defer();   
+		/*var filter ={
+	        "xp.BestSeller":true
+	    };
+	    var defferred = $q.defer(); 
+	    OrderCloud.Me.ListProducts(null, 1, 100, null, null, filter, null).then(function(res){
+	     	console.log("462==",res);
+	     	defferred.resolve(res.Items);
+	    })	*/
+
+	    var defferred = $q.defer(); 
+		$http({
+		method: 'GET',
+		dataType:"json",
+		url:"https://api.ordercloud.io/v1/me/products?xp.BestSeller=true",
+		headers: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer ' + OrderCloud.Auth.ReadToken()
+		}
+		}).success(function (data, status, headers, config) { 
+			defferred.resolve(data.Items);
+		}).error(function (data, status, headers, config) {
+		});
+
 		return defferred.promise;
-}
+	}
 		function _getQuickLinks(ticket) {
 		var defferred = $q.defer(); 
 		$http({
