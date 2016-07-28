@@ -210,7 +210,7 @@
 						<div class="clear"></div>
 					</div>
 				</div> -->
-				<div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.title!='BannerImage'">
+				<div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.fileName!=history.articleTitle">
 					<div class="">
 						<div class="grid_1">
 							<a href="single.html"><img ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">

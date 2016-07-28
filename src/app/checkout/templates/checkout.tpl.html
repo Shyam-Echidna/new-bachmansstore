@@ -33,11 +33,32 @@
                     </div>
                 </div>
                 <div class="row accordion-block">
-                    <uib-accordion close-others="true">
-                        <uib-accordion-group is-open="checkout.signin">
+                    <uib-accordion>
+                        <uib-accordion-group is-open="checkout.openACCItems.name=='signin'">
                             <uib-accordion-heading>
-                                <p ng-if="checkout.signin" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In</p>
-                                <p ng-if="!checkout.signin" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In |Continue as {{checkout.user}}</p>
+                                <p ng-if="checkout.openACCItems.name=='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In</p>
+                                <p ng-if="checkout.openACCItems.name!='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. 
+                                    <a class="info-search-icon" ng-if="checkout.openACCItems.signinFunc" style="
+    height: 20px;
+    width: 49px;
+    /* line-height: 27px; */
+">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
+
+								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" style="
+    stroke: red;
+"></line>
+								<circle class="st1" cx="23" cy="21.3" r="19.9" style="
+    stroke: red;
+"></circle>
+								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" style="
+    stroke: red;
+"></line>
+								<circle class="st1" cx="24" cy="21.3" r="19.9" style="
+    stroke: red;
+"></circle>
+							</svg>
+						</a>Sign In |Continue as {{checkout.user}} <span ng-if="checkout.openACCItems.signinFunc" ng-click="checkout.changeAcItem('signin')">Edit</span></p>
                             </uib-accordion-heading>
                             <div class="panel-body-content registered-customer">
                                 <div class="row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
@@ -79,9 +100,31 @@
                                 </div>
                             </div>
                         </uib-accordion-group>
-                        <uib-accordion-group is-open="checkout.delivery">
+                        <uib-accordion-group is-open="checkout.openACCItems.name=='delivery'">
                             <uib-accordion-heading>
-                                <p ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">2. Delivery Information </p>
+                                <p ng-if="checkout.openACCItems.name=='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}" ng-click="checkout.changeAcItem('delivery')">2. Delivery Information </p>
+                                <p ng-if="checkout.openACCItems.name !='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">2. 
+                                    <a class="info-search-icon" ng-if="checkout.openACCItems.deliveryFunc" style="
+    height: 20px;
+    width: 49px;
+    /* line-height: 27px; */
+">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
+
+								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" style="
+    stroke: red;
+"></line>
+								<circle class="st1" cx="23" cy="21.3" r="19.9" style="
+    stroke: red;
+"></circle>
+								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" style="
+    stroke: red;
+"></line>
+								<circle class="st1" cx="24" cy="21.3" r="19.9" style="
+    stroke: red;
+"></circle>
+							</svg>
+						</a> Delivery Information <span ng-if="checkout.openACCItems.deliveryFunc" ng-click="checkout.changeAcItem('delivery')">Edit</span> </p>
                             </uib-accordion-heading>
                             <div class="row accordion-block">
                                 <uib-accordion close-others="true" ng-init="checkout.recipient[0]=true">
@@ -521,7 +564,7 @@
                                 </uib-accordion>
                             </div>
                         </uib-accordion-group>
-                        <uib-accordion-group is-open="checkout.payment">
+                        <uib-accordion-group is-open="checkout.openACCItems.name=='payment'">
                             <uib-accordion-heading>
                                 <p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}" ng-click="checkout.bachmanscharge()">3. Payment </p>
                             </uib-accordion-heading>
@@ -1201,7 +1244,7 @@
                                 </div>
                             </div>
                         </uib-accordion-group>
-                        <uib-accordion-group is-open="status.open4">
+                        <uib-accordion-group is-open="checkout.openACCItems.name=='review'">
                             <uib-accordion-heading>
                                 <p ng-class="{'footer-minus': status.open4, 'footer-plus': !status.open4}">4. Review & Confirm Order </p>
                             </uib-accordion-heading>

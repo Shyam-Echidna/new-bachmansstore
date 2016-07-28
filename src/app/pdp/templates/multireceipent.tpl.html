@@ -43,12 +43,13 @@
                         </g>
                         </svg>
 
+
                     </span>VIEW ADDRESS BOOK
                     </a>
-                    <a href="" ng-if="multipleReceipent.showaddress==true" class="show-all">show all</a>
+                    <a href="" ng-if="multipleReceipent.showaddress==true" class="show-all" ng-click="multipleReceipent.limit=100">show all</a>
                     <div class="addressbookdiv" ng-if="multipleReceipent.showaddress==true">
-                            <label ng-repeat="addressbook in multipleReceipent.addressbook.Items track by addressbook.ID" class="parentP">
-                                <input type="radio" name="addressbook" ng-model="multipleReceipent.address1" value="{{$index}}" id="address{{$index}}"/>
+                            <label ng-repeat="addressbook in multipleReceipent.addressbook.Items | limitTo:multipleReceipent.limit track by addressbook.ID" class="parentP">
+                                <input type="radio" name="addressbook" ng-model="multipleReceipent.address1" value="{{$index}}" id="address{{$index}}" ng-click="lineitem.ShippingAddress = multipleReceipent.addressbook.Items[multipleReceipent.address1]; multipleReceipent.showaddress=false"/>
                                 <label for="address{{$index}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <p>
@@ -59,31 +60,32 @@
                                         <span><!-- Phone: --> {{addressbook.Phone}}</span>
                                     </p>
                                 </label>
-                                
                             </label>
-                            <button ng-click="lineitem.ShippingAddress = multipleReceipent.addressbook.Items[multipleReceipent.address1]">Save</button>
                     </div>
-                    <div class="row name-block">
+                    <div class="row name-block" ng-form="form1">
+
                         <div class="col-md-12 col-lg-12">
                             <div class="row">
                                 <div class="col-md-3 col-lg-3">
                                     <fieldset class="form-group">
                                         <label for="first-name">First Name</label>
-                                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="lineitem.ShippingAddress.FirstName">
+                                        <input type="text" class="form-control" id="first-name" placeholder="First Name"  ng-model="lineitem.ShippingAddress.FirstName" required>
+                                        
                                     </fieldset>
                                 </div>
                                 <div class="col-md-3 col-lg-3">
                                     <fieldset class="form-group">
                                         <label for="last-name">Last Name</label>
-                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName">
+                                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" required >
                                     </fieldset>
                                 </div>
                                 <div class="col-md-5 col-lg-5">
-                                    <fieldset class="form-group" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                                    <fieldset class="form-group" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                                         <label for="zip-code">ZIP Code</label>
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" autocomplete="off">
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" autocomplete="off"  required>
+                                                <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="multipleReceipent.zipPattern">Enter valid zip code</p>-->
                                             </div>
                                             <div class="col-md-8 col-lg-8 label-left-align" ng-show="multipleReceipent.sameDay">
                                                 <p class="svg-right">
@@ -102,14 +104,15 @@
                                 <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                                     <fieldset class="form-group">
                                         <label for="qty">Qty</label>
-                                        <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity" />
+                                        <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" ng-maxlength="3" />
+                                        <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>ng-pattern="[1-9][0-9]{0,2}" -->
                                     </fieldset>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="row radio-btn-group">
+                    <div class="row radio-btn-group" ng-show="multipleReceipent.crdmsg">
 
                         <div class="receipient-location" ng-init="multipleReceipent.addressType = 'Residence'">
                             <div class="radio-inline">
@@ -1032,7 +1035,7 @@
                 <div class="row next-btn">
                    
                     <div class="col-md-12 col-lg-12 btn-click">
-                        <button class="add-btn"  ng-click="multipleReceipent.submitRecipientDetails(lineitem,$index)" ng-disabled="multipleReceipent.notLocal ||!multipleReceipent.addAddress[$index]">Add</button>
+                        <button class="add-btn"  ng-click="multipleReceipent.submitRecipientDetails(lineitem,$index);multipleReceipent.showNewRecipient" ng-disabled="multipleReceipent.notLocal ||!multipleReceipent.addAddress[$index]">Add</button>
                     </div>
 
 
@@ -1060,7 +1063,8 @@
                     <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                 </div>
                 <div class="col-md-6 col-lg-6 btn-click">
-                    <button class="next-btn" ng-click="multipleReceipent.closeTab()" ng-show="!multipleReceipent.showNewRecipient">close and continue shoppingt</button>
+                    <button class="next-btn" ng-click="multipleReceipent.closeTab()" ng-show="multipleReceipent.showNewRecipient1">CONTINUE SHOPPING</button>
+                    {{multipleReceipent.showNewRecipient1}}
                 </div>
             </div>
             <div class="panel-body-content"  ng-show="multipleReceipent.showNewRecipient">
@@ -1127,7 +1131,7 @@
                 <div class="row radio-btn-group">
 
 
-                    <div class="receipient-location" >
+                    <div class="receipient-location" ng-show="multipleReceipent.crdmsg">
 
                         <div class="radio-inline">
                             <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">

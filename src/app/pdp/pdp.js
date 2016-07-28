@@ -118,7 +118,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		var d = $q.defer();
 		OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
 			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
-			OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+			 OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 				//OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 				var key = {}, MinDate = {};
@@ -678,7 +678,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 					if (vm.DeliveryType ) {
 						activeProducts.xp.DeliveryMethod = vm.DeliveryType;
 					}
-
+				
 					return activeProducts;
 				},
 				Order: function ($rootScope, $q, $state, toastr, CurrentOrder, $cookieStore) {
@@ -1084,8 +1084,10 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 					//$scope.createListItem(prodID);
 					vm.DeliveryType = 'NO';
 				}
+				
 			});
 		});
+		
 	}
 
 }
@@ -1093,6 +1095,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 function MultipleReceipentController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order, $q, Signedin) {
 	var vm = this;
 	vm.oneAtATime = true;
+	vm.limit = 4;
 	vm.selectedRecipient = false;
 	vm.list = {};
 	vm.line = null;
@@ -1130,6 +1133,11 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	vm.recipientLineitem = null;
 	vm.saveaddressdata=false;
 	vm.openRecipient = [];
+
+	//vm.zipPattern='/(^\d{5}(-\d{4})?$';
+	//vm.quantityPattern='[1-9][0-9]{0,2}';
+
+
 	var item = {
 		"ID": "",
 		"ProductID": items.ID,
@@ -1148,7 +1156,9 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		"Specs": [],
 		"xp": {}
 	};
+
 	item.xp.DeliveryMethod = items.xp.DeliveryMethod;
+
 	if (Order) {
 		vm.order = Order
 	}
@@ -1298,8 +1308,8 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 							var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
 							var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
-							
-							if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && val.xp.DeliveryMethod == line.xp.DeliveryMethod && DateA == DateB ) {
+
+							if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && val.xp.DeliveryMethod == line.xp.DeliveryMethod && DateA == DateB) {
 								if (count == 0) {
 									line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
 									vm.lineitemdtls = line;
@@ -1375,7 +1385,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	function getLineItems() {
 
 		OrderCloud.As().LineItems.List(vm.order).then(function (res) {
-			
+
 			console.log("Lineitems", res);
 			angular.forEach(res.Items, function (val, key, obj) {
 				if (val.xp.deliveryDate) {
@@ -1393,23 +1403,24 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 
 				}
-				val.Quantity=1;
+				val.Quantity = 1;
 			});
 			if (res.Items.length > 0) {
 				vm.isMultiplerecipient = true;
 				vm.activeRecipient = false;
 				vm.showNewRecipient = false;
+				vm.showNewRecipient1 = true;
 			}
-			
+
 			vm.activeOrders = res.Items;
-			
+
 		});
-		
+
 
 	};
 
 	function closeTab() {
-
+		vm.showNewRecipient=true;
 		$uibModalInstance.close();
 		vm.addedToCartPopUp();
 	}
@@ -1433,7 +1444,9 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			"Specs": [],
 			"xp": {}
 		};
+
 		item.xp.DeliveryMethod = items.xp.DeliveryMethod
+
 		//vm.line = null;
 		item.ShippingAddress.Country = 'US'
 		vm.addressType = 'Residence'
@@ -1452,8 +1465,15 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 			controller: 'addedToCartCtrl1',
 			controllerAs: 'addedToCart',
 			resolve: {
-				Orderid: function () {
-					return vm.order;
+				Orderid: function (OrderCloud, $q) {
+					var deferred = $q.defer();
+					console.log(vm.order);
+					OrderCloud.As().LineItems.List(vm.order).then(function(res){
+						LineItemHelpers.GetProductInfo(res.Items).then(function () {
+							deferred.resolve(res);
+						})
+					})
+					return deferred.promise;
 				}
 			}
 		});
@@ -1600,7 +1620,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	function addressTypeChanged(lineitem, addressType) {
 		angular.forEach(lineitem.ShippingAddress, function (value, key) {
 			console.log(key + ': ' + value);
-			if (key == 'Street1' || key == 'Street2' || key == 'City' || key == 'State' || key == 'Zip' || key == 'Country' || key == 'Phone1'|| key == 'Phone2'|| key == 'Phone3') {
+			if (key == 'Street1' || key == 'Street2' || key == 'City' || key == 'State' || key == 'Zip' || key == 'Country' || key == 'Phone1' || key == 'Phone2' || key == 'Phone3') {
 				lineitem.ShippingAddress[key] = null;
 			}
 
@@ -1787,6 +1807,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 				"xp": {}
 			};
 			item.xp.DeliveryMethod = items[0].xp.DeliveryMethod;
+			
 			vm.recipientLineitem = item;
 			vm.addressType = lineitem.xp.addressType;
 			if (vm.recipientLineitem.xp.DeliveryMethod == 'Mixed') {
@@ -2047,7 +2068,7 @@ function pdpAddedToCartController($scope, $uibModalInstance) {
 
 function addedToCartController1($scope, $uibModalInstance, $state, Orderid) {
 	var vm = this;
-	vm.orderid = Orderid;
+	vm.orderid = Orderid.Items;
 	console.log(vm.orderid);
 	vm.checkout = checkout;
 	function checkout() {
@@ -2060,4 +2081,21 @@ function addedToCartController1($scope, $uibModalInstance, $state, Orderid) {
 
 
 	};
+	vm.shiftSelectedCartRight= function(){
+    	var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+    	var posToShift = angular.element('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item').width();
+    	angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos + posToShift);
+    	angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item .cartLeftArrow').css({'display':'block'});
+    }
+
+    vm.shiftSelectedCartLeft= function(){
+    	var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
+    	var posToShift = angular.element('.added-main .detail-block .cart-info div:nth-child(2) .middle-part #owl-carousel-added-cart-pdt .owl-carousel-item').width();
+    	angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft(currentPos - posToShift);
+    	if(currentPos == 0){
+    		angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'none'});
+    	} else{
+    		angular.element('#owl-carousel-selected-cat .cartLeftArrow').css({'display':'block'});
+    	}
+    }
 }

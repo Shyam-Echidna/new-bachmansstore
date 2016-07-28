@@ -90,14 +90,13 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
         vm.form = form;
     };
 
-    vm.showScroll=function(){
+    /*vm.showScroll=function(){
       $uibModalInstance.opened.then(function() {
           $timeout(function() {
               $scope.$broadcast('rebuild:signUpScroll');
           },200);
         });
-    }
-    
+    }*/
     // START: function for sort options selection
       var sortItems=[
       {'value':'What was your high school mascot?','label':'What was your high school mascot?'},

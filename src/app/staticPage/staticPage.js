@@ -206,11 +206,12 @@ function ladingPageController(folder) {
 	alert(JSON.stringify(folder));
 }
 
-function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stateParams,x2js,staticPageData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom) {
+function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stateParams,x2js,staticPageData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom,alfrescoStaticurl) {
 	var vm = this;
     console.log("staticPageData.articleData");
     var artileMetaData = staticPageData.articleData;
     vm.articleContentUrl =  localStorage.getItem("contentUrl");
+    vm.locationpath =  localStorage.getItem("locationpath");
     vm.articleAuthor =  localStorage.getItem("articleAuthor");
     vm.articleTitle = localStorage.getItem("articleTitle");
     var d = new Date(localStorage.getItem("modifiedOn"));
@@ -227,16 +228,31 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
 //		console.log(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
 //		vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
 //	});
-    $http.get(alfcontentStaticSearchurlAtom+page.replace(".html","banner.png")+"&alf_ticket="+localStorage.getItem("alfTemp_ticket")).then(function(res){
+    
+//    $http.get(alfcontentStaticSearchurlAtom+page.replace(".html","banner.png")+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"))
+//    .then(function(res){
+//        console.log(res);
+//        var json = x2js.xml_str2json(res.data);
+//        if(json&&json.feed&&json.feed.entry){
+//            if(json.feed.entry.length>0){
+//                vm.articleBanner = json.feed.entry[0].link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket")
+//            }else{
+//                vm.articleBanner = json.feed.entry.link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+//            }
+//        }
+//        console.log(vm.articleBanner);
+//
+//	});
+    
+    $http.get(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+vm.locationpath+"/Media?alf_ticket="+localStorage.getItem("alfTemp_ticket"))
+    .then(function(res){
         console.log(res);
-        var json = x2js.xml_str2json(res.data);
-        if(json&&json.feed&&json.feed.entry){
-            if(json.feed.entry.length>0){
-                vm.articleBanner = json.feed.entry[0].link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket")
-            }else{
-                vm.articleBanner = json.feed.entry.link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+        angular.forEach(res.data.items,function(item){
+            if(item.fileName.indexOf(page.replace(".html",""))>=0){
+                vm.articleBanner = "http://52.206.111.191:8080/alfresco/service/"+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
             }
-        }
+            
+        });
         console.log(vm.articleBanner);
 
 	});
@@ -263,7 +279,7 @@ function templateController($http, alfcontenturl, $state, $stateParams ,LoginFac
 
     vm.getThingsFromALfresco = function(parent, child,index){
         vm.active = index;
-	    	var ticket = localStorage.getItem("alf_ticket");
+	    	var ticket = localStorage.getItem("alfTemp_ticket");
 	    	var route = parent+"/"+child;
 	    	LoginFact.GetArtcleList(ticket,route).then(function(response){
 	    		console.log("GetArtcleList",response);
@@ -278,7 +294,7 @@ function templateController($http, alfcontenturl, $state, $stateParams ,LoginFac
 					vm.mainCatName = pp;
             console.log(index+" .... "+vm.active);
             getFirstTag = false;
-            var ticket = localStorage.getItem("alf_ticket");
+            var ticket = localStorage.getItem("alfTemp_ticket");
             var route = parent+"/"+subFolder.fileName;
             LoginFact.GetArtcleList(ticket,route).then(function(response){
                 console.log("GetArtcleList",response);
@@ -317,6 +333,7 @@ function templateController($http, alfcontenturl, $state, $stateParams ,LoginFac
         localStorage.setItem("articleAuthor",obj.author);
         localStorage.setItem("articleTitle",obj.title);
         localStorage.setItem("modifiedOn",obj.modifiedOn);
+        localStorage.setItem("locationpath",obj.location.path);
 					vm.bannerHideArticle = false;
        // if(obj.fileName==="TemplateCareAllNoImage.html" || obj.fileName==="Bachmas_ServicesAllCareNoImage.html"){
             $state.go('.staticPage', {pageName:obj.fileName});
@@ -412,16 +429,15 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 	vm.alfStaticContenturl = alfStaticContenturl;
 	vm.parentPathChilde = $state.current;
 	vm.pageName = page;
-	// alert(vm.parentPathChilde);
 	var curl = "";
-	if(fileName){
-		curl = decodeURIComponent(fileName);
-	}
-	if(page=="BachmansHistory"){
-		curl = "be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
-	}else if(page=="BachmansHerritageRoom"){
-		curl = "b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
-	}
+//	if(fileName){
+//		curl = decodeURIComponent(fileName);
+//	}
+//	if(page=="BachmansHistory"){
+//		curl = "be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
+//	}else if(page=="BachmansHerritageRoom"){
+//		curl = "b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
+//	}
 	vm.activeIndex = 0;
  	vm.siteToken = localStorage.getItem('alfTemp_ticket');
 	///api/node/content/workspace/SpacesStore/c5567137-543e-47ba-822c-148a57dce11d/Untitled%20Document.docx
@@ -430,6 +446,7 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 		angular.forEach(data.items,function(item){
 			if(item.nodeType=="ws:article"){
 				vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+                vm.articleTitle = item.fileName.replace(".html",".png");
 			}
 			if(item.fileName == "Media"){
 				vm.getMediaData(alfrescoStaticurl+item.location.path+"/"+item.fileName);
@@ -451,7 +468,12 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 				vm.activeIndex = data.fileName;
 				vm.activePageTitle = data.title;
 				vm.childactiveIndex = pages[1];
-				vm.childCount = 2;
+                console.log(data);
+                setTimeout(function(){
+                    if(data.subfolders.items.length>3){
+                        vm.childCount = 2;
+                    }
+                },1000)
 				console.log(vm.activeIndex+"="+vm.activePageTitle+"="+vm.childactiveIndex);
 			}
 		}else{
@@ -490,7 +512,7 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 				console.log(data);
 				vm.carouselData = data.items;
 				angular.forEach(data.items,function(carousel){
-					if(carousel.nodeType=='ws:image' && carousel.title=='BannerImage'){
+					if(carousel.nodeType=='ws:image' && carousel.fileName.indexOf(vm.articleTitle.replace(".html",""))>=0){
 						vm.templateBannerImage = carousel.contentUrl;
 					}
 				})
@@ -519,6 +541,7 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 				}
 
 		},function(data){
+            $(".history-carousel").hide();
 				console.log(data);
 		});
 	}

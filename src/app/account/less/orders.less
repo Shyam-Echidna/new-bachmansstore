@@ -131,6 +131,7 @@
                             .price-header,
                             .total-amount-header {
                                 text-align: center;
+                                padding: 0;
                             }
                             .product-count {
                                 padding-left: 10px;
@@ -441,6 +442,159 @@
                                     stroke-width: 3;
                                 }
                             }
+                        }
+                    }
+                }
+                &.recipient-accordions {
+                    padding: 0 15px;
+                    overflow: hidden;
+                    .recipient {
+                        font: 0.75em @proxima-light;
+                        font-weight: bold;
+                        color: #636363;
+                        padding-left: 15px;
+                        .name {
+                            font: 1.125em @proxima-regular;
+                            font-weight: bold;
+                            color: #000;
+                            margin-left: 5px;
+                        }
+                    }
+                    .rec-acc-plus {
+                        width: 35px;
+                        height: 35px;
+                        position: absolute;
+                        top: 0px;
+                        right: -15px;
+                        svg {
+                            fill: #666666;
+                        }
+                        &.exp-plus {
+                            svg {
+                                g {
+                                    rect:first-child {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                        &.col-plus {
+                            svg {
+                                g {
+                                    rect:first-child {
+                                        display: block;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .panel-group {
+                        .panel + .panel {
+                            margin-top: 10px;
+                        }
+                    }
+                    .panel {
+                        border-radius: 0;
+                        border: none;
+                        .panel-heading {
+                            background-color: #fff;
+                            border: 1px solid #d7d7d7;
+                            border-radius: 0;
+                            padding: 15px;
+                        }
+                        .panel-title {
+                            position: relative;
+                        }
+                        .panel-body {
+                            padding: 0;
+                            background-color: #f8f8f8;
+                            .product-details {
+                                padding: 0;
+                                .product-header {
+                                    .row {
+                                        background-color: transparent;
+                                    }
+                                }
+                            }
+                        }
+                        &.panel-open {
+                            .panel-heading {
+                                background-color: #d7d7d7;
+                                border-color: #d7d7d7;
+                            }
+                        }
+                    }
+                    .product-details {
+                        .total-info {
+                            padding-left: 15px;
+                            border-bottom: none;
+                        }
+                        .card-msg-cont {
+                            .card-msg {
+                                width: 100%;
+                            }
+                        }
+                        .ship-bill-cont {
+                            .shipping-info-cont {
+                                .heading {
+                                    margin-top: 0;
+                                }
+                            }
+                        }
+                    }
+                    .billing-information {
+                        position: relative;
+                        padding: 15px 0;
+                        .billing-address {
+                            /*padding-left: 0;*/
+                            .title {
+                                font: 1em @proxima-regular;
+                                font-weight: bold;
+                                color: #000;
+                                padding-right: 10px;
+                                vertical-align: top;
+                                display: inline-block;
+                                width: 25%;
+                            }
+                            .address {
+                                font: 0.875em @proxima-light;
+                                font-weight: bold;
+                                color: #000;
+                                display: inline-block;
+                                width: 70%;
+                            }
+                        }
+                        .billing-method {
+                            padding-left: 0;
+                            .title, .value {
+                                font: 0.875em @proxima-light;
+                                font-weight: bold;
+                                color: #828282;
+                            }
+                            .value {
+                                color: #000;
+                            }
+                        }
+                        .print-icon {
+                            position: absolute;
+                            top: 10px;
+                            right: 10px;
+                            svg {
+                                fill: #111;
+                                stroke-width: 2;
+                                width: 30px;
+                                height: 30px;
+                            }
+                        }
+                        &:before {
+                            content: '';
+                            border-top: 1px solid #ccc;
+                            width: 110%;
+                            border-top: 1px solid #ccc;
+                            display: block;
+                            position: relative;
+                            left: -5%;
+                            top: -15px;
                         }
                     }
                 }
@@ -780,6 +934,65 @@
                             }
                             .print-icon-cont {
                                 display: none;
+                            }
+                        }
+                    }
+                    &.recipient-accordions {
+                        padding: 0 7px;
+                        .panel-group {
+                            margin-top: 20px;
+                        }
+                        .product-details {
+                            .total-info {
+                                padding-left: 0;
+                                .ship-bill-cont {
+                                    width: 100%;
+                                    padding: 0;
+                                    .shipping-info-cont {
+                                        padding: 0;
+                                        .related-info {
+                                            width: 100%;
+                                            border: none;
+                                        }
+                                    }
+                                }
+                                .total-amt-cont {
+                                    margin-top: 0;
+                                }
+                            }
+                        }
+                        .billing-information {
+                            padding: 15px 0;
+                            .billing-address {
+                                width: 100%;
+                                padding: 0;
+                                .title {
+                                    width: 100%;
+                                    font: 0.875em @proxima-bold;
+                                    padding: 0;
+                                    margin-bottom: 8px;
+                                }
+                                .address {
+                                    font: 0.75em @proxima-regular;
+                                    font-weight: normal;
+                                    width: 100%;
+                                }
+                            }
+                            .billing-method {
+                                padding: 0;
+                                width: 100%;
+                                .title, .value {
+                                    font: 0.75em @proxima-regular;
+                                    font-weight: normal;
+                                }
+                            }
+                            .print-icon {
+                                display: none;
+                            }
+                            &:before {
+                                width: 110%;
+                                left: -5%;
+                                top: -15px;
                             }
                         }
                     }

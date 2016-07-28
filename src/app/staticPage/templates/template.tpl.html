@@ -183,7 +183,7 @@
 													<p style='font: 1.6em "ProximaNova-Bold", Arial, sans-serif;
     color: #8c58b5;'>{{article.title}}</p>
 													<p class="content">{{article.description}}</p>
-													<span class="sub-head">Written By <span class="author">{{article.author}}</span></span>
+													<span class="sub-head" ng-if='article.author!=""'>Written By <span class="author">{{article.author}}</span></span>
 											</td>
 											<td width="25%">&nbsp;</td>
 											<td width="25%"><span class="guide">{{article.tags[0]}}</span></td>

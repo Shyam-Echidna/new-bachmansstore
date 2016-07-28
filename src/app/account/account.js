@@ -185,20 +185,45 @@ function AccountConfig( $stateProvider) {
 					var d= $q.defer();
 					OrderCloud.Me.ListOutgoingOrders(null, 1, 100, null, null, filter, null, null).then(function(re){
 						angular.forEach(re.Items, function(order){
-							var promise =  AccountService.GetOrderDetails(order.ID);
-							ajaxarr.push(promise);
-						});
-						$q.all(ajaxarr).then(function(items){
-							vm.eventsDetails=items;
-							console.log("events are=====",vm.eventsDetails);
-							d.resolve(items);
-						});
-					})
-					return d.promise;
+							var obj = {
+      "ID": "Store-Anusha",
+      "CompanyName": "Echidna",
+      "FirstName": "Anusha",
+      "LastName": "A",
+      "Street1": "Abcd",
+      "Street2": "Abcd",
+      "City": "Karwar",
+      "State": "LA",
+      "Zip": "890766",
+      "Country": "US",
+      "Phone": "(908)788-788",
+      "AddressName": null,
+      "xp": {
+        "NickName": "ANu",
+        "Active": false
+      }
+      };
+	var promise =AccountService.GetOrderDetails(order.ID).then(function(res){
+		angular.forEach(res.LineItems, function(val, key){
+			if(val.Product.xp==null)
+				val.Product.xp={};
+			val.Product.xp.venue = obj;
+		}, true);
+		return res;
+	});
+	ajaxarr.push(promise);
+});
+$q.all(ajaxarr).then(function(items){
+	vm.eventsDetails=items;
+	console.log("events are=====",vm.eventsDetails);
+	d.resolve(items);
+});
+})
+return d.promise;
 
-				}
-			}
-		})
+}
+}
+})
 		.state( 'account.profile', {
 			url:'/profile',
 			templateUrl: 'account/templates/account.tpl.html',
@@ -445,7 +470,6 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http) {
 			controllerAs: 'confirmPassword',
 			size: 'sm'
 		});
-
 		modalInstance.result.then(function(password) {
 			var checkPasswordCredentials = {
 				Username: currentProfile.Username,
@@ -484,7 +508,6 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http) {
 					$exceptionHandler(ex)
 				})
 		};
-
 		OrderCloud.Auth.GetToken(checkPasswordCredentials).then(
 			function() {
 				alert("Are you sure to change password????");
@@ -510,24 +533,21 @@ function OrderController(OrderList){
 	   		vm.selectedIndex = index;
 	  	}
     }
-
 }
 function EventController(EventList){
 	var vm=this;
 	vm.eventsDetails=EventList;
 	console.log("the events are",vm.eventsDetails);
-
 }
 function PurpleperkController(Purpleperk){
 	var vm=this;
 	vm.purpleperk=Purpleperk;
 	console.log("ppppppppp are",vm.purpleperk);
-	
-
 }
 function AddressController(AddressList,AccountService,$scope,$uibModal,OrderCloud,CurrentUser,$state){
 	var vm=this;
 	vm.addressData=AddressList;
+	console.log(vm.addressData);
 	//Creation
 	vm.CreateAddress = function(line){
 		var $this = this;
@@ -880,13 +900,11 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
     vm.list = CreditCards.Items;
     vm.newcreditcard = false;
     vm.editcreditcard = false;
-
     vm.newCardInput = function() {
         vm.newcreditcard = true;
         vm.editcreditcard = false;
         vm.card = null;
     };
-
     vm.editCardInput = function(card) {
         vm.newcreditcard = false;
         vm.editcreditcard = true;
@@ -990,9 +1008,6 @@ function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $st
 	}
 
 }
-/*function CreditCardAccountController( $exceptionHandler, toastr, CurrentUser, AccountService, Addresses, $q ) {
- var vm = this;
- }*/
 function EmailSubscriptionController( $exceptionHandler,CurrentUser, SelectedEmailList, toastr, AccountService,LoginFact) {
 	var vm = this;
 	vm.emailsubscribe=SelectedEmailList;
@@ -1010,6 +1025,9 @@ function TrackOrderController( $exceptionHandler,TrackOrder, toastr, CurrentUser
 function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,AccountService,CurrentUser, Underscore, $q, $scope){
 	var vm=this;
 	vm.profileData=CurrentUser;
+	OrderCloud.Addresses.Get(vm.profileData.xp.ContactAddr).then(function(res){
+		vm.profileData = Underscore.extend(vm.profileData, res);
+	});
 	console.log("profile data are --",vm.profileData);
 	vm.changeEmail = function(){
 		var obj = {"Email":vm.change_email};
@@ -1025,6 +1043,45 @@ function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,Account
 			vm.profileData.Phone2 = res[1];
 			vm.profileData.Phone3 = res[2];
 		});
+	/*vm.a =true;
+	vm.b=false;*/
+vm.addresscont=function(profileData){
+	profileData = angular.copy(profileData);
+	vm.userData = profileData;
+	/*alert("dff");
+	vm.a=false;
+	vm.b=true;*/
+	
+
+}
+vm.saveaddresscont=function(){
+	vm.userData.Country = "US";
+	if(!vm.userData.xp.ContactAddr){
+		//delete vm.userData.ID;
+		OrderCloud.Addresses.Create(vm.userData).then(function(res){
+			vm.profileData = res;
+			vm.editaddress = false;
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("===>"+res);
+				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
+			});
+		});
+		/*vm.a=false;
+		vm.b=true;*/
+	}else{
+		OrderCloud.Addresses.Update(vm.userData.ContactAddr, vm.userData).then(function(res){
+			vm.profileData = res;
+			vm.editaddress = false;
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("==-------==>"+res);
+				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
+			});
+		});
+	}	
+
+}
+	
+
 	
 
 	//_------FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
@@ -1056,13 +1113,6 @@ function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,Account
 			vm.editAddr.State = res.State;
 		});
 	}
-	/*vm.saveAddressDefault = function(saveAddr, contact){
-		saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
-		console.log("saveAddr.Phone", saveAddr.Phone);
-		OrderCloud.Addresses.Update(saveAddr.ID, saveAddr).then(function(){
-			$state.go('account.addresses', {}, {reload: true});
-		})
-	}*/
 	vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};

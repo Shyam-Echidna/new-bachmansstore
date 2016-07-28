@@ -24,6 +24,7 @@ function CheckoutConfig($stateProvider) {
 								OrderCloud.As().LineItems.List(order.ID).then(function (res) {
 									LineItemHelpers.GetProductInfo(res.Items)
 	                                    .then(function () {
+                                        console.log("res,", res);
 	                                        deferred.resolve(res);
 	                                    });
 								}).catch(function () {
@@ -35,7 +36,7 @@ function CheckoutConfig($stateProvider) {
                             if ($state.current.name.indexOf('checkout') > -1) {
                                 $state.go('home');
                             }
-                            deferred.reject();
+                            deferred.resolve(null);
                         });
 					return deferred.promise;
                 },
@@ -44,6 +45,7 @@ function CheckoutConfig($stateProvider) {
                     CurrentOrder.GetID()
                         .then(function (data) {
                         	OrderCloud.As().Orders.Get(data).then(function(order){
+                                console.log("order,", order);
                             	dfd.resolve(order)
                         	})
                         })
@@ -55,6 +57,7 @@ function CheckoutConfig($stateProvider) {
 				Buyers: function (OrderCloud, $q) {
 					var deferred = $q.defer();
 					OrderCloud.Buyers.Get().then(function (res) {
+                         console.log("resasd,", res);
 						deferred.resolve(res);
 					}).catch(function () {
 						deferred.resolve(null);
@@ -64,6 +67,7 @@ function CheckoutConfig($stateProvider) {
 				CreditCard: function (OrderCloud, $q){
 					var deferred = $q.defer();
 					OrderCloud.Me.ListCreditCards().then(function(res){
+                        console.log("CreditCard,", res);
 						deferred.resolve(res);
 					}).catch(function () {
 						deferred.resolve(null);
@@ -73,7 +77,7 @@ function CheckoutConfig($stateProvider) {
 				LoggedinUser: function(OrderCloud, $q){
 					var deferred = $q.defer();
 					OrderCloud.Me.Get().then(function(res){
-						console.log(res);
+						console.log("LoggedinUser",res);
 						deferred.resolve(res);
 					})
 					return deferred.promise;
@@ -112,11 +116,12 @@ function checkOutService($q, $http) {
 	}
 	return service
 }
-function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore) {
-
+function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http) {
+    console.log(LoggedinUser);
 	var vm = this;
 	var date = new Date();
 	vm.lineItems = [];
+	vm.openACCItems = {"name":'signin'};
 	vm.signin = true;
 	vm.delivery = false;
 	vm.selected = false;
@@ -167,6 +172,8 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 
 
 			});
+            vm.openACCItems.name = 'delivery';
+            vm.openACCItems['signinFunc'] = true;
 			console.log("lineItems", vm.lineItems);
 		}
 	}
@@ -188,6 +195,11 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 			}
 		}
 	}
+    
+    vm.changeAcItem = function(item){
+        vm.openACCItems.name = item;
+    }
+    
 	function init() {
 		var data = _.groupBy(vm.ordersummarydata.Items, function (value) {
 			if (value.ShippingAddress != null) {
@@ -223,6 +235,8 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 					console.log("LineItems Data", dat);
 					OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
 						console.log("1234567890", data);
+                        vm.openACCItems.name = 'payment';
+                        vm.openACCItems['delivery'] = true;
 						alert("Data submitted successfully");
 
 					});
@@ -234,6 +248,8 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 				console.log("LineItems Data", dat);
 				OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
 					console.log("1234567890", data);
+                    vm.openACCItems.name = 'payment';
+                    vm.openACCItems['delivery'] = true;
 					alert("Data submitted successfully");
 
 				});
@@ -301,7 +317,8 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 
 	vm.submit = function(credentials){
 		console.log(credentials);
-		console.log($cookieStore.get("BachmanStoreFront.token"));
+		console.log($cookieStore.get("BachmanStoreFront.impersonation.token"));
+		var x = $cookieStore.get("BachmanStoreFront.token");
 		OrderCloud.Auth.GetToken( credentials )
             .then(function(data) {
             	console.log('data',data);
@@ -310,9 +327,30 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
              // ImpersonationService.StopImpersonating();
                 LoginService.GetCurrentUser().then(function(res){
                     console.log('res',JSON.stringify(res));
-                    OrderCloud.Me.CreateFromTempUser(res,$cookieStore.get("BachmanStoreFront.impersonation.token")).then(function(resp){
-                    	console.log(resp);
-                    })
+                    vm.openACCItems.name = 'delivery';
+                    vm.openACCItems['signinFunc'] = true;
+//                    $http.put("https://api.ordercloud.io/v1/buyers/bachmans/orders?tempUserToken="+$cookieStore.get("BachmanStoreFront.token"),res)
+//                    .success(function (data, status, headers, config) {
+//                        console.log(data);
+//                    })
+//                    .error(function (data, status, header, config) {
+//                        console.log(data);
+//                    });
+//                    OrderCloud.Me.CreateFromTempUser(res,$cookieStore.get("BachmanStoreFront.token")).then(function(resp){
+//                    	console.log(resp);
+//                    })
+                    $http({
+                      method: 'PUT',
+                      dataType:"json",
+                      url:"https://api.ordercloud.io/v1/buyers/bachmans/orders?tempUserToken="+x,
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer ' + data.access_token
+                      }
+                      }).success(function (data, status, headers, config) {
+                      console.log("incoming",data); 
+                      }).error(function (data, status, headers, config) {
+                      });
                 })
             })
             .catch(function(ex) {
