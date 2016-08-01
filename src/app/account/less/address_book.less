@@ -114,6 +114,9 @@
 						    background-size: 35px 12px;
 						}
 					}*/
+					.first-name, .city {
+						clear: both;
+					}
 					.phone-number {
 						label {
 							display: block;
@@ -128,6 +131,14 @@
 								padding-left: 0;
 								input {
 									width: 100%;
+								}
+							}
+							.help-block {
+								width: 300px;
+							}
+							div.col-xs-4 {
+								&:last-child {
+									padding-right: 0;
 								}
 							}
 						}
@@ -208,6 +219,9 @@
 			.adress-edit-container {
 				margin: 0;
 				border-top: none;
+			}
+			.phone-number {
+				width: 50% !important;
 			}
 		}
 	}
@@ -350,6 +364,23 @@
 						input, select {
 							font-size: 0.75em;
 							height: 35px;
+						}
+					}
+					.first-name, .last-name {
+						width: 48% !important;
+						padding: 0 !important;
+					}
+					.first-name {
+						margin-right: 4% !important;
+					}
+					.last-name {
+						margin-right: 0 !important;
+					}
+					.phone-number {
+						.phone-txt {
+							div {
+								padding-right: 5px;
+							}
 						}
 					}
 					.state{

@@ -619,6 +619,12 @@ body {
             margin: 25px 0px;
             //width: 380px;
             margin: 30px 0px 25px 0px;
+            & + label{
+                font: 0.876em @proxima-regular;
+                margin: 0px 0px 20px 0px;
+                color:#8dbb01;
+                //color:#8c58b5;
+            }
         }
         .not-a-member {
             float: right;
@@ -641,6 +647,14 @@ body {
 /* media queries -- all mobiles portrait */
 
 @media only screen and (min-width: 320px) and (max-width: 810px) {
+    .form-group{
+        div{
+            p{
+                font: 0.850em @proxima-regular;
+                padding-left: 20px;
+            }
+        }
+    }
     .login-model .form-block .text-block{
         .logInForm, .signUpForm, .forgot-possword-block{
             height:440px; 
@@ -1066,6 +1080,39 @@ input[type=number]::-webkit-outer-spin-button {
             }
         }
     } 
+    div{
+        position:relative;
+        padding-bottom: 10px;
+        span{            
+            height: 23px;
+            width: 23px;
+            border: 1px solid #71c139;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 3px;
+            position:absolute;
+            display: inline-block;
+            svg{
+                height: 20px;
+                width: 20px;
+                fill: #71c139;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                cursor: default;
+            }
+        } 
+        p{
+            display: inline-block;
+            font: 0.999em @proxima-regular;
+            width: 100%;
+            padding-left: 40px;
+            color:#71c139;
+        }
+    }
 }
 
 // firefox media

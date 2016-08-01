@@ -63,7 +63,7 @@
 <div class="container-fluid cart-page" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
     <div class="promo-banner">
         <div class="row">
-            <div class="col-lg-8  col-md-8 col-sm-12 col-xs-12">
+            <div class="col-lg-6  col-md-6 col-sm-12 col-xs-12">
                 <div class="row cart-promo">
                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
                         <button class="btn-block">Exclusive Offer</button>
@@ -119,7 +119,7 @@
                     <!-- <div ng-repeat="linegrp in cart.groups track by linegrp">
                   {{linegrp}} {{$index}}
                   </div> -->
-                    <div class="left-shopping" ng-repeat="line in cart.lineVal">
+                    <div class="left-shopping" ng-repeat="(lineindex,line) in cart.lineVal">
                         <div class="client-info">
                              <!--<div class="client-info" ng-init="edit=true">-->
                             <!--editreceipentpopup-->
@@ -133,7 +133,7 @@
                         </span>
                      </div> -->
                             <div class="recipient-details">Recipient:
-                                 <div>
+                                 <div class="detail">
                                     <span value="{{cart.groups[line][0].ShippingAddress.FirstName}}">{{cart.groups[line][0].ShippingAddress.FirstName}}</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.LastName}}">{{cart.groups[line][0].ShippingAddress.LastName}}</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.Zip}}" >{{cart.groups[line][0].ShippingAddress.Zip}}</span>
@@ -200,12 +200,16 @@
                                 </div>
                             </div>
                             <div class="products-info-details">
-
-                                <div class="row" ng-repeat="lineItem in cart.groups[line]">
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  recipient-products">
                                         <div class="level-promo">
                                             Buy any 2 of our new Garden Decor and get <span>45% off *</span>
                                         </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" ng-repeat="lineItem in cart.groups[line]">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  recipient-products">
                                         <div class="product-info">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ui-sref="pdp({ProductID:lineItem.ProductID})">
                                                 <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/Shooping cart/shopping-product2.jpg">
@@ -543,8 +547,88 @@
                                             <!--<p>{{cart.groups[line][0].xp.deliveryDate | date: 'MMMM d, yyyy'}}</p>-->
                                              <p>{{lineItem.xp.deliveryDate | date: 'MMMM d, yyyy'}}</p>
                                             <p>
-                                                <a href='' ng-click="cart.changeDate=!cart.changeDate">Change Date</a>
-                                                <input type="date" ng-model="lineItem.xp.deliveryDate" ng-change="cart.changeDeliveryDate(lineItem)" ng-show="cart.changeDate" ng-attr-min="{{lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday}}">
+
+                                                <span class="edit-svg">
+                                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         viewBox="-697.4 447.7 100.2 89.3" style="enable-background:new -697.4 447.7 100.2 89.3;" xml:space="preserve">
+                                                    <g>
+                                                        <path d="M-670.3,530l51.8-51.8c5.6-5.6,5.6-14.7,0-20.3c-2.7-2.7-6.3-4.2-10.2-4.2l0,0c-3.8,0-7.4,1.5-10.2,4.2l-51.8,51.8
+                                                            l0.2,20.1L-670.3,530z M-686.5,525.9l-0.1-14.5l0,0l14.7,14.6l0,0L-686.5,525.9z M-636,460.7c2-2,4.6-3,7.3-3l0,0
+                                                            c2.8,0,5.4,1.1,7.3,3c4,4,4,10.6,0,14.7l-47.7,47.7l-14.7-14.6L-636,460.7z"/>
+                                                        <rect x="-656.8" y="529" width="52.8" height="2"/>
+                                                    </g>
+                                                    </svg>
+                                                </span>
+                                                <a href='' ng-click="cart.changeDate=!cart.changeDate">
+                                                    Change</a>
+                                                <!-- <input type="date" ng-model="lineItem.xp.deliveryDate" ng-change="cart.changeDeliveryDate(lineItem)" ng-show="cart.changeDate" ng-attr-min="{{lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday}}"> -->
+                                                <input type="text" ng-change="cart.changeDeliveryDate(lineItem)" ng-show="cart.changeDate" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineItem.xp.deliveryDate" is-open="lineItem.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <span class=" date-svg" ng-show="cart.changeDate">
+                                                    <span class="" ng-click="lineItem.openCalenderPopUp=!lineItem.openCalenderPopUp">
+                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                        s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                         M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                     M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                        c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                                </g>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                            </g>
+                                                            <g>
+                                                                <g>
+                                                                    <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                                </span>
+
+
+                                               <!--  <a href='' ng-click="cart.changeDate(lineindex+''+$index)">Change Date</a>
+                                                <input type="date" ng-model="lineItem.xp.deliveryDate" ng-change="cart.changeDeliveryDate(lineItem,lineindex+''+$index)" ng-show="cart.changeLineDate[lineindex+''+$index]" ng-attr-min="{{lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday}}"> -->
+
+
                                                 <!-- <ng-datepicker ng-model="cart.groups[line][0].xp.deliveryDate"></ng-datepicker> -->
                                             </p>
                                         </div>
@@ -831,7 +915,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 order-div">
                     <div class="order-summary-info">
                         <div class="order-summary-header">
                             <div class="row">
@@ -1034,17 +1118,17 @@
             </div>
         </div>
     </div>
-</div>
 <div class="bachman-suggests">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="category-pdt-carousel">
-                <h1>Bachman-Suggests</h1>
+                <h1>Bachman's Suggests</h1>
                 <div class="owl-carousel owl-theme" id="owl-carousel-cart">
                     <div class="owl-carousel-item">
                         <div class="category-prod">
-                            <img class="desktop-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" />
-                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" />
+                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" />
+                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" /> -->
+                             <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}"/>
                         </div>
                         <div class="category-prod-desc">
                             <div class="">
@@ -1057,8 +1141,9 @@
                     </div>
                     <div class="owl-carousel-item">
                         <div class="category-prod">
-                            <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" />
-                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" />
+                           <!--  <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" />
+                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" /> -->
+                            <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}"/>
                         </div>
                         <div class="category-prod-desc">
                             <div class="">
@@ -1071,8 +1156,9 @@
                     </div>
                     <div class="owl-carousel-item">
                         <div class="category-prod">
-                            <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" />
-                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" />
+                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" />
+                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" /> -->
+                             <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" />
                         </div>
                         <div class="category-prod-desc">
                             <div class="">
@@ -1085,8 +1171,10 @@
                     </div>
                     <div class="owl-carousel-item">
                         <div class="category-prod">
-                            <img class="desktop-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" />
-                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" />
+                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" />
+                            <img class="mobile-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" /> -->
+                            <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}"/>
+
                         </div>
                         <div class="category-prod-desc">
                             <div class="">
@@ -1102,4 +1190,6 @@
         </div>
     </div>
 </div>
+</div>
+
 </div>

@@ -875,23 +875,46 @@ function ProductQuickViewController ($uibModal , SharedData){
             controllerAs: 'productQuickViewModal',
 
             resolve: {
-                SelectedProduct: function (OrderCloud) {
-                    return _.groupBy(product, function(item) { 
-                        return item.xp.SpecsOptions.Size;
-                    });
+                productDetail: function (OrderCloud) {
+                    return product;
                 },
                 productImages : function(PdpService, $stateParams, $q, $http){
                   return PdpService.GetProductCodeImages(product[0].ID);
                 },
-                selectedProductID : function(){
+                selectedProduct : function(){
                   return SharedData.SelectedProductId;
-                }
+                },
+                // extraProductImages: function (PlpService) {
+                //   var ticket = localStorage.getItem("alf_ticket");
+                //   return PlpService.GetProductImages(ticket).then(function (res) {
+                //     return res.items;
+                //   });
+                // },
+                // extraProducts: function (extraProductImages, Underscore, PdpService, alfcontenturl) {
+
+                //   var imageData = PdpService.GetExtras()
+                //   var res = Object.keys(imageData).map(function (key) { return imageData[key] });;
+                //   var ticket = localStorage.getItem("alf_ticket");
+                //   var imgcontentArray = [];
+                //   for (var i = 0; i < res.length; i++) {
+                //     for (var j = 0; j < res[i].length; j++) {
+                //       angular.forEach(Underscore.where(extraProductImages, { title: res[i][j].Skuid }), function (node) {
+                //         node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                //         imgcontentArray.push(node);
+                //       });
+                //       res[i][j].imgContent = imgcontentArray;
+                //       imgcontentArray = [];
+                //     }
+                //   }
+                //   return res;
+
+                // }
             }
         });
     };
 }
 
-function ProductQuickViewModalController(selectedProductID,SelectedProduct,$timeout, $scope, PdpService, productImages, $uibModalInstance){
+function ProductQuickViewModalController(productDetail, selectedProduct, $timeout, $scope, PdpService, productImages, $uibModalInstance){
     var vm = this;
      $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -903,176 +926,250 @@ function ProductQuickViewModalController(selectedProductID,SelectedProduct,$time
           },200);
         });
 
-    vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
-    vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails       
-    vm.defaultSizeIndex =0; 
-    vm.sizeGroupedProducts = [];
-    var sizeGroupedProducts = SelectedProduct;
-    vm.selectedProductId = 0; //Holds selected SKU Id
-    vm.productDetails = Object.keys(sizeGroupedProducts).map(function (key) {return sizeGroupedProducts[key]});;
-    angular.forEach(vm.productDetails, function(value, key){
-    $.grep(value, function(e , i){ 
-      if(e.ID == selectedProductID) {
-       vm.selectedSizeIndex = key;
-       vm.selectedProductIndex = i;
+  vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
+  vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails       
+  vm.sizeGroupedProducts = []; // stores prodcuts in accrging to size 
+  vm.productVarientImages = productImages; // stores product images based on selcted size and color
+  vm.defaultSizeIndex = 0; // static value to retrieve size
+  vm.selectedProductId = 0; //Holds selected SKU Id
+  var activeProducts = null;
+  var availableColors, availableSizes =[];
+  $scope.radio = { selectedSize: null , selectedColor : null};
+  vm.wishListTxt = "ADD TO WISHLIST"; //Default text for wishlist button
+  vm.displayWishList = false; // TO display wishlist text after server check
+
+
+  availableSizes = DisplaySizes(productDetail, true);
+  vm.allSizes = availableSizes;
+  availableColors = DisplayColors(productDetail, true);
+  vm.allColors = availableColors;
+
+
+  if (selectedProduct !== undefined) {
+      $.grep(productDetail, function (e, i) {
+        if (e.ID == selectedProduct) {
+          $scope.radio.selectedColor = e.xp.SpecsOptions.Color;
+          $scope.radio.selectedSize = e.xp.SpecsOptions.Size;
+          vm.productTitle = e.Name;
+          vm.prodDesription = e.Description;
+          var selectedSizeHold = angular.copy(availableSizes);
+          var selectedColorHold = angular.copy(availableColors);
+          DisplaySelectedColor(e.xp.SpecsOptions.Size,  _.findIndex(selectedSizeHold, function(item) { return item.xp.SpecsOptions.Size.toLowerCase() == e.xp.SpecsOptions.Size.toLowerCase() }));
+          DisplaySelectedSize(e.xp.SpecsOptions.Color, _.findIndex(selectedColorHold, function(item) { return item.xp.SpecsOptions.Color.toLowerCase() == e.xp.SpecsOptions.Color.toLowerCase() }));
+        }
+      });
+  } else {
+    vm.selectedSizeIndex = -1;
+    vm.selectedProductIndex = -1;
+    vm.baseTitle = false;
+    var baseData;
+    $.grep(productDetail, function (e, i) {
+      if (e.xp.IsBaseProduct == 'true') {
+        baseData = i;
+        vm.productTitle = e.xp.BaseProductTitle;
+        vm.prodDesription = e.xp.BaseDescription;
       }
     });
-  });
-  console.log('Size grouped QV products  ', vm.productDetails);
-  vm.isSizeAvailable = vm.productDetails[0][0].length;
-  $scope.qty =1;
-  $scope.multireceipentText = '<p>Is this for multiple receipents?</p> <button>YES</button><button>NO</button>'
-  
+  }
+
   //Extras for products
-  var extrasData =  PdpService.GetExtras();
-  extrasData = Object.keys(extrasData).map(function (key) { return extrasData[key] });;
-  vm.productExtras = extrasData;
+  //vm.productExtras = extraProducts;
   vm.setQvImage = function($event){
     $($event.target).parents('.category-pdt-carousel').find('#img-min-height img').attr('src',$($event.target).attr('src'));
   }
 
-  vm.selectVarients = function(selectedSize){
-    vm.productVarientImages = [];
-    vm.sizeGroupedProducts = sizeGroupedProducts[selectedSize];
-    vm.selectedColorIndex = 0;
-    vm.gotoPdp = "/pdp/"+sizeGroupedProducts[selectedSize][vm.selectedProductIndex].xp.SequenceNumber+"?prodId="+sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID ; 
-    vm.selectedProductId = sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID;
-    $('body').find('.detail-container .prod_title').text(vm.sizeGroupedProducts[0].Name);
-    PdpService.GetProductCodeImages(sizeGroupedProducts[selectedSize][vm.selectedProductIndex].ID).then(function(res){
-    $timeout(function(){
-      vm.productVarientImages = res;
-       var owl2 = angular.element("#owl-carousel-qv-images");   
-    owl2.trigger('destroy.owl.carousel');
-    setTimeout(function(){
-        owl2.owlCarousel({
-            loop:true,
-            nav:false,
-            dots:true,
-            //dotsContainer:'#carousel-custom-dots',
-            //dotsEach:true,
-            //autoWidth:true
-               responsive:{
-                0:{ items:1 },
-                320:{
-                    items:1,
-                },
-                730 :{ 
-                    items:1,
-                },
-                1024:{ 
-                    items:1
-                }
-            }
-          }); 
-               },300);
-    },200);
-   
-    });
+
+  // Function to get colors for selected size
+  vm.selectVarients = function (selectedSize, $index) {
+    DisplaySelectedColor(selectedSize, $index);
   };
-  $scope.radio = {selectedSize:null};
   
-  vm.selectedSizeBoxIndex = 0;
-  vm.sizeBoxItemClicked = function ($index) {
-    vm.selectedSizeIndex = $index;
 
-    // qv image min height -start
-    var imgMinHeight = parseInt($('.owl-stage-outer').height())+20+'px';
-     // alert(pdpDetailBoxHt);
-      $('#img-min-height').css('min-height',imgMinHeight);
-
-      // qv image min height -end
+  // function to retrieve images for selected size and color
+  vm.selectColor = function ($index,  color) {
+    DisplaySelectedSize(color, $index );
   }
 
   vm.selectedColorIndex = 0;
   vm.productVarientImages = productImages;
   console.log('testimg', vm.productVarientImages)
 
-  // Add to wishList
+ // Add to wishList
   vm.addToWishList = function (productID) {
-   if(productID >1){
-    return PdpService.AddToWishList(productID).then(function (item) {
-      return item;
-    });
-  }else{
-    alert('Please Select a product from available options');
+    if (productID > 1) {
+      WishListHandler(productID, false);
+    } else {
+      alert('Please Select a product from available options');
+    }
   }
-  }
-  vm.colorItemClicked = function ($index, $event, prod) {
-     vm.productVarientImages = [];
-  vm.selectedProductIndex = $index;
-   vm.gotoPdp = "/pdp/"+sizeGroupedProducts[prod.xp.SpecsOptions.Size][vm.selectedProductIndex].xp.SequenceNumber+"?prodId="+sizeGroupedProducts[prod.xp.SpecsOptions.Size][vm.selectedProductIndex].ID ; 
-   
-  $($event.target).parents('.detail-container').find('h3').text(prod.Name);
-  $($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
-  
 
 
-  PdpService.GetProductCodeImages(prod.ID).then(function(res){
-    $timeout(function(){
-  vm.productVarientImages =  res;
-
-   // qv image min height -start
-    var imgMinHeight = parseInt($('.owl-stage-outer').height())+20+'px';
-     // alert(pdpDetailBoxHt);
-      $('#img-min-height').css('min-height',imgMinHeight);
-
-      // qv image min height -end
-
-  var owl2 = angular.element("#owl-carousel-qv-images");   
-    owl2.trigger('destroy.owl.carousel');
-    setTimeout(function(){
-        owl2.owlCarousel({
-            loop:true,
-            nav:false,
-            dots:true,
-            //dotsContainer:'#carousel-custom-dots',
-           //dotsEach:true,
-            //autoWidth:true
-               responsive:{
-                0:{ items:1 },
-                320:{
-                    items:1,
-                },
-                730 :{ 
-                    items:1,
-                },
-                1024:{ 
-                    items:1
-                }
+  // FUnction to display all available colors
+  function DisplayColors(prodcuts, IsObjectRequired){
+    console.log("All Product",prodcuts);
+      var unique = {};
+        var distinct = [];
+        var distinctObj = [];
+    for( var i in prodcuts ){
+            if(typeof(prodcuts[i].xp) !== 'undefined'){
+             if( typeof(unique[prodcuts[i].xp.SpecsOptions.Color]) == "undefined"){
+              distinct.push(prodcuts[i].xp.SpecsOptions.Color);
+              distinctObj.push(prodcuts[i]);
+             }
+             unique[prodcuts[i].xp.SpecsOptions.Color] = 0;
             }
-          }); 
-               },300);
-     },200);
- 
-  });
-   
-
+          }
+          if(IsObjectRequired)
+      return distinctObj;
+          else
+        return distinct;
+      
   }
-  //  var owl2 = angular.element("#owl-carousel-qv-images");   
-  // owl2.trigger('destroy.owl.carousel');
-  //    setTimeout(function(){
-  //     owl2.owlCarousel({
-  //         loop:false,
-  //         nav:true,
-  //         navText: ['<span class="" aria-hidden="true"><img src="assets/images/cat4.png"/></span>'],
-  //         dots:true,
-  //         dotsContainer:'#carousel-custom-dots',
-  //         dotsEach:true,
-  //         navContainer:'.demo',
-  //         responsive:{
-  //             0:{ items:1 },
-  //             320:{
-  //                 items:1,
-  //             },
-  //             730 :{ 
-  //                 items:1,
-  //             },
-  //             1024:{ 
-  //                 items:1
-  //             }
-  //         }
-  //     });
-  // },300);
+
+  // FUnction to display all available sizes
+  function DisplaySizes(prodcuts, IsObjectRequired){
+    console.log("All Product",prodcuts);
+      var unique = {};
+        var distinct = [];
+        var distinctObj = [];
+    for( var i in prodcuts ){
+            if(typeof(prodcuts[i].xp) !== 'undefined'){
+             if( typeof(unique[prodcuts[i].xp.SpecsOptions.Size]) == "undefined"){
+              distinct.push(prodcuts[i].xp.SpecsOptions.Size);
+              distinctObj.push(prodcuts[i]);
+             }
+             unique[prodcuts[i].xp.SpecsOptions.Size] = 0;
+            }
+          }
+          if(IsObjectRequired)
+      return distinctObj;
+      else
+        return distinct;
+  }
+
+  // Function to get selected product
+  function DisplayProduct(selectedSku){
+    vm.productTitle = selectedSku.Name;
+    vm.prodDesription = selectedSku.Description;
+    vm.selectedProductId = selectedSku.ID;
+
+    WishListHandler(selectedSku.ID, true);
+    PdpService.GetProductCodeImages(selectedSku.ID).then(function (res) {
+      vm.productVarientImages = res;
+      var owl2 = angular.element("#owl-carousel-pdp-banner");
+      owl2.trigger('destroy.owl.carousel');
+      setTimeout(function () {
+        owl2.owlCarousel({
+          loop: false,
+          nav: true,
+          navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>', '<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],
+          dots: true,
+          items: 1
+        });
+
+        if ($(window).width() > 1024) {
+          $(".elevateZoom").elevateZoom({
+            easing: true,
+            responsive: true,
+            lensSize: 100,
+            zoomWindowWidth: 500,
+            zoomWindowHeight: 500,
+            borderSize: 1,
+            zoomWindowOffetx: 150
+          });
+        }
+        if ($(window).width() <= 1024) {
+          $(".elevateZoom").pinchzoomer();
+        }
+      }, 300);
+    });
+  }
+
+
+  function DisplaySelectedColor(selectedSize, $index){
+    vm.selectedSizeIndex = $index;
+    // vm.selectedProductIndex = -1;
+    var prodFiltered = _.filter(productDetail, function(_obj) {
+        return (_obj.xp.SpecsOptions.Size == selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize) 
+    });
+    var imAvailableColors = angular.copy(availableColors);
+    prodFiltered = DisplayColors(prodFiltered, false);
+    prodFiltered = _.filter( imAvailableColors, function(color) {
+      if(_.contains(prodFiltered, color.xp.SpecsOptions.Color)){
+        color.isNotAvailable = false;
+        return color;
+      }
+      else{
+        color.isNotAvailable = true;
+        return color;
+      }
+    });
+    vm.allColors = prodFiltered;
+    if($scope.radio.selectedSize != null && $scope.radio.selectedColor != null){
+      var selectedSku = _.filter(productDetail, function(_obj) {
+            return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
+      });
+      if(selectedSku.length ==1){
+        
+        DisplayProduct(selectedSku[0]);
+      }else{
+        console.log('PDP PRODUCT ERROR :: ', selectedSku);
+      }
+    }
+  }
+
+
+  function  DisplaySelectedSize( color, $index ){
+
+    var colorFiltered = _.filter(productDetail, function(_obj) { // filters SKU with  selected color
+          return (_obj.xp.SpecsOptions.Color.toLowerCase() == color.toLowerCase()) 
+    });
+    colorFiltered = DisplaySizes(colorFiltered, false); // sizes availavle for seelcted color 
+    var imAvailableSizes = angular.copy(availableSizes); //copy for all available sizes
+    colorFiltered = _.filter( imAvailableSizes, function(size) { // Adds isNotAvailable attribute for Sizes based on selected dolor
+      if(_.contains(colorFiltered, size.xp.SpecsOptions.Size)){
+        size.isNotAvailable = false;
+        return size;
+      }
+      else{
+        size.isNotAvailable = true;
+        return size;
+      }
+    });
+     vm.allSizes = colorFiltered; // bind the sizes to DOM
+     vm.selectedProductIndex = $index; // Active state for selected color
+     if($scope.radio.selectedSize != null && $scope.radio.selectedColor != null){ // change prodcut if size and color is selected
+      var selectedSku = _.filter(productDetail, function(_obj) {
+        return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
+      });
+      if(selectedSku.length == 1){
+             
+        DisplayProduct(selectedSku[0]); // displays selected product info
+      }else{
+        console.log('PDP PRODUCT ERROR ::', selectedSku);
+      }
+    }
+  }
+
+
+
+  function WishListHandler(productId, isOnload){
+    vm.wishListTxt = "Add To WishList";
+    vm.displayWishList = false;
+    PdpService.AddToWishList(productId, isOnload).then(function (item) {
+        if(item == true){
+          vm.wishListTxt ="ADDED";
+          //Product Added confirmation popup here
+        }
+        else if(item == false){
+          vm.wishListTxt ="ADDED Already";
+          //Product Already in list  popup here
+        }
+        vm.displayWishList = true;
+      });
+  }
+
+
 }
 
 

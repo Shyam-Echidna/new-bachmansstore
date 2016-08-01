@@ -20,42 +20,34 @@
     </div>
     <div class="address-book">
         <a href="" class="view-address-link" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="multipleReceipent.addressBook()"><span class="svg-outer">
-                        <?xml version="1.0" encoding="utf-8"?>
-                        <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 
-                        <!--<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-
-                             viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                        <style type="text/css">
-                            .stmp{fill:#a576ca;}
-                        </style>
-                        <g>
-                            <rect x="10" class="stmp" width="4" height="24"/>
-                            <rect y="10" class="stmp" width="24" height="4"/>
-                        </g>
-
-                        </svg>-->
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                    <g>
+                        <rect x="11" class="stR" width="2" height="24"/>
+                        <rect y="11" class="stR" width="24" height="2"/>
+                    </g>
+                    </svg>
 
 
                     </span>VIEW ADDRESS BOOK
                     </a>
-                    <a href="" ng-if="multipleReceipent.showaddress==true" class="show-all">show all</a>
-                    <div class="addressbookdiv" ng-if="multipleReceipent.showaddress==true">
-                            <label ng-repeat="addressbook in multipleReceipent.addressbook.Items track by addressbook.ID" class="parentP">
-                                <input type="radio" name="addressbook" ng-model="multipleReceipent.address1" value="{{$index}}" id="address{{$index}}" ng-click="lineitem.ShippingAddress = multipleReceipent.addressbook.Items[multipleReceipent.address1]"/>
-                                <label for="address{{$index}}">
-                                    <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <p>
-                                        <span>{{addressbook.FirstName}} {{addressbook.LastName}}</span>
-                                        <span>{{addressbook.Street1}}, {{addressbook.Street2}}</span>
-                                        <span>{{addressbook.City}}, {{addressbook.State}}</span>
-                                        <span>{{addressbook.Country}}, <!-- Zip-  -->{{addressbook.Zip}}</span>
-                                        <span><!-- Phone: --> {{addressbook.Phone}}</span>
-                                    </p>
-                                </label>
-                                
-                            </label>
-                    </div>
+        <a href="" ng-if="multipleReceipent.showaddress==true" class="show-all">show all</a>
+        <div class="addressbookdiv" ng-if="multipleReceipent.showaddress==true">
+            <label ng-repeat="addressbook in multipleReceipent.addressbook.Items track by addressbook.ID" class="parentP">
+                <input type="radio" name="addressbook" ng-model="multipleReceipent.address1" value="{{$index}}" id="address{{$index}}" ng-click="lineitem.ShippingAddress = multipleReceipent.addressbook.Items[multipleReceipent.address1]" />
+                <label for="address{{$index}}">
+                    <span class="radioOutline"><span class="radioInside"></span></span>
+                    <p>
+                        <span>{{addressbook.FirstName}} {{addressbook.LastName}}</span>
+                        <span>{{addressbook.Street1}}, {{addressbook.Street2}}</span>
+                        <span>{{addressbook.City}}, {{addressbook.State}}</span>
+                        <span>{{addressbook.Country}}, <!-- Zip-  -->{{addressbook.Zip}}</span>
+                        <span><!-- Phone: --> {{addressbook.Phone}}</span>
+                    </p>
+                </label>
+            </label>
+        </div>
     </div>
     <div class="row name-block">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -63,33 +55,25 @@
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="first-name">First Name</label>
-
                         <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="changeReceipentPopup.item.ShippingAddress.FirstName">
-
                     </fieldset>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="last-name">Last Name</label>
-
                         <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="changeReceipentPopup.item.ShippingAddress.LastName">
-
                     </fieldset>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                     <fieldset class="form-group">
                         <label for="zip-code">ZIP Code</label>
-
                         <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model="changeReceipentPopup.item.ShippingAddress.Zip" ng-blur="changeReceipentPopup.getCityState(changeReceipentPopup.item)">
-
                     </fieldset>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                     <fieldset class="form-group">
                         <label for="qty">Qty</label>
-
                         <input type="number" id="qty" class="form-control" value="{{changeReceipentPopup.item.Quantity}}" />
-
                     </fieldset>
                 </div>
             </div>
@@ -100,17 +84,13 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <fieldset class="form-group">
                     <label for="address-1">Address</label>
-
                     <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="changeReceipentPopup.item.ShippingAddress.Street1">
-
                 </fieldset>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <fieldset class="form-group">
                     <label for="address-2">Address 2</label>
-
                     <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="changeReceipentPopup.item.ShippingAddress.Street2">
-
                 </fieldset>
             </div>
         </div>
@@ -118,36 +98,32 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <fieldset class="form-group">
                     <label for="city">City</label>
-
                     <input type="text" class="form-control" id="city" placeholder="City" ng-model="changeReceipentPopup.item.ShippingAddress.City">
-
                 </fieldset>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <fieldset class="form-group">
                     <label for="state">State</label>
-
                     <input type="text" class="form-control" id="state" placeholder="State" ng-model="changeReceipentPopup.item.ShippingAddress.State">
-
                 </fieldset>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <fieldset class="form-group">
                     <label for="country">Country</label>
 
                     <input type="text" class="form-control" id="country" placeholder="Country" ng-model="changeReceipentPopup.item.ShippingAddress.Country">
 
                 </fieldset>
-            </div>
+            </div> -->
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <label for="dDate">Delivery Date</label>
-
-                <!--<input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
-
-                <span class="input-group-btn date-svg">
-                                                <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
+                <fieldset class="form-group">
+                    <label for="dDate">Delivery Date</label>
+                    <!-- <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" /> -->
+                    <input type="text" class="form-control" value="{{changeReceipentPopup.item.xp.deliveryDate | date:'MM/dd/yyyy'}}" readonly>
+                    <span class=" date-svg">
+                                                <span class="" ng-click="changeReceipentPopup.openCalenderPopUp=!changeReceipentPopup.openCalenderPopUp">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
                                                 <g>
                                                     <g>
@@ -205,18 +181,14 @@
                                                 </g>
                                             </svg>
                                         </span>
-
-                </span>-->
-                <input type="text" value="{{changeReceipentPopup.item.xp.deliveryDate | date:'MM/dd/yyyy'}}" readonly>
-
+                    </span>
+                </fieldset>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <fieldset class="form-group phone-box">
                 <label for="phone">Phone Number</label>
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
-
                         <input type="text" class="form-control" ng-model="changeReceipentPopup.item.ShippingAddress.Phone1">
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
@@ -224,26 +196,25 @@
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
                         <input type="text" class="form-control" ng-model="changeReceipentPopup.item.ShippingAddress.Phone3">
-
                     </div>
                 </div>
             </fieldset>
         </div>
+        </div>
+        
     </div>
-     <div class="row save-address">
+    <div class="row save-address">
         <div class="col-md-4 col-lg-4">
             <div class="Checkbox">
                 <input type="checkbox">
                 <div class="Checkbox-visible"></div>
             </div>
-            <label > Save this address</label>
+            <label> Save this address</label>
         </div>
     </div>
     <div class="row save-btn">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-click" id="changereceipentid">
-
             <button class="save-btn" ng-click="changeReceipentPopup.changedtls(changeReceipentPopup.item)">Save</button>
-
             <button class="cancel-btn" ng-click="changeReceipentPopup.cancel()">Cancel</button>
         </div>
     </div>

@@ -160,9 +160,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div ng-show="pdp.Faster">
+                                    <!-- <div ng-show="pdp.Faster">
                                        Faster Delivery <input type="checkbox" name="deliverytype" ng-model="pdp.DeliveryType" value="Mixed"  ng-true-value="'Mixed'" ng-false-value="'NO'" />
-                                    </div>
+                                    </div> -->
                                     <!--<div ng-show="pdp.Courier">
                                         Courier<input type="radio" name="deliverytype" ng-model="pdp.DeliveryType" value="Courier" />
                                     </div>-->
@@ -203,7 +203,7 @@
                                             <!--<button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>-->
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
-                                            <button class="btn btn-block add-list-link" ng-click="pdp.addToWishList(pdp.selectedProductId);" type="submit">ADD TO WISHLIST</button>
+                                            <button class="btn btn-block add-list-link" ng-if="pdp.displayWishList" ng-click="pdp.addToWishList(pdp.selectedProductId, false);" type="submit">{{pdp.wishListTxt}}</button>
                                             <!-- <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button> -->
                                         </div>
                                     </div>

@@ -1,14 +1,41 @@
 <div class="container-fluid address-container address-book-container credit-Card-Container">
-
     <div class="row credit-card-headerTitle">
-        <p class="my-account-content-title">Credit Cards 
-            <span class="bachman-chevron hidden-md hidden-lg chevron bottom"></span>
-        </p>
+        <p class="my-account-content-title">Credit Cards</p>
         <div class="add-button col-md-3 col-lg-3 hidden-xs hidden-sm">
-                <button type="button" class="btn" ng-click="creditCards.newCardInput()"> + Add New Card</button>
+            <button type="button" class="btn" ng-click="creditCards.newCardInput()"> + Add New Card</button>
         </div>
     </div>
-<div class="row credit-card-list-cont not-default">
+    <div class="row credit-card-list-cont not-default">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item">
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
+                <p class="title">Default Payment</p>
+                <div class="Checkbox">
+                  <input type="checkbox">
+                  <div class="Checkbox-visible"></div> 
+               </div>
+            </div>
+            <div class="col-xs-2 col-sm-4 col-md-1 col-lg-1 visa">
+                <img src="../../assets/images/batch4web/creditcard/Visa.png" class="visa-icon" />
+            </div>
+            <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
+                <p class="title">Card Number</p>
+                <p class="addr-line1">XXXX XXXX XXXX 1234</p>
+            </div>
+            <div class="col-xs-5 col-sm-5 col-md-2 col-lg-2 cr-card-name">
+                <p class="title">Cardholder's Name</p>
+                <p class="value">Aishwarya</p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 expiry-date">
+                <p class="title">Expiration Date</p>
+                <p class="value">10/2020</p>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 edit-options">
+                <a href="#">Edit</a>
+                <span class="link-sep">|</span>
+                <a href="#">Delete</a>
+            </div>
+        </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCards.list">
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
                 <p class="title">Make Default Payment</p>
@@ -19,7 +46,7 @@
                </div>
             </div>
             <div class="col-xs-2 col-sm-4 col-md-1 col-lg-1 visa">
-                <img src="../../assets/images/batch4web/creditcard/visa.png" class="visa-icon" />
+                <img src="../../assets/images/batch4web/creditcard/Visa.png" class="visa-icon" />
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
@@ -62,7 +89,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="number" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate">Expiration Date</label>
@@ -88,7 +115,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardCVV">Card CVV</label>
-                            <input type="number" card-validation ng-minlength="3" maxlength="4" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
+                            <input type="text" card-validation ng-minlength="3" maxlength="4" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
                         </div>
                     </div>
                     <div class="col-xs-12 p0 nav-buttons">

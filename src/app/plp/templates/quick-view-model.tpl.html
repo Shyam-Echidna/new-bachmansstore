@@ -50,26 +50,26 @@
             </div>
             <div class="col-md-7 col-xs-7">
                 <div class="detail-container">
-                    <h3 class="prod_title">{{productQuickViewModal.productDetails[productQuickViewModal.selectedSizeIndex][productQuickViewModal.selectedProductIndex].Name | lowercase}}</h3>
-                    <h5 ng-if="productQuickViewModal.productDetails.length > 1">Select Size</h5>
-                    <div class="row radio-btn-container" ng-if="productQuickViewModal.productDetails.length > 1">
-                        <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.productDetails">
-                            <div class="size-box" for="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index == productQuickViewModal.selectedSizeIndex }" ng-click="productQuickViewModal.selectedProductIndex=0;productQuickViewModal.sizeBoxItemClicked($index);">
-                                <input type="radio" id="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}" ng-init="$index== productQuickViewModal.selectedSizeIndex?(radio.selectedSize=opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size):'';$index==productQuickViewModal.selectedSizeIndex?productQuickViewModal.selectVarients(radio.selectedSize):''" ng-change="productQuickViewModal.selectVarients(radio.selectedSize)" />
-                                <label for="{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}">
+                    <h3 class="prod_title" >{{productQuickViewModal.productTitle | lowercase}}</h3>
+                    <h5 >Select Size</h5>
+                    <div class="row radio-btn-container" >
+                        <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.allSizes">
+                            <div class="size-box" for="{{opt.xp.SpecsOptions.Size}}"   ng-class="{ 'active-box': $index ==  productQuickViewModal.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
+                                <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}"   ng-disabled="opt.isNotAvailable" ng-change="productQuickViewModal.selectVarients(radio.selectedSize, $index)" />
+                                <label for="{{opt.xp.SpecsOptions.Size}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="visible-xs visible-sm horizontal-label">
-                                <span class="productQuickViewModal-name">{{opt[productQuickViewModal.defaultSizeIndex].xp.SpecsOptions.Size}}</span>
+                                <span class="productQuickViewModal-name" >{{opt.xp.SpecsOptions.Size}}</span>
                                     <span class="productQuickViewModal-price"><!-- <span class="old-price">$65.00</span> -->
                                     <!-- <span class="new-price">{{pdp.productDetails.prodPrice | currency}}</pan> -->
-                                    <span ng-repeat="priceItem in opt[productQuickViewModal.defaultSizeIndex].StandardPriceSchedule.PriceBreaks">
+                                    <span ng-repeat="priceItem in opt.StandardPriceSchedule.PriceBreaks">
                                  <span class="new-price">{{priceItem.Price | currency}}</span>
                                     </span>
                                     </span>
                                     </span>
-                                    <h5>{{opt[0].xp.SpecsOptions.Size}}</h5>
+                                    <h5>{{opt.xp.SpecsOptions.Size}}</h5>
                                     <p>
-                                        <span ng-repeat="priceItem in opt[productQuickViewModal.defaultSizeIndex].StandardPriceSchedule.PriceBreaks">
+                                        <span ng-repeat="priceItem in opt.StandardPriceSchedule.PriceBreaks">
                                 <span class="new-price">{{priceItem.Price | currency}}</span>
                                         </span>
                                     </p>
@@ -77,13 +77,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row color-selection" ng-if="productQuickViewModal.sizeGroupedProducts.length > 1">
+                    <div class="row color-selection" >
                         <h5>Select Color</h5>
-                        <div class="color-circle">
-                            <p ng-repeat="coloropt in productQuickViewModal.sizeGroupedProducts" ng-click="productQuickViewModal.colorItemClicked($index,$event, coloropt)" ng-class="{ 'active-circle': $index == productQuickViewModal.selectedProductIndex }">
-                                <a href="" class="" id="{{coloropt.xp.SpecsOptions.Color}}" name="{{coloropt.xp.SpecsOptions.Color}}" value="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a>
-                            </p>
-                        </div>
+                         <div class="color-circle">
+                          
+                                    <ul class="list-inline">
+
+                                        <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in productQuickViewModal.allColors  track by $index" ng-class="{ 'active-circle': $index == productQuickViewModal.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
+                                            <input type="radio"  style="display:none" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="productQuickViewModal.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/>
+                                            <label style="display:block;display: block;background-color: blue;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;width:20px;height:20px" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"> 
+                                           
+                                            </label>                                             
+                                        </li>
+                                    </ul>
+                                 
+                                </div>
                     </div>
                     <div class="row price-block" ng-if="productQuickViewModal.productDetails[0].length == 1 &&  productQuickViewModal.productDetails.length == 1">
                         <ul ng-repeat="priceItem in productQuickViewModal.productDetails[0][0].StandardPriceSchedule.PriceBreaks">

@@ -1126,8 +1126,11 @@
                                 padding: 0px 0px 15px 0px;
                             }
                             h5 {
-                                font-size: 0.875em;
-                                padding: 0px 0px 10px 0px;
+                                font-size: 0.975em;
+                                padding: 11px 0px 4px;
+                            }
+                            p{
+                                padding: 4px 0px;
                             }
                             .radio-btn-container {
                                 div {
@@ -1195,7 +1198,8 @@
                                             margin-bottom: 0px;
                                             P {
                                                 padding-top: 0px;
-                                                line-height: 0;
+                                                line-height: 40px;
+                                                margin-top: 0;
                                             }
                                         }
                                         &.open {
@@ -1236,7 +1240,7 @@
                                     input[type="text"],
                                     button {
                                         height: 40px;
-                                        font: 0.875em @proxima-regular;
+                                        font: 0.875em @proxima-bold;
                                         padding: 0px;
                                     }
                                     form {
@@ -1277,9 +1281,9 @@
                                             &:first-child,
                                             &:last-child {
                                                 padding-left: 0px;
-                                            }
+                                            } 
                                             &:last-child {
-                                                padding-left: 35px;
+                                                padding-left: 0px;
                                                 padding-right: 0px;
                                                 button {
                                                     &:active {
@@ -1902,10 +1906,13 @@
                 padding: 0px !important;
                 width: auto;
             }
-            #owl-carousel-pdp-banner.owl-carousel .owl-item {
-                min-height: 350px;
-                img {
-                    max-height: 350px;
+            #owl-carousel-pdp-banner{
+                padding-bottom: 0px;
+                &.owl-carousel .owl-item {
+                    min-height: initial;
+                    img {
+                        max-height: initial;
+                    }
                 }
             }
         }
@@ -2210,6 +2217,52 @@
             }
         }
     }
+    .pdp-recipient-modal{
+        .panel-body-content{
+            padding: 20px 10px !important;
+            .name-block{
+                div{
+                   
+                    &:first-child{
+                        .row{
+                            div{
+                               padding-right: 7px !important;  
+                            }
+                        }
+                    }
+                &.col-lg-8{
+                    width:66.66666667%;
+                    display: inline-block;
+                }
+                &.col-lg-5{
+                    width:41.66666667%;
+                    display: inline-block;
+                }
+                &.col-lg-4{
+                    width:33.33333333%;
+                    display: inline-block;
+                }
+                &.col-lg-3{
+                    width:25%;
+                    display: inline-block;
+                }
+                &.col-lg-2{
+                    width: 16.66666667%;
+                    display: inline-block;
+                }
+                &.col-lg-1{
+                    width: 6.13333333%;
+                    display: inline-block;
+                }
+            }
+            }
+            .message-lines,.request-box{
+                width: 45% !important;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
 }
 
 
@@ -2258,6 +2311,10 @@ span.ng-isolate-scope:active {
     overflow-y: auto;
     .title-bar {
         margin: 15px 0px;
+        padding: 0px 30px;
+        div{
+            padding: 0px;
+        }
         h3 {
             font: 2.125em @neutraface-demi;
             color: @font-purple-dark;
@@ -2283,8 +2340,7 @@ span.ng-isolate-scope:active {
         }
     }
     .panel-body-content {
-        padding: 0px 30px;
-        padding-top: 10px;
+        padding:20px 30px;
         .view-address-link,.show-all {
             font: 1em @proxima-regular;
             color: @font-purple-dark;
@@ -2295,6 +2351,15 @@ span.ng-isolate-scope:active {
                 svg {
                     height: 15px;
                     width: 15px;
+                    fill:@font-purple-dark;
+                }
+            }
+            &:hover{
+                color: @font-purple-light;
+                .svg-outer{
+                    svg{
+                        fill:@font-purple-light;
+                    }
                 }
             }
         }
@@ -2382,6 +2447,7 @@ span.ng-isolate-scope:active {
                 .row {
                     div {
                         paddin-right: 0px;
+
                         fieldset {
                             label {
                                 font: 1em @proxima-regular;
@@ -2625,6 +2691,14 @@ span.ng-isolate-scope:active {
         }
         .address-block {
             margin-top: 15px;
+            .row{
+                div{
+                                            width: 35%;
+                            &.col-md-offset-1{
+                                margin-left: 5%;
+                            }
+                }
+            }
             input[type=text],
             select {
                 background: #f6f6f6;
@@ -2666,6 +2740,9 @@ span.ng-isolate-scope:active {
                         li{
                             -webkit-appearance:none;
                             outline: 0;
+                            div{
+                                width: 100%;
+                            }
                             table{
                                 -webkit-appearance:none;
                                 outline: 0;
@@ -2735,8 +2812,10 @@ span.ng-isolate-scope:active {
             .phone-box {
                 .row {
                     padding-left: 0px !important;
+                    width: 100%;
                     div {
                         padding: 0px 15px 0px 0px !important;
+                        width: 30%;
                     }
                 }
             }
@@ -2744,7 +2823,7 @@ span.ng-isolate-scope:active {
                 .cuctom-checkbox;
                 .Checkbox {
                     display: inline-block;
-                    &>input:checked + .Checkbox-visible {
+                    .Checkbox-visible {
                         height: 17px;
                         width: 17px;
                     }
@@ -2886,9 +2965,28 @@ span.ng-isolate-scope:active {
 			    .add-recipent {
 			        h3,
 			        h4 {
-			            font: 1.2em @proxima-regular;
-			            color: #000;
 			            line-height: 45px;
+                        font: 1em @proxima-regular;
+                        color: @font-purple-dark;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        .svg-outer {
+                            margin-right: 5px;
+                            svg {
+                                height: 15px;
+                                width: 15px;
+                                fill:@font-purple-dark;
+                            }
+                        }
+                       
+                       &:hover{
+                        color: @font-purple-light;
+                        .svg-outer{
+                            svg{
+                                fill:@font-purple-light;
+                            }
+                        }
+                       }
 			        }
 			        h4 {
 			            font-size: 0.9em;
@@ -2927,6 +3025,7 @@ span.ng-isolate-scope:active {
 	.request-box {
 	    padding: 0px;
 	    padding: 0px 30px 0px 0px !important;
+        width: 35%;
 	    .instruction {
 	        width: 100%;
 	        background: transparent;
@@ -2970,6 +3069,7 @@ span.ng-isolate-scope:active {
 	    textarea {
 	        height: auto;
 	    }
+
 	}
       &.disable-fields{
         .row {
@@ -3008,7 +3108,7 @@ span.ng-isolate-scope:active {
                 margin: 0px;
                 border: none;
                 border-top: 1px solid #ccc;
-                border-bottom: 1px solid #ccc;
+                //border-bottom: 1px solid #ccc;
                 border-radius: 0px;
                 box-shadow: none;
                 .panel-heading {
@@ -3018,11 +3118,13 @@ span.ng-isolate-scope:active {
                     padding: 20px 30px;
                     border-radius: 0px;
                     box-shadow: none;
+                    border-bottom: 1px solid #ccc;
                     .panel-title {
-                        font: 1em @proxima-bold;
+                        font: 1em @proxima-regular;
+                        font-weight: bold;
                         text-transform: uppercase;
                         position: relative;
-                        top: 3px;
+                        top: 0px;
                         .cuctom-checkbox;
                         .Checkbox{
                             top: -1px;
@@ -3068,6 +3170,7 @@ span.ng-isolate-scope:active {
                         color: @base-bg-white;
                         border-radius: 0px;
                         box-shadow: none;
+                        border: none;
                         .panel-title {
                             a {
                                 span {
@@ -3092,13 +3195,13 @@ span.ng-isolate-scope:active {
                 }
                 .panel-collapse {
                     .panel-body {
-                       
+                       padding: 0px;
                     }
                 }
               
             }
             .next-btn {
-			    margin: 30px 0px 0px 0px;
+			    margin: 30px 0px 15px 0px;
 			    .btn-click {
 			        text-align: right;
 			        button {
@@ -3115,27 +3218,27 @@ span.ng-isolate-scope:active {
 			    .add-recipent {
 			        h3,
 			        h4 {
-			            font: 1.2em @proxima-regular;
-			            color: #000;
-			            line-height: 45px;
-			            .svg-outer{
-			            	svg{
-			            		height: 15px;
-			            		width: 15px;
-			            		.stR{
-			            			fill:#000;
-			            		}
-			            	}
-			            	
-			            }
-			            &:hover{
-			            	color: @font-purple-dark;
-			            		svg{
-			            			.stR{
-			            				fill:@font-purple-dark;
-			            			}
-			            		}
-			            }
+                        font: 1em @proxima-regular;
+                        color: @font-purple-dark;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        .svg-outer {
+                            margin-right: 5px;
+                            svg {
+                                height: 15px;
+                                width: 15px;
+                                fill:@font-purple-dark;
+                            }
+                        }
+			           
+                       &:hover{
+                        color: @font-purple-light;
+                        .svg-outer{
+                            svg{
+                                fill:@font-purple-light;
+                            }
+                        }
+                       }
 			        }
 			        h4 {
 			            font-size: 0.9em;
@@ -3156,16 +3259,155 @@ span.ng-isolate-scope:active {
            left: 0px;
            .modal-content{
             border: none;
+            max-height: 100%;
+            height: 100%;
            }
     }
     }
     .pdp-recipient-modal{
         max-height: 100% !important;
+        min-height: 100%;
         .panel-body-content{
-            padding: 0px;
+            padding: 0px 10px;
+            .message-lines,.request-box{
+                width: 100%;
+                display: block;
+                clear: both;
+                padding: 0px !important;
+                input[type="text"]{
+                    font-size: 0.750em;
+                }
+            }
+            .view-address-link{
+                font-size:0.813em;
+                float: left;
+                margin-bottom: 10px;
+                .svg-outer{
+                    svg{
+                        height: 13px;
+                        width: 13px;
+                    }
+                }
+            }
+            .addressbookdiv {
+            padding-top: 50px;
+            .parentP {
+                width: 50%;
+                margin-bottom: 10px;
+                label {
+                    p {
+                        display: inline-block;
+                        vertical-align: top;
+                        max-width: 83%;
+                        padding-left: 3px;
+                        cursor: pointer;
+                        span{
+                            display: block;
+                            font-size: 0.8em;
+                            line-height: 18px;
+                        }
+                    }
+                }
+
+            }
         }
+            .row{
+                div{
+                    padding: 0px;
+                    .row{
+                        div{
+                            padding: 0px;
+                                fieldset{
+                                    label{
+                                        font-size:0.749em;
+                                    }
+                                    input[type=text],select{
+                                        font-size:0.750em;
+                                    }
+                                }
+                            &.col-xs-offset-0,&.col-sm-offset-0{
+                                margin-left: 0%;
+                        }
+                        }
+                    }
+                }
+            
+            }
+            .name-block{
+                div:first-child{
+                    padding: 0px;
+                    .row{
+                        div{
+                            padding: 0px;
+                        }
+                    }
+                }
+            }
+            .radio-btn-group{
+                    padding: 0px;
+                    width: 100%;
+                label{
+                    font-size:0.874em;
+                    padding: 0px;
+            }       
+        
+                .receipient-location{
+                    width: 100%;
+                    padding-bottom: 10px;
+                    .radio-inline{
+                        width: 50%;
+                        display: inline-block;
+                        float: left;
+                        padding: 0px;
+                        margin: 0px 0px 15px 0px;
+                        padding-left: 5%;
+                    }
+                }
+            }
+            .address-block{
+                 .row{
+                      div{
+                        width: 100%;
+                      }  
+                    }
+                .phone-box{
+                    .row{
+                        div{
+                            padding: 0px 5px;
+                            width: 33.3333%;
+                            &:first-child{
+                                padding-left: 0px;
+
+                            }
+                            &:last-child{
+                                padding-right: 0px;
+                            }
+                        }
+                    }
+                }
+                }
+                .delivery-date{
+                    .row{
+                        p{
+                            font-size:0.750em;
+                            padding-left: 10px;
+                            font-weight: normal;
+                        }
+                    }
+                    .calender-svg{
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+                .save-address{
+                    label{
+                        font-size:0.875em;
+                    }
+                }
+
+            }
     .title-bar{
-        padding:0px 0px 10px 0px;
+        padding:0px 10px 10px 10px;
         border-bottom: 2px solid #f1f1f1;
         margin: 0px 0px 15px 0px;
         h3{
@@ -3200,96 +3442,8 @@ span.ng-isolate-scope:active {
                     }
                 .panel-collapse{
                     .panel-body{
-                        padding: 15px 10px;
-                            .panel-body-content{
-                                .view-address-link{
-                                    font-size:0.813em;
-                                    .svg-outer{
-                                        svg{
-                                            height: 13px;
-                                            width: 13px;
-                                        }
-                                    }
-                                }
-                                .row{
-                                    div{
-                                        padding: 0px;
-                                        .row{
-                                            div{
-                                                padding: 0px;
-                                                    fieldset{
-                                                        label{
-                                                            font-size:0.749em;
-                                                        }
-                                                        input[type=text],select{
-                                                            font-size:0.750em;
-                                                        }
-                                                    }
-                                                &.col-xs-offset-0,&.col-sm-offset-0{
-                                                    margin-left: 0%;
-                                            }
-                                            }
-                                        }
-                                    }
-                                
-                                }
-                                .radio-btn-group{
-                                        padding: 0px;
-                                        width: 100%;
-                                    label{
-                                        font-size:0.874em;
-                                        padding: 0px;
-                                }       
+                        padding:15px 0px;
                             
-                                    .receipient-location{
-                                        width: 100%;
-                                        padding-bottom: 10px;
-                                        .radio-inline{
-                                            width: 50%;
-                                            display: inline-block;
-                                            float: left;
-                                            padding: 0px;
-                                            margin: 0px 0px 15px 0px;
-                                            padding-left: 5%;
-                                        }
-                                    }
-                                }
-                                .address-block{
-                                    .phone-box{
-                                        .row{
-                                            div{
-                                                padding: 0px 5px;
-                                                &:first-child{
-                                                    padding-left: 0px;
-
-                                                }
-                                                &:last-child{
-                                                    padding-right: 0px;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    }
-                                    .delivery-date{
-                                        .row{
-                                            p{
-                                                font-size:0.750em;
-                                                padding-left: 10px;
-                                                font-weight: normal;
-                                            }
-                                        }
-                                        .calender-svg{
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    }
-                                    .save-address{
-                                        label{
-                                            font-size:0.875em;
-                                        }
-                                    }
-
-                                }
                                 .total-block{
                                     margin-top: 25px;
                                     .bill-content,.total-price{
@@ -3320,7 +3474,7 @@ span.ng-isolate-scope:active {
                                 padding: 0px;
 
                                 .btn-click{
-                                    padding: 0px;
+                                    padding: 0px 10px;
                                     button{
                                         width: 100%;
                                         height: 2.5em;
@@ -3340,6 +3494,9 @@ span.ng-isolate-scope:active {
                     //padding-bottom: 20px;
                     padding: 0px 10px;
                     text-align: center;
+                    div{
+                        padding: 0px;
+                    }
                    .view-address-link{
                         h3{
                             font-size: 0.875em;

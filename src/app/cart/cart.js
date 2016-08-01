@@ -150,8 +150,10 @@ function CartService($q, OrderCloud, $http) {
         var d = $q.defer();
         OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
-             OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-                //OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+
+             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+                OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
                 var key = {}, MinDate = {};
                 // line.xp.NoInStorePickUp = true;
@@ -240,11 +242,11 @@ function CartService($q, OrderCloud, $http) {
 
 }
 
-function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService, LoggedinUser, CartService) {
+function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService, LoggedinUser, CartService, CurrentOrder) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
-    vm.removeItem = LineItemHelpers.RemoveItem;
+    vm.removeItem = removeItem;
     vm.pagingfunction = PagingFunction;
     vm.signnedinuser = LoggedinUser;
     vm.editreceipent = editreceipent;
@@ -257,7 +259,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.changeReceipentfun = changeReceipentfun;
     vm.changeQuantity = changeQuantity;
 
-    vm.changeDate = false;
+    vm.changeDate = changeDate;
     console.log(vm.order);
     vm.updateQuantity = function (cartOrder, lineItem) {
         $timeout.cancel();
@@ -306,14 +308,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         alert("test");
         PdpService.AddToWishList(productID);
     }
-  
+
     angular.forEach(vm.lineItems.Items, function (line) {
-        
+
         line.xp.deliveryDate = new Date(line.xp.deliveryDate);
     });
 
-    var data = _.groupBy(vm.lineItems.Items, function(value){
-        if(value.ShippingAddress != null){
+    var data = _.groupBy(vm.lineItems.Items, function (value) {
+        if (value.ShippingAddress != null) {
 
             //totalCost += value.xp.TotalCost;
             return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip;
@@ -377,7 +379,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         data[0] = item;
         vm.updateRecipientDetails(data).then(function (s) {
             if (s = 'success') {
-                vm.changeDate = false;
+                vm.changeLineDate[index] = false;
             }
         })
 
@@ -390,51 +392,36 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function editreceipent(data) {
         console.log(data);
-        var log = [];
-        for (var i = 1; i < data.length; i++) {
-            data[i].ShippingAddress = data[0].ShippingAddress;
-        }
-        // angular.forEach(data, function(value, key){
-        //     var updatefeilds={"FirstName":value.ShippingAddress.FirstName, "LastName":value.ShippingAddress.LastName, "Zip":value.ShippingAddress.Zip};
-        //     console.log(updatefeilds);
-        //     OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-        //         console.log(res);
-        //        // OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res1){
-        //           //  console.log(res1);
-        //             $state.reload();
-        //         //});
-        //     });
-        // },log);
-        // OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
-
-        // var samezip = null
-        // angular.forEach(data, function (val1, key1, obj1) {
-        //     samezip = _.find(res.Items, function (i) { return i.ShippingAddress.Zip == val1.ShippingAddress.Zip; });
-        //     count++;
-
-        // });
-        //if (samezip == undefined) {
-        vm.updateRecipientDetails(data).then(function (s) {
-            if (s == 'Success') {
-                $state.reload();
-            }
-        });
+        var deferred = $q.defer();
+        // var log = [];
+        // for (var i = 1; i < data.length; i++) {
+        //     data[i].ShippingAddress = data[0].ShippingAddress;
         // }
-        // else{
-        // angular.forEach(data, function(value, key){
-        //     var updatefeilds={"FirstName":value.ShippingAddress.FirstName, "LastName":value.ShippingAddress.LastName, "Zip":value.ShippingAddress.Zip};
-        //     console.log(updatefeilds);
-        //     OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res){
-        //         console.log(res);
-        //        // OrderCloud.As().LineItems.PatchShippingAddress(vm.order.ID, value.ID, updatefeilds).then(function(res1){
-        //           //  console.log(res1);
-        //             $state.reload();
-        //         //});
-        //     });
-        // },log);
-        //}
+        var shippingAddress = data[0].ShippingAddress
+        var i = 0;
+        var temppromise = [];
+        angular.forEach(data, function (value, key) {
 
+            temppromise[i] = OrderCloud.As().LineItems.SetShippingAddress(vm.order.ID, value.ID, shippingAddress);
+            i++;
+        });
+        $q.all(temppromise).then(function (result) {
+            vm.updateRecipientDetails(result).then(function (s) {
+                if (s == 'Success') {
+                    $state.reload();
+                }
+            });
+            // var tmp = [];
+            // angular.forEach(result, function (response) {
+            //     tmp.push(response);
+            // });
+            // return tmp;
+        })
+        // .then(function (tmpResult) {
+
+        //     console.log("tmpResult= ",tmpResult);
         // });
+
 
 
     }
@@ -483,56 +470,19 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
 
     function changeReceipentfun(lineitem, addressforlineitem) {
-
-        var data = []
-        lineitem.ShippingAddress = addressforlineitem.ShippingAddress;
-        data[0] = lineitem;
-        console.log(lineitem, addressforlineitem);
-
-        // var lastrecp = data, selectedaddr = [];
-        // var newline = {
-        //     "ProductID": lastrecp.ProductID,
-        //     "Quantity": lastrecp.Quantity,
-        //     "xp": lastrecp.xp
-        // }
-        // //OrderCloud.As().LineItems.List(vm.order.ID).then(function(ans){
-
-        // OrderCloud.As().LineItems.List(vm.order.ID).then(function (ans) {
-        //     console.log(ans);
-        //     var shippaddr = {};
-        //     selectedaddr = _.filter(ans.Items, function (obj) {
-        //         return _.indexOf([changereceipent], obj.ShippingAddress.FirstName) > -1
-        //     });
-        //     console.log("selectedaddr", selectedaddr);
-        //     console.log(selectedaddr.ShippingAddress);
-        //     angular.forEach(selectedaddr, function (value, key) {
-        //         console.log(value);
-        //         shippaddr = {
-        //             "City": value.ShippingAddress.City,
-        //             "FirstName": value.ShippingAddress.FirstName,
-        //             "LastName": value.ShippingAddress.LastName,
-        //             "Street1": value.ShippingAddress.Street1,
-        //             "Street2": value.ShippingAddress.Street2,
-        //             "State": value.ShippingAddress.State,
-        //             "Zip": value.ShippingAddress.Zip,
-        //             "Country": value.ShippingAddress.Country,
-        //             "Phone": value.ShippingAddress.Phone
-        //         }
-        //         OrderCloud.As().LineItems.Delete(vm.order.ID, data.ID);
-        //         OrderCloud.As().LineItems.Create(vm.order.ID, newline).then(function (res) {
-        //             console.log(res);
-        //             OrderCloud.As().LineItems.SetShippingAddress(vm.order.ID, res.ID, shippaddr).then(function (resq) {
-        //                 $state.reload()
-        //             })
-        //         });
-        //     })
-        // })
-        //})
-        vm.updateRecipientDetails(data).then(function (s) {
-            if (s == 'Success') {
-                $state.reload();
-            }
-        });
+        if (lineitem.ShippingAddress != addressforlineitem.ShippingAddress) {
+            var data = []
+            lineitem.ShippingAddress = addressforlineitem.ShippingAddress;
+            data[0] = lineitem;
+            console.log(lineitem, addressforlineitem);
+            vm.updateRecipientDetails(data).then(function (s) {
+                if (s == 'Success') {
+                    $state.reload();
+                    lineitem.showDeliveryToolTip=!lineitem.showDeliveryToolTip;
+                }
+            });
+        }
+          lineitem.showDeliveryToolTip=! lineitem.showDeliveryToolTip;
     }
 
     vm.checkDeliverymethod = checkDeliverymethod;
@@ -576,9 +526,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     function GetDeliveryMethods(prodID) {
         var deferred = $q.defer();
         OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
+
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
-             OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-                //OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+                OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
                 deferred.resolve(res2);
@@ -679,101 +631,60 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function updateRecipientDetails(data) {
         var defered = $q.defer();
-        var newLineItems = []
         OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
             if (res.Items.length > 1) {
-                newLineItems = res.Items;
-                var count = 0;
+                var promises = [];
+                var inum = 0;
+                angular.forEach(data, function (val1) {
+                    promises[inum] = calliteration(val1);
+                    function calliteration(val1) {
+                        var deferred = $q.defer();
+                        var newLineItems = []
+                        OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+                            newLineItems = res.Items;
+                            newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
+                            vm.checkDeliverymethod(val1).then(function (r) {
+                                if (r == 'success') {
+                                    vm.checkLineItemsId(newLineItems, val1).then(function (id) {
+                                        if (id == 'notsameId') {
+                                            vm.checkLineItemsAddress(newLineItems, val1).then(function (address) {
+                                                if (address == 'notsameAddress') {
+                                                    vm.calculateDeliveryCharges(val1).then(function (r1) {
+                                                        if (r1 == '1') {
+                                                            vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
 
-                angular.forEach(data, function (val1, key1, obj1) {
-                    newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
-
-                    count++;
-
-                });
-                console.log('newLineItems', newLineItems);
-
-                // });
-                if (count > 0) {
-                    var times = data.length;
-                    var i = 0
-                    calliteration(data[i], i, data);
-                    function calliteration(val1, i, data) {
-                        if (times != 0) {
-                            // vm.getCityState(val1, val1.ShippingAddress.Zip).then(function (z) {
-                            //     if (z == 'zip') {
-                                    vm.checkDeliverymethod(val1).then(function (r) {
-                                        if (r == 'success') {
-                                            if (newLineItems.length != 0) {
-                                                vm.checkLineItemsId(newLineItems, val1).then(function (id) {
-                                                    if (id == 'sameId') {
-                                                        i < times ? i++ : i;
-                                                        times--;
-                                                        updateLineItemsArray(data).then(function (arr) {
-                                                            if (arr == 'updatedarray') {
-                                                                calliteration(data[i], i, data);
-                                                            }
-                                                        })
-
-                                                    }
-                                                    else if (id == 'notsameId') {
-                                                        vm.checkLineItemsAddress(newLineItems, val1).then(function (address) {
-                                                            newLineItems.push(val1);
-                                                            if (address == 'sameAddress') {
-                                                                i < times ? i++ : i;
-                                                                times--;
-                                                                calliteration(data[i], i, data);
-
-                                                            }
-                                                            if (address == 'notsameAddress') {
-                                                                vm.calculateDeliveryCharges(val1).then(function (r1) {
-                                                                    if (r1 == '1') {
-                                                                        vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
-                                                                            if (u == 'updated') {
-                                                                                i < times ? i++ : i;
-                                                                                times--;
-                                                                                calliteration(data[i], i, data);
-                                                                            }
-                                                                        })
+                                                            })
 
 
-                                                                    }
-                                                                })
-                                                            }
-                                                        })
-                                                    }
-                                                })
-
-                                            }
-                                            else {
-                                                vm.calculateDeliveryCharges(val1).then(function (r1) {
-                                                    if (r1 == '1') {
-                                                        newLineItems.push(val1);
-                                                        vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
-                                                            if (u == 'updated') {
-                                                                i < times ? i++ : i;
-                                                                times--;
-                                                                calliteration(data[i], i, data);
-                                                            }
-                                                        })
-
-
-                                                    }
-                                                })
-                                            }
+                                                        }
+                                                    })
+                                                }
+                                            })
                                         }
-                                    });
-                            //     }//comment
-                            // });///comment
+                                    })
 
-                        }
-                        if (times == 0) {
-                            defered.resolve('success');
-                        }
+
+                                }
+                            });
+                        });
+
+                        return deferred.promise;
                     }
+                    inum++;
+                });
+                $q.all(promises).then(function (result) {
+                    var tmp = [];
+                    angular.forEach(result, function (response) {
+                        tmp.push(response.data);
+                    });
+                    return tmp;
+                }).then(function (tmpResult) {
+                    var combinedResult = tmpResult.join(", ");
+                    console.log(combinedResult);
+                    defered.resolve('success');
+                });
 
 
-                }
 
 
             }
@@ -801,32 +712,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 });
 
             }
-            //defered.resolve('success')
-
-            console.log(newLineItems);
-            // });
-            function updateLineItemsArray(data) {
-                var defered = $q.defer()
-                OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
-
-                    newLineItems = res.Items;
-                    var count = 0;
-
-                    angular.forEach(data, function (val1, key1, obj1) {
-                        newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
-
-                        count++;
-
-                    });
-                    console.log('Updatedlineitemsarray', newLineItems);
-                    defered.resolve('updatedarray');
-
-
-                });
-
-                return defered.promise;
-
-            }
+           
         });
         return defered.promise;
     }
@@ -841,6 +727,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 //vm.getLineItems();
                 defered.resolve('updated')
             });
+
         });
         return defered.promise;
     }
@@ -867,7 +754,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
             var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
 
-            if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && val.xp.DeliveryMethod == line.xp.DeliveryMethod && DateA == DateB) {
+            if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && DateA == DateB) {
                 if (count == 0) {
                     line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
                     count++
@@ -903,7 +790,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     val.Quantity += line.Quantity;
                     vm.calculateDeliveryCharges(val).then(function (data) {
                         if (data == '1') {
-                            vm.updateLinedetails(vm.order.ID, val);
+                            vm.updateLinedetails(vm.order.ID, val).then(function (u) {
+                                // if (u == 'updated') {
+
+                                // }
+                            })
                         }
                     });
                     count++
@@ -939,7 +830,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     function changeQuantity(lineItem) {
 
         OrderCloud.As().LineItems.Get(vm.order.ID, lineItem.ID).then(function (data) {
-            console.log("Lineitemdeleted", data);
+            console.log("LineitemQuantity", data);
             var lineitemFee = parseFloat(data.xp.TotalCost) - parseFloat(data.Quantity * data.UnitPrice);
             lineItem.xp.TotalCost = lineitemFee + (lineItem.Quantity * lineItem.UnitPrice);
             OrderCloud.As().LineItems.Update(vm.order.ID, lineItem.ID, lineItem).then(function (dat) {
@@ -948,13 +839,165 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     console.log("SetShippingAddress", data);
                     alert("Data submitted successfully");
                     //vm.getLineItems();
-                   
+
                 });
 
             });
         });
     }
+    vm.changeLineDate = []
+    function changeDate(index) {
+        vm.changeLineDate[index] = (!!vm.changeLineDate[index]) ? false : true;
+        console.log(index);
+    }
+    function removeItem(order, lineItem) {
+        var defered = $q.defer();
+        var newLineItems = [];
+        var data = [];
+        data[0] = lineItem;
+        //vm.deleteLineItem();
+        OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+            if (res.Items.length > 1) {
+                if (lineItem.TotalCost == (lineItem.UnitPrice * lineItem.Quantity)) {
+                    // deleteLineItem
+                    vm.RemoveLineItem(order, lineItem);
+                }
+                else {
+                    newLineItems = res.Items;
+                    var count = 0;
 
+                    angular.forEach(data, function (val1, key1, obj1) {
+                        newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
+
+                        count++;
+
+                    });
+                    console.log('newLineItems', newLineItems);
+
+                    // });
+                    if (count > 0) {
+                        vm.checkLineItemFeeDetails(newLineItems, lineItem).then(function (FeeDetails) {
+
+                            if (FeeDetails == 'LineItemFeeDetailsupdated' || FeeDetails == 'LineItemFeeDetailsNotupdated') {
+                                //deleteLineItem
+                                vm.RemoveLineItem(order, lineItem);
+
+                            }
+                            // if (FeeDetails == 'LineItemFeeDetailsNotupdated') {
+
+                            // }
+                        })
+                    }
+                }
+            }
+            else {
+                //deleteLineItem
+                vm.RemoveLineItem(order, lineItem);
+            }
+
+        });
+    }
+    vm.checkLineItemFeeDetails = checkLineItemFeeDetails;
+    function checkLineItemFeeDetails(res, line) {
+        var count = 0;
+        var deferred = $q.defer();
+        angular.forEach(res, function (val, key, obj) {
+
+            var a = new Date(val.xp.deliveryDate);
+            var b = new Date(line.xp.deliveryDate);
+
+            var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
+            var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
+
+            if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && DateA == DateB) {
+                if (count == 0) {
+                    line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
+                    count++
+                    vm.calculateDeliveryCharges(val).then(function (r1) {
+                        if (r1 == '1') {
+                            vm.updateLinedetails(vm.order.ID, val).then(function (u) {
+                                if (u == 'updated') {
+
+                                    deferred.resolve('LineItemFeeDetailsupdated');
+                                }
+                            })
+
+
+                        }
+                    })
+
+
+                }
+            }
+        });
+        if (count == 0) {
+            deferred.resolve('LineItemFeeDetailsNotupdated');
+        }
+
+        return deferred.promise;
+    }
+    vm.RemoveLineItem = RemoveLineItem;
+    function RemoveLineItem(Order, LineItem) {
+        OrderCloud.As().LineItems.Delete(Order.ID, LineItem.ID)
+            .then(function () {
+                // If all line items are removed delete the order.
+                OrderCloud.As().LineItems.List(Order.ID)
+                    .then(function (data) {
+                        if (!data.Items.length) {
+                            CurrentOrder.Remove();
+                            OrderCloud.As().Orders.Delete(Order.ID).then(function () {
+                                $state.reload();
+                                $rootScope.$broadcast('OC:RemoveOrder');
+                            });
+                        } else {
+                            $state.reload();
+                        }
+                    });
+            });
+    }
+
+    /*carousel*/
+
+    setTimeout(function(){
+   angular.element("#owl-carousel-cart").owlCarousel({
+    loop: true,
+    center: true,
+    margin: 12,
+    nav: true,
+    responsive: {
+                // breakpoint from 0 up
+                0: {
+                    items: 1
+                },
+                // breakpoint from 328 up..... mobile portrait
+                320: {
+                    items: 2
+                },
+                // breakpoint from 328 up..... mobile landscape
+                568: {
+                    items: 2
+                },
+                960: {
+                    items: 3
+                },
+                // breakpoint from 768 up
+                768: {
+                    items: 3
+                },
+                1024: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                },
+                1500: {
+                    items: 4
+                }
+            }
+
+   });
+
+});
 }
 
 function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder) {

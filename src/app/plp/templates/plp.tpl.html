@@ -570,23 +570,30 @@
          <div ng-repeat="groupedProducts in plp.productList track by $index">
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false">
                <div class="product-box">
-                  <div id="feature-label" class="feature-label">
+<!--                   <div id="feature-label" class="feature-label">
                      <div class="ribbon-wrapper">
                         <div class="ribbon-front">
                            <p>Featured</p>
                         </div>
                      
                      </div>
-                  </div>
+                  </div> -->
                   <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
-                           <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
-                           <div class="price-box">
-                              <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
-                              <p class="Price">{{prod.priceRange}}</p>
+                     <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                        <div id="feature-label" class="feature-label">
+                           <div class="ribbon-wrapper">
+                              <div class="ribbon-front">
+                                 <p>Featured</p>
+                              </div>
                            </div>
-                       </div>
-                    </div>
+                        </div>
+                        <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                        <div class="price-box">
+                           <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                           <p class="Price">{{prod.priceRange}}</p>
+                        </div>
+                     </div>
+                  </div>
                   <prod-colors product="groupedProducts"></prod-colors>
                    
                    <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
@@ -611,18 +618,25 @@
       </div>  
    </div>
    <div class="row sorted-products">
-            <div ng-repeat="groupedProducts in plp.productList">
+         <div ng-repeat="groupedProducts in plp.productList">
                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
                   <div class="product-box">
-                     <div id="new-label" class="new-label">
+                     <!-- <div id="new-label" class="new-label">
                         <div class="ribbon-wrapper">
                            <div class="ribbon-front">
                               <p>New</p>
                            </div> 
                         </div>
-                     </div>
-                                       <div ng-repeat="prod in groupedProducts  track by $index">
+                     </div> -->
+                     <div ng-repeat="prod in groupedProducts  track by $index">
                        <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                           <div id="feature-label" class="feature-label">
+                              <div class="ribbon-wrapper">
+                                 <div class="ribbon-front">
+                                    <p>New</p>
+                                 </div>
+                              </div>
+                           </div>
                            <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
                               <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
@@ -665,39 +679,46 @@
          <div ng-repeat="groupedProducts in plp.productList">
                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
                   <div class="product-box">
-                     <div id="new-label" class="new-label">
+                     <!--  <div id="new-label" class="new-label">
                         <div class="ribbon-wrapper">
                            <div class="ribbon-front">
                               <p>New</p>
                            </div> 
                         </div>
-                     </div>
-                                       <div ng-repeat="prod in groupedProducts  track by $index">
+                     </div> -->
+                     <div ng-repeat="prod in groupedProducts  track by $index">
                        <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                           <div id="feature-label" class="feature-label">
+                              <div class="ribbon-wrapper">
+                                 <div class="ribbon-front">
+                                    <p>New</p>
+                                 </div>
+                              </div>
+                           </div>
                            <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
                               <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
                        </div>
-                    </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
+                     </div>
+                     <prod-colors product="groupedProducts"></prod-colors>
                    
-                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
-                    <!-- <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                     <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+                        <!-- <div ng-repeat="prod in groupedProducts  track by $index">
+                        <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
                            <img  ng-src= "{{prod.imgContent[0].contentUrl}}"/>
                            <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box">
                               <p class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
-                       </div>
-                    </div>
-                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                        </div>
+                     </div>
+                     <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
                        <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
                            <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
                         </p>
-                   </div>
+                     </div>
                    
                    <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
                    <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
@@ -706,7 +727,8 @@
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
+                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> -->
+                             <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
                            </div>
                         </div>
                     </div>
@@ -716,39 +738,46 @@
          <div ng-repeat="groupedProducts in plp.productList">
                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
                   <div class="product-box">
-                     <div id="new-label" class="new-label">
+                     <!--  <div id="new-label" class="new-label">
                         <div class="ribbon-wrapper">
                            <div class="ribbon-front">
                               <p>New</p>
                            </div> 
                         </div>
-                     </div>
-                                       <div ng-repeat="prod in groupedProducts  track by $index">
+                     </div> -->
+                     <div ng-repeat="prod in groupedProducts  track by $index">
                        <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                           <div id="feature-label" class="feature-label">
+                              <div class="ribbon-wrapper">
+                                 <div class="ribbon-front">
+                                    <p>New</p>
+                                 </div>
+                              </div>
+                           </div>
                            <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
                               <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
                        </div>
-                    </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
+                     </div>
+                     <prod-colors product="groupedProducts"></prod-colors>
                    
-                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
-                    <!-- <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                     <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+                         <!-- <div ng-repeat="prod in groupedProducts  track by $index">
+                        <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="plp.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
                            <img  ng-src= "{{prod.imgContent[0].contentUrl}}"/>
                            <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box">
                               <p class="product-name-plp"><span>{{prod.Name | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
-                       </div>
-                    </div>
-                    <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
+                        </div>
+                     </div>
+                     <div class="color-circle" ng-if="groupedProducts.length > 1" id="color-circle-pos" >
                        <p ng-repeat="colorprod in groupedProducts | colors" ng-class="{'active-circle' : $index == plp.selectedColorIndex} ">
                            <a  href="" data-name="{{colorprod.Name}}" data-size="{{colorprod.xp.SpecsOptions.Size}}" ng-click="plp.selectColor($index, $event, colorprod)" data-prodid="{{colorprod.ID}}" ng-style="{'background-color': colorprod.xp.SpecsOptions.Color}"></a>
                         </p>
-                   </div>
+                     </div>
                    
                    <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
                    <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">

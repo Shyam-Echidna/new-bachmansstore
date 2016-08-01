@@ -30,18 +30,13 @@
 
                 <div class="panel-body-content">
                     <a href="" class="view-address-link" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="multipleReceipent.addressBook()"><span class="svg-outer">
-                        <?xml version="1.0" encoding="utf-8"?>
-                        <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                        <style type="text/css">
-                            .stmp{fill:#a576ca;}
-                        </style>
-                        <g>
-                            <rect x="10" class="stmp" width="4" height="24"/>
-                            <rect y="10" class="stmp" width="24" height="4"/>
-                        </g>
-                        </svg>
+                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                    <g>
+                        <rect x="11" class="stR" width="2" height="24"/>
+                        <rect y="11" class="stR" width="24" height="2"/>
+                    </g>
+                    </svg>
 
 
                     </span>VIEW ADDRESS BOOK
@@ -84,8 +79,8 @@
                                         <label for="zip-code">ZIP Code</label>
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" autocomplete="off"  required>
-                                                <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="multipleReceipent.zipPattern">Enter valid zip code</p>-->
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+                                                <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
                                             </div>
                                             <div class="col-md-8 col-lg-8 label-left-align" ng-show="multipleReceipent.sameDay">
                                                 <p class="svg-right">
@@ -101,11 +96,11 @@
                                 </div>
 
 
-                                <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
+                                <div class="col-md-1 col-lg-1">
                                     <fieldset class="form-group">
                                         <label for="qty">Qty</label>
-                                        <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" ng-maxlength="3" />
-                                        <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>ng-pattern="[1-9][0-9]{0,2}" -->
+                                        <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"/>
+                                        <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>" -->
                                     </fieldset>
                                 </div>
 
@@ -168,42 +163,42 @@
                         </div>
                     </div>
 
-                    <div class="row address-block">
+                    <div class="row address-block" ng-form="form1">
                         <div ng-show="multipleReceipent.crdmsg">
                             <div class="col-md-12 col-lg-12">
-                                <div class="location-recipientName patient-det row" ng-show="multipleReceipent.addressType=='Hospital'">
+                                <div class="location-recipientName patient-det row" ng-if="multipleReceipent.addressType=='Hospital'">
                                     <p class="patient-tilte">Patient Name</p>
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <fieldset class="form-group">
                                             <label for="patient-first-name">First Name</label>
-                                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="lineitem.xp.PatientFName">
+                                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="lineitem.xp.PatientFName" required>
                                         </fieldset>
                                     </div>
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                         <fieldset class="form-group">
                                             <label for="patient-last-name">Last Name</label>
-                                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="lineitem.xp.PatientLName">
+                                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="lineitem.xp.PatientLName" required>
                                         </fieldset>
                                     </div>
 
                                 </div>
-                                <div class="location-recipientName row" ng-show="multipleReceipent.addressType=='Funeral'">
+                                <div class="location-recipientName row" ng-if="multipleReceipent.addressType=='Funeral'">
                                     <p class="in-memory">In Memory of:</p>
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <fieldset class="form-group">
                                             <label for="patient-first-name">First Name</label>
-                                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="lineitem.xp.PatientFName">
+                                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="lineitem.xp.PatientFName" required>
                                         </fieldset>
                                     </div>
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                         <fieldset class="form-group">
                                             <label for="patient-last-name">Last Name</label>
-                                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="lineitem.xp.PatientLName">
+                                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="lineitem.xp.PatientLName" required>
                                         </fieldset>
                                     </div>
 
                                 </div>
-                                <div class="row hospital-search" ng-show="multipleReceipent.addressType=='Hospital'">
+                                <div class="row hospital-search" ng-if="multipleReceipent.addressType=='Hospital'">
 
                                     <!--<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                                     <ordercloud-search servicename="Hospital" controlleras="multipleReceipent.list" placeholder="Search Hospital Address" uib-dropdown-toggle></ordercloud-search>
@@ -226,7 +221,7 @@
                             </div>
                         </div>
                         <div ng-show="multipleReceipent.crdmsg">
-                            <div class="row funeral-det" ng-show="multipleReceipent.addressType == 'Funeral'">
+                            <div class="row funeral-det" ng-if="multipleReceipent.addressType == 'Funeral'">
 
                                 <!--<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                                 <ordercloud-search servicename="Funeral" controlleras="multipleReceipent.list" placeholder="Search Funeral Home " uib-dropdown-toggle></ordercloud-search>
@@ -247,7 +242,7 @@
                             </div>
                         </div>
                         <div ng-show="multipleReceipent.crdmsg">
-                            <div class="row church-det" ng-show="multipleReceipent.addressType == 'Church'">
+                            <div class="row church-det" ng-if="multipleReceipent.addressType == 'Church'">
 
                                 <!--<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11">
                                 <ordercloud-search servicename="Church" controlleras="multipleReceipent.list" placeholder="Search church address  " uib-dropdown-toggle></ordercloud-search>
@@ -282,7 +277,7 @@
 
                         </div>-->
                         <div ng-show="multipleReceipent.crdmsg">
-                            <div class="row store-det" ng-show="multipleReceipent.addressType=='Will Call'">
+                            <div class="row store-det" ng-if="multipleReceipent.addressType=='Will Call'">
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="store">Find Store</label>
@@ -293,11 +288,11 @@
                         </div>
 
                         <div ng-show="multipleReceipent.crdmsg">
-                            <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                            <div class="row" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="address-1">Address</label>
-                                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1">
+                                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1" rquired>
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
@@ -308,11 +303,11 @@
                                 </div>
                             </div>
                             <div ng-show="multipleReceipent.name">
-                                <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'|| multipleReceipent.addressType=='Will Call'">
+                                <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'|| multipleReceipent.addressType=='Will Call'">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <fieldset class="form-group">
                                             <label for="address-1">Address</label>
-                                            <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1">
+                                            <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="lineitem.ShippingAddress.Street1" required>
                                         </fieldset>
                                     </div>
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
@@ -323,7 +318,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                            <div class="row" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                      <fieldset class="form-group">
                                         <label for="city">City</label>
@@ -341,7 +336,7 @@
 
                             </div>
                             <div ng-show="multipleReceipent.name">
-                                <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
+                                <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                          <fieldset class="form-group">
                                             <label for="city">City</label>
@@ -379,7 +374,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
                                         <!-- <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
@@ -506,7 +501,7 @@
                                     </fieldset>
                                 </div>
                                 <div ng-show="multipleReceipent.name">
-                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
                                       <!--   <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
                                             <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.deliveryDate" ng-attr-min="{{multipleReceipent.DeliveryMethod == 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday}}">
@@ -577,7 +572,7 @@
                                                 </span>
                                     </fieldset>
                                     </div>
-                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Will Call'">
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Will Call'">
                                         <!-- <fieldset class="form-group delivery-date">
                                             <label for="dDate">PickUp Date</label>
                                             <input type="date" class="form-control" id="dDate" ng-model="lineitem.xp.pickupDate" ng-attr-min="{{lineitem.xp.MinDays.InStorePickUp}}">
@@ -652,35 +647,35 @@
                             </div>
                             <div class="row">
                                 
-                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-show="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleReceipent.addressType=='Residence' || multipleReceipent.addressType=='School'">
                                     <fieldset class="form-group phone-box">
                                         <label for="phone">Phone Number</label>
                                         <div class="row">
                                             <div class="col-sm-4 col-md-4 col-xs-4">
-                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)">
+                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" required>
                                             </div>
                                             <div class="col-sm-4 col-md-4 col-xs-4">
-                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)">
+                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" required>
                                             </div>
                                             <div class="col-sm-4 col-md-4 col-xs-4">
-                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)">
+                                                <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)" required>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </div>
                                 <div ng-show="multipleReceipent.name">
-                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
+                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" >
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" required >
                                                 </div>
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)">
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" required >
                                                 </div>
                                                 <div class="col-sm-4 col-md-4 col-xs-4">
-                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)" >
+                                                    <input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)" required >
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -699,7 +694,7 @@
                         </div>
 
                     </div>
-                    <div class="cardmsg row" ng-show="multipleReceipent.crdmsg==false">
+                    <div class="cardmsg row" ng-if="multipleReceipent.crdmsg==false">
                         <div ng-init="visible=false" class="row">
                             <!-- <div class="no-message">
                                     <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>
@@ -736,6 +731,7 @@
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <button class="instruction">Instruction</button>
+                                    
                                 </fieldset>
 
                             </div>
@@ -755,8 +751,8 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal">Next</button>
-                        <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(lineitem,$index)">Add</button>
+                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal || !form1.$valid">Next</button>
+                        <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(lineitem,$index)" ng-disabled="!form1.$valid" >Add</button>
                     </div>
 
 
@@ -780,18 +776,13 @@
 
                 <div class="panel-body-content disable-fields">
                     <a href="" class="view-address-link"><span class="svg-outer">
-                        <?xml version="1.0" encoding="utf-8"?>
-                        <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                        <style type="text/css">
-                            .stmp{fill:#a576ca;}
-                        </style>
-                        <g>
-                            <rect x="10" class="stmp" width="4" height="24"/>
-                            <rect y="10" class="stmp" width="24" height="4"/>
-                        </g>
-                        </svg>
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                    <g>
+                        <rect x="11" class="stR" width="2" height="24"/>
+                        <rect y="11" class="stR" width="24" height="2"/>
+                    </g>
+                    </svg>
 
                     </span> 
                     VIEW ADDRESS BOOK</a>
@@ -832,7 +823,7 @@
                                 <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                                     <fieldset class="form-group">
                                         <label for="qty">Qty</label>
-                                        <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity" />
+                                        <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity"  ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"/>
                                     </fieldset>
                                 </div>
 
@@ -1016,9 +1007,9 @@
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
-                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1"></div>
-                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2"></div>
-                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3"></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone1" readonly ></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone2" readonly ></div>
+                                                <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="lineitem.ShippingAddress.Phone3" readonly ></div>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -1048,9 +1039,7 @@
             <div class="row next-btn">
                 <div class="col-md-6 col-lg-6 add-recipent view-address-link">
                     <h3 ng-click="multipleReceipent.newreceipent()"><span class="svg-outer">
-                        <?xml version="1.0" encoding="utf-8"?>
-                        <!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
                         <rect x="11" class="stR" width="2" height="24"/>
@@ -1064,7 +1053,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 btn-click">
                     <button class="next-btn" ng-click="multipleReceipent.closeTab()" ng-show="multipleReceipent.showNewRecipient1">CONTINUE SHOPPING</button>
-                    {{multipleReceipent.showNewRecipient1}}
+                    <!-- {{multipleReceipent.showNewRecipient1}} -->
                 </div>
             </div>
             <div class="panel-body-content"  ng-show="multipleReceipent.showNewRecipient">
@@ -1084,27 +1073,27 @@
 
                     </span> 
                     VIEW ADDRESS BOOK</a>-->
-                <div class="row name-block">
+                <div class="row name-block" ng-form="form2">
                     <div class="col-md-12 col-lg-12">
                         <div class="row">
                             <div class="col-md-3 col-lg-3">
                                 <fieldset class="form-group">
                                     <label for="first-name">First Name</label>
-                                    <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="multipleReceipent.line.ShippingAddress.FirstName">
+                                    <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="multipleReceipent.line.ShippingAddress.FirstName" required >
                                 </fieldset>
                             </div>
                             <div class="col-md-3 col-lg-3">
                                 <fieldset class="form-group">
                                     <label for="last-name">Last Name</label>
-                                    <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="multipleReceipent.line.ShippingAddress.LastName">
+                                    <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="multipleReceipent.line.ShippingAddress.LastName" required>
                                 </fieldset>
                             </div>
                             <div class="col-md-5 col-lg-5">
-                                <fieldset class="form-group" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                                <fieldset class="form-group" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'" >
                                     <label for="zip-code">ZIP Code</label>
                                     <div class="row">
                                         <div class="col-md-4 col-lg-4">
-                                            <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="multipleReceipent.line.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(multipleReceipent.line,multipleReceipent.line.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(multipleReceipent.line)" autocomplete="off">
+                                            <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="multipleReceipent.line.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(multipleReceipent.line,multipleReceipent.line.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(multipleReceipent.line)" ng-maxlength="5" ng-minlength="5" autocomplete="off">
                                         </div>
                                         <div class="col-md-8 col-lg-8 label-left-align" ng-show="multipleReceipent.sameDay">
                                             <p class="svg-right">
@@ -1122,7 +1111,7 @@
                             <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                                 <fieldset class="form-group">
                                     <label for="qty">Qty</label>
-                                    <input type="number" id="qty" class="form-control" ng-model="multipleReceipent.line.Quantity" />
+                                    <input type="number" id="qty" class="form-control" ng-model="multipleReceipent.line.Quantity" ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'" />
                                 </fieldset>
                             </div>
                         </div>
@@ -1177,40 +1166,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="row address-block">
+                <div class="row address-block" ng-form="form2">
                     <div ng-show="multipleReceipent.crdmsg">
                         <div class="col-md-12 col-lg-12">
-                            <div class="location-recipientName patient-det row" ng-show="multipleReceipent.addressType=='Hospital'">
+                            <div class="location-recipientName patient-det row" ng-if="multipleReceipent.addressType=='Hospital'">
                                 <p class="patient-tilte">Patient Name</p>
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="patient-first-name">First Name</label>
-                                        <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientFName">
+                                        <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientFName" required >
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="patient-last-name">Last Name</label>
-                                        <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientLName">
+                                        <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientLName" required >
                                     </fieldset>
                                 </div>
                             </div>
-                            <div class="location-recipientName row" ng-show="multipleReceipent.addressType=='Funeral'">
+                            <div class="location-recipientName row" ng-if="multipleReceipent.addressType=='Funeral'">
                                 <p class="in-memory">In Memory of:</p>
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="patient-first-name">First Name</label>
-                                        <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientFName">
+                                        <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientFName" required >
                                     </fieldset>
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="patient-last-name">Last Name</label>
-                                        <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientLName">
+                                        <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="multipleReceipent.line.xp.PatientLName" required >
                                     </fieldset>
                                 </div>
                             </div>
-                            <div class="row hospital-search" ng-show="multipleReceipent.addressType=='Hospital'">
+                            <div class="row hospital-search" ng-if="multipleReceipent.addressType=='Hospital'">
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="store">Find Hospital</label>
@@ -1221,7 +1210,7 @@
                         </div>
                     </div>
                     <div ng-show="multipleReceipent.crdmsg">
-                        <div class="row funeral-det" ng-show="multipleReceipent.addressType == 'Funeral'">
+                        <div class="row funeral-det" ng-if="multipleReceipent.addressType == 'Funeral'">
                             <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                 <fieldset class="form-group">
                                     <label for="store">Find FuneralHome</label>
@@ -1231,7 +1220,7 @@
                         </div>
                     </div>
                     <div ng-show="multipleReceipent.crdmsg">
-                        <div class="row church-det" ng-show="multipleReceipent.addressType == 'Church'">
+                        <div class="row church-det" ng-if="multipleReceipent.addressType == 'Church'">
                             <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                 <fieldset class="form-group">
                                     <label for="store">Find Curchs</label>
@@ -1241,7 +1230,7 @@
                         </div>
                     </div>
                     <div ng-show="multipleReceipent.crdmsg">
-                        <div class="row store-det" ng-show="multipleReceipent.addressType=='Will Call'">
+                        <div class="row store-det" ng-if="multipleReceipent.addressType=='Will Call'">
                             <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                 <fieldset class="form-group">
                                     <label for="store">Find Store</label>
@@ -1251,11 +1240,11 @@
                         </div>
                     </div>
                     <div ng-show="multipleReceipent.crdmsg">
-                        <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                        <div class="row" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                 <fieldset class="form-group">
                                     <label for="address-1">Address</label>
-                                    <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="multipleReceipent.line.ShippingAddress.Street1">
+                                    <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="multipleReceipent.line.ShippingAddress.Street1" required >
                                 </fieldset>
                             </div>
                             <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
@@ -1266,7 +1255,7 @@
                             </div>
                         </div>
                         <div ng-show="multipleReceipent.name">
-                            <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'|| multipleReceipent.addressType=='Will Call'">
+                            <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'|| multipleReceipent.addressType=='Will Call'">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="address-1">Address</label>
@@ -1281,7 +1270,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
+                        <div class="row" ng-if="multipleReceipent.addressType=='Residence'|| multipleReceipent.addressType=='School'">
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                 <fieldset class="form-group">
                                     <label for="city">City</label>
@@ -1300,7 +1289,7 @@
                             </div>
                         </div>
                         <div ng-show="multipleReceipent.name">
-                            <div class="row" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
+                            <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <fieldset class="form-group">
                                         <label for="city">City</label>
@@ -1328,7 +1317,7 @@
                             </div>
                             <div ng-show="multipleReceipent.name">
                                 <div class="col-md-5 col-lg-5">
-                                    <fieldset class="form-group" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
+                                    <fieldset class="form-group" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                         <label for="zip-code">ZIP Code</label>
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
@@ -1414,7 +1403,7 @@
                                     </fieldset>
                             </div>
                             <div ng-show="multipleReceipent.name">
-                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
                                    <!--  <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
 
@@ -1489,7 +1478,7 @@
                                                 </span>
                                     </fieldset>
                                 </div>
-                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-show="multipleReceipent.addressType=='Will Call'">
+                                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Will Call'">
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">PickUp Date</label>
 
@@ -1507,9 +1496,9 @@
                                 <fieldset class="form-group phone-box">
                                     <label for="phone">Phone Number</label>
                                     <div class="row">
-                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone1"></div>
-                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone2"></div>
-                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone3"></div>
+                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone1" ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" ></div>
+                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone2" ng-minlength="3" maxlength="3" ng-keypress="multipleReceipent.IsNumeric($event)" ></div>
+                                        <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" class="form-control" ng-model="multipleReceipent.line.ShippingAddress.Phone3" ng-minlength="4" maxlength="4" ng-keypress="multipleReceipent.IsNumeric($event)" ></div>
 
                                     </div>
                                 </fieldset>
@@ -1540,7 +1529,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="cardmsg row" ng-show="multipleReceipent.crdmsg==false">
+                <div class="cardmsg row" ng-if="multipleReceipent.crdmsg==false">
 
                     <div  class="row">
 
@@ -1561,7 +1550,7 @@
 
                             <fieldset class="form-group">
                                 <label for="line1">Line 1</label>
-                                <input type="text" class="form-control" id="line1" placeholder="" ng-model="multipleReceipent.line.xp.CardMessage.line1">
+                                <input type="text" class="form-control" id="line1" placeholder="" ng-model="multipleReceipent.line.xp.CardMessage.line1" required >
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="line2">Line 2</label>
@@ -1593,8 +1582,8 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal">Next</button>
-                        <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(multipleReceipent.line,$index)">Add</button>
+                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal || !form2.$valid">Next</button>
+                        <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(multipleReceipent.line,$index)" ng-disabled="!form2.$valid">Add</button>
                     </div>
                 </div>
             </div>

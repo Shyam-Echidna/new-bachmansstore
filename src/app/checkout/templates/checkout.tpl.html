@@ -350,7 +350,7 @@
                                                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
                                                                                             <div class="select-date-info">
                                                                                                 <p class="select-date">Select Date</p>
-                                                                                                <div class="date"> <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineItem[0].xp.deliveryDate" value="{{ lineItem[0].xp.deliveryDate | date: 'yyyy-MM-dd' }}"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
+                                                                                                <div class="date"> <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineItem[0].xp.deliveryDate" value="{{ lineItem[0].xp.deliveryDate | date: 'dd-MM-yyyy' }}"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
 <g>
     <g>
         <g>
@@ -458,7 +458,7 @@
                                                                     <div class="instructions-content">
                                                                         <form role="form">
                                                                             <div class="form-group">
-                                                                                <textarea class="form-control" rows="5" id="comment" ng-model="lineItem[0].xp.DeliveryNotes" readonly></textarea>
+                                                                                <textarea class="form-control" rows="5" id="comment" ng-model="lineItem[0].xp.DeliveryNotes" ng-if="!!lineItem[0].xp.DeliveryNotes" readonly></textarea>
                                                                             </div>
                                                                         </form>
                                                                         <div class="instructions-steps">
@@ -475,7 +475,7 @@
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                                     <div class="no-message">
                                                                         <div class="Checkbox">
-                                                                            <input type="checkbox" checked ng-if="lineItem[0].xp.CardMessage">
+                                                                            <input type="checkbox" checked ng-if="!!lineItem[0].xp.CardMessage">
                                                                             <div class="Checkbox-visible"></div>
                                                                         </div>
                                                                         <label>No Message</label>

@@ -1,11 +1,20 @@
 <div class="container-fluid map-container">
     <div style="" id='map_container' class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div id="map">
-        	<input type="text" class="form-control" id="address" ng-model="map.venue" autocomplete="off">
         </div>
-
-        <!-- <div ng-repeat="marker in map.markers | orderBy : 'title'">
-            <a href="#" ng-click="map.openInfoWindow($event, marker)">{{marker.title}}</a>
-        </div> -->
+        <div id="myclass" style="height:auto;" class="storeLocator-Left-Wrap">
+        <form id="findStoreForm" name="findStoreForm" novalidate>
+            <div id="panel1" style="" class="col-xs-12 col-md-3 col-sm-12 co-lg-3">
+                <div class="Text-field-wrap">
+                    <input type="text" id="venue" ng-model="venue" ng-class="{ focusIn: venue }" />
+                    <label for="zipCode">Current Venue</label>
+                </div>
+                <div class="Text-field-wrap">
+                <input type="text" id="txtCity" ng-model="txtCity" ng-disabled="zipCode" ng-class="{ focusIn: txtCity }" />
+                <label for="txtCity">Enter Current Location</label> 
+                </div>
+                 <input type="submit" value="Get Direction" ng-click="findStore()" />
+            </div>
+        </form> 
     </div>
 </div>

@@ -233,6 +233,11 @@
                         display: block;
                         clear:both;
                     }
+                    .phone-txt {
+                        .help-block {
+                            width: 300px;
+                        }
+                    }
                     input.ph-TextField {
                         width:22%;
                         margin-right: 10px;
@@ -396,6 +401,15 @@
                             padding-right: 8px;
                             input.ph-TextField {
                                 width: 22%;
+                            }
+                        }
+                        .ph-number-group {
+                            .phone-txt {
+                                div.col-xs-4 {
+                                    &:last-child {
+                                        padding-right: 0;
+                                    }
+                                }
                             }
                         }
                     }

@@ -5,10 +5,12 @@
         }
     }
     .promo-banner {
+        margin-top: 15px;
         .row {
             > div {
                 float: none;
                 margin: 0 auto;
+                padding: 0px;
                 .row {
                     div {
                         margin: 0px;
@@ -18,21 +20,22 @@
             }
             .cart-promo {
                 background: #ebf6e3;
-                padding: 10px 0px;
+                padding: 7px 12px;
                 text-align: center;
                 border: 1px solid #D5EEC3;
+                margin-left: -50px;
                 button {
                     .green-button;
                     height: 2.500em;
                     padding: 0px 20px;
-                    font: 1.000em @proxima-bold;
+                    font: 1.000em @proxima-regular;
                     background: #71c139;
                     margin-left: -4px;
                 }
                 p {
-                    font: 1.250em @neutraface-book;
-                    position: absolute;
-                    top: 6px;
+                    font: 1em @neutraface-book;
+                    height: 2.5em;
+                    line-height: 2.5em;
                     .discount {
                         padding: 0px;
                         color: #71c139;
@@ -47,7 +50,8 @@
             text-align: center;
             margin: 6.250em 0px;
             cursor: default;
-            width: 75%;
+            margin-left: 50%;
+            transform:translateX(-50%);
             p {
                 font: 0.9em @proxima-regular;
                 color: #464646;
@@ -66,7 +70,7 @@
 
         .shopping-header {
             border-top: 1px solid #cccccc;
-            margin: 20px 16px;
+            margin: 15px 16px 20px 16px;
             padding: 20px 0px 0px 0px;
             div {
                 div {
@@ -93,6 +97,10 @@
                                 &:first-child {
                                     a {
                                         border: none;
+                                        &:before{
+                                            content: '<';
+                                            margin-right: 3px;
+                                        }
                                     }
                                 }
                             }
@@ -104,6 +112,9 @@
         .products-description {
             .row {
                 div {
+                    &.order-div{
+                        padding-left: 0px;
+                    }
                     .shopping-info,
                     .event-info {
                         margin-top: 30px;
@@ -157,6 +168,9 @@
                                     &:second-child {
                                         border-right: none;
                                     }
+                                }
+                                .detail{
+                                    display: inline-block;
                                 }
                             }
                             .client-eidt {
@@ -274,7 +288,8 @@
                                                             font-size: 16px;
                                                         }
                                                         li {
-                                                            font: 0.875em @proxima-regular;
+                                                            font: 0.875em @proxima-light;
+                                                            font-weight: bold;
                                                             color: #2c2c2c;
                                                             border-bottom: 1px solid #d1d1d1;
                                                             margin-bottom: 10px;
@@ -311,6 +326,8 @@
                                                                 a{
                                                                     color: #2c2c2c;
                                                                     border-bottom: 1px solid #d1d1d1;
+                                                                    font-family: @proxima-light;
+                                                                    font-weight: bold;
                                                                 }
                                                                 &:first-child{
                                                                      border-right: 2px solid #d1d1d1;
@@ -422,11 +439,116 @@
                                                     margin: 20px 0px 0px 0px;
                                                 }
                                                 &:last-child {
+                                                      .edit-svg{
+                                                            position: relative;
+                                                            top: 6px;
+                                                            svg{
+                                                                height: 18px;
+                                                                width: 18px;
+                                                                fill:#2c2c2c;
+                                                            }
+                                                        }
                                                     a {
                                                         color: #2c2c2c;
                                                         font: 0.750em @proxima-regular;
                                                         border-bottom: 1px solid #cdcdcd;
-                                                    }
+                                                      }
+                                                    
+                                                    input[type="text"]{
+                    position: relative;
+                    -webkit-appearance:none;
+                    box-shadow: none;
+                    border-radius: 2px;
+                    outline: 0;
+                    &:focus,&:active{
+                        outline: 0 none;
+                        border: 1px solid #ccc;
+                    }
+                    &:hover{
+                        &+.date-svg{
+                            display: none;
+                        }
+                    }
+                }
+                .uib-datepicker-popup{
+                    border: none;
+                    border-radius: 0;
+                    min-width: 100%;
+                    -webkit-appearance:none;
+                    outline: 0;
+                    z-index: 1;
+                        li{
+                            -webkit-appearance:none;
+                            outline: 0;
+                            div{
+                                width: 100%;
+                            }
+                            table{
+                                -webkit-appearance:none;
+                                outline: 0;
+                                width: 100%;
+                               th, tr td{
+                                    button{
+                                        border-radius: 0px;
+                                        border: none;
+                                        span{
+                                            color: #000;
+                                            &.text-muted{
+                                                color: #ccc;
+                                            }
+                                        }
+                                        &:hover,&.active,&.active:hover,&:active,&.btn-info{
+                                            background: @base-bg-purple-light;
+                                            border-color: @base-bg-purple-dark;
+                                            box-shadow: none;
+                                            -webkit-appearance:none;
+                                            span{
+                                                color: #fff;
+                                            }
+                                            i{
+                                                color:#fff;
+                                            }
+                                        }
+                                        &:hover{
+                                            background: transparent;
+                                             span ,i{
+                                                color: @base-bg-purple-dark;
+                                             }
+                                        }
+                                        
+                                    }
+                                    small,strong{
+                                        color: @base-bg-purple-dark;
+                                    }
+                                }
+                                th{
+                                    button{
+                                        &:active,&:focus{
+                                            background: transparent;
+                                            box-shadow: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        &:active,&:focus,&:hover,&:active:hover{
+                            border: none;
+                        }
+                }
+                .date-svg{
+                        position: absolute;
+                        top: 70%;
+                        right: 10%;
+                        svg{
+                            height: 20px;
+                            width: 20px;
+                            fill:#464646;
+                            &:hover{
+                                fill:@base-bg-purple-dark;
+                            }
+                        }
+                    }
+
                                                 }
                                             }
                                         }
@@ -524,7 +646,10 @@
                                                     .recipient-list {
                                                         ul {
                                                             li {
+                                                                border-right: none !important;
                                                                 margin-bottom: 10px;
+                                                                min-height: 25px;
+                                                                line-height: 25px;
                                                                 .cuctom-checkbox;
                                                                 border-bottom: 1px solid transparent;
                                                                 /*.Checkbox {
@@ -603,8 +728,11 @@
                                                     .zip-code-list {
                                                         ul {
                                                             li {
+                                                                min-height: 25px;
+                                                                line-height: 25px;
                                                                 color: #888888;
                                                                 font: 0.750em @proxima-regular;
+                                                                border-right: none !important;
                                                                 border-bottom: 1px solid transparent;
                                                                 line-height: 20px;
                                                             }
@@ -613,11 +741,11 @@
                                                     .qty-list {
                                                         text-align: center;
                                                         .input-lg {
-                                                            height: 22px;
-                                                            padding: 10px 20px;
+                                                            height: 25px;
+                                                            text-align: center;
+                                                            width: 80%;
                                                             font: 0.750em @proxima-regular;
                                                             margin-bottom: 5px;
-                                                            width: 100%;
                                                             border-radius: 2px;
                                                             border: 1px solid #e4e4e4;
                                                             background: #f6f6f6;
@@ -837,6 +965,7 @@
                                                 border: 1px solid #666666;
                                                 padding: 2px;
                                                 margin: 0px 5px -2px 0px;
+                                                margin-right: 0px;
                                             }
                                         }
                                         .promo-value {
@@ -977,6 +1106,7 @@
         border-bottom: 1px solid #ccc;
         .category-pdt-carousel {
             padding-bottom: 60px;
+            margin: 0px -15px;
             background: @half-white;
             background: -webkit-linear-gradient(#fff, @half-white);
             background: -o-linear-gradient(#fff, @half-white);
@@ -984,7 +1114,7 @@
             background: linear-gradient(#fff, @half-white);
             h1 {
                 font: 34px/35px @neutraface-demi;
-                font: 2.125em @neutraface-demi;
+                font: 2em @neutraface-demi;
                 padding: 40px 0 38px 60px;
                 padding: 45px 0 25px 60px;
             }
@@ -1136,7 +1266,10 @@
                     padding: 0px;
                     .row {
                         div {
-                            padding: 0px 15px;
+                            padding: 0px 10px;
+                            &:last-child{
+                                padding: 0px;
+                            }
                         }
                         button {
                             padding: 0px;
@@ -1150,6 +1283,13 @@
                         p {
                             font: 0.611em @neutraface-book;
                         }
+                    }
+                }
+                .cart-promo{
+                    padding: 7px;
+                    margin: 0px;
+                    div{
+                        padding: 0px;
                     }
                 }
             }
@@ -1185,6 +1325,18 @@
             }
         }
         .shopping-cart-info {
+            .no-products{
+                margin-top: 30px;
+                margin-bottom: 50px;
+                p{
+                    &:first-child{
+                        font-size: 1em;
+                    }
+                    &:last-child{
+                        font-size: 0.8em;
+                    }
+                }
+            }
             .shopping-header {
                 border-top: none;
                 margin: 11px 0px;
@@ -1225,6 +1377,7 @@
                                         font: 0.667em @proxima-regular;
                                     }
                                 }
+                                padding: 7px 15px;
                             }
                             .product-details {
                                 .product-header {
@@ -1291,9 +1444,10 @@
                                         .edit-product,
                                         .wishlist-link {
                                             a {
-                                                font: 0.667em @proxima-regular;
+                                                font: 0.667em @proxima-light;
                                                 color: #2c2c2c;
                                                 padding: 0px 5px;
+                                                font-weight: bold;
                                             }
                                         }
                                         ul {
@@ -1332,6 +1486,7 @@
                                                     &.change-recipent-link{
                                                         .popover {
                                                             left: 0px !important;
+                                                            z-index: 1;
                                                             .arrow{
                                                                 opacity: 0;
                                                             }
@@ -1352,7 +1507,7 @@
                                                                     }
                                                                     .showproductrequestdiv{
                                                                         background: #f4f4f4;
-                                                                        width: 350px;
+                                                                        width: 19em;
                                                                         padding: 10px;
                                                                         .head-text{
                                                                             margin-bottom: 10px;
@@ -1400,7 +1555,7 @@
                                                 .change-recipient {
                                                     position: absolute;
                                                     top: 34px;
-                                                    width: 352px;
+                                                    width: 16.850em;
                                                     font-size: 18px;
                                                     z-index: 1;
                                                     .change-recipient-info {
@@ -1459,6 +1614,7 @@
                                     padding:10px 10px 0 10px;
                                     .level-promo {
                                         font: 0.556em @neutraface-book !important;
+                                        width: 100%;
                                         span {
                                             font: 1.000em @neutraface-bold !important;
                                         }
@@ -1676,6 +1832,7 @@
                     padding: 0 20px 0px;
                     .owl-item {
                         padding: 8px;
+                        margin: 0px !important;
                         .owl-carousel-item {
                             margin: 0px;
                             border: 1px solid #e3e3e3;
@@ -1898,16 +2055,18 @@
                         font-size: 16px;
                         .list-inline {
                             li {
-                                font: 0.688em @proxima-regular !important;
+                                font: 0.688em @proxima-light !important;
+                                font-weight: bold !important;
                                 ul {
                                     font-size: 16px;
                                     li {
-                                        font: 0.688em @proxima-regular !important;
+                                        font: 0.668em @proxima-light !important;
+                                        font-weight: bold;
                                     }
                                 }
                             }
                         }
-                    }
+                    }  
                 }
             }
         }
@@ -2013,12 +2172,14 @@
 .change-recipient-modal{
     padding: 30px;
     position: relative;
+    cursor: default;
     .head-title{
         border-bottom: 1px solid #f1f1f1;
         padding-bottom: 15px;
         .title{
-            font: 1.7em @proxima-bold;
+            font: 1.7em @proxima-regular;
             color: @font-purple-dark;
+            font-weight: bold;
             text-transform: capitalize;
         }
         .close-icon {
@@ -2055,6 +2216,15 @@
                 svg {
                     height: 15px;
                     width: 15px;
+                    fill:@font-purple-dark;
+                }
+            }
+            &:hover{
+                color: @font-purple-light;
+                .svg-outer{
+                    svg{
+                        fill:@font-purple-light;
+                    }
                 }
             }
         }
@@ -2276,8 +2446,8 @@
                 }
             .date-svg{
                         position: absolute;
-                        top: 50%;
-                        right: 15%;
+                        top: 45%;
+                        right: 10%;
                         svg{
                             height: 23px;
                             width: 23px;
@@ -2311,6 +2481,7 @@
                 }
     }
     .save-address {
+        margin: 25px 0px 35px 0px;
         div{
             padding: 0px;
         }
@@ -2334,7 +2505,7 @@
             }
     .save-btn{
         text-align: left;
-        margin-top: 40px;
+        //margin-top: 40px;
         div{
             padding: 0px;
         }
@@ -2385,6 +2556,26 @@
         input[type="search"] {
             height: 2.5em;
         }
+        .head-title{
+            .title{
+                font-size: 1.2em;
+            }
+            .close-icon{
+                top: 10px;
+                right: 10px;
+            }
+        }
+        .address-book{
+            .view-address-link{
+                font-size: 0.9em;
+                .svg-outer{
+                    svg{
+                        height: 13px;
+                        width: 13px;
+                    }
+                }
+            }
+        }
         .name-block,
         .address-block {
             div {
@@ -2393,12 +2584,20 @@
                         padding: 0px;
                     }
                 }
+                #qty{
+                    width: 25%;
+                }
             }
         }
         .address-block {
             div {
                 &.col-md-offset-1 {
                     margin-left: 0px;
+                }
+            }
+            .row{
+                div{
+                    padding: 0px;
                 }
             }
         }
@@ -2439,4 +2638,187 @@
             text-align: center;
         }
     }
+}
+
+
+
+//tab landscape
+@media screen and (max-width:962px) and (min-width:900px) {
+    .cart-page{
+        .mobile-purple-points-info {
+            display: none !important;
+        }
+        .promo-banner{
+            .row{
+                div{
+                    &.col-lg-6{
+                        width: 50%;
+                    }
+                }
+            }
+        }
+        .shopping-cart-info{
+           .products-description{
+                .row{
+                    div{
+                        &.order-div{
+                            padding: 0px;
+                        }
+                        &.col-md-9{
+                            width: 75% !important;
+                            padding-left: 0px;
+                        }
+                        &.col-md-3{
+                            width: 25% !important;
+                        }
+                        .left-shopping{
+                            .product-details{
+                                .product-header{
+                                    .row{
+                                        div{
+                                            &.col-md-6{
+                                                width: 50%;
+                                            }
+                                            &.col-md-2{
+                                                width: 16.66666667%;
+                                            }
+                                             &.col-md-1{
+                                                width: 8.33333333%;
+                                            }
+                                        }
+                                    }
+                                }
+                                .products-info-details{
+                                    .row{
+                                        div{
+                                             &.col-md-6{
+                                                width: 50%;
+                                            }
+                                            &.col-md-4{
+                                                width: 33.33333333%;
+                                            }
+                                            &.col-md-2{
+                                                width: 14.66666667%;
+                                            }
+                                             &.col-md-1{
+                                                width: 8.33333333%;
+                                            }
+                                            &.hidden-xs{
+                                                display: inline-block !important;
+                                                vertical-align: middle;
+                                            }
+                                            .total-amount-info{
+                                                span:last-child{
+                                                    margin-left: 10px;
+                                                }
+
+                                                } 
+                                                .delivery-info{
+                                                    p:first-child{
+                                                    font-size: 0.7em;
+                                                }
+                                                }
+                                        }
+                                        .recipient-products{
+                                            div{
+                                                &.hidden-md{
+                                                    display: inline-block !important;
+                                                }
+                                                &.mobile-edit-links{
+                                                display: none !important;
+                                            }
+                                            }
+
+                                            .product-info{
+                                                .desktop-recipent-info{
+                                                    .custom-name{
+                                                        span{
+                                                            &.visible-xs{
+                                                                display: none !important;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                .edit-links{
+                                                    .list-inline{
+                                                         li{
+                                                            color: #2c2c2c;
+                                                            border-bottom: 1px solid #d1d1d1;
+                                                            font-family: @proxima-light;
+                                                            font-weight: bold;
+                                                            font-size: 0.9em;
+                                                            &.change-recipient-links{
+                                                                border: none;
+                                                            }
+                                                        }
+                                                        .change-link{
+                                                            li{
+                                                                border-bottom: none !important;
+                                                                a{
+                                                                    color: #2c2c2c;
+                                                                    border-bottom: 1px solid #d1d1d1;
+                                                                    font-family: @proxima-light;
+                                                                    font-weight: bold;
+                                                                    font-size: 0.9em;
+                                                                }
+                                                                &:first-child{
+                                                                    border-right: 2px solid #d1d1d1;
+                                                                }
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .order-summary-info{
+                            .order-summary-details{
+                                .promo-code{
+                                    .promo-code-input{
+                                        div{
+                                            button{
+                                                    font-size: 0.75em;
+                                                    text-align: center;
+                                                    padding: 8px 0px;
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .need-help-info{
+                            .call-us{
+                                &.hidden-xs{
+                                    display: block !important;
+                                }  
+                            }
+                            .mobile-call-us{
+                                display: none !important;
+                            }
+                            } 
+                    }
+                }
+           } 
+        }
+        }
+
+
+        .change-recipient-modal{
+             div{
+                &.col-lg-4{
+                    width: 33.33333333%;
+                }
+                &.col-lg-2{
+                    width: 16.66666667%;
+                }
+            }
+            .name-block{
+
+            }
+        }   
 }

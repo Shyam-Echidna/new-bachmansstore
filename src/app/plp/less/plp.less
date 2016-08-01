@@ -955,6 +955,30 @@ body.modal-open {
                         }
                         &:hover {
                             opacity: 1;
+                            .p-icon-txt{
+                                opacity: 0.8;
+                            }
+                        }
+                        .p-icon-txt{
+                            .white-button;
+                            position: absolute;
+                            top: 0;
+                            width: auto;
+                            top: 0px;
+                            left: 0px;
+                            right: 0px;
+                            bottom: 0px;
+                            margin: auto;
+                            margin-top: 70px;
+                            margin-left:-20px;
+                            font:0.8em/2.4em @proxima-bold;
+                            height:2.4em;
+                            width: 100px;
+                            text-align: center;
+                            &:hover{
+                                background-color: #fff;
+                                color:#8c58b5;   
+                            }
                         }
                     }
                     .feature-label,
@@ -3674,7 +3698,7 @@ body.modal-open {
                     .color-circle {
                         padding-top: 10px;
                         margin-bottom: 20px;
-                         p {
+                         ul li {
                             position:relative;
                             border-radius: 50%;
                             height:22px;
@@ -3683,7 +3707,7 @@ body.modal-open {
                           display:inline-block;
                           cursor: pointer;
                           margin-right: 10px;
-                            a {
+                            label {
                                 position:absolute;
                                 border-radius: 50%;
                                 right: 3px;
@@ -4081,6 +4105,9 @@ body.modal-open {
                             top: -6px;
                         }
                 }
+            }
+            .pin_it_iframe_widget{
+                display:none !important;
             }
         }
         .left {

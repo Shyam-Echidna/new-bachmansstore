@@ -19,14 +19,16 @@ function CheckoutConfig($stateProvider) {
 					var deferred = $q.defer();
 					CurrentOrder.GetID()
 						.then(function (data) {
-							OrderCloud.As().Orders.Get(data).then(function(order){
+							OrderCloud.As().Orders.Get(data).then(function (order) {
 								var order = order;
 								OrderCloud.As().LineItems.List(order.ID).then(function (res) {
 									LineItemHelpers.GetProductInfo(res.Items)
+
 	                                    .then(function () {
                                         console.log("res,", res);
 	                                        deferred.resolve(res);
 	                                    });
+
 								}).catch(function () {
 									deferred.resolve(null);
 								});
@@ -44,10 +46,12 @@ function CheckoutConfig($stateProvider) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
                         .then(function (data) {
+
                         	OrderCloud.As().Orders.Get(data).then(function(order){
                                 console.log("order,", order);
                             	dfd.resolve(order)
                         	})
+
                         })
                         .catch(function () {
                             dfd.resolve(null);
@@ -64,20 +68,24 @@ function CheckoutConfig($stateProvider) {
 					});
 					return deferred.promise;
 				},
-				CreditCard: function (OrderCloud, $q){
+				CreditCard: function (OrderCloud, $q) {
 					var deferred = $q.defer();
+
 					OrderCloud.Me.ListCreditCards().then(function(res){
                         console.log("CreditCard,", res);
+
 						deferred.resolve(res);
 					}).catch(function () {
 						deferred.resolve(null);
 					});
 					return deferred.promise;
 				},
-				LoggedinUser: function(OrderCloud, $q){
+				LoggedinUser: function (OrderCloud, $q) {
 					var deferred = $q.defer();
+
 					OrderCloud.Me.Get().then(function(res){
 						console.log("LoggedinUser",res);
+
 						deferred.resolve(res);
 					})
 					return deferred.promise;
@@ -88,13 +96,13 @@ function CheckoutConfig($stateProvider) {
 function checkOutService($q, $http) {
 	var service = {
 		getCityState: _getCityState,
-		getSetLineItem:_getSetLineItem
+		getSetLineItem: _getSetLineItem
 	}
 	function _getCityState(zip) {
 		var defered = $q.defer();
 		$http.defaults.headers.common['Authorization'] = undefined;
 		$http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + zip).then(function (res) {
-			var city, state;
+			var city, state, country;
 			angular.forEach(res.data.results[0].address_components, function (component, index) {
 				var types = component.types;
 				angular.forEach(types, function (type, index) {
@@ -104,14 +112,18 @@ function checkOutService($q, $http) {
 					if (type == 'administrative_area_level_1') {
 						state = component.short_name;
 					}
+					if (type == 'country') {
+                        country = component.short_name;
+                    }
 				});
 			});
-			defered.resolve({ "City": city, "State": state });
+			defered.resolve({ "City": city, "State": state, 'Country': country });
 		});
 		return defered.promise;
 	}
-	function _getSetLineItem(line){
-		return { lineitem:line
+	function _getSetLineItem(line) {
+		return {
+			lineitem: line
 		}
 	}
 	return service
@@ -127,16 +139,16 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 	vm.selected = false;
 	vm.limit = 3;
 	vm.more = true;
-	vm.edit=false;
+	vm.edit = false;
 	vm.recipient = [];
 	vm.recipient[0] = true;
 	vm.message = false;
 	vm.today = new Date();;
 	vm.tomorrow = date.setDate(date.getDate() + 1);
 	vm.payment = false;
-	vm.giftcardcheckbox=false;
-	vm.editbillingaddr=false;
-	vm.newcard=false;
+	vm.giftcardcheckbox = false;
+	vm.editbillingaddr = false;
+	vm.newcard = false;
 	vm.DeliveryRuns = Buyers.xp.DeliveryRuns[0];
 	vm.changedeliveryDate = changedeliveryDate;
 	vm.getGuestLineItems = getGuestLineItems
@@ -145,13 +157,13 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 	vm.ordersummarydata = LineItems;
 	vm.orderdata = Order;
 	vm.init = init;
-	vm.creditcards= CreditCard;
+	vm.creditcards = CreditCard;
 	vm.signnedinuser = LoggedinUser;
 	vm.updateLinedetails = updateLinedetails
 	vm.init();
-	console.log("vm.creditcards",vm.creditcards);
-    $rootScope.$on("ChangedDetails",function(events,lineitem){
-        vm.editedShippingaddress=lineitem;
+	console.log("vm.creditcards", vm.creditcards);
+    $rootScope.$on("ChangedDetails", function (events, lineitem) {
+        vm.editedShippingaddress = lineitem;
 	});
 	function getGuestLineItems(user) {
 		vm.user = user;
@@ -167,7 +179,7 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 			vm.lineItems = _.groupBy(vm.lineItems, function (value) {
 				if (value.ShippingAddress != null) {
 					//totalCost += value.xp.TotalCost;
-					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + value.ShippingAddress.Street1 + ' ' + value.ShippingAddress.Street2;
+					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.xp.deliveryDate;
 				}
 
 
@@ -179,7 +191,24 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 	}
 
 	function changedeliveryDate(line, date) {
-		line.xp.deliveryDate = new Date(date);
+		if (line.xp.MinDays.MinToday) {
+			var a = new Date(line.xp.MinDays.MinToday);
+			var b = new Date(date);
+
+			var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
+			var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
+			if(DateA==DateB){
+                   line.xp.deliveryDate = new Date(date);
+			}
+			
+		}
+		else {
+			 if(DateA!=DateB){
+                   line.xp.deliveryDate = new Date(date);
+			}
+		}
+
+		
 	}
 	function changePreference(line, preference) {
 		line.xp.DeliveryRuns = preference;
@@ -258,7 +287,7 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 
 	}
 	vm.editPopUp = function (lineitem) {
-		vm.edit=true;
+		vm.edit = true;
 		var modalInstance = $uibModal.open({
 			animation: false,
 			backdropClass: 'edittModal',
@@ -267,12 +296,12 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 			controller: 'editCtrl',
 			controllerAs: 'edit',
 			resolve: {
-				Order: function ($q,CurrentOrder) {
+				Order: function ($q, CurrentOrder) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
                         .then(function (data) {
-                        	OrderCloud.As().Orders.Get(data).then(function(order){
-                            	dfd.resolve(order)
+							OrderCloud.As().Orders.Get(data).then(function (order) {
+								dfd.resolve(order)
                             })
                         })
                         .catch(function () {
@@ -288,35 +317,36 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 		});
 
 		modalInstance.result.then(function () {
-          
+
 		}, function () {
 			angular.noop();
 		});
 	}
 
-	function viewMore(){
-		vm.more=false;
-		vm.limit=LineItems.Items.length;
+	function viewMore() {
+		vm.more = false;
+		vm.limit = LineItems.Items.length;
 	}
-	function viewLess(){
-		vm.more=true;
-		vm.limit=3;
+	function viewLess() {
+		vm.more = true;
+		vm.limit = 3;
 	}
-	function addRecipient(){
+	function addRecipient() {
 
 	}
-	vm.giftcard = function(data){
+	vm.giftcard = function (data) {
 		console.log(data);
 		console.log(vm.signnedinuser);
-		OrderCloud.UserGroups.ListUserAssignments(null, vm.signnedinuser.ID).then(function(dat){
-			OrderCloud.SpendingAccounts.Get(data).then(function(resp){
+		OrderCloud.UserGroups.ListUserAssignments(null, vm.signnedinuser.ID).then(function (dat) {
+			OrderCloud.SpendingAccounts.Get(data).then(function (resp) {
 				console.log(resp);
 			})
 		})
 	}
 
-	vm.submit = function(credentials){
+	vm.submit = function (credentials) {
 		console.log(credentials);
+
 		console.log($cookieStore.get("BachmanStoreFront.impersonation.token"));
 		var x = $cookieStore.get("BachmanStoreFront.token");
 		OrderCloud.Auth.GetToken( credentials )
@@ -351,51 +381,52 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
                       console.log("incoming",data); 
                       }).error(function (data, status, headers, config) {
                       });
+
                 })
             })
-            .catch(function(ex) {
-               // $exceptionHandler(ex);
-               vm.errormsg = "Email or Password is incorrect!!";
-               vm.invaliduser = true;
+            .catch(function (ex) {
+				// $exceptionHandler(ex);
+				vm.errormsg = "Email or Password is incorrect!!";
+				vm.invaliduser = true;
             })
 	}
 
-	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
-		angular.forEach(result.Items, function(value, key) {
+	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
+		angular.forEach(result.Items, function (value, key) {
 			console.log(value);
-			OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function(data){
-				if(data.Name=="Purple Perks"){
-					vm.purpleperksacc=data;
+			OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function (data) {
+				if (data.Name == "Purple Perks") {
+					vm.purpleperksacc = data;
 				}
 			})
 		})
 	})
 
-	vm.bachmanscharge =function(){
-		OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function(result){
-			angular.forEach(result.Items, function(value, key) {
+	vm.bachmanscharge = function () {
+		OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
+			angular.forEach(result.Items, function (value, key) {
 				console.log(value);
-				OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function(data){
+				OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function (data) {
 					console.log(data);
-					if(data.Name=="Bachman Charges"){
+					if (data.Name == "Bachman Charges") {
 						console.log(data);
-						vm.bachmanschargeacc=data;
+						vm.bachmanschargeacc = data;
 					}
 				})
 			})
 		})
 	}
-	vm.hideBillingAddress=function(){
-		$('.gift-card-opt').on('click',function(){$('.billing-addr-cont').hide()});
+	vm.hideBillingAddress = function () {
+		$('.gift-card-opt').on('click', function () { $('.billing-addr-cont').hide() });
 	}
-	vm.showBillingAddress=function(){
-		$('.credit-card-opt').on('click',function(){$('.billing-addr-cont').show()});
+	vm.showBillingAddress = function () {
+		$('.credit-card-opt').on('click', function () { $('.billing-addr-cont').show() });
 	}
 }
-function EditController($uibModalInstance, LineItem, Order, checkOutService,$rootScope) {
+function EditController($uibModalInstance, LineItem, Order, checkOutService, $rootScope) {
 	var vm = this;
 	vm.getCityState = getCityState;
-	vm.changeDetails=changeDetails;
+	vm.changeDetails = changeDetails;
 	vm.init = init;
 	init();
 	vm.cancel = function () {
@@ -405,6 +436,7 @@ function EditController($uibModalInstance, LineItem, Order, checkOutService,$roo
 		checkOutService.getCityState(zip).then(function (res) {
 			line.ShippingAddress.City = res.City;
 			line.ShippingAddress.State = res.State;
+			line.ShippingAddress.Country = res.Country
 		});
 	}
 	function init() {
@@ -417,12 +449,12 @@ function EditController($uibModalInstance, LineItem, Order, checkOutService,$roo
 			}
 		}
 	}
-	function changeDetails(lineitem){
+	function changeDetails(lineitem) {
 		if (lineitem.ShippingAddress.Phone1 && lineitem.ShippingAddress.Phone2 && lineitem.ShippingAddress.Phone3) {
-				
-				 lineitem.ShippingAddress.Phone=lineitem.ShippingAddress.Phone1+lineitem.ShippingAddress.Phone2+lineitem.ShippingAddress.Phone3;
-			}
-		return $rootScope.$emit("ChangedDetails",lineitem)
-         
+
+			lineitem.ShippingAddress.Phone = lineitem.ShippingAddress.Phone1 + lineitem.ShippingAddress.Phone2 + lineitem.ShippingAddress.Phone3;
+		}
+		return $rootScope.$emit("ChangedDetails", lineitem)
+
 	}
 }
