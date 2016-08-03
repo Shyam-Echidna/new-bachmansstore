@@ -19,9 +19,9 @@ function CheckoutConfig($stateProvider) {
 					var deferred = $q.defer();
 					CurrentOrder.GetID()
 						.then(function (data) {
-							OrderCloud.As().Orders.Get(data).then(function (order) {
+							OrderCloud.Orders.Get(data).then(function (order) {
 								var order = order;
-								OrderCloud.As().LineItems.List(order.ID).then(function (res) {
+								OrderCloud.LineItems.List(order.ID).then(function (res) {
 									LineItemHelpers.GetProductInfo(res.Items)
 
 	                                    .then(function () {
@@ -42,19 +42,20 @@ function CheckoutConfig($stateProvider) {
                         });
 					return deferred.promise;
                 },
-                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
+                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud, TaxService) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
-                        .then(function (data) {
-
-                        	OrderCloud.As().Orders.Get(data).then(function(order){
-                                console.log("order,", order);
-                            	dfd.resolve(order)
-                        	})
-
+                        .then(function (orderID) {
+                            TaxService.GetTax(orderID)
+                                .then(function() {
+                                    OrderCloud.Orders.Get(orderID)
+                                        .then(function (order) {
+                                            dfd.resolve(order);
+                                        });
+                                });
                         })
                         .catch(function () {
-                            dfd.resolve(null);
+                            dfd.resolve();
                         });
                     return dfd.promise;
                 },
@@ -208,7 +209,10 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 			}
 		}
 
-		
+		if ($scope.class === "active-date")
+	      $scope.class = " ";
+	    else
+	      $scope.class = "active-date";		
 	}
 	function changePreference(line, preference) {
 		line.xp.DeliveryRuns = preference;
@@ -260,9 +264,9 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 					newline[i].xp = newline[0].xp;
 				}
 
-				OrderCloud.As().LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
+				OrderCloud.LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
 					console.log("LineItems Data", dat);
-					OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
+					OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
 						console.log("1234567890", data);
                         vm.openACCItems.name = 'payment';
                         vm.openACCItems['delivery'] = true;
@@ -273,9 +277,9 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 			}
 		}
 		else {
-			OrderCloud.As().LineItems.Update(Order.ID, newline[0].ID, newline[0]).then(function (dat) {
+			OrderCloud.LineItems.Update(Order.ID, newline[0].ID, newline[0]).then(function (dat) {
 				console.log("LineItems Data", dat);
-				OrderCloud.As().LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
+				OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
 					console.log("1234567890", data);
                     vm.openACCItems.name = 'payment';
                     vm.openACCItems['delivery'] = true;
@@ -300,7 +304,7 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
                         .then(function (data) {
-							OrderCloud.As().Orders.Get(data).then(function (order) {
+							OrderCloud.Orders.Get(data).then(function (order) {
 								dfd.resolve(order)
                             })
                         })

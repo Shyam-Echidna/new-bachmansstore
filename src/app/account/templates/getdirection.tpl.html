@@ -7,13 +7,13 @@
             <div id="panel1" style="" class="col-xs-12 col-md-3 col-sm-12 co-lg-3">
                 <div class="Text-field-wrap">
                     <input type="text" id="venue" ng-model="venue" ng-class="{ focusIn: venue }" />
-                    <label for="zipCode">Current Venue</label>
+                    <label for="venue"></label>
                 </div>
                 <div class="Text-field-wrap">
-                <input type="text" id="txtCity" ng-model="txtCity" ng-disabled="zipCode" ng-class="{ focusIn: txtCity }" />
-                <label for="txtCity">Enter Current Location</label> 
+                <input type="text" id="txtCity" ng-model="txtCity" ng-disabled="zipCode" ng-class="{ focusIn: txtCity }" placeholder="Enter Current Location"/>
+                <label for="txtCity"></label> 
                 </div>
-                 <input type="submit" value="Get Direction" ng-click="findStore()" />
+                 <input type="submit" value="Get Direction"/>
             </div>
         </form> 
     </div>

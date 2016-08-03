@@ -24,17 +24,20 @@ function CartConfig($stateProvider) {
                 ID: null
             },
             resolve: {
-                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
+                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud, TaxService) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
-                        .then(function (data) {
-                            OrderCloud.As().Orders.Get(data).then(function (order) {
-                                console.log(order);
-                                dfd.resolve(order);
-                            })
+                        .then(function (orderID) {
+                            TaxService.GetTax(orderID)
+                                .then(function() {
+                                    OrderCloud.Orders.Get(orderID)
+                                        .then(function (order) {
+                                            dfd.resolve(order);
+                                        });
+                                });
                         })
                         .catch(function () {
-                            dfd.resolve(0);
+                            dfd.resolve();
                         });
                     return dfd.promise;
                 },/*
@@ -46,7 +49,7 @@ function CartConfig($stateProvider) {
                 LineItemsList: function ($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
                     var dfd = $q.defer();
                     if (Order != 0) {
-                        OrderCloud.As().LineItems.List(Order.ID)
+                        OrderCloud.LineItems.List(Order.ID)
                             .then(function (data) {
                                 if (!data.Items.length) {
                                     toastr.error("Your order does not contain any line items.", 'Error');
@@ -271,7 +274,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     function PagingFunction() {
         var dfd = $q.defer();
         if (vm.lineItems.Meta.Page < vm.lineItems.Meta.TotalPages) {
-            OrderCloud.As().LineItems.List(vm.order.ID, vm.lineItems.Meta.Page + 1, vm.lineItems.Meta.PageSize)
+            OrderCloud.LineItems.List(vm.order.ID, vm.lineItems.Meta.Page + 1, vm.lineItems.Meta.PageSize)
                 .then(function (data) {
                     vm.lineItems.Meta = data.Meta;
                     vm.lineItems.Items = [].concat(vm.lineItems.Items, data.Items);
@@ -335,9 +338,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     console.log("vm.lineVal", vm.groups);
 
     vm.clearcart = function () {
-        OrderCloud.Orders.Delete(vm.order.ID);
-        $state.reload();
-    }
+        OrderCloud.Orders.Delete(vm.order.ID)
+            .then(function(){
+                CurrentOrder.Remove()
+                    .then(function(){
+                       $state.go('home');
+                    });
+        });
+    };
 
     vm.closePopover = function () {
         vm.showDeliveryToolTip = false;
@@ -372,7 +380,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function changeDeliveryDate(item) {
         //console.log(date);
-        // OrderCloud.As().LineItems.Patch(vm.order.ID, date.ID, date.xp).then(function (res) {
+        // OrderCloud.LineItems.Patch(vm.order.ID, date.ID, date.xp).then(function (res) {
         //     console.log(res);
         // })
         var data = [];
@@ -402,7 +410,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         var temppromise = [];
         angular.forEach(data, function (value, key) {
 
-            temppromise[i] = OrderCloud.As().LineItems.SetShippingAddress(vm.order.ID, value.ID, shippingAddress);
+            temppromise[i] = OrderCloud.LineItems.SetShippingAddress(vm.order.ID, value.ID, shippingAddress);
             i++;
         });
         $q.all(temppromise).then(function (result) {
@@ -631,7 +639,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function updateRecipientDetails(data) {
         var defered = $q.defer();
-        OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+        OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
             if (res.Items.length > 1) {
                 var promises = [];
                 var inum = 0;
@@ -640,7 +648,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     function calliteration(val1) {
                         var deferred = $q.defer();
                         var newLineItems = []
-                        OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+                        OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
                             newLineItems = res.Items;
                             newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
                             vm.checkDeliverymethod(val1).then(function (r) {
@@ -719,9 +727,9 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.updateLinedetails = updateLinedetails;
     function updateLinedetails(args, newline) {
         var defered = $q.defer()
-        OrderCloud.As().LineItems.Update(args, newline.ID, newline).then(function (dat) {
+        OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
             console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
-            OrderCloud.As().LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
+            OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
                 alert("Data submitted successfully");
                 //vm.getLineItems();
@@ -798,7 +806,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                         }
                     });
                     count++
-                    OrderCloud.As().LineItems.Delete(vm.order.ID, line.ID).then(function (data) {
+                    OrderCloud.LineItems.Delete(vm.order.ID, line.ID).then(function (data) {
                         console.log("Lineitemdeleted", data);
                     });
                     deferred.resolve('sameId');
@@ -829,13 +837,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
     function changeQuantity(lineItem) {
 
-        OrderCloud.As().LineItems.Get(vm.order.ID, lineItem.ID).then(function (data) {
+        OrderCloud.LineItems.Get(vm.order.ID, lineItem.ID).then(function (data) {
             console.log("LineitemQuantity", data);
             var lineitemFee = parseFloat(data.xp.TotalCost) - parseFloat(data.Quantity * data.UnitPrice);
             lineItem.xp.TotalCost = lineitemFee + (lineItem.Quantity * lineItem.UnitPrice);
-            OrderCloud.As().LineItems.Update(vm.order.ID, lineItem.ID, lineItem).then(function (dat) {
+            OrderCloud.LineItems.Update(vm.order.ID, lineItem.ID, lineItem).then(function (dat) {
                 console.log("LineItemsUpdate", JSON.stringify(dat));
-                OrderCloud.As().LineItems.SetShippingAddress(vm.order.ID, lineItem.ID, lineItem.ShippingAddress).then(function (data) {
+                OrderCloud.LineItems.SetShippingAddress(vm.order.ID, lineItem.ID, lineItem.ShippingAddress).then(function (data) {
                     console.log("SetShippingAddress", data);
                     alert("Data submitted successfully");
                     //vm.getLineItems();
@@ -856,7 +864,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         var data = [];
         data[0] = lineItem;
         //vm.deleteLineItem();
-        OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+        OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
             if (res.Items.length > 1) {
                 if (lineItem.TotalCost == (lineItem.UnitPrice * lineItem.Quantity)) {
                     // deleteLineItem
@@ -938,14 +946,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     }
     vm.RemoveLineItem = RemoveLineItem;
     function RemoveLineItem(Order, LineItem) {
-        OrderCloud.As().LineItems.Delete(Order.ID, LineItem.ID)
+        OrderCloud.LineItems.Delete(Order.ID, LineItem.ID)
             .then(function () {
                 // If all line items are removed delete the order.
-                OrderCloud.As().LineItems.List(Order.ID)
+                OrderCloud.LineItems.List(Order.ID)
                     .then(function (data) {
                         if (!data.Items.length) {
                             CurrentOrder.Remove();
-                            OrderCloud.As().Orders.Delete(Order.ID).then(function () {
+                            OrderCloud.Orders.Delete(Order.ID).then(function () {
                                 $state.reload();
                                 $rootScope.$broadcast('OC:RemoveOrder');
                             });
@@ -1046,7 +1054,7 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
     vm.lineItemCall = function /*getLineItems*/(order) {
         var dfd = $q.defer();
         var queue = [];
-        OrderCloud.As().LineItems.List(order.ID)
+        OrderCloud.LineItems.List(order.ID)
             .then(function (li) {
                 vm.LineItems = li;
                 if (li.Meta.TotalPages > li.Meta.Page) {
@@ -1104,7 +1112,7 @@ function ProductRequestController($uibModal, $scope, $stateParams, prodrequestda
     vm.save = function (data) {
         console.log(data);
         var updateline = { "xp": data };
-        OrderCloud.As().LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function (test) {
+        OrderCloud.LineItems.Patch(vm.order.ID, vm.prodrequestdata.ID, updateline).then(function (test) {
             $uibModalInstance.close();
         })
     }

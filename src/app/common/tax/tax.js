@@ -11,7 +11,7 @@ function TaxService($q, $resource, avalarataxurl, OrderCloud) {
     };
     function GetTax(orderID) {
         var dfd = $q.defer();
-        var token = OrderCloud.As().Auth.ReadToken();
+        var token = OrderCloud.Auth.ReadToken();
         var requestTax = {
             "buyerID": OrderCloud.BuyerID.Get(),
             "orderID": orderID,
@@ -27,13 +27,13 @@ function TaxService($q, $resource, avalarataxurl, OrderCloud) {
                 dfd.resolve(response);
             })
             .catch(function (response) {
-                dfd.reject(response);
+                dfd.resolve(response);
             });
         return dfd.promise;
     }
     function CollectTax(orderID) {
         var dfd = $q.defer();
-        var token = OrderCloud.As().Auth.ReadToken();
+        var token = OrderCloud.Auth.ReadToken();
         var requestTax = {
             "buyerID": OrderCloud.BuyerID.Get(),
             "orderID": orderID,
@@ -49,7 +49,7 @@ function TaxService($q, $resource, avalarataxurl, OrderCloud) {
                 dfd.resolve(response);
             })
             .catch(function (response) {
-                dfd.reject(response);
+                dfd.resolve(response);
             });
         return dfd.promise;
     }

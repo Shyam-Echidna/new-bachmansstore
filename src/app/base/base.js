@@ -45,74 +45,70 @@ function BaseConfig( $stateProvider ) {
                 }
             },
             resolve: {
-
-            adminLogin : function($q, OrderCloud, BaseService, $cookieStore){
-                    if(!$cookieStore.get('isLoggedIn')){
+                CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous) {
                     var dfd = $q.defer();
-             return BaseService.AdminLogin().then(function (data) {
-                  OrderCloud.Auth.SetToken(data.access_token);
-                 return data.access_token
-              })
-              // return true;
-                }
-                    },
-                    CurrentUser: function($q, $state, OrderCloud, $cookieStore) {
-                       if($cookieStore.get('isLoggedIn')){
-                var dfd = $q.defer();
-                OrderCloud.Me.Get()
-                    .then(function(data) {
-                        dfd.resolve(data);
-                    })
-                    .catch(function(){
-                        OrderCloud.Auth.RemoveToken();
-                        OrderCloud.Auth.RemoveImpersonationToken();
-                        //OrderCloud.BuyerID.Set(null);
-                       // $state.go('login');
-                        dfd.resolve();
-                    });
-                return dfd.promise;
-              }
-            },
-                  ticket: function(LoginFact){
-                    return LoginFact.Get().then(function(data){
-                    console.log(data);
-                    var ticket = data.data.ticket;
-                     localStorage.setItem("alf_ticket",ticket);
-                        return ticket;
-                })
-                },ticketTemp: function(LoginFact){
-                    return LoginFact.GetTemp().then(function(data){
-                    console.log(data);
-                    var ticket = data.data.ticket;
-                     localStorage.setItem("alfTemp_ticket",ticket);
-                        return ticket;
-                }, function(){
-                  return "";
-                })
+                    OrderCloud.Me.Get()
+                        .then(function (data) {
+                            dfd.resolve(data);
+                        })
+                        .catch(function () {
+                            if (anonymous) {
+                                if (!OrderCloud.Auth.ReadToken()) {
+                                    OrderCloud.Auth.GetToken('')
+                                        .then(function (data) {
+                                            OrderCloud.Auth.SetToken(data['access_token']);
+                                        })
+                                        .finally(function () {
+                                            OrderCloud.BuyerID.Set(buyerid);
+                                            dfd.resolve({});
+                                        });
+                                }
+                            } else {
+                                OrderCloud.Auth.RemoveToken();
+                                OrderCloud.Auth.RemoveImpersonationToken();
+                                OrderCloud.BuyerID.Set(null);
+                                $state.go('login');
+                                dfd.resolve();
+                            }
+                        });
+                    return dfd.promise;
                 },
-            categoryImages: function(CategoryService, ticket){
-           // var ticket = localStorage.getItem("alf_ticket");
-            return CategoryService.GetCategoryImages(ticket).then(function(res){
-                return res.items;
-            });
-        }/*,
-        minicartData:function($q, CurrentOrder){
-          var dfd = $q.defer();
-          CurrentOrder.Get().then(function(data){
-            var mincart = data;
-            dfd.resolve(mincart);
-          });
-          return dfd.promise;
-        }*/
-
+                AnonymousUser: function ($q, OrderCloud, CurrentUser) {
+                    CurrentUser.Anonymous = angular.isDefined(JSON.parse(atob(OrderCloud.Auth.ReadToken().split('.')[1])).orderid);
+                },
+                ticket: function (LoginFact) {
+                    return LoginFact.Get()
+                        .then(function (data) {
+                            console.log(data);
+                            var ticket = data.data.ticket;
+                            localStorage.setItem("alf_ticket", ticket);
+                            return ticket;
+                        })
+                },
+                ticketTemp: function (LoginFact) {
+                    return LoginFact.GetTemp()
+                        .then(function (data) {
+                            console.log(data);
+                            var ticket = data.data.ticket;
+                            localStorage.setItem("alfTemp_ticket", ticket);
+                            return ticket;
+                        }, function () {
+                            return "";
+                        })
+                },
+                categoryImages: function (CategoryService, ticket) {
+                    // var ticket = localStorage.getItem("alf_ticket");
+                    return CategoryService.GetCategoryImages(ticket).then(function (res) {
+                        return res.items;
+                    });
+                }
             }
         });
 }
 
-function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, OrderCloud, alfcontenturl, CurrentOrder) {
+function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
   var service = {
     GetCategoryTree: _getCategoryTree,
-    AdminLogin: _adminLogin,
     MinicartData: _minicartData
   };
     //_adminLogin();
@@ -191,7 +187,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
       return deferred.promise;
 
   }*/
-     function _adminLogin(){
+/*     function _adminLogin(){
 
     var data = $.param({
             grant_type: 'client_credentials',
@@ -219,7 +215,7 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
                 defferred.reject(data);
             });
             return defferred.promise;
-    }
+    }*/
 
   function _minicartData(){
     var dfd = $q.defer();
@@ -233,13 +229,14 @@ function BaseService( $q, $localForage, Underscore,  authurl, ocscope, $http, Or
     return service;
 }
 
-function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
-  defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
+    var vm = this;
+    vm.currentUser = CurrentUser;
+    defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
 
     });
-    var vm = this;
       $rootScope.$on('getcurrentuser', function() {
 
          LoginService.GetCurrentUser().then(function(res){
@@ -578,11 +575,17 @@ function BaseController($scope, $cookieStore, CurrentUser,defaultErrorMessageRes
         $(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
 
         function expandSearchWidth() {
+          /*if($cookieStore.get('isLoggedIn')){
+            $('.info-bar-acc').addClass('donotXpandAcc');
+          }*/
           var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
           $(this).css('width', expSearchWidthValue + 80);
         }
 
         function collapseSearchWidth() {
+          /*if($cookieStore.get('isLoggedIn')){
+            $('.info-bar-acc').removeClass('donotXpandAcc');
+          }*/
           $(this).css('width', '90px');
         }
 
@@ -1125,7 +1128,36 @@ LoginFact.GetContactInfo(ticket).then(function(res){
       $('.menu-hover-cont2.menu-container').removeClass('thisIsHovered');
     },200)
   }
-
+  function _getBrowserName() {
+    var browserClass = "";
+    if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+      {
+          browserClass = "opera";
+      }
+      else if(!(/*@cc_on!@*/false || !!document.documentMode) && (!!window.StyleMedia)) 
+      {
+        browserClass = "edge";
+      } 
+      else if(navigator.userAgent.indexOf("Chrome") != -1 )
+      {
+          browserClass = "chrome";
+      }
+      else if(navigator.userAgent.indexOf("Safari") != -1)
+      {
+          browserClass = "safari";
+      }
+      else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+      {
+          browserClass = "firefox";
+      }
+      else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+      {
+          browserClass = "ie";
+      }
+      if(browserClass)
+      angular.element('body').addClass(browserClass);
+  }
+  _getBrowserName();
 }
 
 

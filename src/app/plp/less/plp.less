@@ -3369,12 +3369,27 @@ body.modal-open {
         }   
 
 }
+.wishlistModal button{
+    vertical-align: middle;
+    float: none;
+    .p0;
+    border-radius: 0;
+    font: 0.875em/2.813em "ProximaNova-Bold",Arial,sans-serif;
+    background-color: #a576ca;
+    color:#fff;
+    box-shadow: none;
+    width:38%; 
+    border:none;
+    &.cancel{
+        background-color:#a7a7a7;
+    }
+}
 /* QV-page styles */
 
 .quickViewModal.modal-backdrop.in {
-    opacity: 0.6;
+    opacity: 0.6;  
 }
-.quickViewModal{
+.quickViewModal, .wishlistModal {
     .modal-dialog {
         width: 84%;
         position: absolute;
@@ -5163,5 +5178,12 @@ body.modal-open {
             cursor: default;
             position: absolute;
         }
+    }
+}
+.firefox{
+    .plp-page .selected-list .left-part div:nth-child(1) h4{
+        font: 1.05em "roboto_slablight", Arial, sans-serif;
+        color: #424242;
+        font-weight: bold;
     }
 }

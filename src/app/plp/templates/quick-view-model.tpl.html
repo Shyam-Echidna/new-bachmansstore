@@ -6,7 +6,8 @@
 <meta property="og:video:height" content="340" />
 <meta property="og:video:type" content="application/x-shockwave-flash" />
 
-<div class="qv-page qvScroll" window-height ng-style="{'height':windowHeight}" ng-scrollable>
+<div class="qv-page qvScroll" window-height ng-style="{'max-height':windowHeight,'overflow-y':'auto'}" 
+>
     <div class="qvPadding">
         <p class="close-icon" ng-click="cancel()">
             <a>
@@ -85,7 +86,7 @@
 
                                         <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in productQuickViewModal.allColors  track by $index" ng-class="{ 'active-circle': $index == productQuickViewModal.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
                                             <input type="radio"  style="display:none" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="productQuickViewModal.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/>
-                                            <label style="display:block;display: block;background-color: blue;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;width:20px;height:20px" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"> 
+                                            <label style="display:block;display: block;background-color: blue;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"> 
                                            
                                             </label>                                             
                                         </li>

@@ -11,6 +11,7 @@ angular.module('orderCloud')
     .controller( 'ProductQuickViewCtrl', ProductQuickViewController)
     .controller ('ProductQuickViewModalCtrl', ProductQuickViewModalController)
     .controller('addedToCartCtrl',addedToCartController)
+    .controller('wishlistModalCtrl',wishlistModalController)
     .directive('prodColors', ProdColorsDirective)
 ;
 
@@ -429,12 +430,22 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
 
       // START: function for sort options selection
       var sortItems=[
+      {'value':'New','label':'New'},      
+      {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest'},
+      {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest'},
       {'value':'BestSellers','label':'Best Sellers'},
+      {'value':'Local delivery','label':'Local delivery'},
+      {'value':'Nationwide delivery','label':'Nationwide delivery'},
+      {'value':'Most Popular','label':'Most Popular'},
+      {'value':'AZ','label':'A - Z'},
+      {'value':'ZA','label':'Z - A'},
+
+      /*{'value':'BestSellers','label':'Best Sellers'},
       {'value':'Relevance','label':'Relevance'},
       {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest'},
       {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest'},
       {'value':'AZ','label':'A - Z'},
-      {'value':'ZA','label':'Z - A'},
+      {'value':'ZA','label':'Z - A'},*/
       ];
       vm.sortItems = sortItems;
       vm.selectedItem ="Best Sellers";
@@ -551,7 +562,7 @@ vm.selectedColorIndex = 0;
  vm.filterBtnModal = function() {
      // alert(10000);
         var modalInstance = $uibModal.open({
-            animation: true,
+            animation: false,
             backdropClass: 'filterBtnModal',
             windowClass: 'filterBtnModal',
             templateUrl: 'plp/templates/filter-modal.tpl.html',
@@ -560,6 +571,22 @@ vm.selectedColorIndex = 0;
             // size: 'sm'
         });
 
+        modalInstance.result.then(function() {
+            
+        }, function() {
+            angular.noop();
+        });
+
+    
+    }
+    vm.wishlistModal = function() {
+        var modalInstance = $uibModal.open({
+            animation: false,
+            windowClass: 'wishlistModal',
+            templateUrl: 'plp/templates/wishlist-model.tpl.html',
+            controller:'wishlistModalCtrl',
+            controllerAs: 'wishlistModal'
+        });
         modalInstance.result.then(function() {
             
         }, function() {
@@ -825,6 +852,13 @@ function filterBtnController($scope, $uibModalInstance) {
       };
     // selected cat-mobile
 
+}
+//wishlistpopup
+function wishlistModalController($scope, $uibModalInstance) {
+    var vm = this;
+    $scope.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
 }
 
 function ColorFilter(){

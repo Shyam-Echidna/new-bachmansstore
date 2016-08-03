@@ -501,12 +501,11 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
     function _createOrder(prodID) {
 		var productID;
 		if ($cookieStore.get('isLoggedIn')) {
-			alert('true');
 			OrderCloud.Me.Get().then(function (res) {
 				console.log(res);
-				OrderCloud.Users.GetAccessToken(res.ID, guest)
+/*				OrderCloud.Users.GetAccessToken(res.ID, guest)
 					.then(function (data) {
-						OrderCloud.Auth.SetImpersonationToken(data['access_token']);
+						OrderCloud.Auth.SetImpersonationToken(data['access_token']);*/
 						CurrentOrder.GetID().then(function (orderId) {
 							var lineItem = {
 								ProductID: prodID,
@@ -516,33 +515,32 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 							if (productID == prodID) {
 								alert("qwerty");
 							}
-							OrderCloud.As().LineItems.Create(orderId, lineItem).then(function (res) {
+							OrderCloud.LineItems.Create(orderId, lineItem).then(function (res) {
 								console.log(res);
 								//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
 								return $rootScope.$broadcast('LineItemCreated', orderId, res);
 							})
 						}, function () {
-							OrderCloud.As().Orders.Create({}).then(function (order) {
+							OrderCloud.Orders.Create({}).then(function (order) {
 								CurrentOrder.Set(order.ID);
 								var lineItem = {
 									ProductID: prodID,
 									Quantity: 1
 								};
 								productID = prodID;
-								OrderCloud.As().LineItems.Create(order.ID, lineItem).then(function (lineitem) {
+								OrderCloud.LineItems.Create(order.ID, lineItem).then(function (lineitem) {
 									return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
 								})
 							})
 
 						})
 					})
-			})
+		/*	})*/
 		}
 		else {
-			alert("false");
-			OrderCloud.Users.GetAccessToken("gby8nYybikCZhjMcwVPAiQ", guest)
+/*			OrderCloud.Users.GetAccessToken("gby8nYybikCZhjMcwVPAiQ", guest)
 				.then(function (data) {
-					OrderCloud.Auth.SetImpersonationToken(data['access_token']);
+					OrderCloud.Auth.SetImpersonationToken(data['access_token']);*/
 					CurrentOrder.GetID().then(function (orderId) {
 						var lineItem = {
 							ProductID: prodID,
@@ -552,26 +550,26 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 						if (productID == prodID) {
 							alert("qwerty");
 						}
-						OrderCloud.As().LineItems.Create(orderId, lineItem).then(function (res) {
+						OrderCloud.LineItems.Create(orderId, lineItem).then(function (res) {
 							console.log(res);
 							//$rootScope.$broadcast('LineItemAddedToCart', orderId, res);
 							return $rootScope.$broadcast('LineItemCreated', orderId, res);
 						})
 					}, function () {
-						OrderCloud.As().Orders.Create({}).then(function (order) {
+						OrderCloud.Orders.Create({}).then(function (order) {
 							CurrentOrder.Set(order.ID);
 							var lineItem = {
 								ProductID: prodID,
 								Quantity: 1
 							};
 							productID = prodID;
-							OrderCloud.As().LineItems.Create(order.ID, lineItem).then(function (lineitem) {
+							OrderCloud.LineItems.Create(order.ID, lineItem).then(function (lineitem) {
 								return $rootScope.$broadcast('LineItemCreated', order.ID, lineitem);
 							})
 						})
 
 					})
-				})
+				/*})*/
         }
 	}
     function _addressValidation(obj) {
@@ -722,7 +720,8 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			});
 		}
 		else {
-			alert("Please select prodcut");
+			//alert("Please select prodcut");
+			vm.multireceipentSelectErr = "Please select product";
 		}
 	}
 
@@ -732,7 +731,8 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		if (productID > 1) {
 			WishListHandler(productID, false);
 		} else {
-			alert('Please Select a product from available options');
+			//alert('Please Select a product from available options');
+			vm.addToWishListSelectErr = 'Please Select a product from available options';
 		}
 	}
 
@@ -781,11 +781,11 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	setTimeout(function () {
 		owl2.owlCarousel({
 			loop: false,
-			nav: true,
+			nav: false,
 			navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>', '<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],
 			dots: true,
 			items: 1
-		});
+		});	
 		if ($(window).width() > 1024) {
 			$(".elevateZoom").elevateZoom({
 				easing: true,
@@ -961,7 +961,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			setTimeout(function () {
 				owl2.owlCarousel({
 					loop: false,
-					nav: true,
+					nav: false,
 					navText: ['<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>', '<span class="" aria-hidden="true"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#8c58b5;stroke-width:8;stroke-miterlimit:10;}</style><polyline class="st0" points="10,11.7 41.3,46.4 10,81.1 "/></svg></span>'],
 					dots: true,
 					items: 1
@@ -1065,20 +1065,38 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 
 	function WishListHandler(productId, isOnload){
-		vm.wishListTxt = "Add To WishList";
-		vm.displayWishList = false;
-		PdpService.AddToWishList(productId, isOnload).then(function (item) {
-				if(item == true){
-					vm.wishListTxt ="ADDED";
-					//Product Added confirmation popup here
-				}
-				else if(item == false){
-					vm.wishListTxt ="ADDED Already";
-					//Product Already in list  popup here
-				}
-				vm.displayWishList = true;
-			});
+	    vm.wishListTxt = "ADD TO WISHLIST";
+	    vm.displayWishList = false;
+	    PdpService.AddToWishList(productId, isOnload).then(function (item) {
+	        if(item == true){
+	         // vm.wishListTxt ="ADDED";
+	          vm.wishListTxt = $sce.trustAsHtml('<span class="svg-added">'+
+	                  '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 137.5 93.3" style="enable-background:new 0 0 137.5 93.3;" xml:space="preserve">'+
+	                      '<g>'+
+	                        '<path d="M116.3,23.6L70.2,69.7l-8.7,8.7c-1.1,1.1-2.7,1.8-4.3,1.8s-3.2-0.6-4.3-1.8l-8.7-8.7l-23-23c-1.1-1.1-1.8-2.7-1.8-4.3 s0.6-3.2,1.8-4.3l-0.1,0.1c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8l27.5,27.3L107.6,15c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8 l0,0c1.1,1.1,1.8,2.7,1.8,4.3S117.4,22.5,116.3,23.6z"/>'+
+	                      '</g>'+
+	                  '</svg>'+
+	                'ADDED TO CART </span>');
+	          //Product Added confirmation popup here
+	        }
+	        else if(item == false){
+	         	//vm.wishListTxt ="ADDED Already";
+	          	vm.wishListTxt = $sce.trustAsHtml('<span class="svg-added">'+
+	                  '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 137.5 93.3" style="enable-background:new 0 0 137.5 93.3;" xml:space="preserve">'+
+	                      '<g>'+
+	                        '<path d="M116.3,23.6L70.2,69.7l-8.7,8.7c-1.1,1.1-2.7,1.8-4.3,1.8s-3.2-0.6-4.3-1.8l-8.7-8.7l-23-23c-1.1-1.1-1.8-2.7-1.8-4.3 s0.6-3.2,1.8-4.3l-0.1,0.1c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8l27.5,27.3L107.6,15c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8 l0,0c1.1,1.1,1.8,2.7,1.8,4.3S117.4,22.5,116.3,23.6z"/>'+
+	                      '</g>'+
+	                  '</svg>'+
+	                'ADDED ALREADY </span> ');
+	          //Product Already in list  popup here
+	        }
+	        vm.displayWishList = true;
+	    });
 	}
+
+
+
+
 
 	// color-circle-outer
 
@@ -1292,7 +1310,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 		if (line.ID == "") {
 			if (vm.order) {
-				OrderCloud.As().LineItems.List(vm.order).then(function (res) {
+				OrderCloud.LineItems.List(vm.order).then(function (res) {
 					checkLineItemsId(res, line).then(function (data) {
 						if (data != 'sameId') {
 							checkLineItemsAddress(res, line).then(function (data) {
@@ -1385,7 +1403,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 					}
 
 
-				});
+				})
 			}
 			else {
 				vm.calculateDeliveryCharges(line).then(function (data) {
@@ -1410,9 +1428,9 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 
 	function updateLinedetails(args, newline) {
-		OrderCloud.As().LineItems.Update(args, newline.ID, newline).then(function (dat) {
+		OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
 			console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
-			OrderCloud.As().LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
+			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 				console.log("SetShippingAddress", data);
 				alert("Data submitted successfully");
 				vm.getLineItems();
@@ -1422,7 +1440,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	}
 	function getLineItems() {
 
-		OrderCloud.As().LineItems.List(vm.order).then(function (res) {
+		OrderCloud.LineItems.List(vm.order).then(function (res) {
 
 			console.log("Lineitems", res);
 			angular.forEach(res.Items, function (val, key, obj) {
@@ -1506,7 +1524,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 				Orderid: function (OrderCloud, $q) {
 					var deferred = $q.defer();
 					console.log(vm.order);
-					OrderCloud.As().LineItems.List(vm.order).then(function(res){
+					OrderCloud.LineItems.List(vm.order).then(function(res){
 						LineItemHelpers.GetProductInfo(res.Items).then(function () {
 							deferred.resolve(res);
 						})
@@ -1892,7 +1910,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		//vm.lineitemdtls = vm.recipientLineitem;
 		//console.log("line", vm.recipientLineitem);
 		if (vm.recipientLineitem.ID == "") {
-			OrderCloud.As().LineItems.List(vm.order).then(function (res) {
+			OrderCloud.LineItems.List(vm.order).then(function (res) {
 				checkLineItemsId(res, vm.recipientLineitem).then(function (data) {
 					if (data != 'sameId') {
 						checkLineItemsAddress(res, vm.recipientLineitem).then(function (data) {

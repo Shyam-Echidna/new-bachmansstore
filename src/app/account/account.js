@@ -200,7 +200,7 @@ function AccountConfig( $stateProvider) {
       "AddressName": null,
       "xp": {
         "NickName": "ANu",
-        "Active": false
+        "Active": true
       }
       };
 	var promise =AccountService.GetOrderDetails(order.ID).then(function(res){
@@ -816,7 +816,7 @@ function AccountController( $uibModal, WishList,$exceptionHandler, $location, $s
 			}
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 			directionsDisplay.setMap(map);
-			document.getElementById("panel2").style.display = "none";
+			//document.getElementById("panel2").style.display = "none";
 			$scope.venue = obj.Street1+" "+obj.Street1+", "+obj.City;
 		},3000);
 		//ending map showing

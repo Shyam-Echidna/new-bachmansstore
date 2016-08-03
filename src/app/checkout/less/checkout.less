@@ -91,11 +91,47 @@
                                         color: #666666;
                                         font: 1.127em @proxima-bold;
                                         text-transform: uppercase;
+
+                                        .left-side{
+                                            .logged-in-user,.del-det{
+                                                font: 0.8em @proxima-regular;
+                                                color: #666;
+                                                text-transform: capitalize;
+                                                border-left: 1px solid #d2d2d2;
+                                                padding: 10px 15px;
+                                                margin-left: 15px;
+                                            }
+                                            .svg-right {
+                                                vertical-align: middle;
+                                                display: inline-block;
+                                                height: 27px;
+                                                width: 27px;
+                                                border-radius: 50%;
+                                                background: transparent;
+                                                text-align: center;
+                                                border: 1px solid @font-purple-dark;
+                                                margin: -3px 10px 0px 20px;
+                                                padding: 2px 0px;
+                                                svg {
+                                                    height: 20px;
+                                                    width: 20px;
+                                                    fill:@font-purple-light;
+                                                }
+                                            }
+                                        }
+                                        .edit-here{
+                                            float: right;
+                                            display: block;
+                                            text-transform: capitalize;
+                                            font: 0.8em @proxima-regular;
+                                            border-bottom: 1px solid #d2d2d2;
+                                        }
                                     }
                                 }
                                 .panel-collapse {
                                     .panel-body {
                                         padding: 0px !important;
+                                        border: none;
                                         .panel-body-content,
                                         .registered-customer {
                                             padding: 40px 15px;
@@ -125,6 +161,17 @@
                                                                         color: #333333;
                                                                         font: 0.875em @proxima-regular;
                                                                         box-shadow: none;
+                                                                    }
+                                                                    input[type=email],
+                                                                    input[type=password],
+                                                                    input[type=text]{
+                                                                        &:focus::-webkit-input-placeholder { color:transparent; }
+                                                                        &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+                                                                        &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+                                                                        &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+                                                                        &:focus{
+                                                                            background: @base-bg-white;
+                                                                        }
                                                                     }
                                                                 }
                                                                 .btn-default:hover {
@@ -220,13 +267,13 @@
                                                 }
                                             }
                                             .delivery-address-details {
-                                                padding: 45px 20px;
+                                                padding: 25px 20px;
                                                 .row {
                                                     div {
                                                         padding: 0px;
                                                         .delivery-address {
                                                             .address-header {
-                                                                margin-bottom: 35px;
+                                                                margin-bottom: 20px;
                                                                 .row {
                                                                     div {
                                                                         .delivery-address-header {
@@ -260,6 +307,7 @@
                                                                         border: 1px solid #f1f1f1;
                                                                         padding: 15px 0px 23px 15px!important;
                                                                         position: relative;
+                                                                        margin-bottom: 23px;
                                                                         .signedin-user-name,
                                                                         .user-zip-code {
                                                                             font: 1em @proxima-bold;
@@ -317,11 +365,16 @@
                                                                             }
                                                                         }
                                                                         .client-address {
-                                                                            margin-top: 33px;
+                                                                            margin-top: 0px;
                                                                             color: #666666;
                                                                             font: 1.00em @proxima-regular;
                                                                             line-height: 20px;
-                                                                            padding-left: 25px;
+                                                                            // padding-left: 25px;
+                                                                            .cust-name{
+                                                                                font-family: @proxima-bold;
+                                                                                //font-weight: bold;
+                                                                                color: #000;
+                                                                            }
                                                                         }
                                                                         .client-edit {
                                                                             position: absolute;
@@ -513,7 +566,7 @@
                                                                     .deliver-today,
                                                                     .deliver-tomorrow,
                                                                     .select-date-info {
-                                                                        &:hover {
+                                                                        &:hover,&.active-date {
                                                                             background: #f6edfd;
                                                                             border-bottom: 2px solid #8b5bb3;
                                                                         }
@@ -528,22 +581,89 @@
                                                                             color: #000000;
                                                                         }
                                                                         .date {
-                                                                            border: 1px solid #ededed;
-                                                                            border-radius: 2px;
                                                                             font: 0.938em @proxima-regular;
-                                                                            padding: 10px 5px;
                                                                             color: #666666;
-                                                                            background: #f6f6f6;
-                                                                            span {
-                                                                                margin-top: -2px;
-                                                                                float: right;
-                                                                                width: auto;
+                                                                            .date-holder{
+                                                                                position: relative;
+                                                                                input[type="text"]{
+                                                                                    margin: 0px;
+                                                                                }
+                                                                            }
+                                                                            .date-svg {
+                                                                                position: absolute;
+                                                                                top: 10px;
+                                                                                right: 7px;
                                                                                 svg {
                                                                                     width: 23px;
                                                                                     height: 23px;
                                                                                     color: #666666;
                                                                                 }
                                                                             }
+                                                                             .uib-datepicker-popup{
+                                                                                border: none;
+                                                                                border-radius: 0;
+                                                                                width: initial;
+                                                                                -webkit-appearance:none;
+                                                                                outline: 0;
+                                                                                    li{
+                                                                                        -webkit-appearance:none;
+                                                                                        outline: 0;
+                                                                                        div{
+                                                                                            width: 100%;
+                                                                                        }
+                                                                                        table{
+                                                                                            -webkit-appearance:none;
+                                                                                            outline: 0;
+                                                                                            width: 100%;
+                                                                                           th, tr td{
+                                                                                                button{
+                                                                                                    border-radius: 0px;
+                                                                                                    border: none;
+                                                                                                    span{
+                                                                                                        color: #000;
+                                                                                                        &.text-muted{
+                                                                                                            color: #ccc;
+                                                                                                        }
+                                                                                                    }
+                                                                                                    &:hover,&.active,&.active:hover,&:active,&.btn-info{
+                                                                                                        background: @base-bg-purple-light;
+                                                                                                        border-color: @base-bg-purple-dark;
+                                                                                                        box-shadow: none;
+                                                                                                        -webkit-appearance:none;
+                                                                                                        span{
+                                                                                                            color: #fff;
+                                                                                                        }
+                                                                                                        i{
+                                                                                                            color:#fff;
+                                                                                                        }
+                                                                                                    }
+                                                                                                    &:hover{
+                                                                                                        background: transparent;
+                                                                                                         span ,i{
+                                                                                                            color: @base-bg-purple-dark;
+                                                                                                         }
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                                small,strong{
+                                                                                                    color: @base-bg-purple-dark;
+                                                                                                }
+                                                                                            }
+                                                                                            th{
+                                                                                                button{
+                                                                                                    &:active,&:focus{
+                                                                                                        background: transparent;
+                                                                                                        box-shadow: none;
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                    &:active,&:focus,&:hover,&:active:hover{
+                                                                                        border: none;
+                                                                                    }
+                                                                            }
+                
                                                                         }
                                                                     }
                                                                 }
@@ -582,6 +702,11 @@
                                                             }
                                                             .message {
                                                                 margin: 53px 0px 43px 0px;
+                                                                div{
+                                                                    &.padd-right{
+                                                                        width: 35%;
+                                                                    }
+                                                                }
                                                                 .card-message {
                                                                     font: 1.000em @proxima-regular;
                                                                     color: #464646;
@@ -1387,6 +1512,34 @@
                                 .panel-body {
                                     border-top-color: transparent !important;
                                 }
+                            }
+                        }
+                    }
+                }
+                .panelIn-panel{
+                    border: none;
+                    .panel-group{
+                        .panel{
+                            .panel-heading{
+                                background: #f5f5f5 !important;
+                                padding: 0px !important;
+                                height: 35px;
+                                    .panel-title{
+                                        line-height: 35px !important;
+                                        div{
+                                            .client-name,.client-zip-code {
+                                                font: 0.75em @proxima-light;
+                                                text-transform: capitalize !important;
+                                                font-weight: bold;
+                                                color: @font-purple-dark;
+                                            }
+                                        .client-zip-code{
+                                            border-left: 1px solid #c7c7c7;
+                                            padding-left: 12px;
+                                            margin-left: 12px;
+                                        }
+                                        }
+                                    }
                             }
                         }
                     }

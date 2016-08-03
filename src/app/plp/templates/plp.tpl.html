@@ -579,7 +579,7 @@
                      </div>
                   </div> -->
                   <div ng-repeat="prod in groupedProducts  track by $index">
-                     <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                     <div ng-if="prod.xp.IsBaseProduct == 'true'" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
                         <div id="feature-label" class="feature-label">
                            <div class="ribbon-wrapper">
                               <div class="ribbon-front">
@@ -587,27 +587,38 @@
                               </div>
                            </div>
                         </div>
-                        <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                        <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                         <div class="price-box">
-                           <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                           <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                            <p class="Price">{{prod.priceRange}}</p>
+                        </div>
+                        <!-- hover buttons -->
+                        <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                           <div class="row">
+                              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                                 <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                              </div>
+                              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                 <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
                   <prod-colors product="groupedProducts"></prod-colors>
                    
                    <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
-
+<!-- 
                      <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
+                              <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
                            </div>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
                </div>
             </div>
@@ -629,7 +640,7 @@
                         </div>
                      </div> -->
                      <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                       <div ng-if="prod.xp.IsBaseProduct == 'true'" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
                                  <div class="ribbon-front">
@@ -637,10 +648,21 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                           <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
-                              <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                              <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                           <!-- hover buttons -->
+                           <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12 " ng-show="hoveringButtons">
+                              <div class="row">
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                                 </div>
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
+                                 </div>
+                              </div>
                            </div>
                        </div>
                     </div>
@@ -663,16 +685,16 @@
                    </div>
                    
                    <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
-                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                   <!-- <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
+                              <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
                            </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                </div> 
          </div>
@@ -687,7 +709,7 @@
                         </div>
                      </div> -->
                      <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                       <div ng-if="prod.xp.IsBaseProduct == 'true'" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
                                  <div class="ribbon-front">
@@ -695,10 +717,21 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                           <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
-                              <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                              <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                           <!-- hover buttons -->
+                           <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                              <div class="row">
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                                 </div>
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
+                                 </div>
+                              </div>
                            </div>
                        </div>
                      </div>
@@ -721,17 +754,17 @@
                      </div>
                    
                    <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
-                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                   <!-- <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> -->
-                             <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
+                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> --
+                             <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
                            </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                </div> 
          </div>
@@ -746,7 +779,7 @@
                         </div>
                      </div> -->
                      <div ng-repeat="prod in groupedProducts  track by $index">
-                       <div ng-if="prod.xp.IsBaseProduct == 'true'" ng-click="plp.detailsPage($event);"  class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                       <div ng-if="prod.xp.IsBaseProduct == 'true'" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
                                  <div class="ribbon-front">
@@ -754,10 +787,21 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                           <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                            <div class="price-box">
-                              <p class="product-name-plp"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
+                              <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | lowercase}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
+                           </div>
+                           <!-- hover buttons -->
+                           <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                              <div class="row">
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
+                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                                 </div>
+                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
+                                 </div>
+                              </div>
                            </div>
                        </div>
                      </div>
@@ -780,17 +824,17 @@
                      </div>
                    
                    <ordercloud-product-quick-view product="groupedProducts" selectedId=""  ng-show="plusLabel"></ordercloud-product-quick-view> -->
-                   <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
+                   <!-- <div class="hover-buttons  col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                         <div class="row">
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
                               <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.addedToCartPopUp()">
                            </div>
                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> -->
-                             <p class="grey-btn btn" ng-click="plp.addToWL()" ng-bind-html="plp.btnText" ></p>
+                              <!--  <input type="button" class="grey-btn btn" ng-click="plp.addToWL()" value="{{plp.btnText}}"> --
+                             <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
                            </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                </div> 
          </div>

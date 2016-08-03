@@ -415,7 +415,7 @@ function template1Controller() {
 
 }
 
-function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl) {
+function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile) {
 	var vm = this;
 	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
@@ -445,8 +445,9 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 		console.log(data);
 		angular.forEach(data.items,function(item){
 			if(item.nodeType=="ws:article"){
+                console.log("content url",alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
 				vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-                vm.articleTitle = item.fileName.replace(".html",".png");
+                vm.articleTitle = item.fileName.replace(".html","");
 			}
 			if(item.fileName == "Media"){
 				vm.getMediaData(alfrescoStaticurl+item.location.path+"/"+item.fileName);
@@ -509,12 +510,15 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
  vm.showCarouselData = false;
   vm.getMediaData = function(url){
 		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
-				console.log(data);
+				console.log("mediaData",data);
 				vm.carouselData = data.items;
 				angular.forEach(data.items,function(carousel){
 					if(carousel.nodeType=='ws:image' && carousel.fileName.indexOf(vm.articleTitle.replace(".html",""))>=0){
 						vm.templateBannerImage = carousel.contentUrl;
 					}
+                    if(carousel.nodeType=="ws:section" && carousel.fileName=="articleImages"){
+                       vm.loadArticleImages(alfrescoStaticurl+carousel.location.path+"/"+carousel.fileName);
+                    }
 				})
 				if(vm.carouselData.length>2){
 					vm.showCarouselData = true;
@@ -546,6 +550,26 @@ function historyController(alfStaticContenturl,$sce,$state,page,fileName,staticP
 		});
 	}
 	//vm.getMediaData(dataUrl);
+  vm.loadArticleImages = function(url){
+		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
+				console.log("loadArticleImages",data);
+                if(data.items.length > 0){
+				    vm.articleImages = data.items;
+                    setTimeout(function(){
+                        var elem = angular.element("#articleImagesSlot");
+                        var classn="col-md-3";
+                        if(vm.articleTitle=="memoryMotifs"){
+                            classn = "col-md-4";
+                        }
+                        var html = '<div class="'+classn+' portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
+                        var el = $compile(angular.element(html))($scope);
+                        elem.html(el);
+                    },0)
+                    
+                }
+            
+        })
+  }
 }
 
 function staticpageController($scope, $uibModalInstance) {

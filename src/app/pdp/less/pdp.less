@@ -141,24 +141,37 @@
         //padding-top:2.6em;
         padding-top: 65px;
         position: relative;
-        padding: 0 4%;
+        padding: 0 0%;
         min-height: 400px;
         #owl-carousel-pdp-banner {
             &.owl-carousel .owl-item {
-                min-height: 400px;
+                min-height: 500px;
                 img {
-                    max-height: 400px;
+                    //max-height: 500px;
                     width: auto;
                     display: inline-block;
                     .p0;
                 }
             }
         }
+        .promo-banner{
+            text-align:left;
+        }
+        #owl-carousel-pdp-banner.owl-carousel .owl-item img{ 
+            &.pdp-hero-banner-img{
+                display:none; 
+            } 
+            &.pdp-pdt-img{
+                display:block;
+                padding: 0 7%;
+                width: 50%;
+            }
+        }
     }
     .detail-overlay-box {
         position: absolute;
         right: 15px;
-        z-index: 1;
+        z-index: 1; 
         //bottom:0;
         // width: 570px;
         .qv-page {
@@ -214,11 +227,25 @@
                                     }
                                     &.disable-color{
                                         cursor:no-drop !important;
-                                        border:none !important;
+                                        border:1px solid #000 !important;
                                         label, a{
                                             cursor:no-drop !important;
                                             opacity: 0.3;
                                         } 
+                                        &:after{
+                                            position: absolute;
+                                            content: "";
+                                            left: 0;
+                                            top: 50%;
+                                            right: 0;
+                                            border-top: 1px solid;
+                                            border-color: inherit;
+                                            -webkit-transform: rotate(35deg);
+                                            -moz-transform: rotate(35deg);
+                                            -ms-transform: rotate(35deg);
+                                            -o-transform: rotate(35deg);
+                                            transform: rotate(35deg);
+                                        }
                                     }
                                 }
                             }
@@ -315,6 +342,25 @@
                                                     &:active{
                                                         box-shadow:none;
                                                     }
+                                                    span{
+                                                        position: relative;
+                                                        text-align: center;
+                                                        margin: 0 10px 4px 0;
+                                                        display: inline-block;
+                                                        vertical-align: middle;
+                                                        color:#71c139;
+                                                        svg{
+                                                            border: 1px solid #71c139;
+                                                            border-radius: 50%;
+                                                            height: 20px;
+                                                            width: 20px;
+                                                            fill: #71c139;
+                                                            vertical-align: middle;
+                                                            margin: auto;
+                                                            cursor: default;
+                                                            margin-right:10px;
+                                                        }
+                                                    }
 
 
                                                 }
@@ -325,6 +371,11 @@
                                         }
                                     }
                                 }
+                            }
+                            p{
+                                color: #a94442;
+                                top: -10px;
+                                position: relative;
                             }
                         }
                         .radio-btn-container div .size-box:hover {
@@ -423,6 +474,16 @@
                         width: 28px;
                         path {
                             stroke-width: 3;
+                        }
+                    }
+                    &.email-share-icon svg {
+                        width: 30px;
+                        stroke: #8c8c8c; 
+                        path {
+                            stroke-width: 3;
+                        }
+                        &:hover{
+                            stroke: @base-bg-purple-dark;
                         }
                     }
                     &:hover {
@@ -712,7 +773,7 @@
 }
 
 .care-advice-banner-block {
-    margin-top: 23px;
+    //margin-top: 23px;
     .categories2 {
         /*background-color: @base-bg-purple-dark;*/
         background-color: #9768bc;
@@ -3253,6 +3314,10 @@ span.ng-isolate-scope:active {
 
 /* Media Querties */
 @media only screen and (min-width:320px) and (max-width: 810px) {
+    .slider-banner-container .owl-carousel-pdp-bannerCont #owl-carousel-pdp-banner.owl-carousel .owl-item img.pdp-pdt-img{
+        width:auto;
+        margin:0 !important;
+    }
     .multiRecipentModal{
     .modal-dialog{
            width: 100%;

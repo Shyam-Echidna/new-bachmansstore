@@ -37,13 +37,10 @@
                         <uib-accordion-group is-open="checkout.openACCItems.name=='signin'">
                             <uib-accordion-heading>
                                 <p ng-if="checkout.openACCItems.name=='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In</p>
-                                <p ng-if="checkout.openACCItems.name!='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. 
-                                    <a class="info-search-icon" ng-if="checkout.openACCItems.signinFunc" style="
-    height: 20px;
-    width: 49px;
-    /* line-height: 27px; */
-">
-							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
+                                <p ng-if="checkout.openACCItems.name!='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">
+                                    <span class="left-side">1. 
+                                    <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.signinFunc">
+					<!-- 		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
 
 								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" style="
     stroke: red;
@@ -57,8 +54,13 @@
 								<circle class="st1" cx="24" cy="21.3" r="19.9" style="
     stroke: red;
 "></circle>
-							</svg>
-						</a>Sign In |Continue as {{checkout.user}} <span ng-if="checkout.openACCItems.signinFunc" ng-click="checkout.changeAcItem('signin')">Edit</span></p>
+							</svg> -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/></svg>
+						</a>
+                        <span>Sign In <span class="logged-in-user">Continue as {{checkout.user}}</span></span>
+                    </span>
+                        <span ng-if="checkout.openACCItems.signinFunc" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
+                    </p>
                             </uib-accordion-heading>
                             <div class="panel-body-content registered-customer">
                                 <div class="row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
@@ -103,30 +105,20 @@
                         <uib-accordion-group is-open="checkout.openACCItems.name=='delivery'">
                             <uib-accordion-heading>
                                 <p ng-if="checkout.openACCItems.name=='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}" ng-click="checkout.changeAcItem('delivery')">2. Delivery Information </p>
-                                <p ng-if="checkout.openACCItems.name !='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">2. 
-                                    <a class="info-search-icon" ng-if="checkout.openACCItems.deliveryFunc" style="
-    height: 20px;
-    width: 49px;
-    /* line-height: 27px; */
-">
-							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
+                                <p ng-if="checkout.openACCItems.name !='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">
+                                    <span class="left-side">
+                                        2. 
+                                    <!-- <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.deliveryFunc"> -->
+                                    <a class="info-search-icon svg-right">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/></svg>
 
-								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" style="
-    stroke: red;
-"></line>
-								<circle class="st1" cx="23" cy="21.3" r="19.9" style="
-    stroke: red;
-"></circle>
-								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" style="
-    stroke: red;
-"></line>
-								<circle class="st1" cx="24" cy="21.3" r="19.9" style="
-    stroke: red;
-"></circle>
-							</svg>
-						</a> Delivery Information <span ng-if="checkout.openACCItems.deliveryFunc" ng-click="checkout.changeAcItem('delivery')">Edit</span> </p>
+						</a> Delivery Information
+                        
+                        <span ng-repeat="lineItem in checkout.lineItems" class="del-det">{{lineItem[0].ShippingAddress.Street1}}, {{lineItem[0].ShippingAddress.Street2}}, {{lineItem[0].ShippingAddress.City}} </span>
+                        </span> 
+                        <span ng-if="checkout.openACCItems.deliveryFunc" ng-click="checkout.changeAcItem('delivery')" class="edit-here">Edit</span> </p>
                             </uib-accordion-heading>
-                            <div class="row accordion-block">
+                            <div class="row accordion-block panelIn-panel">
                                 <uib-accordion close-others="true" ng-init="checkout.recipient[0]=true">
                                     <!--<uib-accordion close-others="true" ng-init="checkout.recipient[0]=true">-->
                                     <uib-accordion-group is-open="checkout.recipient[$index]" ng-repeat="lineItem in checkout.lineItems">
@@ -157,7 +149,7 @@
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                                         <div class="delivery-address-header">Delivery Address</div>
                                                                     </div>
-                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                                         <div class="view-address"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                         
                                                         <g>
@@ -165,7 +157,7 @@
                                                             <rect y="10" width="24" height="2"></rect>
                                                         </g>
                                                         </svg></span>View Address Book</div>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                             <div class="delivery-adddress-form">
@@ -179,24 +171,25 @@
                                                                                     <label for="{{Hospital+$index}}">{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</label>
                                                                                 </div>
                                                                             </div>-->
-                                                                            <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+                                                                            <!-- <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
                                                                                 <div class="">
 
                                                                                     {{lineItem[0].ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                                <!--<div class="user-zip-code">{{lineItem[0].ShippingAddress.Zip}}<span ng-if="checkout.selected">(Default)</span></div>-->
+                                                                            </div> -->
+                                                                            <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <div class="user-zip-code">{{lineItem[0].ShippingAddress.Zip}}<span ng-if="checkout.selected">(Default)</span></div>
                                                                                 <div class="user-zip-code">{{lineItem[0].ShippingAddress.Zip}}</div>
-                                                                            </div>
+                                                                            </div> -->
                                                                         </div>
                                                                         <div class="client-address">
+                                                                            <p class="cust-name"> {{lineItem[0].ShippingAddress.FirstName}} {{lineItem[0].ShippingAddress.LastName}}</p>
                                                                             <p>{{lineItem[0].ShippingAddress.Street1}}</p>
                                                                             <p>{{lineItem[0].ShippingAddress.Street2}}</p>
                                                                             <p>{{lineItem[0].ShippingAddress.City}}</p>
                                                                             <p>{{lineItem[0].ShippingAddress.Zip}}</p>
                                                                         </div>
-                                                                        <div class="client-edit"><a ng-click="checkout.editPopUp(lineItem[0])">Edit</a></div>
+                                                                       <!--  <div class="client-edit"><a ng-click="checkout.editPopUp(lineItem[0])">Edit</a></div> -->
                                                                     </div>
 
                                                                     <!--<div class="view-more-details">
@@ -334,14 +327,14 @@
                                                                                 <div class="delivery-days-info">
                                                                                     <div class="row">
                                                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days1">
-                                                                                            <div class="deliver-today" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.today)">
+                                                                                            <div class="deliver-today" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.today)" ng-class="class">
                                                                                                 <p class="delivery-day">Deliver Today</p>
                                                                                                 <p class="delivery-date">{{checkout.today | date}}</p>
                                                                                                 <p class="delivery-avail">Available</p>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days2">
-                                                                                            <div class="deliver-tomorrow" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.tomorrow)">
+                                                                                            <div class="deliver-tomorrow"  ng-class="class" ng-click="checkout.changedeliveryDate(lineItem[0],checkout.tomorrow)">
                                                                                                 <p class="delivery-day">Deliver Tomorrow</p>
                                                                                                 <p class="delivery-date">{{checkout.tomorrow | date}}</p>
                                                                                                 <p class="delivery-avail">Available</p>
@@ -350,7 +343,12 @@
                                                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
                                                                                             <div class="select-date-info">
                                                                                                 <p class="select-date">Select Date</p>
-                                                                                                <div class="date"> <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineItem[0].xp.deliveryDate" value="{{ lineItem[0].xp.deliveryDate | date: 'dd-MM-yyyy' }}"><span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
+                                                                                                <div class="date">
+                                                                                                <!--  <input type="date" class="form-control" id="dDate" placeholder="Delivery Date" ng-model="lineItem[0].xp.deliveryDate" value="{{ lineItem[0].xp.deliveryDate | date: 'dd-MM-yyyy' }}"> -->
+                                                                                                <div class="date-holder">
+                                                                                                <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineItem[0].xp.deliveryDate" is-open="lineItem.openCalenderPopUp" datepicker-options="{formatYear: 'yy', startingDay: 1}" value="{{ lineItem[0].xp.deliveryDate | date: 'dd-MM-yyyy' }}" id="dDate"/>
+                                                                                                    <span class="date-svg" ng-click="lineItem.openCalenderPopUp=!lineItem.openCalenderPopUp">
+                                                                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve">
 <g>
     <g>
         <g>
@@ -405,7 +403,7 @@
         </g>
     </g>
 </g>
-</svg></span></div>
+</svg></span></div></div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -458,7 +456,7 @@
                                                                     <div class="instructions-content">
                                                                         <form role="form">
                                                                             <div class="form-group">
-                                                                                <textarea class="form-control" rows="5" id="comment" ng-model="lineItem[0].xp.DeliveryNotes" ng-if="!!lineItem[0].xp.DeliveryNotes" readonly></textarea>
+                                                                                <textarea class="form-control" rows="5" id="comment" ng-model="lineItem[0].xp.DeliveryNotes" ng-if="!!lineItem[0].xp.DeliveryNotes" readonly disabled></textarea>
                                                                             </div>
                                                                         </form>
                                                                         <div class="instructions-steps">
@@ -469,7 +467,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row message">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padd-right">
                                                                     <div class="card-message">Card Message</div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -536,7 +534,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row review-delivery-info">
+                                                <!-- <div class="row review-delivery-info">
                                                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                         <p class="user-name">{{lineItem[0].ShippingAddress.FirstName}} {{lineItem[0].ShippingAddress.LastName}}</p>
 
@@ -557,7 +555,7 @@
                                                         <p class="delivery-day">{{lineItem[0].xp.DeliveryRuns.Name}}</p>
                                                         <p class="delivery-time">{{lineItem[0].xp.DeliveryRuns.TimeSlot}}</p>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </uib-accordion-group>
@@ -1325,7 +1323,7 @@
                                                 <div class="tax-info">Tax<span></span></div>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <div class="tax-amount">$0.00</div>
+                                                <div class="tax-amount">{{checkout.orderdata.TaxCost | currency}}</div>
                                             </div>
                                         </div>
                                         <div class="row total-order-info">
