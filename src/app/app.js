@@ -103,7 +103,7 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
       contentType: "application/json",
       url:localdeliverytimeurl
     }).success(function(data){
-      console.log(data);
+      console.log("cst data ==",data);
       vm.cstTime = new Date(data.datetime);
       var dd = data.date;
       var d = dd.split('-');
