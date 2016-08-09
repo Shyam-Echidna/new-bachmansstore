@@ -217,8 +217,9 @@ function contactController() {
 	var vm = this;
 }
 
-function templateController($http, $scope,alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls) {
+function templateController($http, $scope,$rootScope, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls) {
 	var vm = this;
+	$rootScope.showBreadCrumb = false;
     vm.bannerHideArticle = true;
     vm.folderIndex = 0;
     vm.active = 0;

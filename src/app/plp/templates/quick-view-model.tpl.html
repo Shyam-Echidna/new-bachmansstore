@@ -52,9 +52,9 @@
             <div class="col-md-7 col-xs-7">
                 <div class="detail-container">
                     <h3 class="prod_title" >{{productQuickViewModal.productTitle | lowercase}}</h3>
-                    <h5 >Select Size</h5>
+                    <h5 ng-if=" productQuickViewModal.allSizes[0].xp.SpecsOptions.Size !== null">Select Size</h5>
                     <div class="row radio-btn-container" >
-                        <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.allSizes">
+                        <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.allSizes" ng-if=" productQuickViewModal.allSizes[0].xp.SpecsOptions.Size !== null">
                             <div class="size-box" for="{{opt.xp.SpecsOptions.Size}}"   ng-class="{ 'active-box': $index ==  productQuickViewModal.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
                                 <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}"   ng-disabled="opt.isNotAvailable" ng-change="productQuickViewModal.selectVarients(radio.selectedSize, $index)" />
                                 <label for="{{opt.xp.SpecsOptions.Size}}">
@@ -86,7 +86,7 @@
 
                                         <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in productQuickViewModal.allColors  track by $index" ng-class="{ 'active-circle': $index == productQuickViewModal.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
                                             <input type="radio"  style="display:none" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="productQuickViewModal.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/>
-                                            <label style="display:block;display: block;background-color: blue;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"> 
+                                            <label style="display:block;display: block;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}" class="{{coloropt.xp.SpecsOptions.Color}}"> 
                                            
                                             </label>                                             
                                         </li>
@@ -121,7 +121,7 @@
                                                             <p>Select</p>
                                                         </button>
                                                         <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button" >
-                                                            <li role="menuitem" ng-repeat="extra in extras">
+                                                           <li role="menuitem" ng-repeat="extra in extras" ng-click="productQuickViewModal.SelectExtra(extra.Title, $event);">
                                                                 <div class="row">
                                                                     <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
                                                                         <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="" alt="">

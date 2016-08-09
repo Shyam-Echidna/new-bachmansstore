@@ -10,6 +10,18 @@ body.modal-open {
 .curr_cat {
     pointer-events: none !important;
     //text-decoration: line-through !important;
+    i{
+        background: #fff;
+        border-color: #dcdcdc;
+        background-image: url("../../assets/images/right.svg");
+        background-repeat: no-repeat;
+        &:before{
+            background: #fff;
+            border-color: #dcdcdc;
+            background-image: url("../../assets/images/right.svg");
+            background-repeat: no-repeat;
+        }
+    }
 }
 .breadcrumb-box {
     position: absolute;
@@ -454,6 +466,9 @@ body.modal-open {
         }
     }
 }
+    #plp-page .main-layout {
+        margin: 40px 0px 20px 0px;
+    } 
 .main-layout {
     margin: 40px 5px 0px 5px;
     border-bottom: 1px solid #ccc;
@@ -581,9 +596,9 @@ body.modal-open {
                             border-radius: 50%;
                             height:29px;
                             width:29px;
-                          border:1px solid transparent;
-                          display:inline-block;
-                          cursor: pointer;
+                            border:1px solid transparent;
+                            display:inline-block;
+                            cursor: pointer;
                             span {
                                 position:absolute;                               
                                 border-radius: 50%;
@@ -1719,7 +1734,7 @@ body.modal-open {
                             border-radius: 50%;
                             height:20px;
                             width:20px;
-                          border:1px solid transparent;
+                          border:1px solid #f1f1f1;
                           display:inline-block;
                           cursor: pointer;
                           margin-right: 5px;
@@ -3922,7 +3937,7 @@ body.modal-open {
                             border-radius: 50%;
                             height:22px;
                             width:22px;
-                          border:1px solid transparent;
+                          border:1px solid #f1f1f1;
                           display:inline-block;
                           cursor: pointer;
                           margin-right: 10px;
@@ -4911,6 +4926,7 @@ body.modal-open {
             }
         }
     }
+
       .main-layout {
         margin: 40px 0px 20px 0px;
     .filter-block {
@@ -5474,7 +5490,7 @@ body.modal-open {
               background-image: url("../../assets/images/right.svg");
               background-repeat: no-repeat;
             }
-          }
+          } 
         }
       }
       &.price-slider{
@@ -5533,6 +5549,35 @@ body.modal-open {
       .curr_cat{
         text-decoration: initial !important;    
       }
+        .color-selection-panel {
+            padding-bottom: 5px;
+            display:inline-block;
+            p {
+                position:relative;
+                border-radius: 50%;
+                height:29px;
+                width:29px;
+                border:1px solid #f1f1f1;
+                display:inline-block;
+                cursor: pointer;
+                margin:0 5px;
+                span {
+                    position:absolute;                               
+                    border-radius: 50%;
+                    right: 4px;
+                    left: 4px;
+                    top: 4px;
+                    bottom: 4px;
+                    cursor: pointer;
+                }
+                &:hover,  &.activeCircle{
+                    border: 1px solid #cecece;
+                }
+                &.inActiveCircle{
+                    border: 1px solid #f1f1f1;
+                }
+            }
+        }
     }
   }
 .pagination-container{
@@ -5606,4 +5651,9 @@ body.modal-open {
         }
       }
     }
+  }
+.Assorted.Colors{
+    background-image: url('../../assets/images/Batch_2_Web_Images/04Bachmans_PLP/assorted_color2.png');
+    background-repeat: no-repeat;
+    background-size:contain;
   }

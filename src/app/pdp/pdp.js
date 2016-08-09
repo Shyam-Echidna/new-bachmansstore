@@ -586,7 +586,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 
 	var availableColors, availableSizes = [];
-	$scope.radio = { selectedSize: null, selectedColor: null };
+	$scope.radio = { selectedSize: -1, selectedColor: -1 };
 	vm.wishListTxt = "ADD TO WISHLIST"; //Default text for wishlist button
 	vm.displayWishList = false; // TO display wishlist text after server check
 
@@ -615,8 +615,22 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 				vm.prodDesription = e.Description;
 				var selectedSizeHold = angular.copy(availableSizes);
 				var selectedColorHold = angular.copy(availableColors);
-				DisplaySelectedColor(e.xp.SpecsOptions.Size, _.findIndex(selectedSizeHold, function (item) { return item.xp.SpecsOptions.Size.toLowerCase() == e.xp.SpecsOptions.Size.toLowerCase() }));
-				DisplaySelectedSize(e.xp.SpecsOptions.Color, _.findIndex(selectedColorHold, function (item) { return item.xp.SpecsOptions.Color.toLowerCase() == e.xp.SpecsOptions.Color.toLowerCase() }));
+				DisplaySelectedColor(e.xp.SpecsOptions.Size, _.findIndex(selectedSizeHold, function (item) { 
+				    if(e.xp.SpecsOptions.Size === null || e.xp.SpecsOptions.Size === null){
+				      return item.xp.SpecsOptions.Size == e.xp.SpecsOptions.Size 
+				    }else{
+				     return item.xp.SpecsOptions.Size.toLowerCase() == e.xp.SpecsOptions.Size.toLowerCase() 
+				    }
+			    })
+			    );
+			    DisplaySelectedSize(e.xp.SpecsOptions.Color, _.findIndex(selectedColorHold, function (item) { 
+				    if(e.xp.SpecsOptions.Color === null || e.xp.SpecsOptions.Color === null){
+				      return item.xp.SpecsOptions.Color == e.xp.SpecsOptions.Color 
+				    }else{
+				     return item.xp.SpecsOptions.Color.toLowerCase() == e.xp.SpecsOptions.Color.toLowerCase() 
+				    }
+			    })
+			    );
 			}
 		});
 	} else {
@@ -635,6 +649,10 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 	//Extras for products
 	vm.productExtras = extraProducts;
+
+	vm.SelectExtra = function(selectedExtra, $event){
+	  $('.dropdown.open button p').text(selectedExtra);
+	}
 
 	$scope.qty = 1;
 
@@ -993,7 +1011,11 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		vm.selectedSizeIndex = $index;
 		// vm.selectedProductIndex = -1;
 		var prodFiltered = _.filter(productDetail, function (_obj) {
-			return (_obj.xp.SpecsOptions.Size == selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
+			if(_obj.xp.SpecsOptions.Size === null || selectedSize === null){
+			    return (_obj.xp.SpecsOptions.Size == selectedSize)
+			}else{
+			    return (obj.xp.SpecsOptions.Size == selectedSize || obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
+			}
 		});
 		var imAvailableColors = angular.copy(availableColors);
 		prodFiltered = DisplayColors(prodFiltered, false);
@@ -1008,7 +1030,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			}
 		});
 		vm.allColors = prodFiltered;
-		if ($scope.radio.selectedSize != null && $scope.radio.selectedColor != null) {
+		if ($scope.radio.selectedSize != -1 && $scope.radio.selectedColor != -1) {
 			var selectedSku = _.filter(productDetail, function (_obj) {
 				return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
 			});
@@ -1030,7 +1052,11 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	function DisplaySelectedSize(color, $index) {
 
 		var colorFiltered = _.filter(productDetail, function (_obj) { // filters SKU with  selected color
-			return (_obj.xp.SpecsOptions.Color.toLowerCase() == color.toLowerCase())
+			if(_obj.xp.SpecsOptions.Color === null || color === null){
+			    return (_obj.xp.SpecsOptions.Color == color)
+			}else{
+			    return (_obj.xp.SpecsOptions.Color.toLowerCase() == color.toLowerCase())
+			}
 		});
 		colorFiltered = DisplaySizes(colorFiltered, false); // sizes availavle for seelcted color 
 		var imAvailableSizes = angular.copy(availableSizes); //copy for all available sizes
@@ -1046,7 +1072,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		});
 		vm.allSizes = colorFiltered; // bind the sizes to DOM
 		vm.selectedProductIndex = $index; // Active state for selected color
-		if ($scope.radio.selectedSize != null && $scope.radio.selectedColor != null) { // change prodcut if size and color is selected
+		if ($scope.radio.selectedSize != -1 && $scope.radio.selectedColor != -1) { // change prodcut if size and color is selected
 			var selectedSku = _.filter(productDetail, function (_obj) {
 				return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
 			});

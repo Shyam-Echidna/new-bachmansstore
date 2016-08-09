@@ -55,7 +55,7 @@
                <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 owl-carousel " id="owl-carousel-selected-cat">
                    <div class="owl-carousel-item" ng-repeat="selectedFacet in plp.Selections" style="display:inline-block" ng-show="!$first">
                      <p>
-                        <span>{{selectedFacet.value}}</span>
+                        <span>{{selectedFacet.value |capitalize}}</span>
                         <svg version="1.1" ng-click="plp.togglFaceteSelection(selectedFacet.facetname,selectedFacet.value)" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;width:10px;height:10px;color:purple" xml:space="preserve">
                            <g>
                               <g>
@@ -96,7 +96,7 @@
             </a>
             <p class="sort-active-show">{{plp.selectedItem}}</p>
             <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="sort-dropdown">
-               <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.SortByProducts(item.index)" ng-class="{active: $index == plp.selectedMenu}">
+               <li role="menuitem" ng-repeat="item in plp.sortItems" ng-click="plp.SortByProducts(item.index, item.label)" ng-class="{active: item.label == plp.selectedItem}">
                   <a data-value="{{item.value}}" href="">{{item.label}}</a>
                </li>
             </ul>
@@ -203,10 +203,10 @@
    </header>
 </article> -->
 
-<div class="row main-layout">
+<div class="main-layout row ">
    <div class="col-sm-4 col-md-3 col-lg-3 filter-block hidden-xs hidden-sm algolia-facets">
       <h2>Refine</h2>
-      <div class="well well-sm algolia-facet-name"
+           <div class="well well-sm algolia-facet-name"
         ng-repeat-start="facet in plp.CustomFacetList | orderBy:'name'" ng-hide="facet.name == 'Price'"
         ng-init="plp.facetBehavior[facet.name].close = false" ng-click="plp.facetBehavior[facet.name].close = !plp.facetBehavior[facet.name].close">
         {{facet.name}}
@@ -225,10 +225,27 @@
           </span>
         </a>
       </div>
-      <div class="algolia-facet-selections" ng-repeat-end uib-collapse="plp.facetBehavior[facet.name].close" ng-hide="facet.name == 'Price'">
-        <div ng-class="{'algolia-no-results': !plp.ProductResults.facets[facet.name][val],'curr_cat':val == plp.CurrentCatgory.Name}" ng-repeat="val in facet.list" ng-click="plp.toggleFacet(facet.name, val)">
-          <a><i class="fa" ng-class="{'fa-square': plp.FiltersObject[facet.name] && plp.FiltersObject[facet.name][val], 'fa-square-o': !plp.FiltersObject[facet.name] || !plp.FiltersObject[facet.name][val]}"></i></a> {{val |capitalize}}</div>
+
+      <div class="algolia-facet-selections" ng-repeat-end uib-collapse="plp.facetBehavior[facet.name].close" ng-hide="facet.name == 'Price'" >
+        <div ng-class="{'algolia-no-results': !plp.ProductResults.facets[facet.name][val],'curr_cat':val == plp.CurrentCatgory.Name}" ng-repeat="val in facet.list" ng-click="plp.toggleFacet(facet.name, val)" ng-if="facet.name != 'Color'">
+          <a><i class="fa" ng-class="{'fa-square': plp.FiltersObject[facet.name] && plp.FiltersObject[facet.name][val], 'fa-square-o': !plp.FiltersObject[facet.name] || !plp.FiltersObject[facet.name][val]}"></i></a> {{val |capitalize}}
+        </div>
+
+        <div ng-class="{'algolia-no-results': !plp.ProductResults.facets[facet.name][val],'curr_cat':val == plp.CurrentCatgory.Name}" ng-repeat="val in facet.list" ng-click="plp.toggleFacet(facet.name, val)" ng-if="facet.name == 'Color'" class="color-selection-panel">
+          <p ng-class="{'activeCircle': plp.FiltersObject[facet.name] && plp.FiltersObject[facet.name][val], 'inActiveCircle': !plp.FiltersObject[facet.name] || !plp.FiltersObject[facet.name][val]}">
+            <span ng-style={"background-color":val} title="{{val}}" class="{{val}}"></span>
+          </p>
+        </div>
+
       </div>
+<!--       <div class="algolia-facet-selections" ng-repeat-end uib-collapse="plp.facetBehavior[facet.name].close" ng-if="facet.name == 'Color'">
+        <div ng-class="{'algolia-no-results': !plp.ProductResults.facets[facet.name][val],'curr_cat':val == plp.CurrentCatgory.Name}" ng-repeat="val in facet.list" ng-click="plp.toggleFacet(facet.name, val)" class="color-selection-panel">
+          <p>
+            <span ng-style={"background-color":val} title="{{val}}" class="{{val}}"></span>
+          </p>
+       </div>
+      </div> -->
+      
       <div class="well well-sm algolia-facet-name" ng-hide="plp.ProductResults.NotEnoughForPricing" ng-click="plp.facetBehavior['price'].close = !plp.facetBehavior['price'].close">
         Price
         <a class="pull-right" >
@@ -601,12 +618,12 @@
       
    <div class="row">
       <div class="owl-carousel" id="owl-carousel-feature-products">
-         <!-- <div ng-repeat="groupedProducts in plp.productList track by $index">
+        <div ng-repeat="groupedProducts in plp.productList track by $index">
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false">
                <div class="product-box">
 
                   <div ng-repeat="prod in groupedProducts  track by $index">
-                     <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                     <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}">
                         <div id="feature-label" class="feature-label">
                            <div class="ribbon-wrapper">
                               <div class="ribbon-front">
@@ -614,12 +631,17 @@
                               </div>
                            </div>
                         </div>
-                        <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
+                       <!--  <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.xp.BaseImageUrl}}"/>
                         <div class="price-box">
                            <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | capitalize}}</span></p>
                            <p class="Price">{{prod.priceRange}}</p>
+                        </div> -->
+                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
+                        <div class="price-box">
+                          <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
+                          <p class="Price">{{prod.priceRange}}</p>
                         </div>
-                        <!-- hover buttons --
+                        <!-- hover buttons -->
                         <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                            <div class="row">
                               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
@@ -638,47 +660,7 @@
 
                   </div>
                </div>
-            </div> -->
-            <div ng-repeat="groupedProducts in plp.productList">
-               <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
-                  <div class="product-box">
-                    
-                     <div ng-repeat="prod in groupedProducts  track by $index">
-
-                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
-
-                           <div id="feature-label" class="feature-label">
-                              <div class="ribbon-wrapper">
-                                 <div class="ribbon-front">
-                                    <p>New</p>
-                                 </div>
-                              </div>
-                           </div>
-                           <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
-                           <div class="price-box">
-                              <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
-                              <p class="Price">{{prod.priceRange}}</p>
-                           </div>
-                           <!-- hover buttons -->
-                           <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12 " ng-show="hoveringButtons">
-                              <div class="row">
-                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
-                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
-                                 </div>
-                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
-                                 </div>
-                              </div>
-                           </div>
-                       </div>
-                    </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
-                   
-                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
-                   
-                  </div>
-               </div> 
-         </div>
+            </div>
       </div>  
    </div>
        <div class="row feature-product-text">
@@ -692,7 +674,7 @@
                     
                      <div ng-repeat="prod in groupedProducts  track by $index">
 
-                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}">
 
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
@@ -701,7 +683,7 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
+                           <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
                            <div class="price-box">
                               <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>

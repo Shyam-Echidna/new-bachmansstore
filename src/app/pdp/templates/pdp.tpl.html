@@ -45,15 +45,15 @@
                 <li>STARGAZER</li>                      
             </ul>
         </div> -->
-        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2em'}" >
             <!--  <div style="position:relative;padding-bottom: 25px;">
                 <img class="" src="assets/images/default_pdp_hereobanner.png" />
             </div> style="position:absolute;bottom:0;"  -->
             <div class="owl-carousel" id="owl-carousel-pdp-banner">
                 <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-                    <img class="pdp-pdt-img" src="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2em'}"  />
+                    <img class="elevateZoom pdp-pdt-img" src="{{prodImage}}" data-zoom-image="{{prodImage}}"/>
                     <!--  <img class="elevateZoom" src="{{prodImage}}" data-zoom-image="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px'}" /> -->
-                    <img class="pdp-hero-banner-img" src="assets/images/113476.jpg"  />
+                    <!-- <img class="pdp-hero-banner-img" src="assets/images/113476.jpg"  /> -->
 
                 </div>
             </div>
@@ -64,11 +64,11 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
                             <h3 class="prod_title" >{{pdp.productTitle | lowercase}}</h3>
-                            <h5 >Select Size</h5>
+                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size !== null">Select Size</h5> 
                             <div class="row radio-btn-container" >
 
-                                <div ng-repeat="opt in pdp.allSizes">
-                                   
+                                <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size !== null">
+                                                                      
                                     <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}"   ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
                                         <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}"   ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />
                                         <label for="{{opt.xp.SpecsOptions.Size}}">
@@ -112,7 +112,7 @@
 
                                         <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
                                             <input type="radio"  name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/><!--  {{coloropt.xp.SpecsOptions.Color}} -->
-                                            <label style="display:block;display: block;background-color: blue;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"> 
+                                            <label style="display:block;display: block;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}" class="{{coloropt.xp.SpecsOptions.Color}}"> 
                                              <!--    <a href="" class="" style="display:block" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a> -->
                                             </label>                                             
                                         </li>
@@ -148,7 +148,7 @@
                                                             <p>Select</p>
                                                         </button>
                                                         <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button" >
-                                                            <li role="menuitem" ng-repeat="extra in extras">
+                                                            <li role="menuitem" ng-repeat="extra in extras" ng-click="pdp.SelectExtra(extra.Title, $event);">
                                                                 <div class="row">
                                                                     <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
                                                                         <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
@@ -2088,7 +2088,7 @@
                 <h1>Care, Advice & Information</h1>
                 <h2>Flowers & Speciality Plants</h2>
                 <h3>Expert advice about flower care, choosing wedding flowers, event decorating & more</h3>
-                <button class="transparent-button">VIEW ALL </button>
+                <button class="transparent-button" ui-sref="plantZone">VIEW ALL </button>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 categories2-sub-rgt">
                 <div>

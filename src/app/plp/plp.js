@@ -644,13 +644,18 @@ function _getProductList(res, productImages){
 }
 
 
-function PlpController(FacetList, CurrentCatgory,ProductResultsWithVarients, Selections, ProductSearchResult, SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, /*productList, */$scope, alfcontenturl,OrderCloud,$sce) {
+
+function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWithVarients, Selections, ProductSearchResult, SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, /*productList, */$scope, alfcontenturl,OrderCloud,$sce) {
+
 
     var vm = this;
    vm.productList = ProductResultsWithVarients;
     vm.ProductResults = ProductSearchResult;
+     vm.FiltersObject = FiltersObject;
+     console.log("FiltersObject == ",FiltersObject);
         // START: function for facet selection logic
       //  vm.Selections = [];
+      vm.FiltersObject = FiltersObject;
          vm.Selections = Selections;
          vm.currentProductPage = $stateParams.productpage;
    console.log("CurrentCatgory==",CurrentCatgory);
@@ -701,7 +706,7 @@ function PlpController(FacetList, CurrentCatgory,ProductResultsWithVarients, Sel
         }, {reload: true})
     };
 
-      vm.SortByProducts = function(indexName) {
+      vm.SortByProducts = function(indexName, selcetedItem) {
         $state.go('plp', {
                 filters: $stateParams.filters,
                 productpage: vm.currentProductPage || 1,
@@ -713,6 +718,7 @@ function PlpController(FacetList, CurrentCatgory,ProductResultsWithVarients, Sel
                 max: $stateParams.max || null
             },
             {reload: true})
+        vm.selectedItem =selcetedItem;
     };
 
      vm.changePriceRange = function() {
@@ -845,8 +851,15 @@ function PlpController(FacetList, CurrentCatgory,ProductResultsWithVarients, Sel
       {'value':'ZA','label':'Z - A'},*/
       ];
       vm.sortItems = sortItems;
+      if($stateParams.productssortby == undefined){
       vm.selectedItem ="Best Sellers";
       vm.selectedMenu = 0; 
+  }
+  else{
+
+var slectItem = Underscore.where(vm.sortItems, {index:$stateParams.productssortby});
+vm.selectedItem = slectItem[0].label;
+  }
 
       vm.changeSortSelection = function changeSortSelection(selcetedItem, itemIndex){
          vm.selectedItem =selcetedItem;
@@ -1315,21 +1328,23 @@ function ProductQuickViewController ($uibModal , SharedData){
                 selectedProduct : function(){
                   return SharedData.SelectedProductId;
                 },
-                extraProductImages: function (PlpService) {
+             /*   extraProductImages: function (PlpService) {
                   var ticket = localStorage.getItem("alf_ticket");
                   return PlpService.GetProductImages(ticket).then(function (res) {
                     return res.items;
                   });
-                },
-                extraProducts: function (extraProductImages, Underscore, PdpService, alfcontenturl) {
+                },*/
+                extraProducts: function ( Underscore, PdpService, alfcontenturl, PlpService) {
 
                   var imageData = PdpService.GetExtras()
                   var res = Object.keys(imageData).map(function (key) { return imageData[key] });;
                   var ticket = localStorage.getItem("alf_ticket");
                   var imgcontentArray = [];
-                  for (var i = 0; i < res.length; i++) {
+                 return  PlpService.GetProductImages(ticket).then(function (imgs) {
+                    //return res.items;
+                       for (var i = 0; i < res.length; i++) {
                     for (var j = 0; j < res[i].length; j++) {
-                      angular.forEach(Underscore.where(extraProductImages, { title: res[i][j].Skuid }), function (node) {
+                      angular.forEach(Underscore.where(imgs.items, { title: res[i][j].Skuid }), function (node) {
                         node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
                         imgcontentArray.push(node);
                       });
@@ -1337,7 +1352,10 @@ function ProductQuickViewController ($uibModal , SharedData){
                       imgcontentArray = [];
                     }
                   }
-                  return res;
+                   return res;
+                  });
+               
+                 
 
                 }
             }
@@ -1345,7 +1363,7 @@ function ProductQuickViewController ($uibModal , SharedData){
     };
 }
 
-function ProductQuickViewModalController(productDetail, selectedProduct, $timeout, $scope, PdpService, productImages, $uibModalInstance){
+function ProductQuickViewModalController(productDetail, extraProducts, selectedProduct, $timeout, $scope, PdpService, productImages, $uibModalInstance){
     var vm = this;
      $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -1365,7 +1383,7 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
   vm.selectedProductId = 0; //Holds selected SKU Id
   var activeProducts = null;
   var availableColors, availableSizes =[];
-  $scope.radio = { selectedSize: null , selectedColor : null};
+  $scope.radio = { selectedSize: -1 , selectedColor : -1};
   vm.wishListTxt = "ADD TO WISHLIST"; //Default text for wishlist button
   vm.displayWishList = false; // TO display wishlist text after server check
 
@@ -1385,9 +1403,23 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
           vm.prodDesription = e.Description;
           var selectedSizeHold = angular.copy(availableSizes);
           var selectedColorHold = angular.copy(availableColors);
-          DisplaySelectedColor(e.xp.SpecsOptions.Size,  _.findIndex(selectedSizeHold, function(item) { return item.xp.SpecsOptions.Size.toLowerCase() == e.xp.SpecsOptions.Size.toLowerCase() }));
-          DisplaySelectedSize(e.xp.SpecsOptions.Color, _.findIndex(selectedColorHold, function(item) { return item.xp.SpecsOptions.Color.toLowerCase() == e.xp.SpecsOptions.Color.toLowerCase() }));
-        }
+          DisplaySelectedColor(e.xp.SpecsOptions.Size, _.findIndex(selectedSizeHold, function (item) { 
+             if(e.xp.SpecsOptions.Size === null || e.xp.SpecsOptions.Size === null){
+              return item.xp.SpecsOptions.Size == e.xp.SpecsOptions.Size 
+             }else{
+             return item.xp.SpecsOptions.Size.toLowerCase() == e.xp.SpecsOptions.Size.toLowerCase() 
+             }
+            })
+            );
+            DisplaySelectedSize(e.xp.SpecsOptions.Color, _.findIndex(selectedColorHold, function (item) { 
+             if(e.xp.SpecsOptions.Color === null || e.xp.SpecsOptions.Color === null){
+              return item.xp.SpecsOptions.Color == e.xp.SpecsOptions.Color 
+             }else{
+             return item.xp.SpecsOptions.Color.toLowerCase() == e.xp.SpecsOptions.Color.toLowerCase() 
+             }
+            })
+            );
+          }
       });
   } else {
     vm.selectedSizeIndex = -1;
@@ -1405,6 +1437,9 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
 
   //Extras for products
   vm.productExtras = extraProducts;
+   vm.SelectExtra = function(selectedExtra, $event){
+      $('.dropdown.open button p').text(selectedExtra);
+    }
   vm.setQvImage = function($event){
     $($event.target).parents('.category-pdt-carousel').find('#img-min-height img').attr('src',$($event.target).attr('src'));
   }
@@ -1505,6 +1540,7 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
             lensSize: 100,
             zoomWindowWidth: 500,
             zoomWindowHeight: 500,
+          
             borderSize: 1,
             zoomWindowOffetx: 150
           });
@@ -1521,7 +1557,11 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
     vm.selectedSizeIndex = $index;
     // vm.selectedProductIndex = -1;
     var prodFiltered = _.filter(productDetail, function(_obj) {
-        return (_obj.xp.SpecsOptions.Size == selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize) 
+       if(_obj.xp.SpecsOptions.Size === null || selectedSize === null){
+                return (_obj.xp.SpecsOptions.Size == selectedSize)
+            }else{
+                return (obj.xp.SpecsOptions.Size == selectedSize || obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
+            }
     });
     var imAvailableColors = angular.copy(availableColors);
     prodFiltered = DisplayColors(prodFiltered, false);
@@ -1536,7 +1576,7 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
       }
     });
     vm.allColors = prodFiltered;
-    if($scope.radio.selectedSize != null && $scope.radio.selectedColor != null){
+    if($scope.radio.selectedSize != -1 && $scope.radio.selectedColor != -1){
       var selectedSku = _.filter(productDetail, function(_obj) {
             return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
       });
@@ -1553,7 +1593,11 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
   function  DisplaySelectedSize( color, $index ){
 
     var colorFiltered = _.filter(productDetail, function(_obj) { // filters SKU with  selected color
-          return (_obj.xp.SpecsOptions.Color.toLowerCase() == color.toLowerCase()) 
+         if(_obj.xp.SpecsOptions.Color === null || color === null){
+                return (_obj.xp.SpecsOptions.Color == color)
+            }else{
+                return (_obj.xp.SpecsOptions.Color.toLowerCase() == color.toLowerCase())
+            }
     });
     colorFiltered = DisplaySizes(colorFiltered, false); // sizes availavle for seelcted color 
     var imAvailableSizes = angular.copy(availableSizes); //copy for all available sizes
@@ -1569,7 +1613,7 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
     });
      vm.allSizes = colorFiltered; // bind the sizes to DOM
      vm.selectedProductIndex = $index; // Active state for selected color
-     if($scope.radio.selectedSize != null && $scope.radio.selectedColor != null){ // change prodcut if size and color is selected
+     if($scope.radio.selectedSize != -1 && $scope.radio.selectedColor != -1){ // change prodcut if size and color is selected
       var selectedSku = _.filter(productDetail, function(_obj) {
         return ((_obj.xp.SpecsOptions.Size == $scope.radio.selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == $scope.radio.selectedSize) && (_obj.xp.SpecsOptions.Color == $scope.radio.selectedColor || _obj.xp.SpecsOptions.Color.toLowerCase() == $scope.radio.selectedColor))
       });
@@ -1799,9 +1843,11 @@ function ProdColorsDirective(){
              $event.stopPropagation();
            }
 
+
     }
 function capFil(inpt){
   if (inpt !== null) {
+
       return inpt.replace(/\w\S*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
