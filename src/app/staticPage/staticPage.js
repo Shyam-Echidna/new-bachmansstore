@@ -43,8 +43,7 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
 			controller: 'staticPageBaseCtrl',
 			controllerAs: 'staticPageBase',
-			resolve:
-			{
+			resolve:{
 				page : function($stateParams){
 					return $stateParams.pageName;
 				}
@@ -70,12 +69,11 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/history.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
-			resolve:
-						{
-							page : function($stateParams){
-								return $stateParams.pageName;
-							}
-						}
+			resolve:{
+				page : function($stateParams){
+				    return $stateParams.pageName;
+				}
+            }
 		})
 		.state('corporate', {
 			parent: 'base',
@@ -83,15 +81,14 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
-			resolve:
-						{
-							page : function($stateParams){
-								return $stateParams.pageName;
-							},
-							fileName : function($stateParams){
-								return $stateParams.fileName;
-							}
-						}
+			resolve:{
+                page : function($stateParams){
+				    return $stateParams.pageName;
+				},
+				fileName : function($stateParams){
+				    return $stateParams.fileName;
+				}
+            }
 		})
 		.state('heritage', {
 			parent: 'base',
@@ -120,15 +117,14 @@ function staticPageConfig($stateProvider) {
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
-			resolve:
-						{
-							page : function($stateParams){
-								return $stateParams.pageName;
-							},
-							fileName : function($stateParams){
-								return $stateParams.fileName;
-							}
-						}
+			resolve:{
+                page : function($stateParams){
+                    return $stateParams.pageName;
+                },
+				fileName : function($stateParams){
+				    return $stateParams.fileName;
+				}
+            }
 		})
 		.state('careGuides', {
 			parent: 'base',
@@ -172,33 +168,6 @@ function staticPageConfig($stateProvider) {
 			controller: 'workshopEventCtrl',
 			controllerAs: 'workshopEvent'
 		})
-//		.state('staticPage', {
-//			parent: 'base',
-//			url: '/staticPage/:pageName',
-//			templateUrl: 'staticPage/templates/StaticBase.tpl.html',
-//			controller: 'staticPageBaseCtrl',
-//			controllerAs: 'staticPageBase',
-//			resolve:
-//			{
-//				page : function($stateParams){
-//					return $stateParams.pageName;
-//				}
-//			}
-//		})
-//        .state('staticPageImage', {
-//			parent: 'base',
-//			url: '/staticPageImage/:pageName',
-//			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
-//			controller: 'staticPageBaseCtrl',
-//			controllerAs: 'staticPageBase',
-//			resolve:
-//			{
-//				page : function($stateParams){
-//					return $stateParams.pageName;
-//				}
-//			}
-//		});
-
 }
 
 function ladingPageController(folder) {
@@ -212,37 +181,21 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
     var artileMetaData = staticPageData.articleData;
     vm.articleContentUrl =  localStorage.getItem("contentUrl");
     vm.locationpath =  localStorage.getItem("locationpath");
+    if(vm.locationpath.indexOf("documentLibrary")>=0)
+        vm.locationpath = vm.locationpath.split("documentLibrary")[1];
     vm.articleAuthor =  localStorage.getItem("articleAuthor");
     vm.articleTitle = localStorage.getItem("articleTitle");
-    var d = new Date(localStorage.getItem("modifiedOn"));
-    var n = d.toString();
-    var date = d.getDate();
-    var year = d.getFullYear();
-    vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
+    if(localStorage.getItem("modifiedOn").length > 15){
+        var d = new Date(localStorage.getItem("modifiedOn"));
+        var n = d.toString();
+        var date = d.getDate();
+        var year = d.getFullYear();
+        vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
+    }else{
+        vm.articleDate = localStorage.getItem("modifiedOn");
+    }
     vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+vm.articleContentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
     console.log(alfStaticContenturl+vm.articleContentUrl+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-//	$http.get(alfcontentStaticSearchurl+page+"&alf_ticket="+localStorage.getItem("alfTemp_ticket")).then(function(res){
-//        console.log(res);
-//		var staticTemp = res.data.substring(res.data.indexOf("api/node"),res.data.indexOf("/"+page))+"/"+page;
-//
-//		console.log(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-//		vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+staticTemp+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-//	});
-    
-//    $http.get(alfcontentStaticSearchurlAtom+page.replace(".html","banner.png")+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"))
-//    .then(function(res){
-//        console.log(res);
-//        var json = x2js.xml_str2json(res.data);
-//        if(json&&json.feed&&json.feed.entry){
-//            if(json.feed.entry.length>0){
-//                vm.articleBanner = json.feed.entry[0].link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket")
-//            }else{
-//                vm.articleBanner = json.feed.entry.link["_href"]+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
-//            }
-//        }
-//        console.log(vm.articleBanner);
-//
-//	});
     
     $http.get(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+vm.locationpath+"/Media?alf_ticket="+localStorage.getItem("alfTemp_ticket"))
     .then(function(res){
@@ -251,10 +204,8 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
             if(item.fileName.indexOf(page.replace(".html",""))>=0){
                 vm.articleBanner = "http://52.206.111.191:8080/alfresco/service/"+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
             }
-            
         });
         console.log(vm.articleBanner);
-
 	});
 
     vm.getThingsFromALfresco = function(parent, child){
@@ -264,48 +215,43 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
 
 function contactController() {
 	var vm = this;
-
 }
 
-function templateController($http, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData) {
+function templateController($http, $scope,alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls) {
 	var vm = this;
-		vm.bannerHideArticle = true;
-//    vm.subFolderList = BaseService.ListOfPages[0].subfolders;
-      vm.folderIndex = 0;
-      vm.active=0;
-      vm.articleSearch={};
-			vm.mainCatName = "";
-      var getFirstTag = true;
-
+    vm.bannerHideArticle = true;
+    vm.folderIndex = 0;
+    vm.active = 0;
+    vm.articleSearch={};
+    vm.mainCatName = "";
+    vm.isOpen = 0;
+    var getFirstTag = true;
+    var ticket = localStorage.getItem("alfTemp_ticket");
     vm.getThingsFromALfresco = function(parent, child,index){
-        vm.active = index;
-	    	var ticket = localStorage.getItem("alfTemp_ticket");
-	    	var route = parent+"/"+child;
-	    	LoginFact.GetArtcleList(ticket,route).then(function(response){
-	    		console.log("GetArtcleList",response);
-	    		vm.articleList = response;
-	    	});
-				$state.go('plantZone');
+        setTimeout(function(){
+            vm.active = index+1;
+        },10)
+        
+        this.articleSearch.description ="";
+        vm.activeTab = child.title;
+        vm.currentCategoryID = child.nodeRef.split("SpacesStore/")[1]; 
+        var route = parent+"/"+child.fileName;
+        LoginFact.GetArtcleList(ticket,route).then(function(response){
+	       console.log("GetArtcleList",response);
+	       vm.articleList = response;
+        });
+        $state.go('plantZone');
     }
+    
     vm.getFirstThingsFromALfresco = function(pp,parent, subFolder,index){
-        console.log(index+" .... "+vm.active);
-      //  vm.active = index;
-        if(subFolder.nodeType == 'ws:section' && subFolder.title !='' && getFirstTag){
-					vm.mainCatName = pp;
-            console.log(index+" .... "+vm.active);
+        if(pp.nodeType == 'ws:section' && pp.title !='' && getFirstTag){
+            vm.mainCatName = pp.title;
             getFirstTag = false;
-            var ticket = localStorage.getItem("alfTemp_ticket");
-            var route = parent+"/"+subFolder.fileName;
-            LoginFact.GetArtcleList(ticket,route).then(function(response){
-                console.log("GetArtcleList",response);
-                vm.active = index;
-                vm.articleList = response;
-            });
+            vm.parentCategoryArticles(pp.nodeRef,0);
         }
     }
-    vm.isOpen = 0;
-  //  vm.getThingsFromALfresco("CareGuidesInformation","All_Care_Guides_Information",0);
-	setTimeout(function () {
+    
+    setTimeout(function () {
 		var owl2 = angular.element("#owl-carousel-related-products");
 		owl2.owlCarousel({
 			//responsive: true,
@@ -327,63 +273,107 @@ function templateController($http, alfcontenturl, $state, $stateParams ,LoginFac
 			}
 		});
 	}, 1000);
+    
+    $scope.$watch(angular.bind(this, function () {
+        return this.articleSearch.description;
+    }), function (newVal) {
+        if (newVal) {
+            if (newVal.length > 3) {
+                var url = alfStaticUrls.alfcontentStaticSearchArticles+"?id="+vm.currentCategoryID+"&page=0&term="+decodeURIComponent(newVal)+"&alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                staticPageData.GetFolders(url).then(function(data){
+                    vm.articleList = data;
+                },function(data){
+                    vm.articleList.items = [];
+                });
+            }
+        } else {
+            if (newVal == '') {
+                var url = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page=0&alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                staticPageData.GetFolders(url).then(function(data){
+                    vm.articleList = data;
+                },function(data){
+                    vm.articleList.items = [];
+                });
+            }
+        }
+    });
+    
     vm.navigateToArticle = function(obj){
         staticPageData.articleData = obj;
-        localStorage.setItem("contentUrl",obj.contentUrl);
+        if(obj.contentUrl.indexOf("/")==0){
+            localStorage.setItem("contentUrl",obj.contentUrl.substring(1,obj.contentUrl.length));
+        }else{
+            localStorage.setItem("contentUrl",obj.contentUrl);
+        }
         localStorage.setItem("articleAuthor",obj.author);
         localStorage.setItem("articleTitle",obj.title);
-        localStorage.setItem("modifiedOn",obj.modifiedOn);
-        localStorage.setItem("locationpath",obj.location.path);
-					vm.bannerHideArticle = false;
-       // if(obj.fileName==="TemplateCareAllNoImage.html" || obj.fileName==="Bachmas_ServicesAllCareNoImage.html"){
-            $state.go('.staticPage', {pageName:obj.fileName});
-     //    }else{
-       //     $state.go('staticPage', {pageName:obj.fileName});
-    //    }
+        if(obj.modifiedOn){
+            localStorage.setItem("modifiedOn",obj.modifiedOn);
+        }else{
+            localStorage.setItem("modifiedOn",obj.modified);
+        }
+        if(obj.location){
+            localStorage.setItem("locationpath",obj.location.path);
+        }else{
+            localStorage.setItem("locationpath",obj.displayPath);
+        }
+        
+        vm.bannerHideArticle = false;
+        $state.go('.staticPage', {pageName:obj.fileName});
     }
+    
     vm.populateTabs = function(f,sf,index){
-      //  vm.folderIndex = index;
-			vm.mainCatName = sf.title;
+        vm.mainCatName = sf.title;
         var first = true;
+        vm.activeTab = "";
+        vm.active = 0;
         vm.isOpen = index;
         getFirstTag = true;
         vm.tabsData = sf;
-        angular.forEach(sf.items, function(item,i) {
-
-         if(item.nodeType == 'ws:section' && item.title !='' &first){
-             first=false;
-             vm.getThingsFromALfresco(f.fileName,item.fileName,i);
-         }
-        });
-				$state.go('plantZone');
-
+        this.articleSearch.description="";
+        vm.parentCategoryArticles(sf.nodeRef,0);
+//        angular.forEach(sf.items, function(item,i) {
+//            if(item.nodeType == 'ws:section' && item.title !='' &first){
+//                first=false;
+//                vm.getThingsFromALfresco(f.fileName,item.fileName,i);
+//            }
+//        });
+        $state.go('plantZone');
     }
+    
     var keepGoing = true;
     vm.tabSetdata = function(folders){
         angular.forEach(folders.subfolders,function(item){
             if(keepGoing) {
-            if(item.nodeType == 'ws:section' && item.title !=''){
-                vm.tabsData = item;
-                keepGoing = false;
-                return;
-            }
+                if(item.nodeType == 'ws:section' && item.title !=''){
+                    vm.tabsData = item;
+                    keepGoing = false;
+                    return;
+                }
             }
         });
     }
-
+    
+    vm.parentCategoryArticles = function(id,page){
+        vm.currentCategoryID = id.split("SpacesStore/")[1]; 
+        var url = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page="+page+"&alf_ticket="+ticket;
+        staticPageData.GetFolders(url).then(function(data){
+            vm.articleList = data;
+        },function(data){
+            vm.articleList.items = [];
+        });
+    }
+    
     vm.isFirstOpen = function(i){
         if(vm.open == i){
             return true;
         }
         return false;
     }
+    
 	var staticheaderHt = $('.base-header-desktop .base-header-inner').height();
-	/*		$('.base-header-desktop .base-header-inner').css('border', '1px solid red');*/
 	console.log('staticheaderHt' + staticheaderHt);
-
-	/*$('.plantZone-nav').css('margin-top', staticheaderHt);*/
 	var staticheaderHtmobile = $('.base-header-mobile .base-header-inner').height();
-	/*	$('.mobile-plantZone-nav').css('margin-top', staticheaderHtmobile);*/
 }
 
 function template1Controller() {
@@ -412,7 +402,6 @@ function template1Controller() {
 	}, 1000)
 	var staticheaderHtmobile = $('.base-header-mobile .base-header-inner').height();
 	/*$('.mobile-how-to-nav').css('margin-top', staticheaderHtmobile);*/
-
 }
 
 function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile) {
@@ -429,19 +418,9 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 	vm.alfStaticContenturl = alfStaticContenturl;
 	vm.parentPathChilde = $state.current;
 	vm.pageName = page;
-	var curl = "";
-//	if(fileName){
-//		curl = decodeURIComponent(fileName);
-//	}
-//	if(page=="BachmansHistory"){
-//		curl = "be6d48bd-c388-4aa8-b90d-4eb60d20ac82/BachmansHistory.html";
-//	}else if(page=="BachmansHerritageRoom"){
-//		curl = "b71a7268-b1bf-42ed-b780-ba8a1013ef62/BaseHeritageTemplateCorporate.html";
-//	}
 	vm.activeIndex = 0;
  	vm.siteToken = localStorage.getItem('alfTemp_ticket');
-	///api/node/content/workspace/SpacesStore/c5567137-543e-47ba-822c-148a57dce11d/Untitled%20Document.docx
-	staticPageData.GetFolders(alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+decodeURIComponent(page),vm.siteToken).then(function(data){
+	staticPageData.GetFolders(alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+decodeURIComponent(page)+"?alf_ticket="+vm.siteToken).then(function(data){
 		console.log(data);
 		angular.forEach(data.items,function(item){
 			if(item.nodeType=="ws:article"){
@@ -456,11 +435,10 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 	});
 
   vm.assignIndex = function(data,i){
-		if(vm.parentPathChilde.name == data){
-			vm.isOpen = i;
-		}
-	}
-//	var dataUrl = alfrescoStaticurl+"Bachmans Quick Start/Bachmans Editorial/root/"+$state.$current+"/"+page+"/Media";
+      if(vm.parentPathChilde.name == data){
+          vm.isOpen = i;
+      }
+  }
 
   vm.assignActiveIndex = function(data,i){
 		var pages = decodeURIComponent(page).split('/');
@@ -509,7 +487,7 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 	}
  vm.showCarouselData = false;
   vm.getMediaData = function(url){
-		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
+		staticPageData.GetFolders(url+"?alf_ticket="+vm.siteToken).then(function(data){
 				console.log("mediaData",data);
 				vm.carouselData = data.items;
 				angular.forEach(data.items,function(carousel){
@@ -551,20 +529,50 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 	}
 	//vm.getMediaData(dataUrl);
   vm.loadArticleImages = function(url){
-		staticPageData.GetFolders(url,vm.siteToken).then(function(data){
+		staticPageData.GetFolders(url+"?alf_ticket="+vm.siteToken).then(function(data){
 				console.log("loadArticleImages",data);
                 if(data.items.length > 0){
 				    vm.articleImages = data.items;
-                    setTimeout(function(){
-                        var elem = angular.element("#articleImagesSlot");
-                        var classn="col-md-3";
-                        if(vm.articleTitle=="memoryMotifs"){
-                            classn = "col-md-4";
-                        }
-                        var html = '<div class="'+classn+' portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
-                        var el = $compile(angular.element(html))($scope);
+                    var elem = angular.element("#articleImagesSlot");
+                    var classn="col-md-3";
+                    if(vm.articleTitle=="memoryMotifs"){
+                        classn = "col-md-4";
+                    }
+                    var html = '<div class="'+classn+' owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
+                    var owlHtml = ""
+                    if(elem.hasClass("owl-carousel-initial")){
+                        owlHtml = '<div class="owl-carousel owl-theme wedding-trend"><div class="owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div></div>';
+                        var el = $compile(angular.element(owlHtml))($scope);
                         elem.html(el);
-                    },0)
+                        setTimeout(function(){
+						angular.element(".owl-carousel").owlCarousel({
+							/*responsive: true,*/
+							loop: true,
+							animateOut: 'fadeOut',
+							nav: true,
+							navText: ['<span class="weddingTrendArrowPrev" aria-hidden="true">next</span>', '<span class="weddingTrendArrowNext" aria-hidden="true">prev</span>'],
+							responsive: {
+								0: {
+									items: 1
+								},
+								1000: {
+									items: 4,
+									margin: 20
+								},
+								1024: {
+									items: 4,
+									margin: 20
+								}
+							}
+						});
+					},1000);
+                    }else{
+                        owlHtml = html;
+                        var el = $compile(angular.element(owlHtml))($scope);
+                        elem.html(el);
+                    }  
+                    
+                    
                     
                 }
             
@@ -1107,7 +1115,7 @@ function staticPageData($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 			$http({
 				method: 'GET',
 				dataType:"json",
-				url: url+"?alf_ticket="+ticket,
+				url: url,
 				headers: {
 					'Content-Type': 'application/json'
 				}

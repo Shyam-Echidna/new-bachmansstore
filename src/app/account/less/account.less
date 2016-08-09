@@ -818,7 +818,21 @@
 	{
 		.prox-bold-normal;
 	}
-	.login-model .panel-body .form-group input[type=password] {
-		font-size: 0.625em !important;
+	.login-model .panel-body .form-group {
+		input[type=password] {
+			font-size: 0.625em !important;
+		}
+		input[type=password]:-ms-input-placeholder {
+			font-size: .9em !important;
+		}
+		input[type=password]::-moz-placeholder {
+			font-size: 1.5em !important;
+		}
 	}
+}
+
+.login-model .panel-body .form-group input[type=password],
+.login-model .panel-body .form-group input[type=email] 
+{
+	.webkit-inp-bg-fixer;
 }

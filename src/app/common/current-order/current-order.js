@@ -18,7 +18,7 @@ function CurrentOrderService($q, appname, $localForage, OrderCloud) {
         var dfd = $q.defer();
         GetID()
             .then(function(OrderID) {
-                OrderCloud.Orders.Get(OrderID)
+               OrderCloud.As().Orders.Get(OrderID)
                     .then(function(order) {
                         dfd.resolve(order);
                     })
@@ -69,7 +69,9 @@ function CurrentOrderService($q, appname, $localForage, OrderCloud) {
         var lineItems = [];
         var queue = [];
 
-        OrderCloud.LineItems.List(orderID, 1, 100)
+
+        OrderCloud.As().LineItems.List(OrderID, 1, 100)
+
             .then(function(data) {
                 lineItems = lineItems.concat(data.Items);
                 for (var i = 2; i <= data.Meta.TotalPages; i++) {

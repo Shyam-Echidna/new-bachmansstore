@@ -144,8 +144,14 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
             })
             .catch(function(ex) {
                // $exceptionHandler(ex);
-               vm.errormsg = "Email or Password is incorrect";
+               //vm.errormsg = "Email or Password is incorrect";
                vm.invaliduser = true;
+               vm.lockedErr = ex.data.error;
+               if(vm.lockedErr == "Exception of type 'Four51.DBExceptions+UserAccountLockedOut' was thrown."){
+                  vm.errormsg = "User Account is LockedOut";
+               }else if(vm.lockedErr == "Username not found or password incorrect."){
+                  vm.errormsg = "Email or Password is incorrect";
+               }
             })
             
     };

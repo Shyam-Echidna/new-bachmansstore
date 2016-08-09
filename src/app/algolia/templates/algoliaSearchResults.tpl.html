@@ -38,10 +38,10 @@
                               </p>
                           </div>
                         </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2 clear-button-block fl">
+                        <div  ng-if="algoliaSearchResults.Selections.length > 0" class="col-sm-2 col-md-2 col-lg-2 clear-button-block fl">
                           <button class="clearAll">Clear All</button>
                         </div>
-                        <div class="col-xs-1 col-sm-1 fl facetRightArrow"  ng-click="algoliaSearchResults.shiftSelectedFacetRight()">
+                        <div  ng-if="algoliaSearchResults.Selections.length > 0" class="col-xs-1 col-sm-1 fl facetRightArrow"  ng-click="algoliaSearchResults.shiftSelectedFacetRight()">
                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="0 0 50 90" style="enable-background:new 0 0 50 90;" xml:space="preserve">
                              <style type="text/css">
@@ -141,7 +141,7 @@
                         </a>
                     </div>
                     <div class="algolia-facet-selections" ng-repeat-end uib-collapse="algoliaSearchResults.facetBehavior[facet.name].close" ng-hide="facet.name == 'Price'">
-                        <div ng-class="{'algolia-no-results': !algoliaSearchResults.ProductResults.facets[facet.name][val]}" ng-repeat="val in facet.list"><a ng-click="algoliaSearchResults.toggleFacet(facet.name, val)"><i class="fa" ng-class="{'fa-square': algoliaSearchResults.FiltersObject[facet.name] && algoliaSearchResults.FiltersObject[facet.name][val], 'fa-square-o': !algoliaSearchResults.FiltersObject[facet.name] || !algoliaSearchResults.FiltersObject[facet.name][val]}"></i></a> {{val}}</div>
+                        <div ng-class="{'algolia-no-results': !algoliaSearchResults.ProductResults.facets[facet.name][val]}" ng-repeat="val in facet.list" ng-click="algoliaSearchResults.toggleFacet(facet.name, val)"><a ><i class="fa" ng-class="{'fa-square': algoliaSearchResults.FiltersObject[facet.name] && algoliaSearchResults.FiltersObject[facet.name][val], 'fa-square-o': !algoliaSearchResults.FiltersObject[facet.name] || !algoliaSearchResults.FiltersObject[facet.name][val]}"></i></a> {{val|capitalize}}</div>
                     </div>
                     <div class="well well-sm algolia-facet-name" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
                         Price
@@ -225,7 +225,7 @@
                                     </div>
                                 </div>
                                 <div ng-repeat="prod in groupedProducts  track by $index">
-                                   <div  ng-if="prod.xp.IsDefaultProduct == 'true'" ng-click="algoliaSearchResults.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
+                                   <div  ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" ng-click="algoliaSearchResults.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
                                        <img  ng-src= "{{prod.imgContent.contentUrl}}"/>
                                        <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box caption">
                                           <h4 class="product-name-plp"><span>{{prod.Name | lowercase}}</span></h4>

@@ -1600,6 +1600,17 @@ h3.accordion {
 			color: @icon-bg2;
 		}
 	}
+	.right-content {
+		.first-tab-hidden {
+			.nav-tabs {
+				.in-tabs {
+					&:first-child {
+						display: none;
+					}
+				}
+			}
+		}
+	}
 }
 
 .nav-tabs {
@@ -5023,12 +5034,13 @@ h4 {
    }
    .motifs-gallery,.wedding-gallery{
         background: #f7f7f7;
-
-	    padding:20px 30px;
+	    padding:20px 40px;
    	  .gallery-header{
-   	  	font: 2em @proxima-bold;
+   	  	/*font: 2em @proxima-bold;*/
+   	  	font: 1.5em roboto_slabregular;
         color: #8c58b5;
         margin-bottom:25px;
+        letter-spacing: -1px;
    	 }
    	 .gallery-content{
    	 	margin-top:30px;
@@ -5042,6 +5054,45 @@ h4 {
    	 	 p{
    	 	 	color:#999;
    	 	 }
+   	 	}
+   	 	.owl-item {
+   	 		border: 1px solid #eee;
+   	 	}
+   	 	.owl-nav {
+   	 		position: absolute;
+		    top: 40%;
+		    transform: translateY(-50%);
+		    width: 100%;
+   	 		.owl-prev {
+   	 			float: left;
+   	 			margin-left: -40px;
+   	 			.weddingTrendArrowPrev {
+   	 				background-image:url('../../assets/images/arrow-big-next.svg');
+					.background-img(initial,center);
+					left:0px;
+					.owl-pdt-carousel-arrow;
+					-ms-transform: rotate(180deg);
+					-webkit-transform: rotate(180deg);
+					transform: rotate(180deg);
+					//width:100%;
+					background-position: initial;
+					position:relative;
+					display: inline-block;
+   	 			}
+   	 		}
+   	 		.owl-next {
+   	 			float: right;
+   	 			margin-right: -40px;
+   	 			.weddingTrendArrowNext {
+   	 				background-image:url('../../assets/images/arrow-big-next.svg');
+					.background-img(initial,center);
+					right:0px;
+					.owl-pdt-carousel-arrow;
+					background-position: initial;
+					position:relative;
+					display: inline-block;
+   	 			}
+   	 		}
    	 	}
    	 }
    	 margin-bottom:40px;

@@ -79,7 +79,8 @@
 				}
 			}
 			.cr-card-name {
-				padding-left: 20px;
+				/*padding-left: 20px;*/
+				padding: 0;
 				.title {
 					font: 0.875em @proxima-light;
 					font-weight: bold;
@@ -105,12 +106,13 @@
 			.edit-options {
 				padding: 10px 0;
 				text-align: right;
+				width: auto;
 				a {
 					font: 0.875em/0.875em @proxima-light;
 					font-weight: bold;
 					color: #2c2c2c;
     				border-bottom: 1px solid #919191;
-    				margin: 0 5px;
+    				/*margin: 0 5px;*/
     				transition: color 0.4s ease-out;
     				&:hover {
     					color: @base-bg-purple-light;
@@ -240,9 +242,10 @@
 	    						font: 1em @proxima-regular;
 	    						font-weight: bold;
 	    						text-transform: uppercase;
-    						    transition: color 0.4s ease-out;
+    						    transition: all 0.4s ease-out;
 	    						&:hover {
-	    							background-color: #969696;
+	    							background-color: #696969;
+	    							color: #fff;
 	    						}
 	    						&:active {
 	    							border: none;
@@ -519,6 +522,12 @@
 						font-size: 1em;
 					}
 				}
+				.cr-card-name {
+					width: 20%;
+				}
+				.edit-options {
+					float: right;
+				}
 			}
 		}
 	}
@@ -546,6 +555,9 @@
 	    				display: inline-block;
 	    			}
 	    		}
+	    		.edit-options {
+					float: right;
+				}
 	    	}
 	    }
 	    .add-new-credit-card-cont {

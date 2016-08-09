@@ -14,6 +14,7 @@ angular.module( 'orderCloud' )
   .directive('customEmailValidation',customEmailValidationDirective)
   .directive('confirmPassword', ConfirmPasswordValidatorDirective)
   .filter('categoriesAsPerSeason', CategoriesAsPerSeasonFilter)
+  .filter('capitalize', CapitalizeFilter)
 ;
 
 function BaseConfig( $stateProvider ) {
@@ -79,7 +80,7 @@ function BaseConfig( $stateProvider ) {
                 ticket: function (LoginFact) {
                     return LoginFact.Get()
                         .then(function (data) {
-                            console.log(data);
+//                            console.log(data);
                             var ticket = data.data.ticket;
                             localStorage.setItem("alf_ticket", ticket);
                             return ticket;
@@ -88,7 +89,7 @@ function BaseConfig( $stateProvider ) {
                 ticketTemp: function (LoginFact) {
                     return LoginFact.GetTemp()
                         .then(function (data) {
-                            console.log(data);
+//                            console.log(data);
                             var ticket = data.data.ticket;
                             localStorage.setItem("alfTemp_ticket", ticket);
                             return ticket;
@@ -118,11 +119,11 @@ function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
   var deferred = $q.defer();
   var queue = [];
 
-  OrderCloud.Categories.List(null, 1, 100, null, null, null, null, 'all').then(function(data) {
-    console.log(data);
+  OrderCloud.Categories.List(null, 1, 100, null, null, null, 'all').then(function(data) {
+//    console.log(data);
     categories = categories.concat(data.Items);
       for (var i = 2; i <= data.Meta.TotalPages; i++) {
-          queue.push(OrderCloud.Categories.List(null, i, 100, null, null, null, null, 'all'));
+          queue.push(OrderCloud.Categories.List(null, i, 100, null, null, null, 'all'));
       }
       $q.all(queue).then(function(results) {
         angular.forEach(results, function(result) {
@@ -221,7 +222,7 @@ function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
     var dfd = $q.defer();
     CurrentOrder.Get().then(function(data){
       var mincart = data;
-      console.log(data);
+      //console.log(data);
       dfd.resolve(mincart);
     });
     return dfd.promise;
@@ -256,7 +257,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
   vm.alf_ticket = ticket;
   //console.log('asdfghj',minicartData);
   vm.currentOrder = BaseService.MinicartData();
-  console.log(vm.currentOrder);
+//  console.log(vm.currentOrder);
 
   /*window.onorientationchange = function () {
     window.location.reload();
@@ -272,9 +273,9 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
         }*/
         vm.tab_menu = function(){
             $('.menu-container li.sub-nav a').toggle(function() {
-                console.log(1111111111111111);
+     //           console.log(1111111111111111);
             }, function() {
-                  console.log(22222222222222222222);
+     //             console.log(22222222222222222222);
             });;
         }
     }
@@ -304,7 +305,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
         console.log("alvalara==",res);
     });*/
 
-    console.log("categoryImages",categoryImages);
+  //  console.log("categoryImages",categoryImages);
 
     $(window).scroll(function() {
       var headerHt = $('.base-header-inner').height();
@@ -859,7 +860,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
                 node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
                 megamenuImgs.push(node);
             });
-            console.log("megamenuImgs==", megamenuImgs);
+          //  console.log("megamenuImgs==", megamenuImgs);
             angular.forEach(megamenuImgs, function (image) {
                 angular.forEach(data, function (cat) {
                     var lool = image.displayName.indexOf(cat.ID) > -1
@@ -869,7 +870,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
                 });
             })
             vm.tree = data;
-            console.log("shyam==", vm.tree);
+        //    console.log("shyam==", vm.tree);
 
         });
         //$state.go($state.current.name);
@@ -885,7 +886,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
           angular.element('.mobile-signout-guest').css('display','none');
           angular.element('.mobile-signout-notGuest').css('display','block');
         }
-        console.log(data);
+//        console.log(data);
         var logo = alfcontenturl+data.items[1].contentUrl+"?alf_ticket="+ticket;
         vm.logo = $sce.trustAsResourceUrl(logo);
         var headerlinks = alfcontenturl+data.items[0].contentUrl+"?alf_ticket="+ticket;
@@ -897,7 +898,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
                 'Content-Type': 'application/json'
             }
         }).success(function (data, status, headers, config) {
-            console.log("headerlinks==", data);
+//            console.log("headerlinks==", data);
             vm.delivery = data[2];
             vm.contactdetails = data[1].contactdetails;
             vm.storeloc = data[0].staticlinks[0];
@@ -905,11 +906,11 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
               vm.information = data[0].staticlinks[2];
             vm.workshop = data[0].staticlinks[3];
         }).error(function (data, status, headers, config) {
-            console.log(data);
+//            console.log(data);
         });
 });
              LoginFact.GetServices(ticket).then(function(data){
-        console.log("GetServices==",data.items);
+//        console.log("GetServices==",data.items);
                  var services_mobile =[];
                  var services =[];
         /*for(var i=0;i<data.items.length;i++){
@@ -967,17 +968,17 @@ LoginFact.GetContactInfo(ticket).then(function(res){
       //vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+res.items[2].contentUrl+"?alf_ticket="+ticket);
     })*/
     LoginFact.GetFolders(ticket).then(function(res){
-     console.log("static temp GetFolders", res);
+     //console.log("static temp GetFolders", res);
      var ajaxarr = [];
      var deferred = $q.defer();
      angular.forEach(res.items,function(item){
        var d = $q.defer();
        ajaxarr.push(LoginFact.GetSubFolders(ticket, item.fileName).then(function(response){
-         console.log("static temp GetSubFolders", response);
+        // console.log("static temp GetSubFolders", response);
          item["subfolders"]=response.items;
              angular.forEach(response.items,function(subitem,i){
                LoginFact.GetSubSubFolders(ticket, item.fileName,subitem.fileName).then(function(responseSub){
-                 console.log("static temp GetSubSubFolders", response);
+            //     console.log("static temp GetSubSubFolders", response);
                  item["subfolders"][i]["subfolders"]=responseSub
                });
              });
@@ -1066,7 +1067,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 
       $.belowthefold = function(lookIn, elements, settings) {
           var fold = $(lookIn).height() + $(lookIn).scrollTop();
-          console.log(elements);
+          //console.log(elements);
           return $(elements).filter(function(){
               return fold <= $(this).offset().top - settings.threshold;
           });
@@ -1785,5 +1786,15 @@ function CategoriesAsPerSeasonFilter($filter) {
       }
     }
     return newArray;
+  }
+}
+function CapitalizeFilter() {
+  return function(input) {
+    if (input !== null) {
+      return input.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+    return input;
   }
 }

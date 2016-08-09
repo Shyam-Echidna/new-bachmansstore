@@ -42,17 +42,18 @@ function CheckoutConfig($stateProvider) {
                         });
 					return deferred.promise;
                 },
-                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud, TaxService) {
+                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID()
                         .then(function (orderID) {
-                            TaxService.GetTax(orderID)
+                            /*TaxService.GetTax(orderID)
                                 .then(function() {
                                     OrderCloud.Orders.Get(orderID)
                                         .then(function (order) {
                                             dfd.resolve(order);
                                         });
-                                });
+                                });*/
+                                dfd.resolve(orderID);
                         })
                         .catch(function () {
                             dfd.resolve();
@@ -129,7 +130,7 @@ function checkOutService($q, $http) {
 	}
 	return service
 }
-function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http) {
+function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid) {
     console.log(LoggedinUser);
 	var vm = this;
 	var date = new Date();
@@ -348,52 +349,18 @@ function CheckoutController($scope, $uibModal, $window, HomeFact, PlpService, $q
 		})
 	}
 
-	vm.submit = function (credentials) {
-		console.log(credentials);
-
-		console.log($cookieStore.get("BachmanStoreFront.impersonation.token"));
-		var x = $cookieStore.get("BachmanStoreFront.token");
-		OrderCloud.Auth.GetToken( credentials )
-            .then(function(data) {
-            	console.log('data',data);
-                OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
-                OrderCloud.Auth.SetToken(data.access_token);
-             // ImpersonationService.StopImpersonating();
-                LoginService.GetCurrentUser().then(function(res){
-                    console.log('res',JSON.stringify(res));
-                    vm.openACCItems.name = 'delivery';
-                    vm.openACCItems['signinFunc'] = true;
-//                    $http.put("https://api.ordercloud.io/v1/buyers/bachmans/orders?tempUserToken="+$cookieStore.get("BachmanStoreFront.token"),res)
-//                    .success(function (data, status, headers, config) {
-//                        console.log(data);
-//                    })
-//                    .error(function (data, status, header, config) {
-//                        console.log(data);
-//                    });
-//                    OrderCloud.Me.CreateFromTempUser(res,$cookieStore.get("BachmanStoreFront.token")).then(function(resp){
-//                    	console.log(resp);
-//                    })
-                    $http({
-                      method: 'PUT',
-                      dataType:"json",
-                      url:"https://api.ordercloud.io/v1/buyers/bachmans/orders?tempUserToken="+x,
-                      headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': 'Bearer ' + data.access_token
-                      }
-                      }).success(function (data, status, headers, config) {
-                      console.log("incoming",data); 
-                      }).error(function (data, status, headers, config) {
-                      });
-
-                })
-            })
-            .catch(function (ex) {
-				// $exceptionHandler(ex);
-				vm.errormsg = "Email or Password is incorrect!!";
-				vm.invaliduser = true;
-            })
-	}
+	vm.loginAsExistingUser = function (credentials) {
+        var anonUserToken = OrderCloud.Auth.ReadToken();
+        OrderCloud.Auth.GetToken(credentials)
+            .then(function(token){
+                $rootScope.$broadcast('userLoggedIn');
+                OrderCloud.Auth.SetToken(token.access_token);
+                OrderCloud.Orders.TransferTempUserOrder(anonUserToken)
+                    .then(function(){
+                        $state.reload();
+                    })
+            });
+	};
 
 	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
 		angular.forEach(result.Items, function (value, key) {

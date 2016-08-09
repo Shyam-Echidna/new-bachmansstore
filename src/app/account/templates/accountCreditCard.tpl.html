@@ -19,15 +19,15 @@
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
-                <p class="addr-line1">XXXX XXXX XXXX 1234</p>
+                <p class="addr-line1">XXXX XXXX XXXX {{card.PartialAccountNumber}}</p>
             </div>
-            <div class="col-xs-5 col-sm-5 col-md-2 col-lg-2 cr-card-name">
+            <div class="col-xs-5 col-sm-5 col-md-2 col-lg-3 cr-card-name">
                 <p class="title">Cardholder's Name</p>
-                <p class="value">Aishwarya</p>
+                <p class="value">{{card.CardholderName}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 expiry-date">
                 <p class="title">Expiration Date</p>
-                <p class="value">10/2020</p>
+                <p class="value">{{card.ExpirationDate | date: 'MM/yyyy' : 'UTC' }}</p>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 edit-options">
                 <a href="#">Edit</a>
@@ -41,7 +41,7 @@
                 <p class="title">Make Default Payment</p>
                 <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
                 <div class="Checkbox">
-                  <input type="checkbox">
+                  <input type="checkbox" ng-click="creditCards.makeDefaultCard(card)">
                   <div class="Checkbox-visible"></div> 
                </div>
             </div>
@@ -52,7 +52,7 @@
                 <p class="title">Card Number</p>
                 <p class="addr-line1">XXXX XXXX XXXX {{card.PartialAccountNumber}}</p>
             </div>
-            <div class="col-xs-5 col-sm-5 col-md-2 col-lg-2 cr-card-name">
+            <div class="col-xs-5 col-sm-5 col-md-2 col-lg-3 cr-card-name">
                 <p class="title">Cardholder's Name</p>
                 <p class="value">{{card.CardholderName}}</p>
             </div>
@@ -76,12 +76,14 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
                             <label for="cardHoldName">Cardholder's Name</label>
-                            <input type="text" class="form-control" id="cardHoldName" placeholder="Name" ng-model="creditCards.card.CardholderName"/>
+                            <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName"/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
                             <label for="cardType">Card Type</label>
                             <select class="form-control" id="cardType" ng-model="creditCards.card.CardType" required>
-                                <option value="Select">Select</option>
+                                <option value="">Select a Card Type</option>
+                                <option value="Visa">Amex</option>
+                                <option value="Visa">Discover</option>
                                 <option value="Visa">Visa</option>
                                 <option value="MasterCard">MasterCard</option>
                                 <option value="AmericanExpress">American Express</option>
@@ -89,11 +91,12 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                            <input type="text" maxlength="15" card-validation ng-minlength="15" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate">Expiration Date</label>
                             <select class="form-control" id="month" placeholder="MM" ng-model="creditCards.card.ExpMonth" required>
+                                <option value="">Month</option>
                                 <option>01</option>
                                 <option>02</option>
                                 <option>03</option>
@@ -108,6 +111,7 @@
                                 <option>12</option>
                             </select>
                             <select class="form-control" id="year" placeholder="YY" ng-model="creditCards.card.ExpYear" required>
+                                <option value="">Year</option>
                                 <option>2016</option>
                                 <option>2017</option>
                                 <option>2018</option>
@@ -115,7 +119,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardCVV">Card CVV</label>
-                            <input type="text" card-validation ng-minlength="3" maxlength="4" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
+                            <input type="text" card-validation ng-minlength="3" maxlength="3" placeholder="Enter CVV Number" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
                         </div>
                     </div>
                     <div class="col-xs-12 p0 nav-buttons">
@@ -138,6 +142,65 @@
         <div class="col-xs-12 add-new-credit-card-cont p0">
             <p class="title">Update Card Information</p>
             <div class="add-new-card-div">
+                <form class="add-new-card-form ng-pristine ng-valid" ng-submit="creditCards.updateCard()" name="CreditCardEditForm" role="form" novalidate="">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
+                            <label for="cardHoldNameEdit">Cardholder's Name</label>
+                            <input type="text" class="form-control" id="cardHoldNameEdit" placeholder="Name" ng-model="creditCards.card.CardholderName"/>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
+                            <label for="cardType">Card Type</label>
+                            <select class="form-control" id="cardType" ng-model="creditCards.card.CardType" required>
+                                <option value="Select">Select</option>
+                                <option value="Visa">Visa</option>
+                                <option value="MasterCard">MasterCard</option>
+                                <option value="AmericanExpress">American Express</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
+                            <label for="cardNum">Card Number</label>
+                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
+                            <label for="expDate2">Expiration Date</label>
+                            <select class="form-control" id="monthEdit" placeholder="MM" ng-model="creditCards.card.ExpMonth" required>
+                                <option>01</option>
+                                <option>02</option>
+                                <option>03</option>
+                                <option>04</option>
+                                <option>05</option>
+                                <option>06</option>
+                                <option>07</option>
+                                <option>08</option>
+                                <option>09</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
+                            <select class="form-control" id="yearEdit" placeholder="YY" ng-model="creditCards.card.ExpYear" required>
+                                <option>2016</option>
+                                <option>2017</option>
+                                <option>2018</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
+                            <label for="cardCVV">Card CVV</label>
+                            <input type="text" card-validation ng-minlength="3" maxlength="4" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 p0 nav-buttons">
+                        <div class="col-xs-12 form-group navig-btns">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 savebtn">
+                                <button type="submit" class="btn purple-btn" ng-disabled="CreditCardEditForm.$invalid">Save</button>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 cancelbtn">
+                                <button type="button" class="btn gray-btn" ng-click="creditCards.editcreditcard = !creditCards.editcreditcard; creditCards.card = null">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="add-new-card-div">
                 <form class="add-new-card-form ng-pristine ng-valid" ng-submit="creditCards.updateCard()" name="CreditCardEditForm" role="form" novalidate="">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
@@ -169,7 +232,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- For Input Card Edit ENDS -->

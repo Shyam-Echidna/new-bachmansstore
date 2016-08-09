@@ -51,14 +51,14 @@
             </div> style="position:absolute;bottom:0;"  -->
             <div class="owl-carousel" id="owl-carousel-pdp-banner">
                 <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-                    <img class="pdp-pdt-img" src="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px'}"  />
+                    <img class="pdp-pdt-img" src="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2em'}"  />
                     <!--  <img class="elevateZoom" src="{{prodImage}}" data-zoom-image="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px'}" /> -->
-                    <!-- <img class="pdp-hero-banner-img" src="assets/images/113476.jpg"  /> -->
+                    <img class="pdp-hero-banner-img" src="assets/images/113476.jpg"  />
 
                 </div>
             </div>
         </div>
-        <div class="row detail-overlay-box col-xs-12 col-sm-12 col-md-6 col-lg-6" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'1.6em'}">
+        <div class="row detail-overlay-box col-xs-12 col-sm-12 col-md-6 col-lg-6" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.6em'}">
             <div class="qv-page">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
@@ -74,10 +74,10 @@
                                         <label for="{{opt.xp.SpecsOptions.Size}}">
                                             <span class="radioOutline"><span class="radioInside"></span></span>
                                             <span class="visible-xs visible-sm horizontal-label">
-                                <span class="pdp-name">{{opt.xp.SpecsOptions.Size}}</span>
+                                            <span class="pdp-name">{{opt.xp.SpecsOptions.Size}}</span>
                                             <span class="pdp-price">
-                                 <span ng-repeat="priceItem in opt.StandardPriceSchedule.PriceBreaks">
-                                 <span class="new-price">{{priceItem.Price | currency}}</span>
+                                            <span ng-repeat="priceItem in opt.StandardPriceSchedule.PriceBreaks">
+                                            <span class="new-price">{{priceItem.Price | currency}}</span>
                                             </span>
                                             </span>
                                             </span>
@@ -443,7 +443,7 @@
     <div class="row detail-content">
         <div class="col-sm-3 col-md-3 col-lg-3 img-side hidden-xs hidden-sm">
             <!--   <img src="assets/images/Batch_2_Web_Images/10Bachmans_PDP_Variation1/2.jpg"> -->
-            <img src="{{pdp.leftPromo}}">
+            <img src="{{pdp.leftPromo}}" alt ="promo">
             <!-- <div class="text">
             <h3>Entertaining Sets for your Next Party</h3>
             <p>Find the perfect set!</p>
@@ -739,7 +739,7 @@
         <div class="owl-carousel owl-pdt-carousel" id="owl-suggested-pdt-carousel">
             <div class="pdt-carousel-cont">
                 <div class="pdt-carousel-image">
-                    <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
+                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
                 </div>
                 <div class="pdt-carousel-desc-cont">
                     <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
@@ -755,7 +755,7 @@
             </div>
             <div class="pdt-carousel-cont">
                 <div class="pdt-carousel-image">
-                    <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
+                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
                 </div>
                 <div class="pdt-carousel-desc-cont">
                     <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
@@ -771,7 +771,7 @@
             </div>
             <div class="pdt-carousel-cont">
                 <div class="pdt-carousel-image">
-                    <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
+                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
                 </div>
                 <div class="pdt-carousel-desc-cont">
                     <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->

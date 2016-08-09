@@ -71,7 +71,8 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 	function _listChild(parentId){
 		var tree = [];
 		var deferred = $q.defer();
-	OrderCloud.Categories.ListChildren(parentId, null, 'all', 1, 100).then(function(list) {
+		//OrderCloud.Categories.ListChildren(parentId, null, 'all', 1, 100).then(function(list) {}
+		OrderCloud.Categories.List(null, 1, 100, null, null, {"parentID":parentId}, "all").then(function(list) {
 			console.log(list);
 			 function _getnode(node) {
                 

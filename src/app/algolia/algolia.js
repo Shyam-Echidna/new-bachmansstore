@@ -219,7 +219,7 @@ function AlgoliaConfig($stateProvider) {
                   var defaultGroupedProd = [];
                      angular.forEach(imgcontentArray1, function(value, key){
                         var data;
-                        $.grep(value, function(e , i){ if(e.xp.IsDefaultProduct == 'true'){ 
+                        $.grep(value, function(e , i){ if(e.xp.IsDefaultProduct == 'true' || e.xp.IsDefaultProduct == true){ 
                           data = i;
                         }});
                        //var maxValue = _.max(value, _.property('StandardPriceSchedule.PriceBreaks[0].Price'));
@@ -471,7 +471,7 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
 
 }
 
-function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResult,ProductResultsWithVarients, /*InformationSearchResult,*/ Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, alfcontenturl,OrderCloud,$sce, Underscore, $uibModal) {
+function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResult,ProductResultsWithVarients, /*InformationSearchResult,*/ Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, $rootScope, alfcontenturl,OrderCloud,$sce, Underscore, $uibModal) {
     var vm = this;
     $rootScope.showBreadCrumb = true;
     vm.FiltersObject = FiltersObject;

@@ -20,37 +20,221 @@ function PlpConfig($stateProvider) {
         .state('plp', {
             parent: 'base',
            // url:"/plp",
-            url: '/plp/:catId',
+            //url: '/plp/:catId',
+            url: '/plp?catId&filters&productpage&infopage&tab&productssortby&infosortby&min&max',
            resolve: {
-               productImages: function(PlpService){
+               
+
+            DisjunctiveFacets: function ($stateParams) {
+                if ($stateParams.filters) {
+                    var result = [];
+                    var filterArray = $stateParams.filters.split(',');
+                    var firstDisjunctive = filterArray[0].split(":")[0];
+                    result.push(firstDisjunctive);
+                    filterArray.forEach(function (x) {
+                        if (x.split(":")[0] != firstDisjunctive) {
+                            result.push(x.split(":")[0])
+                        }
+                    });
+                    return result;
+                } else {
+                    return null;
+                }
+
+
+            },
+            PriceFilterString: function($stateParams) {
+                var string = '';
+                if ($stateParams.min || $stateParams.max) {
+                    if ($stateParams.min && ! $stateParams.max) {
+                        string = 'Price>=' + $stateParams.min;
+                    } else if ($stateParams.max && !$stateParams.min) {
+                        string = 'Price<=' + $stateParams.max;
+                    } else {
+                        string = 'Price>=' + $stateParams.min + ' AND Price<=' + $stateParams.max;
+                    }
+                }
+                console.log(string);
+                return string;
+            },
+            FilterStrings: function ($stateParams, DisjunctiveFacets, PriceFilterString) {
+                //This function builds up the main query string and the lesser query string for the disjunctive facet search
+                // learn more about disjunctive searching here... https://www.algolia.com/doc/search/filtering-faceting#disjunctive-faceting
+                if (!$stateParams.filters) {
+                    return [];
+                }
+                 else {
+                    var filterArray = $stateParams.filters.split(',');
+                    var facetObject = {};
+                    filterArray.forEach(function (d) {
+                        var keyVal = d.split(":");
+                        if (!facetObject[keyVal[0]]) {
+                            facetObject[keyVal[0]] = [];
+                        }
+                        facetObject[keyVal[0]].push(keyVal[1]);
+                    });
+                    var primaryDisjunctiveFacetObject = {};
+                    var secondaryDisjunctiveFacetObject = {};
+                    angular.copy(facetObject, primaryDisjunctiveFacetObject);
+                    angular.copy(facetObject, secondaryDisjunctiveFacetObject);
+                    var loopArray = [facetObject];
+                    if (DisjunctiveFacets.length > 1) {
+                        delete primaryDisjunctiveFacetObject[DisjunctiveFacets[0]];
+                        delete primaryDisjunctiveFacetObject[DisjunctiveFacets[1]];
+                        delete secondaryDisjunctiveFacetObject[DisjunctiveFacets[1]];
+                        loopArray.push(primaryDisjunctiveFacetObject, secondaryDisjunctiveFacetObject);
+                    } else if (DisjunctiveFacets.length > 0) {
+                        delete primaryDisjunctiveFacetObject[DisjunctiveFacets[0]];
+                        loopArray.push(primaryDisjunctiveFacetObject);
+                    }
+                    var result = [];
+                    for (var i = 0; i < loopArray.length; i++) {
+                        var filterString = '';
+                        var first = true;
+                        for (var key in loopArray[i]) {
+                            filterString += first ? '' : ' AND ';
+                            first = false;
+                            if (facetObject[key].length > 1) {
+                                var tempString = "(";
+                                var firstMultiple = true;
+                                facetObject[key].forEach(function (e) {
+                                    tempString += firstMultiple ? "" : " OR ";
+                                    firstMultiple = false;
+                                    var keyString = "";
+                                    if (key.indexOf(" ") > -1) {
+                                        keyString = '"' + key + '"';
+                                    } else {
+                                        keyString = key;
+                                    }
+                                    tempString += (typeof e == 'string' && e.indexOf(" ") > -1 && e.indexOf(" to ") == -1) ? keyString + ':' + '"' + e + '"' : keyString + ":" + e;
+                                });
+                                tempString += ')';
+                                filterString += tempString;
+                            } else {
+                                var newVal;
+                                if (typeof facetObject[key][0] == 'string' && facetObject[key][0].indexOf(" ") > -1 && facetObject[key][0].indexOf(" to ") == -1) {
+                                    newVal = key.indexOf(" ") > -1 ? '"' + key + '"' + ":" + '"' + facetObject[key][0] + '"' : key + ":" + '"' + facetObject[key][0] + '"';
+
+                                } else {
+                                    newVal = key.indexOf(" ") > -1 ? '"' + key + '"' + ":" + facetObject[key][0] : key + ":" + facetObject[key][0];
+                                }
+                                filterString += newVal;
+                            }
+                        }
+                        if (PriceFilterString == '') {
+                            result.push(filterString);
+                        }
+                        else if (filterString.length > 0) {
+                            result.push(filterString + ' AND ' + PriceFilterString);
+                        } else {
+                            result.push(PriceFilterString);
+                        }
+
+                    }
+                    console.log(result);
+                    return result;
+                }
+
+            },
+            ProductSearchResult: function (AlgoliaSvc, $stateParams, $q, DisjunctiveFacets, FilterStrings, PriceFilterString) {
+                var index;
+                if ($stateParams.productssortby) {
+                    index = AlgoliaSvc.GetIndex($stateParams.productssortby);
+                } else {
+                    index = AlgoliaSvc.GetIndex('products');
+                }
+
+
+                var deferred = $q.defer();
+                var queue = [];
+                var facets = ["*"].concat(DisjunctiveFacets);
+                var count = 0;
+                if (FilterStrings.length == 0) {
+                    AlgoliaSvc.Search(index, $stateParams.catId, null, {
+                        facets: "*",
+                        filters:PriceFilterString,
+                        hitsPerPage: 9,
+                        page: $stateParams.productpage - 1 || 0
+                    })
+                        .then(function(d) {
+                            deferred.resolve(d);
+                        })
+                } else {
+                    FilterStrings.forEach(function (e) {
+                        queue.push(function () {
+                            var d = $q.defer();
+                            AlgoliaSvc.Search(index, $stateParams.catId, null, {
+                                facets: facets[count],
+                                hitsPerPage: 9,
+                                filters: e,
+                                page: $stateParams.productpage - 1 || 0
+                            })
+                                .then(function (data) {
+                                    d.resolve(data);
+                                });
+                            return d.promise;
+                        }());
+                        count++;
+                    });
+                    $q.all(queue)
+                        .then(function (data) {
+                            var result = data[0];
+                            if (DisjunctiveFacets.length > 1) {
+                                result.facets[DisjunctiveFacets[0]] = data[1].facets[DisjunctiveFacets[0]];
+                                result.facets[DisjunctiveFacets[1]] = data[2].facets[DisjunctiveFacets[1]];
+                            } else if (DisjunctiveFacets.length > 0) {
+                                result.facets[DisjunctiveFacets[0]] = data[1].facets[DisjunctiveFacets[0]];
+                            }
+                            deferred.resolve(result);
+                        });
+                }
+                return deferred.promise;
+
+            },
+              productImages: function(PlpService){
                  var ticket = localStorage.getItem("alf_ticket");
                  return PlpService.GetProductImages(ticket).then(function(res){
                  return res.items;
                  });
                  },
-                 productList: function (OrderCloud, $stateParams,productImages, alfcontenturl, Underscore) {
-                     return OrderCloud.Me.ListProducts(null, 1, 100, null, null, null, $stateParams.catId).then(function(res){
+            ProductResultsWithVarients : function(productImages,ProductSearchResult, PdpService, $q, Underscore, alfcontenturl){
+                     console.log("200 ===",ProductSearchResult);
+                      var deferred = $q.defer();
+                var ajaxarr = [];
+                 angular.forEach(ProductSearchResult.hits, function (node) {
+                   var promise =  PdpService.GetSeqProd(node.SequenceNumber)
+                   ajaxarr.push(promise);
+                 });
+                 $q.all(ajaxarr).then(function(items){
+                    console.log("items==",items);
                       var ticket = localStorage.getItem("alf_ticket");      
                       var imgcontentArray = [];
-                      for(var i=0;i<res.Items.length;i++){
-                        angular.forEach(Underscore.where(productImages, {title: res.Items[i].ID}), function (node) {
+                     var imgcontentArray1=[];
+                      for(var i=0;i<items.length;i++){
+                        var item = items[i].Items;
+                        for(var j=0;j<item.length;j++){
+                    angular.forEach(Underscore.where(productImages, {title: item[j].ID}), function (node) {
                             node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                            imgcontentArray.push (node);
+                            item[j].imgcontent = node;
+                           imgcontentArray.push (item[j]);
                         });
-                        res.Items[i].imgContent = imgcontentArray;
-                        imgcontentArray= [];
-                      }
-                      var groupedProducts = _.groupBy(res.Items, function(item) { 
-                        return item.xp.SequenceNumber;
-                      });
-                     groupedProducts = Object.keys(groupedProducts).map(function (key) {return groupedProducts[key]});
-                     console.log('Sequence grouped Products',groupedProducts);
-                     var defaultGroupedProd = [];
-                     angular.forEach(groupedProducts, function(value, key){
+                   
+                    
+                    }
+                    imgcontentArray1.push(imgcontentArray);
+                    imgcontentArray = []; 
+                }
+                console.log("items after ==",imgcontentArray1);
+                  var defaultGroupedProd = [];
+                     angular.forEach(imgcontentArray1, function(value, key){
                         var data;
-                        $.grep(value, function(e , i){ if(e.xp.IsDefaultProduct == 'true'){ 
+                        $.grep(value, function(e , i){ if(e.xp.IsDefaultProduct == 'true' || e.xp.IsDefaultProduct == true){ 
                           data = i;
-                        }});
+                        }
+                    });
+                        if(data == undefined){
+                            console.log("value==",value);
+                        }
                        //var maxValue = _.max(value, _.property('StandardPriceSchedule.PriceBreaks[0].Price'));
                       // var maxDate = _(value).map('StandardPriceSchedule.PriceBreaks[0]').flatten().max(Price);
                         var lowest = Number.POSITIVE_INFINITY;
@@ -62,28 +246,150 @@ function PlpConfig($stateProvider) {
                             if (tmp < lowest) lowest = tmp;
                             if (tmp > highest) highest = tmp;
                         });
-                        
-                        var price = "$"+lowest+" - $"+highest;
-                        
-                        var baseData;
-                         $.grep(value, function(e , i){ if(e.xp.IsBaseProduct  == 'true'){ 
-                          baseData = i;
-                        }});
-                         value[baseData].priceRange = price;
-                        angular.forEach(Underscore.where(productImages, {title: value[0].xp.ProductCode}), function (node) {
-                            value[baseData].xp.BaseImageUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                           
-                        });
+                        var price;
+                        if(lowest !=highest){
+                            price = "$"+lowest+" - $"+highest;
+                        }
+                        else{
+                           price = "$"+lowest; 
+                        }
+                       /* var price;
+ +                         if(lowest != highest){ //check prices are different
+ +                          price = "$"+lowest+" - $"+highest;
+ +                         }else{
+ +                           price = "$"+lowest;
+ +                         }*/
+                        //var price = "$"+lowest+" - $"+highest;
+                        value[data].priceRange = price;
                           var b = value[data];
                           value[data] = value[0];
                           value[0] = b;
                           defaultGroupedProd.push(value);
                      });
-                    console.log("default sequence grouped prod", defaultGroupedProd);
-                      return defaultGroupedProd;
-                      //test
+                     console.log("final ==",defaultGroupedProd);
+                      deferred.resolve(defaultGroupedProd);
+                 });
+                return deferred.promise;
+            },
+            ProductResultsWithPriceWindow: function($stateParams, PriceFilterString, AlgoliaSvc, FilterStrings, ProductSearchResult) {
+                var index;
+                if ($stateParams.productssortby) {
+                    index = AlgoliaSvc.GetIndex($stateParams.productssortby);
+                } else {
+                    index = AlgoliaSvc.GetIndex('products');
+                }
+                if (PriceFilterString) {
+                    return AlgoliaSvc.Search(index, $stateParams.catId, null, {
+                        facets: "*",
+                        filters: FilterStrings[0] ? FilterStrings[0].replace(" AND " + PriceFilterString, "").replace(PriceFilterString, "") : "",
+                        hitsPerPage: 3,
+                        page: $stateParams.productpage - 1 || 0
                     })
-                 }
+                        .then(function(d) {
+                            if (d.hits.length < 3) {
+                                ProductSearchResult.NotEnoughForPricing = true;
+                            }
+                            if (!ProductSearchResult.facets_stats) {
+                                ProductSearchResult.facets_stats = {Price: {}};
+                            }
+                            ProductSearchResult.facets_stats.Price.ceiling = d.facets_stats.Price.max;
+                            ProductSearchResult.facets_stats.Price.floor = d.facets_stats.Price.min;
+                        })
+                }
+
+            },
+        /*    InformationSearchResult: function(AlgoliaSvc, $stateParams) {
+                var infoIndex;
+                if ($stateParams.infosortby) {
+                    infoIndex = AlgoliaSvc.GetIndex($stateParams.infosortby);
+                } else {
+                    infoIndex = AlgoliaSvc.GetIndex('Information');
+                }
+                return AlgoliaSvc.Search(infoIndex, $stateParams.searchterm, null, {
+                    hitsPerPage: 10,
+                    page: $stateParams.infopage - 1 || 0
+                })
+                    .then(function(data) {
+                        return data;
+                    })
+            },*/
+            CurrentCatgory: function($stateParams, OrderCloud, $q){
+              return OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function(res){
+              return res;
+              });  
+
+            },
+            FacetList: function(ProductSearchResult, $stateParams, OrderCloud, $q) {
+                 var deferred = $q.defer();
+                if ($stateParams.filters) {
+                    var tempArray = $stateParams.filters.split(",");
+                    tempArray.forEach(function(e) {
+                        if (!ProductSearchResult.facets[e.split(":")[0]]) {
+                            ProductSearchResult.facets[e.split(":")[0]] = {};
+                            ProductSearchResult.facets[e.split(":")[0]][e.split(":")[1]] = 0;
+                        }
+                        else if (ProductSearchResult.facets[e.split(":")[0]] && !ProductSearchResult.facets[e.split(":")[0]][e.split(":")[1]]) {
+                            console.log(e.split(":")[0]);
+                            ProductSearchResult.facets[e.split(":")[0]][e.split(":")[1]] = 0;
+                        }
+                    });
+                }
+                console.log(ProductSearchResult.facets);
+                OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function(res){
+
+                     OrderCloud.Categories.List(null, 1, 100, null, null, {"parentID":res.ParentID}, "all").then(function(res){
+                        console.log("Categories === ", res);
+                        var categoryList  = _.pluck(res.Items, 'Name');
+                        console.log("categoryList == ",categoryList);
+                          var result = [];
+
+                for (var i in ProductSearchResult.facets) {
+                    var tempObj = {
+                        name : i
+                    };
+                    if(i == "Category"){
+                        tempObj.list = categoryList;
+                    }
+                    else
+                    {
+                    var tempArray = [];
+                    for (var x in ProductSearchResult.facets[i]) {
+                        tempArray.push(x);
+                    }
+                    tempObj.list = tempArray;
+                }
+                    result.push(tempObj);
+                }
+                deferred.resolve(result);
+                });
+
+                });
+              return deferred.promise;
+            },
+            Selections: function ($stateParams) {
+                var result = [];
+                if ($stateParams.filters) {
+                    var arraySplit = $stateParams.filters.split(",");
+                    arraySplit.forEach(function(e) {
+                        result.push({"facetname":e.split(":")[0],"value":e.split(":")[1]})
+                    })
+                }
+                return result;
+            },
+            FiltersObject: function ($stateParams) {
+                var result = {};
+                if ($stateParams.filters) {
+                    var arraySplit = $stateParams.filters.split(",");
+                    arraySplit.forEach(function (e) {
+                        var keyValArray = e.split(":");
+                        if (!result[keyValArray[0]]) {
+                            result[keyValArray[0]] = {};
+                        }
+                        result[keyValArray[0]][keyValArray[1]] = true;
+                    })
+                }
+                return result;
+            }
 
             },
             templateUrl: 'plp/templates/plp.tpl.html',
@@ -338,14 +644,104 @@ function _getProductList(res, productImages){
 }
 
 
-function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, productList, $scope, $rootScope, alfcontenturl,OrderCloud,$sce) {
+function PlpController(FacetList, CurrentCatgory,ProductResultsWithVarients, Selections, ProductSearchResult, SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, /*productList, */$scope, alfcontenturl,OrderCloud,$sce) {
 
     var vm = this;
-    $rootScope.showBreadCrumb = true;
-    vm.productList = productList;
+   vm.productList = ProductResultsWithVarients;
+    vm.ProductResults = ProductSearchResult;
         // START: function for facet selection logic
-    vm.selection=[];
+      //  vm.Selections = [];
+         vm.Selections = Selections;
+         vm.currentProductPage = $stateParams.productpage;
+   console.log("CurrentCatgory==",CurrentCatgory);
+   vm.CurrentCatgory = CurrentCatgory;
+ vm.CustomFacetList = FacetList;
+ vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+  vm.toggleFacet = function(facet, value) {
+        var currentFilter = $stateParams.filters;
+        if (!currentFilter) {
+             currentFilter =  "Category" + ':' + CurrentCatgory.Name;
+             currentFilter += ',' + facet + ':' + value;
+            
+        } else {
+            if (currentFilter.indexOf(facet + ':' + value) > -1) {
+                currentFilter = currentFilter.replace(facet + ":" + value + ",", "");
+                currentFilter = currentFilter.replace(facet + ":" + value, "");
+            } else {
+                currentFilter += ',' + facet + ':' + value;
+                }
+            }
+        if (currentFilter.slice(-1) == ",") {
+            console.log('hit');
+            currentFilter = currentFilter.substring(0, currentFilter.length - 1);
 
+        }
+        $state.go('plp', {
+            filters: currentFilter,
+            productpage: vm.currentProductPage || 1,
+            infopage: vm.currentInfoPage || 1,
+            tab: vm.activeTab,
+            infosortby: vm.infoSortTerm,
+            productssortby: vm.productSortTerm/*,
+            min: $stateParams.min || null,
+            max: $stateParams.max || null*/
+        },
+            {reload: true});
+    };
+     vm.changePage = function() {
+        $state.go('plp', {
+            filters: $stateParams.filters,
+            productpage: vm.currentProductPage || 1,
+           // infopage: vm.currentInfoPage || 1,
+            //tab: vm.activeTab,
+           // infosortby: vm.infoSortTerm,
+           // productssortby: vm.productSortTerm,
+          min: $stateParams.min || null,
+            max: $stateParams.max || null
+        }, {reload: true})
+    };
+
+      vm.SortByProducts = function(indexName) {
+        $state.go('plp', {
+                filters: $stateParams.filters,
+                productpage: vm.currentProductPage || 1,
+                //infopage: vm.currentInfoPage || 1,
+               //tab: vm.activeTab,
+               // infosortby: vm.infoSortTerm,
+                productssortby: indexName,
+                min: $stateParams.min || null,
+                max: $stateParams.max || null
+            },
+            {reload: true})
+    };
+
+     vm.changePriceRange = function() {
+        console.log('hehehehe');
+        var newMin;
+        var newMax;
+        if (vm.sliderValue[0] != vm.priceValue[0]) {
+            newMin = vm.sliderValue[0];
+        } else {
+            newMin = $stateParams.min || null;
+        }
+        if (vm.sliderValue[1] != vm.priceValue[1]) {
+            newMax = vm.sliderValue[1]
+        } else {
+            newMax = $stateParams.max || null;
+        }
+
+        $state.go('plp', {
+                filters: $stateParams.filters,
+                productpage: vm.currentProductPage || 1,
+               // infopage: vm.currentInfoPage || 1,
+               // tab: vm.activeTab,
+               // infosortby: vm.infoSortTerm,
+                productssortby: vm.productSortTerm,
+                min: newMin,
+                max: newMax
+            },
+            {reload: true})
+    };
 
     //Function for clear all facets
     vm.clearSelection = function(){
@@ -368,7 +764,7 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
     }
 
 
-    vm.selectionLength = vm.selection.length;
+   // vm.selectionLength = vm.selection.length;
 
      /*var owl2 = angular.element("#owl-carousel-selected-cat");   
       owl2.owlCarousel({
@@ -406,39 +802,40 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
             $stage.width( elW );
         };
       }*/
+  vm.togglFaceteSelection = function(facetName, value) {
 
-      vm.togglFaceteSelection = function togglFaceteSelection(facetName, isFromTopBar) {
-        var idx = vm.selection.indexOf(facetName);
+        vm.toggleFacet(facetName, value);
+     /*   var idx = vm.selection.indexOf(facetName);
         // is currently selected
         if(isFromTopBar){
           vm.facetName[facetName] = false;
-           ///vm.facetOwlReinitialise();
+           vm.facetOwlReinitialise();
         }
         if (idx > -1) {
           vm.selection.splice(idx, 1);
-         //vm.facetOwlReinitialise();
+         vm.facetOwlReinitialise();
 
         }
         // is newly selected
         else {
           vm.selection.push(facetName);
-         //vm.facetOwlReinitialise();
-        }
+         vm.facetOwlReinitialise();
+        }*/
       };
 
       // END:function for facet selection logic
 
       // START: function for sort options selection
       var sortItems=[
-      {'value':'New','label':'New'},      
-      {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest'},
-      {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest'},
-      {'value':'BestSellers','label':'Best Sellers'},
-      {'value':'Local delivery','label':'Local delivery'},
-      {'value':'Nationwide delivery','label':'Nationwide delivery'},
-      {'value':'Most Popular','label':'Most Popular'},
-      {'value':'AZ','label':'A - Z'},
-      {'value':'ZA','label':'Z - A'},
+      {'value':'New','label':'New', 'index' : 'products'},      
+      {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest', 'index' : 'products_price_desc'},
+      {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest','index' : 'products_price_asc'},
+      {'value':'BestSellers','label':'Best Sellers', 'index' : 'products'},
+      {'value':'Local delivery','label':'Local delivery', 'index' : 'products'},
+      {'value':'Nationwide delivery','label':'Nationwide delivery', 'index' : 'products'},
+      {'value':'Most Popular','label':'Most Popular', 'index' : 'products'},
+      {'value':'AZ','label':'A - Z', 'index' : 'products'},
+      {'value':'ZA','label':'Z - A',  'index' : 'products_name_desc'},
 
       /*{'value':'BestSellers','label':'Best Sellers'},
       {'value':'Relevance','label':'Relevance'},
@@ -462,7 +859,7 @@ function PlpController(SharedData, $state, $uibModal,$q, Underscore, $stateParam
           vm.data = [{"name":"Bell","id":"K0H 2V5"},{"name":"Octavius","id":"X1E 6J0"},{"name":"Alexis","id":"N6E 1L6"},{"name":"Colton","id":"U4O 1H4"},{"name":"Abdul","id":"O9Z 2Q8"},{"name":"Ian","id":"Q7W 8M4"},{"name":"Eden","id":"H8X 5E0"},{"name":"Britanney","id":"I1Q 1O1"},{"name":"Ulric","id":"K5J 1T0"},{"name":"Geraldine","id":"O9K 2M3"},{"name":"Hamilton","id":"S1D 3O0"},{"name":"Melissa","id":"H9L 1B7"},{"name":"Remedios","id":"Z3C 8P4"},{"name":"Ignacia","id":"K3B 1Q4"},{"name":"Jaime","id":"V6O 7C9"},{"name":"Savannah","id":"L8B 8T1"},{"name":"Declan","id":"D5Q 3I9"},{"name":"Skyler","id":"I0O 4O8"},{"name":"Lawrence","id":"V4K 0L2"},{"name":"Yael","id":"R5E 9D9"},{"name":"Herrod","id":"V5W 6L3"},{"name":"Lydia","id":"G0E 2K3"},{"name":"Tobias","id":"N9P 2V5"},{"name":"Wing","id":"T5M 0E2"},{"name":"Callum","id":"L9P 3W5"},{"name":"Tiger","id":"R9A 4E4"},{"name":"Summer","id":"R4B 4Q4"},{"name":"Beverly","id":"M5E 4V4"},{"name":"Xena","id":"I8G 6O1"},{"name":"Yael","id":"L1K 5C3"},{"name":"Stacey","id":"A4G 1S4"},{"name":"Marsden","id":"T1J 5J3"},{"name":"Uriah","id":"S9S 8I7"},{"name":"Kamal","id":"Y8Z 6X0"},{"name":"MacKensie","id":"W2N 7P9"},{"name":"Amelia","id":"X7A 0U3"},{"name":"Xavier","id":"B8I 6C9"},{"name":"Whitney","id":"H4M 9U2"},{"name":"Linus","id":"E2W 7U1"},{"name":"Aileen","id":"C0C 3N2"},{"name":"Keegan","id":"V1O 6X2"},{"name":"Leonard","id":"O0L 4M4"},{"name":"Honorato","id":"F4M 8M6"},{"name":"Zephr","id":"I2E 1T9"},{"name":"Karen","id":"H8W 4I7"},{"name":"Orlando","id":"L8R 0U4"},{"name":"India","id":"N8M 8F4"},{"name":"Luke","id":"Q4Y 2Y8"},{"name":"Sophia","id":"O7F 3F9"},{"name":"Faith","id":"B8P 1U5"},{"name":"Dara","id":"J4A 0P3"},{"name":"Caryn","id":"D5M 8Y8"},{"name":"Colton","id":"A4Q 2U1"},{"name":"Kelly","id":"J2E 2L3"},{"name":"Victor","id":"H1V 8Y5"},{"name":"Clementine","id":"Q9R 4G8"},{"name":"Dale","id":"Q1S 3I0"},{"name":"Xavier","id":"Z0N 0L5"},{"name":"Quynn","id":"D1V 7B8"},{"name":"Christine","id":"A2X 0Z8"},{"name":"Matthew","id":"L1H 2I4"},{"name":"Simon","id":"L2Q 7V7"},{"name":"Evan","id":"Z8Y 6G8"},{"name":"Zachary","id":"F4K 8V9"},{"name":"Deborah","id":"I0D 4J6"},{"name":"Carl","id":"X7H 3J3"},{"name":"Colin","id":"C8P 0O1"},{"name":"Xenos","id":"K3S 1H5"},{"name":"Sonia","id":"W9C 0N3"},{"name":"Arsenio","id":"B0M 2G6"},{"name":"Angela","id":"N9X 5O7"},{"name":"Cassidy","id":"T8T 0Q5"},{"name":"Sebastian","id":"Y6O 0A5"},{"name":"Bernard","id":"P2K 0Z5"},{"name":"Kerry","id":"T6S 4T7"},{"name":"Uriel","id":"K6G 5V2"},{"name":"Wanda","id":"S9G 2E5"},{"name":"Drake","id":"G3G 8Y2"},{"name":"Mia","id":"E4F 4V8"},{"name":"George","id":"K7Y 4L4"},{"name":"Blair","id":"Z8E 0F0"},{"name":"Phelan","id":"C5Z 0C7"},{"name":"Margaret","id":"W6F 6Y5"},{"name":"Xaviera","id":"T5O 7N5"},{"name":"Willow","id":"W6K 3V0"},{"name":"Alden","id":"S2M 8C1"},{"name":"May","id":"L5B 2H3"},{"name":"Amaya","id":"Q3B 7P8"},{"name":"Julian","id":"W6T 7I6"},{"name":"Colby","id":"N3Q 9Z2"},{"name":"Cole","id":"B5G 0V7"},{"name":"Lana","id":"O3I 2W9"},{"name":"Dieter","id":"J4A 9Y6"},{"name":"Rowan","id":"I7E 9U4"},{"name":"Abraham","id":"S7V 0W9"},{"name":"Eleanor","id":"K7K 9P4"},{"name":"Martina","id":"V0Z 5Q7"},{"name":"Kelsie","id":"R7N 7P2"},{"name":"Hedy","id":"B7E 7F2"},{"name":"Hakeem","id":"S5P 3P6"}];
  
           vm.viewby = 9;
-          vm.totalItems = productList.length;
+          vm.totalItems = ProductResultsWithVarients.length;
           vm.currentPage = 1;
           vm.itemsPerPage = vm.viewby;
           vm.maxSize = 5; //Number of pager buttons to show
@@ -918,31 +1315,31 @@ function ProductQuickViewController ($uibModal , SharedData){
                 selectedProduct : function(){
                   return SharedData.SelectedProductId;
                 },
-                // extraProductImages: function (PlpService) {
-                //   var ticket = localStorage.getItem("alf_ticket");
-                //   return PlpService.GetProductImages(ticket).then(function (res) {
-                //     return res.items;
-                //   });
-                // },
-                // extraProducts: function (extraProductImages, Underscore, PdpService, alfcontenturl) {
+                extraProductImages: function (PlpService) {
+                  var ticket = localStorage.getItem("alf_ticket");
+                  return PlpService.GetProductImages(ticket).then(function (res) {
+                    return res.items;
+                  });
+                },
+                extraProducts: function (extraProductImages, Underscore, PdpService, alfcontenturl) {
 
-                //   var imageData = PdpService.GetExtras()
-                //   var res = Object.keys(imageData).map(function (key) { return imageData[key] });;
-                //   var ticket = localStorage.getItem("alf_ticket");
-                //   var imgcontentArray = [];
-                //   for (var i = 0; i < res.length; i++) {
-                //     for (var j = 0; j < res[i].length; j++) {
-                //       angular.forEach(Underscore.where(extraProductImages, { title: res[i][j].Skuid }), function (node) {
-                //         node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                //         imgcontentArray.push(node);
-                //       });
-                //       res[i][j].imgContent = imgcontentArray;
-                //       imgcontentArray = [];
-                //     }
-                //   }
-                //   return res;
+                  var imageData = PdpService.GetExtras()
+                  var res = Object.keys(imageData).map(function (key) { return imageData[key] });;
+                  var ticket = localStorage.getItem("alf_ticket");
+                  var imgcontentArray = [];
+                  for (var i = 0; i < res.length; i++) {
+                    for (var j = 0; j < res[i].length; j++) {
+                      angular.forEach(Underscore.where(extraProductImages, { title: res[i][j].Skuid }), function (node) {
+                        node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                        imgcontentArray.push(node);
+                      });
+                      res[i][j].imgContent = imgcontentArray;
+                      imgcontentArray = [];
+                    }
+                  }
+                  return res;
 
-                // }
+                }
             }
         });
     };
@@ -1007,7 +1404,7 @@ function ProductQuickViewModalController(productDetail, selectedProduct, $timeou
   }
 
   //Extras for products
-  //vm.productExtras = extraProducts;
+  vm.productExtras = extraProducts;
   vm.setQvImage = function($event){
     $($event.target).parents('.category-pdt-carousel').find('#img-min-height img').attr('src',$($event.target).attr('src'));
   }
@@ -1354,15 +1751,17 @@ function ProdColorsDirective(){
                 return item.xp.SpecsOptions.Size;
             });
            var data;
-           $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true')  data = i;});
+           $.grep(groupedProducts, function(e , i){ if(e.xp.IsDefaultProduct == 'true' || e.xp.IsDefaultProduct == true)  data = i;});
            var dafaultSize = groupedProducts[data].xp.SpecsOptions.Size; // pushing default product on top
            
            var defaultSizeGroupedProd = sizeGroupedProducts[dafaultSize];
+           if(dafaultSize !== null){
            if(dafaultSize.toLowerCase() !== 'standard' ){
             angular.forEach(sizeGroupedProducts["STANDARD"], function(standardValue, key){
                 defaultSizeGroupedProd.push(standardValue); // pushing standard size products
             });
            }
+            
            angular.forEach(sizeGroupedProducts, function(sizeValue, key){
              if(dafaultSize !== key && key !== 'standard'){
                angular.forEach(sizeValue, function(prodVal, key){
@@ -1370,6 +1769,7 @@ function ProdColorsDirective(){
             });
             }
            });
+       }
 
            // Color filtering for default size criteria
            var unique = {};
@@ -1389,8 +1789,8 @@ function ProdColorsDirective(){
            $scope.selectColor = function($index, $event, prod){
             $scope.selectedColorIndex = $index;
              //console.log(prodId.imgContent);
-             $($event.target).parents('.product-box').find('img')[0].src = prod.imgContent[0].contentUrl;
-             $($event.target).parents('.product-box').find('.product-name-plp span').text(prod.Name);
+             $($event.target).parents('.product-box').find('img')[0].src = prod.imgcontent.contentUrl;
+             $($event.target).parents('.product-box').find('.product-name-plp span').text(capFil(prod.Name));
              //$($event.target).parents('.product-box').find('.Price').text('$'+prod.StandardPriceSchedule.PriceBreaks[0].Price);
              $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-sequence', prod.xp.SequenceNumber);
              $($event.target).parents('.product-box').find('.prodImagewrap').attr('data-prodid', prod.ID);
@@ -1400,3 +1800,11 @@ function ProdColorsDirective(){
            }
 
     }
+function capFil(inpt){
+  if (inpt !== null) {
+      return inpt.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+    return inpt;
+} 

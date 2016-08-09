@@ -79,7 +79,9 @@
                                         <label for="zip-code">ZIP Code</label>
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleReceipent.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleReceipent.checkDeliverymethod(lineitem)" ng-maxlength="5" ng-minlength="5"  autocomplete="off" required >
+
                                                 <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
                                             </div>
                                             <div class="col-md-8 col-lg-8 label-left-align" ng-show="multipleReceipent.sameDay">
@@ -99,8 +101,8 @@
                                 <div class="col-md-1 col-lg-1">
                                     <fieldset class="form-group">
                                         <label for="qty">Qty</label>
-                                        <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"/>
-                                        <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>" -->
+                                        <input type="text" id="qty" class="form-control" name="qtynumber"  ng-model="lineitem.Quantity" numbers-only   />
+                                        <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>"ng-pattern="'[1-9][0-9]{0,2}'" ng-maxlength="3" min='1' max="999"-->
                                     </fieldset>
                                 </div>
 
@@ -109,33 +111,33 @@
                     </div>
                     <div class="row radio-btn-group" ng-show="multipleReceipent.crdmsg">
 
-                        <div class="receipient-location" ng-init="multipleReceipent.addressType = 'Residence'">
+                        <div class="receipient-location" ng-init="lineitem.xp.addressType ? '' : lineitem.xp.addressType='Residence'">
                             <div class="radio-inline">
-                                <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoDeliveryExInStore}}">
                                 <label for="residnce-opt" id="first-label">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">Residence</span>
+                                    <span class="label-name">Residence <span ng-if="lineitem.xp.NoDeliveryExInStore">(Not Available)</span></span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoDeliveryExInStore}}">
                                 <label for="hospital-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">Hospital</span>
+                                    <span class="label-name">Hospital<span ng-if="lineitem.xp.NoDeliveryExInStore">(Not Available)</span></span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoDeliveryExInStore}}">
                                 <label for="church-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">Church</span>
+                                    <span class="label-name">Church<span ng-if="lineitem.xp.NoDeliveryExInStore">(Not Available)</span></span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoDeliveryExInStore}}">
                                 <label for="funeral-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">Funeral Home</span>
+                                    <span class="label-name">Funeral Home<span ng-if="lineitem.xp.NoDeliveryExInStore">(Not Available)</span></span>
                                 </label>
                             </div>
                             <!--<div class="radio-inline">
@@ -146,17 +148,17 @@
                                 </label>
                             </div>-->
                             <div class="radio-inline">
-                                <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoDeliveryExInStore}}">
                                 <label for="school-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">School</span>
+                                    <span class="label-name">School<span ng-if="lineitem.xp.NoDeliveryExInStore">(Not Available)</span></span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="call-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Will Call" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)">
+                                <input type="radio" id="call-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Will Call" ng-change="multipleReceipent.addressTypeChanged(lineitem,multipleReceipent.addressType)" ng-disabled="{{!!lineitem.xp.NoInStorePickUp}}">
                                 <label for="call-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
-                                    <span class="label-name">Will Call</span>
+                                    <span class="label-name">Will Call <span ng-if="lineitem.xp.NoInStorePickUp">(Not Available)</span></span>
                                 </label>
                             </div>
 
@@ -302,7 +304,7 @@
                                     </fieldset>
                                 </div>
                             </div>
-                            <div ng-show="multipleReceipent.name">
+                            <div ng-if="multipleReceipent.name">
                                 <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'|| multipleReceipent.addressType=='Will Call'">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <fieldset class="form-group">
@@ -335,7 +337,7 @@
                                 </div>
 
                             </div>
-                            <div ng-show="multipleReceipent.name">
+                            <div ng-if="multipleReceipent.name">
                                 <div class="row" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                          <fieldset class="form-group">
@@ -361,7 +363,7 @@
                                         <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country">
                                     </fieldset>
                                 </div>
-                                <div ng-show="multipleReceipent.name">
+                                <div ng-if="multipleReceipent.name">
                                     <div class="col-md-5 col-lg-5">
                                         <fieldset class="form-group" ng-show="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                             <label for="zip-code">ZIP Code</label>
@@ -500,7 +502,7 @@
                                             </span>
                                     </fieldset>
                                 </div>
-                                <div ng-show="multipleReceipent.name">
+                                <div ng-if="multipleReceipent.name">
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital'">
                                       <!--   <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
@@ -663,7 +665,7 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div ng-show="multipleReceipent.name">
+                                <div ng-if="multipleReceipent.name">
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" ng-if="multipleReceipent.addressType=='Funeral'|| multipleReceipent.addressType=='Church' || multipleReceipent.addressType=='Hospital' || multipleReceipent.addressType=='Will Call'">
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
@@ -751,7 +753,7 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal || !form1.$valid">Next</button>
+                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="!form1.$valid">Next</button>
                         <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(lineitem,$index)" ng-disabled="!form1.$valid" >Add</button>
                     </div>
 
@@ -769,13 +771,13 @@
                            <input  id="check{{$index+1}}" type="checkbox" ng-model="multipleReceipent.addAddress[$index]" ng-change="multipleReceipent.checkAddRecipient(lineitem,$index)" >
                            <div  class="Checkbox-visible"></div>
                         </div>
-                        <label for="check{{$index+1}}">Recipient {{$index+1}}</label>
+                        <label for="check{{$index+1}}">Recipient {{$index+1}} |{{lineitem.ShippingAddress.FirstName}}{{lineitem.ShippingAddress.LastName}}|{{lineitem.ShippingAddress.Zip}}</label>
                         <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span>
                     </p>
                 </uib-accordion-heading>
 
                 <div class="panel-body-content disable-fields">
-                    <a href="" class="view-address-link"><span class="svg-outer">
+                    <a href="" class="view-address-link" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'"><span class="svg-outer">
                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
@@ -787,7 +789,7 @@
                     </span> 
                     VIEW ADDRESS BOOK</a>
                     <div class="row name-block">
-                        <div class="col-md-12 col-lg-12">
+                        <div class="col-md-12 col-lg-12" ng-form="multirecipient">
                             <div class="row">
                                 <div class="col-md-3 col-lg-3">
                                     <fieldset class="form-group">
@@ -823,7 +825,8 @@
                                 <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                                     <fieldset class="form-group">
                                         <label for="qty">Qty</label>
-                                        <input type="number" id="qty" class="form-control" ng-model="lineitem.Quantity"  ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"/>
+                                        <input type="text" id="qty" class="form-control" ng-model="lineitem.Quantity"  numbers-only   />
+                                        <!--ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"-->
                                     </fieldset>
                                 </div>
 
@@ -836,28 +839,28 @@
 
                         <div class="receipient-location" >
                             <div class="radio-inline">
-                                <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence">
+                                <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" disabled>
                                 <label for="residnce-opt" id="first-label">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="label-name">Residence</span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" >
+                                <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" disabled>
                                 <label for="hospital-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="label-name">Hospital</span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" >
+                                <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" disabled>
                                 <label for="church-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="label-name">Church</span>
                                 </label>
                             </div>
                             <div class="radio-inline">
-                                <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral">
+                                <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral" disabled>
                                 <label for="funeral-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="label-name">Funeral Home</span>
@@ -865,7 +868,7 @@
                             </div>
                            
                             <div class="radio-inline">
-                                <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School">
+                                <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School" disabled>
                                 <label for="school-opt">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <span class="label-name">School</span>
@@ -925,7 +928,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" ng-form="multirecipient" >
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" >
                                   <!--   <fieldset class="form-group delivery-date">
                                          <label for="dDate">Delivery Date</label>
@@ -935,7 +938,7 @@
                                     </fieldset> -->
                                     <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
-                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-required="true" />
+                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleReceipent.DeliveryMethod== 'UPS' ? multipleReceipent.mindays.UPS : multipleReceipent.mindays.MinToday, startingDay: 1}" ng-change="multipleReceipent.checkSameIdSameAddress(lineitem)" ng-required="true" />
                                                 <span class="input-group-btn date-svg">
                                                     <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
                                                     <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
@@ -1002,7 +1005,7 @@
                                
 
                               
-                                <div ng-show="multipleReceipent.name">
+                                <div ng-if="multipleReceipent.name">
                                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5" >
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
@@ -1026,7 +1029,7 @@
                 <div class="row next-btn">
                    
                     <div class="col-md-12 col-lg-12 btn-click">
-                        <button class="add-btn"  ng-click="multipleReceipent.submitRecipientDetails(lineitem,$index);multipleReceipent.showNewRecipient" ng-disabled="multipleReceipent.notLocal ||!multipleReceipent.addAddress[$index]">Add</button>
+                        <button class="add-btn"  ng-click="multipleReceipent.submitRecipientDetails(lineitem,$index);multipleReceipent.showNewRecipient" ng-disabled="!multipleReceipent.addAddress[$index] || !multirecipient.$valid">Add</button>
                     </div>
 
 
@@ -1052,7 +1055,7 @@
                     <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                 </div>
                 <div class="col-md-6 col-lg-6 btn-click">
-                    <button class="next-btn" ng-click="multipleReceipent.closeTab()" ng-show="multipleReceipent.showNewRecipient1">CONTINUE SHOPPING</button>
+                    <button class="next-btn" ng-click="multipleReceipent.closeTab()" ng-show="!multipleReceipent.showNewRecipient">CONTINUE SHOPPING</button>
                     <!-- {{multipleReceipent.showNewRecipient1}} -->
                 </div>
             </div>
@@ -1111,57 +1114,58 @@
                             <div class="col-md-1 col-lg-1 hidden-xs hidden-sm">
                                 <fieldset class="form-group">
                                     <label for="qty">Qty</label>
-                                    <input type="number" id="qty" class="form-control" ng-model="multipleReceipent.line.Quantity" ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'" />
+                                    <input type="text" id="qty" class="form-control" ng-model="multipleReceipent.line.Quantity"  numbers-only  />
+                                    <!--ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"-->
                                 </fieldset>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row radio-btn-group">
+                <div class="row radio-btn-group" ng-if="multipleReceipent.crdmsg">
 
 
-                    <div class="receipient-location" ng-show="multipleReceipent.crdmsg">
+                    <div class="receipient-location" >
 
                         <div class="radio-inline">
-                            <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="residnce-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Residence" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{line.xp.NoDeliveryExInStore}}">
                             <label for="residnce-opt" id="first-label">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">Residence</span>
+                                <span class="label-name">Residence <span ng-if="!!line.xp.NoDeliveryExInStore">(Not Available)</span></span>
                             </label>
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="hospital-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Hospital" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{line.xp.NoDeliveryExInStore}}">
                             <label for="hospital-opt">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">Hospital</span>
+                                <span class="label-name">Hospital <span ng-if="!!line.xp.NoDeliveryExInStore">(Not Available)</span></span>
                             </label>
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="church-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Church" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{line.xp.NoDeliveryExInStore}}">
                             <label for="church-opt">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">Church</span>
+                                <span class="label-name">Church <span ng-if="!!line.xp.NoDeliveryExInStore">(Not Available)</span></span>
                             </label>
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="funeral-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Funeral" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{line.xp.NoDeliveryExInStore}}">
                             <label for="funeral-opt">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">Funeral Home</span>
+                                <span class="label-name">Funeral Home <span ng-if="!!line.xp.NoDeliveryExInStore">(Not Available)</span></span>
                             </label>
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="school-opt" name="optradio" ng-model="multipleReceipent.addressType" value="School" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{line.xp.NoDeliveryExInStore}}">
                             <label for="school-opt">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">School</span>
+                                <span class="label-name">School <span ng-if="!!line.xp.NoDeliveryExInStore">(Not Available)</span></span>
                             </label>
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" id="call-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Will Call" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)">
+                            <input type="radio" id="call-opt" name="optradio" ng-model="multipleReceipent.addressType" value="Will Call" ng-change="multipleReceipent.addressTypeChanged(multipleReceipent.line)" ng-disabled="{{!!line.xp.NoInStorePickUp}}">
                             <label for="call-opt">
                                 <span class="radioOutline"><span class="radioInside"></span></span>
-                                <span class="label-name">Will Call</span>
+                                <span class="label-name">Will Call <span ng-if="!!line.xp.NoInStorePickUp">(Not Available)</span></span>
                             </label>
                         </div>
                     </div>
@@ -1518,7 +1522,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row save-address">
+                        <div class="row save-address" ng-if="multipleReceipent.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'">
                             <div class="col-md-4 col-lg-4">
                                 <div class="Checkbox">
                                     <input type="checkbox" checked>
@@ -1582,7 +1586,7 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="multipleReceipent.notLocal || !form2.$valid">Next</button>
+                        <button class="next-btn" ng-show="multipleReceipent.crdmsg" ng-click="multipleReceipent.crdmsghide()" ng-disabled="!form2.$valid">Next</button>
                         <button class="add-btn" ng-show="multipleReceipent.crdmsg==false" ng-click="multipleReceipent.submitDetails(multipleReceipent.line,$index)" ng-disabled="!form2.$valid">Add</button>
                     </div>
                 </div>

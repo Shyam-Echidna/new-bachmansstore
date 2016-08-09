@@ -32,6 +32,17 @@
         margin-top: 5px;
         font: 0.875em @proxima-regular;
         color: #464646;
+        .link {
+            color: @font-purple-light;
+            border-bottom: 1px solid @font-purple-light;
+            &:hover {
+                color: @font-purple-dark;
+                border-bottom: 1px solid @font-purple-dark;
+            }
+        }
+    }
+    .purple-perks-disclaimer + .purple-perks-disclaimer {
+        margin-top: 15px;
     }
 }
 
