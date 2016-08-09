@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-7 col-xs-7">
                 <div class="detail-container">
-                    <h3 class="prod_title" >{{productQuickViewModal.productTitle | lowercase}}</h3>
+                    <h3 class="prod_title" >{{productQuickViewModal.allSizes[0].Name | lowercase}}</h3>
                     <h5 ng-if=" productQuickViewModal.allSizes[0].xp.SpecsOptions.Size !== null">Select Size</h5>
                     <div class="row radio-btn-container" >
                         <div class="col-md-4 col-lg-4" ng-repeat="opt in productQuickViewModal.allSizes" ng-if=" productQuickViewModal.allSizes[0].xp.SpecsOptions.Size !== null">

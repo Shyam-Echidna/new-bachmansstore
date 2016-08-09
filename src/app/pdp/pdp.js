@@ -1014,7 +1014,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			if(_obj.xp.SpecsOptions.Size === null || selectedSize === null){
 			    return (_obj.xp.SpecsOptions.Size == selectedSize)
 			}else{
-			    return (obj.xp.SpecsOptions.Size == selectedSize || obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
+			    return (_obj.xp.SpecsOptions.Size == selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
 			}
 		});
 		var imAvailableColors = angular.copy(availableColors);
