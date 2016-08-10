@@ -483,6 +483,9 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 				deferred.resolve();
 			} else {
 				var Obj = res;
+				if(Obj.xp.WishList=== undefined){
+                   Obj.xp.WishList=[];
+                 }
 				if (Obj.xp.WishList.indexOf(productID) < 0) {
 					if (!isOnload) {
 						Obj.xp.WishList.push(productID);
@@ -1106,7 +1109,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 					'<path d="M116.3,23.6L70.2,69.7l-8.7,8.7c-1.1,1.1-2.7,1.8-4.3,1.8s-3.2-0.6-4.3-1.8l-8.7-8.7l-23-23c-1.1-1.1-1.8-2.7-1.8-4.3 s0.6-3.2,1.8-4.3l-0.1,0.1c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8l27.5,27.3L107.6,15c1.1-1.1,2.7-1.8,4.3-1.8s3.2,0.6,4.3,1.8 l0,0c1.1,1.1,1.8,2.7,1.8,4.3S117.4,22.5,116.3,23.6z"/>' +
 					'</g>' +
 					'</svg>' +
-					'ADDED TO CART </span>');
+					'ADDED TO WISHLIST </span>');
 				//Product Added confirmation popup here
 			}
 			else if (item == false) {

@@ -994,7 +994,32 @@ vm.addresscont=function(profileData){
 }
 vm.saveaddresscont=function(){
 	vm.userData.Country = "US";
-	if(!vm.userData.xp.ContactAddr){
+
+	 OrderCloud.Me.Get().then(function(data) {
+	 	if(!data.xp.ContactAddr){
+	 			OrderCloud.Addresses.Create(vm.userData).then(function(res){
+			vm.profileData = res;
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("===>"+res);
+				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
+			});
+		});
+
+	 	}
+	 	else{
+	 			OrderCloud.Addresses.Update(data.xp.ContactAddr, vm.userData).then(function(res){
+			vm.profileData = res;
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("==-------==>"+res);
+				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
+			});
+		});
+
+	 	}
+    
+    })
+
+/*	if(!vm.userData.xp.ContactAddr){
 		OrderCloud.Addresses.Create(vm.userData).then(function(res){
 			vm.profileData = res;
 			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
@@ -1012,7 +1037,7 @@ else
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
-	}	
+	}	*/
 
 }
 //_------ END FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//

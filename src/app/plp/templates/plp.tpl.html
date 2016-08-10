@@ -39,7 +39,7 @@
 <div class="row selected-list hidden-xs hidden-sm target">
       <div class="col-sm-9 col-md-10 col-lg-10 left-part"> 
          <div class="row">
-            <div class="col-sm-4 col-md-3 col-lg-2">
+            <div class="col-sm-4 col-md-3 col-lg-2 mozProLightBold">
                <h4>Your Selections</h4>
             </div>
             <div class="col-sm-6 col-md-9 col-lg-10 list-items">
@@ -106,7 +106,7 @@
    <div class="row selected-list hidden-xs hidden-sm fixThisBar">
       <div class="col-sm-9 col-md-10 col-lg-10 left-part">
          <div class="row">
-            <div class="col-sm-4 col-md-3 col-lg-2">
+            <div class="col-sm-4 col-md-3 col-lg-2 mozProLightBold">
                <h4>Your Selections</h4>
             </div>
             <div class="col-sm-6 col-md-7 col-lg-8 list-items">
@@ -264,7 +264,7 @@
         </a>
       </div>
       <div class="algolia-facet-selections price-slider" uib-collapse="plp.facetBehavior['price'].close" ng-hide="plp.ProductResults.NotEnoughForPricing">
-        <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p> 
+        <p class="price-range"><span class="pull-left">${{plp.priceValue[0]}}</span><span class="pull-right">${{plp.priceValue[1]}}</span></p> 
         <slider ng-model="plp.sliderValue"
           on-stop-slide="plp.changePriceRange()"
           range="true"
@@ -638,7 +638,7 @@
                         </div> -->
                         <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
                         <div class="price-box">
-                          <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
+                          <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                           <p class="Price">{{prod.priceRange}}</p>
                         </div>
                         <!-- hover buttons -->
@@ -685,7 +685,7 @@
                            </div>
                            <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
                            <div class="price-box">
-                              <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
+                              <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
                            </div>
                            <!-- hover buttons -->

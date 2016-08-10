@@ -1999,6 +1999,8 @@ body.modal-open {
                 -ms-transform: translate(0%, -50%) rotate(180deg);
                 -webkit-transform: translate(0%, -50%) rotate(180deg);
                 transform: translate(0%, -50%) rotate(180deg);
+                font-size:0px;
+                line-height:0px;
               }
               &.pagination-next a{
                 color: transparent;
@@ -2012,6 +2014,8 @@ body.modal-open {
                 position: relative;
                 top: 2px;
                 background-repeat: no-repeat;
+                font-size:0px;
+                line-height:0px;
               }
             }
           }
@@ -5574,7 +5578,7 @@ body.modal-open {
                     border: 1px solid #cecece;
                 }
                 &.inActiveCircle{
-                    border: 1px solid #f1f1f1;
+                   // border: 1px solid #f1f1f1;
                 }
             }
         }
@@ -5657,3 +5661,10 @@ body.modal-open {
     background-repeat: no-repeat;
     background-size:contain;
   }
+//.ie, .firefox, .edge
+.firefox{
+    .mozProLightBold{
+        font-family:@proxima-light !important;
+        font-weight: 700 !important;
+    }  
+}

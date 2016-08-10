@@ -266,7 +266,7 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
                   FirstName: vm.newUser.Firstname,
                   LastName: vm.newUser.Lastname,
                   Email: vm.newUser.Email,
-                  Phone:vm.newUser.Phone1 + vm.newUser.Phone2 + vm.newUser.Phone3,
+                  Phone:'('+vm.newUser.Phone1+')' +' '+ vm.newUser.Phone2 + '-'+ vm.newUser.Phone3,
                   SecurityProfileID: "65c976de-c40a-4ff3-9472-b7b0550c47c3",
                   Active: true,
             xp:{
