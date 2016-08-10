@@ -148,7 +148,7 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
                vm.invaliduser = true;
                vm.lockedErr = ex.data.error;
                if(vm.lockedErr == "Exception of type 'Four51.DBExceptions+UserAccountLockedOut' was thrown."){
-                  vm.errormsg = "User Account is LockedOut";
+                  vm.errormsg = "You have exceeded the maximum log in attempts. Your account is locked, please contact Customer Representative.";
                }else if(vm.lockedErr == "Username not found or password incorrect."){
                   vm.errormsg = "Email or Password is incorrect";
                }

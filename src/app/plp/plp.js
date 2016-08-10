@@ -1465,7 +1465,8 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
     if (productID > 1) {
       WishListHandler(productID, false);
     } else {
-      alert('Please Select a product from available options');
+      //alert('Please Select a product from available options');
+      vm.cartErrPlp = 'Please Select a product from available options';
     }
   }
 

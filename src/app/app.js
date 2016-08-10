@@ -18,6 +18,7 @@ angular.module( 'orderCloud', [
         'ordercloud-auto-id',
         'ordercloud-credit-card',
         'ordercloud-tax',
+        'ordercloud-address-validation',
         'ordercloud-current-order',
         'ordercloud-address',
         'ordercloud-lineitems',
