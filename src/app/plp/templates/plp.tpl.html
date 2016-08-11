@@ -645,7 +645,7 @@
                     
                      <div ng-repeat="prod in groupedProducts  track by $index">
 
-                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}">
+                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}">
 
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
