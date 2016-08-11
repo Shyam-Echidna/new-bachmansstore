@@ -122,7 +122,7 @@
                     <div class="left-shopping" ng-repeat="(lineindex,line) in cart.lineVal">
                         <div class="client-info">
                              <!--<div class="client-info" ng-init="edit=true">-->
-                            <!--editreceipentpopup-->
+                            <!--editrecipientpopup-->
                             <!-- <div class="recipient-details">Recipient:
                         <span>
                         <input type="text" value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" /> 
@@ -170,8 +170,8 @@
                                 </div>-->
                             </div>
                             <div class="client-eidt">
-                                <a href="javascript:void(0)" ng-click="cart.editreceipentpopup(cart.groups[line])" >Edit</a>
-                                <!--<a href="javascript:void(0)" ng-click="edit=!edit; cart.editreceipent(cart.groups[line])" ng-show="edit==false">Save</a>-->
+                                <a href="javascript:void(0)" ng-click="cart.editrecipientpopup(cart.groups[line])" >Edit</a>
+                                <!--<a href="javascript:void(0)" ng-click="edit=!edit; cart.editrecipient(cart.groups[line])" ng-show="edit==false">Save</a>-->
                             </div>
                         </div>
 
@@ -264,14 +264,14 @@
                                                                             <div class="recipient-names">Recipient</div>
                                                                             <div class="recipient-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changereceipent in cart.lineVal track by $index" name="changereceipent">
-                                                                                        <input type="radio" id="cr{{$index}}" ng-click="cart.changeReceipentfun(lineItem, cart.groups[changereceipent][0])" value="changereceipent" name="check" ng-checked="cart.groups[changereceipent][0].ShippingAddress==lineItem.ShippingAddress">
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index" name="changerecipient">
+                                                                                        <input type="radio" id="cr{{$index}}" ng-click="cart.changeRecipientfun(lineItem, cart.groups[changerecipient][0])" value="changerecipient" name="check" ng-checked="cart.groups[changerecipient][0].ShippingAddress==lineItem.ShippingAddress">
                                                                                         <label for="cr{{$index}}">
 
                                                                                 <span class="radioOutline">
                                                                                     <span class="radioInside"></span>
                                                                                 </span>
-                                                                                <span class="label-text">{{cart.groups[changereceipent][0].ShippingAddress.FirstName +" "+ cart.groups[changereceipent][0].ShippingAddress.LastName }}</span>
+                                                                                <span class="label-text">{{cart.groups[changerecipient][0].ShippingAddress.FirstName +" "+ cart.groups[changerecipient][0].ShippingAddress.LastName }}</span>
                                                                               </label>
                                                                                     </li>
                                                                                 </ul>
@@ -281,7 +281,7 @@
                                                                             <div class="recipient-zip-code">Zip Code</div>
                                                                             <div class="zip-code-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changereceipent in cart.lineVal track by $index">{{cart.groups[changereceipent][0].ShippingAddress.Zip}}</li>
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index">{{cart.groups[changerecipient][0].ShippingAddress.Zip}}</li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -292,7 +292,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                            <div class="create-recipient" ng-click="cart.changereceipentpopup(lineItem)">
+                                                                            <div class="create-recipient" ng-click="cart.changerecipientpopup(lineItem)">
                                                                                 <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                      viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                                   <g>
@@ -422,13 +422,13 @@
                                                                             <div class="recipient-names">Recipient</div>
                                                                             <div class="recipient-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changereceipent in cart.lineVal track by $index" name="changereceipent">
-                                                                                        <input type="radio" ng-click="cart.changeReceipentfun(lineItem, cart.groups[changereceipent][0].ShippingAddress.FirstName)" value="line" name="check" ng-checked="changereceipent==line">
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index" name="changerecipient">
+                                                                                        <input type="radio" ng-click="cart.changeRecipientfun(lineItem, cart.groups[changerecipient][0].ShippingAddress.FirstName)" value="line" name="check" ng-checked="changerecipient==line">
                                                                                         <label for="">
                                                                                 <span class="radioOutline">
                                                                                     <span class="radioInside"></span>
                                                                                 </span>
-                                                                                <span class="label-text">{{changereceipent}}</span>
+                                                                                <span class="label-text">{{changerecipient}}</span>
                                                                             </label>
                                                                                     </li>
                                                                                 </ul>
@@ -438,7 +438,7 @@
                                                                             <div class="recipient-zip-code">Zip Code</div>
                                                                             <div class="zip-code-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changereceipent in cart.lineVal track by $index">{{cart.groups[changereceipent][0].ShippingAddress.Zip}}</li>
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index">{{cart.groups[changerecipient][0].ShippingAddress.Zip}}</li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -449,7 +449,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                            <div class="create-recipient" ng-click="cart.changereceipentpopup()">
+                                                                            <div class="create-recipient" ng-click="cart.changerecipientpopup()">
                                                                                 <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                      viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                                   <g>

@@ -3,7 +3,7 @@ angular.module('orderCloud')
 	.config(PdpConfig)
 	.factory('PdpService', PdpService)
 	.controller('PdpCtrl', PdpController)
-    .controller('MultipleReceipentCtrl', MultipleReceipentController)
+    .controller('MultipleRecipientCtrl', MultipleRecipientController)
     .controller('addedToCartCtrl1', addedToCartController1)
 	.directive('numbersOnly', numbersOnly)
 	;
@@ -670,7 +670,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		DisplaySelectedSize(color, $index);
 	}
 
-	vm.multireceipent = function () {
+	vm.multirecipient = function () {
 		$scope.items = "";
 
 		if (activeProduct) {
@@ -678,9 +678,9 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 				animation: true,
 				backdropClass: 'multiRecipentModal',
 				windowClass: 'multiRecipentModal',
-				templateUrl: 'pdp/templates/multireceipent.tpl.html',
-				controller: 'MultipleReceipentCtrl',
-				controllerAs: 'multipleReceipent',
+				templateUrl: 'pdp/templates/multirecipient.tpl.html',
+				controller: 'MultipleRecipientCtrl',
+				controllerAs: 'multipleRecipient',
 				resolve: {
 					items: function () {
 						//if (vm.DeliveryType) {
@@ -745,7 +745,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		}
 		else {
 			//alert("Please select prodcut");
-			vm.multireceipentSelectErr = "Please select product";
+			vm.multirecipientSelectErr = "Please select product";
 		}
 	}
 
@@ -1335,7 +1335,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	}
 }
 
-function MultipleReceipentController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order, $q, Signedin, LineItems, call,$cookieStore) {
+function MultipleRecipientController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, AddressValidationService, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order, $q, Signedin, LineItems, call,$cookieStore) {
 	var vm = this;
 	vm.oneAtATime = true;
 	vm.limit = 4;
@@ -1361,7 +1361,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 	vm.updateLinedetails = updateLinedetails;
 	vm.submitDetails = submitDetails;
 	vm.storesDetails = storesDetails;
-	vm.newreceipent = newreceipent;
+	vm.newrecipient = newrecipient;
 	vm.closeTab = closeTab;
 	vm.addedToCartPopUp = addedToCartPopUp;
 	vm.hospitalDetails = hospitalDetails;
@@ -1468,7 +1468,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 
 	function cancel() {
 		$uibModalInstance.dismiss('cancel');
-		//$scope.multipleReceipent.init();
+		//$scope.multipleRecipient.init();
 		call();
 	};
 	function crdmsghide() {
@@ -2025,7 +2025,7 @@ function MultipleReceipentController($uibModal, BaseService, $scope, $stateParam
 		vm.addedToCartPopUp();
 	}
 
-	function newreceipent() {
+	function newrecipient() {
 		var item = {
 			"ID": "",
 			"ProductID": items.ID,

@@ -254,7 +254,7 @@
 						}
 					}
 			}
-			.name {
+			.name, .nick {
 				padding-left: 0;
 				width: 17%;
 				.title {
@@ -269,7 +269,8 @@
 			}
 			.address {
 				padding-left: 0;
-				width: 38%;
+				/*width: 38%;*/
+				width: 21%;
 				.title {
 					font: 0.875em @proxima-light;
 					font-weight: bold;
@@ -450,7 +451,7 @@
 		.addr-book-list-item {
 			margin-bottom: 5px;
 			padding: 10px;
-			.default-address, .name, .address, .phone-number {
+			.default-address, .name, .address, .phone-number, .nick {
 				.title {
 					font: 0.75em @proxima-regular;
 				}
@@ -459,53 +460,46 @@
 				}
 			}
 			.default-address {
-    			width: 30%;
+    			width: 35%;
 			    margin-bottom: 15px;
+			    padding-right: 5px;
 				.title {
 					margin-bottom: 0;
 					/*font-size: 0.75em;*/
 				    position: relative;
-    				left: 30px;
+    				left: 20px;
+    				padding-right: 20px;
 				}
 				.Checkbox {
 					position: absolute;
 				    top: 0;
 				    left: 0;
+				    .Checkbox-visible {
+				    	width: 15px;
+				    	height: 15px;
+				    }
 				}
+			}
+			.nick {
+				width: 35%;
+			    margin-bottom: 15px;
+			    padding-right: 5px;
 			}
 			.name {
 				width: 30%;
 			    margin-bottom: 15px;
 			    float: right;
 			    padding: 0;
-				/*.title {
-					font-size: 0.75em;
-				}
-				.value {
-					font-size: 0.8125em;
-				}*/
 			}
 			.address {
 				width: 70%;
     			margin-bottom: 15px;
     			clear: both;
-				/*.title {
-					font-size: 0.75em;
-				}
-				.addr-line1, .addr-line2 {
-					font-size: 0.8125em;
-				}*/
 			}
 			.phone-number {
 				width: 30%;
     			padding: 0;
     			margin-bottom: 15px;
-				/*.title {
-					font-size: 0.75em;
-				}
-				.value {
-					font-size: 0.8125em;
-				}*/
 			}
 			.edit-delete {
 				width: 30%;
@@ -523,44 +517,6 @@
 			}
 		}
 	}
-	}
-}
-
-@media screen and (min-width:900px) and (max-width:962px) {
-	.address-book-container {
-		.row-address-search {
-			.search-box {
-			    width: 100%;
-			}
-			.add-button {
-				width: 22%;
-				display: block !important;
-				float: right;
-			}
-			.add-new-addr-cont {
-				margin-top: 10px;
-				.add-new-addr-div {
-					width: 100%;
-					.add-new-addr-form {
-						.phone-number {
-							input {
-								width: 22%;
-							}
-						}
-					}
-				}
-			}
-		}
-		.addr-book-list-cont {
-			.addr-book-list-item {
-				.address {
-					width: 35%;
-				}
-				.phone-number {
-					width: 18%;
-				}
-			}
-		}
 	}
 }
 
@@ -604,18 +560,74 @@
 			.addr-book-list-item {
 				padding: 7px;
 				.address {
-					width: 35%;
+					width: 22%;
 				}
 				.phone-number {
 					width: 18%;
 				}
-				.default-address, .name, .address, .phone-number {
-					padding-right: 10px;
+				.default-address, .name, .address, .phone-number, .nick {
+					padding-right: 5px;
+				}
+				.name, .nick {
+					width: 15%;
+				}
+				.default-address, .name, .address, .phone-number, .nick {
+					.title {
+						font-size: 0.8em;
+					}
+					.value, .addr-line1, .addr-line2, .addr-line3 {
+						font-size: 1em;
+					}
 				}
 			}
 		}
 	}
+	.address-book-container .row-address-search .adress-edit-container .add-new-addr-div .add-new-addr-form .phone-number
+	{
+	    width: 70% !important;
+	}
+	.address-book-container .row-address-search .add-new-addr-cont .add-new-addr-div .add-new-addr-form .phone-number {
+		width: 80%;
+	}
 }
-.address-book-container .row-address-search .adress-edit-container .add-new-addr-div .add-new-addr-form .phone-number{
-    width:auto;
+
+@media screen and (min-width:900px) and (max-width:962px) {
+	.address-book-container {
+		.row-address-search {
+			.search-box {
+			    width: 100%;
+			}
+			.add-button {
+				width: 22%;
+				display: block !important;
+				float: right;
+			}
+			.add-new-addr-cont {
+				margin-top: 10px;
+				.add-new-addr-div {
+					width: 100%;
+					.add-new-addr-form {
+						.phone-number {
+							input {
+								width: 22%;
+							}
+						}
+					}
+				}
+			}
+		}
+		.addr-book-list-cont {
+			.addr-book-list-item {
+				.address {
+					width: 22%;
+				}
+				.phone-number {
+					width: 18%;
+				}
+				.nick, .name {
+					width: 15%;
+				}
+			}
+		}
+	}
 }

@@ -4,10 +4,10 @@ angular.module('orderCloud')
     .controller('CartCtrl', CartController)
     .controller('MiniCartCtrl', MiniCartController)
     .controller('ProductRequestCtrl', ProductRequestController)
-    .controller('ChangeReceipentPopupCtrl', ChangeReceipentPopupController)
+    .controller('ChangeRecipientPopupCtrl', ChangeRecipientPopupController)
     .directive('ordercloudMinicart', OrderCloudMiniCartDirective)
     .factory('CartService', CartService)
-    .controller('EditReceipentPopupCtrl', EditReceipentPopupController)
+    .controller('EditRecipientPopupCtrl', EditRecipientPopupController)
 
     ;
 
@@ -252,14 +252,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.removeItem = removeItem;
     vm.pagingfunction = PagingFunction;
     vm.signnedinuser = LoggedinUser;
-    vm.editreceipent = editreceipent;
+    vm.editrecipient = editrecipient;
     vm.updateRecipientDetails = updateRecipientDetails;
     vm.getCityState = getCityState;
     vm.checkLineItemsAddress = checkLineItemsAddress;
     vm.changeDeliveryDate = changeDeliveryDate;
-    vm.changereceipentpopup = changereceipentpopup;
-    vm.editreceipentpopup = editreceipentpopup;
-    vm.changeReceipentfun = changeReceipentfun;
+    vm.changerecipientpopup = changerecipientpopup;
+    vm.editrecipientpopup = editrecipientpopup;
+    vm.changeRecipientfun = changeRecipientfun;
     vm.changeQuantity = changeQuantity;
 
     vm.changeDate = changeDate;
@@ -329,7 +329,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.linetotalvalue = 0;
     vm.lineVal = [];
     vm.lineTotal = {};
-    vm.changereceipentarr = [];
+    vm.changerecipientarr = [];
     for (var n in vm.groups) {
         vm.lineVal.push(n);
         vm.lineTotal[n] = _.reduce(_.pluck(data[n], 'LineTotal'), function (memo, num) { return memo + num; }, 0);
@@ -398,7 +398,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     // }
 
-    function editreceipent(data) {
+    function editrecipient(data) {
         console.log(data);
         var deferred = $q.defer();
         // var log = [];
@@ -435,13 +435,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     }
 
 
-    function changereceipentpopup(item) {
+    function changerecipientpopup(item) {
         $uibModal.open({
-            templateUrl: 'cart/templates/changereceipentpopup.tpl.html',
-            backdropClass: 'changereceipentpopup',
-            windowClass: 'changereceipentpopup',
-            controller: 'ChangeReceipentPopupCtrl',
-            controllerAs: 'changeReceipentPopup',
+            templateUrl: 'cart/templates/changerecipientpopup.tpl.html',
+            backdropClass: 'changerecipientpopup',
+            windowClass: 'changerecipientpopup',
+            controller: 'ChangeRecipientPopupCtrl',
+            controllerAs: 'changeRecipientPopup',
             resolve: {
                 Lineitem: function () {
                     return item;
@@ -450,13 +450,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         });
     }
 
-    function editreceipentpopup(data) {
+    function editrecipientpopup(data) {
         $uibModal.open({
-            templateUrl: 'cart/templates/editreceipentpopup.tpl.html',
-            backdropClass: 'changereceipentpopup',
-            windowClass: 'changereceipentpopup',
-            controller: 'EditReceipentPopupCtrl',
-            controllerAs: 'editReceipentPopup',
+            templateUrl: 'cart/templates/editrecipientpopup.tpl.html',
+            backdropClass: 'changerecipientpopup',
+            windowClass: 'changerecipientpopup',
+            controller: 'EditRecipientPopupCtrl',
+            controllerAs: 'editRecipientPopup',
             resolve: {
                 Lineitems: function () {
                     return data;
@@ -477,7 +477,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     })
 
 
-    function changeReceipentfun(lineitem, addressforlineitem) {
+    function changeRecipientfun(lineitem, addressforlineitem) {
         if (lineitem.ShippingAddress != addressforlineitem.ShippingAddress) {
             var data = []
             lineitem.ShippingAddress = addressforlineitem.ShippingAddress;
@@ -820,7 +820,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         return deferred.promise;
     }
 
-    console.log(angular.element(document.getElementById("changereceipentid")).scope());
+    console.log(angular.element(document.getElementById("changerecipientid")).scope());
     $rootScope.$on('newRecipientCreated', function (events, Lineitem) {
         var data = []
         data[0] = Lineitem;
@@ -833,7 +833,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
     $rootScope.$on('recipientEdited', function (events, Lineitems) {
 
-        vm.editreceipent(Lineitems);
+        vm.editrecipient(Lineitems);
     });
     function changeQuantity(lineItem) {
 
@@ -1117,7 +1117,7 @@ function ProductRequestController($uibModal, $scope, $stateParams, prodrequestda
         })
     }
 }
-function ChangeReceipentPopupController($uibModal, $scope, $uibModalInstance, Lineitem, $rootScope, CartService) {
+function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Lineitem, $rootScope, CartService) {
     var vm = this;
     vm.cancel = cancel;
     vm.getCityState = getCityState;
@@ -1158,7 +1158,7 @@ function ChangeReceipentPopupController($uibModal, $scope, $uibModalInstance, Li
         });
     }
 }
-function EditReceipentPopupController($uibModal, $scope, $uibModalInstance, Lineitems, $rootScope, CartService) {
+function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Lineitems, $rootScope, CartService) {
     var vm = this;
     vm.cancel = cancel;
     vm.getCityState = getCityState;

@@ -44,20 +44,21 @@ function CheckoutConfig($stateProvider) {
                 },
                 Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
                     var dfd = $q.defer();
-                    CurrentOrder.GetID()
-                        .then(function (orderID) {
-                            /*TaxService.GetTax(orderID)
-                                .then(function() {
-                                    OrderCloud.Orders.Get(orderID)
-                                        .then(function (order) {
-                                            dfd.resolve(order);
-                                        });
-                                });*/
-                                dfd.resolve(orderID);
-                        })
-                        .catch(function () {
-                            dfd.resolve();
+                    CurrentOrder.GetID().then(function (orderID) {
+                        console.log("orderID",orderID);
+//                            TaxService.GetTax(orderID)
+//                                .then(function() {
+                        OrderCloud.Orders.Get(orderID).then(function (order) {
+                            console.log("order",order);
+                            dfd.resolve(order);
+                        }).catch(function () {
+                            dfd.resolve(null);
                         });
+//                                });
+                    })
+                    .catch(function () {
+                        dfd.resolve();
+                    });
                     return dfd.promise;
                 },
 				Buyers: function (OrderCloud, $q) {
@@ -95,10 +96,11 @@ function CheckoutConfig($stateProvider) {
 			}
 		})
 }
-function checkOutService($q, $http) {
+function checkOutService($q, $http,OrderCloud) {
 	var service = {
 		getCityState: _getCityState,
-		getSetLineItem: _getSetLineItem
+		getSetLineItem: _getSetLineItem,
+        createCreditCard:_createCreditCard
 	}
 	function _getCityState(zip) {
 		var defered = $q.defer();
@@ -128,9 +130,16 @@ function checkOutService($q, $http) {
 			lineitem: line
 		}
 	}
-	return service
+    function _createCreditCard(data){
+        var defered = $q.defer();
+        OrderCloud.CreditCards.Create(data).then(function (response) {
+            defered.resolve(response);	
+        });
+        return defered.promise;
+    }
+	return service;
 }
-function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid) {
+function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid,checkOutService) {
     console.log(LoggedinUser);
 	var vm = this;
 	var date = new Date();
@@ -161,7 +170,15 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.init = init;
 	vm.creditcards = CreditCard;
 	vm.signnedinuser = LoggedinUser;
-	vm.updateLinedetails = updateLinedetails
+	vm.updateLinedetails = updateLinedetails;
+    vm.bachmanscharge = bachmanscharge;
+    if(vm.signnedinuser.ID !== "gby8nYybikCZhjMcwVPAiQ"){
+        vm.openACCItems.name = 'delivery';
+        vm.openACCItems['signinFunc'] = true;
+        vm.user = LoggedinUser.LastName+" "+LoggedinUser.FirstName
+        lineItemsData();
+        vm.bachmanscharge();    
+    }
 	vm.init();
 	console.log("vm.creditcards", vm.creditcards);
     $rootScope.$on("ChangedDetails", function (events, lineitem) {
@@ -172,7 +189,15 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		if (user == 'Guest') {
 			vm.signin = false;
 			vm.delivery = true;
-			vm.lineItems = LineItems.Items;
+            lineItemsData();
+            vm.openACCItems.name = 'delivery';
+            vm.openACCItems['signinFunc'] = true;
+			console.log("lineItems", vm.lineItems);
+		}
+	}
+
+    function lineItemsData(){
+        vm.lineItems = LineItems.Items;
 			angular.forEach(vm.lineItems, function (val, key, obj) {
 				if (val.xp.deliveryDate)
 					val.xp.deliveryDate = new Date(val.xp.deliveryDate);
@@ -186,12 +211,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
 
 			});
-            vm.openACCItems.name = 'delivery';
-            vm.openACCItems['signinFunc'] = true;
-			console.log("lineItems", vm.lineItems);
-		}
-	}
-
+        
+    }
 	function changedeliveryDate(line, date) {
 		if (line.xp.MinDays.MinToday) {
 			var a = new Date(line.xp.MinDays.MinToday);
@@ -241,7 +262,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName;
 			}
 		});
-		console.log(vm.orderdata);
+		console.log(vm.orderdata.ID);
 		vm.groups = data;
 		vm.linetotalvalue = 0;
 		vm.lineVal = [];
@@ -264,13 +285,12 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 					newline[i].ShippingAddress = newline[0].ShippingAddress
 					newline[i].xp = newline[0].xp;
 				}
-
 				OrderCloud.LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
 					console.log("LineItems Data", dat);
 					OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
 						console.log("1234567890", data);
                         vm.openACCItems.name = 'payment';
-                        vm.openACCItems['delivery'] = true;
+                        vm.openACCItems['deliveryFunc'] = true;
 						alert("Data submitted successfully");
 
 					});
@@ -283,14 +303,106 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
 					console.log("1234567890", data);
                     vm.openACCItems.name = 'payment';
-                    vm.openACCItems['delivery'] = true;
+                    vm.openACCItems['deliveryFunc'] = true;
 					alert("Data submitted successfully");
 
 				});
 			});
 		}
+        vm.openACCItems.name = 'payment';
+        vm.openACCItems['deliveryFunc'] = true;
 
 	}
+    
+    vm.paymentInfoReview = function(addPaymentInfo){
+        console.log("giftCard",vm.giftCardData);
+        console.log("bachmanscharge",vm.bachmansChargeData);
+        console.log("addPaymentInfo",vm.addPaymentInfo);
+        var cards = {
+           "Electron": /^(4026|417500|4405|4508|4844|4913|4917)\d+$/,
+           "Maestro": /^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/,
+           "Dankort": /^(5019)\d+$/,
+           "Interpayment": /^(636)\d+$/,
+           "Unionpay": /^(62|88)\d+$/,
+           "Visa": /^4[0-9]{12}(?:[0-9]{3})?$/,
+           "MasterCard": /^5[1-5][0-9]{14}$/,
+           "AmericanExpress": /^3[47][0-9]{13}$/,
+           "Diners": /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+           "Discover": /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+           "Jcb": /^(?:2131|1800|35\d{3})\d{11}$/
+        };
+        var defered = $q.defer();
+        for(var key in cards) {
+            if(cards[key].test(addPaymentInfo.creditCardNumber)) {
+                vm.addPaymentInfo.cardType = key;
+            }
+        }
+        var createCreditCard = {
+          "Token": "…",
+          "CardType": "…",
+          "PartialAccountNumber": "…",
+          "CardholderName": "…",
+          "ExpirationDate": null,
+          "xp": null
+        }
+        checkOutService.createCreditCard(createCreditCard).then(function(data){
+            console.log(data);
+            vm.openACCItems.name = 'review';
+            vm.openACCItems['paymentFunc'] = true;
+        });
+        
+    }
+    
+    vm.validateBachmanCharges = function(bcdata){
+        if(bcdata && bcdata.bachmanscharge){
+            if(bcdata.bachmanscharge=="useExisting"){
+                var d1 = new Date();
+                var d2 = new Date(vm.bachmanschargeacc.StartDate);
+                if(d1>d2){
+                    vm.bachmansChargesApplied = true;
+                    vm.bachmansChargesAppliedAmount = vm.orderdata.Subtotal;
+                }
+            }else if(bcdata.bachmanscharge=="custom" && bcdata.customChargeCode){
+               var d1 = new Date();
+                var d2 = new Date(vm.bachmanschargeacc.StartDate);
+                if(d1>d2){
+                    if(bcdata.customChargeCode > vm.orderdata.Subtotal){
+                        vm.bachmansChargesApplied = true;
+                        vm.bachmansChargesAppliedAmount = bcdata.customChargeCode;
+                    }else{
+                        alert("entered amount is greaterthan total");
+                    }
+                }
+            }
+        }
+    }
+    
+    vm.validateGiftCard = function(giftCardData){
+     //   if(LoggedinUser.ID == "gby8nYybikCZhjMcwVPAiQ"){
+            if(giftCardData && giftCardData.giftCardno){
+                OrderCloud.SpendingAccounts.List(giftCardData.giftCardno, null, null, "ID", null, {"Name": "Gift Card"}, buyerid).then(function(data){
+                    console.log("Gift Card",data);
+                    if(data.Items.length > 0 && !data.Items[0].xp.Claimed && data.Items[0].Balance > 0){
+                        var d1 = new Date();
+                        var d2 = new Date(data.Items[0].StartDate);
+                        if(d1>d2){
+                                vm.giftCardApplied = true;
+                                vm.giftCardAppliedAmount = (data.Items[0].Balance > vm.orderdata.Subtotal) ? vm.orderdata.Subtotal : data.Items[0].Balance;
+                        }else{
+                            alert("is not a valid card");
+                            vm.giftCardApplied = false;
+                        }
+                    }else{
+                        alert("is not a valid card");
+                        vm.giftCardApplied = false;
+                    }
+                });
+            }
+//        }else{
+//            vm.giftcard(giftCardData);
+//        }
+    }
+    
 	vm.editPopUp = function (lineitem) {
 		vm.edit = true;
 		var modalInstance = $uibModal.open({
@@ -339,15 +451,15 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	function addRecipient() {
 
 	}
-	vm.giftcard = function (data) {
-		console.log(data);
-		console.log(vm.signnedinuser);
-		OrderCloud.UserGroups.ListUserAssignments(null, vm.signnedinuser.ID).then(function (dat) {
-			OrderCloud.SpendingAccounts.Get(data).then(function (resp) {
-				console.log(resp);
-			})
-		})
-	}
+//	vm.giftcard = function (data) {
+//		console.log(data);
+//		console.log(vm.signnedinuser);
+//		OrderCloud.UserGroups.ListUserAssignments(null, vm.signnedinuser.ID).then(function (dat) {
+//			OrderCloud.SpendingAccounts.Get(data).then(function (resp) {
+//				console.log(resp);
+//			})
+//		})
+//	}
 
 	vm.loginAsExistingUser = function (credentials) {
         var anonUserToken = OrderCloud.Auth.ReadToken();
@@ -355,37 +467,42 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
             .then(function(token){
                 $rootScope.$broadcast('userLoggedIn');
                 OrderCloud.Auth.SetToken(token.access_token);
+                OrderCloud.Me.Get().then(function(res){
+				    console.log("LoggedinUser",res);
+                    vm.signnedinuser = res;
+				})
                 OrderCloud.Orders.TransferTempUserOrder(anonUserToken)
                     .then(function(){
+                        vm.openACCItems.name = 'delivery';
+                        vm.openACCItems['signinFunc'] = true;
                         $state.reload();
                     })
             });
 	};
 
-	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
-		angular.forEach(result.Items, function (value, key) {
-			console.log(value);
-			OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function (data) {
-				if (data.Name == "Purple Perks") {
-					vm.purpleperksacc = data;
-				}
-			})
-		})
-	})
+//	OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
+//		angular.forEach(result.Items, function (value, key) {
+//			console.log(value);
+//			OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function (data) {
+//				if (data.Name == "Purple Perks") {
+//					vm.purpleperksacc = data;
+//				}
+//			})
+//		})
+//	})
 
-	vm.bachmanscharge = function () {
+	function bachmanscharge() {
 		OrderCloud.SpendingAccounts.ListAssignments(null, vm.signnedinuser.ID).then(function (result) {
-			angular.forEach(result.Items, function (value, key) {
-				console.log(value);
-				OrderCloud.SpendingAccounts.Get(value.SpendingAccountID).then(function (data) {
+            if(result.Items && result.Items.length>0){
+				OrderCloud.SpendingAccounts.Get(result.Items[0].SpendingAccountID).then(function (data) {
 					console.log(data);
-					if (data.Name == "Bachman Charges") {
-						console.log(data);
+					if (data.Name == "Bachmans Charge") {
+						console.log("Bachmans Charge",data);
 						vm.bachmanschargeacc = data;
 					}
 				})
-			})
-		})
+            }
+		});
 	}
 	vm.hideBillingAddress = function () {
 		$('.gift-card-opt').on('click', function () { $('.billing-addr-cont').hide() });

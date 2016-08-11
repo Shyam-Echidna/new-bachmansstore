@@ -17,6 +17,8 @@ angular.module('orderCloud')
 	.controller('workshopEventCtrl', workshopEventController)
 	.controller('staticPageBaseCtrl', staticPageBaseController)
     .controller('ladingPageCtrl', ladingPageController)
+.controller('InspirationalModalCtrl', InspirationalModalController)
+.directive('onFinishRender', onFinishRender)
 
 ;
 
@@ -405,7 +407,7 @@ function template1Controller() {
 	/*$('.mobile-how-to-nav').css('margin-top', staticheaderHtmobile);*/
 }
 
-function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile) {
+function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile,$uibModal) {
 	var vm = this;
 	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
@@ -579,6 +581,112 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
             
         })
   }
+  
+  vm.inspirationalPopup = function (imageData) {
+      var modalInstance = null;
+      staticPageData.GetFolders(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+imageData.location.path+"/"+imageData.title+"?alf_ticket="+vm.siteToken).then(function(data){
+          console.log(data);
+              openInspirationModal(data.items);
+      },function(data){
+          console.log(data);
+      });
+		
+  }
+  
+  function openInspirationModal(data){
+      var modalInstance = $uibModal.open({
+			animation: false,
+			backdropClass: 'inspirationalModal',
+			windowClass: 'inspirationalModal',
+			templateUrl: 'staticPage/templates/inspirational.tpl.html',
+			controller: 'InspirationalModalCtrl',
+			controllerAs: 'inspirational',
+			resolve: {
+				inspirationalImages: function () {
+                    return data;
+				}
+
+			}
+		});
+
+		modalInstance.result.then(function () {
+            alert("popup closed");
+		}, function () {
+			angular.noop();
+		});
+  }
+    
+}
+
+function InspirationalModalController($scope,inspirationalImages,$uibModalInstance,alfStaticContenturl) {
+    var vm = this;
+    vm.cancel = cancel;
+    vm.alfStaticContenturl = alfStaticContenturl;
+    vm.glImages = inspirationalImages;
+    vm.siteToken = localStorage.getItem('alfTemp_ticket');
+    function cancel() {
+		$uibModalInstance.dismiss('cancel');
+		//$scope.multipleReceipent.init();
+	};
+    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+        //you also get the actual event object
+        //do stuff, execute functions -- whatever...
+//        $('#gallery').finalTilesGallery({
+//            margin:5,
+//            minTileWidth:200,
+//            allowEnlargement:true,
+//            onComplete:function(){
+//                //alert("final tiles initilized");
+//            }
+//        });
+       $('#gallerymikado').tilesGallery2({
+                margin: 5,
+                captionEffectDuration: 250,
+                captionEffect: 'fade',
+                captionEasing: 'swing',
+                keepArea: false,
+                enableTwitter: false,
+                enableFacebook: false,
+                enablePinterest: false,
+                enableGplus: false,
+                scrollEffect: ''
+            });
+        //jQuery(function () {jQuery('#jtg-1800 .tile a.mikado-lightbox').fancybox({});});
+//        var wall = new Freewall('.free-wall');
+//        wall.reset({
+//				selector: '.item',
+//				animate: true,
+//				cellW: 150,
+//				cellH: 'auto',
+//				onResize: function() {
+//					wall.fitWidth();
+//				}
+//			});
+//        var images = wall.container.find('.item');
+//			images.find('img').load(function() {
+//				wall.fitWidth();
+//            });
+//        $('.photoset-grid-lightbox').photosetGrid({
+//          highresLinks: true,
+//          gutter: '2px',
+//        });
+    });
+//    setTimeout(function(){
+//        
+//    },6000);
+}
+
+function onFinishRender($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit(attr.onFinishRender);
+                });
+            }
+        }
+    }
 }
 
 function staticpageController($scope, $uibModalInstance) {
