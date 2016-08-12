@@ -753,7 +753,7 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleRecipient.crdmsg" ng-click="multipleRecipient.crdmsghide()" ng-disabled="!form1.$valid">Next</button>
+                        <button class="next-btn" ng-show="multipleRecipient.crdmsg" ng-click="multipleRecipient.crdmsghide(lineitem)" ng-disabled="!form1.$valid">Next</button>
                         <button class="add-btn" ng-show="multipleRecipient.crdmsg==false" ng-click="multipleRecipient.submitDetails(lineitem,$index)" ng-disabled="!form1.$valid" >Add</button>
                     </div>
 
@@ -1586,7 +1586,7 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleRecipient.crdmsg" ng-click="multipleRecipient.crdmsghide()" ng-disabled="!form2.$valid">Next</button>
+                        <button class="next-btn" ng-show="multipleRecipient.crdmsg" ng-click="multipleRecipient.crdmsghide(multipleRecipient.line)" ng-disabled="!form2.$valid">Next</button>
                         <button class="add-btn" ng-show="multipleRecipient.crdmsg==false" ng-click="multipleRecipient.submitDetails(multipleRecipient.line,$index)" ng-disabled="!form2.$valid">Add</button>
                     </div>
                 </div>

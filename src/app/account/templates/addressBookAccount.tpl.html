@@ -14,7 +14,7 @@
             </a>
         </div>
         <div class="add-button col-md-3 col-lg-3 hidden-xs hidden-sm">
-            <button type="button" class="btn add-new-addr-btn" ng-click="newaddress=!newaddress">Add New Address</button>
+            <button type="button" class="btn add-new-addr-btn" ng-click="newaddress=!newaddress;addr=''">Add New Address</button>
         </div>
         <div class="col-xs-12 add-new-addr-cont" ng-hide="!newaddress">
             <p class="title">Add a New Address</p>
@@ -22,42 +22,42 @@
                 <form class="add-new-addr-form" name="addnewAddress" role="form" novalidate>
                     <div class="col-xs-6 form-group nick-name">
                         <label for="nickName">Nick Name</label>
-                        <input type="text" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.NickName" autocomplete="off">
+                        <input type="text" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.NickName" autocomplete="off" ng-requried="true">
                     </div>
                     <div class="col-xs-6 form-group first-name">
                         <label for="firstName">First Name</label>
-                        <input type="text" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off">
+                        <input type="text" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-6 form-group last-name">
                         <label for="nickName">Last Name</label>
-                        <input type="text" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off">
+                        <input type="text" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-12 form-group address">
                         <label for="address">Address 1</label>
-                        <input type="text" placeholder="Enter Address 1" class="form-control" id="address" ng-model="addr.Street1" autocomplete="off">
+                        <input type="text" placeholder="Enter Address 1" class="form-control" id="address" ng-model="addr.Street1" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-12 form-group address2">
                         <label for="address2">Address 2</label>
-                        <input type="text" placeholder="Enter Address 2" class="form-control" id="address2" ng-model="addr.Street2" autocomplete="off">
+                        <input type="text" placeholder="Enter Address 2" class="form-control" id="address2" ng-model="addr.Street2" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-6 form-group zip-code">
                         <label for="zipCode">ZIP Code</label>
-                        <input type="text" placeholder="Enter Zip Code" class="form-control" id="zipCode" ng-model="addr.Zip" autocomplete="off" ng-keypress="Address.getLocation(addr.Zip)">
+                        <input type="text" ng-minlength="5" maxlength="5" placeholder="Enter Zip Code" class="form-control" id="zipCode" ng-model="addr.Zip" autocomplete="off" ng-keyup="Address.getLocation(addr.Zip)" ng-required="true">
                     </div>
                     <div class="col-xs-6 form-group city">
                         <label for="address">City</label>
-                        <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off">
+                        <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off" ng-required="true" ng-readonly="addr.Zip">
                     </div>
                     <div class="col-xs-6 form-group state">
                         <label for="state">State</label>
-                        <input type="text" placeholder="Enter State" class="form-control" id="state" ng-model="addr.State" autocomplete="off">
+                        <input type="text" placeholder="Enter State" class="form-control" id="state" ng-model="addr.State" autocomplete="off" ng-required="true" ng-readonly="addr.Zip">
                     </div>
                     <div class="col-xs-6 form-group phone-number">
                         <label for="phone1">Phone Number</label>
                         <div class="row phone-txt">
-                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone1" ng-keypress="Address.IsPhone($event)" autocomplete="off"></div>
-                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone2" ng-keypress="Address.IsPhone($event)" autocomplete="off"></div>
-                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="addr.Phone3" ng-keypress="Address.IsPhone($event)" autocomplete="off"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone1" placeholder="Area code" ng-keypress="Address.IsPhone($event)" autocomplete="off" ng-required="true"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" placeholder="Prefix" class="form-control"  ng-model="addr.Phone2" ng-keypress="Address.IsPhone($event)" autocomplete="off" ng-required="true"></div>
+                                    <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="addr.Phone3" ng-keypress="Address.IsPhone($event)" placeholder="Number"autocomplete="off" ng-required="true"></div>
                                 
                         </div>
                     </div>
@@ -70,17 +70,17 @@
                     </div>
                     <div class="col-xs-12 form-group billing-checkbox">
                         <div class="Checkbox">
-                            <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling" />
+                            <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling"/>
                             <div class="Checkbox-visible"></div>
                         </div>
                         <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
                     </div>
                     <div class="col-xs-12 form-group navig-btns">
                         <div class="col-xs-6 savebtn">
-                            <button type="button" class="btn purple-btn col-xs-6" ng-click="Address.CreateAddress(addr)" ng-disabled="addnewAddress.$invalid" ng-class="{'disabledbtn': addnewAddress.$invalid }" class="btn purple-btn col-xs-6">Save</button>
+                            <button type="button" class="btn purple-btn col-xs-6" ng-click="Address.CreateAddress(addr)" ng-disabled="!addnewAddress.$valid" ng-class="{'disabledbtn': addnewAddress.$invalid }" class="btn purple-btn col-xs-6">Save</button>
                         </div>
                         <div class="col-xs-6 cancelbtn">
-                            <button type="button" class="btn gray-btn col-xs-6" ng-click="newaddress=!newaddress;Address.ScrollTopAdddr();">Cancel</button>
+                            <button type="button" class="btn gray-btn col-xs-6" ng-click="newaddress=!newaddress;addr=null">Cancel</button>
                         </div>
                     </div>
                 </form>
@@ -99,11 +99,11 @@
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 nick">
                 <p class="title">Nickname</p>
-                <p class="value">{{address.NickName}}</p>
+                <p class="value">{{address.xp.NickName}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
                 <p class="title">Name</p>
-                <p class="value">{{address.FirstName}} {{address.LastName}}</p>
+                <p class="value">{{address.FirstName}}{{address.LastName}}</p>
             </div>
             <div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 address">
                 <p class="title">Address</p>
@@ -129,7 +129,7 @@
                     <form class="row add-new-addr-form" role="form" novalidate>
                        <div class="col-xs-6 form-group nick-name">
                             <label for="nickName">Nick Name</label>
-                            <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="nickName" autocomplete="off">
+                            <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="NickName" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group first-name" >
                             <label for="firstName">First Name</label>
@@ -149,15 +149,15 @@
                         </div>
                         <div class="col-xs-6 form-group zip-code">
                             <label for="zipCode">ZIP Code</label>
-                            <input type="text" class="form-control" id="zipCode" ng-model="Address.editAddr.Zip" autocomplete="off" ng-keypress="Address.getLoactionEdit(Address.editAddr.Zip)">
+                            <input type="text" class="form-control" ng-minlength="5" maxlength="5" id="zipCode" ng-model="Address.editAddr.Zip" autocomplete="off" ng-keyup="Address.getLoactionEdit(Address.editAddr.Zip)">
                         </div>
                         <div class="col-xs-6 form-group city">
                             <label for="address">City</label>
-                            <input type="text" class="form-control" id="city" ng-model="Address.editAddr.City" autocomplete="off">
+                            <input type="text" class="form-control" id="city" ng-model="Address.editAddr.City" autocomplete="off" ng-readonly="Address.editAddr.Zip">
                         </div>
                         <div class="col-xs-6 form-group state">
                             <label for="state">State</label>
-                            <input type="text" class="form-control" id="state" ng-model="Address.editAddr.State" autocomplete="off">
+                            <input type="text" class="form-control" id="state" ng-model="Address.editAddr.State" autocomplete="off" ng-readonly="Address.editAddr.Zip">
                         </div>
                         <div class="col-xs-6 form-group phone-number">
                             <label for="phone1">Phone Number</label>
@@ -205,7 +205,7 @@
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 nick">
                 <p class="title">Nickname</p>
-                <p class="value">{{address.Nickname}}</p>
+                <p class="value">{{address.xp.NickName}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 name">
                 <p class="title">Name</p>
@@ -220,8 +220,8 @@
                     {{address.Zip}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 phone-number">
-                <p class="title">Phone Number</p>
-                <p class="value">{{address.Phone}}</p>
+                <p cloass="title">Phone Number</p>
+                <p class="value"> {{address.Phone}}</p>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 edit-delete">
                 <a href="javascript:void(0)" ng-click="Address.editAdress(address,$index)">Edit</a>
@@ -234,8 +234,8 @@
                     <div class="add-new-addr-div">
                         <form class="row add-new-addr-form" role="form" novalidate>
                            <div class="col-xs-6 form-group nick-name">
-                                <label for="nickName">Nick Name</label>
-                                <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="nickName" autocomplete="off">
+                                <label for="NickName">Nick Name</label>
+                                <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="NickName" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group first-name" >
                                 <label for="firstName">First Name</label>
@@ -255,16 +255,16 @@
                             </div>
                             <div class="col-xs-6 form-group zip-code">
                                 <label for="zipCode">ZIP Code</label>
-                                <input type="text" class="form-control" id="zipCode" ng-model="Address.editAddr.Zip" autocomplete="off" ng-keypress="Address.getLoactionEdit(Address.editAddr.Zip)">
+                                <input type="text" class="form-control" ng-minlength="5" maxlength="5" id="zipCode" ng-model="Address.editAddr.Zip" autocomplete="off" ng-keypress="Address.getLoactionEdit(Address.editAddr.Zip)">
                             </div>
                             <div class="col-xs-6 form-group city">
                                 <label for="address">City</label>
-                                <input type="text" class="form-control" id="city" ng-model="Address.editAddr.City" autocomplete="off">
+                                <input type="text" class="form-control" id="city" ng-model="Address.editAddr.City" autocomplete="off" ng-readonly="Address.editAddr.Zip">
                                 
                             </div>
                             <div class="col-xs-6 form-group state">
                                 <label for="state">State</label>
-                                <input type="text" class="form-control" id="state" ng-model="Address.editAddr.State" autocomplete="off">
+                                <input type="text" class="form-control" id="state" ng-model="Address.editAddr.State" autocomplete="off" ng-readonly="Address.editAddr.Zip">
                             </div>
                             <div class="col-xs-6 form-group phone-number">
                                 <label for="phone1">Phone Number</label>
@@ -291,7 +291,7 @@
                             </div>
                             <div class="col-xs-12 form-group navig-btns">
                                 <div class="col-xs-6 savebtn">
-                                    <button type="button" class="btn purple-btn col-xs-6" ng-click="Address.saveAddress(Address.editAddr,Address.contact)" ng-disabled="row add-new-addr-form.$invalid">SAVE ADDRESS</button>
+                                    <button type="button" class="btn purple-btn col-xs-6" ng-click="Address.saveAddress(Address.editAddr,Address.contact)">SAVE ADDRESS</button>
                                 </div>
                                 <div class="col-xs-6 cancelbtn">
                                     <button type="button" class="btn gray-btn col-xs-6" ng-click="Address.closeShowedit($index);Address.ScrollTopAdddr();">Cancel</button>

@@ -370,7 +370,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     return lineItem;
                 },
                 Order: function () {
-                    var order = vm.order
+                    var order = vm.order;
                     return order;
                 }
             }
@@ -437,14 +437,17 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function changerecipientpopup(item) {
         $uibModal.open({
-            templateUrl: 'cart/templates/changerecipientpopup.tpl.html',
-            backdropClass: 'changerecipientpopup',
-            windowClass: 'changerecipientpopup',
+            templateUrl: 'cart/templates/changeRecipientpopup.tpl.html',
+            backdropClass: 'changeRecipientpopup',
+            windowClass: 'changeRecipientpopup',
             controller: 'ChangeRecipientPopupCtrl',
             controllerAs: 'changeRecipientPopup',
             resolve: {
                 Lineitem: function () {
                     return item;
+                },
+                Order: function() {
+                    return vm.order;
                 }
             }
         });
@@ -460,6 +463,9 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             resolve: {
                 Lineitems: function () {
                     return data;
+                },
+                Order: function() {
+                    return vm.order;
                 }
             }
         });
@@ -1158,8 +1164,9 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
         });
     }
 }
-function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Lineitems, $rootScope, CartService) {
+function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Order, OrderCloud, AddressValidationService, Lineitems, $rootScope, CartService) {
     var vm = this;
+    vm.order = Order;
     vm.cancel = cancel;
     vm.getCityState = getCityState;
     vm.changedtls = changedtls;
@@ -1187,19 +1194,32 @@ function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Line
     };
 
 
-    function changedtls(data) {
+    function changedtls(line) {
+    AddressValidationService.Validate(line.ShippingAddress)
+        .then(function(response){
+            if(response.ResponseBody.ResultCode == 'Success') {
+                var validatedAddress = response.ResponseBody.Address;
+                var zip = validatedAddress.PostalCode.substring(0, 5);
+                line.ShippingAddress.Zip = parseInt(zip);
+                line.ShippingAddress.Street1 = validatedAddress.Line1;
+                line.ShippingAddress.Street2 = null;
+                line.ShippingAddress.City = validatedAddress.City;
+                line.ShippingAddress.State = validatedAddress.Region;
+                line.ShippingAddress.Country = validatedAddress.Country;
+                if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
+                    line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
+                    delete line.ShippingAddress.Phone1;
+                    delete line.ShippingAddress.Phone2;
+                    delete line.ShippingAddress.Phone3;
 
-        if (data.ShippingAddress.Phone1 && data.ShippingAddress.Phone2 && data.ShippingAddress.Phone3) {
-            data.ShippingAddress.Phone = '(' + data.ShippingAddress.Phone1 + ')' + data.ShippingAddress.Phone2 + '-' + data.ShippingAddress.Phone3;
-            delete data.ShippingAddress.Phone1;
-            delete data.ShippingAddress.Phone2;
-            delete data.ShippingAddress.Phone3;
-
-        }
-        console.log(data);
-        Lineitems[0].ShippingAddress = data.ShippingAddress;
-        $rootScope.$broadcast('recipientEdited', Lineitems);
-        $uibModalInstance.dismiss('cancel');
+                }
+                console.log(line);
+                $rootScope.$broadcast('recipientEdited', Lineitems);
+                $uibModalInstance.dismiss('cancel');
+            } else{
+                alert("Address not found...");
+            }
+        });
     }
     function getCityState(item) {
         CartService.getCityState(item.ShippingAddress.Zip).then(function (res) {

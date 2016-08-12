@@ -1213,7 +1213,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	function getLineItems(id) {
 		var deferred = $q.defer();
 		if ($cookieStore.get('isLoggedIn')) {
-			OrderCloud.As().LineItems.List(id).then(function (res) {
+			OrderCloud.LineItems.List(id).then(function (res) {
 
 				console.log("Lineitems", res);
 				angular.forEach(res.Items, function (val, key, obj) {
@@ -1434,7 +1434,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			vm.activeRecipient = false;
 			vm.showNewRecipient = false;
 			if (!LineItems) {
-				OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+				OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 					//vm.recipientLineitem.xp.LineItems = res;
 					vm.allItems = res.Items;
 				});
@@ -1471,9 +1471,23 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//$scope.multipleRecipient.init();
 		call();
 	};
-	function crdmsghide() {
-		alert("test");
-		vm.crdmsg = !vm.crdmsg;
+	function crdmsghide(line) {
+        AddressValidationService.Validate(line.ShippingAddress)
+            .then(function(response){
+                if(response.ResponseBody.ResultCode == 'Success') {
+                    var validatedAddress = response.ResponseBody.Address;
+                    var zip = validatedAddress.PostalCode.substring(0, 5);
+                    line.ShippingAddress.Zip = parseInt(zip);
+                    line.ShippingAddress.Street1 = validatedAddress.Line1;
+                    line.ShippingAddress.Street2 = null;
+                    line.ShippingAddress.City = validatedAddress.City;
+                    line.ShippingAddress.State = validatedAddress.Region;
+                    line.ShippingAddress.Country = validatedAddress.Country;
+                } else{
+                    alert("Address not found...");
+                }
+                vm.crdmsg = !vm.crdmsg;
+            });
 	}
 
 	function submitDetails(line, $index) {
@@ -1539,7 +1553,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		if (line.ID == "") {
 			if (vm.order) {
 				if ($cookieStore.get('isLoggedIn')) {
-					OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+					OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 						checkLineItemsId(res, line).then(function (data) {
 							if (data != 'sameId') {
@@ -1609,7 +1623,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 												vm.order = order;
 											}
 
-											OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+											OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 												lineitem.ShippingAddress = line.ShippingAddress;
 												lineitem.xp = line.xp;
@@ -1654,7 +1668,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 										if (!vm.order) {
 											vm.order = order;
 										}
-										OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+										OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 											lineitem.ShippingAddress = line.ShippingAddress;
 											lineitem.xp = line.xp;
@@ -1844,7 +1858,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 								if (!vm.order) {
 									vm.order = order;
 								}
-								OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+								OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 									lineitem.ShippingAddress = line.ShippingAddress;
 									lineitem.xp = line.xp;
@@ -1918,10 +1932,10 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			delete newline.xp.NoInStorePickUp;
 			delete newline.xp.NoDeliveryExInStore;
 			delete newline.xp.MinDate;
-			OrderCloud.As().LineItems.Update(args, newline.ID, newline).then(function (dat) {
+			OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
 
 				console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
-				OrderCloud.As().LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
+				OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 					console.log("SetShippingAddress", data);
 					alert("Data submitted successfully");
 					vm.getLineItems();
@@ -1947,7 +1961,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	function getLineItems() {
 
 		if ($cookieStore.get('isLoggedIn')) {
-			OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+			OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 
 				console.log("Lineitems", res);
@@ -2077,7 +2091,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					var deferred = $q.defer();
 					console.log(vm.order);
                  if ($cookieStore.get('isLoggedIn')) {
-					 OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+					 OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 						LineItemHelpers.GetProductInfo(res.Items).then(function () {
 							deferred.resolve(res);
@@ -2473,7 +2487,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				vm.recipientLineitem.xp.DeliveryMethod = lineitem.xp.DeliveryMethod;
 				vm.callDeliveryOptions(vm.recipientLineitem);
 			}
-           	// OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+           	// OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 			// 	vm.recipientLineitem.xp.LineItems = res;
 			// vm.allItems
 			// });
@@ -2519,7 +2533,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				};
 
 				if ($cookieStore.get('isLoggedIn')) {
-					OrderCloud.As().LineItems.Create(vm.order.ID, lineitemdtls).then(function (lineitem) {
+					OrderCloud.LineItems.Create(vm.order.ID, lineitemdtls).then(function (lineitem) {
 
 						lineitem.ShippingAddress = vm.recipientLineitem.ShippingAddress;
 						lineitem.xp = vm.recipientLineitem.xp;
@@ -2561,7 +2575,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			}
 			vm.activeRecipient = false;
 			vm.showNewRecipient = false;
-			//OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+			//OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 			// checkLineItemsId(res, vm.recipientLineitem).then(function (data) {
 			// 	if (data != 'sameId') {
 			// 		checkLineItemsAddress(res, vm.recipientLineitem).then(function (data) {
@@ -2624,7 +2638,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			// 					if (!vm.order) {
 			// 						vm.order = order;
 			// 					}
-			// 					OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+			// 					OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 			// 						lineitem.ShippingAddress = line.ShippingAddress;
 			// 						lineitem.xp = line.xp;
@@ -2669,7 +2683,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			// 				if (!vm.order) {
 			// 					vm.order = order;
 			// 				}
-			// 				OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+			// 				OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 			// 					lineitem.ShippingAddress = line.ShippingAddress;
 			// 					lineitem.xp = line.xp;
@@ -2821,7 +2835,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		var res = vm.recipientLineitem.xp.LineItems;
 		delete vm.recipientLineitem.xp.LineItems
 		vm.recipientLineitem.xp.deliveryDate = lineitem.xp.deliveryDate;
-		// OrderCloud.As().LineItems.List(vm.order.ID).then(function (res) {
+		// OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 
 		//    });
@@ -2892,7 +2906,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					// 	if (!vm.order) {
 					// 		vm.order = order;
 					// 	}
-					// 	OrderCloud.As().LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+					// 	OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
 					// 		lineitem.ShippingAddress = line.ShippingAddress;
 					// 		lineitem.xp = line.xp;
@@ -2935,7 +2949,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				};
 
 				if ($cookieStore.get('isLoggedIn')) { 
-						OrderCloud.As().LineItems.Create(vm.order.ID, lineitemdtls).then(function (lineitem) {
+						OrderCloud.LineItems.Create(vm.order.ID, lineitemdtls).then(function (lineitem) {
 
 					lineitem.ShippingAddress = line.ShippingAddress;
 					lineitem.xp = line.xp;

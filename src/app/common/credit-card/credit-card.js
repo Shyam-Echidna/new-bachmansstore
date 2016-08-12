@@ -155,9 +155,11 @@ function CreditCardService($q, $resource, toastr, authorizeneturl, OrderCloud) {
                 } else  if(response.Error) {
                     toastr.info('Sorry, something went wrong. Please try again');
                 }
+                dfd.resolve();
             })
             .catch(function(){
-                toastr.info('Sorry, something went wrong. Please try again')
+                toastr.info('Sorry, something went wrong. Please try again');
+                dfd.resolve();
             });
         return dfd.promise;
     }

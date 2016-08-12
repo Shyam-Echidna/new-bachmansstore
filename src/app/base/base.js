@@ -236,7 +236,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
     defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$
-
+        errorMessages['customPassword123']='Password Should Be Alphanumeric';
     });
       $rootScope.$on('getcurrentuser', function() {
 

@@ -65,24 +65,43 @@ function AccountConfig( $stateProvider) {
 					return d.promise;
 				},*/
 				WishList: function($q, $state, OrderCloud, CurrentUser) {
-					var wishlistArr = CurrentUser.xp.WishList;
+					var vm =this;
 					var d= $q.defer();
 					var wishArr = [];
-					if(wishlistArr != undefined){
-						for(var i=0;i<wishlistArr.length;i++){
-							var promise =OrderCloud.Me.GetProduct(wishlistArr[i]);
-							wishArr.push(promise);
-						}
-						$q.all(wishArr).then(function(items){
-							console.log("wish list ====",items);
-							d.resolve(items);
-						});
+					var wishlistArr = CurrentUser.xp.WishList;
+					var prod=[];
+					for(var i=0;i<wishlistArr.length;i++){
+							var promise =OrderCloud.Products.GetInventory(wishlistArr[i]);
+							prod.push(promise);
 					}
+					$q.all(prod).then(function(ttt){
+						console.log("inventory are..",ttt);
+						vm.respond=ttt;
+						console.log("user wishlist are -",vm.respond);
+						var count=0;
+						for(var j=0;j<=ttt.length;j++){
+							if(ttt[j].Available>=1){
+								OrderCloud.Me.GetProduct(ttt[j].ID).then(function(res){
+							    	wishArr.push(res);
+							    	count++;
+							    	if(count == ttt.length){
+							    		$q.all(wishArr).then(function(items){
+											console.log("wish list ====",items);
+											d.resolve(items);
+										});
+							    	}
+								});
+							}
+							else{
+								alert("not available");
+							}
+						}
+					})
 					return d.promise;
 				},
-				SelectedEmailList: function(LoginFact) {
+				/*SelectedEmailList: function(LoginFact) {
 					return LoginFact.GetContactList();
-				}
+				}*/
 			},
 			templateUrl:'account/templates/accountLanding.tpl.html',
 			controller:'AccountCtrl',
@@ -155,7 +174,11 @@ function AccountConfig( $stateProvider) {
 							var vm=this;
 							var d= $q.defer();
 							OrderCloud.Me.ListOutgoingOrders().then(function(oooores){
-								angular.forEach(oooores.Items,function(od){
+								var completedOdr=_.reject(oooores.Items,function(obj){
+        							 return _.indexOf([obj.Status],'Unsubmitted') > -1
+        					});
+								console.log("completed order=",completedOdr);
+								angular.forEach(completedOdr,function(od){
 									var promise=AccountService.GetOrderDetails(od.ID);
 									orders.push(promise);
 								});
@@ -271,7 +294,13 @@ return d.promise;
 			url: '/emailsubscription',
 			templateUrl: 'account/templates/emailsubscription.tpl.html',
 			controller: 'EmailSubscriptionCtrl',
-			controllerAs: 'EmailSubscription'
+			controllerAs: 'EmailSubscription',
+			resolve:{
+				emaillist:function(ConstantContact){
+					return ConstantContact.GetListOfSubscriptions();
+				
+				}
+			}
 
 				/*SelectedEmailList: function(LoginFact) {
 					return LoginFact.GetContactList();
@@ -296,7 +325,7 @@ return d.promise;
 	 controllerAs: 'corsageBuilder'
 	 })*/
 }
-function AccountService( $q, $uibModal,OrderCloud,Underscore,$http,$location,$anchorScroll) {
+function AccountService( $q, $uibModal,ConstantContact ,OrderCloud,Underscore,$http,$location,$anchorScroll) {
 	var service = {
 		Update: _update,
 		ChangePassword: _changePassword,
@@ -306,8 +335,32 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http,$location,$an
 		ListAddress: _listAddresses,
 		getCityState: _getCityState,
 		GoTop:_goTop,
-		GoBottom:_goBottom
+		GetUpdateSubscription:_getUpdateSubscription
 	};
+	function _getUpdateSubscription(ConstantContactId, subscriptionList){
+		var params = {
+            "ConstantContactId": ConstantContactId
+        }
+
+        subscriptionList = Underscore.filter(subscriptionList, function (listItem) {
+            return listItem.status == 'ACTIVE';
+        })
+
+        return ConstantContact.GetSpecifiedContact(params).then(function (res) {
+
+            var userSubscriptions = res.data.lists;
+            if (userSubscriptions) {
+                var userSubIds = Underscore.pluck(userSubscriptions, "id");
+                angular.forEach(subscriptionList, function (subscription) {
+                    if (userSubIds.indexOf(subscription.id) > -1) {
+                        subscription.Checked = true;
+                    }
+                })
+            }
+            return subscriptionList;
+        })
+
+	}
 	function _goTop(){
 		$location.hash('top');
 		$anchorScroll();
@@ -361,7 +414,7 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http,$location,$an
 		var d = $q.defer();
 		var arr = [];
 		var init = phn.indexOf('(');
-		var fin = phn.indexOf(')');
+		var fin = phn.indexOf(')')+"";
 		arr.push(parseInt(phn.substr(init+1,fin-init-1)));
 		init = phn.indexOf(')');
 		fin = phn.indexOf('-');
@@ -502,7 +555,6 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http,$location,$an
 
 	function _changePassword(currentUser,newcurrUser) {
 		var deferred = $q.defer();
-
 		var checkPasswordCredentials = {
 			Username: currentUser.Username,
 			Password: newcurrUser.CurrentPassword
@@ -521,7 +573,7 @@ function AccountService( $q, $uibModal,OrderCloud,Underscore,$http,$location,$an
 		};
 		OrderCloud.Auth.GetToken(checkPasswordCredentials).then(
 			function() {
-				alert("Are you sure to change password????");
+				
 				changePasswordfun();
 			}).catch(function( ex ) {
 			deferred.reject(ex);
@@ -557,7 +609,7 @@ function AddressController(AddressList,$anchorScroll,$location,AccountService,$s
 	var vm=this;
 	vm.addressData=AddressList;
 	console.log(vm.addressData);
-	//Creation
+	//Creation of address
 	vm.CreateAddress = function(line){
 		var $this = this;
 		var params = {"FirstName":line.FirstName,"LastName":line.LastName,"Street1":line.Street1,"Street2":line.Street2,"City":line.City,"State":line.State,"Zip":line.Zip,"Phone":"("+line.Phone1+")"+line.Phone2+"-"+line.Phone3,"Country":"IN", "xp":{NickName:line.NickName}};
@@ -588,6 +640,8 @@ function AddressController(AddressList,$anchorScroll,$location,AccountService,$s
 	
 //_------ END FOR PHONE NUMBER VALIDATION IN CONTACT INFORMATION IN MY PROFILE PAGE------//
 	vm.saveAddress = function(saveAddr,contact){
+		vm.ddddd=saveAddr;
+		console.log("ddddd saved address are-",vm.ddddd);
 		saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
 		console.log("saveAddr.Phone", saveAddr.Phone);
 		OrderCloud.Addresses.Update(saveAddr.ID, saveAddr).then(function(){
@@ -597,11 +651,13 @@ function AddressController(AddressList,$anchorScroll,$location,AccountService,$s
 		})
 	}
 	vm.getLocation=function(zip){
-		AccountService.getCityState(zip).then(function(res){
-			console.log("response are city and state==",res);
-			$scope.addr.City = res.City;
-			$scope.addr.State = res.State;
-		});
+		if(zip.length==5){
+			AccountService.getCityState(zip).then(function(res){
+				console.log("response are city and state==",res);
+				$scope.addr.City = res.City;
+				$scope.addr.State = res.State;
+			});
+		}	
 	}
 	vm.getLoactionEdit=function(zip){
 		AccountService.getCityState(zip).then(function(res){
@@ -654,8 +710,10 @@ function AddressController(AddressList,$anchorScroll,$location,AccountService,$s
 		});
 	}
 	vm.editAdress=function(editAddr,index){
+		vm['showedit' + vm.prevIndex] = false;
+        vm.prevIndex=angular.copy(index)
 		vm['showedit' + index] =true;
-		vm.editAddr=editAddr;
+		vm.editAddr=angular.copy(editAddr);
 		vm.editAddr.Zip = parseInt(vm.editAddr.Zip);
 		vm.stateData=vm.editAddr.State;
 		$scope.showedit=false;
@@ -688,7 +746,7 @@ function AddressController(AddressList,$anchorScroll,$location,AccountService,$s
 		vm['showedit'+index]=false;
 	}
 }
-function AccountController( $uibModal, WishList,$exceptionHandler, $location, $state, $scope, OrderCloud, toastr, CurrentUser, AccountService, $anchorScroll, $q ) {
+function AccountController( $uibModal,$exceptionHandler,WishList, $location, $state, $scope, OrderCloud, toastr, CurrentUser, AccountService, $anchorScroll, $q ) {
 	var vm = this;
 	vm.profile = angular.copy(CurrentUser);
 	var currentProfile = CurrentUser;
@@ -730,6 +788,7 @@ function AccountController( $uibModal, WishList,$exceptionHandler, $location, $s
 	};
 	//vm.addressData=AddressList;
 	vm.wishList = WishList;
+	console.log("wishlists are==",vm.wishList);
 	//---purpleperks functionality starts here---//
 	
 	
@@ -816,7 +875,6 @@ function AccountController( $uibModal, WishList,$exceptionHandler, $location, $s
 			}
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 			directionsDisplay.setMap(map);
-			//document.getElementById("panel2").style.display = "none";
 			$scope.venue = obj.Street1+" "+obj.Street1+", "+obj.City;
 		},3000);
 		//ending map showing
@@ -836,9 +894,11 @@ function ConfirmPasswordController( $uibModalInstance ) {
 	};
 
 }
+
 function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards) {
 	var vm = this;
     vm.list = CreditCards.Items;
+    console.log("credit ards are=",vm.list);
     vm.newcreditcard = false;
     vm.editcreditcard = false;
     vm.newCardInput = function() {
@@ -852,6 +912,7 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
         vm.card = card;
         vm.card.ExpMonth = vm.card.ExpirationDate.substring(5, 7);
         vm.card.ExpYear = vm.card.ExpirationDate.substring(0, 4);
+        vm.card.CardNumber=vm.card.CardNumber;
     };
 
     vm.createCard = function() {
@@ -895,14 +956,77 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
                 toastr('Sorry, something went wrong. Please try again.')
             });
     };
+    vm.makeDefaultCard=function(card){
+		_.filter(vm.list,function(row){
+			if(row.xp.IsDefault==true && card.ID!=row.ID){
+				row.xp.IsDefault = false;
+				OrderCloud.CreditCards.Update(row.ID, row).then(function(res){
+					console.log("the patchched addres is",res);
+				});
+			}
+			if((!row.xp.IsDefault || row.xp.IsDefault==false) && card.ID==row.ID){
+				row.xp.IsDefault = true;
+				OrderCloud.CreditCards.Update(row.ID, row).then(function(res){
+					console.log("the patchched addres is",res);
+				});
+			}
+		});
+	}
+    vm.deletePopupCard = function(cardid) {
+		var modalInstance = $uibModal.open({
+			animation: false,
+			windowClass: 'deletePopup',
+			template: '<div class="">'+
+			'<div class="">'+
+			'<div class="">'+
+			'<a>'+
+			/*'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"'+
+			 ' viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve">'+
+			 '<style type="text/css">'+
+			 '.st0{fill:#FFFFFF;}'+
+			 '</style>'+
+			 '<g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '</g>'+
+			 '</svg>'+*/
+			'</a>'+
+			'</div>'+
+			'<p>Are you sure you want to delete?</p>'+
+			'<button class="save-btn" ng-click="deleteCard()">Ok</button>'+
+			'<button class="cancel-btn" ng-click="canceldel()">Cancel</button>'+
+			'</div>'+
+			'</div>',
+			controller: 'CreditCardCtrl',
+			controllerAs: 'creditCards',
+			resolve: {
+				SelectedCard: function () {
+					return cardid;
+				}
+			}
+		});
+		modalInstance.result.then(function() {
+
+		}, function() {
+			angular.noop();
+		});
+	}
 
 }
-function ChangePasswordController( $state, $exceptionHandler, toastr, AccountService, CurrentUser ) {
+function ChangePasswordController( $state,$scope,$uibModalInstance, $exceptionHandler, toastr, AccountService,CurrentUser) {
 	var vm = this;
+	$scope.canceldel = function () {
+
+		$uibModalInstance.dismiss('cancel');
+	};
 	console.log(CurrentUser);
-	vm.currentUser = CurrentUser;
-	vm.changePwd = function() {
-		AccountService.ChangePassword(vm.currentUser)
+	//vm.currentUser = CurrentUser;
+	$scope.changePwd = function() {
+		AccountService.ChangePassword(CurrentUser, vm.currentUser)
 			.then(function() {
 				toastr.success('Password successfully changed', 'Success!');
 				console.log("current user==",vm.currentUser);
@@ -913,7 +1037,7 @@ function ChangePasswordController( $state, $exceptionHandler, toastr, AccountSer
 			.catch(function(ex) {
 				$exceptionHandler(ex)
 			});
-	};
+		}
 }
 function DelWishlistController($uibModalInstance, $scope, OrderCloud,  $state, SelectedWishList, CurrentUser) {
 	var vm = this;
@@ -922,7 +1046,7 @@ function DelWishlistController($uibModalInstance, $scope, OrderCloud,  $state, S
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope. DeleteWishListProduct =  function(){
-		$uibModalInstance.dismiss('cancel');
+		$uibModa$indexlInstance.dismiss('cancel');
 		var indx = CurrentUser.xp.WishList.indexOf(SelectedWishList);
 		CurrentUser.xp.WishList.splice(indx,1);
 		OrderCloud.Me.Patch(CurrentUser)
@@ -931,8 +1055,10 @@ function DelWishlistController($uibModalInstance, $scope, OrderCloud,  $state, S
 				$state.go($state.current, {}, {reload: true});
 			})
 	}
+		
+	//}
 }
-function DemoController($uibModalInstance, $scope, OrderCloud, SelectedAddr, $state) {
+function DemoController($uibModalInstance, $scope,OrderCloud,SelectedAddr, $state) {
 	var vm = this;
 	$scope.canceldel = function () {
 
@@ -947,21 +1073,48 @@ $scope.Del = function() {
 	}
 
 }
-function EmailSubscriptionController( $exceptionHandler,CurrentUser, SelectedEmailList, toastr, AccountService,LoginFact) {
+function EmailSubscriptionController( $exceptionHandler,emaillist,Underscore,ConstantContact,CurrentUser,toastr, AccountService,LoginFact) {
 	var vm = this;
-	vm.emailsubscribe=SelectedEmailList;
-	vm.userdata=CurrentUser;
-	console.log("update user data are",vm.userdata);
-	//vm.updateemail=UpdateEmailLIst;
-	//console.log("updated datas are--:",vm.updateemail);
+	vm.user=CurrentUser;
+	vm.emailsubscribe=emaillist;
+	console.log("emails are=",vm.emailsubscribe);
+	/*ConstantContact.GetListOfSubscriptions().then(function(res){
+		console.log("email subscription is",res);
+		vm.emailsubscribe=res.data;
+	})*/
+	if (vm.user.xp && vm.user.xp.ConstantContact && vm.user.xp.ConstantContact.ID) {
+        AccountService.GetUpdateSubscription(vm.user.xp.ConstantContact.ID, vm.emailsubscribe).then(function (res) {
+            vm.subscriptions = res;
+            vm.oldSubscriptions = angular.copy(vm.subscriptions);
+        });
+    }
+	vm.updateContact = function () {
+        var list = Underscore.filter(vm.subscriptions, function (subscription) {
+            return subscription.Checked == true;
+        })
+        var obj = {
+            "id": vm.user.xp.ConstantContact.ID,
+            "lists": list,
+            "email_addresses": [{"email_address": vm.user.Email}]
+        }
+        ConstantContact.UpdateContact(obj).then(function () {
+        	toastr.success('Newsletter subscriptions updated', 'Success');
+            ConstantContact.GetListOfSubscriptions(vm.user.xp.ConstantContact.ID, vm.emailsubscribe).then(function (res) {
+                vm.subscriptions = res;
+                vm.oldSubscriptions = angular.copy(vm.subscriptions);
+            });
+        })
+        
+    };
+    
 }
-function TrackOrderController( $exceptionHandler,TrackOrder, toastr, CurrentUser, AccountService, $q ) {
+function TrackOrderController($exceptionHandler,TrackOrder, toastr, CurrentUser, AccountService, $q ) {
 	var vm = this;
 	vm.track_orders=TrackOrder;
 	console.log("track orders are==",vm.track_orders);
 	
 }
-function ProfileController($exceptionHandler,$state,$uibModal,OrderCloud,AccountService,CurrentUser, Underscore, $q, $scope){
+function ProfileController($exceptionHandler, $state, $uibModal, toastr, OrderCloud, AccountService, CurrentUser, Underscore, $q, $scope){
 	var vm=this;
 	vm.profileData=CurrentUser;
 	vm.top=function(){
@@ -999,8 +1152,8 @@ vm.saveaddresscont=function(){
 	 	if(!data.xp.ContactAddr){
 	 			OrderCloud.Addresses.Create(vm.userData).then(function(res){
 			vm.profileData = res;
-			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
-				console.log("===>"+res);
+			OrderCloud.Users.Patch(data.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("===>", res);
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
@@ -1009,8 +1162,8 @@ vm.saveaddresscont=function(){
 	 	else{
 	 			OrderCloud.Addresses.Update(data.xp.ContactAddr, vm.userData).then(function(res){
 			vm.profileData = res;
-			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
-				console.log("==-------==>"+res);
+			OrderCloud.Users.Patch(data.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("==-------==>", res);
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
@@ -1023,7 +1176,7 @@ vm.saveaddresscont=function(){
 		OrderCloud.Addresses.Create(vm.userData).then(function(res){
 			vm.profileData = res;
 			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
-				console.log("===>"+res);
+				console.log("===>",res);
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
@@ -1042,11 +1195,13 @@ else
 }
 //_------ END FOR ADDRESS DISPLY IN CONTACT INFORMATION-------//
 	 vm.getZip=function(zip){
-		AccountService.getCityState(zip).then(function(res){
+	 	if(zip.length==5){
+	 		AccountService.getCityState(zip).then(function(res){
 			console.log("response are city and state==",res);
 			vm.userData.City = res.City;
 			vm.userData.State = res.State;
 		});
+	 	}
 }
 vm.saveAddress = function(userData){
 		//saveAddr.Phone = "("+contact.Phone1+")"+contact.Phone2+"-"+contact.Phone3;
@@ -1064,7 +1219,51 @@ vm.getZipEdit=function(zip){
 	vm.stateSelected = function(stateSelected){
 		vm.stateData=stateSelected;
 	};
-	vm.changePwd = function() {
+	vm.ChangePasswordPopUp=function(){
+		var modalInstance = $uibModal.open({
+			animation: false,
+			windowClass: 'deletePopup',
+			template: '<div class="">'+
+			'<div class="">'+
+			'<div class="">'+
+			'<a>'+
+			/*'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"'+
+			 ' viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve">'+
+			 '<style type="text/css">'+
+			 '.st0{fill:#FFFFFF;}'+
+			 '</style>'+
+			 '<g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '<g>'+
+			 '<rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"/>'+
+			 '</g>'+
+			 '</g>'+
+			 '</svg>'+*/
+			'</a>'+
+			'</div>'+
+			'<p>Are you sure you want to change password?</p>'+
+			'<button class="save-btn" ng-click="changePwd()">Ok</button>'+
+			'<button class="cancel-btn" ng-click="canceldel()">Cancel</button>'+
+			'</div>'+
+			'</div>',
+			controller: 'ChangePasswordCtrl',
+			controllerAs: 'ChangePassword',
+			resolve:{
+				CurrentUser: function () {
+					return CurrentUser;
+				}
+			}
+		});
+		modalInstance.result.then(function() {
+
+		}, function() {
+			angular.noop();
+		});
+
+	}
+	/*vm.changePwd = function() {
 		AccountService.ChangePassword(CurrentUser, vm.currentUser)
 			.then(function() {
 				toastr.success('Password successfully changed', 'Success!');
@@ -1076,7 +1275,7 @@ vm.getZipEdit=function(zip){
 			.catch(function(ex) {
 				$exceptionHandler(ex)
 			});
-	};
+	};*/
 	/*    OrderCloud.Me.ListAddresses().then(function(dadd){
 	 console.log("addresses are---",dadd)
 	 _.filter(dadd.Items,function(row){
@@ -1088,20 +1287,7 @@ vm.getZipEdit=function(zip){
 
 	 })*/
 	vm.editAdressDefault=function(profileData){
-	 /*vm.editAddr=default_add;
-	 $scope.showedit=false;
-	 vm.stateData=vm.editAddr.State;
-	 vm.contact={};
-	 var phn = vm.editAddr.Phone;
-	 var init = phn.indexOf('(');
-	 var fin = phn.indexOf(')');
-	 vm.contact.Phone1 = parseInt(phn.substr(init+1,fin-init-1));
-	 init = phn.indexOf(')');
-	 fin = phn.indexOf('-');
-	 vm.contact.Phone2 = parseInt(phn.substr(init+1,fin-init-1));
-	 init = phn.indexOf('-');
-	 vm.contact.Phone3 = parseInt(phn.substr(init+1,phn.length));
-	 console.log("vm.contact.Phone1"+ " " + vm.contact.Phone1 + " " +"vm.contact.Phone2"+ " " +vm.contact.Phone2 + " " + "vm.contact.Phone3" + " " + vm.contact.Phone3);*/
+	
 	 	vm.editaddress = !vm.editaddress;
 	 	vm.userData = angular.copy(profileData);
 	 }

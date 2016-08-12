@@ -626,7 +626,7 @@ function InspirationalModalController($scope,inspirationalImages,$uibModalInstan
     vm.siteToken = localStorage.getItem('alfTemp_ticket');
     function cancel() {
 		$uibModalInstance.dismiss('cancel');
-		//$scope.multipleReceipent.init();
+		//$scope.multipleRecipient.init();
 	};
     $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         //you also get the actual event object

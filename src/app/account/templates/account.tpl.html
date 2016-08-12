@@ -25,25 +25,24 @@
 				<div class="my-profile-changepassword">
 					<h3>Password</h3>
 					<h4>&#x25CF;&#x25CF;&#x25CF;&#x25CF;&#x25CF;&#x25CF;&#x25CF;&#x25CF;</h4>
-					<h4>{{login.credentials.Password.length}}</h4>
 					<h5 ng-click='changepassword=!changepassword'>Change Password</h5>
 					<div class="accPro-ChangePwd col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="changepassword">
 						<form name="ChangePasswordForm">
 			                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group current-pwd">
 					           	<label>Current Password</label>
-					            <input type="password" class="form-control" ng-model="profile.currentUser.CurrentPassword" ng-required="true"  ng-model-options="{updateOn: 'blur'}"  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword"/>
+					            <input type="password" class="form-control" ng-model="changePassword.currentUser.CurrentPassword" ng-required="true" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword123" placeholder="Enter Current Password" autocomplete="off"/>
 					        </div>
 					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group new-pwd">
 					            <label>New Password</label>
-					            <input type="password" class="form-control"  ng-model="profile.currentUser.NewPassword" ng-required="true"  ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword"/>
+					            <input type="password" class="form-control"  ng-model="changePassword.currentUser.NewPassword" ng-required="true" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$" pattern-err-type="customPassword123" placeholder="Enter Password" autocomplete="off"/>
 					        </div>
 					        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group confirm-pwd">
 					            <label>Confirm Password</label>
-					            <input type="password" class="form-control" ng-model="profile.currentUser.ConfirmPassword" ng-required="true" ng-model-options="{updateOn: 'blur'}"  confirm-password="profile.currentUser.NewPassword"/>
+					            <input type="password" class="form-control" ng-model="changePassword.currentUser.ConfirmPassword" ng-required="true" confirm-password="changePassword.currentUser.NewPassword" placeholder="Enter Password" autocomplete="off"/>
 					        </div>
 			        		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group changePwdBtns">
 			        			<div class="col-xs-6 savebtn">
-				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" ng-class="{'disabledbtn': ChangePasswordForm.$invalid }" class="btn purple-btn col-xs-6" ng-click="profile.changePwd()">Save</button>
+				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" class="btn purple-btn col-xs-6" ng-click="profile.ChangePasswordPopUp()">Save</button>
 				      	 		</div>
 				      	 		<div class="col-xs-6 cancelbtn">
 				        		<button type="button" class="btn gray-btn col-xs-6" ng-click='changepassword=!changepassword'>Cancel</button>
@@ -60,6 +59,10 @@
 					<h4 class="tt-caps">
 						{{profile.profileData.FirstName}}
 						{{profile.profileData.LastName}}
+					</h4>
+					<h3>Nick Name</h3>
+					<h4 class="tt-caps">
+						{{profile.profileData.Nickname}}
 					</h4>
 
 					<h3>Address</h3>
@@ -84,58 +87,58 @@
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 								<label for="nickName">Nickname</label>
-								<input type="text" class="form-control" id="nickName" autocomplete="off">
+								<input type="text" class="form-control" id="nickName" autocomplete="off" ng-requried="true">
 							</div>
 						</div>
 
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" ng-model="profile.userData.FirstName" autocomplete="off">
+                            <input type="text" class="form-control" id="firstName" ng-model="profile.userData.FirstName" autocomplete="off" ng-requried="true">
                         </div>
 
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
                             <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" ng-model="profile.userData.LastName" autocomplete="off">
+                            <input type="text" class="form-control" id="lastName" ng-model="profile.userData.LastName" autocomplete="off" ng-requried="true">
                         </div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
 							<label for="address">Address 1</label>
-							<input type="text" class="form-control" id="address" ng-model="profile.userData.Street1" autocomplete="off">
+							<input type="text" class="form-control" id="address" ng-model="profile.userData.Street1" autocomplete="off"ng-requried="true">
 						</div>
 					</div>
 
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
 							<label for="addr2">Address 2</label>
-							<input type="text" class="form-control" id="addr2" ng-model="profile.userData.Street2" autocomplete="off">
+							<input type="text" class="form-control" id="addr2" ng-model="profile.userData.Street2" autocomplete="off" ng-requried="true">
 						</div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-6 col-sm-6 col-md-10 col-lg-10">
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group">
 							<label for="zipCode">ZIP Code</label>
-							<input type="text" class="form-control" id="zipCode" ng-model="profile.userData.Zip" ng-blur="profile.getZip(profile.userData.Zip)" autocomplete="off">
+							<input type="text" class="form-control" ng-minlength="5" maxlength="5" id="zipCode" ng-model="profile.userData.Zip" ng-keyup="profile.getZip(profile.userData.Zip)" autocomplete="off" ng-requried="true">
 						</div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 							<label for="city">City</label>
-							<input type="text" class="form-control" id="city" ng-model="profile.userData.City" autocomplete="off">
+							<input type="text" class="form-control" id="city" ng-model="profile.userData.City" ng-readonly="profile.userData.Zip" autocomplete="off">
 						</div>
 
 
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 form-group">
 							<label for="state">State</label>
-							<input type="text" class="form-control" id="state" ng-model="profile.userData.State" autocomplete="off">
+							<input type="text" class="form-control" id="state" ng-model="profile.userData.State" ng-readonly="profile.userData.Zip" autocomplete="off">
 						</div>
 					</div>
 					<div class="accPro-Edit-Content col-xs-12 col-sm-12 col-md-10 col-lg-10">
 							<div class="col-xs-8 col-sm-8 col-md-10 col-lg-6 form-group ph-number-group">
 	                            <label for="ph_no" class="ph_num">Phone Number</label>
 	                           		<div class="row phone-txt">
-									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.profileData.Phone1" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
-									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.profileData.Phone2" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
-									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="profile.profileData.Phone3" ng-keypress="profile.IsPhone($event)" autocomplete="off"></div>
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.profileData.Phone1" ng-keypress="profile.IsPhone($event)" autocomplete="off" ng-requried="true"></div>
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="profile.profileData.Phone2" ng-keypress="profile.IsPhone($event)" autocomplete="off" ng-requried="true"></div>
+									<div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="profile.profileData.Phone3" ng-keypress="profile.IsPhone($event)" autocomplete="off" ng-requried="true"></div>
 								</div>
 							</div>
 	                    </div>
@@ -157,7 +160,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 form-group acc-Pro-Edit-Btns">
                         <div class="col-xs-6 savebtn">
-                            <button type="button" class="btn purple-btn col-xs-6" ng-disabled="editcontact.$invalid" ng-click="profile.saveaddresscont(); a=!a;">Save</button>
+                            <button type="button" class="btn purple-btn col-xs-6" ng-disabled="!editcontact.$valid" ng-click="profile.saveaddresscont(); a=!a;">Save</button>
                         </div>
                         <div class="col-xs-6 cancelbtn">
                             <button type="button" class="btn gray-btn col-xs-6" ng-click="profile.top();a=!a;">Cancel</button>

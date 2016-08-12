@@ -42,19 +42,19 @@ function CheckoutConfig($stateProvider) {
                         });
 					return deferred.promise;
                 },
-                Order: function ($rootScope, $q, $state, toastr, CurrentOrder, OrderCloud) {
+                Order: function ($rootScope, $q, $state, toastr, TaxService, CurrentOrder, OrderCloud) {
                     var dfd = $q.defer();
                     CurrentOrder.GetID().then(function (orderID) {
                         console.log("orderID",orderID);
-//                            TaxService.GetTax(orderID)
-//                                .then(function() {
-                        OrderCloud.Orders.Get(orderID).then(function (order) {
-                            console.log("order",order);
-                            dfd.resolve(order);
-                        }).catch(function () {
-                            dfd.resolve(null);
-                        });
-//                                });
+                            TaxService.GetTax(orderID)
+                                .then(function() {
+                                    OrderCloud.Orders.Get(orderID).then(function (order) {
+                                    console.log("order",order);
+                                    dfd.resolve(order);
+                                }).catch(function () {
+                                    dfd.resolve(null);
+                                });
+                            });
                     })
                     .catch(function () {
                         dfd.resolve();
@@ -139,7 +139,7 @@ function checkOutService($q, $http,OrderCloud) {
     }
 	return service;
 }
-function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid,checkOutService) {
+function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, CreditCardService, TaxService, CurrentOrder, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid,checkOutService) {
     console.log(LoggedinUser);
 	var vm = this;
 	var date = new Date();
@@ -160,6 +160,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.giftcardcheckbox = false;
 	vm.editbillingaddr = false;
 	vm.newcard = false;
+    vm.addPaymentInfo = {};
 	vm.DeliveryRuns = Buyers.xp.DeliveryRuns[0];
 	vm.changedeliveryDate = changedeliveryDate;
 	vm.getGuestLineItems = getGuestLineItems
@@ -282,10 +283,11 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		if (newline.length > 1) {
 			for (var i = 0; i < newline.length; i++) {
 				if (i != 0) {
-					newline[i].ShippingAddress = newline[0].ShippingAddress
+					newline[i].ShippingAddress = newline[0].ShippingAddress;
 					newline[i].xp = newline[0].xp;
 				}
-				OrderCloud.LineItems.Update(Order.ID, newline[i].ID, newline[i]).then(function (dat) {
+                //do not use update, you will set anything not listed above to null.
+				OrderCloud.LineItems.Patch(Order.ID, newline[i].ID, {xp: newline[i].xp}).then(function (dat) {
 					console.log("LineItems Data", dat);
 					OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[i].ID, newline[i].ShippingAddress).then(function (data) {
 						console.log("1234567890", data);
@@ -298,7 +300,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			}
 		}
 		else {
-			OrderCloud.LineItems.Update(Order.ID, newline[0].ID, newline[0]).then(function (dat) {
+			OrderCloud.LineItems.Patch(Order.ID, newline[0].ID, {xp: newline[0].xp}).then(function (dat) {
 				console.log("LineItems Data", dat);
 				OrderCloud.LineItems.SetShippingAddress(Order.ID, newline[0].ID, newline[0].ShippingAddress).then(function (data) {
 					console.log("1234567890", data);
@@ -510,6 +512,36 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.showBillingAddress = function () {
 		$('.credit-card-opt').on('click', function () { $('.billing-addr-cont').show() });
 	}
+
+    vm.placeOrder = function() {
+        if(vm.selectedCard) {
+            vm.selectedCard.CVV = vm.addPaymentInfo.creditCardCVV;
+            if(vm.selectedCard.ID) {
+                CreditCardService.ExistingCardAuthCapture(vm.selectedCard, vm.orderdata)
+                    .then(function(){
+                        OrderCloud.Orders.Submit(vm.orderdata.ID)
+                            .then(function(){
+                                TaxService.CollectTax(vm.orderdata.ID)
+                                    .then(function(){
+                                        CurrentOrder.Remove();
+                                        $state.go('orderConfirmation' , {userID: vm.orderdata.FromUserID ,ID: vm.orderdata.ID});
+                                    })
+                            });
+                    });
+            } else {
+                //once echidna adds correct html to add a credit card, they can add the rest of the credit card functions
+            }
+        } else {
+             OrderCloud.Orders.Submit(vm.orderdata.ID)
+                 .then(function(){
+                     TaxService.CollectTax(vm.orderdata.ID)
+                     .then(function(){
+                         CurrentOrder.Remove();
+                         $state.go('orderConfirmation' , {userID: vm.orderdata.FromUserID ,ID: vm.orderdata.ID});
+                    })
+                });
+            }
+    }
 }
 function EditController($uibModalInstance, LineItem, Order, checkOutService, $rootScope) {
 	var vm = this;
