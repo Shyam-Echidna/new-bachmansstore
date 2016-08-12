@@ -228,6 +228,9 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
                 vm.credentials.ConfirmPassword = null;
             });
     };
+    vm.resetPasswordLink =function(){
+      vm.resetLinkConrfirm = true;
+    }
     /*vm.showSignUpForm = function(){
         vm.showSignUp = true;
         vm.showLogin = true;
