@@ -42,10 +42,10 @@
 					        </div>
 			        		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group changePwdBtns">
 			        			<div class="col-xs-6 savebtn">
-				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" class="btn purple-btn col-xs-6" ng-click="profile.ChangePasswordPopUp()">Save</button>
+				      	 		<button type="submit" ng-disabled="ChangePasswordForm.$invalid" class="btn purple-btn col-xs-6" ng-click="profile.ChangePasswordPopUp();changePassword.currentUser=''">Save</button>
 				      	 		</div>
 				      	 		<div class="col-xs-6 cancelbtn">
-				        		<button type="button" class="btn gray-btn col-xs-6" ng-click='changepassword=!changepassword'>Cancel</button>
+				        		<button type="button" class="btn gray-btn col-xs-6" ng-click="changepassword=!changepassword;changePassword.currentUser=''">Cancel</button>
 				        		</div>
 							</div>
 						</form>

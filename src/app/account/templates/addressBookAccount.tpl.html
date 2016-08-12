@@ -129,7 +129,7 @@
                     <form class="row add-new-addr-form" role="form" novalidate>
                        <div class="col-xs-6 form-group nick-name">
                             <label for="nickName">Nick Name</label>
-                            <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="NickName" autocomplete="off">
+                            <input type="text" class="form-control" ng-model="Address.editAddr.xp.NickName" id="NickName" autocomplete="off">
                         </div>
                         <div class="col-xs-6 form-group first-name" >
                             <label for="firstName">First Name</label>
@@ -235,7 +235,7 @@
                         <form class="row add-new-addr-form" role="form" novalidate>
                            <div class="col-xs-6 form-group nick-name">
                                 <label for="NickName">Nick Name</label>
-                                <input type="text" class="form-control" ng-model="Address.editAddr.NickName" id="NickName" autocomplete="off">
+                                <input type="text" class="form-control" ng-model="Address.editAddr.xp.NickName" id="NickName" autocomplete="off">
                             </div>
                             <div class="col-xs-6 form-group first-name" >
                                 <label for="firstName">First Name</label>
@@ -277,14 +277,14 @@
                             </div>
                             <div class="col-xs-12 form-group shipping-checkbox">
                                 <div class="Checkbox">
-                                    <input type="checkbox" id="ship-addr-chkb" ng-model="editAddr.IsShipping" />
+                                    <input type="checkbox" id="ship-addr-chkb" ng-model="Address.editAddr.IsShipping" />
                                     <div class="Checkbox-visible"></div>
                                 </div>
                                 <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
                             </div>
                             <div class="col-xs-12 form-group billing-checkbox">
                                 <div class="Checkbox">
-                                    <input type="checkbox" id="bill-addr-chkb" ng-model="editAddr.IsBilling" />
+                                    <input type="checkbox" id="bill-addr-chkb" ng-model="Address.editAddr.Billing" />
                                     <div class="Checkbox-visible"></div>
                                 </div>
                                 <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
