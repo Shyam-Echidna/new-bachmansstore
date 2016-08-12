@@ -193,10 +193,7 @@
 </div>-->
 	<div class="history-carousel">
 		<div class="row bachman-herritage">
-			<h4>Bachman’s Wedding Inspiration</h4>
-
-
-
+			<h4>{{history.carouselSlotHeader}}</h4>
 			<div class="owl-carousel owl-theme" id="owl-carousel-history">
 				<!-- <div class="owl-carousel-item">
 					<div class="">
@@ -216,16 +213,15 @@
 							<a ng-click="history.inspirationalPopup(carousel)"><img ng-src="{{history.alfStaticContenturl}}{{carousel.contentUrl}}?alf_ticket={{history.siteToken}}" title="prod1" alt="" class="hidden-xs hidden-sm">
 							</a>
 							<div class="grid_desc">
-								<h3 class="title">{{carousel.title}}</h3>
+								<h3 class="title" ng-if="carousel.title && carousel.title.length > 2">{{carousel.title}}</h3>
+								<p class="title" ng-if="carousel.description && carousel.description.length > 2">{{carousel.description}}</p>
 
 							</div>
 						</div>
 						<div class="clear"></div>
 					</div>
 				</div>
-
 			</div>
-
 		</div>
 	</div>
 </div>

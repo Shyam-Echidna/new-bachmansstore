@@ -46,15 +46,11 @@
             </ul>
         </div> -->
         <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2em'}" >
-            <!--  <div style="position:relative;padding-bottom: 25px;">
-                <img class="" src="assets/images/default_pdp_hereobanner.png" />
-            </div> style="position:absolute;bottom:0;"  -->
             <div class="owl-carousel" id="owl-carousel-pdp-banner">
                 <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                   <!--  <img class="elevateZoom pdp-pdt-img" src="assets/images/Batch_2_Web_Images/04Bachmans_PLP/pdp-rec-pdt.png" data-zoom-image="assets/images/Batch_2_Web_Images/04Bachmans_PLP/pdp-rec-pdt.png"/> -->
                     <img class="elevateZoom pdp-pdt-img" src="{{prodImage}}" data-zoom-image="{{prodImage}}"/>
-                    <!--  <img class="elevateZoom" src="{{prodImage}}" data-zoom-image="{{prodImage}}" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px'}" /> -->
-                    <!-- <img class="pdp-hero-banner-img" src="assets/images/113476.jpg"  /> -->
-
+                    <!-- <img class="pdp-hero-banner-img" src="assets/images/113476.jpg" /> -->
                 </div>
             </div>
         </div>

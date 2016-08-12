@@ -576,17 +576,27 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
         $(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
 
         function expandSearchWidth() {
-          /*if($cookieStore.get('isLoggedIn')){
+          var ww = $('.expandAccBlockLoggedIn').width() - 90;
+          if($cookieStore.get('isLoggedIn')){
             $('.info-bar-acc').addClass('donotXpandAcc');
-          }*/
-          var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
-          $(this).css('width', expSearchWidthValue + 80);
+            var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
+            $(this).css('width', expSearchWidthValue + 80 + ww);
+          }else{
+            var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
+            $(this).css('width', expSearchWidthValue + 80 );
+          }
         }
 
+        /*if($('.algolia-search-input').hasClass('red')){
+          var expVal = $('.header-info-bar').width();
+          $('.info-bar-search').css('width', expVal + 80 );
+          alert(expVal);
+        }
+*/
         function collapseSearchWidth() {
-          /*if($cookieStore.get('isLoggedIn')){
+          if($cookieStore.get('isLoggedIn')){
             $('.info-bar-acc').removeClass('donotXpandAcc');
-          }*/
+          }
           $(this).css('width', '90px');
         }
 

@@ -219,7 +219,7 @@ function contactController() {
 	var vm = this;
 }
 
-function templateController($http, $scope,$rootScope, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls) {
+function templateController($http, $scope,$rootScope, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls,$window) {
 	var vm = this;
 	$rootScope.showBreadCrumb = false;
     vm.bannerHideArticle = true;
@@ -228,21 +228,29 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     vm.articleSearch={};
     vm.mainCatName = "";
     vm.isOpen = 0;
+    vm.alCurrentPage =1;
     var getFirstTag = true;
     var ticket = localStorage.getItem("alfTemp_ticket");
+    var articleUrl = null;
     vm.getThingsFromALfresco = function(parent, child,index){
         setTimeout(function(){
             vm.active = index+1;
         },10)
-        
+        vm.alCurrentPage = 1;
         this.articleSearch.description ="";
         vm.activeTab = child.title;
         vm.currentCategoryID = child.nodeRef.split("SpacesStore/")[1]; 
+        articleUrl = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page=0&alf_ticket="+ticket;
         var route = parent+"/"+child.fileName;
-        LoginFact.GetArtcleList(ticket,route).then(function(response){
-	       console.log("GetArtcleList",response);
-	       vm.articleList = response;
+        staticPageData.GetFolders(articleUrl).then(function(data){
+            vm.articleList = data;
+        },function(data){
+            vm.articleList.items = [];
         });
+//        LoginFact.GetArtcleList(ticket,route).then(function(response){
+//	       console.log("GetArtcleList",response);
+//	       vm.articleList = response;
+//        });
         $state.go('plantZone');
     }
     
@@ -282,8 +290,9 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     }), function (newVal) {
         if (newVal) {
             if (newVal.length > 3) {
-                var url = alfStaticUrls.alfcontentStaticSearchArticles+"?id="+vm.currentCategoryID+"&page=0&term="+decodeURIComponent(newVal)+"&alf_ticket="+localStorage.getItem("alfTemp_ticket");
-                staticPageData.GetFolders(url).then(function(data){
+                vm.alCurrentPage=1;
+                articleUrl = alfStaticUrls.alfcontentStaticSearchArticles+"?id="+vm.currentCategoryID+"&page=0&term="+decodeURIComponent(newVal)+"&alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                staticPageData.GetFolders(articleUrl).then(function(data){
                     vm.articleList = data;
                 },function(data){
                     vm.articleList.items = [];
@@ -291,8 +300,9 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
             }
         } else {
             if (newVal == '') {
-                var url = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page=0&alf_ticket="+localStorage.getItem("alfTemp_ticket");
-                staticPageData.GetFolders(url).then(function(data){
+                vm.alCurrentPage=1;
+                articleUrl = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page=0&alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                staticPageData.GetFolders(articleUrl).then(function(data){
                     vm.articleList = data;
                 },function(data){
                     vm.articleList.items = [];
@@ -343,7 +353,18 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //        });
         $state.go('plantZone');
     }
-    
+    vm.pageChanged = function() {
+        var newurls = articleUrl.split("page=");
+        var paramurl = newurls[1].substr(newurls[1].indexOf("&"), newurls[1].length);
+        articleUrl = newurls[0]+"page="+vm.alCurrentPage+paramurl;
+        console.log(articleUrl);
+        staticPageData.GetFolders(articleUrl).then(function(data){
+            $window.scrollTo(0,400);
+            vm.articleList = data;
+        },function(data){
+            vm.articleList.items = [];
+        });
+    };
     var keepGoing = true;
     vm.tabSetdata = function(folders){
         angular.forEach(folders.subfolders,function(item){
@@ -358,9 +379,10 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     }
     
     vm.parentCategoryArticles = function(id,page){
+        vm.alCurrentPage=1;
         vm.currentCategoryID = id.split("SpacesStore/")[1]; 
-        var url = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page="+page+"&alf_ticket="+ticket;
-        staticPageData.GetFolders(url).then(function(data){
+        articleUrl = alfStaticUrls.alfcontentStaticCategoryArticles+"?id="+vm.currentCategoryID+"&page="+page+"&alf_ticket="+ticket;
+        staticPageData.GetFolders(articleUrl).then(function(data){
             vm.articleList = data;
         },function(data){
             vm.articleList.items = [];
@@ -492,16 +514,29 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
   vm.getMediaData = function(url){
 		staticPageData.GetFolders(url+"?alf_ticket="+vm.siteToken).then(function(data){
 				console.log("mediaData",data);
-				vm.carouselData = data.items;
 				angular.forEach(data.items,function(carousel){
 					if(carousel.nodeType=='ws:image' && carousel.fileName.indexOf(vm.articleTitle.replace(".html",""))>=0){
 						vm.templateBannerImage = carousel.contentUrl;
-					}
-                    if(carousel.nodeType=="ws:section" && carousel.fileName=="articleImages"){
+					}else if(carousel.nodeType=="ws:section" && carousel.fileName=="articleImages"){
                        vm.loadArticleImages(alfrescoStaticurl+carousel.location.path+"/"+carousel.fileName);
+                    }else if(carousel.nodeType=="ws:section" && carousel.fileName=="carouselImages"){
+                        vm.carouselSlotHeader = carousel.title;
+                       vm.loadCarouselImages(alfrescoStaticurl+carousel.location.path+"/"+carousel.fileName);
+                    }else{
+                        $(".history-carousel").hide();
                     }
-				})
-				if(vm.carouselData.length>2){
+				});
+		},function(data){
+            $(".history-carousel").hide();
+            console.log(data);
+		});
+	}
+	//vm.getMediaData(dataUrl);
+  vm.loadCarouselImages = function(url){
+      $(".history-carousel").show();
+      staticPageData.GetFolders(url+"?alf_ticket="+vm.siteToken).then(function(data){
+          vm.carouselData = data.items;
+          if(vm.carouselData.length>0){
 					vm.showCarouselData = true;
 					setTimeout(function(){
 						owlHistory.owlCarousel({
@@ -524,13 +559,12 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 					$(".history-carousel").hide();
 					vm.showCarouselData = false;
 				}
-
-		},function(data){
+      },function(data){
             $(".history-carousel").hide();
 				console.log(data);
 		});
-	}
-	//vm.getMediaData(dataUrl);
+  }
+  
   vm.loadArticleImages = function(url){
 		staticPageData.GetFolders(url+"?alf_ticket="+vm.siteToken).then(function(data){
 				console.log("loadArticleImages",data);
@@ -584,13 +618,14 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
   
   vm.inspirationalPopup = function (imageData) {
       var modalInstance = null;
-      staticPageData.GetFolders(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+imageData.location.path+"/"+imageData.title+"?alf_ticket="+vm.siteToken).then(function(data){
-          console.log(data);
-              openInspirationModal(data.items);
-      },function(data){
-          console.log(data);
-      });
-		
+      if(imageData.title.trim().length>0){
+          staticPageData.GetFolders(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+imageData.location.path+"/"+imageData.title+"?alf_ticket="+vm.siteToken).then(function(data){
+              console.log(data);
+                  openInspirationModal(data.items);
+          },function(data){
+              console.log(data);
+          });
+      }
   }
   
   function openInspirationModal(data){

@@ -3,7 +3,7 @@
         <p class="my-account-content-title">Email Preferences</p>
         <div class="email-subscription-container">
             <div class="email-header">Email Subscriptions</div>
-            <div class="email-lists form-group" ng-repeat="email in EmailSubscription.emailsubscribe ">
+            <div class="email-lists form-group" ng-repeat="email in EmailSubscription.emailsubscribe.data ">
                 <div class="Checkbox">
                     <input type="checkbox" id="email_chk_{{$index}}">
                     <div class="Checkbox-visible"></div>
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="save-button">
-                <button ng-disabled="Email-Preferences-container.$invalid" ng-class="{'disabledbtn': Email-Preferences-container.$invalid }">save</button>
+                <button ng-disabled="Email-Preferences-container.$invalid" ng-class="{'disabledbtn': Email-Preferences-container.$invalid }" ng-click="EmailSubscription.updateContact()">save</button>
             </div>
         </div>
     </div>
