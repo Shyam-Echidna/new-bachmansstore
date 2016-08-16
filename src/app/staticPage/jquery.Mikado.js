@@ -1,12 +1,3 @@
-// Place any jQuery/helper plugins in here.
-/*
- *  Project: jQuery Mikado 2
- *  Version: 1.0
- *  Description: Artistic gallery
- *  Author: Green Tree Labs
- */
-
-
 ; (function ($, window, document, undefined) {
 
 
@@ -324,7 +315,6 @@
 
         this.setupFilters();
         this.setupHover();
-        this.setupSocial();
         
         if(this.options.onComplete)
         	this.options.onComplete();
@@ -416,35 +406,7 @@
 
     }
 
-    Plugin.prototype.setupSocial = function () {
-        if (this.options.enableTwitter || this.options.enableFacebook ||
-            this.options.enableGplus || this.options.enablePinterest) {
-
-            this.$items.each(function (i, tile) {
-                var $tile = $(tile);
-                $tile.append("<div class='jtg-social' />");
-            });
-        }
-
-        if (this.options.enableTwitter)
-            setupTwitter(this.$items, this);
-        if (this.options.enableFacebook)
-            setupFacebook(this.$items, this);
-        if (this.options.enableGplus)
-            setupGplus(this.$items, this);
-        if (this.options.enablePinterest)
-            setupPinterest(this.$items, this);
-    }
-
-    var addSocialIcon = function ($tiles, cssClass, name) {
-        $tiles.find(".jtg-social").each(function (i, tile) {
-            var $tile = $(tile);
-
-            var tw = $("<a class='" + cssClass + "' href='#'></a>");
-            $tile.append(tw);
-        });
-    }
-
+    
     //credits James Padolsey http://james.padolsey.com/
     var qualifyURL = function (url) {
         var img = document.createElement('img');
@@ -454,83 +416,7 @@
         return url;
     }
 
-    var setupTwitter = function ($tiles, plugin) {
-        addSocialIcon($tiles, "tw-icon fa fa-twitter", "Twitter");
-        $tiles.find(".tw-icon").click(function (e) {
-            e.preventDefault();
-            var $caption = $(this).parents(".tile:first").find(".caption");
-            var text = plugin.options.twitterText || document.title;
-            if (!plugin.options.twitterText && $caption.length == 1 && $caption.text().length > 0)
-                text = $.trim($caption.text());
-            var w = window.open("https://twitter.com/intent/tweet?url=" + encodeURI(location.href.split('#')[0]) + "&text=" + encodeURI(text), "ftgw", "location=1,status=1,scrollbars=1,width=600,height=400");
-            w.moveTo((screen.width / 2) - (300), (screen.height / 2) - (200));
-        });
-    }
-
-    var setupFacebook = function ($tiles, plugin) {
-        addSocialIcon($tiles, "fb-icon fa fa-facebook", "Facebook");
-        $tiles.find(".fb-icon").click(function (e) {
-            e.preventDefault();
-
-            var image = $(this).parents(".tile:first").find(".pic");
-
-            var $caption = $(this).parents(".tile:first").find(".caption");
-            var text = plugin.options.facebookText || document.title;
-            if (!plugin.options.facebookText && $caption.length == 1 && $caption.text().length > 0)
-                text = $.trim($caption.text());
-
-            var src = image.attr("src");
-            var url = "https://www.facebook.com/dialog/feed?app_id=599264846860172&"+
-                            "link="+encodeURIComponent(location.href)+"&" +
-                            "display=popup&"+
-                            "name="+encodeURIComponent(document.title)+"&"+
-                            "caption=&"+
-                            "description="+encodeURIComponent(text)+"&"+
-                            "picture="+encodeURIComponent(qualifyURL(src))+"&"+
-                            "ref=share&"+
-                            "actions={%22name%22:%22View%20the%20gallery%22,%20%22link%22:%22"+encodeURIComponent(location.href)+"%22}&"+
-                            "redirect_uri=http://mikado-gallery.com/facebook_redirect.html";
-
-            var w = window.open(url, "ftgw", "location=1,status=1,scrollbars=1,width=600,height=400");
-            w.moveTo((screen.width / 2) - (300), (screen.height / 2) - (200));
-        });
-    }
-
-    var setupPinterest = function ($tiles, plugin) {
-        addSocialIcon($tiles, "pi-icon fa fa-pinterest", "Pinterest");
-        $tiles.find(".pi-icon").click(function (e) {
-            e.preventDefault();
-
-            var image = $(this).parents(".tile:first").find(".pic");
-
-            var $caption = $(this).parents(".tile:first").find(".caption");
-            var text = plugin.options.facebookText || document.title;
-            if (!plugin.options.facebookText && $caption.length == 1 && $caption.text().length > 0)
-                text = $.trim($caption.text());
-
-            var url = "http://pinterest.com/pin/create/button/?url=" + encodeURI(location.href) + "&description=" + encodeURI(text);
-
-            if (image.length == 1) {
-                var src = image.attr("src");
-                url += ("&media=" + qualifyURL(src));
-            }
-
-            var w = window.open(url, "ftgw", "location=1,status=1,scrollbars=1,width=600,height=400");
-            w.moveTo((screen.width / 2) - (300), (screen.height / 2) - (200));
-        });
-    }
-
-    var setupGplus = function ($tiles, plugin) {
-        addSocialIcon($tiles, "gp-icon fa fa-google-plus", "G+");
-        $tiles.find(".gp-icon").click(function (e) {
-            e.preventDefault();
-
-            var url = "https://plus.google.com/share?url=" + encodeURI(location.href);
-
-            var w = window.open(url, "ftgw", "location=1,status=1,scrollbars=1,width=600,height=400");
-            w.moveTo((screen.width / 2) - (300), (screen.height / 2) - (200));
-        });
-    }
+    
 
     $.fn[pluginName] = function (options) {
         var args = arguments;

@@ -66,13 +66,23 @@
 				</div>
 			</div>
 		</div>
-		<div class="service-list row">
+		<!-- <div class="service-list row">
 			<span class="scrollServiceLeft"></span>
 			<div>
 				<h5 class="" ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
 			</div>
 			<span class="scrollServiceRight"></span>
+		</div> -->
+		<div class="service-list row">
+			<span class="scrollServiceLeft"></span>
+			<div ng-repeat="footerService in base.ListOfPages" ng-if="footerService.title == 'Services'">
+				<h5 class=""  ng-repeat="footerServiceLink in footerService.subfolders | orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
+					<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>
+				</h5>
+			</div>
+			<span class="scrollServiceRight"></span>
 		</div>
+
 		<div class="breadcrumb-box" ng-show="showBreadCrumb">
 			<ul class="breadcrumb">
 				<li>HOME </li>
@@ -306,7 +316,7 @@
 					<div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div>
 					<div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
 					<div class=" info-bar-search" id="info-bar-search" >
-						<!-- <div class="info-search-text" nextopia-searchbar>
+						<!-- <div class="info-search-text" nextopia-searcsearchTermhbar>
 							<input type="text" ng-controller="TypeaheadCtrl" placeholder="Search" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" />
                             <input type="text"  placeholder="Search" />
 						</div> -->
@@ -466,8 +476,10 @@
 		</div>
 		<div class="service-list row">
 			<span class="scrollServiceLeft"></span>
-			<div>
-				<h5 class="" ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
+			<div ng-repeat="footerService in base.ListOfPages" ng-if="footerService.title == 'Services'">
+				<h5 class=""  ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
+					<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>
+				</h5>
 			</div>
 			<span class="scrollServiceRight"></span>
 		</div>

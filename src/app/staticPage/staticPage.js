@@ -51,6 +51,29 @@ function staticPageConfig($stateProvider) {
 				}
 			}
 		})
+        .state('CareAdviceInformation', {
+			parent: 'base',
+			url: '/CareAdviceInformation/:pageName',
+			templateUrl: 'staticPage/templates/template.tpl.html',
+			controller: 'templateCtrl',
+			controllerAs: 'template',
+            resolve:{
+				page : function($stateParams){
+				    return $stateParams.pageName;
+				}
+            }
+		})
+		.state( 'CareAdviceInformation.staticPage', {
+			url: '/CareAdviceInformation/:pageName',
+			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
+			controller: 'staticPageBaseCtrl',
+			controllerAs: 'staticPageBase',
+			resolve:{
+				page : function($stateParams){
+					return $stateParams.pageName;
+				}
+			}
+		})
 		.state('howto', {
 			parent: 'base',
 			url: '/howto',
@@ -219,7 +242,7 @@ function contactController() {
 	var vm = this;
 }
 
-function templateController($http, $scope,$rootScope, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls,$window) {
+function templateController($http, $scope,$rootScope, alfcontenturl, $state, $stateParams ,LoginFact,BaseService,staticPageData,alfStaticUrls,$window,page) {
 	var vm = this;
 	$rootScope.showBreadCrumb = false;
     vm.bannerHideArticle = true;
@@ -227,7 +250,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     vm.active = 0;
     vm.articleSearch={};
     vm.mainCatName = "";
-    vm.isOpen = 0;
+    
     vm.alCurrentPage =1;
     var getFirstTag = true;
     var ticket = localStorage.getItem("alfTemp_ticket");
@@ -251,14 +274,24 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //	       console.log("GetArtcleList",response);
 //	       vm.articleList = response;
 //        });
-        $state.go('plantZone');
+        $state.go('CareAdviceInformation');
     }
     
-    vm.getFirstThingsFromALfresco = function(pp,parent, subFolder,index){
+    vm.getFirstThingsFromALfresco = function(pp,index){
         if(pp.nodeType == 'ws:section' && pp.title !='' && getFirstTag){
-            vm.mainCatName = pp.title;
-            getFirstTag = false;
-            vm.parentCategoryArticles(pp.nodeRef,0);
+            if(page == undefined){
+                vm.isOpen = 0;
+                vm.mainCatName = pp.title;
+                getFirstTag = false;
+               // vm.parentCategoryArticles(pp.nodeRef,0);
+                vm.populateTabs(null,pp,index);
+            }else if(page==pp.displayName){
+                vm.mainCatName = pp.title;
+                getFirstTag = false;
+                vm.isOpen = index;
+                //vm.parentCategoryArticles(pp.nodeRef,0); 
+                vm.populateTabs(null,pp,index);
+            }
         }
     }
     
@@ -351,7 +384,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //                vm.getThingsFromALfresco(f.fileName,item.fileName,i);
 //            }
 //        });
-        $state.go('plantZone');
+        $state.go('CareAdviceInformation');
     }
     vm.pageChanged = function() {
         var newurls = articleUrl.split("page=");
@@ -365,18 +398,18 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
             vm.articleList.items = [];
         });
     };
-    var keepGoing = true;
-    vm.tabSetdata = function(folders){
-        angular.forEach(folders.subfolders,function(item){
-            if(keepGoing) {
-                if(item.nodeType == 'ws:section' && item.title !=''){
-                    vm.tabsData = item;
-                    keepGoing = false;
-                    return;
-                }
-            }
-        });
-    }
+//    var keepGoing = true;
+//    vm.tabSetdata = function(folders){
+//        angular.forEach(folders.subfolders,function(item){
+//            if(keepGoing) {
+//                if(item.nodeType == 'ws:section' && item.title !=''){
+//                    vm.tabsData = item;
+//                    keepGoing = false;
+//                    return;
+//                }
+//            }
+//        });
+//    }
     
     vm.parentCategoryArticles = function(id,page){
         vm.alCurrentPage=1;

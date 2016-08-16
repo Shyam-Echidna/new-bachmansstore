@@ -325,7 +325,7 @@
 					</li>
 				  </ul>
 				</div>
-				<div ng-repeat="list in base.footerlinks" class="footerBlkDiv">
+				<!-- 	<div ng-repeat="list in base.footerlinks" class="footerBlkDiv">
 					<p>{{list.title}}</p>
 					<ul>
 						<li ng-repeat="link in list.links" ng-if="list.title=='Customer Service'">
@@ -338,9 +338,23 @@
 							<a ui-sref="{{link.url}}">{{link.label}}</a>
 						</li>
 					</ul>
+				</div> -->
+				<div ng-repeat="list in base.footerlinks" class="footerBlkDiv" ng-if="list.title == 'Workshops & Events'">
+					<p>{{list.title}}</p>
+					<ul>
+						<li ng-repeat="link in list.links">
+							<a ui-sref="customerService({pageName:link.url})">{{link.label}}</a>
+						</li>
+					</ul>
 				</div>
-
-
+				<div ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'customerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'corporate' && footer.nodeType == 'ws:section' " class="footerBlkDiv">
+					<p>{{footer.title}}</p>
+		 			<ul>
+						<li ng-repeat="footerLink in footer.subfolders|orderBy : 'description'" ng-if="footerLink.nodeType == 'ws:section'">
+							<a ui-sref="{{footer.displayName}}({pageName:footerLink.displayName})">{{footerLink.title}}</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="contact col-xs-12 col-sm-12 col-md-12 col-lg-12 contact-mobile">
@@ -546,9 +560,16 @@
 		</div>
 		<h5 class="footer-copyrite">© 2016 Bachman's, Inc.</h5>
 	</div>
-	<div class="m0 service-list" style="margin:0;">
+<!-- 	<div class="m0 service-list" style="margin:0;">
 		<div>
 			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
+		</div>
+	</div> -->
+	<div class="m0 service-list ccc" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'services'">
+		<div>
+			<h5 ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
+				<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>
+			</h5>
 		</div>
 	</div>
   </div>
