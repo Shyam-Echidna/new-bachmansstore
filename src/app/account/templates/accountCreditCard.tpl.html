@@ -6,11 +6,12 @@
         </div>
     </div>
     <div class="row credit-card-list-cont not-default">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item">
+
+        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item">
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
                 <p class="title">Default Payment</p>
                 <div class="Checkbox">
-                  <input type="checkbox" checked>
+                  <input type="radio" checked name="rad">
                   <div class="Checkbox-visible"></div> 
                </div>
             </div>
@@ -19,29 +20,29 @@
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
-                <p class="addr-line1">XXXX XXXX XXXX {{card.PartialAccountNumber}}</p>
+                <p class="addr-line1">XXXX XXXX XXXX {{creditCards.Defaultlist.PartialAccountNumber}}</p>
             </div>
             <div class="col-xs-5 col-sm-5 col-md-2 col-lg-3 cr-card-name">
                 <p class="title">Cardholder's Name</p>
-                <p class="value">{{card.CardholderName}}</p>
+                <p class="value">{{creditCards.Defaultlist.CardholderName}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 expiry-date">
                 <p class="title">Expiration Date</p>
-                <p class="value">{{card.ExpirationDate | date: 'MM/yyyy' : 'UTC' }}</p>
+                <p class="value">{{creditCards.Defaultlist.ExpirationDate | date: 'MM/yyyy' : 'UTC' }}</p>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 edit-options">
                 <a href="#">Edit</a>
                 <span class="link-sep">|</span>
                 <a href="#">Delete</a>
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCards.list">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCards.list | limitTo: card.id">
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
-                <p class="title">Make Default Payment</p>
-                <!-- <input type="checkbox" value="" class="cst-chkbx" /> -->
+                <p class="title" ng-if="creditCards.defaultUserCardID==card.ID">Default Payment</p>
+                <p class="title" ng-if="creditCards.defaultUserCardID!=card.ID">Make Default Payment</p>
                 <div class="Checkbox">
-                  <input type="checkbox" ng-click="creditCards.makeDefaultCard(card)">
+                  <input type="radio" ng-model="creditCards.defaultUserCardID" name="rad" ng-click="creditCards.makedefaultcard(card.ID)" value="{{card.ID}}">
                   <div class="Checkbox-visible"></div> 
                </div>
             </div>
@@ -110,11 +111,9 @@
                                 <option>11</option>
                                 <option>12</option>
                             </select>
-                            <select class="form-control" id="year" placeholder="YY" ng-model="creditCards.card.ExpYear" required>
-                                <option value="">Year</option>
-                                <option>2016</option>
-                                <option>2017</option>
-                                <option>2018</option>
+                            <select class="form-control" id="year" placeholder="YY" ng-model="creditCards.card.ExpYear" 
+                            required ng-click="creditCards.YearDropDown()" ng-options="y for y in creditCards.years"> 
+                            //<option value="">Year</option>
                             </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
@@ -156,7 +155,7 @@
                                 <option value="MasterCard">MasterCard</option>
                                 <option value="AmericanExpress">American Express</option>
                             </select>
-                        </div>
+                        </div>{{creditCards.card.CardNumber}}
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
                             <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>

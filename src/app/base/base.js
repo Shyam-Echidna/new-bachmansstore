@@ -1785,15 +1785,17 @@ function CategoriesAsPerSeasonFilter($filter) {
   return function(item, appCstTime) {
     var newArray =[];
     for(var i=0; i<item.length; i++) {
-      var startDate = item[i].xp.StartDate;
-      var endDate = item[i].xp.EndDate;
-      var startDate = $filter('date')(new Date(startDate), 'MM/dd');
-      var endDate = $filter('date')(new Date(endDate), 'MM/dd');
-      var cstTime = $filter('date')(new Date(appCstTime), 'MM/dd');
-      //var cstTime = date+month;
-      if( (startDate < cstTime) && (endDate > cstTime) ){      
-        newArray.push(item[i]);
-      }
+        if(item[i].xp){
+            var startDate = item[i].xp.StartDate;
+            var endDate = item[i].xp.EndDate;
+            var startDate = $filter('date')(new Date(startDate), 'MM/dd');
+            var endDate = $filter('date')(new Date(endDate), 'MM/dd');
+            var cstTime = $filter('date')(new Date(appCstTime), 'MM/dd');
+            //var cstTime = date+month;
+            if( (startDate < cstTime) && (endDate > cstTime) ){      
+                newArray.push(item[i]);
+            }
+        }
     }
     return newArray;
   }

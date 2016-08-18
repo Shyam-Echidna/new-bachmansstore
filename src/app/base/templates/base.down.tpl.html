@@ -371,7 +371,7 @@
 							</li>
 						</ul>
 					</uib-accordion-group>
-					<uib-accordion-group is-open="status.open2">
+					<!-- <uib-accordion-group is-open="status.open2">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">Workshops & Events</p>
 						</uib-accordion-heading>
@@ -382,9 +382,38 @@
 							<li><a>Ideas House</a></li>
 							<li><a>Events Calender</a></li>
 						</ul>
+					</uib-accordion-group> -->
+					<uib-accordion-group is-open="status.open2" ng-repeat="list in base.footerlinks" ng-if="list.title == 'Workshops & Events'">
+						<uib-accordion-heading>
+							<p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">{{list.title}}</p>
+						</uib-accordion-heading>
+						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<li ng-repeat="link in list.links">
+								<a ui-sref="customerService({pageName:link.url})">{{link.label}}</a>
+							</li>
+						</ul>
 					</uib-accordion-group>
-
-					<uib-accordion-group is-open="status.open3">
+					<uib-accordion-group is-open="status.footer.fileName" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'customerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'corporate' && footer.nodeType == 'ws:section' " >
+						<uib-accordion-heading>
+							<p ng-class="{'footer-minus': status.footer.fileName, 'footer-plus': !status.footer.fileName}">{{footer.title}}</p>
+					    </uib-accordion-heading>
+					    <ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					    	<li ng-repeat="footerLink in footer.subfolders|orderBy : 'description'"  ng-if="footerLink.nodeType == 'ws:section' ">
+					        	<a ui-sref="{{footer.displayName}}({pageName:footerLink.displayName})">{{footerLink.title}}</a>
+					    	</li>
+					    </ul>
+					</uib-accordion-group>
+					<uib-accordion-group is-open="status.open6" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'services' && footer.nodeType == 'ws:section' ">
+						<uib-accordion-heading>
+							<p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}">{{footer.title}}</p>
+						</uib-accordion-heading>
+						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					    	<li ng-repeat="footerLink in footer.subfolders|orderBy : 'description'"  ng-if="footerLink.nodeType == 'ws:section' ">
+					        	<a ui-sref="{{footer.displayName}}({pageName:footerLink.displayName})">{{footerLink.title}}</a>
+					    	</li>
+						</ul>
+					</uib-accordion-group>
+					<!-- <uib-accordion-group is-open="status.open3">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}">Customer Service</p>
 						</uib-accordion-heading>
@@ -410,7 +439,7 @@
 							<li><a>Plant, Tree & Shrub Library</a></li>
 						</ul>
 					</uib-accordion-group>
-						<uib-accordion-group is-open="status.open5">
+					<uib-accordion-group is-open="status.open5">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open5, 'footer-plus': !status.open5}">Corporate</p>
 						</uib-accordion-heading>
@@ -421,7 +450,7 @@
 							<li><a>The Heritage Room</a></li>
 							<li><a>Flagship Store Tour</a></li>
 						</ul>
-					</uib-accordion-group>
+					</uib-accordion-group> 
 					<uib-accordion-group is-open="status.open6">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}">Services</p>
@@ -429,8 +458,10 @@
 						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<li ng-repeat="service in base.services"><a>{{service.title}}</a></li>
 						</ul>
-					</uib-accordion-group>
+					</uib-accordion-group> -->
 				</uib-accordion>
+
+
 			  <!-- <p ng-click="accordion=1">Bachman’s Products</p>
 
 			  <ul ng-show="accordion==1" class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -565,7 +596,7 @@
 			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
 		</div>
 	</div> -->
-	<div class="m0 service-list ccc" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'services'">
+	<div class="m0 service-list" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'services'">
 		<div>
 			<h5 ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
 				<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>

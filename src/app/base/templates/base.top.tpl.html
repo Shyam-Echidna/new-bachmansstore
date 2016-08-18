@@ -313,7 +313,10 @@
 			<div class="headerTransparentDiv"></div>
 			<div class="header-info-bar-position">
 				<div class="header-info-bar fr">
-					<div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div>
+					<!-- <div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div> -->
+					<div ui-sref="home" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section' " class=" info-bar-care">
+						<a>{{footer.title}}</a>
+					</div>
 					<div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
 					<div class=" info-bar-search" id="info-bar-search" >
 						<!-- <div class="info-search-text" nextopia-searcsearchTermhbar>
@@ -688,7 +691,10 @@
 			<div class="headerTransparentDiv"></div>
 			<div class="header-info-bar-position">
 				<div class="header-info-bar fr">
-					<div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div>
+					<!-- <div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div> -->
+					<div ui-sref="home" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section' " class=" info-bar-care">
+						<a>{{footer.title}}</a>
+					</div>
 					<div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
 					<div class=" info-bar-search" id="info-bar-search" >
 						<algolia-search class="info-search-text">
@@ -867,27 +873,62 @@
 												</li>
 											</ul>
 										</li> -->
-										<li><a href="">Care, Advice & Information</a></li>
-										<li><a href="">Workshops & Events</a></li>
+										<li ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section'">
+										    <a>{{footer.title}}</a>
+										</li>
+										<li class=" info-bar-events">
+											<a>{{base.workshop.label}}</a>
+										</li>
+										<!-- <li><a href="">Care, Advice & Information</a></li>
+										<li><a href="">Workshops & Events</a></li> -->
 										<li>
 											<a class="" ng-click="baseTop.login()">My Account</a>
-											<!-- <a class="logged-in-mob" ui-sref="account.profile">My Account</a>
-											<a class="signed-in-mob" ui-sref="account.profile">My Account</a> -->
 										</li>
-										<!-- <li><a>My Account</a></li> -->
-										<li class="mobile-store-locator"><a href="">Store locator</a></li>
+										<li class="mobile-store-locator">
+											<a href="">{{base.contact.label}}</a>
+										</li>
 										<li class="mobile-contact-us">
 											<ul>
-												<li><a href="">Contact Us</a></li>
-												<li><a href="">Order Local <span>(612) 861-7311</span> </a></li>
-												<li><a href="">Toll Free <span>(866) 222-4626</span></a></li>
+												<li>
+													<a>{{base.storeloc.label}}</a>
+												</li>
+												<li>
+													<a ng-repeat="contact in base.contactdetails">{{contact.label}} &nbsp;
+														<span>{{contact.number}}</span>
+													</a>
+												</li>
 											</ul>
 										</li>
-										<li class="mobile-services-list">
+										<!-- <li class="mobile-contact-us">
+											<ul>
+												<li>
+													<a href="">Contact Us</a>
+												</li>
+												<li>
+													<a href="">Order Local 
+														<span>(612) 861-7311</span> 
+													</a>
+												</li>
+												<li>
+													<a href="">Toll Free 
+														<span>(866) 222-4626</span>
+													</a>
+												</li>
+											</ul>
+										</li> -->
+										<!-- <li class="mobile-services-list">
 											<ul>
 												<li ng-repeat="service in base.services"><a href="">{{service.title}}</a></li>
 											</ul>
+										</li> -->
+										<li class="mobile-services-list" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'services'">
+										    <ul>
+										      	<li ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
+										        	<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>
+										      	</li>
+										    </ul>
 										</li>
+
 										
 									</ul>
 									<ul class="mobile-signout mobile-signout-guest" >

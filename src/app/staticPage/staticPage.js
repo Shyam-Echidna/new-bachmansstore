@@ -61,16 +61,17 @@ function staticPageConfig($stateProvider) {
 				page : function($stateParams){
 				    return $stateParams.pageName;
 				}
+
             }
 		})
 		.state( 'CareAdviceInformation.staticPage', {
-			url: '/CareAdviceInformation/:pageName',
+			url: '/infoPage/:staticFileName',
 			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
 			controller: 'staticPageBaseCtrl',
 			controllerAs: 'staticPageBase',
 			resolve:{
-				page : function($stateParams){
-					return $stateParams.pageName;
+				page : function($stateParams, page){
+					return $stateParams.staticFileName;
 				}
 			}
 		})
@@ -91,12 +92,15 @@ function staticPageConfig($stateProvider) {
 		.state('customerService', {
 			parent: 'base',
 			url: '/customerService/:pageName',
-			templateUrl: 'staticPage/templates/history.tpl.html',
+			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
 			resolve:{
 				page : function($stateParams){
 				    return $stateParams.pageName;
+				},
+				fileName : function($stateParams){
+				    return $stateParams.fileName;
 				}
             }
 		})
@@ -274,23 +278,25 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //	       console.log("GetArtcleList",response);
 //	       vm.articleList = response;
 //        });
-        $state.go('CareAdviceInformation');
+        $state.go('CareAdviceInformation',{pageName:page});
     }
     
     vm.getFirstThingsFromALfresco = function(pp,index){
         if(pp.nodeType == 'ws:section' && pp.title !='' && getFirstTag){
+			this.articleSearch.description="";
+			vm.mainCatName = pp.title;
             if(page == undefined){
                 vm.isOpen = 0;
                 vm.mainCatName = pp.title;
                 getFirstTag = false;
-               // vm.parentCategoryArticles(pp.nodeRef,0);
-                vm.populateTabs(null,pp,index);
+				vm.tabsData = pp;
+                vm.parentCategoryArticles(pp.nodeRef,0);
             }else if(page==pp.displayName){
                 vm.mainCatName = pp.title;
                 getFirstTag = false;
                 vm.isOpen = index;
-                //vm.parentCategoryArticles(pp.nodeRef,0); 
-                vm.populateTabs(null,pp,index);
+				vm.tabsData = pp;
+                vm.parentCategoryArticles(pp.nodeRef,0); 
             }
         }
     }
@@ -363,9 +369,9 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
         }else{
             localStorage.setItem("locationpath",obj.displayPath);
         }
-        
+        var paramName = obj.fileName ? obj.fileName :obj.name;
         vm.bannerHideArticle = false;
-        $state.go('.staticPage', {pageName:obj.fileName});
+        $state.go('.staticPage', {staticFileName:paramName});
     }
     
     vm.populateTabs = function(f,sf,index){
@@ -384,7 +390,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //                vm.getThingsFromALfresco(f.fileName,item.fileName,i);
 //            }
 //        });
-        $state.go('CareAdviceInformation');
+        $state.go('CareAdviceInformation',{pageName:page});
     }
     vm.pageChanged = function() {
         var newurls = articleUrl.split("page=");
@@ -525,6 +531,7 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 		console.log(folder);
 		vm.activeIndex = folder.fileName;
 		vm.childCount = 0;
+		var htmlName;
 		var param = folder.location.path.split(filename+'/')[1];
 		if(param)
 			param +="/"+folder.fileName;
@@ -534,13 +541,15 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 			angular.forEach(folder.subfolders.items,function(item){
 				if(item.nodeType=="ws:section"){
 					vm.childCount ++;
+				}else if(item.nodeType=="ws:article"){
+					htmlName = item.fileName;
 				}
 			})
 		}
 		if(vm.childCount > 2){
 		//	alert(count);
 		}else{
-			$state.go(filename, {pageName:param});
+			$state.go(filename, {pageName:param,fileName:htmlName});
 		}
 	}
  vm.showCarouselData = false;

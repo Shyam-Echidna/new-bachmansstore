@@ -131,6 +131,43 @@
 		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 p0" id=" page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row right-content">
+				<div class="mobile-receipient-details hidden-md hidden-lg">
+                        <uib-accordion>
+                            <uib-accordion-group is-open="status.openfaqs">
+                                <uib-accordion-heading>
+                                    <p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">
+                                        Care, Guides & Information</p>
+                                </uib-accordion-heading>
+                                <div class="head-title">
+                                    <h4>Services</h4>
+                                    <ul>
+                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
+                                        <li><a href="#">Indoor Plant Articles</a></li>
+                                        <li><a href="#">Outdoor Plant Articles</a></li>
+                                        <li><a href="#">Gardening Articles</a></li>
+                                    </ul>
+                                    <h4> Customer Services</h4>
+                                    <ul>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#" class="active">FAQ</a></li>
+                                        <li><a href="#">Returns & Exchanges</a></li>
+                                        <li><a href="#">Store Locator</a></li>
+                                        <li><a href="#">Delivery</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                        <li><a href="#">Perple Perks</a></li>
+                                    </ul>
+                                    <h4> Corporate</h4>
+                                    <ul>
+                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
+                                        <li><a href="#">Indoor Plant Articles</a></li>
+                                        <li><a href="#">Outdoor Plant Articles</a></li>
+                                        <li><a href="#">Gardening Articles</a></li>
+                                    </ul>
+                                </div>
+                            </uib-accordion-group>
+
+                        </uib-accordion>
+                    </div>
                     <uib-tabset active="template.active" class="tabs first-tab-hidden">
                         <uib-tab class="in-tabs" index="0">
 							<span class="shadow-border"></span>
@@ -167,9 +204,9 @@
 								</div>
 							</div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<table class="table table-responsive care-table hidden-xs hidden-sm">
+								<table class="table table-responsive care-table">
 									<thead>
-										<tr style="background-color:#fff;">
+										<tr style="background-color:#fff;" class="hidden-xs hidden-sm">
 											<th width="60%">Article Name</th>
 											<th width="25%">&nbsp;</th>
 											<th width="25%">Article Type</th>
@@ -184,13 +221,12 @@
 <!--                                        <tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.title})"> ui-sref="staticPageImage({pageName:article.fileName})" -->
 										<tr ng-repeat="article in template.articleList.items" ng-if="article.nodeType == 'ws:article'" ng-click="template.navigateToArticle(article)">
 											<td width="60%">
-													<p style='font: 1.6em "ProximaNova-Bold", Arial, sans-serif;
-    color: #8c58b5;'>{{article.title}}</p>
+													<p class="article-title">{{article.title}}</p>
 													<p class="content">{{article.description}}</p>
 													<span class="sub-head" ng-if='article.author!=""'>Written By <span class="author">{{article.author}}</span></span>
 											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%"><span class="guide">{{article.tags[0]}}</span></td>
+											<td width="25%" class="hidden-xs hidden-sm">&nbsp;</td>
+											<td width="25%" class="hidden-xs hidden-sm"><span class="guide">{{article.tags[0]}}</span></td>
 										 </tr>
 									</tbody>
 								</table>
@@ -235,9 +271,9 @@
 								</div>
 							</div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<table class="table table-responsive care-table hidden-xs hidden-sm">
+								<table class="table table-responsive care-table">
 									<thead>
-										<tr style="background-color:#fff;">
+										<tr style="background-color:#fff;" class="hidden-xs hidden-sm">
 											<th width="60%">Article Name</th>
 											<th width="25%">&nbsp;</th>
 											<th width="25%">Article Type</th>
@@ -252,13 +288,12 @@
 <!--                                        <tr ng-repeat="article in template.articleList.items" ui-sref="staticPage({pageName:article.title})"> ui-sref="staticPageImage({pageName:article.fileName})" -->
 										<tr ng-repeat="article in template.articleList.items" ng-if="article.nodeType == 'ws:article'" ng-click="template.navigateToArticle(article)">
 											<td width="60%">
-													<p style='font: 1.6em "ProximaNova-Bold", Arial, sans-serif;
-    color: #8c58b5;'>{{article.title}}</p>
+													<p class="article-title">{{article.title}}</p>
 													<p class="content">{{article.description}}</p>
 													<span class="sub-head" ng-if='article.author!=""'>Written By <span class="author">{{article.author}}</span></span>
 											</td>
-											<td width="25%">&nbsp;</td>
-											<td width="25%"><span class="guide">{{article.tags[0]}}</span></td>
+											<td width="25%" class="hidden-xs hidden-sm">&nbsp;</td>
+											<td width="25%" class="hidden-xs hidden-sm"><span class="guide">{{article.tags[0]}}</span></td>
 										 </tr>
 									</tbody>
 								</table>

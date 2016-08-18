@@ -895,7 +895,7 @@ function ConfirmPasswordController( $uibModalInstance ) {
 
 }
 
-function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards) {
+function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards, CurrentUser) {
 	var vm = this;
     vm.list = CreditCards.Items;
     console.log("credit ards are=",vm.list);
@@ -906,6 +906,7 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
         vm.editcreditcard = false;
         vm.card = null;
     };
+    
     vm.editCardInput = function(card) {
         vm.newcreditcard = false;
         vm.editcreditcard = true;
@@ -929,7 +930,14 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
                 toastr('Sorry, something went wrong. Please check your card data and try again.')
             });
     };
-
+    vm.YearDropDown=function(){
+    	var currentYear = new Date().getFullYear();
+        var years = [];
+        for (var i = 0; i < 20 + 1; i++){
+            years.push(currentYear +  i);
+        }
+        vm.years = years;
+    }
     vm.updateCard = function() {
         CreditCardService.Update(vm.card)
             .then(function(){
@@ -956,27 +964,29 @@ function CreditCardController(toastr, CreditCardService, OrderCloud, CreditCards
                 toastr('Sorry, something went wrong. Please try again.')
             });
     };
-    vm.makeDefaultCard=function(card){
-		_.filter(vm.list,function(row){
-			if(row.xp.IsDefault==true && card.ID!=row.ID){
-				row.xp.IsDefault = false;
-				OrderCloud.CreditCards.Update(row.ID, row).then(function(res){
-					console.log("the patchched addres is",res);
-				});
-			}
-			if((!row.xp.IsDefault || row.xp.IsDefault==false) && card.ID==row.ID){
-				row.xp.IsDefault = true;
-				OrderCloud.CreditCards.Update(row.ID, row).then(function(res){
-					console.log("the patchched addres is",res);
-				});
-			}
+    vm.makedefaultcard=function(cardID){
+    	vm.cards=vm.list;
+    	console.log("cards are====",vm.cards);
+    	var filt = _.findWhere(vm.list, {
+		  ID: cardID
 		});
-	}
+		vm.list = _.without(vm.list, _.findWhere(vm.list, {
+		  ID: cardID
+		}));
+		vm.list.unshift(filt);
+		OrderCloud.Users.Patch(CurrentUser.ID, {"xp":{"CreditCardDefaultId":cardID}}).then(function(res){	
+			
+		});
+    }
+    if(CurrentUser.xp){
+    	vm.defaultUserCardID = CurrentUser.xp.CreditCardDefaultId;
+    	 vm.makedefaultcard(vm.defaultUserCardID);
+    }
     vm.deletePopupCard = function(cardid) {
 		var modalInstance = $uibModal.open({
 			animation: false,
 			windowClass: 'deletePopup',
-			template: '<div class="">'+
+			template: '<div class="">'+	
 			'<div class="">'+
 			'<div class="">'+
 			'<a>'+
@@ -1152,8 +1162,8 @@ vm.saveaddresscont=function(){
 	 	if(!data.xp.ContactAddr){
 	 			OrderCloud.Addresses.Create(vm.userData).then(function(res){
 			vm.profileData = res;
-			OrderCloud.Users.Patch(data.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
-				console.log("===>", res);
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("===>"+res);
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
@@ -1162,8 +1172,8 @@ vm.saveaddresscont=function(){
 	 	else{
 	 			OrderCloud.Addresses.Update(data.xp.ContactAddr, vm.userData).then(function(res){
 			vm.profileData = res;
-			OrderCloud.Users.Patch(data.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
-				console.log("==-------==>", res);
+			OrderCloud.Users.Patch(vm.userData.ID, {"xp":{"ContactAddr":res.ID}}).then(function(res){
+				console.log("==-------==>"+res);
 				vm.profileData.xp.ContactAddr = res.xp.ContactAddr;
 			});
 		});
