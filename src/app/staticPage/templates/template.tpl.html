@@ -1,4 +1,4 @@
-<div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
+<div class="general-static-block container-fluid p0">
 
 	<div class="container-fluid p0 purple">
 		<div class="breadcrumb-box breadcrumbStatic">
@@ -35,7 +35,7 @@
                         <uib-accordion-heading ng-click="template.populateTabs(folder,subfolder,$index)">
                             <svg class="close" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
-                                 height="24" viewBox="0 0 24 24" ng-if="subfolder.subfolders.items.length>2">
+                                 height="24" viewBox="0 0 24 24" ng-if="subfolder.subfolders.items.length>3">
                                 <g>
                                     <rect x="10" width="4" height="24"/>
                                     <rect y="10" width="24" height="4"/>
@@ -45,7 +45,7 @@
                             </svg>
                             <svg class="open" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92"
-                                 height="92" viewBox="0 0 92 92" ng-if="subfolder.subfolders.items.length>2">
+                                 height="92" viewBox="0 0 92 92" ng-if="subfolder.subfolders.items.length>3">
                                 <rect y="10" width="50" height="8"/>
 
                             </svg>
@@ -133,12 +133,15 @@
 				<div class="row right-content">
 				<div class="mobile-receipient-details hidden-md hidden-lg">
                         <uib-accordion>
-                            <uib-accordion-group is-open="status.openfaqs">
+                            <uib-accordion-group is-open="status.openfaqs" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName =='CareAdviceInformation'" ng-init="template.tabSetdata(folder)">
                                 <uib-accordion-heading>
                                     <p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">
-                                        Care, Guides & Information</p>
+                                        {{template.mainCatName}}</p>
                                 </uib-accordion-heading>
-                                <div class="head-title">
+                                <div class="head-title" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-init="template.getFirstThingsFromALfresco(subfolder,$index)">
+                                    <h4 ng-click="template.populateTabs(folder,subfolder,$index);status.openfaqs=false" ng-style="template.mainCatName === subfolder.title ? { 'color':'#8c58b5'} : {}">{{subfolder.title}}</h4>
+                                </div>
+                                <!--<div class="head-title">
                                     <h4>Services</h4>
                                     <ul>
                                         <li><a href="#">Fresh Cut Flower Articles</a></li>
@@ -163,7 +166,7 @@
                                         <li><a href="#">Outdoor Plant Articles</a></li>
                                         <li><a href="#">Gardening Articles</a></li>
                                     </ul>
-                                </div>
+                                </div>-->
                             </uib-accordion-group>
 
                         </uib-accordion>

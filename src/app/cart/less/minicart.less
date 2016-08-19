@@ -287,3 +287,128 @@
         }
     }
 }
+
+
+
+
+
+
+/* miniCartEditModal */
+
+.miniCartEditModal{
+     .modal-dialog {
+        width: 80%;
+        position: absolute;
+        left: 10%;
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: none;
+            border: none;
+
+            .name-block{
+                border: none;
+                margin-bottom: 10px;
+            }
+            .radio-btn-group {
+            margin-top: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f1f1;
+            margin-bottom: 20px;
+            label {
+                font: 1em @proxima-regular;
+                color: #666;
+                display: inline-block;
+                cursor: pointer;
+                position: relative;
+                padding-left: 25px;
+                margin: 0px;
+                font-weight: normal;
+                vertical-align: middle;
+                .radioOutline {
+                    vertical-align: middle;
+                }
+                .label-name {
+                    vertical-align: middle;
+                }
+                &#first-label {
+                    padding-left: 0px;
+                }
+            }
+            input[type=radio] {
+                display: none;
+            }
+            input[type=radio] {
+                opacity: 0;
+                &:not(old) {
+                    &+ label .radioOutline,
+                    &:checked + label .radioOutline {
+                        border: 1px solid @base-bg-purple-dark;
+                        border-radius: 50%;
+                        background: transparent;
+                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+                        text-align: center;
+                    }
+                    &:checked + label .radioOutline .radioInside {
+                        display: block;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        display: inline-block;
+                        background-color: @base-bg-purple-dark;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        margin: auto;
+                    }
+                    &+ label .radioOutline .radioInside {
+                        display: block;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        display: inline-block;
+                        background-color: transparent;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        margin: auto;
+                    }
+                }
+            }
+            /*label:before {
+                                content: "";
+                                display: inline-block;
+                                width: 17px;
+                                height: 17px;
+                                margin-right: 10px;
+                                position: absolute;
+                                left: 0;
+                                bottom: 1px;
+                                border: 1px solid #ccc;
+                                background-color: transparent;
+                                border-radius: 10px;
+                            }
+                        
+                            input[type=radio]:checked + label:before {
+                                content: "\2022";
+                                color: @base-bg-purple-dark;
+                                font-size: 44px;
+                                text-align: center;
+                                line-height: 5px;
+                                -webkit-transition:color 0.3s linear;
+                                -o-transition:color 0.3s linear;
+                                -moz-transition:color 0.3s linear;
+                                transition:color 0.3s linear;
+                            }*/
+        #first-radio{
+            padding-left:0px;
+        }
+        }
+        }
+    }
+}

@@ -2654,7 +2654,27 @@ span.ng-isolate-scope:active {
                 .row {
                     div {
                         padding: 0px 15px 0px 0px;
+                            #qty{
+                                &+.has-error{
+                                    display: none;
+                                }
+                            }
+                            #zip-code{
+                                display: inline-block;
+                                    &+.has-error{
+                                        display: inline-block;
+                                    }
+                            }
                     }
+                }
+            }
+            input[type="text"]{
+                &+.has-error{
+                    font-size: 0.7em;
+                    width: 100%;
+                    border: none;
+                    padding: 0;
+                    margin-left: -5px;
                 }
             }
         }
@@ -2759,6 +2779,9 @@ span.ng-isolate-scope:active {
             .row{
                 div{
                                             width: 35%;
+                                            .row{
+                                                width: 100%;
+                                            }
                             &.col-md-offset-1{
                                 margin-left: 5%;
                             }
@@ -2881,6 +2904,9 @@ span.ng-isolate-scope:active {
                     div {
                         padding: 0px 15px 0px 0px !important;
                         width: 30%;
+                            .has-error{
+                                display: none;
+                            }
                     }
                 }
             }
@@ -2891,6 +2917,7 @@ span.ng-isolate-scope:active {
                     .Checkbox-visible {
                         height: 17px;
                         width: 17px;
+                        background-position: 14px 0px;
                     }
                 }
                 label {
@@ -2962,6 +2989,11 @@ span.ng-isolate-scope:active {
                     color: #464646;
                 }
             }
+        }
+        .cardmsg{
+            border-top: 2px solid #f4f4f4;
+            margin-top: -25px;
+            padding-top: 20px;
         }
         .total-block {
             margin-top: 25px;
@@ -3075,6 +3107,7 @@ span.ng-isolate-scope:active {
 	            .Checkbox-visible {
 	                width: 17px;
 	                height: 17px;
+                    background-position: 14px 0px; 
 	            }
 	        }
 	        label {
@@ -3089,15 +3122,17 @@ span.ng-isolate-scope:active {
 	.message-lines,
 	.request-box {
 	    padding: 0px;
-	    padding: 0px 30px 0px 0px !important;
+	    padding: 0px 30px 0px 0px;
         width: 35%;
 	    .instruction {
 	        width: 100%;
 	        background: transparent;
 	        border: 1px dashed #666;
 	        font: 0.875em @proxima-regular;
-	        height: 2.813em;
-	        line-height: 2.813em;
+	        height: 4em;
+	        line-height: 4em;
+            text-align: center;
+            cursor: default;
 	    }
 	    input[type="text"],
 	    textarea {
@@ -3136,6 +3171,16 @@ span.ng-isolate-scope:active {
 	    }
 
 	}
+    .message-lines{
+        padding-right: 30px !important;
+    }
+    .request-box{
+        width: 63%;
+        //padding-left: 30px !important;
+        padding: 0px;
+
+    }
+
       &.disable-fields{
         .row {
             div {
@@ -3197,6 +3242,7 @@ span.ng-isolate-scope:active {
                             .Checkbox-visible{
                                 height: 16px;
                                 width: 16px;
+                                background-position: 14px 0px;
                             }
                             &+label{
                                 cursor: pointer;
@@ -3204,14 +3250,14 @@ span.ng-isolate-scope:active {
                         }
                         .panel-head-price {
                             float: right;
-                            padding-right: 100px;
+                            padding-right: 70px;
                             cursor: default;
                         }
                         a {
                             span {
                                 p {
                                     &.footer-plus {
-                                        background-image: url('../../assets/images/plus-grey.svg');
+                                        background-image: url('../../assets/images/plus-mr.svg');
                                         .background-img(18px,
                                         right);
                                         background-size: 18px;
@@ -3241,7 +3287,7 @@ span.ng-isolate-scope:active {
                                 span {
                                     p {
                                         &.footer-plus {
-                                            background-image: url('../../assets/images/plus-grey.svg');
+                                            background-image: url('../../assets/images/plus-mr.svg');
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
@@ -3278,6 +3324,11 @@ span.ng-isolate-scope:active {
 			            line-height: 2.813em;
 			            text-transform: uppercase;
 			            margin: 0px;
+                        &[disabled]{
+                                background: #ccc;
+                                border-color: #ccc;
+                                cursor: no-drop;
+                            }
 			        }
 			    }
 			    .add-recipent {
@@ -3287,6 +3338,7 @@ span.ng-isolate-scope:active {
                         color: @font-purple-dark;
                         font-weight: bold;
                         text-transform: uppercase;
+                        line-height: 45px;
                         .svg-outer {
                             margin-right: 5px;
                             svg {
@@ -3338,12 +3390,16 @@ span.ng-isolate-scope:active {
         min-height: 100%;
         .panel-body-content{
             padding: 0px 10px;
+            .cardmsg{
+                margin-top: 0px;
+                padding-top: 25px;
+            }
             .message-lines,.request-box{
                 width: 100%;
                 display: block;
                 clear: both;
                 padding: 0px !important;
-                input[type="text"]{
+                input[type="text"], input[type="search"]{
                     font-size: 0.750em;
                 }
             }
@@ -3390,7 +3446,7 @@ span.ng-isolate-scope:active {
                                     label{
                                         font-size:0.749em;
                                     }
-                                    input[type=text],select{
+                                    input[type=text],select, input[type="search"]{
                                         font-size:0.750em;
                                     }
                                 }
@@ -3538,7 +3594,7 @@ span.ng-isolate-scope:active {
                                         padding: 0px;
                                     }
                                     .next-btn{
-                                margin: 25px 0px 20px 0px;
+                                margin: 15px 0px 5px 0px;
                                 //padding-bottom: 20px;
                                 padding: 0px;
 

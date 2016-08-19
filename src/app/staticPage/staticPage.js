@@ -452,12 +452,7 @@ function template1Controller() {
 				0: {
 					items: 1
 				},
-				320: {
-					items: 2,
-				},
-				730: {
-					items: 3,
-				},
+				
 				1024: {
 					items: 4
 				}

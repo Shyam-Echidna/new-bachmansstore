@@ -1043,6 +1043,9 @@ h3.accordion {
 			padding-right: 0;
 			.container-fluid {
 				padding: 0;
+				.service-full-content{
+				   margin-top:0px;
+				}
 				.tabs {
 					ul {
 						padding: 0 10px;
@@ -1547,6 +1550,9 @@ h3.accordion {
 			font: 0.875em @proxima-regular;
 		}
 	}
+}
+.static-full-content{
+	margin-top:0px;
 }
 .container.static-aside {
 	.service-static-content {
@@ -2150,6 +2156,7 @@ h3.accordion {
 						padding-left: 10px;
 					}
 				}
+
 			}
 		}
 	}
@@ -3449,7 +3456,7 @@ div.store {
 						border-bottom-width: 1px;
 						border-bottom-color: @font-purple-light;
 						.footer-plus {
-							background-image: url('../assets/images/dropdown-purple.svg');
+							background-image: url('/assets/images/dropdown-purple.svg');
 							.background-img(18px,
 							right);
 							color: @font-purple-dark;
@@ -3457,7 +3464,7 @@ div.store {
 							/*	font: 16px @proxima-bold;*/
 						}
 						.footer-minus {
-							background-image: url('../assets/images/dropdownup-purple.svg');
+							background-image: url('/assets/images/dropdownup-purple.svg');
 							.background-img(18px,
 							right);
 							color: @font-purple-dark;
@@ -3466,7 +3473,7 @@ div.store {
 						}
 					}
 					.panel-body {
-						padding: 10px 0 0;
+						padding: 0px 0 0;
 						.head-title {
 							h4 {
 								font: 0.875em @proxima-bold;
@@ -3535,11 +3542,7 @@ div.store {
 					}
 					.motifs-gallery{
 						padding:20px 10px;
-						.owl-carousel-item.portfolio-item{
-						  img{
-						  		width:100%;
-						  }
-						}
+						
 					}
 				}
 				&.service-templates {
@@ -5123,9 +5126,7 @@ h4 {
    	 	.gallery-desc{
    	 	 background:#fff;
    	 	 padding:10px;
-   	 	 .owl-carousel-item.portfolio-item{
-   	 	 	margin-bottom:30px;
-   	 	 }
+   	 	
    	 	 h3{
    	 	 	font:1.000em @proxima-bold;
    	 	 	color:#333;
@@ -5136,6 +5137,7 @@ h4 {
    	 	}
    	 	.owl-item {
    	 		border: 1px solid #eee;
+   	 		
    	 	}
    	 	.owl-nav {
    	 		position: absolute;

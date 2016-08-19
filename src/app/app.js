@@ -27,7 +27,8 @@ angular.module( 'orderCloud', [
         'ui.bootstrap-slider',
         'cb.x2js',
         'ngScrollbar',
-        'ngScrollable'
+        'ngScrollable',
+         'cgBusy'
     ])
 
     .run( SetBuyerID )
@@ -67,7 +68,7 @@ function ErrorHandling( $provide ) {
     }
 }
 
-function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, localdeliverytimeurl, OrderCloud ) {
+function AppCtrl( $q, $scope, $rootScope, $state, appname,  toastr, $ocMedia, localdeliverytimeurl, OrderCloud ) {
     var vm = this;
     vm.name = appname;
     vm.title = appname;
@@ -78,7 +79,9 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
         showWeeks: false,
         showButtonBar: false
     }
-
+ function cleanLoadingIndicators() {
+        if (vm.contentLoading && vm.contentLoading.promise && !vm.contentLoading.promise.$cgBusyFulfilled) vm.contentLoading.resolve(); //resolve leftover loading promises
+    }
     vm.toggleLeftNav = function() {
         vm.showLeftNav = !vm.showLeftNav;
     };
@@ -89,8 +92,18 @@ function AppCtrl( $scope, $rootScope, $state, appname,  toastr, $ocMedia, locald
        // LoginService.Logout();
         $state.go('home');
     };
+    $rootScope.$on('$stateChangeStart', function(e, toState) {
+        cleanLoadingIndicators();
+        var defer = $q.defer();
+        //defer.delay = 200;
+        defer.wrapperClass = 'indicator-container';
+        (toState.data && toState.data.loadingMessage) ? defer.message = toState.data.loadingMessage : defer.message = null;
+        defer.templateUrl = 'common/loading-indicators/templates/view.loading.tpl.html';
+        vm.contentLoading = defer;
+    });
 
     $rootScope.$on('$stateChangeSuccess', function(e, toState) {
+       cleanLoadingIndicators();
         if (toState.data && toState.data.componentName) {
             vm.title = appname + ' - ' + toState.data.componentName
         } else {

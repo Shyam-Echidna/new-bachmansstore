@@ -78,35 +78,19 @@
 
                     <div class="mobile-receipient-details hidden-md hidden-lg">
                         <uib-accordion>
-                            <uib-accordion-group is-open="status.openfaqs">
+                                <uib-accordion-group is-open="status.openfaqs" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName =='CareAdviceInformation'" ng-init="template.tabSetdata(folder)">
                                 <uib-accordion-heading>
                                     <p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">
-                                        Care, Guides & Information</p>
+                                        {{template.mainCatName}}</p>
                                 </uib-accordion-heading>
-                                <div class="head-title">
-                                    <h4>Services</h4>
+                                <div class="head-title" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-init="template.getFirstThingsFromALfresco(subfolder,$index)">
+                                    <h4 ng-click="template.populateTabs(folder,subfolder,$index);status.openfaqs=false" ng-style="template.mainCatName === subfolder.title ? { 'color':'#8c58b5'} : {}">{{subfolder.title}}</h4>
                                     <ul>
-                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
-                                        <li><a href="#">Indoor Plant Articles</a></li>
-                                        <li><a href="#">Outdoor Plant Articles</a></li>
-                                        <li><a href="#">Gardening Articles</a></li>
-                                    </ul>
-                                    <h4> Customer Services</h4>
-                                    <ul>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#" class="active">FAQ</a></li>
-                                        <li><a href="#">Returns & Exchanges</a></li>
-                                        <li><a href="#">Store Locator</a></li>
-                                        <li><a href="#">Delivery</a></li>
-                                        <li><a href="#">Gift Cards</a></li>
-                                        <li><a href="#">Perple Perks</a></li>
-                                    </ul>
-                                    <h4> Corporate</h4>
-                                    <ul>
-                                        <li><a href="#">Fresh Cut Flower Articles</a></li>
-                                        <li><a href="#">Indoor Plant Articles</a></li>
-                                        <li><a href="#">Outdoor Plant Articles</a></li>
-                                        <li><a href="#">Gardening Articles</a></li>
+                                        <li ng-repeat="subsubFolder in subfolder.subfolders.items" ng-if="subsubFolder.nodeType == 'ws:section' && subsubFolder.title !=''">
+                                            <a ng-click="template.bannerHideArticle = true;template.getThingsFromALfresco(subfolder.fileName,subsubFolder,$index)"  ng-style="template.activeTab === subsubFolder.title ? { 'color':'#8c58b5'} : {}">
+                                            {{subsubFolder.title}}
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </uib-accordion-group>

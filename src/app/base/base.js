@@ -58,6 +58,7 @@ function BaseConfig( $stateProvider ) {
                                     OrderCloud.Auth.GetToken('')
                                         .then(function (data) {
                                             OrderCloud.Auth.SetToken(data['access_token']);
+                                            
                                         })
                                         .finally(function () {
                                             OrderCloud.BuyerID.Set(buyerid);
@@ -1663,6 +1664,7 @@ function windowHeightDirective($window) {
       restrict: 'A',
       link: function(scope, element){
           scope.windowHeight = $window.innerHeight - 60;
+          scope.windowHeightFull = $window.innerHeight;
       }
   };
 }

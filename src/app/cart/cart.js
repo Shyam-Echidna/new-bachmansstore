@@ -6,8 +6,8 @@ angular.module('orderCloud')
     .controller('ProductRequestCtrl', ProductRequestController)
     .controller('ChangeRecipientPopupCtrl', ChangeRecipientPopupController)
     .directive('ordercloudMinicart', OrderCloudMiniCartDirective)
-    .factory('CartService', CartService)
     .controller('EditRecipientPopupCtrl', EditRecipientPopupController)
+    .controller('editCartPopupCtrl', editCartPopupController)
 
     ;
 
@@ -29,7 +29,7 @@ function CartConfig($stateProvider) {
                     CurrentOrder.GetID()
                         .then(function (orderID) {
                             TaxService.GetTax(orderID)
-                                .then(function() {
+                                .then(function () {
                                     OrderCloud.Orders.Get(orderID)
                                         .then(function (order) {
                                             dfd.resolve(order);
@@ -87,13 +87,18 @@ function CartConfig($stateProvider) {
             }
         });
 }
-function CartService($q, OrderCloud, $http) {
+function PdpService($q, OrderCloud, $http) {
     return {
         CompareDate: _CompareDate,
         GetBuyerDtls: _GetBuyerDtls,
         GetDeliveryOptions: _GetDeliveryOptions,
         getCityState: _getCityState,
-        GetPhoneNumber: _GetPhoneNumber
+        GetPhoneNumber: _GetPhoneNumber,
+        GetStores: _GetStores,
+        GetChurches: _GetChurches,
+        GetFuneralHomes: _GetFuneralHomes,
+        GetHospitals: _GetHospitals,
+        Getcemeteries: _Getcemeteries
     }
     function _GetPhoneNumber(phn) {
         var d = $q.defer();
@@ -101,7 +106,7 @@ function CartService($q, OrderCloud, $http) {
         var init = phn.indexOf('(');
         var fin = phn.indexOf(')');
         arr.push(parseInt(phn.substr(init + 1, fin - init - 1)));
-        init = phn.indexOf(')');
+        init = phn.indexOf(' ');
         fin = phn.indexOf('-');
         arr.push(parseInt(phn.substr(init + 1, fin - init - 1)));
         init = phn.indexOf('-');
@@ -152,17 +157,17 @@ function CartService($q, OrderCloud, $http) {
     function _GetDeliveryOptions(line, DeliveryMethod) {
         var d = $q.defer();
         OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
+
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+            //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-                OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
-
+            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
                 var key = {}, MinDate = {};
-                // line.xp.NoInStorePickUp = true;
-                // if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
-                // 	line.xp.NoInStorePickUp = false;
-                // }
+                line.xp.NoInStorePickUp = true;
+                if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
+                    line.xp.NoInStorePickUp = false;
+                }
                 _.each(res2.xp.DeliveryChargesCatWise.DeliveryMethods, function (v, k) {
                     if (v.MinDays) {
                         MinDate[k] = v.MinDays;
@@ -171,9 +176,9 @@ function CartService($q, OrderCloud, $http) {
                     if (k == "UPS" && v['Boolean'] == true) {
                         key[k] = {};
                     }
-                    // if (k == "USPS" && v['Boolean'] == true) {
-                    // 	key[k] = {};
-                    // }
+                    if (k == "USPS" && v['Boolean'] == true) {
+                        key[k] = {};
+                    }
                     if (k == "InStorePickUp") {
                         key[k] = {};
                     }
@@ -195,13 +200,13 @@ function CartService($q, OrderCloud, $http) {
                 if (key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && !key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
                     DeliveryMethod = "UPS";
                 }
-                // if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
-                // 	line.xp.NoDeliveryExInStore = true;
-                // 	line.xp.addressType = "Will Call";
-                // }
-                // delete line.xp.Status;
-                // if (DeliveryMethod == "UPS" && !key['UPS'])
-                // 	line.xp.Status = "OnHold";
+                if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
+                    line.xp.NoDeliveryExInStore = true;
+                    line.xp.addressType = "Will Call";
+                }
+                delete line.xp.Status;
+                if (DeliveryMethod == "UPS" && !key['UPS'])
+                    line.xp.Status = "OnHold";
                 _GetBuyerDtls().then(function (dt) {
                     if (DeliveryMethod == "LocalDelivery") {
                         if (!key.LocalDelivery)
@@ -215,17 +220,19 @@ function CartService($q, OrderCloud, $http) {
                         //key.UPS = {};
                         if (key.UPS)
                             key.UPS.UPSCharges = dt.xp.Shippers.UPS.UPSCharges;
-                    } //else if (DeliveryMethod == "DirectShip") {
-                    // 	key.DirectShip.StandardDelivery = dt.xp.Shippers.DirectShip.StandardDelivery;
-                    //} 
+                    } else if (DeliveryMethod == "DirectShip") {
+                        key.DirectShip.StandardDelivery = dt.xp.Shippers.DirectShip.StandardDelivery;
+                    }
                     else if (DeliveryMethod == "Mixed") {
                         if (!key.Mixed)
                             key['Mixed'] = {};
                         key.Mixed.StandardDelivery = dt.xp.Shippers.Mixed.StandardDelivery;
-                    }// else if (DeliveryMethod == "USPS") {
-                    // 	key.USPS = {};
-                    // 	key.USPS.USPSCharges = dt.xp.Shippers.USPS.USPSCharges;
-                    // } else if (DeliveryMethod == "Courier") {
+                    }
+                    else if (DeliveryMethod == "USPS") {
+                        key.USPS = {};
+                        key.USPS.USPSCharges = dt.xp.Shippers.USPS.USPSCharges;
+                    }
+                    //else if (DeliveryMethod == "Courier") {
                     // 	key.Courier = {};
                     // 	key.Courier.CourierCharges = dt.xp.Shippers.Courier.OMS;
                     // }
@@ -242,10 +249,87 @@ function CartService($q, OrderCloud, $http) {
         });
         return d.promise;
     }
+    function _GetStores() {
+        var defered = $q.defer();
+        $http.get('https://api.myjson.com/bins/4wsk2').then(function (res) {
+            defered.resolve(res);
+        });
+        return defered.promise;
+    }
+    function _GetChurches() {
+        var defered = $q.defer();
+        var churchs = [];
+        OrderCloud.UserGroups.List('Church').then(function (res) {
+            console.log(res.Items.ID);
+            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
+                angular.forEach(data.Items, function (val, key) {
+                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
+                        churchs.push(res);
+                        defered.resolve(churchs);
+                    });
+                });
+
+            });
+        })
+        return defered.promise;
+    }
+    function _GetFuneralHomes() {
+        var defered = $q.defer();
+        var funeralHomes = [];
+        OrderCloud.UserGroups.List('Funeral').then(function (res) {
+            console.log(res.Items.ID);
+            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
+                angular.forEach(data.Items, function (val, key) {
+                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
+                        funeralHomes.push(res);
+                        defered.resolve(funeralHomes);
+                    });
+                });
+
+            });
+        })
+        return defered.promise;
+    }
+    function _GetHospitals() {
+        var defered = $q.defer();
+        var hospitals = [];
+        OrderCloud.UserGroups.List('Hospitals').then(function (res) {
+            console.log(res.Items.ID);
+            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
+                angular.forEach(data.Items, function (val, key) {
+                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
+                        hospitals.push(res);
+                        defered.resolve(hospitals);
+                    });
+                });
+
+            });
+        })
+        return defered.promise;
+    }
+    function _Getcemeteries() {
+        var defered = $q.defer();
+        var cemeteries = [];
+        OrderCloud.UserGroups.List('Cemetery').then(function (res) {
+            console.log(res.Items.ID);
+            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
+                angular.forEach(data.Items, function (val, key) {
+                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
+                        cemeteries.push(res);
+                        defered.resolve(cemeteries);
+                    });
+                });
+
+
+
+            });
+        })
+        return defered.promise;
+    }
 
 }
 
-function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, PdpService, LoggedinUser, CartService, CurrentOrder) {
+function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, LoggedinUser, PdpService, CurrentOrder) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
@@ -307,9 +391,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             });
     });
 
-    vm.wishlist = function (productID) {
+    vm.wishlist = function (line) {
         alert("test");
-        PdpService.AddToWishList(productID);
+        //PdpService
+        PdpService.AddToWishList(line.Product.ID);
+        vm.removeItem(vm.order,line);
     }
 
     angular.forEach(vm.lineItems.Items, function (line) {
@@ -321,7 +407,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         if (value.ShippingAddress != null) {
 
             //totalCost += value.xp.TotalCost;
-            return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip;
+            return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + value.xp.DeliveryMethod;
         }
     });
 
@@ -339,12 +425,12 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     vm.clearcart = function () {
         OrderCloud.Orders.Delete(vm.order.ID)
-            .then(function(){
+            .then(function () {
                 CurrentOrder.Remove()
-                    .then(function(){
-                       $state.go('home');
+                    .then(function () {
+                        $state.go('home');
                     });
-        });
+            });
     };
 
     vm.closePopover = function () {
@@ -415,8 +501,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         });
         $q.all(temppromise).then(function (result) {
             vm.updateRecipientDetails(result).then(function (s) {
-                if (s == 'Success') {
-                    $state.reload();
+                if (s == 'success') {
+                   $state.go('cart', { ID: vm.order.ID });
                 }
             });
             // var tmp = [];
@@ -446,9 +532,67 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 Lineitem: function () {
                     return item;
                 },
-                Order: function() {
+                Order: function () {
                     return vm.order;
+                },
+                AddressCheck: function () {
+                    return callDeliveryOptions(item);
+                    function callDeliveryOptions(line) {
+                        var d = $q.defer();
+                        OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
+
+                            //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+                            //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+
+                            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+                                //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
+                                var key = {}, MinDate = {};
+                                line.xp.NoInStorePickUp = true;
+                                if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
+                                    item.xp.NoInStorePickUp = false;
+                                }
+                                _.each(res2.xp.DeliveryChargesCatWise.DeliveryMethods, function (v, k) {
+                                    if (v.MinDays) {
+                                        MinDate[k] = v.MinDays;
+                                        key['MinDate'] = MinDate;
+                                    }
+                                    if (k == "UPS" && v['Boolean'] == true) {
+                                        key[k] = {};
+                                    }
+                                    if (k == "USPS" && v['Boolean'] == true) {
+                                        key[k] = {};
+                                    }
+                                    if (k == "InStorePickUp") {
+                                        key[k] = {};
+                                    }
+                                    if (k == 'Mixed' && v['Boolean'] == true) {
+                                        key[k] = {};
+                                    }
+                                    _.each(v, function (v1, k1) {
+                                        var obj = {};
+                                        if (v1['Boolean'] == true) {
+                                            if (k == "Mixed" && line.Quantity < 50) {
+
+                                            } else {
+                                                obj[k1] = v1['Value'];
+                                                key[k] = obj;
+                                            }
+                                        }
+                                    });
+                                });
+
+                                if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
+                                    line.xp.NoDeliveryExInStore = true;
+                                }
+
+                                d.resolve(line);
+
+                            });
+                        });
+                        return d.promise;
+                    }
                 }
+
             }
         });
     }
@@ -464,7 +608,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 Lineitems: function () {
                     return data;
                 },
-                Order: function() {
+                Order: function () {
                     return vm.order;
                 }
             }
@@ -490,13 +634,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             data[0] = lineitem;
             console.log(lineitem, addressforlineitem);
             vm.updateRecipientDetails(data).then(function (s) {
-                if (s == 'Success') {
-                    $state.reload();
-                    lineitem.showDeliveryToolTip=!lineitem.showDeliveryToolTip;
+                if (s == 'success') {
+                   $state.go('cart', { ID: vm.order.ID });
+                    lineitem.showDeliveryToolTip = !lineitem.showDeliveryToolTip;
                 }
             });
         }
-          lineitem.showDeliveryToolTip=! lineitem.showDeliveryToolTip;
+        lineitem.showDeliveryToolTip = !lineitem.showDeliveryToolTip;
     }
 
     vm.checkDeliverymethod = checkDeliverymethod;
@@ -505,9 +649,12 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
         vm.GetDeliveryMethods(line.ProductID).then(function (res) {
 
-            if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
+            if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip) {
                 line.xp.DeliveryMethod = "DirectShip";
-
+            }
+            if (res.Name == "Gift Cards") {
+                line.xp.DeliveryMethod = 'USPS'
+            }
 
             if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS) {
                 line.xp.DeliveryMethod = 'UPS';
@@ -515,12 +662,12 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             }
             if (res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
                 line.xp.DeliveryMethod = 'LocalDelivery';
-                //vm.sameDay = true;
+
             }
             if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS && res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
                 if (line.ShippingAddress.City == "Minneapolis" || line.ShippingAddress.City == "Saint Paul") {
                     line.xp.DeliveryMethod = 'LocalDelivery';
-                    //vm.sameDay = true;
+
                 }
                 else {
 
@@ -542,8 +689,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
 
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
-             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-                OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+            //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
 
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
@@ -555,13 +702,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.calculateDeliveryCharges = calculateDeliveryCharges;
     function calculateDeliveryCharges(line) {
         var d = $q.defer();
-        CartService.GetDeliveryOptions(line, line.xp.DeliveryMethod).then(function (res) {
+        PdpService.GetDeliveryOptions(line, line.xp.DeliveryMethod).then(function (res) {
 
             var obj = {};
 
             if (line.xp.DeliveryMethod == 'LocalDelivery') {
 
-                CartService.CompareDate(line.xp.deliveryDate).then(function (data) {
+                PdpService.CompareDate(line.xp.deliveryDate).then(function (data) {
                     if (data == '1') {
 
                         angular.forEach(res[line.xp.DeliveryMethod], function (val, key) {
@@ -652,21 +799,21 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 angular.forEach(data, function (val1) {
                     promises[inum] = calliteration(val1);
                     function calliteration(val1) {
-                        var deferred = $q.defer();
+                        var d = $q.defer();
                         var newLineItems = []
                         OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
                             newLineItems = res.Items;
                             newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
                             vm.checkDeliverymethod(val1).then(function (r) {
                                 if (r == 'success') {
-                                    vm.checkLineItemsId(newLineItems, val1).then(function (id) {
+                                    vm.checkLineItemsId(newLineItems, val1,d).then(function (id) {
                                         if (id == 'notsameId') {
-                                            vm.checkLineItemsAddress(newLineItems, val1).then(function (address) {
+                                            vm.checkLineItemsAddress(newLineItems, val1,d).then(function (address) {
                                                 if (address == 'notsameAddress') {
                                                     vm.calculateDeliveryCharges(val1).then(function (r1) {
                                                         if (r1 == '1') {
                                                             vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
-
+                                                                     d.resolve("success");
                                                             })
 
 
@@ -682,7 +829,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                             });
                         });
 
-                        return deferred.promise;
+                        return d.promise;
                     }
                     inum++;
                 });
@@ -726,12 +873,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 });
 
             }
-           
+
         });
         return defered.promise;
     }
     vm.updateLinedetails = updateLinedetails;
     function updateLinedetails(args, newline) {
+        delete newline.xp.NoInStorePickUp;
+        delete newline.xp.NoDeliveryExInStore;
         var defered = $q.defer()
         OrderCloud.LineItems.Update(args, newline.ID, newline).then(function (dat) {
             console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
@@ -748,7 +897,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     function getCityState(line, zip) {
         var defered = $q.defer();
-        CartService.getCityState(zip).then(function (res) {
+        PdpService.getCityState(zip).then(function (res) {
             line.ShippingAddress.City = res.City;
             line.ShippingAddress.State = res.State;
             line.ShippingAddress.Country = res.Country;
@@ -757,7 +906,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         return defered.promise;
     }
 
-    function checkLineItemsAddress(res, line) {
+    function checkLineItemsAddress(res, line,d) {
         var count = 0;
         var deferred = $q.defer();
         angular.forEach(res, function (val, key, obj) {
@@ -775,6 +924,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     vm.updateLinedetails(vm.order.ID, line).then(function (u) {
                         if (u == 'updted') {
                             deferred.resolve('sameAddress');
+                            d.resolve("success");
                         }
                     })
 
@@ -788,7 +938,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         return deferred.promise;
     }
     vm.checkLineItemsId = checkLineItemsId;
-    function checkLineItemsId(res, line) {
+    function checkLineItemsId(res, line,d) {
         var deferred = $q.defer();
         var count = 0;
 
@@ -805,9 +955,9 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     vm.calculateDeliveryCharges(val).then(function (data) {
                         if (data == '1') {
                             vm.updateLinedetails(vm.order.ID, val).then(function (u) {
-                                // if (u == 'updated') {
-
-                                // }
+                                if (u == 'updated') {
+                                    d.resolve("success");
+                                }
                             })
                         }
                     });
@@ -832,8 +982,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         data[0] = Lineitem;
         console.log('Lineitem', Lineitem);
         vm.updateRecipientDetails(data).then(function (s) {
-            if (s == 'Success') {
-                $state.reload();
+            if (s == 'success') {
+               $state.go('cart', { ID: vm.order.ID });
             }
         });
     });
@@ -960,11 +1110,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                         if (!data.Items.length) {
                             CurrentOrder.Remove();
                             OrderCloud.Orders.Delete(Order.ID).then(function () {
-                                $state.reload();
+                                $state.go('cart', { ID: vm.order.ID });
                                 $rootScope.$broadcast('OC:RemoveOrder');
                             });
                         } else {
-                            $state.reload();
+                           $state.go('cart', { ID: vm.order.ID });
                         }
                     });
             });
@@ -973,48 +1123,28 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     /*carousel*/
 
     setTimeout(function(){
-   angular.element("#owl-carousel-cart").owlCarousel({
-    loop: true,
-    center: true,
-    margin: 12,
-    nav: true,
-    responsive: {
-                // breakpoint from 0 up
-                0: {
-                    items: 1
+        var owl2 = angular.element("#owl-carousel-cart");   
+        owl2.owlCarousel({
+            //responsive: true,
+            loop:true,
+            nav:true,
+            responsive:{
+                0:{ items:1 },
+                320:{
+                    items:2,
                 },
-                // breakpoint from 328 up..... mobile portrait
-                320: {
-                    items: 2
+                730 :{ 
+                    items:3,
                 },
-                // breakpoint from 328 up..... mobile landscape
-                568: {
-                    items: 2
-                },
-                960: {
-                    items: 3
-                },
-                // breakpoint from 768 up
-                768: {
-                    items: 3
-                },
-                1024: {
-                    items: 4
-                },
-                1200: {
-                    items: 4
-                },
-                1500: {
-                    items: 4
+                1024:{ 
+                    items:4
                 }
             }
-
-   });
-
-});
+        });
+        },1000)
 }
 
-function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder) {
+function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder, $uibModal) {
     var vm = this;
     vm.LineItems = {};
     vm.Order = null;
@@ -1095,6 +1225,26 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
         vm.Order = null;
         vm.LineItems = {};
     });
+    vm.editcartdetails = function (lineItem) {
+        console.log(lineItem);
+        var modalInstance = $uibModal.open({
+            animation: true,
+            backdropClass: 'miniCartEditModal',
+            windowClass: 'miniCartEditModal',
+            templateUrl: 'cart/templates/editcartpopup.tpl.html',
+            controller: 'editCartPopupCtrl',
+            controllerAs: 'editCartPopup',
+            resolve: {
+
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            angular.noop();
+        });
+    }
 }
 
 function OrderCloudMiniCartDirective() {
@@ -1123,11 +1273,23 @@ function ProductRequestController($uibModal, $scope, $stateParams, prodrequestda
         })
     }
 }
-function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Lineitem, $rootScope, CartService) {
+function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Lineitem, $rootScope, PdpService, $cookieStore, $q, OrderCloud, AddressValidationService) {
     var vm = this;
     vm.cancel = cancel;
     vm.getCityState = getCityState;
     vm.changedtls = changedtls;
+    vm.addressType = " ";
+    vm.showaddress = false;
+    vm.savedBookAddress = {};
+    vm.addBookAddress = addBookAddress;
+    vm.limit = 4;
+    vm.saveUserAddressData = saveUserAddressData;
+    vm.saveaddressdata = false;
+    // vm.init = init;
+    vm.name = '';
+    vm.addressTypeChanged = addressTypeChanged;
+
+    vm.isLoggedIn = $cookieStore.get('isLoggedIn');
     var item = {
         "Quantity": Lineitem.Quantity,
 
@@ -1136,6 +1298,13 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
         "xp": {}
     };
     item.xp.deliveryDate = Lineitem.xp.deliveryDate;
+    //init(item);
+    if (!Lineitem.xp.NoDeliveryExInStore) {
+        vm.addressType = 'Residence';
+    }
+    else if (!Lineitem.xp.NoInStorePickUp && item.xp.NoDeliveryExInStore) {
+        vm.addressType = 'Will Call'
+    }
     vm.item = item;
     function cancel() {
         $uibModalInstance.dismiss('cancel');
@@ -1143,33 +1312,362 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
 
 
     function changedtls(data) {
+        AddressValidationService.Validate(data.ShippingAddress)
+            .then(function (response) {
+                if (response.ResponseBody.ResultCode == 'Success') {
+                    var validatedAddress = response.ResponseBody.Address;
+                    var zip = validatedAddress.PostalCode.substring(0, 5);
+                    data.ShippingAddress.Zip = parseInt(zip);
+                    if (validatedAddress.Line2) {
+                        data.ShippingAddress.Street1 = validatedAddress.Line2;
+                        data.ShippingAddress.Street2 = validatedAddress.Line1;
+                    }
+                    else {
+                        data.ShippingAddress.Street1 = validatedAddress.Line1;
+                        data.ShippingAddress.Street2 = null;
+                    }
+                    data.ShippingAddress.City = validatedAddress.City;
+                    data.ShippingAddress.State = validatedAddress.Region;
+                    data.ShippingAddress.Country = validatedAddress.Country;
+                    if (data.ShippingAddress.Phone1 && data.ShippingAddress.Phone2 && data.ShippingAddress.Phone3) {
+                        data.ShippingAddress.Phone = '(' + data.ShippingAddress.Phone1 + ')' + ' ' + data.ShippingAddress.Phone2 + '-' + data.ShippingAddress.Phone3;
+                        delete data.ShippingAddress.Phone1;
+                        delete data.ShippingAddress.Phone2;
+                        delete data.ShippingAddress.Phone3;
 
-        if (data.ShippingAddress.Phone1 && data.ShippingAddress.Phone2 && data.ShippingAddress.Phone3) {
-            data.ShippingAddress.Phone = '(' + data.ShippingAddress.Phone1 + ')' + data.ShippingAddress.Phone2 + '-' + data.ShippingAddress.Phone3;
-            delete data.ShippingAddress.Phone1;
-            delete data.ShippingAddress.Phone2;
-            delete data.ShippingAddress.Phone3;
+                    }
+                    console.log(data);
+                    Lineitem.ShippingAddress = data.ShippingAddress;
+                    $rootScope.$broadcast('newRecipientCreated', Lineitem);
+                    $uibModalInstance.dismiss('cancel');
+                } else {
+                    alert("Address not found...");
+                }
+            });
+        // if (data.ShippingAddress.Phone1 && data.ShippingAddress.Phone2 && data.ShippingAddress.Phone3) {
+        //     data.ShippingAddress.Phone = '(' + data.ShippingAddress.Phone1 + ')' + ' ' + data.ShippingAddress.Phone2 + '-' + data.ShippingAddress.Phone3;
+        //     delete data.ShippingAddress.Phone1;
+        //     delete data.ShippingAddress.Phone2;
+        //     delete data.ShippingAddress.Phone3;
 
-        }
-        console.log(data);
-        Lineitem.ShippingAddress = data.ShippingAddress;
-        $rootScope.$broadcast('newRecipientCreated', Lineitem);
-        $uibModalInstance.dismiss('cancel');
+        // }
+        // console.log(data);
+        // Lineitem.ShippingAddress = data.ShippingAddress;
+        // $rootScope.$broadcast('newRecipientCreated', Lineitem);
+        // $uibModalInstance.dismiss('cancel');
     }
     function getCityState(item) {
-        CartService.getCityState(item.ShippingAddress.Zip).then(function (res) {
+        PdpService.getCityState(item.ShippingAddress.Zip).then(function (res) {
             item.ShippingAddress.City = res.City;
             item.ShippingAddress.State = res.State;
             item.ShippingAddress.Country = res.Country;
         });
     }
+    function addressBook() {
+        if (vm.addressType == "Residence") {
+            vm.showaddress = !!!vm.showaddress;
+            if (vm.showaddress) {
+
+                OrderCloud.Me.ListAddresses(null, null, 100).then(function (res) {
+                    console.log(res);
+                    vm.addressbook = res;
+                })
+            }
+        }
+        else {
+            vm.showaddress = false;
+        }
+
+
+    }
+    function addBookAddress(lineitem, address) {
+        if (vm.addressType == "Residence") {
+            if (address)
+                lineitem.ShippingAddress = address;
+            if (lineitem.ShippingAddress.Phone) {
+                PdpService.GetPhoneNumber(lineitem.ShippingAddress.Phone).then(function (res) {
+                    lineitem.ShippingAddress.Phone1 = res[0];
+                    lineitem.ShippingAddress.Phone2 = res[1];
+                    lineitem.ShippingAddress.Phone3 = res[2];
+                });
+            }
+
+        }
+    }
+    function saveUserAddressData(check, line) {
+        if (check == true) {
+            var phone = "(" + line.ShippingAddress.Phone1 + ")" + " " + line.ShippingAddress.Phone2 + " - " + line.ShippingAddress.Phone3;
+            var addressdata = { "Shipping": true, "FirstName": line.ShippingAddress.FirstName, "LastName": line.ShippingAddress.LastName, "Street1": line.ShippingAddress.Street1, "Street2": line.ShippingAddress.Street2, "City": line.ShippingAddress.City, "State": line.ShippingAddress.State, "Zip": line.ShippingAddress.Zip, "Country": line.ShippingAddress.Country, "Phone": phone, "xp": { "NickName": "", "IsDefault": false } };
+            OrderCloud.Me.CreateAddress(addressdata).then(function (res) {
+                console.log(res);
+            })
+        }
+    }
+    // function init(item) {
+    //     callDeliveryOptions(Lineitem, item).then(function (result) {
+    //         console.log("item = " + result)
+    //         if (!item.xp.NoDeliveryExInStore) {
+    //             vm.addressType = 'Residence';
+    //         }
+    //         else if (!items.xp.NoInStorePickUp && item.xp.NoDeliveryExInStore) {
+    //             vm.addressType = 'Will Call'
+    //         }
+    //     })
+    // }
+    // function callDeliveryOptions(line, item) {
+    //     var d = $q.defer();
+    //     OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
+
+    //         //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+    //         //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+
+    //         OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+    //             //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
+    //             var key = {}, MinDate = {};
+    //             item.xp.NoInStorePickUp = true;
+    //             if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
+    //                 item.xp.NoInStorePickUp = false;
+    //             }
+    //             _.each(res2.xp.DeliveryChargesCatWise.DeliveryMethods, function (v, k) {
+    //                 if (v.MinDays) {
+    //                     MinDate[k] = v.MinDays;
+    //                     key['MinDate'] = MinDate;
+    //                 }
+    //                 if (k == "UPS" && v['Boolean'] == true) {
+    //                     key[k] = {};
+    //                 }
+    //                 if (k == "USPS" && v['Boolean'] == true) {
+    //                     key[k] = {};
+    //                 }
+    //                 if (k == "InStorePickUp") {
+    //                     key[k] = {};
+    //                 }
+    //                 if (k == 'Mixed' && v['Boolean'] == true) {
+    //                     key[k] = {};
+    //                 }
+    //                 _.each(v, function (v1, k1) {
+    //                     var obj = {};
+    //                     if (v1['Boolean'] == true) {
+    //                         if (k == "Mixed" && line.Quantity < 50) {
+
+    //                         } else {
+    //                             obj[k1] = v1['Value'];
+    //                             key[k] = obj;
+    //                         }
+    //                     }
+    //                 });
+    //             });
+
+    //             if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
+    //                 item.xp.NoDeliveryExInStore = true;
+    //             }
+
+    //             d.resolve(item);
+
+    //         });
+    //     });
+    //     return d.promise;
+    // }
+    vm.IsNumeric = function ($e) {
+        console.log($e);
+        var keyCode = $e.which ? $e.which : $e.keyCode;
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        if (!ret)
+            $e.preventDefault();
+    }
+    function addressTypeChanged(lineitem, addressType) {
+        angular.forEach(lineitem.ShippingAddress, function (value, key) {
+            console.log(key + ': ' + value);
+            if (key == 'Street1' || key == 'Street2' || key == 'City' || key == 'State' || key == 'Zip' || key == 'Country' || key == 'Phone1' || key == 'Phone2' || key == 'Phone3') {
+                lineitem.ShippingAddress[key] = null;
+            }
+
+        });
+
+        lineitem.xp.addressType = addressType;
+
+    }
+    var storesData;
+    PdpService.GetStores().then(function (res) {
+        storesData = res.data.stores;
+        vm.storeNames = _.pluck(res.data.stores, 'storeName');
+    });
+    function storesDetails(item, line, name) {
+        var store = line;
+        var filt = _.filter(storesData, function (row) {
+            return _.indexOf([item], row.storeName) > -1;
+        });
+        if (store.ShippingAddress == null)
+            store.ShippingAddress = {};
+
+        store.ShippingAddress.Street1 = filt[0].storeAddress;
+        store.ShippingAddress.City = filt[0].city;
+        store.ShippingAddress.State = filt[0].state;
+        store.ShippingAddress.Zip = parseInt(filt[0].zipCode);
+        store.ShippingAddress.CompanyName = name
+        store.xp.DeliveryMethod = "InStorePickUp";
+
+        PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+            store.ShippingAddress.Phone1 = res[0];
+            store.ShippingAddress.Phone2 = res[1];
+            store.ShippingAddress.Phone3 = res[2];
+        });
+
+        //vm.checkDeliverymethod(line, index)
+    };
+    var hospitalData;
+    PdpService.GetHospitals().then(function (res) {
+        hospitalData = res;
+        vm.hospitalNames = _.pluck(hospitalData, 'AddressName');
+    });
+    function hospitalDetails(item, line, name) {
+        var hospital = line;
+        var filt = _.filter(hospitalData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (hospital.ShippingAddress == null)
+            hospital.ShippingAddress = {};
+        hospital.ShippingAddress.Street1 = filt[0].Street1;
+        hospital.ShippingAddress.Street2 = filt[0].Street2;
+        hospital.ShippingAddress.City = filt[0].City;
+        hospital.ShippingAddress.State = filt[0].State;
+        hospital.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        hospital.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            hospital.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            hospital.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            hospital.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetOldPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+        // vm.checkDeliverymethod(line, index)
+    };
+    var funeralHomeData;
+    PdpService.GetFuneralHomes().then(function (res) {
+        funeralHomeData = res;
+        vm.funeralHomes = _.pluck(funeralHomeData, 'AddressName');
+    });
+    vm.funeralHomeDetails = funeralHomeDetails;
+    function funeralHomeDetails(item, line, name) {
+        var funeralHome = line;
+        var filt = _.filter(funeralHomeData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (funeralHome.ShippingAddress == null)
+            funeralHome.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        funeralHome.ShippingAddress.Street1 = filt[0].Street1;
+        funeralHome.ShippingAddress.Street2 = filt[0].Street2;
+        funeralHome.ShippingAddress.City = filt[0].City;
+        funeralHome.ShippingAddress.State = filt[0].State;
+        funeralHome.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        funeralHome.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            funeralHome.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            funeralHome.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            funeralHome.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        vm.checkDeliverymethod(line, index)
+    };
+    var churchData;
+    PdpService.GetChurches().then(function (res) {
+        churchData = res;
+        vm.churchNames = _.pluck(churchData, 'AddressName');
+    });
+    vm.churchDetails = churchDetails;
+    function churchDetails(item, line, name) {
+        var church = line;
+        var filt = _.filter(churchData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (church.ShippingAddress == null)
+            church.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        church.ShippingAddress.Street1 = filt[0].Street1;
+        church.ShippingAddress.Street2 = filt[0].Street2;
+        church.ShippingAddress.City = filt[0].City;
+        church.ShippingAddress.State = filt[0].State;
+        church.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        church.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            church.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            church.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            church.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        // vm.checkDeliverymethod(line, index)
+    };
+    var CemeteryData;
+    PdpService.Getcemeteries
+    PdpService.Getcemeteries().then(function (res) {
+        CemeteryData = res;
+        vm.cemeteries = _.pluck(CemeteryData, 'AddressName');
+    });
+    vm.cemeteryDetails = cemeteryDetails;
+    function cemeteryDetails(item, line, name) {
+        var cemetery = line;
+        var filt = _.filter(CemeteryData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (cemetery.ShippingAddress == null)
+            cemetery.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        cemetery.ShippingAddress.Street1 = filt[0].Street1;
+        cemetery.ShippingAddress.Street2 = filt[0].Street2;
+        cemetery.ShippingAddress.City = filt[0].City;
+        cemetery.ShippingAddress.State = filt[0].State;
+        cemetery.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        cemetery.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            cemetery.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            cemetery.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            cemetery.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        // vm.checkDeliverymethod(line, index)
+    };
+
 }
-function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Order, OrderCloud, AddressValidationService, Lineitems, $rootScope, CartService) {
+function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Order, OrderCloud, AddressValidationService, Lineitems, $rootScope, PdpService, $cookieStore, $q) {
     var vm = this;
     vm.order = Order;
     vm.cancel = cancel;
     vm.getCityState = getCityState;
     vm.changedtls = changedtls;
+    vm.addressType = " ";
+    vm.showaddress = false;
+    vm.savedBookAddress = {};
+    vm.addBookAddress = addBookAddress;
+    vm.limit = 4;
+    vm.saveUserAddressData = saveUserAddressData;
+    vm.saveaddressdata = false;
+    vm.init = init;
+    vm.name = '';
+    vm.addressTypeChanged = addressTypeChanged;
+
+    vm.isLoggedIn = $cookieStore.get('isLoggedIn');
     var item = {
         "Quantity": Lineitems[0].Quantity,
 
@@ -1178,54 +1676,347 @@ function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Orde
         "xp": {}
     };
     if (Lineitems[0].ShippingAddress.Phone) {
-        CartService.GetPhoneNumber(Lineitems[0].ShippingAddress.Phone).then(function (res) {
+        PdpService.GetPhoneNumber(Lineitems[0].ShippingAddress.Phone).then(function (res) {
             Lineitems[0].ShippingAddress.Phone1 = res[0];
             Lineitems[0].ShippingAddress.Phone2 = res[1];
             Lineitems[0].ShippingAddress.Phone3 = res[2];
         });
-
-
-				}
+    }
     item.ShippingAddress = Lineitems[0].ShippingAddress;
     item.xp.deliveryDate = Lineitems[0].xp.deliveryDate;
+    item.xp.addressType = Lineitems[0].xp.addressType;
+    init(item);
     vm.item = item;
     function cancel() {
         $uibModalInstance.dismiss('cancel');
     };
 
+    function addressBook() {
+        if (vm.addressType == "Residence") {
+            vm.showaddress = !!!vm.showaddress;
+            if (vm.showaddress) {
 
-    function changedtls(line) {
-    AddressValidationService.Validate(line.ShippingAddress)
-        .then(function(response){
-            if(response.ResponseBody.ResultCode == 'Success') {
-                var validatedAddress = response.ResponseBody.Address;
-                var zip = validatedAddress.PostalCode.substring(0, 5);
-                line.ShippingAddress.Zip = parseInt(zip);
-                line.ShippingAddress.Street1 = validatedAddress.Line1;
-                line.ShippingAddress.Street2 = null;
-                line.ShippingAddress.City = validatedAddress.City;
-                line.ShippingAddress.State = validatedAddress.Region;
-                line.ShippingAddress.Country = validatedAddress.Country;
-                if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
-                    line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
-                    delete line.ShippingAddress.Phone1;
-                    delete line.ShippingAddress.Phone2;
-                    delete line.ShippingAddress.Phone3;
-
-                }
-                console.log(line);
-                $rootScope.$broadcast('recipientEdited', Lineitems);
-                $uibModalInstance.dismiss('cancel');
-            } else{
-                alert("Address not found...");
+                OrderCloud.Me.ListAddresses(null, null, 100).then(function (res) {
+                    console.log(res);
+                    vm.addressbook = res;
+                })
             }
-        });
+        }
+        else {
+            vm.showaddress = false;
+        }
+
+
+    }
+    function addBookAddress(lineitem, address) {
+        if (vm.addressType == "Residence") {
+            if (address)
+                lineitem.ShippingAddress = address;
+            if (lineitem.ShippingAddress.Phone) {
+                PdpService.GetPhoneNumber(lineitem.ShippingAddress.Phone).then(function (res) {
+                    lineitem.ShippingAddress.Phone1 = res[0];
+                    lineitem.ShippingAddress.Phone2 = res[1];
+                    lineitem.ShippingAddress.Phone3 = res[2];
+                });
+            }
+
+        }
+    }
+    function saveUserAddressData(check, line) {
+        if (check == true) {
+            var phone = "(" + line.ShippingAddress.Phone1 + ")" + " " + line.ShippingAddress.Phone2 + " - " + line.ShippingAddress.Phone3;
+            var addressdata = { "Shipping": true, "FirstName": line.ShippingAddress.FirstName, "LastName": line.ShippingAddress.LastName, "Street1": line.ShippingAddress.Street1, "Street2": line.ShippingAddress.Street2, "City": line.ShippingAddress.City, "State": line.ShippingAddress.State, "Zip": line.ShippingAddress.Zip, "Country": line.ShippingAddress.Country, "Phone": phone, "xp": { "NickName": "", "IsDefault": false } };
+            OrderCloud.Me.CreateAddress(addressdata).then(function (res) {
+                console.log(res);
+            })
+        }
+    }
+    function changedtls(line) {
+        AddressValidationService.Validate(line.ShippingAddress)
+            .then(function (response) {
+                if (response.ResponseBody.ResultCode == 'Success') {
+                    var validatedAddress = response.ResponseBody.Address;
+                    var zip = validatedAddress.PostalCode.substring(0, 5);
+                    line.ShippingAddress.Zip = parseInt(zip);
+                    if (validatedAddress.Line2) {
+                        line.ShippingAddress.Street1 = validatedAddress.Line2;
+                        line.ShippingAddress.Street2 = validatedAddress.Line1;
+                    }
+                    else {
+                        line.ShippingAddress.Street1 = validatedAddress.Line1;
+                        line.ShippingAddress.Street2 = null;
+                    }
+                    line.ShippingAddress.City = validatedAddress.City;
+                    line.ShippingAddress.State = validatedAddress.Region;
+                    line.ShippingAddress.Country = validatedAddress.Country;
+                    if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
+                        line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + ' ' + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
+                        delete line.ShippingAddress.Phone1;
+                        delete line.ShippingAddress.Phone2;
+                        delete line.ShippingAddress.Phone3;
+
+                    }
+                    delete line.xp.NoInStorePickUp;
+                    delete line.xp.NoDeliveryExInStore
+                    console.log(line);
+                    $rootScope.$broadcast('recipientEdited', Lineitems);
+                    $uibModalInstance.dismiss('cancel');
+                } else {
+                    alert("Address not found...");
+                }
+            });
     }
     function getCityState(item) {
-        CartService.getCityState(item.ShippingAddress.Zip).then(function (res) {
+        PdpService.getCityState(item.ShippingAddress.Zip).then(function (res) {
             item.ShippingAddress.City = res.City;
             item.ShippingAddress.State = res.State;
             item.ShippingAddress.Country = res.Country;
         });
     }
+    function init(item) {
+        callDeliveryOptions(Lineitems[0], item).then(function (result) {
+            console.log("item = " + result)
+        })
+    }
+    function callDeliveryOptions(line, item) {
+        var d = $q.defer();
+        OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
+
+            //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+            //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+
+            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+                //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
+                var key = {}, MinDate = {};
+                item.xp.NoInStorePickUp = true;
+                if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
+                    item.xp.NoInStorePickUp = false;
+                }
+                _.each(res2.xp.DeliveryChargesCatWise.DeliveryMethods, function (v, k) {
+                    if (v.MinDays) {
+                        MinDate[k] = v.MinDays;
+                        key['MinDate'] = MinDate;
+                    }
+                    if (k == "UPS" && v['Boolean'] == true) {
+                        key[k] = {};
+                    }
+                    if (k == "USPS" && v['Boolean'] == true) {
+                        key[k] = {};
+                    }
+                    if (k == "InStorePickUp") {
+                        key[k] = {};
+                    }
+                    if (k == 'Mixed' && v['Boolean'] == true) {
+                        key[k] = {};
+                    }
+                    _.each(v, function (v1, k1) {
+                        var obj = {};
+                        if (v1['Boolean'] == true) {
+                            if (k == "Mixed" && line.Quantity < 50) {
+
+                            } else {
+                                obj[k1] = v1['Value'];
+                                key[k] = obj;
+                            }
+                        }
+                    });
+                });
+
+                if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
+                    item.xp.NoDeliveryExInStore = true;
+                }
+
+                d.resolve(item);
+
+            });
+        });
+        return d.promise;
+    }
+    vm.IsNumeric = function ($e) {
+        console.log($e);
+        var keyCode = $e.which ? $e.which : $e.keyCode;
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        if (!ret)
+            $e.preventDefault();
+    }
+    function addressTypeChanged(lineitem, addressType) {
+        angular.forEach(lineitem.ShippingAddress, function (value, key) {
+            console.log(key + ': ' + value);
+            if (key == 'Street1' || key == 'Street2' || key == 'City' || key == 'State' || key == 'Zip' || key == 'Country' || key == 'Phone1' || key == 'Phone2' || key == 'Phone3') {
+                lineitem.ShippingAddress[key] = null;
+            }
+
+        });
+
+        lineitem.xp.addressType = addressType;
+
+    }
+    var storesData;
+    PdpService.GetStores().then(function (res) {
+        storesData = res.data.stores;
+        vm.storeNames = _.pluck(res.data.stores, 'storeName');
+    });
+    function storesDetails(item, line, name) {
+        var store = line;
+        var filt = _.filter(storesData, function (row) {
+            return _.indexOf([item], row.storeName) > -1;
+        });
+        if (store.ShippingAddress == null)
+            store.ShippingAddress = {};
+
+        store.ShippingAddress.Street1 = filt[0].storeAddress;
+        store.ShippingAddress.City = filt[0].city;
+        store.ShippingAddress.State = filt[0].state;
+        store.ShippingAddress.Zip = parseInt(filt[0].zipCode);
+        store.ShippingAddress.CompanyName = name
+        store.xp.DeliveryMethod = "InStorePickUp";
+
+        PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+            store.ShippingAddress.Phone1 = res[0];
+            store.ShippingAddress.Phone2 = res[1];
+            store.ShippingAddress.Phone3 = res[2];
+        });
+
+        //vm.checkDeliverymethod(line, index)
+    };
+    var hospitalData;
+    PdpService.GetHospitals().then(function (res) {
+        hospitalData = res;
+        vm.hospitalNames = _.pluck(hospitalData, 'AddressName');
+    });
+    function hospitalDetails(item, line, name) {
+        var hospital = line;
+        var filt = _.filter(hospitalData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (hospital.ShippingAddress == null)
+            hospital.ShippingAddress = {};
+        hospital.ShippingAddress.Street1 = filt[0].Street1;
+        hospital.ShippingAddress.Street2 = filt[0].Street2;
+        hospital.ShippingAddress.City = filt[0].City;
+        hospital.ShippingAddress.State = filt[0].State;
+        hospital.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        hospital.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            hospital.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            hospital.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            hospital.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetOldPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+        // vm.checkDeliverymethod(line, index)
+    };
+    var funeralHomeData;
+    PdpService.GetFuneralHomes().then(function (res) {
+        funeralHomeData = res;
+        vm.funeralHomes = _.pluck(funeralHomeData, 'AddressName');
+    });
+    vm.funeralHomeDetails = funeralHomeDetails;
+    function funeralHomeDetails(item, line, name) {
+        var funeralHome = line;
+        var filt = _.filter(funeralHomeData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (funeralHome.ShippingAddress == null)
+            funeralHome.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        funeralHome.ShippingAddress.Street1 = filt[0].Street1;
+        funeralHome.ShippingAddress.Street2 = filt[0].Street2;
+        funeralHome.ShippingAddress.City = filt[0].City;
+        funeralHome.ShippingAddress.State = filt[0].State;
+        funeralHome.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        funeralHome.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            funeralHome.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            funeralHome.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            funeralHome.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        vm.checkDeliverymethod(line, index)
+    };
+    var churchData;
+    PdpService.GetChurches().then(function (res) {
+        churchData = res;
+        vm.churchNames = _.pluck(churchData, 'AddressName');
+    });
+    vm.churchDetails = churchDetails;
+    function churchDetails(item, line, name) {
+        var church = line;
+        var filt = _.filter(churchData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (church.ShippingAddress == null)
+            church.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        church.ShippingAddress.Street1 = filt[0].Street1;
+        church.ShippingAddress.Street2 = filt[0].Street2;
+        church.ShippingAddress.City = filt[0].City;
+        church.ShippingAddress.State = filt[0].State;
+        church.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        church.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            church.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            church.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            church.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        // vm.checkDeliverymethod(line, index)
+    };
+    var CemeteryData;
+    PdpService.Getcemeteries
+    PdpService.Getcemeteries().then(function (res) {
+        CemeteryData = res;
+        vm.cemeteries = _.pluck(CemeteryData, 'AddressName');
+    });
+    vm.cemeteryDetails = cemeteryDetails;
+    function cemeteryDetails(item, line, name) {
+        var cemetery = line;
+        var filt = _.filter(CemeteryData, function (row) {
+            return _.indexOf([item], row.AddressName) > -1;
+        });
+        if (cemetery.ShippingAddress == null)
+            cemetery.ShippingAddress = {};
+        //store.ShippingAddress.FirstName = filt[0].storeName;
+        //store.ShippingAddress.LastName = filt[0].storeName;
+        cemetery.ShippingAddress.Street1 = filt[0].Street1;
+        cemetery.ShippingAddress.Street2 = filt[0].Street2;
+        cemetery.ShippingAddress.City = filt[0].City;
+        cemetery.ShippingAddress.State = filt[0].State;
+        cemetery.ShippingAddress.Zip = parseInt(filt[0].Zip);
+        cemetery.ShippingAddress.CompanyName = name
+        if (filt[0].Phone) {
+            cemetery.ShippingAddress.Phone1 = filt[0].Phone.substr(0, 3);
+            cemetery.ShippingAddress.Phone2 = filt[0].Phone.substr(3, 3);
+            cemetery.ShippingAddress.Phone3 = filt[0].Phone.substr(6);
+        }
+        // PdpService.GetPhoneNumber(filt[0].phoneNumber).then(function (res) {
+        // 	store.ShippingAddress.Phone1 = res[0];
+        // 	store.ShippingAddress.Phone2 = res[1];
+        // 	store.ShippingAddress.Phone3 = res[2];
+        // });
+
+        // vm.checkDeliverymethod(line, index)
+    };
+}
+function editCartPopupController($uibModal, $scope, $uibModalInstance, OrderCloud) {
+    var vm = this;
+    vm.cancel = cancel;
+    function cancel() {
+        $uibModalInstance.dismiss('cancel');
+    };
 }

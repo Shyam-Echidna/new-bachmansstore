@@ -618,12 +618,12 @@
       
    <div class="row">
       <div class="owl-carousel" id="owl-carousel-feature-products">
-        <div ng-repeat="groupedProducts in plp.productList track by $index">
+        <div ng-repeat="(Parentindex,groupedProducts) in plp.productList track by $index">
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false">
                <div class="product-box">
 
                   <div ng-repeat="prod in groupedProducts  track by $index">
-                     <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}">
+                     <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}" ng-init="plp.FeaturedselectedProductInfo[Parentindex]['prodId'] = prod.ID">
                         <div id="feature-label" class="feature-label">
                            <div class="ribbon-wrapper">
                               <div class="ribbon-front">
@@ -654,10 +654,8 @@
                         </div>
                      </div>
                   </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
-                   
-                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
-
+                  <prod-colors product="groupedProducts" featuredselectedproductinfo="Parentindex"></prod-colors>
+                  <ordercloud-product-quick-view product="groupedProducts" featuredselectedproductinfo="Parentindex" ng-show="plusLabel"></ordercloud-product-quick-view>
                   </div>
                </div>
             </div>
@@ -668,13 +666,13 @@
       </div>  
    </div>
    <div class="row sorted-products">
-         <div ng-repeat="groupedProducts in plp.productList">
+          <div ng-repeat="(Parentindex,groupedProducts) in plp.productList track by $index">
                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
                   <div class="product-box">
                     
                      <div ng-repeat="prod in groupedProducts  track by $index">
 
-                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}">
+                       <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}" ng-init="plp.selectedProductInfo[Parentindex]['prodId'] = prod.ID">
 
                            <div id="feature-label" class="feature-label">
                               <div class="ribbon-wrapper">
@@ -701,9 +699,8 @@
                            </div>
                        </div>
                     </div>
-                  <prod-colors product="groupedProducts"></prod-colors>
-                   
-                   <ordercloud-product-quick-view product="groupedProducts" ng-show="plusLabel"></ordercloud-product-quick-view>
+                  <prod-colors product="groupedProducts"  selectedproductinfo="Parentindex" ></prod-colors>
+                  <ordercloud-product-quick-view product="groupedProducts" selectedproductinfo="Parentindex"  ng-show="plusLabel"></ordercloud-product-quick-view>
                    
                   </div>
                </div> 

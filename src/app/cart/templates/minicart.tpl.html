@@ -11,6 +11,7 @@
             </label>
             <label class="btn btn-default">{{order.Subtotal | currency}} <i class="fa fa-caret-down"></i></label>-->
 
+
                      <div class="info-cart-empty-div"></div>
                     <a class="info-cart-text">MY CART</a>
                     <a class="info-cart-icon">
@@ -30,10 +31,11 @@
                                 <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
                             </g>
                         </svg>
-                        <span class="cart-count">0</span>
+                        <span class="cart-count" ng-if="minicart.LineItems.Meta.TotalCount>0">{{minicart.LineItems.Meta.TotalCount}}</span>
+                        <span class="cart-count" ng-if="minicart.LineItems.Meta.TotalCount==null">0</span>
                     </a>
                 
-            <div id="minicart_line_item_list" uib-dropdown-menu role="menu" class="panel panel-default" style="display:none !important;">
+            <div id="minicart_line_item_list" uib-dropdown-menu role="menu" class="panel panel-default">
                 <div class="minicart-body" style="max-height: 300px;overflow-y: auto;">
                     <!-- <table class="table table-hover">
                     <colgroup>
@@ -53,26 +55,36 @@
                     <ul class="dropdown-menu-login dropdown-menu-cart">
                         <!-- <li ng-repeat="lineItem in minicart.LineItems.Items"> -->
                         <li>
-                            <div class="shopping-cart-blocks">
+                            <div class="shopping-cart-blocks" ng-repeat="lineItem in minicart.LineItems.Items">
+                                <div class="">
+                                    <div class="cart-delivery-details">
+                                        <h6>Delivering to:</h6>
+                                        <div class="custom-name">
+                                            <p>{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</p>
+                                            <h6 ng-click="minicart.editcartdetails(lineItem)">[Edit]</h6>
+                                            <p class="cart-no">{{lineItem.ShippingAddress.Zip}}</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-5 cart-product">
-                                        <div><img src="assets/images/batch3web/minicart/flowers1.png" /></div>
+                                        <div ui-sref="pdp({sequence: lineItem.Product.xp.ProductCode, prodId: lineItem.Product.ID})"><img src="assets/images/batch3web/minicart/flowers1.png" /></div>
 
                             </div>
                             <div class="col-md-7 cart-product-desc">
                                 <div>
                                     <!-- <h6>{{lineItem.Product.Name}}</h6> -->
-                                    <h6>Pink Frills</h6>
+                                    <h6>{{lineItem.Product.Name}}</h6>
                                     <!-- <p                   class="cart-product-quantity">Quantity: <span>{{lineItem.Quantity}}</span></p> -->
-                                    <p class="cart-product-quantity">Qty: <span>1</span></p>
+                                    <p class="cart-product-quantity">Qty: <span>{{lineItem.Quantity}}</span></p>
                                     <!-- <div class="cart-product-edit"><p class="col-md-6">Edit</p><p class="col-md-6">{{lineItem.LineTotal | currency}}</p></div> -->
-                                    <p class="cart-price">$13.99</p>
-                                    <button class="cart-product-edit">Edit</button>
+                                    <p class="cart-price">{{lineItem.LineTotal | currency}}</p>
+                                    <!-- <button class="cart-product-edit">Edit</button> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="shopping-cart-blocks">
+                    <!-- <div class="shopping-cart-blocks">
                         <div class="">
                             <div class="cart-delivery-details">
                                 <h6>Delivering to:</h6>
@@ -82,7 +94,6 @@
                                     <p class="cart-no">55428</p>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6 cart-recepient-details"><div><h6>Lily Burns</h6><p>Edit Recepient</p></div></div> -->
                         </div>
                         <div class="row">
                             <div class="col-md-5 cart-product">
@@ -90,24 +101,21 @@
                             </div>
                             <div class="col-md-7 cart-product-desc">
                                 <div>
-                                    <!-- <h6>{{lineItem.Product.Name}}</h6> -->
                                     <h6>Stargazing Lilies</h6>
                                     <p class="cart-product-color">Deluxe, Purple</p>
-                                    <!-- <p class="cart-product-quantity">Quantity: <span>{{lineItem.Quantity}}</span></p> -->
                                     <p class="cart-product-quantity">Qty: <span>4</span></p>
-                                    <!-- <div class="cart-product-edit"><p class="col-md-6">Edit</p><p class="col-md-6">{{lineItem.LineTotal | currency}}</p></div> -->
                                     <p class="cart-price">$13.99</p>
                                     <button class="cart-product-edit">Edit</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </li>
             </ul>
             <div class="cart-edit-cont">
                 <a class="cart-edit-btn" ui-sref="cart">EDIT CART</a>
                 <div class="cart-delivery">Est. Delivery:
-                    <p>$12.99</p>
+                    <p>{{minicart.Order}}</p>
                 </div>
                 <div class="cart-total">Subtotal:
                     <p>{{minicart.Order.Subtotal | currency}}</p>

@@ -50,16 +50,16 @@
                 <!-- <img class="img-responsive desktop-img hidden-xs hidden-sm" src="{{addedToCart.pdt1}}">
                 <img class="img-responsive mobile-img visible-xs visible-sm" src="{{addedToCart.pdt1}}"> -->
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6" ng-repeat="item1 in addedToCart.orderid|limitTo:1">
-                <h5 class="iName">{{item1.Product.Name}}</h5>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <h5 class="iName">Stargazer</h5>
                 <p class="cat">Standard (<span>6</span> Stems)</p>
                 <p class="color"><a href=""></a></p>
-                <p class="qty">Qty : <span>{{item1.Quantity}}</span></p>
-                <p class="price">{{item1.LineTotal | currency}}</p>
+                <p class="qty">Qty : <span>1</span></p>
+                <p class="price">$50.00</p>
             </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 p0" ng-if="addedToCart.orderid.length>1">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 p0">
             <div class="row middle-part">
                 <div class="owl-carouse owl-theme" id="owl-carousel-added-cart-pdt">
                     <span class=" fl cartLeftArrow" ng-click="addedToCart.shiftSelectedCartLeft()">
@@ -73,7 +73,7 @@
                     </span>
                     <div class="owl-carousel-item">
                         <div class="row">
-                            <div class="itemInner" ng-repeat="item in addedToCart.orderid.slice(1,addedToCart.orderid.length)">
+                            <div class="itemInner  ">
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-4 img-box">
                                         <img class="img-responsive desktop-img hidden-xs hidden-sm" src="../assets/images/Batch_2_Web_Images/06Bachmans_AddedtoCart_Confirmation/2.png">
@@ -84,9 +84,60 @@
                                         <img class="img-responsive mobile-img visible-xs visible-sm" src="{{addedToCart.pdt2}}"> -->
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
-                                        <h5 class="iName">{{item.Product.Name}}</h5>
-                                        <p class="qty">Qty : <span>{{item.Quantity}}</span></p>
-                                        <p class="price">{{item.LineTotal | currency}}</p>
+                                        <h5 class="iName">Box Of Chocolates</h5>
+                                        <p class="qty">Qty : <span>1</span></p>
+                                        <p class="price">$10.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="itemInner ">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-4 img-box">
+                                       <img class="img-responsive desktop-img hidden-xs hidden-sm" src="../assets/images/Batch_2_Web_Images/06Bachmans_AddedtoCart_Confirmation/3.png">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="../assets/images/Batch_2_Mobile_Images/06Bachmans_AddedtoCart_Confirmation/3.png">
+                                        <!-- <img class="img-responsive desktop-img hidden-xs hidden-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/cbc4c4dc-f938-483a-b60d-273770aa1201/3.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/cbc4c4dc-f938-483a-b60d-273770aa1201/3.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d"> -->
+                                       <!--  <img class="img-responsive desktop-img hidden-xs hidden-sm" src="{{addedToCart.pdt3}}">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="{{addedToCart.pdt3}}"> -->
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-8">
+                                        <h5 class="iName">Teddy Bear</h5>
+                                        <p class="qty">Qty : <span>1</span></p>
+                                        <p class="price">$8.50</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="itemInner ">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-4 img-box">
+                                        <img class="img-responsive desktop-img hidden-xs hidden-sm" src="../assets/images/Batch_2_Web_Images/06Bachmans_AddedtoCart_Confirmation/2.png">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="../assets/images/Batch_2_Mobile_Images/06Bachmans_AddedtoCart_Confirmation/2.png">
+                                         <!-- <img class="img-responsive desktop-img hidden-xs hidden-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/90dfecb7-ecbc-4b86-84ba-7fdb1a6d9ffe/2.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/90dfecb7-ecbc-4b86-84ba-7fdb1a6d9ffe/2.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d"> -->
+                                        <!-- <img class="img-responsive desktop-img hidden-xs hidden-sm" src="{{addedToCart.pdt2}}">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="{{addedToCart.pdt2}}"> -->
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
+                                        <h5 class="iName">Box Of Chocolates</h5>
+                                        <p class="qty">Qty : <span>2</span></p>
+                                        <p class="price">$10.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="itemInner">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-4 img-box">
+                                        <img class="img-responsive desktop-img hidden-xs hidden-sm" src="../assets/images/Batch_2_Web_Images/06Bachmans_AddedtoCart_Confirmation/3.png">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="../assets/images/Batch_2_Mobile_Images/06Bachmans_AddedtoCart_Confirmation/3.png">
+                                        <!-- <img class="img-responsive desktop-img hidden-xs hidden-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/cbc4c4dc-f938-483a-b60d-273770aa1201/3.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/cbc4c4dc-f938-483a-b60d-273770aa1201/3.png?alf_ticket=TICKET_6af0ba6d1f4d5cf6f2f7bcb7cfc481b7ab0d703d"> -->
+                                       <!--  <img class="img-responsive desktop-img hidden-xs hidden-sm" src="{{addedToCart.pdt3}}">
+                                        <img class="img-responsive mobile-img visible-xs visible-sm" src="{{addedToCart.pdt3}}"> -->
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
+                                        <h5 class="iName">Teddy Bear</h5>
+                                        <p class="qty">Qty : <span>2</span></p>
+                                        <p class="price">$8.50</p>
                                     </div>
                                 </div>
                             </div>
@@ -107,10 +158,14 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 cartButtons">
             <div class="row last-part">
                 <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-11">
-                    <button class="btn btn-block view-cart-btn" type="submit" ui-sref="cart" ng-click="cancel()">VIEW CART</button>
+                     <button class="btn btn-block view-cart-btn" type="submit" ui-sref="cart" ng-click="cancel()">VIEW CART</button>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-11">
-                    <button class="btn btn-block checkout-btn" type="submit" ui-sref="checkout" ng-click="cancel()">PROCEED TO CHECKOUT</button>
+                     <button class="btn btn-block checkout-btn" type="submit" ui-sref="checkout" ng-click="cancel()">PROCEED TO CHECKOUT</button>
+                </div>
+                
+                 <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-11">
+                    <button class="btn btn-block checkout-btn" type="submit" ui-sref="home" ng-click="cancel()">CONTINUE SHOPPING</button>
                 </div>
         </div>
         </div>

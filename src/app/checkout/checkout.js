@@ -140,7 +140,7 @@ function checkOutService($q, $http,OrderCloud) {
     }
 	return service;
 }
-function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, CreditCardService, TaxService, CurrentOrder, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid,checkOutService) {
+function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, CreditCardService, TaxService, CurrentOrder, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore,$http, buyerid,checkOutService,AddressValidationService) {
     console.log(LoggedinUser);
 	var vm = this;
 	var date = new Date();
@@ -307,6 +307,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		});
 		console.log(vm.orderdata.ID);
 		vm.groups = data;
+		console.log("vm.groups",vm.groups);
 		vm.linetotalvalue = 0;
 		vm.lineVal = [];
 		vm.lineTotal = {};

@@ -41,7 +41,6 @@
                                     <span class="left-side">1. 
                                     <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.signinFunc">
 					<!-- 		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;height: 30px;padding-top: 15px;width: 30px;/* line-height: 51px; */color: red;" xml:space="preserve">
-
 								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" style="
     stroke: red;
 "></line>
@@ -113,7 +112,6 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/></svg>
 
 						</a> Delivery Information
-                        
                         <span ng-repeat="lineItem in checkout.lineItems" class="del-det">{{lineItem[0].ShippingAddress.Street1}}, {{lineItem[0].ShippingAddress.Street2}}, {{lineItem[0].ShippingAddress.City}} </span>
                         </span> 
                         <span ng-if="checkout.openACCItems.deliveryFunc" ng-click="checkout.changeAcItem('delivery')" class="edit-here">Edit</span> </p>
@@ -173,7 +171,6 @@
                                                                             </div>-->
                                                                             <!-- <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
                                                                                 <div class="">
-
                                                                                     {{lineItem[0].ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}
                                                                                 </div>
                                                                             </div> -->
@@ -197,10 +194,8 @@
                                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                                                 <div class="view-more" ng-click="checkout.viewMore()" ng-if="checkout.more">
                                                                                     <span> View More</span>
-
                                                                                 </div>
                                                                                 <div class="view-more" ng-click="checkout.viewLess()" ng-if="!checkout.more">
-
                                                                                     <span> View less</span>
                                                                                 </div>
                                                                             </div>
@@ -537,7 +532,6 @@
                                                 <!-- <div class="row review-delivery-info">
                                                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                         <p class="user-name">{{lineItem[0].ShippingAddress.FirstName}} {{lineItem[0].ShippingAddress.LastName}}</p>
-
                                                     </div>
                                                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                         <p class="plot-no">{{lineItem[0].ShippingAddress.Street1}}</p>
@@ -580,7 +574,7 @@
                             <div class="panel-body-content payment-info-cont">
                                 <div class="payment-client-info" id="ckeckout-payment">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 payment-method-cont">
                                             <p class="title">Payment Method</p>
                                             <uib-tabset active="active">
                                                 <uib-tab>
@@ -623,7 +617,8 @@
                                                     <div class="row">
                                                         <div class="nocreditcards" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
                                                             <form name="checkout.addCreditCardForm" class="billing-addr-form" role="form" novalidate>
-                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 payment-method-cont">
+                                                                <div class="row">
+                                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
                                                                 <div class="col-xs-12 card-info-cont">
                                                                     <p class="title">Input card information</p>
                                                                         <div class="col-xs-12 form-group holder-name p0">
@@ -741,27 +736,42 @@
                                                                 </div>
                                                                 
                                         </div>
+                                        </div>
                                                             </form>
                                                         </div>
                                                         
                                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'" >
                                                             <!-- accordion starts -->
                                                             <form name="creditCardForm">
-                                                            <uib-accordion ng-init="oneAtATime=true" close-others="oneAtATime">
-                                                                <uib-accordion-group ng-repeat="card in checkout.creditcards.Items">
-                                                                    <uib-accordion-heading >
-                                                                        <div class="col-xs-12 card-cont-header">
-                                                                            <label class="radio-inline radio-common">
+                                                            <div ng-init="oneAtATime=true" close-others="oneAtATime">
+                                                                <div ng-repeat="card in checkout.creditcards.Items" class="cardHolder" ng-class="{'cardActive':card==checkout.selectedCard}">
+                                                                        <div class="card-cont-header">
+                                                                       <!--      <label class="radio-inline radio-common">
                                                                                 <input type="radio" name="creditCardSelection" ng-model="checkout.selectedCard" ng-value="card">
                                                                                 <div class="radio"></div>
                                                                                 <span><i class="fa fa-2x" ng-class="{' fa-cc-amex': card.CardType === 'AmericanExpress', ' fa-cc-mastercard': card.CardType === 'MasterCard', ' fa-cc-visa': card.CardType === 'Visa', ' fa-cc-discover': card.CardType === 'Discover'}"></i></span>
                                                                                 <span>XXXX XXX XXX {{card.PartialAccountNumber}}</span>
                                                                                 <span>{{card.ExpirationDate | date : 'MM/yy' : 'UTC'}}</span>
                                                                                 <span>{{card.CardholderName}}</span>
-                                                                            </label>
+                                                                            </label> -->
+                                                                                
+                                                                                <input type="radio" id="checkout_{{$index}}" name="creditCardSelection" ng-model="checkout.selectedCard" ng-value="card">
+                                                                                <label for="checkout_{{$index}}" >
+                                                                                <span class="radioOutline"><span class="radioInside"></span></span>
+                                                            <span class="detailLabel">
+                                                                <i class="fa fa-2x" ng-class="{' fa-cc-amex': card.CardType === 'AmericanExpress', ' fa-cc-mastercard': card.CardType === 'MasterCard', ' fa-cc-visa': card.CardType === 'Visa', ' fa-cc-discover': card.CardType === 'Discover'}"></i>
+                                                                <span>XXXX XXX XXX {{card.PartialAccountNumber}}</span>
+                                                                <span>{{card.ExpirationDate | date : 'MM/yy' : 'UTC'}}</span>
+                                                                <span>{{card.CardholderName}}</span>
+                                                            </span>
+                                                        </label>
+
+                                                                                
+                                                          
+                                                                                
+                                                                            
                                                                         </div>
-                                                                    </uib-accordion-heading>
-                                                                    <div class="col-xs-12 card-cont-body">
+                                                                    <div class="col-xs-12 card-cont-body paymentTabBody" ng-if="card==checkout.selectedCard">
                                                                         <div class="col-xs-4 cvv-title">
                                                                             <p>Enter CVV Code</p>
                                                                         </div>
@@ -800,40 +810,40 @@
                                                                         <div class="col-xs-8 col-xs-offset-4 email-value">
                                                                             <p>john.snow@gmail.com</p>
                                                                         </div>
-                                                                        <div class="col-xs-12 billing-addr-cont" ng-if="checkout.editbillingaddr==true">
+                                                                        <div class="col-xs-12 billing-addr-cont paymentForm" ng-if="checkout.editbillingaddr==true">
                                                                             <p class="title">Billing Address</p>
                                                                             <div class="billing-addr-div">
-                                                                                <form class="billing-addr-form" role="form" novalidate>
+                                                                                <form name="checkout.cardsEditForm[$index]" class="billing-addr-form" role="form" novalidate>
                                                                                     <div class="col-xs-6 form-group first-name">
                                                                                         <label for="firstName">First Name</label>
-                                                                                        <input type="text" class="form-control" id="firstName" />
+                                                                                        <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName"/>
                                                                                     </div>
                                                                                     <div class="col-xs-6 form-group last-name">
                                                                                         <label for="nickName">Last Name</label>
-                                                                                        <input type="text" class="form-control" id="lastName" />
+                                                                                        <input type="text" class="form-control" id="lastName" ng-model="checkout.billingAddress.LastName"/>
                                                                                     </div>
                                                                                     <div class="col-xs-6 form-group zip-code">
                                                                                         <label for="zipCode">ZIP Code</label>
-                                                                                        <input type="number" class="form-control" id="zipCode" />
+                                                                                        <input type="number" class="form-control" id="zipCode" ng-model="checkout.billingAddress.Zip"/>
                                                                                     </div>
                                                                                     <div class="col-xs-6 form-group zip-code-lookup">
-                                                                                        <a href="javascript:void(0)" class="zip-code-lookup-link">Zip Code Lookup</a>
+                                                                                        <a href="javascript:void(0)" class="zip-code-lookup-link" >Zip Code Lookup</a>
                                                                                     </div>
                                                                                     <div class="col-xs-12 form-group address">
                                                                                         <label for="address">Address</label>
-                                                                                        <input type="text" class="form-control" id="address" />
+                                                                                        <input type="text" class="form-control" id="address" ng-model="checkout.billingAddress.Street1" />
                                                                                     </div>
                                                                                     <div class="col-xs-12 form-group address2">
                                                                                         <label for="address2">Address2</label>
-                                                                                        <input type="text" class="form-control" id="address2" />
+                                                                                        <input type="text" class="form-control" id="address2" ng-model="checkout.billingAddress.Street2"/>
                                                                                     </div>
                                                                                     <div class="col-xs-6 form-group city">
                                                                                         <label for="address">City</label>
-                                                                                        <input type="text" class="form-control" id="city" />
+                                                                                        <input type="text" class="form-control" id="city" ng-model="checkout.billingAddress.City"/>
                                                                                     </div>
                                                                                     <div class="col-xs-6 form-group state">
                                                                                         <label for="state">State</label>
-                                                                                        <select class="form-control" id="state">
+                                                                                        <select class="form-control" id="state" ng-model="checkout.billingAddress.State" >
                                                                                             <option>MN</option>
                                                                                             <option>LA</option>
                                                                                             <option>LV</option>
@@ -841,32 +851,39 @@
                                                                                     </div>
                                                                                     <div class="col-xs-12 form-group phone-number">
                                                                                         <label for="phone1">Phone Number</label>
-                                                                                        <input type="number" class="form-control col-xs-3" id="phone1" />
-                                                                                        <input type="number" class="form-control col-xs-3" id="phone2" />
-                                                                                        <input type="number" class="form-control col-xs-3" id="phone3" />
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.phone1"/>
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.phone1"/>
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.phone1"/>
                                                                                     </div>
                                                                                     <div class="col-xs-12 form-group email-addr">
                                                                                         <label for="address">Enter Your Email Address</label>
-                                                                                        <input type="text" class="form-control" id="city" placeholder="Email Address" />
+                                                                                        <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.Email"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group save-addr-btn">
+                                                                                      <button class="btn-block" ng-disabled="checkout.cardsEditForm[$index].$invalid">Save</button>
                                                                                     </div>
                                                                                 </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </uib-accordion-group>
-                                                                <uib-accordion-group>
-                                                                    <uib-accordion-heading>
-                                                                        <div ng-click="checkout.newcard=!checkout.newcard">
-                                                                        <span class="card-checkbox-cont">
-                                                                            <input type="radio" class="input-card-radio" name="creditCardSelection" ng-model="checkout.selectedCard" value="newCard">
-                                                                            <!--<input type="radio" id="card-radio3" name="card-radio" class="input-card-radio" ng-model="checkout.selectedCard"/>-->
+                                                                </div>
+                                                                <div class="cardHolder">
+
+                                                                           <div ng-click="checkout.newcard=!checkout.newcard" class="addCardHead card-cont-header">
+                                                                       <!--  <span class="card-checkbox-cont">
+                                                                            <input type="radio" class="input-card-radio" name="creditCardSelection" ng-model="checkout.selectedCard" ng-value="newCard">
+                                                                            <input type="radio" id="card-radio3" name="card-radio" class="input-card-radio" ng-model="checkout.selectedCard"/>
                                                                             <label for="card-radio3" class="card-radio-label"></label>
                                                                         </span>
-                                                                        <button type="button" class="btn"> + Add/Pay with a new card</button>
+                                                                        <button type="button" class="btn"> + Add/Pay with a new card</button> -->
+                                                                        <input type="radio" id="newCreditCard" class="input-card-radio" name="creditCardSelection" ng-model="checkout.selectedCard" value="newCreditCard">
+                                                                        <label for="newCreditCard" id="first-label">
+                                                                            <span class="radioOutline"><span class="radioInside"></span></span>
+                                                                            <span class="detailLabel">+ Add/Pay with a new card</span>
+                                                                        </label>
                                                                         </div>
-                                                                    </uib-accordion-heading>
-                                                                    <div class="col-xs-12 card-info-cont" ng-if="checkout.newcard==true">
-                                                                        <form class="input-card-form" role="form" novalidate>
+                                                                    <div class="col-xs-12 card-info-cont addCardForm" ng-if="checkout.selectedCard=='newCreditCard'">
+                                                                        <form name="newCreditCardForm" class="input-card-form" role="form" novalidate>
                                                                             <div class="col-xs-12 form-group holder-name p0">
                                                                                 <label for="cardholderName">Cardholder's Name</label>
                                                                                 <input type="text" class="form-control" id="cardholderName" placeholder="Name" ng-model="checkout.addPaymentInfo.card.CardholderName" required/>
@@ -918,6 +935,62 @@
                                                                                    </svg>
                                                                                 </span>
                                                                             </div>
+                                                                            </form>
+                                                                             <div class="col-xs-12 billing-addr-cont addCardBillForm">
+                                                                            <p class="title">Billing Address</p>
+                                                                            <div class="billing-addr-div">
+                                                                                <form class="billing-addr-form" role="form" novalidate>
+                                                                                    <div class="col-xs-6 form-group first-name">
+                                                                                        <label for="firstName">First Name</label>
+                                                                                        <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 form-group last-name">
+                                                                                        <label for="nickName">Last Name</label>
+                                                                                        <input type="text" class="form-control" id="lastName" ng-model="checkout.billingAddress.LastName"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 form-group zip-code">
+                                                                                        <label for="zipCode">ZIP Code</label>
+                                                                                        <input type="number" class="form-control" id="zipCode" ng-model="checkout.billingAddress.Zip"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 form-group zip-code-lookup">
+                                                                                        <a href="javascript:void(0)" class="zip-code-lookup-link" >Zip Code Lookup</a>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 form-group address">
+                                                                                        <label for="address">Address</label>
+                                                                                        <input type="text" class="form-control" id="address" ng-model="checkout.billingAddress.Street1" />
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 form-group address2">
+                                                                                        <label for="address2">Address2</label>
+                                                                                        <input type="text" class="form-control" id="address2" ng-model="checkout.billingAddress.Street2"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 form-group city">
+                                                                                        <label for="address">City</label>
+                                                                                        <input type="text" class="form-control" id="city" ng-model="checkout.billingAddress.City"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-6 form-group state">
+                                                                                        <label for="state">State</label>
+                                                                                        <select class="form-control" id="state" ng-model="checkout.billingAddress.State" >
+                                                                                            <option>MN</option>
+                                                                                            <option>LA</option>
+                                                                                            <option>LV</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 form-group phone-number">
+                                                                                        <label for="phone1">Phone Number</label>
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.phone1"/>
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.phone1"/>
+                                                                                        <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.phone1"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 form-group email-addr">
+                                                                                        <label for="address">Enter Your Email Address</label>
+                                                                                        <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.Email"/>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group save-addr-btn">
+                                                                                      <button class="btn-block" ng-disabled="newCreditCardForm.$invalid">Save</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
                                                                             <div class="col-xs-12 p0 form-group card-remember">
                                                                                 <div class="Checkbox">
                                                                                     <input type="checkbox" ng-model="checkout.addPaymentInfo.saveCard">
@@ -925,10 +998,9 @@
                                                                                 </div>
                                                                                 <label>Save this card for future payments</label>
                                                                             </div>
-                                                                        </form>
                                                                     </div>
-                                                                </uib-accordion-group>
-                                                            </uib-accordion>
+                                                                </div>
+                                                            </div>
                                                             </form>
                                                             <!-- accordion ends -->
                                                             <!-- <div class="col-xs-12 p0 card-item">
@@ -1050,7 +1122,6 @@
                                                                         <label for="card-radio2" class="card-radio-label"></label>
                                                                     </span>
                                                                     <span class="visa-icon-cont">
-
                                                                     </span>
                                                                     <span class="card-number">
                                                                         XXXX XXX XXX 1419
@@ -1234,7 +1305,7 @@
                                                         <div class="arrow-up"></div>
                                                     </div>
                                                   </uib-tab-heading>
-                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p0 payment-gift-card-info">
+                                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 payment-gift-card-info">
                                                         <p class="title">Gift Card Information</p>
                                                         <p class="title-helper">Enter 14 or 16 Digit Gift Card Number</p>
                                                         <form class="pmt-gift-card-form" role="form" novalidate>
@@ -1288,11 +1359,92 @@
                         </uib-accordion-group>
                     </uib-accordion>
                 </div>
-                <div class="row review-content">
+
+               <div class="row review-order-part">
+
+                    <div class="signInTab">
+                                <p class="headPart" >1. 
+                                    <a class="info-search-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                        <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                                    </svg>
+                                </a>
+                                 Sign In <span class="editLink">Edit</span>
+                            </p>
+                            <p class="detailPart">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
+                    </div>
+                    <div class="deliveryInfoTab">
+                                <p class="headPart" >2. 
+                                    <a class="info-search-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                        <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                                    </svg>
+                                </a>
+                                 Delivery Information <span class="editLink">Edit</span>
+                            </p>
+                            <div class="detailPart row" ng-repeat="(line,value) in checkout.groups">
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="fullName">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</p>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                                    <p>{{checkout.groups[line][0].ShippingAddress.Street1}}</p>
+                                    <p>{{checkout.groups[line][0].ShippingAddress.Street2}}</p>
+                                    <p>{{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}}</p>
+                                    <p>{{checkout.groups[line][0].ShippingAddress.Zip}}</p>
+
+                                    <p class="phone">{{checkout.groups[line][0].ShippingAddress.Phone}}</p>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="dDate-title">Delivery Date</p>
+                                    <p class="dDate">{{checkout.groups[line][0].xp.deliveryDate | date}}</p>
+                                </div>
+                                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="dPreference-title">Delivery Preference</p>
+                                    <p class="dayTime">{{checkout.groups[line][0].xp.DeliveryRuns.Name}}</p>
+                                    <p class="time">{{checkout.groups[line][0].xp.DeliveryRuns.TimeSlot}}</p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="paymentInfoTab">
+                                <p class="headPart" >3. 
+                                    <a class="info-search-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                        <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                                    </svg>
+                                </a>
+                                 Payment <span class="editLink">Edit</span>
+                            </p>
+                            <div class="detailPart row">
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="fullName">Sam White</p>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                                    <p>3648 Blaisdell Ave S</p>
+                                    <p>Apt 2</p>
+                                    <p>Minneapolis, MN</p>
+                                    <p>55401</p>
+                                    <p class="phone">(651)555-5555</p>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="cardTitle">Credit Card</p> 
+                                    <p>xxxx xxx xxx 1419</p>
+                                    <p class="cardExpires">Card Expires</p>
+                                    <p>08/23</p>
+                                </div>
+                                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p class="pPerksTitle">Purple Perks Dollars Applied</p>
+                                    <p>100</p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row review-content-btn">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="place-order" ng-click="checkout.placeOrder()">Place Order</div>
+                        <button class="place-order" ng-click="checkout.placeOrder()">Place Order</button>
                     </div>
                 </div>
+                </div>
+                
+
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 order-details">
                 <div class="order-summary-info">
@@ -1351,7 +1503,20 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                <p class="delivery-charges">Delivery Charges<span></span></p>
+                                                <p class="delivery-charges">Delivery Charges
+                                                    <span class="cross-svg">
+                                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                                                        <g>
+                                                            <g>
+                                                                <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
+                                                            </g>
+                                                            <g>
+                                                                <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                    </span>
+                                                </p>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                 <div class="delivery-amount">$10.99</div>

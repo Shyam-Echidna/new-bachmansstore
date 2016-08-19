@@ -13,6 +13,7 @@ angular.module('orderCloud')
     .controller('addedToCartCtrl',addedToCartController)
     .controller('wishlistModalCtrl',wishlistModalController)
     .directive('prodColors', ProdColorsDirective)
+    .directive('newLabel', NewLabelDirective)
 ;
 
 function PlpConfig($stateProvider) {
@@ -241,10 +242,15 @@ function PlpConfig($stateProvider) {
                         var highest = Number.NEGATIVE_INFINITY;
                         var tmp;
                         //console.log("@@@" ,value.StandardPriceSchedule.PriceBreaks);
+                        var isNew = false;
                         angular.forEach(value, function(prodValues, key){
                             tmp = prodValues.StandardPriceSchedule.PriceBreaks[0].Price;
                             if (tmp < lowest) lowest = tmp;
                             if (tmp > highest) highest = tmp;
+                            var d = new Date(prodValues.xp.DateAdded);
+                            var date= new Date(d.setMonth(d.getMonth() + 1)) > new Date();
+                            if(date){isNew = true;}
+
                         });
                         var price;
                         if(lowest !=highest){
@@ -252,6 +258,9 @@ function PlpConfig($stateProvider) {
                         }
                         else{
                            price = "$"+lowest; 
+                        }
+                        if(isNew){
+                            value[data].isNew = true;
                         }
                        /* var price;
  +                         if(lowest != highest){ //check prices are different
@@ -661,7 +670,7 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
    console.log("CurrentCatgory==",CurrentCatgory);
    vm.CurrentCatgory = CurrentCatgory;
  vm.CustomFacetList = FacetList;
- vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+// vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
   vm.toggleFacet = function(facet, value) {
         var currentFilter = $stateParams.filters;
         if (!currentFilter) {
@@ -1296,7 +1305,9 @@ function ColorFilter(){
 function ordercloudProductQuickViewDirective(){
     return{
         scope:{
-            product: '='
+            product: '=product',
+            selectedproductinfo: '=selectedproductinfo',
+            featuredselectedproductinfo:'=featuredselectedproductinfo'
         },
         replace:true,
         restrict:'E',
@@ -1306,10 +1317,10 @@ function ordercloudProductQuickViewDirective(){
     }
 }
 
-function ProductQuickViewController ($uibModal , SharedData){
+ function ProductQuickViewController ($uibModal, $scope ){
     var vm = this;
     
-    vm.open = function (product){
+    vm.open = function (product, selectedproductinfo, featuredselectedproductinfo){
      console.log(product);
         $uibModal.open({
             animation:true,
@@ -1326,7 +1337,13 @@ function ProductQuickViewController ($uibModal , SharedData){
                   return PdpService.GetProductCodeImages(product[0].ID);
                 },
                 selectedProduct : function(){
-                  return SharedData.SelectedProductId;
+                    var productObj = $scope.$parent.$parent.plp.selectedProductInfo;
+                    var featuredProductObj = $scope.$parent.$parent.plp.FeaturedselectedProductInfo;
+                    if(featuredselectedproductinfo === undefined){
+                        return productObj[selectedproductinfo].prodId 
+                    }else if(selectedproductinfo === undefined){
+                        return featuredProductObj[featuredselectedproductinfo].prodId 
+                    } 
                 },
              /*   extraProductImages: function (PlpService) {
                   var ticket = localStorage.getItem("alf_ticket");
@@ -1336,8 +1353,8 @@ function ProductQuickViewController ($uibModal , SharedData){
                 },*/
                 extraProducts: function ( Underscore, PdpService, alfcontenturl, PlpService) {
 
-                  var imageData = PdpService.GetExtras()
-                  var res = Object.keys(imageData).map(function (key) { return imageData[key] });;
+                  var imageData = PdpService.GetExtras();
+                  var res = Object.keys(imageData).map(function (key) { return imageData[key] });
                   var ticket = localStorage.getItem("alf_ticket");
                   var imgcontentArray = [];
                  return  PlpService.GetProductImages(ticket).then(function (imgs) {
@@ -1397,6 +1414,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
   if (selectedProduct !== undefined) {
       $.grep(productDetail, function (e, i) {
         if (e.ID == selectedProduct) {
+          vm.gotoPdp = "/pdp/"+e.xp.ProductCode+"?prodId="+e.ID;
           $scope.radio.selectedColor = e.xp.SpecsOptions.Color;
           $scope.radio.selectedSize = e.xp.SpecsOptions.Size;
           vm.productTitle = e.Name;
@@ -1429,6 +1447,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
     $.grep(productDetail, function (e, i) {
       if (e.xp.IsBaseProduct == 'true') {
         baseData = i;
+        vm.gotoPdp = "/pdp/"+e.xp.ProductCode;
         vm.productTitle = e.xp.BaseProductTitle;
         vm.prodDesription = e.xp.BaseDescription;
       }
@@ -1519,7 +1538,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
     vm.productTitle = selectedSku.Name;
     vm.prodDesription = selectedSku.Description;
     vm.selectedProductId = selectedSku.ID;
-
+    vm.gotoPdp = "/pdp/"+selectedSku.xp.ProductCode+"?prodId="+selectedSku.ID;
     WishListHandler(selectedSku.ID, true);
     PdpService.GetProductCodeImages(selectedSku.ID).then(function (res) {
       vm.productVarientImages = res;
@@ -1561,7 +1580,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
        if(_obj.xp.SpecsOptions.Size === null || selectedSize === null){
                 return (_obj.xp.SpecsOptions.Size == selectedSize)
             }else{
-                return (obj.xp.SpecsOptions.Size == selectedSize || obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
+                return (_obj.xp.SpecsOptions.Size == selectedSize || _obj.xp.SpecsOptions.Size.toLowerCase() == selectedSize)
             }
     });
     var imAvailableColors = angular.copy(availableColors);
@@ -1776,7 +1795,9 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
 function ProdColorsDirective(){
     return{
         scope:{
-            product: '='
+            product: '=product',
+            selectedproductinfo: '=selectedproductinfo',
+            featuredselectedproductinfo: '=featuredselectedproductinfo'
         },
         restrict:'E',
         transclude: true,
@@ -1833,6 +1854,15 @@ function ProdColorsDirective(){
             $scope.selectedColorIndex = -1;
            $scope.selectColor = function($index, $event, prod){
             $scope.selectedColorIndex = $index;
+            var productObj = $scope.$parent.$parent.plp.selectedProductInfo;
+                var featuredProductObj = $scope.$parent.$parent.plp.FeaturedselectedProductInfo;
+                var selectedProductParentIndex = $scope.selectedproductinfo;
+                var FeaturedProductParentIndex = $scope.featuredselectedproductinfo;
+                if(!FeaturedProductParentIndex){
+                    productObj[selectedProductParentIndex].prodId = prod.ID;
+                }else if(!selectedProductParentIndex){
+                    featuredProductObj[FeaturedProductParentIndex].prodId = prod.ID;
+            }
              //console.log(prodId.imgContent);
              $($event.target).parents('.product-box').find('img')[0].src = prod.imgcontent.contentUrl;
              $($event.target).parents('.product-box').find('.product-name-plp span').text(capFil(prod.Name));
@@ -1855,3 +1885,18 @@ function capFil(inpt){
     }
     return inpt;
 } 
+function NewLabelDirective(){
+     return{
+        scope:{
+            product: '=newLabel'
+        },
+       link: function (scope, element, attrs)
+        {
+             var d = new Date(scope.product.xp.DateAdded);
+             var isNew = new Date(d.setMonth(d.getMonth() + 1)) > new Date();
+             if(isNew){
+                element.html('<div class="ribbon-wrapper"><div class="ribbon-front"><p>New</p></div></div>');
+             }
+        }
+    }
+}

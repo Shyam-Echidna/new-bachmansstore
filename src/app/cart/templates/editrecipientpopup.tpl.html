@@ -19,36 +19,32 @@
         </p>
     </div>
     <div class="address-book">
-        <a href="" class="view-address-link" ng-if="multipleRecipient.signnedin.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="multipleRecipient.addressBook()">
-            <span class="svg-outer">
-                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        <button class="view-address-link" ng-if="!!editRecipientPopup.isLoggedIn" ng-click="editRecipientPopup.addressBook()"><span class="svg-outer">
+                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
                         <rect x="11" class="stR" width="2" height="24"/>
                         <rect y="11" class="stR" width="24" height="2"/>
                     </g>
                     </svg>
-
-                </span>VIEW ADDRESS BOOK
-                    </a>
-                    <a href="" ng-if="multipleRecipient.showaddress==true" class="show-all">show all</a>
-                    <div class="addressbookdiv" ng-if="multipleRecipient.showaddress==true">
-                            <label ng-repeat="addressbook in multipleRecipient.addressbook.Items track by addressbook.ID" class="parentP">
-                                <input type="radio" name="addressbook" ng-model="multipleRecipient.address1" value="{{$index}}" id="address{{$index}}"/>
+                    </span>VIEW ADDRESS BOOK
+                    </button>
+        <a href="" ng-if="!!editRecipientPopup.showaddress" class="show-all" ng-click="editRecipientPopup.limit=100">show all</a>
+        <div class="addressbookdiv" ng-if="!!editRecipientPopup.showaddress">
+            <label ng-repeat="addressbook in editRecipientPopup.addressbook.Items | limitTo:editRecipientPopup.limit track by addressbook.ID" class="parentP">
+                                <input type="radio" name="addressbook" ng-model="editRecipientPopup.savedBookAddress"  ng-change="editRecipientPopup.addBookAddress(editRecipientPopup.item,editRecipientPopup.savedBookAddress)" id="address{{$index}}" />
                                 <label for="address{{$index}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
                                     <p>
                                         <span>{{addressbook.FirstName}} {{addressbook.LastName}}</span>
                                         <span>{{addressbook.Street1}}, {{addressbook.Street2}}</span>
                                         <span>{{addressbook.City}}, {{addressbook.State}}</span>
-                                        <span>{{addressbook.Country}}, <!-- Zip-  -->{{addressbook.Zip}}</span>
-                                        <span><!-- Phone: --> {{addressbook.Phone}}</span>
+                                        <span>{{addressbook.Country}}, {{addressbook.Zip}}</span>
+                                        <span> {{addressbook.Phone}}</span>
                                     </p>
                                 </label>
-                                
-                            </label>
-                            <button ng-click="lineitem.ShippingAddress = multipleRecipient.addressbook.Items[multipleRecipient.address1]">Save</button>
-                    </div>
+            </label>
+        </div>
     </div>
     <div class="row name-block">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -56,19 +52,19 @@
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="first-name">First Name</label>
-                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="editRecipientPopup.item.ShippingAddress.FirstName">
+                        <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="editRecipientPopup.item.ShippingAddress.FirstName" required>
                     </fieldset>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="last-name">Last Name</label>
-                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="editRecipientPopup.item.ShippingAddress.LastName">
+                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="editRecipientPopup.item.ShippingAddress.LastName" required>
                     </fieldset>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" ng-if="editRecipientPopup.addressType=='Residence'|| editRecipientPopup.addressType=='School' || editRecipientPopup.addressType=='Business'">
                     <fieldset class="form-group">
                         <label for="zip-code">ZIP Code</label>
-                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model="editRecipientPopup.item.ShippingAddress.Zip" ng-blur="editRecipientPopup.getCityState(editRecipientPopup.item)">
+                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model="editRecipientPopup.item.ShippingAddress.Zip" ng-blur="editRecipientPopup.getCityState(editRecipientPopup.item)" required>
                     </fieldset>
                 </div>
                 <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
@@ -80,138 +76,294 @@
             </div>
         </div>
     </div>
-    <div class="row address-block">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <fieldset class="form-group">
-                    <label for="address-1">Address</label>
-                    <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="editRecipientPopup.item.ShippingAddress.Street1">
-                </fieldset>
+    <div class="row radio-btn-group">
+
+        <div class="receipient-location" ng-init="editRecipientPopup.addressType=editRecipientPopup.item.xp.addressType">
+            <div class="radio-inline">
+                <input type="radio" id="addre-residnce-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Residence" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-residnce-opt" id="first-label">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Residence <span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <fieldset class="form-group">
-                    <label for="address-2">Address 2</label>
-                    <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="editRecipientPopup.item.ShippingAddress.Street2">
-                </fieldset>
+            <div class="radio-inline">
+                <input type="radio" id="addre-hospital-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Hospital" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-hospital-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Hospital<span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
             </div>
+            <div class="radio-inline">
+                <input type="radio" id="addre-church-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Church" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-church-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Church<span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" id="addre-funeral-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Funeral" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-funeral-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Funeral Home<span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" id="addre-cemetry-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Cemetery" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-cemetry-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Cemetery<span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
+            </div>
+
+            <div class="radio-inline">
+                <input type="radio" id="addre-school-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="School" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-school-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">School<span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" id="addre-buss-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Business" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoDeliveryExInStore}}">
+                <label for="addre-buss-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Business <span ng-if="editRecipientPopup.item.xp.NoDeliveryExInStore">(Not Available)</span></span>
+                                </label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" id="addre-call-opt" name="optradio" ng-model="editRecipientPopup.addressType" value="Will Call" ng-change="editRecipientPopup.addressTypeChanged(editRecipientPopup.item,editRecipientPopup.addressType)" ng-disabled="{{!!editRecipientPopup.item.xp.NoInStorePickUp}}">
+                <label for="addre-call-opt">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <span class="label-name">Will Call <span ng-if="editRecipientPopup.item.xp.NoInStorePickUp">(Not Available)</span></span>
+                                </label>
+            </div>
+
+
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <fieldset class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" placeholder="City" ng-model="editRecipientPopup.item.ShippingAddress.City">
-                </fieldset>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <fieldset class="form-group">
-                    <label for="state">State</label>
-                    <input type="text" class="form-control" id="state" placeholder="State" ng-model="editRecipientPopup.item.ShippingAddress.State">
-                </fieldset>
-            </div>
-        </div>
-        <div class="row">
-            <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <fieldset class="form-group">
-                    <label for="country">Country</label>
-                    <input type="text" class="form-control" id="country" placeholder="Country" ng-model="editRecipientPopup.item.ShippingAddress.Country">
-                </fieldset>
-            </div>
- -->            <!--<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <label for="dDate">Delivery Date</label>
-                <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}" ng-required="true" />
-                <span class="input-group-btn date-svg">
-                                                <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
-                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
-                                                <g>
-                                                    <g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
-                                                                    c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
-                                                                    s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
-                                                                     M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
-                                                                 M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
-                                                                    c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
-                                                            </g>
-                                                        </g>
-                                                        <g>
-                                                            <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
-                                                        </g>
-                                                        <g>
-                                                            <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
-                                                        </g>
-                                                        <g>
-                                                            <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
-                                                        </g>
-                                                        <g>
-                                                            <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
-                                                        </g>
-                                                        <g>
-                                                            <g>
-                                                                <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                </span>
-                <input type="text" value="" readonly>
-            </div>-->
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <fieldset class="form-group phone-box">
-                <label for="phone">Phone Number</label>
-                <div class="row">
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
-                        <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone1">
+    </div>
+
+
+    <div class="row address-block" ng-form="formedit">
+        <div>
+            <div class="col-md-12 col-lg-12">
+                <div class="location-recipientName patient-det row" ng-if="editRecipientPopup.addressType=='Hospital'">
+                    <p class="patient-tilte">Patient Name</p>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                        <fieldset class="form-group">
+                            <label for="patient-first-name">First Name</label>
+                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="editRecipientPopup.item.xp.PatientFName" required>
+                        </fieldset>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
-                        <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone2">
+                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                        <fieldset class="form-group">
+                            <label for="patient-last-name">Last Name</label>
+                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="editRecipientPopup.item.xp.PatientLName" required>
+                        </fieldset>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
-                        <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone3">
-                    </div>
+
                 </div>
-            </fieldset>
-        </div>
-    </div>
-     <div class="row save-address">
-        <div class="col-md-4 col-lg-4">
-            <div class="Checkbox">
-                <input type="checkbox">
-                <div class="Checkbox-visible"></div>
+                <div class="location-recipientName row" ng-if="editRecipientPopup.addressType=='Funeral'">
+                    <p class="in-memory">In Memory of:</p>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                        <fieldset class="form-group">
+                            <label for="patient-first-name">First Name</label>
+                            <input type="text" class="form-control" id="patient-first-name" placeholder="" ng-model="editRecipientPopup.item.xp.PatientFName" required>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5">
+                        <fieldset class="form-group">
+                            <label for="patient-last-name">Last Name</label>
+                            <input type="text" class="form-control" id="patient-last-name" placeholder="" ng-model="editRecipientPopup.item.xp.PatientLName" required>
+                        </fieldset>
+                    </div>
+
+                </div>
+                <div class="row hospital-search" ng-if="editRecipientPopup.addressType=='Hospital'">
+
+
+                    <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
+                        <fieldset class="form-group">
+                            <label for="Hospital">Find Hospital</label>
+                            <input type="search" id="Hospital" class="form-control" ng-model='editRecipientPopup.name' uib-typeahead="st for st in editRecipientPopup.hospitalNames | filter:$viewValue" typeahead-on-select="editRecipientPopup.hospitalDetails($item,editRecipientPopup.item,editRecipientPopup.name)"
+                            />
+                        </fieldset>
+                    </div>
+
+                </div>
             </div>
-            <label > Save this address</label>
+        </div>
+        <div>
+            <div class="row funeral-det" ng-if="editRecipientPopup.addressType == 'Funeral'">
+
+                <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
+                    <fieldset class="form-group">
+                        <label for="Funeral">Find FuneralHome</label>
+                        <input type="search" id="Funeral" class="form-control" ng-model='editRecipientPopup.name' uib-typeahead="st for st in editRecipientPopup.funeralHomes | filter:$viewValue" typeahead-on-select="editRecipientPopup.funeralHomeDetails($item,editRecipientPopup.item,editRecipientPopup.name)"
+                        />
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <div class="row church-det" ng-if="editRecipientPopup.addressType == 'Church'">
+                <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
+                    <fieldset class="form-group">
+                        <label for="Church">Find Curchs</label>
+                        <input type="search" id="Church" class="form-control" ng-model='editRecipientPopup.name' uib-typeahead="st for st in editRecipientPopup.churchNames | filter:$viewValue" typeahead-on-select="editRecipientPopup.churchDetails($item,editRecipientPopup.item,editRecipientPopup.name)"
+                        />
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+        <!--Cemetery-->
+        <div>
+            <div class="row church-det" ng-if="editRecipientPopup.addressType == 'Cemetery'">
+                <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
+                    <fieldset class="form-group">
+                        <label for="Cemetery">Find Cemeteries</label>
+                        <input type="search" id="Cemetery" class="form-control" ng-model='editRecipientPopup.name' uib-typeahead="st for st in editRecipientPopup.cemeteries | filter:$viewValue" typeahead-on-select="editRecipientPopup.cemeteryDetails($item,editRecipientPopup.item,editRecipientPopup.name)"
+                        />
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <div class="row store-det" ng-if="editRecipientPopup.addressType=='Will Call'">
+                <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
+                    <fieldset class="form-group">
+                        <label for="store">Find Store</label>
+                        <input type="search" id="store" class="form-control" ng-model="editRecipientPopup.name" uib-typeahead="st for st in editRecipientPopup.storeNames | filter:$viewValue" typeahead-on-select="editRecipientPopup.storesDetails($item,editRecipientPopup.item,editRecipientPopup.name)"
+                        />
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="row address-block">
+            <div class="row" ng-if="editRecipientPopup.addressType=='Residence'|| editRecipientPopup.addressType=='School' || editRecipientPopup.addressType=='Business'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <fieldset class="form-group">
+                        <label for="address-1">Address</label>
+                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="editRecipientPopup.item.ShippingAddress.Street1" required>
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <fieldset class="form-group">
+                        <label for="address-2">Address 2</label>
+                        <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="editRecipientPopup.item.ShippingAddress.Street2">
+                    </fieldset>
+                </div>
+            </div>
+             <div class="row" ng-if="editRecipientPopup.addressType=='Funeral'|| editRecipientPopup.addressType=='Church' || editRecipientPopup.addressType=='Hospital' || editRecipientPopup.addressType=='Will Call' || editRecipientPopup.addressType=='Cemetery'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.name">
+                    <fieldset class="form-group">
+                        <label for="address-1">Address</label>
+                        <input type="text" class="form-control" id="address-1" placeholder="Address" ng-model="editRecipientPopup.item.ShippingAddress.Street1">
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.name">
+                    <fieldset class="form-group">
+                        <label for="address-2">Address 2</label>
+                        <input type="text" class="form-control" id="address-2" placeholder="Address 2" ng-model="editRecipientPopup.item.ShippingAddress.Street2">
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row" ng-if="editRecipientPopup.addressType=='Residence'|| editRecipientPopup.addressType=='School' || editRecipientPopup.addressType=='Business'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <fieldset class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="editRecipientPopup.item.ShippingAddress.City">
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <fieldset class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="editRecipientPopup.item.ShippingAddress.State">
+                    </fieldset>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.addressType=='Business'">
+                    <fieldset class="form-group">
+                        <label for="Business">Business</label>
+                        <input type="text" class="form-control" id="Business" placeholder="Business" autocomplete="off" ng-model="editRecipientPopup.item.ShippingAddress.CompanyName" >
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.addressType=='School'">
+                    <fieldset class="form-group">
+                        <label for="School">School</label>
+                        <input type="text" class="form-control" id="School" placeholder="School Name" autocomplete="off" ng-model="editRecipientPopup.item.ShippingAddress.CompanyName" >
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row"  ng-if="editRecipientPopup.addressType=='Funeral'|| editRecipientPopup.addressType=='Church' || editRecipientPopup.addressType=='Hospital' || editRecipientPopup.addressType=='Will Call' || editRecipientPopup.addressType=='Cemetery'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.name">
+                    <fieldset class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" placeholder="City" ng-model="editRecipientPopup.item.ShippingAddress.City">
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.name">
+                    <fieldset class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" placeholder="State" ng-model="editRecipientPopup.item.ShippingAddress.State">
+                    </fieldset>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-if="editRecipientPopup.name">
+                    <fieldset class="form-group">
+                        <label for="zip-code">ZIP Code</label>
+                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" autocomplete="off" ng-model="editRecipientPopup.item.ShippingAddress.Zip" >
+                    </fieldset>
+                </div>
+               
+                
+            </div>
+             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"  ng-if="editRecipientPopup.addressType=='Residence'|| editRecipientPopup.addressType=='School' || editRecipientPopup.addressType=='Business'">
+                <fieldset class="form-group phone-box">
+                    <label for="phone">Phone Number</label>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone1">
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone2">
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone3">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"  ng-if="editRecipientPopup.addressType=='Funeral'|| editRecipientPopup.addressType=='Church' || editRecipientPopup.addressType=='Hospital' || editRecipientPopup.addressType=='Will Call' || editRecipientPopup.addressType=='Cemetery'">
+                <fieldset class="form-group phone-box" ng-if="editRecipientPopup.name">
+                    <label for="phone">Phone Number</label>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone1" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleRecipient.IsNumeric($event)" required>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone2" phone-validation ng-minlength="3" maxlength="3" ng-keypress="multipleRecipient.IsNumeric($event)" required>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-xs-4">
+                            <input type="text" class="form-control" ng-model="editRecipientPopup.item.ShippingAddress.Phone3" phone-validation ng-minlength="4" maxlength="4" ng-keypress="multipleRecipient.IsNumeric($event)" required>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row save-address" ng-if="!!editRecipientPopup.isLoggedIn">
+            <div class="col-md-4 col-lg-4">
+                <div class="Checkbox">
+                    <input type="checkbox" ng-model="editRecipientPopup.saveaddressdata" ng-change="editRecipientPopup.saveUserAddressData(editRecipientPopup.saveaddressdata,editRecipientPopup.item)">
+                    <div class="Checkbox-visible"></div>
+                </div>
+                <label> Save this address</label>
+            </div>
+        </div>
+        <div class="row save-btn">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-click" id="changerecipientid">
+                <button class="save-btn" ng-click="editRecipientPopup.changedtls(editRecipientPopup.item)">Save</button>
+                <button class="cancel-btn" ng-click="editRecipientPopup.cancel()">Cancel</button>
+            </div>
         </div>
     </div>
-    <div class="row save-btn">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-click" id="changerecipientid">
-            <button class="save-btn" ng-click="editRecipientPopup.changedtls(editRecipientPopup.item)">Save</button>
-            <button class="cancel-btn" ng-click="editRecipientPopup.cancel()">Cancel</button>
-        </div>
-    </div>
-</div>

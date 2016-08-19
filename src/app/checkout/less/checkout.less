@@ -963,7 +963,7 @@
                                                                 text-transform: uppercase;
                                                                 margin-bottom: 0;
                                                             }
-                                                            .input-card-form {
+                                                            
                                                                 .holder-name,
                                                                 .card-number,
                                                                 .exp-date,
@@ -981,6 +981,10 @@
                                                                         height: 45px;
                                                                         background: #F4F4F4;
                                                                         border-radius: 2px;
+                                                                        box-shadow: none;
+                                                                        &:focus{
+                                                                            border: 1px solid #ccc;
+                                                                        }
                                                                     }
                                                                 }
                                                                 .exp-date {
@@ -999,6 +1003,7 @@
                                                                         background-repeat: no-repeat;
                                                                         background-position: right center;
                                                                         background-size: 35px 12px;
+                                                                        border: 1px solid #ccc;
                                                                     }
                                                                     select#year {
                                                                         margin-left: 5px;
@@ -1031,85 +1036,250 @@
                                                                         }
                                                                     }
                                                                 }
+                                                            
+                                                        }
+                                                    }
+                                                    .billing-addr-cont {
+                                                        padding-right: 0;
+                                                        .title {
+                                                            padding-top: 20px;
+                                                            font: 1.125em @proxima-bold;
+                                                            margin-bottom: 25px;
+                                                        }
+                                                        .same-addr-chk {
+                                                            display: inline-block;
+                                                            .cuctom-checkbox;
+                                                            .Checkbox {
+                                                                &-visible {
+                                                                    width: 18px;
+                                                                    height: 18px;
+                                                                    border: 1px solid #dedede;
+                                                                }
+                                                                > input:checked + .Checkbox-visible {
+                                                                    background-position: 1px;
+                                                                }
                                                             }
+                                                            label {
+                                                                color: #464646;
+                                                                font: 0.875em @proxima-regular;
+                                                                margin-left: 5px;
+                                                            }
+                                                        }
+                                                        .billing-addr-div {
+                                                            
+                                                                .first-name,
+                                                                .last-name,
+                                                                .address,
+                                                                .address2,
+                                                                .city,
+                                                                .state,
+                                                                .zip-code,
+                                                                .email-addr {
+                                                                    margin: 25px 0 0 0;
+                                                                    label {
+                                                                        color: #464646;
+                                                                        font: 1em @proxima-regular;
+                                                                        margin-bottom: 10px;
+                                                                    }
+                                                                    input,
+                                                                    select {
+                                                                        color: #666666;
+                                                                        background: #F4F4F4;
+                                                                        font: 1em @proxima-regular;
+                                                                        height: 45px;
+                                                                        border-radius: 2px;
+                                                                        box-shadow: none;
+                                                                        border-radius: 2px;
+                                                                            &:focus{
+                                                                                border: 1px solid #ccc;
+                                                                            }
+                                                                    }
+                                                                }
+                                                                .first-name,
+                                                                .city,
+                                                                .zip-code {
+                                                                    padding: 0 5px 0 0;
+                                                                }
+                                                                .last-name {
+                                                                    padding: 0 0 0 5px;
+                                                                }
+                                                                .address,
+                                                                .address2,
+                                                                .email-addr {
+                                                                    padding: 0;
+                                                                }
+                                                                .state {
+                                                                    padding: 0 0 0 5px;
+                                                                    select {
+                                                                        -webkit-appearance: none;
+                                                                        -moz-appearance: none;
+                                                                        text-indent: 1px;
+                                                                        text-overflow: '';
+                                                                        background-image: url('../assets/images/dropdown-black.svg');
+                                                                        background-repeat: no-repeat;
+                                                                        background-position: right center;
+                                                                        background-size: 35px 12px;
+                                                                    }
+                                                                }
+                                                                .zip-code-lookup {
+                                                                    margin: 65px 0 0 0;
+                                                                    padding: 0 0 0 10px;
+                                                                    a {
+                                                                        color: #000000;
+                                                                        font: 0.875em @proxima-regular;
+                                                                        border-bottom: 1px solid #e3e3e3;
+                                                                        &:hover {
+                                                                            color: #8b5bb3 !important;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                .phone-number {
+                                                                    padding: 0;
+                                                                    margin: 25px 0 0 0;
+                                                                    label {
+                                                                        color: #464646;
+                                                                        font: 1em @proxima-regular;
+                                                                        margin-bottom: 10px;
+                                                                        display: block;
+                                                                    }
+                                                                    input {
+                                                                        width: 85px;
+                                                                        margin-right: 10px;
+                                                                        color: #666666;
+                                                                        background: #F4F4F4;
+                                                                        font: 1em @proxima-regular;
+                                                                        height: 45px;
+                                                                        border-radius: 2px;
+                                                                    }
+                                                                }
+                                                                 .save-addr-btn{
+                                                                            padding: 0px;
+                                                                            margin-top: 15px;
+                                                                            button {
+                                                                                .green-button;
+                                                                                height: 45px;
+                                                                                text-transform: uppercase;
+                                                                                font: 1.000em @proxima-bold;
+                                                                               
+                                                                            }
+                                                                        }
+                                                            
                                                         }
                                                     }
                                                     .credit-card-details {
                                                         margin-top: 35px;
-                                                        .card-item {
-                                                            margin-bottom: 10px;
-                                                            .card-cont-header {
-                                                                background: #f9f9f9;
-                                                                border: 1px solid #eaeaea;
-                                                                -moz-border-radius: 3px 3px 0px 0px;
-                                                                -webkit-border-radius: 3px 3px 0px 0px;
-                                                                border-radius: 3px 3px 0px 0px;
-                                                                .card-checkbox-cont {
-                                                                    line-height: 50px;
-                                                                    .input-card-radio {
-                                                                        display: none;
+                                                        
+                                                            .cardHolder{
+                                                                border: 1px solid #e9e9e9;
+                                                                margin-bottom: 7px;
+                                                                border-radius: 4px;
+                                                                box-shadow: none;
+                                                                .card-cont-header{
+                                                                    background: transparent;
+                                                                    padding: 10px;
+                                                                    cursor: pointer;
+                                                                         font:1em @proxima-regular;
+                                                                         color: #666666;
+                                                                         text-transform: capitalize;
+                                                                         font-weight: normal;
+                                                                         opacity: 0.8;
+                                                                         .detailLabel{
+                                                                            vertical-align: middle;
+                                                                            span{
+                                                                                padding: 0px 15px;
+                                                                                border-right: 1px solid #f1f1f1;
+                                                                                &:last-child{
+                                                                                    border: none;
+                                                                                    padding-right: 0px;
+                                                                                }
+                                                                            }
+                                                                         }
+                                                                         i{
+                                                                            background-color: #1849b2;
+                                                                            color: #fff;
+                                                                            font-size: 25px;
+                                                                            margin: 0px 5px 0px 15px;
+
+                                                                         }
+                                                                        input[type=radio] {
+                                    display: none;
+                                }
+                                input[type=radio]{
+                                    opacity: 0;
+                                    &:not(old){
+                                        &+ label .radioOutline, &:checked + label .radioOutline{
+                                            border: 1px solid @base-bg-purple-dark;
+                                            border-radius: 50%;
+                                            background: transparent;
+                                            display: inline-block;
+                                            width: 18px;
+                                            height: 18px;
+                                            text-align: center;
+                                            cursor: pointer;
+                                            vertical-align: middle;
+                                        }
+                                        &:checked + label .radioOutline .radioInside{
+                                            display: block;
+                                            width: 10px;
+                                            height: 10px;
+                                            border-radius: 50%;
+                                            display: inline-block;
+                                            background-color: @base-bg-purple-dark;
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            margin: auto;
+                                        }
+                                        &+ label .radioOutline .radioInside{
+                                            display: block;
+                                            width: 10px;
+                                            height: 10px;
+                                            border-radius: 50%;
+                                            display: inline-block;
+                                            background-color: transparent;
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            margin: auto;
+                                        }
+                                    }   
+                                }
+                                    .addCardHead{
+                                        label{
+                                            .detailLabel{
+                                                margin-left: 15px;
+                                            }
+                                        }
+                                    }                            
+
+                                                                    
+                                                                }
+                                                                .panel-body{
+                                                                    .card-remember {
+                                                                        margin-top: 20px;
+                                                                        .cuctom-checkbox;
+                                                                        .Checkbox {
+                                                                            &-visible {
+                                                                                width: 18px;
+                                                                                height: 18px;
+                                                                                border: 1px solid #dedede;
+                                                                            }
+                                                                            > input:checked + .Checkbox-visible {
+                                                                                background-position: 1px;
+                                                                            }
+                                                                        }
+                                                                        label {
+                                                                            margin-left: 10px;
+                                                                            color: #464646;
+                                                                            font: 0.875em @proxima-regular;
+                                                                        }
                                                                     }
-                                                                    label.card-radio-label {
-                                                                        display: inline-block;
-                                                                        cursor: pointer;
-                                                                        position: relative;
-                                                                        padding-left: 25px;
-                                                                        margin: 0px;
-                                                                    }
-                                                                    label.card-radio-label:before {
-                                                                        content: "";
-                                                                        display: inline-block;
-                                                                        width: 17px;
-                                                                        height: 17px;
-                                                                        margin-right: 10px;
-                                                                        position: absolute;
-                                                                        left: 0;
-                                                                        bottom: -3px;
-                                                                        border: 1px solid #ccc;
-                                                                        background-color: transparent;
-                                                                        border-radius: 10px;
-                                                                    }
-                                                                    .input-card-radio:checked + label.card-radio-label:before {
-                                                                        content: "\2022";
-                                                                        color: @base-bg-purple-dark;
-                                                                        font-size: 38px;
-                                                                        text-align: center;
-                                                                        line-height: 16px;
-                                                                        -webkit-transition: color 0.3s linear;
-                                                                        -o-transition: color 0.3s linear;
-                                                                        -moz-transition: color 0.3s linear;
-                                                                        transition: color 0.3s linear;
-                                                                    }
                                                                 }
-                                                                .name-cont {
-                                                                    font: 1em @proxima-bold;
-                                                                    line-height: 50px;
-                                                                    padding-left: 10px;
-                                                                }
-                                                                .visa-icon-cont {
-                                                                    .name-cont;
-                                                                    padding: 0 5px;
-                                                                }
-                                                                .card-number {
-                                                                    .name-cont;
-                                                                    padding: 2px 10px 2px 10px;
-                                                                    border-right: 1px solid #dcdcdc;
-                                                                }
-                                                                .date-cont {
-                                                                    .card-number;
-                                                                }
-                                                                button {
-                                                                    background: #fff;
-                                                                    height: 45px;
-                                                                    color: #a576ca;
-                                                                    font: 0.875em @proxima-bold;
-                                                                    text-transform: uppercase;
-                                                                    &:active {
-                                                                        background: transparent;
-                                                                    }
-                                                                }
-                                                            }
-                                                            .card-cont-body {
+                                                                .card-cont-body {
                                                                 border: 1px solid #eaeaea;
                                                                 border-top: none;
                                                                 -moz-border-radius: 0px 0px 3px 3px;
@@ -1130,14 +1300,27 @@
                                                                         height: 45px;
                                                                         border-radius: 2px;
                                                                         display: inline-block;
+                                                                        box-shadow: none;
+                                                                        &:focus{
+                                                                            border: 1px solid #cccccc;
+                                                                        }
                                                                     }
                                                                     .cvv-help-icon {
+                                                                            vertical-align: middle;
+                                                                            display: inline-block;
+                                                                            height: 21px;
+                                                                            width: 21px;
+                                                                            border-radius: 50%;
+                                                                            background: transparent;
+                                                                            text-align: center;
+                                                                            border: 1px solid #8c58b5;
+                                                                            margin-left: 10px;
                                                                         svg {
-                                                                            width: 15px;
-                                                                            height: 15px;
+                                                                            width: 14px;
+                                                                            height: 14px;
                                                                             fill: @font-purple-dark;
                                                                             vertical-align: middle;
-                                                                            margin-left: 10px;
+                                                                            margin-top: -4px;
                                                                         }
                                                                     }
                                                                     label {
@@ -1177,19 +1360,60 @@
                                                                         font: 1em/2.8125em @proxima-regular;
                                                                     }
                                                                 }
+                                                                .paymentForm{
+                                                                    background-color: #fafafa;
+                                                                    padding: 20px;
+                                                                        .title{
+                                                                            padding: 0px;
+                                                                            margin: 0px;
+                                                                        }
+
+                                                                }
                                                             }
-                                                            &.card-item-opace {
-                                                                .card-cont-header {
-                                                                    background: #fff;
-                                                                    .card-number,
-                                                                    .date-cont,
-                                                                    .name-cont {
-                                                                        color: #666666;
-                                                                        font: 1em @proxima-regular;
+                                                            }
+                                                            .panel-open{
+                                                                .panel-heading{
+                                                                    background-color: #f9f9f9;
+                                                                    .panel-title{
+                                                                        color: #000000;
+                                                                        font-weight: normal;
+                                                                        opacity: 1;
+                                                                        i{
+                                                                            color: #ffffff;
+                                                                        }
+                                                                            .addCardHead{
+                                                                                label{
+                                                                                    .detailLabel{
+                                                                                        color: @font-purple-dark;
+                                                                                        cursor: pointer;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                    }
+                                                                    .addCardHead{
+                                                                        background-color: #ffffff;
+                                                                        padding: 10px;
+                                                                        margin: -10px;
+                                                                    }
+                                                                }
+                                                                .panel-body{
+                                                                    .card-info-cont.addCardForm{
+                                                                        background-color: transparent;
+                                                                        padding: 0px 50px;
+
+                                                                        .addCardBillForm{
+                                                                            padding: 0px;
+                                                                            margin-top: 15px;
+                                                                        }
+
+                                                                    }
+                                                                    .paymentTabBody{
+                                                                        border: none;
                                                                     }
                                                                 }
                                                             }
-                                                        }
+                                                        
+                                                       
                                                         .discount-options {
                                                             margin-top: 15px;
                                                             .gift-card,
@@ -1294,117 +1518,7 @@
                                                             }
                                                         }
                                                     }
-                                                    .billing-addr-cont {
-                                                        padding-right: 0;
-                                                        .title {
-                                                            padding-top: 20px;
-                                                            font: 1.125em @proxima-bold;
-                                                            margin-bottom: 25px;
-                                                        }
-                                                        .same-addr-chk {
-                                                            display: inline-block;
-                                                            .cuctom-checkbox;
-                                                            .Checkbox {
-                                                                &-visible {
-                                                                    width: 18px;
-                                                                    height: 18px;
-                                                                    border: 1px solid #dedede;
-                                                                }
-                                                                > input:checked + .Checkbox-visible {
-                                                                    background-position: 1px;
-                                                                }
-                                                            }
-                                                            label {
-                                                                color: #464646;
-                                                                font: 0.875em @proxima-regular;
-                                                                margin-left: 5px;
-                                                            }
-                                                        }
-                                                        .billing-addr-div {
-                                                            .billing-addr-form {
-                                                                .first-name,
-                                                                .last-name,
-                                                                .address,
-                                                                .address2,
-                                                                .city,
-                                                                .state,
-                                                                .zip-code,
-                                                                .email-addr {
-                                                                    margin: 25px 0 0 0;
-                                                                    label {
-                                                                        color: #464646;
-                                                                        font: 1em @proxima-regular;
-                                                                        margin-bottom: 10px;
-                                                                    }
-                                                                    input,
-                                                                    select {
-                                                                        color: #666666;
-                                                                        background: #F4F4F4;
-                                                                        font: 1em @proxima-regular;
-                                                                        height: 45px;
-                                                                        border-radius: 2px;
-                                                                    }
-                                                                }
-                                                                .first-name,
-                                                                .city,
-                                                                .zip-code {
-                                                                    padding: 0 5px 0 0;
-                                                                }
-                                                                .last-name {
-                                                                    padding: 0 0 0 5px;
-                                                                }
-                                                                .address,
-                                                                .address2,
-                                                                .email-addr {
-                                                                    padding: 0;
-                                                                }
-                                                                .state {
-                                                                    padding: 0 0 0 5px;
-                                                                    select {
-                                                                        -webkit-appearance: none;
-                                                                        -moz-appearance: none;
-                                                                        text-indent: 1px;
-                                                                        text-overflow: '';
-                                                                        background-image: url('../assets/images/dropdown-black.svg');
-                                                                        background-repeat: no-repeat;
-                                                                        background-position: right center;
-                                                                        background-size: 35px 12px;
-                                                                    }
-                                                                }
-                                                                .zip-code-lookup {
-                                                                    margin: 65px 0 0 0;
-                                                                    padding: 0 0 0 10px;
-                                                                    a {
-                                                                        color: #000000;
-                                                                        font: 0.875em @proxima-regular;
-                                                                        border-bottom: 1px solid #e3e3e3;
-                                                                        &:hover {
-                                                                            color: #8b5bb3 !important;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                .phone-number {
-                                                                    padding: 0;
-                                                                    margin: 25px 0 0 0;
-                                                                    label {
-                                                                        color: #464646;
-                                                                        font: 1em @proxima-regular;
-                                                                        margin-bottom: 10px;
-                                                                        display: block;
-                                                                    }
-                                                                    input {
-                                                                        width: 85px;
-                                                                        margin-right: 10px;
-                                                                        color: #666666;
-                                                                        background: #F4F4F4;
-                                                                        font: 1em @proxima-regular;
-                                                                        height: 45px;
-                                                                        border-radius: 2px;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
+                                                    
                                                     .order-amt-cont {
                                                         text-align: right;
                                                         padding: 25px 0 0 0;
@@ -1633,6 +1747,23 @@
                                         .delivery-amount,
                                         .tax-amount {
                                             text-align: right;
+                                        }
+                                        .cross-svg{
+                                                vertical-align: middle;
+                                                display: inline-block;
+                                                height: 15px;
+                                                width: 15px;
+                                                border-radius: 50%;
+                                                background: transparent;
+                                                text-align: center;
+                                                border: 1px solid red;
+                                            svg{
+                                                fill: red;
+                                                height: 10px;
+                                                width: 10px;
+                                                position: relative;
+                                                top: -5px;
+                                            }
                                         }
                                         .total-order-info {
                                             border-top: 1px solid #f1f1f1;
@@ -2699,4 +2830,86 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
             }
         }
     }
+}
+
+
+
+/* review-order-part */
+
+.review-order-part{
+    margin-top: 10px;
+    .signInTab,.deliveryInfoTab,.paymentInfoTab{
+        border:1px solid #cccccc;
+        margin-bottom: 17px;
+        .headPart{
+            background: #f1f1f1;
+            border-bottom: 2px solid #e2e2e2;
+            border-radius: 0px;
+            padding: 12px 20px;
+            color:#666666;
+            font:1.127em @proxima-bold;
+            text-transform: uppercase;
+            .info-search-icon{
+                vertical-align: middle;
+                display: inline-block;
+                height: 27px;
+                width: 27px;
+                border-radius: 50%;
+                background: transparent;
+                text-align: center;
+                border: 1px solid #8c58b5;
+                margin: -3px 10px 0px 20px;
+                padding: 2px 0px;
+                    svg{
+                        height: 20px;
+                        width: 20px;
+                        fill: #a576ca;
+                    }
+            }
+            .editLink{
+                float: right;
+                display: block;
+                text-transform: capitalize;
+                font: 0.8em @proxima-regular;
+                border-bottom: 1px solid #d2d2d2;
+            }
+        }
+        .detailPart{
+            font:0.875em @proxima-regular;
+            color: #666666;
+            padding: 17px 0px 17px 55px;
+            p,.fullName,.address,.dDate,.dayTime,.time{
+                color: #000000;
+            }
+            .fullName{
+                text-transform: capitalize;
+            }
+            .dDate-title,.dPreference-title,.cardTitle,.cardExpires,.pPerksTitle{
+                color: #666666;
+            }
+            .cardExpires{
+                margin-top: 25px;
+            }
+            .phone{
+                margin-top: 20px;
+            }
+        }
+    }
+    .review-content-btn {
+        margin: 5px 0px 150px 0px;
+        text-align: right;
+        div{
+            padding: 0px;
+        }
+        .place-order {
+            .green-button;
+            height: 45px;
+            padding: 0px 50px;
+            text-align: center;
+            text-transform: uppercase;
+            font: 1em @proxima-bold;
+            background: #afd833;
+        }
+                
+            }
 }
