@@ -25,7 +25,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 	$rootScope.showBreadCrumb = false;
 	function EventsList(){
 		var ajaxarr = [];
-		CategoryService.listChild("c10").then(function(catList) {
+		CategoryService.listChild("WorkshopsEvents").then(function(catList) {
 	        angular.forEach(catList, function(cat) {
 	       	//  var promise = OrderCloud.Me.ListProducts(cat.ID);
 	        	var promise =  OrderCloud.Me.ListProducts(null, 1, 100, null, null, null, cat.ID).then(function(res){
@@ -83,7 +83,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 
 		var ajaxarr = [];
 
-        CategoryService.listChild("c10").then(function(catList) {
+        CategoryService.listChild("WorkshopsEvents").then(function(catList) {
 
          angular.forEach(catList, function(cat) {
          var promise = PlpService.GetProductAssign(cat.ID);

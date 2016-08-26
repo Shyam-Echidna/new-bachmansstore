@@ -213,13 +213,20 @@ function PlpConfig($stateProvider) {
                      var imgcontentArray1=[];
                       for(var i=0;i<items.length;i++){
                         var item = items[i].Items;
-                        for(var j=0;j<item.length;j++){
-                    angular.forEach(Underscore.where(productImages, {title: item[j].ID}), function (node) {
-                            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                            item[j].imgcontent = node;
-                           imgcontentArray.push (item[j]);
+                    for(var j=0;j<item.length;j++){
+                        var matchedImage = Underscore.where(productImages, {title: item[j].ID});
+                        if(matchedImage.length > 0){
+                        angular.forEach(matchedImage, function (node) {
+                                node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                                item[j].imgcontent = node;
+                               imgcontentArray.push(item[j]);
                         });
-                   
+                        }else{
+                              item[j].imgcontent= {};
+                              item[j].imgcontent['contentUrl'] = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg'+"?alf_ticket=" + ticket;;
+                              imgcontentArray.push(item[j]);
+                    }
+                       
                     
                     }
                     imgcontentArray1.push(imgcontentArray);
@@ -846,8 +853,8 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
       {'value':'PriceHighesttoLowest','label':'Price Highest to Lowest', 'index' : 'products_price_desc'},
       {'value':'PriceLowesttoHighest','label':'Price Lowest to Highest','index' : 'products_price_asc'},
       {'value':'BestSellers','label':'Best Sellers', 'index' : 'products'},
-      {'value':'Local delivery','label':'Local delivery', 'index' : 'products'},
-      {'value':'Nationwide delivery','label':'Nationwide delivery', 'index' : 'products'},
+      {'value':'Local Delivery','label':'Local Delivery', 'index' : 'products'},
+      {'value':'Nationwide Delivery','label':'Nationwide Delivery', 'index' : 'products'},
       {'value':'Most Popular','label':'Most Popular', 'index' : 'products'},
       {'value':'AZ','label':'A - Z', 'index' : 'products'},
       {'value':'ZA','label':'Z - A',  'index' : 'products_name_desc'},

@@ -14,7 +14,7 @@
                 .ord-amt,
                 .ord-status {
                     /*width: 16%;*/
-                    width: 20%;
+                    width: 30%;
                     word-break: break-word;
                     padding-left: 0;
                     .title {
@@ -172,6 +172,11 @@
                                     display: none;
                                 }
                             }
+                            .prod-text {
+                                font: 0.75em @proxima-regular;
+                                margin-top: 15px;
+                                letter-spacing: normal;
+                            }
                         }
                         .delivery-info-cont {
                             .delivery-date-cont,
@@ -231,6 +236,11 @@
                         .card-msg-cont {
                             margin-top: 5px;
                             padding-left: 0;
+                            .prod-text {
+                                font: 0.75em @proxima-regular;
+                                margin-top: 15px;
+                                letter-spacing: normal;
+                            }
                             .card-msg {
                                 width: 60%;
                                 background: #faf4ff;
@@ -369,6 +379,121 @@
                                 }
                             }
                         }
+                        .progressbar {
+                            margin-bottom: 50px;
+                            .order-confirmation {
+                                float: right;
+                                .confirm-order, .delivery, .processing {
+                                    font: 0.875em @proxima-light;
+                                    font-weight: bold;
+                                    color: #424242;
+                                }
+                                .confirm-order {
+                                    float: left;
+                                }
+                                .delivery {
+                                    float: right;
+                                    margin-right: 30px;
+                                }
+                                .processing {
+                                    vertical-align: top;
+                                    position: relative;
+                                    left: -10px;
+                                }
+                                .order-measurement {
+                                    margin: 15px 20px 20px 33px;
+                                    .order-bar {
+                                        background-color: #d7d7d7;
+                                        width: 95%;
+                                        height: 2px;
+                                        text-align: center;
+                                        .processbar {
+                                            height: 20px;
+                                            width: 20px;
+                                            border-radius: 50%;
+                                            border: 1px solid #c7c7c7;
+                                            display: inline-block;
+                                            position: relative;
+                                            top: -9px;
+                                            background-color: #fff;
+                                        }
+                                    }
+                                    .order-bar:before {
+                                        height: 20px;
+                                        width: 20px;
+                                        content: "";
+                                        background: #a27bc2;
+                                        border-radius: 50%;
+                                        float: left;
+                                        padding: 0px 9px;
+                                        background-position: left center;
+                                        position: relative;
+                                        top: -10px;
+                                    }
+                                    .order-bar:after {
+                                        height: 20px;
+                                        width: 20px;
+                                        content: "";
+                                        border-radius: 50%;
+                                        border: 1px solid #c7c7c7;
+                                        padding: 0px 9px;
+                                        background-position: left center;
+                                        position: relative;
+                                        top: -10px;
+                                        right: 0px;
+                                        background: #fff;
+                                        float: right;
+                                    }
+                                }
+                                .delivery-info {
+                                    text-align: center;
+                                    position: relative;
+                                    .delivery-dates1 {
+                                        float: right;
+                                        text-align: center;
+                                        .delivery-exp {
+                                            color: #a7a7a7;
+                                            font: 0.75em @proxima-light;
+                                            font-weight: bold;
+                                            margin-top: 10px;
+                                        }
+                                    }
+                                    .delivery-dates {
+                                        text-align: center;
+                                        float: left;
+                                    }
+                                    .delivery-dates,
+                                    .delivery-dates1,
+                                    .processing-date
+                                    {
+                                        .order-date,
+                                        .order-time,
+                                        .delivery-date,
+                                        .delivery-time {
+                                            color: #000000;
+                                            font: 0.875em @proxima-light;
+                                            font-weight: bold;
+                                        }
+                                    }
+                                    .processing-date {
+                                        display: inline-block;
+                                        position: absolute;
+                                        left: 50%;
+                                        -webkit-transform: translateX(-50%);
+                                        -moz-transform:    translateX(-50%);
+                                        -ms-transform:     translateX(-50%);
+                                        -o-transform:      translateX(-50%);
+                                        transform:         translateX(-50%);
+                                        .delivery-exp {
+                                            color: #a7a7a7;
+                                            font: 0.75em @proxima-light;
+                                            font-weight: bold;
+                                            margin-top: 10px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     .ship-bill-cont {
                         margin: 0 0 15px;
@@ -406,6 +531,9 @@
                                         font-weight: bold;
                                         color: #828282;
                                         margin-bottom: 2px;
+                                    }
+                                    .phn {
+                                        margin-top: 10px;
                                     }
                                 }
                             }
@@ -458,6 +586,9 @@
                             font-weight: bold;
                             color: #000;
                             margin-left: 5px;
+                            &:first-child {
+                                margin-right: 20px;
+                            }
                         }
                     }
                     .rec-acc-plus {
@@ -717,6 +848,7 @@
                             margin-top: 10px;
                             padding: 0;
                             border-bottom: 1px solid #f1f1f1;
+                            padding-bottom: 10px;
                             .prod-img-cont {
                                 padding: 0;
                                 .prod-img {
@@ -767,6 +899,9 @@
                                         float: right;
                                         margin-top: 6px;
                                     }
+                                }
+                                .prod-text {
+                                    font-size: 0.6875em;
                                 }
                             }
                             .delivery-info-cont {
@@ -825,6 +960,9 @@
                                         }
                                     }
                                 }
+                                .prod-text {
+                                    font-size: 0.6875em;
+                                }
                             }
                             .total-amt-cont {
                                 width: 100%;
@@ -864,6 +1002,33 @@
                                         display: block;
                                         width: 95%;
                                         margin: 15px auto;
+                                    }
+                                }
+                            }
+                            .progressbar {
+                                margin-bottom: 20px;
+                                .order-confirmation {
+                                    float: right;
+                                    .confirm-order, .delivery, .processing {
+                                        font-size: 0.75em;
+                                    }
+                                    .processing {
+                                        position: static;
+                                    }
+                                    .order-measurement {
+                                        margin: 15px 20px 20px 25px;
+                                    }   
+                                    .delivery-info {
+                                        .delivery-dates1, .processing-date {
+                                            .delivery-exp {
+                                                font-size: 0.625em;
+                                            }
+                                        }
+                                        .delivery-dates1, .delivery-dates, .processing-date {
+                                            .order-date, .order-time, .delivery-date, .delivery-time {
+                                                font-size: 0.75em;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -939,6 +1104,14 @@
                     }
                     &.recipient-accordions {
                         padding: 0 7px;
+                        .recipient {
+                            padding: 0;
+                            .name {
+                                &:first-child {
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
                         .panel-group {
                             margin-top: 20px;
                         }
@@ -1069,7 +1242,7 @@
                     .ord-amt,
                     .ord-status {
                         padding-right: 5px;
-                        width: 20%;
+                        width: 33%;
                         text-align: left;
                     }
                     .ord-num {
@@ -1261,6 +1434,10 @@
                                     }
                                 }
                             }
+                            .ship-bill-cont {
+                                width: 100%;
+                                padding: 0;
+                            }
                             .total-amt-cont {
                                 width: 100%;
                                 padding: 0;
@@ -1374,7 +1551,7 @@
                     .ord-status {
                         padding-right: 5px;
                         text-align: left;
-                        width: 20%;
+                        width: 33.3%;
                     }
                     .ord-amt {
                         /*width: 16%;*/
@@ -1509,6 +1686,21 @@
                                 }
                                 .delivery-charges {
                                     margin-bottom: 0;
+                                }
+                            }
+                            .card-msg-cont, .total-amt-cont, .ship-bill-cont {
+                                width: 33.3%;
+                            }
+                            .ship-bill-cont {
+                                .shipping-info-cont {
+                                    width: 100%;
+                                    margin: 0;
+                                }
+                            }
+                            .progressbar {
+                                margin-bottom: 20px;
+                                .order-confirmation {
+                                    width: 75%;
                                 }
                             }
                         }

@@ -452,7 +452,6 @@ function template1Controller() {
 				0: {
 					items: 1
 				},
-				
 				1024: {
 					items: 4
 				}
@@ -610,7 +609,7 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
                     var elem = angular.element("#articleImagesSlot");
                     var classn="col-md-3";
                     if(vm.articleTitle=="memoryMotifs"){
-                        classn = "col-md-4";
+                        classn = "col-md-4 motifs-img";
                     }
                     var html = '<div class="'+classn+' owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
                     var owlHtml = ""

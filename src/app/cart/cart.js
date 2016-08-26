@@ -37,7 +37,7 @@ function CartConfig($stateProvider) {
                                 });
                         })
                         .catch(function () {
-                            dfd.resolve();
+                            dfd.resolve(null);
                         });
                     return dfd.promise;
                 },/*
@@ -48,7 +48,7 @@ function CartConfig($stateProvider) {
                 },*/
                 LineItemsList: function ($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
                     var dfd = $q.defer();
-                    if (Order != 0) {
+                    if (Order) {
                         OrderCloud.LineItems.List(Order.ID)
                             .then(function (data) {
                                 if (!data.Items.length) {
@@ -71,7 +71,12 @@ function CartConfig($stateProvider) {
                             });
                     }
                     else {
+                        toastr.error("Your order does not contain any line items.", 'Error');
                         dfd.resolve(0);
+                        if ($state.current.name === 'cart') {
+                            $state.go('home');
+                        }
+
                     }
 
                     return dfd.promise;
@@ -87,249 +92,8 @@ function CartConfig($stateProvider) {
             }
         });
 }
-function PdpService($q, OrderCloud, $http) {
-    return {
-        CompareDate: _CompareDate,
-        GetBuyerDtls: _GetBuyerDtls,
-        GetDeliveryOptions: _GetDeliveryOptions,
-        getCityState: _getCityState,
-        GetPhoneNumber: _GetPhoneNumber,
-        GetStores: _GetStores,
-        GetChurches: _GetChurches,
-        GetFuneralHomes: _GetFuneralHomes,
-        GetHospitals: _GetHospitals,
-        Getcemeteries: _Getcemeteries
-    }
-    function _GetPhoneNumber(phn) {
-        var d = $q.defer();
-        var arr = [];
-        var init = phn.indexOf('(');
-        var fin = phn.indexOf(')');
-        arr.push(parseInt(phn.substr(init + 1, fin - init - 1)));
-        init = phn.indexOf(' ');
-        fin = phn.indexOf('-');
-        arr.push(parseInt(phn.substr(init + 1, fin - init - 1)));
-        init = phn.indexOf('-');
-        arr.push(parseInt(phn.substr(init + 1, phn.length)));
-        d.resolve(arr);
-        return d.promise;
-    }
-    function _getCityState(zip) {
-        var defered = $q.defer();
-        $http.defaults.headers.common['Authorization'] = undefined;
-        $http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + zip).then(function (res) {
-            var city, state, country;
-            angular.forEach(res.data.results[0].address_components, function (component, index) {
-                var types = component.types;
-                angular.forEach(types, function (type, index) {
-                    if (type == 'locality') {
-                        city = component.long_name;
-                    }
-                    if (type == 'administrative_area_level_1') {
-                        state = component.short_name;
-                    }
-                    if (type == 'country') {
-                        country = component.short_name;
-                    }
-                });
-            });
-            defered.resolve({ "City": city, "State": state, 'Country': country });
-        });
-        return defered.promise;
-    }
-    function _CompareDate(endDate) {
-        var d = $q.defer();
-        $.ajax({
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            url: "http://103.227.151.31:8080/Bachman/localdeliverytime"
-        }).success(function (res) {
-            if (endDate == res.date)
-                d.resolve("1");
-            else
-                d.resolve(res.date);
-        }).error(function (err) {
-            console.log("err" + err);
-        });
-        return d.promise;
-    }
-    function _GetDeliveryOptions(line, DeliveryMethod) {
-        var d = $q.defer();
-        OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
 
-            //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
-            //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-
-            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
-                //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
-                var key = {}, MinDate = {};
-                line.xp.NoInStorePickUp = true;
-                if (res2.xp.DeliveryChargesCatWise.DeliveryMethods['InStorePickUp']) {
-                    line.xp.NoInStorePickUp = false;
-                }
-                _.each(res2.xp.DeliveryChargesCatWise.DeliveryMethods, function (v, k) {
-                    if (v.MinDays) {
-                        MinDate[k] = v.MinDays;
-                        key['MinDate'] = MinDate;
-                    }
-                    if (k == "UPS" && v['Boolean'] == true) {
-                        key[k] = {};
-                    }
-                    if (k == "USPS" && v['Boolean'] == true) {
-                        key[k] = {};
-                    }
-                    if (k == "InStorePickUp") {
-                        key[k] = {};
-                    }
-                    if (k == 'Mixed' && v['Boolean'] == true) {
-                        key[k] = {};
-                    }
-                    _.each(v, function (v1, k1) {
-                        var obj = {};
-                        if (v1['Boolean'] == true) {
-                            if (k == "Mixed" && line.Quantity < 50) {
-
-                            } else {
-                                obj[k1] = v1['Value'];
-                                key[k] = obj;
-                            }
-                        }
-                    });
-                });
-                if (key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && !key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
-                    DeliveryMethod = "UPS";
-                }
-                if (!key['UPS'] && !key['LocalDelivery'] && !key['Mixed'] && key['InStorePickUp'] && !key['USPS'] && !key['DirectShip'] && !key['Courier']) {
-                    line.xp.NoDeliveryExInStore = true;
-                    line.xp.addressType = "Will Call";
-                }
-                delete line.xp.Status;
-                if (DeliveryMethod == "UPS" && !key['UPS'])
-                    line.xp.Status = "OnHold";
-                _GetBuyerDtls().then(function (dt) {
-                    if (DeliveryMethod == "LocalDelivery") {
-                        if (!key.LocalDelivery)
-                            key.LocalDelivery = {};
-                        key.LocalDelivery.StandardDelivery = dt.xp.Shippers.LocalDelivery.StandardDelivery;
-                        key.LocalDelivery.SameDayDelivery = dt.xp.Shippers.LocalDelivery.SameDayDelivery;
-                    } else if (DeliveryMethod == "InStorePickUp") {
-                        //key.InStorePickUp = dt.xp.Shippers.InStorePickUp;
-                        //d.resolve(key);
-                    } else if (DeliveryMethod == "UPS") {
-                        //key.UPS = {};
-                        if (key.UPS)
-                            key.UPS.UPSCharges = dt.xp.Shippers.UPS.UPSCharges;
-                    } else if (DeliveryMethod == "DirectShip") {
-                        key.DirectShip.StandardDelivery = dt.xp.Shippers.DirectShip.StandardDelivery;
-                    }
-                    else if (DeliveryMethod == "Mixed") {
-                        if (!key.Mixed)
-                            key['Mixed'] = {};
-                        key.Mixed.StandardDelivery = dt.xp.Shippers.Mixed.StandardDelivery;
-                    }
-                    else if (DeliveryMethod == "USPS") {
-                        key.USPS = {};
-                        key.USPS.USPSCharges = dt.xp.Shippers.USPS.USPSCharges;
-                    }
-                    //else if (DeliveryMethod == "Courier") {
-                    // 	key.Courier = {};
-                    // 	key.Courier.CourierCharges = dt.xp.Shippers.Courier.OMS;
-                    // }
-                    d.resolve(key);
-                });
-            });
-        });
-        return d.promise;
-    }
-    function _GetBuyerDtls() {
-        var d = $q.defer();
-        OrderCloud.Buyers.Get().then(function (res) {
-            d.resolve(res);
-        });
-        return d.promise;
-    }
-    function _GetStores() {
-        var defered = $q.defer();
-        $http.get('https://api.myjson.com/bins/4wsk2').then(function (res) {
-            defered.resolve(res);
-        });
-        return defered.promise;
-    }
-    function _GetChurches() {
-        var defered = $q.defer();
-        var churchs = [];
-        OrderCloud.UserGroups.List('Church').then(function (res) {
-            console.log(res.Items.ID);
-            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
-                angular.forEach(data.Items, function (val, key) {
-                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
-                        churchs.push(res);
-                        defered.resolve(churchs);
-                    });
-                });
-
-            });
-        })
-        return defered.promise;
-    }
-    function _GetFuneralHomes() {
-        var defered = $q.defer();
-        var funeralHomes = [];
-        OrderCloud.UserGroups.List('Funeral').then(function (res) {
-            console.log(res.Items.ID);
-            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
-                angular.forEach(data.Items, function (val, key) {
-                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
-                        funeralHomes.push(res);
-                        defered.resolve(funeralHomes);
-                    });
-                });
-
-            });
-        })
-        return defered.promise;
-    }
-    function _GetHospitals() {
-        var defered = $q.defer();
-        var hospitals = [];
-        OrderCloud.UserGroups.List('Hospitals').then(function (res) {
-            console.log(res.Items.ID);
-            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
-                angular.forEach(data.Items, function (val, key) {
-                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
-                        hospitals.push(res);
-                        defered.resolve(hospitals);
-                    });
-                });
-
-            });
-        })
-        return defered.promise;
-    }
-    function _Getcemeteries() {
-        var defered = $q.defer();
-        var cemeteries = [];
-        OrderCloud.UserGroups.List('Cemetery').then(function (res) {
-            console.log(res.Items.ID);
-            OrderCloud.Addresses.ListAssignments(null, null, res.Items[0].ID).then(function (data) {
-                angular.forEach(data.Items, function (val, key) {
-                    OrderCloud.Addresses.Get(val.AddressID).then(function (res) {
-                        cemeteries.push(res);
-                        defered.resolve(cemeteries);
-                    });
-                });
-
-
-
-            });
-        })
-        return defered.promise;
-    }
-
-}
-
-function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, LoggedinUser, PdpService, CurrentOrder) {
+function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, OrderCloud, Order, LineItemHelpers, LineItemsList, LoggedinUser, PdpService, CurrentOrder, $cookieStore) {
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
@@ -345,6 +109,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.editrecipientpopup = editrecipientpopup;
     vm.changeRecipientfun = changeRecipientfun;
     vm.changeQuantity = changeQuantity;
+    vm.isLoggedIn = $cookieStore.get('isLoggedIn');
 
     vm.changeDate = changeDate;
     console.log(vm.order);
@@ -394,8 +159,12 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.wishlist = function (line) {
         alert("test");
         //PdpService
-        PdpService.AddToWishList(line.Product.ID);
-        vm.removeItem(vm.order,line);
+        PdpService.AddToWishList(line.Product.ID, vm.isLoggedIn);
+        if (vm.isLoggedIn) {
+            vm.removeItem(vm.order, line);
+        }
+
+
     }
 
     angular.forEach(vm.lineItems.Items, function (line) {
@@ -464,7 +233,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     }
 
 
-    function changeDeliveryDate(item) {
+    function changeDeliveryDate(item, index) {
         //console.log(date);
         // OrderCloud.LineItems.Patch(vm.order.ID, date.ID, date.xp).then(function (res) {
         //     console.log(res);
@@ -502,7 +271,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         $q.all(temppromise).then(function (result) {
             vm.updateRecipientDetails(result).then(function (s) {
                 if (s == 'success') {
-                   $state.go('cart', { ID: vm.order.ID });
+                    $state.go('cart', { ID: vm.order.ID });
                 }
             });
             // var tmp = [];
@@ -544,7 +313,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
                             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-                            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+                            OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
                                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
                                 var key = {}, MinDate = {};
                                 line.xp.NoInStorePickUp = true;
@@ -635,7 +404,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             console.log(lineitem, addressforlineitem);
             vm.updateRecipientDetails(data).then(function (s) {
                 if (s == 'success') {
-                   $state.go('cart', { ID: vm.order.ID });
+                    $state.go('cart', { ID: vm.order.ID });
                     lineitem.showDeliveryToolTip = !lineitem.showDeliveryToolTip;
                 }
             });
@@ -690,7 +459,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+            OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
@@ -798,39 +567,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 var inum = 0;
                 angular.forEach(data, function (val1) {
                     promises[inum] = calliteration(val1);
-                    function calliteration(val1) {
-                        var d = $q.defer();
-                        var newLineItems = []
-                        OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
-                            newLineItems = res.Items;
-                            newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
-                            vm.checkDeliverymethod(val1).then(function (r) {
-                                if (r == 'success') {
-                                    vm.checkLineItemsId(newLineItems, val1,d).then(function (id) {
-                                        if (id == 'notsameId') {
-                                            vm.checkLineItemsAddress(newLineItems, val1,d).then(function (address) {
-                                                if (address == 'notsameAddress') {
-                                                    vm.calculateDeliveryCharges(val1).then(function (r1) {
-                                                        if (r1 == '1') {
-                                                            vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
-                                                                     d.resolve("success");
-                                                            })
-
-
-                                                        }
-                                                    })
-                                                }
-                                            })
-                                        }
-                                    })
-
-
-                                }
-                            });
-                        });
-
-                        return d.promise;
-                    }
+                    
                     inum++;
                 });
                 $q.all(promises).then(function (result) {
@@ -844,9 +581,6 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                     console.log(combinedResult);
                     defered.resolve('success');
                 });
-
-
-
 
             }
             else {
@@ -875,6 +609,39 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             }
 
         });
+        function calliteration(val1) {
+            var d = $q.defer();
+            var newLineItems = []
+            OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
+                newLineItems = res.Items;
+                newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
+                vm.checkDeliverymethod(val1).then(function (r) {
+                    if (r == 'success') {
+                        vm.checkLineItemsId(newLineItems, val1, d).then(function (id) {
+                            if (id == 'notsameId') {
+                                vm.checkLineItemsAddress(newLineItems, val1, d).then(function (address) {
+                                    if (address == 'notsameAddress') {
+                                        vm.calculateDeliveryCharges(val1).then(function (r1) {
+                                            if (r1 == '1') {
+                                                vm.updateLinedetails(vm.order.ID, val1).then(function (u) {
+                                                    d.resolve("success");
+                                                })
+
+
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+
+
+                    }
+                });
+            });
+
+            return d.promise;
+        }
         return defered.promise;
     }
     vm.updateLinedetails = updateLinedetails;
@@ -906,7 +673,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         return defered.promise;
     }
 
-    function checkLineItemsAddress(res, line,d) {
+    function checkLineItemsAddress(res, line, d) {
         var count = 0;
         var deferred = $q.defer();
         angular.forEach(res, function (val, key, obj) {
@@ -938,7 +705,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         return deferred.promise;
     }
     vm.checkLineItemsId = checkLineItemsId;
-    function checkLineItemsId(res, line,d) {
+    function checkLineItemsId(res, line, d) {
         var deferred = $q.defer();
         var count = 0;
 
@@ -983,7 +750,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         console.log('Lineitem', Lineitem);
         vm.updateRecipientDetails(data).then(function (s) {
             if (s == 'success') {
-               $state.go('cart', { ID: vm.order.ID });
+                $state.go('cart', { ID: vm.order.ID });
             }
         });
     });
@@ -1015,51 +782,53 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         console.log(index);
     }
     function removeItem(order, lineItem) {
-        var defered = $q.defer();
-        var newLineItems = [];
-        var data = [];
-        data[0] = lineItem;
-        //vm.deleteLineItem();
-        OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
-            if (res.Items.length > 1) {
-                if (lineItem.TotalCost == (lineItem.UnitPrice * lineItem.Quantity)) {
-                    // deleteLineItem
-                    vm.RemoveLineItem(order, lineItem);
-                }
-                else {
-                    newLineItems = res.Items;
-                    var count = 0;
+        var result = confirm('Please Conform removing Item');
+        if (result) {
+            var defered = $q.defer();
+            var newLineItems = [];
+            var data = [];
+            data[0] = lineItem;
 
-                    angular.forEach(data, function (val1, key1, obj1) {
-                        newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
+            OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
+                if (res.Items.length > 1) {
+                    if (lineItem.TotalCost == (lineItem.UnitPrice * lineItem.Quantity)) {
+                        // deleteLineItem
+                        vm.RemoveLineItem(order, lineItem);
+                    }
+                    else {
+                        newLineItems = res.Items;
+                        var count = 0;
+                        angular.forEach(data, function (val1, key1, obj1) {
+                            newLineItems.splice(_.indexOf(newLineItems, _.find(newLineItems, function (val) { return val.ID == val1.ID; })), 1);
 
-                        count++;
+                            count++;
 
-                    });
-                    console.log('newLineItems', newLineItems);
+                        });
+                        console.log('newLineItems', newLineItems);
 
-                    // });
-                    if (count > 0) {
-                        vm.checkLineItemFeeDetails(newLineItems, lineItem).then(function (FeeDetails) {
 
-                            if (FeeDetails == 'LineItemFeeDetailsupdated' || FeeDetails == 'LineItemFeeDetailsNotupdated') {
-                                //deleteLineItem
-                                vm.RemoveLineItem(order, lineItem);
+                        if (count > 0) {
+                            vm.checkLineItemFeeDetails(newLineItems, lineItem).then(function (FeeDetails) {
 
-                            }
-                            // if (FeeDetails == 'LineItemFeeDetailsNotupdated') {
+                                if (FeeDetails == 'LineItemFeeDetailsupdated' || FeeDetails == 'LineItemFeeDetailsNotupdated') {
 
-                            // }
-                        })
+                                    vm.RemoveLineItem(order, lineItem);
+
+                                }
+
+                            })
+                        }
                     }
                 }
-            }
-            else {
-                //deleteLineItem
-                vm.RemoveLineItem(order, lineItem);
-            }
 
-        });
+                else {
+
+                    vm.RemoveLineItem(order, lineItem);
+                }
+
+            });
+        }
+
     }
     vm.checkLineItemFeeDetails = checkLineItemFeeDetails;
     function checkLineItemFeeDetails(res, line) {
@@ -1110,11 +879,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                         if (!data.Items.length) {
                             CurrentOrder.Remove();
                             OrderCloud.Orders.Delete(Order.ID).then(function () {
-                                $state.go('cart', { ID: vm.order.ID });
+                                $state.go('cart');
                                 $rootScope.$broadcast('OC:RemoveOrder');
                             });
                         } else {
-                           $state.go('cart', { ID: vm.order.ID });
+                            $state.go('cart', { ID: vm.order.ID });
                         }
                     });
             });
@@ -1122,26 +891,26 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
     /*carousel*/
 
-    setTimeout(function(){
-        var owl2 = angular.element("#owl-carousel-cart");   
+    setTimeout(function () {
+        var owl2 = angular.element("#owl-carousel-cart");
         owl2.owlCarousel({
             //responsive: true,
-            loop:true,
-            nav:true,
-            responsive:{
-                0:{ items:1 },
-                320:{
-                    items:2,
+            loop: true,
+            nav: true,
+            responsive: {
+                0: { items: 1 },
+                320: {
+                    items: 2,
                 },
-                730 :{ 
-                    items:3,
+                730: {
+                    items: 3,
                 },
-                1024:{ 
-                    items:4
+                1024: {
+                    items: 4
                 }
             }
         });
-        },1000)
+    }, 1000)
 }
 
 function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder, $uibModal) {
@@ -1421,7 +1190,7 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
     //         //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
     //         //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-    //         OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+    //         OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
     //             //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
     //             var key = {}, MinDate = {};
     //             item.xp.NoInStorePickUp = true;
@@ -1785,7 +1554,7 @@ function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Orde
             //OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
             //OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-            OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+            OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
                 //OrderCloud.Categories.Get('c4_c1').then(function (res2) {
                 var key = {}, MinDate = {};
                 item.xp.NoInStorePickUp = true;

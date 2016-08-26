@@ -107,7 +107,8 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		GetBuyerDtls: _GetBuyerDtls,
 		GetDeliveryOptions: _GetDeliveryOptions,
 		GetPreceedingZeroDate: _GetPreceedingZeroDate,
-		Getcemeteries: _Getcemeteries
+		Getcemeteries: _Getcemeteries,
+		CheckTime: _CheckTime
 
 	};
 	function _Getcemeteries() {
@@ -143,7 +144,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
 			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-			OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 				var key = {}, MinDate = {};
 				line.xp.NoInStorePickUp = true;
@@ -232,20 +233,25 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		return d.promise;
 	}
 	function _CompareDate(endDate) {
+		endDate = new Date(endDate);
+		endDate = (("0" + (endDate.getMonth() + 1)).slice(-2)) + "-" + (("0" + endDate.getDate()).slice(-2)) + "-" + endDate.getFullYear()
 		var d = $q.defer();
 		$.ajax({
 			method: "GET",
 			dataType: "json",
 			contentType: "application/json",
-			url: "http://103.227.151.31:8080/Bachman/localdeliverytime"
-		}).success(function (res) {
-			if (endDate == res.date)
-				d.resolve("1");
-			else
-				d.resolve(res.date);
-		}).error(function (err) {
-			console.log("err" + err);
+			url: "http://103.227.151.31:8080/Bachman/localdeliverytime",
+			success: function (res) {
+				if (endDate == res.date)
+					d.resolve("1");
+				else
+					d.resolve(res.datetime);
+			},
+			error: function (err) {
+				console.log("err" + err);
+			}
 		});
+		//.success().error();
 		return d.promise;
 	}
 
@@ -484,6 +490,11 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			var x2js = new X2JS();
 			var data = x2js.xml_str2json(res.data);
 			var arrayData = data.feed.entry;
+			if (!arrayData) {
+				arrayData = {};
+				arrayData.link = {};
+				arrayData.link._href = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg';
+			}
 			if (!Array.isArray(arrayData)) {
 				arrayData = [arrayData];
 			}
@@ -605,6 +616,30 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			defferred.reject(data);
 		});
 		return defferred.promise;
+	}
+	function _CheckTime() {
+		//endDate=new Date(endDate);
+		//endDate=(("0" +(endDate.getMonth() + 1)).slice(-2))+ "-" + (("0" + endDate.getDate()).slice(-2)) + "-" +endDate.getFullYear()
+		var d = $q.defer();
+		$.ajax({
+			method: "GET",
+			dataType: "json",
+			contentType: "application/json",
+			url: "http://103.227.151.31:8080/Bachman/localdeliverytime",
+			success: function (res) {
+				var datetime = new Date(res.datetime);
+				var time = datetime.getHours();
+				if (time <= 12)
+					d.resolve("sameday");
+				else
+					d.resolve('notsameday');
+			},
+			error: function (err) {
+				console.log("err" + err);
+			}
+		});
+		//.success().error();
+		return d.promise;
 	}
 	return service;
 }
@@ -849,11 +884,11 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			$(".elevateZoom").elevateZoom({
 				easing: true,
 				responsive: true,
-				lensSize: 100,
 				zoomWindowWidth: 500,
 				zoomWindowHeight: 500,
 				borderSize: 1,
-				zoomWindowOffetx: 150
+				zoomWindowOffetx: 100,
+				cursor: "crosshair"
 			});
 		}
 		if ($(window).width() <= 1024) {
@@ -1030,11 +1065,12 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 					$(".elevateZoom").elevateZoom({
 						easing: true,
 						responsive: true,
-						lensSize: 100,
 						zoomWindowWidth: 500,
 						zoomWindowHeight: 500,
 						borderSize: 1,
-						zoomWindowOffetx: 150
+						zoomWindowOffetx: 100,
+						cursor: "crosshair"
+
 					});
 				}
 				if ($(window).width() <= 1024) {
@@ -1186,7 +1222,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 
 			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
 			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-			OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
+			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 				vm.listCategories = res2;
 				if (res2.xp.DeliveryChargesCatWise.DeliveryMethods.Mixed) {
 					vm.Faster = true;
@@ -1339,7 +1375,6 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	vm.line = null;
 	vm.name = [];
 	vm.addressType = '';
-
 	vm.addAddress = [];
     vm.isLoggedIn = $cookieStore.get('isLoggedIn');
     vm.savedBookAddress = {};
@@ -1389,6 +1424,11 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	vm.zipCodeChange = zipCodeChange;
 	vm.changeQuantity = changeQuantity;
 	vm.changeDate = changeDate;
+	vm.sameAsAboveAddress = [];
+	vm.addSameAddress = addSameAddress;
+	vm.changeaddSameAddress = changeaddSameAddress;
+	vm.sameAddress = {};
+	vm.disableAddToCart = false;
 
 
 
@@ -1428,20 +1468,63 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			//vm.getLineItems();
 
 			if (!!LineItems) {
+				angular.forEach(LineItems, function (val, key, obj) {
+					if (val.xp.deliveryDate) {
+						val.xp.deliveryDate = new Date(val.xp.deliveryDate);
+					}
+					if (val.xp.pickupDate) {
+						val.xp.pickupDate = new Date(val.xp.pickupDate);
+					}
+					if (val.ShippingAddress.Phone) {
+						PdpService.GetPhoneNumber(val.ShippingAddress.Phone).then(function (res) {
+							val.ShippingAddress.Phone1 = res[0];
+							val.ShippingAddress.Phone2 = res[1];
+							val.ShippingAddress.Phone3 = res[2];
+						});
+
+
+					}
+					val.Quantity = 1;
+				});
 				vm.activerecipients = LineItems;
 				vm.activeOrders[0] = null;
 				vm.formInValid = false;
+				vm.disableAddToCart = true;
+
 			}
 			vm.isMultiplerecipient = true;
 			vm.showNewRecipient = false;
 			if (!LineItems) {
 				OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 					//vm.recipientLineitem.xp.LineItems = res;
+
 					//vm.allItems = res.Items;
+					angular.forEach(res.Items, function (val, key, obj) {
+						if (val.xp.deliveryDate) {
+							val.xp.deliveryDate = new Date(val.xp.deliveryDate);
+						}
+						if (val.xp.pickupDate) {
+							val.xp.pickupDate = new Date(val.xp.pickupDate);
+						}
+						if (val.ShippingAddress.Phone) {
+							PdpService.GetPhoneNumber(val.ShippingAddress.Phone).then(function (res) {
+								val.ShippingAddress.Phone1 = res[0];
+								val.ShippingAddress.Phone2 = res[1];
+								val.ShippingAddress.Phone3 = res[2];
+							});
+
+
+						}
+						val.Quantity = 1;
+					});
 					vm.activerecipients = res.Items;
 					vm.activeOrders[0] = null;
 					vm.formInValid = false;
-				});
+					vm.disableAddToCart = true;
+				}).catch(function (err) {
+					console.log(err)
+					vm.activeOrders[0] = item;
+				})
 			}
 
 		}
@@ -1496,10 +1579,12 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					vm.crdmsg[index] = !vm.crdmsg[index];
 					if (vm.lastIndex == index) {
 						vm.formInValid = false;
+						vm.disableAddToCart = false;
 
 					}
 					else {
 						vm.formInValid = true;
+						vm.disableAddToCart = true;
 					}
 
                 } else {
@@ -1516,7 +1601,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//var deferred = $q.defer();
 
 		var uniques = _.map(_.groupBy(activeitems, function (value) {
-			return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate);
+			return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
 		}), function (grouped) {
 			console.log("grouped ==" + JSON.stringify(grouped));
 			var TotalQuantity = 0;
@@ -1573,7 +1658,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 							var lineitemdtls = {
 								ProductID: line.ProductID,
-								Quantity: line.Quantity
+								Quantity: line.Quantity,
+								ShipFromAddressID: "testShipFrom"
 							};
 							console.log("line", line);
 							//PdpService.CreateOrder().then(function (order) {
@@ -1585,6 +1671,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 								lineitem.ShippingAddress = line.ShippingAddress;
 								lineitem.xp = line.xp;
+								lineitem.ShipFromAddressID = "testShipFrom"
 
 								if (lineitem.xp.deliveryDate) {
 									lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
@@ -1762,6 +1849,24 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		vm.crdmsg[index] = true;
 		vm.crdmsg[index + 1] = true;
 		//vm.showNewRecipient = !vm.showNewRecipient;
+		vm.formInValid = true;
+		vm.disableAddToCart = true;
+		if (vm.activeOrders) {
+			var data = _.groupBy(vm.activeOrders, function (value) {
+				if (value.ShippingAddress != null) {
+
+					//totalCost += value.xp.TotalCost;
+					return value.ShippingAddress.Phone + ' ' + value.ShippingAddress.City + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.State + '' + value.ShippingAddress.Street2 + '' + value.ShippingAddress.Zip;
+				}
+			});
+
+			vm.groups = data;
+			vm.activesameAddress = []
+			for (var n in vm.groups) {
+				vm.activesameAddress.push(n);
+
+			}
+		}
 		vm.activeOrders.push(item);
 	}
 	vm.addNewreceipent = addNewreceipent;
@@ -1804,6 +1909,20 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			vm.activeRecipient[index] = true;
 			vm.crdmsg[index] = true;
 			vm.activeOrders[0] = item;
+			var data = _.groupBy(vm.activerecipients, function (value) {
+				if (value.ShippingAddress != null) {
+
+					//totalCost += value.xp.TotalCost;
+					return value.ShippingAddress.Phone + ' ' + value.ShippingAddress.City + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.State + '' + value.ShippingAddress.Street2 + '' + value.ShippingAddress.Zip;
+				}
+			});
+
+			vm.groups = data;
+			vm.activesameAddress = []
+			for (var n in vm.groups) {
+				vm.activesameAddress.push(n);
+
+			}
 		}
 		else {
             vm.activeRecipient[index] = false;
@@ -1813,7 +1932,45 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			vm.crdmsg[index + 1] = true;
 			//vm.showNewRecipient = !vm.showNewRecipient;
 			vm.activeOrders.push(item);
+			if (vm.activeOrders.length > 1) {
+				var newarr = [];
+				newarr = vm.activerecipients;
+				newarr.concat(vm.activeOrders)
+				var data = _.groupBy(newarr, function (value) {
+					if (value.ShippingAddress != null) {
+
+						//totalCost += value.xp.TotalCost;
+						return value.ShippingAddress.Phone + ' ' + value.ShippingAddress.City + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.State + '' + value.ShippingAddress.Street2 + '' + value.ShippingAddress.Zip;
+					}
+				});
+
+				vm.groups = data;
+				vm.activesameAddress = []
+				for (var n in vm.groups) {
+					vm.activesameAddress.push(n);
+
+				}
+			}
+			else {
+				var data = _.groupBy(vm.activerecipients, function (value) {
+					if (value.ShippingAddress != null) {
+
+						//totalCost += value.xp.TotalCost;
+						return value.ShippingAddress.Phone + ' ' + value.ShippingAddress.City + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.State + '' + value.ShippingAddress.Street2 + '' + value.ShippingAddress.Zip;
+					}
+				});
+
+				vm.groups = data;
+				vm.activesameAddress = []
+				for (var n in vm.groups) {
+					vm.activesameAddress.push(n);
+
+				}
+			}
+
 		}
+		vm.formInValid = true;
+		vm.disableAddToCart = true;
 
 	}
 	function addedToCartPopUp() {
@@ -2139,7 +2296,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
 			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
 			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-			OrderCloud.Categories.Get('c8_c9_c1').then(function (res2) {
+			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
 				deferred.resolve(res2);
@@ -2179,24 +2336,50 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			// 		delete val.xp.deliveryDate;
 			// } 
 			//else
-			if (line.xp.MinDate) {
-				angular.forEach(line.xp.MinDate, function (val1, key1) {
-					dt = new Date();
-					dt.setHours(0, 0, 0, 0);
-					dt = dt.setDate(dt.getDate() + val1);
-					dt = new Date(dt);
-					line.xp.MinDays[key1] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
-				}, true);
-				dt = new Date();
-				line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
-				if (line.xp.MinDate.LocalDelivery)
-					line.xp.MinDays['MinToday'] = val.xp.MinDate.LocalDelivery;
-			} else {
-				dt = new Date();
-				line.xp.MinDate = {};
-				line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
-			}
-			vm.mindays = line.xp.MinDays;
+			PdpService.CheckTime().then(function (data) {
+				if (data == 'sameday') {
+					if (line.xp.MinDate) {
+						angular.forEach(line.xp.MinDate, function (val1, key1) {
+							dt = new Date();
+							dt.setHours(0, 0, 0, 0);
+							dt = dt.setDate(dt.getDate() + val1);
+							dt = new Date(dt);
+							line.xp.MinDays[key1] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
+						}, true);
+						dt = new Date();
+						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
+						if (line.xp.MinDate.LocalDelivery)
+							line.xp.MinDays['MinToday'] = val.xp.MinDate.LocalDelivery;
+					} else {
+						dt = new Date();
+						line.xp.MinDate = {};
+						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
+					}
+					vm.mindays = line.xp.MinDays;
+				}
+				else if (data == 'notsameday') {
+					if (line.xp.MinDate) {
+						angular.forEach(line.xp.MinDate, function (val1, key1) {
+							dt = new Date();
+							dt.setHours(0, 0, 0, 0);
+							dt = dt.setDate(dt.getDate() + val1);
+							dt = new Date(dt);
+							line.xp.MinDays[key1] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
+						}, true);
+						dt = new Date();
+						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate() + 1).slice(-2));
+						// if (line.xp.MinDate.LocalDelivery)
+						// 	line.xp.MinDays['MinToday'] = val.xp.MinDate.LocalDelivery;
+					} else {
+						dt = new Date();
+						line.xp.MinDate = {};
+						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate() + 1).slice(-2));
+					}
+                    vm.mindays = line.xp.MinDays;
+				}
+			});
+
+
 			if (line.xp.DeliveryMethod == 'UPS') {
 				vm.DeliveryMethod = 'UPS'
 			}
@@ -2237,6 +2420,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		function innerCall() {
 			if (vm.addAddress[index]) {
 				vm.openRecipient[index] = true;
+				vm.formInValid = false;
+				vm.disableAddToCart = false;
 				var item = {
 					"ID": "",
 					"ProductID": items.ID,
@@ -2298,7 +2483,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 		if (activeitems[0]) {
             var uniques = _.map(_.groupBy(activeitems, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate);
+				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
 			}), function (grouped) {
 				console.log("grouped ==" + JSON.stringify(grouped));
 				var TotalQuantity = 0;
@@ -2318,7 +2503,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 
 			var newUniques = _.map(_.groupBy(newArray, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate);
+				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + ' ' + value.xp.DeliveryMethod;
 			}), function (grouped) {
 				console.log("grouped ==" + JSON.stringify(grouped));
 				var TotalQuantity = 0;
@@ -2332,7 +2517,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
 			var newArray = arr
 			var newUniques = _.map(_.groupBy(newArray, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate);
+				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
 			}), function (grouped) {
 				console.log("grouped ==" + JSON.stringify(grouped));
 				var TotalQuantity = 0;
@@ -2446,7 +2631,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 								line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
 								var lineitemdtls = {
 									ProductID: line.ProductID,
-									Quantity: line.Quantity
+									Quantity: line.Quantity,
+									ShipFromAddressID: "testShipFrom"
 								};
 								console.log("line", line);
 								PdpService.CreateOrder().then(function (order) {
@@ -2457,6 +2643,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 										lineitem.ShippingAddress = line.ShippingAddress;
 										lineitem.xp = line.xp;
+										lineitem.ShipFromAddressID = "testShipFrom"
 
 										if (lineitem.xp.deliveryDate) {
 											lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
@@ -2492,7 +2679,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 							var lineitemdtls = {
 								ProductID: line.ProductID,
-								Quantity: line.Quantity
+								Quantity: line.Quantity,
+								ShipFromAddressID: "testShipFrom"
 							};
 
 
@@ -2500,6 +2688,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 								lineitem.ShippingAddress = line.ShippingAddress;
 								lineitem.xp = line.xp;
+								lineitem.ShipFromAddressID = "testShipFrom"
 
 								if (lineitem.xp.deliveryDate) {
 									lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
@@ -2563,7 +2752,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			var obj = {};
 
 			if (line.xp.DeliveryMethod == 'LocalDelivery') {
-
+				// var dateime =new Date(line.xp.deliveryDate)
 				PdpService.CompareDate(line.xp.deliveryDate).then(function (data) {
 					if (data == '1') {
 
@@ -2794,7 +2983,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 				var lineitemdtls = {
 					ProductID: line.ProductID,
-					Quantity: line.Quantity
+					Quantity: line.Quantity,
+					ShipFromAddressID: "testShipFrom"
 				};
 
 				// if ($cookieStore.get('isLoggedIn')) {
@@ -2818,6 +3008,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 					lineitem.ShippingAddress = line.ShippingAddress;
 					lineitem.xp = line.xp;
+					lineitem.ShipFromAddressID = "testShipFrom"
 
 					if (lineitem.xp.deliveryDate) {
 						lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
@@ -2854,6 +3045,39 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				});
 			}
 			vm.checkDeliverymethod(lineitem);
+		}
+	}
+	function addSameAddress(lineitem, address, index) {
+		//if (vm.addressType == "Residence") {
+		if (address) {
+			//lineitem.ShippingAddress = address;
+			//lineitem.xp.addressType = vm.addressType;
+			lineitem.ShippingAddress.Street1 = address.Street1
+			lineitem.ShippingAddress.Street2 = address.Street2
+			lineitem.ShippingAddress.City = address.City
+			lineitem.ShippingAddress.State = address.State
+			lineitem.ShippingAddress.Zip = address.Zip
+			lineitem.ShippingAddress.Phone = address.Phone
+			if (lineitem.ShippingAddress.Phone) {
+				PdpService.GetPhoneNumber(lineitem.ShippingAddress.Phone).then(function (res) {
+					lineitem.ShippingAddress.Phone1 = res[0];
+					lineitem.ShippingAddress.Phone2 = res[1];
+					lineitem.ShippingAddress.Phone3 = res[2];
+				});
+			}
+			else {
+				lineitem.ShippingAddress.Phone1 = address.Phone1;
+				lineitem.ShippingAddress.Phone2 = address.Phone2;
+				lineitem.ShippingAddress.Phone3 = address.Phone3;
+			}
+			vm.checkDeliverymethod(lineitem);
+		}
+		//}
+	}
+	function changeaddSameAddress(line, check, index) {
+		if (!check) {
+			line.ShippingAddress = {};
+			vm.sameAddress[index] = null;
 		}
 	}
 	function finished(index) {
@@ -2907,7 +3131,7 @@ function addedToCartController1($scope, $uibModalInstance, $state, Orderid, $coo
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 
-		$state.go('cart', { ID: vm.orderid });
+		$state.go('cart', { ID: vm.orderid.ID });
 
 
 	};

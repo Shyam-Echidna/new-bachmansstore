@@ -58,7 +58,6 @@ function BaseConfig( $stateProvider ) {
                                     OrderCloud.Auth.GetToken('')
                                         .then(function (data) {
                                             OrderCloud.Auth.SetToken(data['access_token']);
-                                            
                                         })
                                         .finally(function () {
                                             OrderCloud.BuyerID.Set(buyerid);
@@ -1369,7 +1368,7 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
         var data = {
 
             username: "admin",
-            password: "echidna"
+            password: "Bachmans"
         };
         var defferred = $q.defer();
 

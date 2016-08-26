@@ -27,11 +27,11 @@
                 <uib-accordion-heading>
                     <p ng-class="{'footer-minus': multipleRecipient.openRecipient[$index], 'footer-plus': !multipleRecipient.openRecipient[$index]}">
                         <!--<div class="Checkbox">-->
-                            <div>
-                            <input id="check{{$index+1}}" type="checkbox" ng-model="multipleRecipient.addAddress[$index]" ng-change="multipleRecipient.checkAddRecipient(lineitem,$index)" ng-click="$event.stopPropagation();"/>
+                        <div>
+                            <input id="check{{$index+1}}" type="checkbox" ng-model="multipleRecipient.addAddress[$index]" ng-change="multipleRecipient.checkAddRecipient(lineitem,$index)" ng-click="$event.stopPropagation();" />
                             <!--<div class="Checkbox-visible"></div>-->
                         </div>
-                        <label for="check{{$index+1}}">Recipient {{$index+1}} |{{lineitem.ShippingAddress.FirstName}}{{lineitem.ShippingAddress.LastName}}|{{lineitem.ShippingAddress.Zip}}</label>
+                        <label for="check{{$index+1}}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}}</label>
                         <span class="panel-head-price">{{lineitem.UnitPrice | currency}}  </span>
                     </p>
                 </uib-accordion-heading>
@@ -283,17 +283,18 @@
                     </div>
 
                 </div>
-                
+
 
 
 
             </uib-accordion-group>
-             <uib-accordion-group ng-repeat="lineitem in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="multipleRecipient.isMultiplerecipient && !!multipleRecipient.activeOrders[0]" ng-init="$last && multipleRecipient.finished($index)">
+            <uib-accordion-group ng-repeat="(lineidx,lineitem) in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="multipleRecipient.isMultiplerecipient && !!multipleRecipient.activeOrders[0]" ng-init="$last && multipleRecipient.finished($index)">
                 <uib-accordion-heading>
-                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': multipleRecipient.activeRecipient[$index]}">Recipient {{$index+1}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
+                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': multipleRecipient.activeRecipient[$index]}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
                 </uib-accordion-heading>
 
                 <div class="panel-body-content">
+                    <div ng-show="multipleRecipient.crdmsg[$index]">
                     <button class="view-address-link" ng-if="!!multipleRecipient.isLoggedIn" ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
@@ -322,6 +323,26 @@
                                 </label>
                         </label>
                     </div>
+
+                    
+                        <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />SameAsAbove
+                        <a href="" ng-if="multipleRecipient.sameAsAboveAddress[$index]" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                        <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+                            <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
+                                <input type="radio" name="sameasaddress{{lineidx}}" ng-model="multipleRecipient.sameAddress[lineidx]" value="true" ng-change="multipleRecipient.addSameAddress(lineitem,multipleRecipient.groups[line][0].ShippingAddress,$index)" id="sameAddress{{lineidx}}" />
+                                <label for="sameAddress{{lineidx}}">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <p>
+                                       
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Street1}},{{multipleRecipient.groups[line][0].ShippingAddress.Street2}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.City}},{{multipleRecipient.groups[line][0].ShippingAddress.State}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Country}},{{multipleRecipient.groups[line][0].ShippingAddress.Zip}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Phone}}</span>
+                                    </p>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
                     <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
 
                         <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
@@ -345,7 +366,8 @@
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
 
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)" ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
+                                                    ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
 
                                                 <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
                                             </div>
@@ -506,19 +528,21 @@
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="Church">Find Curchs</label>
-                                        <input type="search" id="Church" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.churchNames | filter:$viewValue" typeahead-on-select="multipleRecipient.churchDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="Church" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.churchNames | filter:$viewValue" typeahead-on-select="multipleRecipient.churchDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
 
                             </div>
                         </div>
-                       <!--Cemetery-->
+                        <!--Cemetery-->
                         <div ng-show="multipleRecipient.crdmsg[$index]">
                             <div class="row church-det" ng-if="multipleRecipient.addressType == 'Cemetery'">
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="Cemetery">Find Cemeteries</label>
-                                        <input type="search" id="Cemetery" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.cemeteries | filter:$viewValue" typeahead-on-select="multipleRecipient.cemeteryDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="Cemetery" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.cemeteries | filter:$viewValue" typeahead-on-select="multipleRecipient.cemeteryDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
 
@@ -529,7 +553,8 @@
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="store">Find Store</label>
-                                        <input type="search" id="store" class="form-control" ng-model="multipleRecipient.name[$index]" uib-typeahead="st for st in multipleRecipient.storeNames | filter:$viewValue" typeahead-on-select="multipleRecipient.storesDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="store" class="form-control" ng-model="multipleRecipient.name[$index]" uib-typeahead="st for st in multipleRecipient.storeNames | filter:$viewValue" typeahead-on-select="multipleRecipient.storesDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
                             </div>
@@ -609,7 +634,7 @@
                                         <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country">
                                     </fieldset>
                                 </div>
-                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleRecipient.addressType=='Business'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleRecipient.addressType=='Business'">
                                     <fieldset class="form-group">
                                         <label for="Business">Business</label>
                                         <input type="text" class="form-control" id="Business" placeholder="BusinessName" ng-model="lineitem.ShippingAddress.CompanyName">
@@ -949,9 +974,9 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleRecipient.crdmsg[$index]" ng-click="multipleRecipient.crdmsghide(lineitem,$index)" ng-disabled="!form{{$index}}.$valid" >Next</button>
-                        
-                       
+                        <button class="next-btn" ng-show="multipleRecipient.crdmsg[$index]" ng-click="multipleRecipient.crdmsghide(lineitem,$index)" ng-disabled="!form{{$index}}.$valid">Next</button>
+
+
                         <!--<button class="next-btn" ng-click="multipleRecipient.newreceipent($index)" ng-show="multipleRecipient.crdmsg[$index]==false" ng-disabled="!form1.$valid">
                             <!--<span class="svg-outer">
                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -973,12 +998,13 @@
 
 
             </uib-accordion-group>
-             <uib-accordion-group ng-repeat="lineitem in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="!multipleRecipient.isMultiplerecipient" ng-init="$last && multipleRecipient.finished($index)">
+            <uib-accordion-group ng-repeat="(lineidx,lineitem) in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="!multipleRecipient.isMultiplerecipient" ng-init="$last && multipleRecipient.finished($index)">
                 <uib-accordion-heading>
-                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}">Recipient {{$index+1}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
+                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p>
                 </uib-accordion-heading>
 
                 <div class="panel-body-content">
+                    <div ng-show="multipleRecipient.crdmsg[$index]">
                     <button class="view-address-link" ng-if="!!multipleRecipient.isLoggedIn" ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
@@ -1007,6 +1033,27 @@
                                 </label>
                         </label>
                     </div>
+                    
+                    <div ng-show="multipleRecipient.activeOrders.length>1 && !$first ">
+                         <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />SameAsAbove
+                        <a href="" ng-if="multipleRecipient.sameAsAboveAddress[$index]" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                        <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+                            <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
+                                <input type="radio" name="sameasaddress{{lineidx}}" ng-model="multipleRecipient.sameAddress[lineidx]" value="true" ng-change="multipleRecipient.addSameAddress(lineitem,multipleRecipient.groups[line][0].ShippingAddress,$index)" id="sameAddress{{lineidx}}" />
+                                <label for="sameAddress{{lineidx}}">
+                                    <span class="radioOutline"><span class="radioInside"></span></span>
+                                    <p>
+                                       
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Street1}},{{multipleRecipient.groups[line][0].ShippingAddress.Street2}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.City}},{{multipleRecipient.groups[line][0].ShippingAddress.State}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Country}},{{multipleRecipient.groups[line][0].ShippingAddress.Zip}}</span>
+                                        <span>{{multipleRecipient.groups[line][0].ShippingAddress.Phone}}</span>
+                                    </p>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                    </div>
                     <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
 
                         <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
@@ -1030,7 +1077,8 @@
                                         <div class="row">
                                             <div class="col-md-4 col-lg-4">
 
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)" ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
+                                                    ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
 
                                                 <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
                                             </div>
@@ -1191,19 +1239,21 @@
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="Church">Find Curchs</label>
-                                        <input type="search" id="Church" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.churchNames | filter:$viewValue" typeahead-on-select="multipleRecipient.churchDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="Church" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.churchNames | filter:$viewValue" typeahead-on-select="multipleRecipient.churchDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
 
                             </div>
                         </div>
-                       <!--Cemetery-->
+                        <!--Cemetery-->
                         <div ng-show="multipleRecipient.crdmsg[$index]">
                             <div class="row church-det" ng-if="multipleRecipient.addressType == 'Cemetery'">
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="Cemetery">Find Cemeteries</label>
-                                        <input type="search" id="Cemetery" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.cemeteries | filter:$viewValue" typeahead-on-select="multipleRecipient.cemeteryDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="Cemetery" class="form-control" ng-model='multipleRecipient.name[$index]' uib-typeahead="st for st in multipleRecipient.cemeteries | filter:$viewValue" typeahead-on-select="multipleRecipient.cemeteryDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
 
@@ -1214,7 +1264,8 @@
                                 <div class="col-xs-6 col-sm-6 col-md-11 col-lg-11">
                                     <fieldset class="form-group">
                                         <label for="store">Find Store</label>
-                                        <input type="search" id="store" class="form-control" ng-model="multipleRecipient.name[$index]" uib-typeahead="st for st in multipleRecipient.storeNames | filter:$viewValue" typeahead-on-select="multipleRecipient.storesDetails($item,lineitem,multipleRecipient.name[$index],$index)" />
+                                        <input type="search" id="store" class="form-control" ng-model="multipleRecipient.name[$index]" uib-typeahead="st for st in multipleRecipient.storeNames | filter:$viewValue" typeahead-on-select="multipleRecipient.storesDetails($item,lineitem,multipleRecipient.name[$index],$index)"
+                                        />
                                     </fieldset>
                                 </div>
                             </div>
@@ -1294,7 +1345,7 @@
                                         <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country">
                                     </fieldset>
                                 </div>
-                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleRecipient.addressType=='Business'">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleRecipient.addressType=='Business'">
                                     <fieldset class="form-group">
                                         <label for="Business">Business</label>
                                         <input type="text" class="form-control" id="Business" placeholder="BusinessName" ng-model="lineitem.ShippingAddress.CompanyName">
@@ -1565,7 +1616,7 @@
                                 </div>
                             </div>
                             <div class="row save-address" ng-if="!!multipleRecipient.isLoggedIn">
-                               <div class="col-md-4 col-lg-4">
+                                <div class="col-md-4 col-lg-4">
                                     <div class="Checkbox">
                                         <input type="checkbox" ng-model="multipleRecipient.saveaddressdata[$index]" ng-change="multipleRecipient.saveUserAddressData(multipleRecipient.saveaddressdata[$index],lineitem,$index)">
                                         <div class="Checkbox-visible"></div>
@@ -1634,9 +1685,9 @@
                         <!-- <h4 ng-click="vm.closeTab()" ng-show="!showNewRecipient">close and continue shopping</h4> -->
                     </div>
                     <div class="col-md-6 col-lg-6 btn-click">
-                        <button class="next-btn" ng-show="multipleRecipient.crdmsg[$index]" ng-click="multipleRecipient.crdmsghide(lineitem,$index)" ng-disabled="!form{{$index}}.$valid" >Next</button>
-                        
-                       
+                        <button class="next-btn" ng-show="multipleRecipient.crdmsg[$index]" ng-click="multipleRecipient.crdmsghide(lineitem,$index)" ng-disabled="!form{{$index}}.$valid">Next</button>
+
+
                         <!--<button class="next-btn" ng-click="multipleRecipient.newreceipent($index)" ng-show="multipleRecipient.crdmsg[$index]==false" ng-disabled="!form1.$valid">
                             <!--<span class="svg-outer">
                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -1659,18 +1710,18 @@
 
             </uib-accordion-group>
 
-            <div class="row next-btn"  ng-if="!multipleRecipient.isMultiplerecipient">
+            <div class="row next-btn" ng-if="!multipleRecipient.isMultiplerecipient">
                 <!--ng-if="!multipleRecipient.crdmsg[multipleRecipient.lastIndex]" ng-form="form{{multipleRecipient.lastIndex}}"-->
                 <div class="col-md-6 col-lg-6 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.newrecipient(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
                     <button class="add-btn" ng-click="multipleRecipient.submitDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid">Add to Cart</button>
                 </div>
             </div>
-             <div class="row next-btn"  ng-if="multipleRecipient.isMultiplerecipient">
+            <div class="row next-btn" ng-if="multipleRecipient.isMultiplerecipient">
                 <!--ng-if="!multipleRecipient.crdmsg[multipleRecipient.lastIndex]" ng-form="form{{multipleRecipient.lastIndex}}"-->
                 <div class="col-md-6 col-lg-6 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.addNewreceipent(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
-                    <button class="add-btn" ng-click="multipleRecipient.submitRecipientDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid">Add to Cart</button>
+                    <button class="add-btn" ng-click="multipleRecipient.submitRecipientDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid || multipleRecipient.disableAddToCart">Add to Cart</button>
                 </div>
             </div>
         </uib-accordion>

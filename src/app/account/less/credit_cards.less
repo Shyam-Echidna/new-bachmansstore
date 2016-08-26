@@ -187,6 +187,7 @@
     			.address-info {
     				.billing-addr {
     					padding: 0 15px 0 0;
+    					margin-left: 30px;
 						label {
 							color: #464646;
 	                        font: 1em @proxima-regular;
@@ -401,6 +402,7 @@
 	    				.billing-addr {
 	    					padding: 0;
 	    					margin-bottom: 0;
+	    					margin-left: 0;
 							label {
 		                        font: 0.875em @proxima-regular;
 		                        margin-bottom: 7px;
@@ -439,6 +441,10 @@
 	    	}
 	    }
 	}
+	.cardIcons {
+		right: 30px !important;
+    	height: 25px !important;
+	}
 }
 
 @media screen and (min-width:320px) and (max-width:810px) and (orientation:landscape) {
@@ -460,7 +466,7 @@
 				padding: 15px 20px;
 				.visa {
 					padding-right: 10px;
-					width: auto;
+					width: 20%;
 				}
 				.cr-card-num {
 					padding-left: 20px;
@@ -509,6 +515,10 @@
 			}
 		}
 	}
+	.cardIcons {
+		right: 30px !important;
+    	height: 35px !important;
+	}
 }
 
 @media screen and (min-width:768px) and (max-width:1110px) and (orientation:landscape) {
@@ -527,6 +537,21 @@
 				}
 				.edit-options {
 					float: right;
+				}
+			}
+		}
+		.add-new-credit-card-cont {
+			.add-new-card-div {
+				.add-new-card-form {
+					.card-info {
+						width: 55%;
+					}
+					.address-info {
+						width: 45%;
+						.billing-addr {
+							width: 75%;
+						}
+					}
 				}
 			}
 		}
@@ -558,6 +583,13 @@
 	    		.edit-options {
 					float: right;
 				}
+				.visa {
+					width: 10%;
+					margin-bottom: 10px;
+				}
+				.cr-card-name {
+					clear: both;
+				}
 	    	}
 	    }
 	    .add-new-credit-card-cont {
@@ -565,6 +597,9 @@
 				.add-new-card-form {
 					.address-info {
 						padding: 0;
+						.billing-addr {
+							margin-left: 0;
+						}
 					}
 				}
 			}
@@ -582,6 +617,9 @@
 			    margin: 0;
 	        }
 	    }
+	}
+	.cardIcons {
+		right: 50px !important;
 	}
 }
 
@@ -641,6 +679,7 @@
 					padding: 0 10px 0 0;
 					margin-bottom: 0;
 					width: 20%;
+					clear: none;
 					.title {
 						font-size: 0.815em;
 						margin-bottom: 5px;
@@ -681,7 +720,7 @@
 	    	.add-new-card-div {
 	    		.add-new-card-form {
 	    			.card-info {
-	    				width: 50%;
+	    				width: 60%;
 	    				.holder-name, .card-type, .card-number, .exp-date {
 	    					width: 50%;
 	    					label, input, select {
@@ -690,9 +729,10 @@
 		    			}
 	    			}
 	    			.address-info {
-	    				width: 50%;
+	    				width: 40%;
 	    				.billing-addr {
-	    					width: 50%;
+	    					/*width: 50%;*/
+	    					margin-left: 45px;
 	    					label, input, select {
 	    						font-size: 0.875em;
 	    						float: left;
@@ -700,12 +740,54 @@
 		    			}
 	    			}
 	    			.nav-buttons {
-	    				width: 50%;
+	    				width: 60%;
 	    				clear: both;
 	    			}
 	    		}
 	    	}
 	    }
 	}
+	.cardIcons {
+		right: -40px !important;
+	}
 }
 /* Credit card Style ENDS */
+.cardtypes {
+	background-repeat: no-repeat;
+    background-size: 50px 50px;
+    display: block;
+	position: absolute;
+	right: -40px;
+	bottom: 5px;
+	height: 30px;
+}
+.cardIcons{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px 50px;
+    display: block;
+	height: 20px;
+	width: 50px;
+	display: none;
+	&.AmericanExpress{
+	    background-image: url('../../assets/images/batch4web/creditcard/AmericanExpress.svg');
+		.cardtypes;
+		display: block;
+	}
+	&.MasterCard{
+		background-image: url('../../assets/images/batch4web/creditcard/MasterCard.svg');
+		.cardtypes;
+		display: block;
+	}
+	&.Visa{
+		background-image: url('../../assets/images/batch4web/creditcard/Visa.svg');
+		.cardtypes;
+		display: block;
+	}
+	&.Discover{
+		background-image: url('../../assets/images/batch4web/creditcard/Discover.svg');
+		.cardtypes;
+		display: block;
+	}
+}
+

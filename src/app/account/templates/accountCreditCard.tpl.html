@@ -2,7 +2,7 @@
     <div class="row credit-card-headerTitle">
         <p class="my-account-content-title">Credit Cards</p>
         <div class="add-button col-md-3 col-lg-3 hidden-xs hidden-sm">
-            <button type="button" class="btn" ng-click="creditCards.newCardInput()"> + Add New Card</button>
+            <button type="button" class="btn" ng-click="creditCards.newCardInput();creditCards.YearDropDown();"> + Add New Card</button>
         </div>
     </div>
     <div class="row credit-card-list-cont not-default">
@@ -36,8 +36,7 @@
                 <a href="#">Delete</a>
             </div>
         </div> -->
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCards.list | limitTo: card.id">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-list-item" ng-repeat="card in creditCards.list" ng-if="card">
             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 default-payment">
                 <p class="title" ng-if="creditCards.defaultUserCardID==card.ID">Default Payment</p>
                 <p class="title" ng-if="creditCards.defaultUserCardID!=card.ID">Make Default Payment</p>
@@ -47,7 +46,7 @@
                </div>
             </div>
             <div class="col-xs-2 col-sm-4 col-md-1 col-lg-1 visa">
-                <img src="../../assets/images/batch4web/creditcard/Visa.png" class="visa-icon" />
+                <img src="../../assets/images/batch4web/creditcard/{{card.CardType}}.svg" class="visa-icon" />
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
@@ -59,12 +58,12 @@
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 expiry-date">
                 <p class="title">Expiration Date</p>
-                <p class="value">{{card.ExpirationDate | date: 'MM/yyyy' : 'UTC' }}</p>
+                <p class="value">{{card.ExpirationDate | date: 'MM/yy' : 'UTC' }}</p>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 edit-options">
-                <a href="#" ng-click="creditCards.editCardInput(card)">Edit</a>
+                <a href="#" ng-click="creditCards.editCardInput(card);creditCards.YearDropDown();">Edit</a>
                 <span class="link-sep">|</span>
-                <a href="#" ng-click="creditCards.deleteCard(card)">Delete</a>
+                <a href="#" ng-click="creditCards.deletePopupCard(card)">Delete</a>
             </div>
         </div>
     </div>
@@ -73,26 +72,26 @@
         <div class="col-xs-12 add-new-credit-card-cont p0">
             <p class="title">Input Card Information</p>
             <div class="add-new-card-div">
-                <form class="add-new-card-form ng-pristine ng-valid" ng-submit="creditCards.createCard()" name="CreditCardCreateForm" role="form" novalidate="">
+                <form class="add-new-card-form ng-pristine ng-valid" ng-submit="creditCards.createCard(creditCards.card);creditCards.newcreditcard = !creditCards.newcreditcard;" name="CreditCardCreateForm" role="form" novalidate="">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
                             <label for="cardHoldName">Cardholder's Name</label>
-                            <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName"/>
+                            <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName" autocomplete="off"/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
                             <label for="cardType">Card Type</label>
                             <select class="form-control" id="cardType" ng-model="creditCards.card.CardType" required>
                                 <option value="">Select a Card Type</option>
-                                <option value="Visa">Amex</option>
-                                <option value="Visa">Discover</option>
+                                <option value="Discover">Discover</option>
                                 <option value="Visa">Visa</option>
                                 <option value="MasterCard">MasterCard</option>
                                 <option value="AmericanExpress">American Express</option>
                             </select>
+                                <img class="cardIcons {{creditCards.card.CardType}}"/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="text" maxlength="15" card-validation ng-minlength="15" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                            <input type="text" maxlength="16" card-validation ng-minlength="14" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate">Expiration Date</label>
@@ -112,14 +111,22 @@
                                 <option>12</option>
                             </select>
                             <select class="form-control" id="year" placeholder="YY" ng-model="creditCards.card.ExpYear" 
-                            required ng-click="creditCards.YearDropDown()" ng-options="y for y in creditCards.years"> 
-                            //<option value="">Year</option>
+                            required  ng-options="y for y in creditCards.years"> 
+                           <option value="">Year</option>
                             </select>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardCVV">Card CVV</label>
-                            <input type="text" card-validation ng-minlength="3" maxlength="3" placeholder="Enter CVV Number" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
-                        </div>
+                            <input type="text" card-validation ng-minlength="3" maxlength="3" placeholder="Enter CVV Number" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" requried>
+                        </div> -->
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 address-info">       
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group billing-addr">     
+                            <label for="billingAddress">Billing Address</label>     
+                            <select class="form-control" id="billingAddress">       
+                                <option value="">Select Billling Address</option>       
+                            </select>       
+                        </div>      
                     </div>
                     <div class="col-xs-12 p0 nav-buttons">
                         <div class="col-xs-12 form-group navig-btns">
@@ -147,19 +154,20 @@
                             <label for="cardHoldNameEdit">Cardholder's Name</label>
                             <input type="text" class="form-control" id="cardHoldNameEdit" placeholder="Name" ng-model="creditCards.card.CardholderName"/>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
                             <label for="cardType">Card Type</label>
                             <select class="form-control" id="cardType" ng-model="creditCards.card.CardType" required>
                                 <option value="Select">Select</option>
                                 <option value="Visa">Visa</option>
+                                <option value="Discover">Discover</option>
                                 <option value="MasterCard">MasterCard</option>
                                 <option value="AmericanExpress">American Express</option>
                             </select>
-                        </div>{{creditCards.card.CardNumber}}
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
+                        </div> -->
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" required>
-                        </div>
+                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" requried>
+                        </div> -->
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate2">Expiration Date</label>
                             <select class="form-control" id="monthEdit" placeholder="MM" ng-model="creditCards.card.ExpMonth" required>
@@ -176,16 +184,14 @@
                                 <option>11</option>
                                 <option>12</option>
                             </select>
-                            <select class="form-control" id="yearEdit" placeholder="YY" ng-model="creditCards.card.ExpYear" required>
-                                <option>2016</option>
-                                <option>2017</option>
-                                <option>2018</option>
-                            </select>
+                            <select class="form-control" id="year" placeholder="YY" ng-model="creditCards.card.ExpYear"
+                            required  ng-options="y for y in creditCards.years"> 
+                        </select>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardCVV">Card CVV</label>
                             <input type="text" card-validation ng-minlength="3" maxlength="4" class="form-control" id="cardCVV" ng-model="creditCards.card.CVV" required>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-xs-12 p0 nav-buttons">
                         <div class="col-xs-12 form-group navig-btns">

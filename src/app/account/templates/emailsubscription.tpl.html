@@ -3,9 +3,9 @@
         <p class="my-account-content-title">Email Preferences</p>
         <div class="email-subscription-container">
             <div class="email-header">Email Subscriptions</div>
-            <div class="email-lists form-group" ng-repeat="email in EmailSubscription.emailsubscribe.data ">
+            <div class="email-lists form-group" ng-repeat="email in EmailSubscription.subscriptions">
                 <div class="Checkbox">
-                    <input type="checkbox" id="email_chk_{{$index}}">
+                    <input type="checkbox" id="email_chk_{{$index}}" ng-click="email.Checked = !email.Checked" ng-checked="email.Checked">
                     <div class="Checkbox-visible"></div>
                     <label for="email_chk_{{$index}}">{{email.name}}</label>
                 </div>
