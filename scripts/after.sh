@@ -1,7 +1,5 @@
 #!/bin/bash
-sudo chown ec2-user:nginx -R /var/www
-cd /var/www
-npm install bower gulp
+cd /opt/alfresco-community/tomcat/webapps/Bachmans
 npm install
 bower install
 
