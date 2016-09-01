@@ -24,8 +24,8 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
- - source: /
-   destination: /opt/alfresco-community/tomcat/webapps/Bachmans
+  - source: /
+    destination: /opt/alfresco-community/tomcat/webapps/Bachmans
 #- source:
 #  destination:
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
@@ -89,10 +89,11 @@ files:
   #runas: 
 # During the BeforeInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
+hooks:
   BeforeInstall:
-   - location: scripts/before.sh
-     timeout: 300
-      runas: root 
+    - location: scripts/before.sh
+      timeout: 300
+      runas: root
     #- location: 
      #timeout:
     #runas:
