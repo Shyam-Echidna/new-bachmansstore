@@ -18,7 +18,9 @@ angular.module('orderCloud')
 	.controller('staticPageBaseCtrl', staticPageBaseController)
     .controller('ladingPageCtrl', ladingPageController)
 .controller('InspirationalModalCtrl', InspirationalModalController)
+.controller('eventCalenderModalCtrl',eventCalenderModalController )
 .directive('onFinishRender', onFinishRender)
+.controller('EventCtrl', deviceEventsController)
 
 ;
 
@@ -197,6 +199,21 @@ function staticPageConfig($stateProvider) {
 			controller: 'workshopEventCtrl',
 			controllerAs: 'workshopEvent'
 		})
+		.state('events', {
+			parent: 'base',
+			url: '/events',
+			templateUrl: 'staticPage/templates/events.tpl.html',
+			controller: 'EventCtrl',
+			controllerAs: 'event',
+			resolve:{
+                events: function(OrderCloud){
+           //    	 return OrderCloud.Me.ListProducts(null, 1, 100, null, null, {categoryID : 'WorkshopsEvents_Information'}, null).then(function(eveList) {    
+           //  		return eveList.Items;
+       			 // });  
+           		}
+            }
+		})
+
 }
 
 function ladingPageController(folder) {
@@ -886,21 +903,69 @@ function eventDescriptionController($scope) {
 }
 
 
-/*For Workshop event controller function starts*/
-function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope) {
-	var vm = this;
 
-    function EventsList(){
+
+/*For Workshop event controller function starts*/
+function workshopEventController($state, $uibModal, $scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, OrderCloud) {
+	var vm = this;
+	vm.open = function () {
+		// getEventDate().then(function(events){
+			if(!(/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()))){
+            $uibModal.open({
+            animation:true,
+            windowClass:'quickViewModal',
+            templateUrl: 'staticPage/templates/event-calender-model.tpl.html',
+            controller: 'eventCalenderModalCtrl',
+            controllerAs: 'eventCalenderModal',
+
+            resolve: {
+            	 
+            	 events: function(){
+            	  return OrderCloud.Me.ListProducts(null, 1, 100, null, null, {categoryID : 'WorkshopsEvents_Information'}, null).then(function(catList) {
+            	  	 var events = [];
+			         angular.forEach(catList.Items, function(cat) {
+			         	events.push({
+			         		id: cat.ID,
+			         		title: cat.Name,
+			         		start: new Date(cat.xp.EventDate),
+			         		//end : new Date(cat.xp.EndDate) // Uncomment if we have date range 
+			         		productcode : cat.xp.ProductCode
+			         	})
+			         });
+			         return events;
+			     });		
+            	
+              }
+          }
+      });
+    }else{
+    	//Mobile device
+    	$state.go('events');
+    }
+		// })	
+		
+     }
+
+     function getEventDate(){
+	       var deferred = $q.defer();
+			return OrderCloud.Me.ListProducts(null, 1, 100, null, null, {categoryID : 'WorkshopsEvents_Information'}, null).then(function(eveList) {
+            	  	 
+			         deferred.resolve(eveList);
+			     });
+            return deferred.promise;
+}
+
+      function EventsList(){
 
 			 var ajaxarr = [];
 
-        CategoryService.listChild("c10").then(function(catList) {
+          CategoryService.listChild("WorkshopsEvents").then(function(catList) {
 
          angular.forEach(catList, function(cat) {
          var promise = PlpService.GetProductAssign(cat.ID);
          	ajaxarr.push(promise);
          });
-       $q.all(ajaxarr).then(function(items){
+         $q.all(ajaxarr).then(function(items){
 
          	var productArr = Underscore.flatten(items);
 
@@ -996,7 +1061,84 @@ function workshopEventController( $scope, $window, HomeFact, PlpService, $q, $sc
 
 
 }
+
+function deviceEventsController(events, $scope){
+	var vm = $(this);
+	var a='[{"ReplenishmentPriceSchedule":null,"StandardPriceSchedule":{"ID":"UwQam8nUQkqslYEckG00Iw","Name":"price3","ApplyTax":false,"ApplyShipping":false,"MinQuantity":1,"MaxQuantity":10,"UseCumulativeQuantity":false,"RestrictedQuantity":false,"OrderType":"Standard","PriceBreaks":[{"Quantity":1,"Price":210}],"xp":null},"ID":"cat9_cat2_prod5","Name":"Ideas House Ticket","Description":"rdfgdfgfd.","QuantityMultiplier":1,"ShipWeight":null,"ShipHeight":null,"ShipWidth":null,"ShipLength":null,"Active":true,"Type":"Static","InventoryEnabled":false,"InventoryNotificationPoint":null,"VariantLevelInventory":false,"SpecCount":0,"xp":{"EventDate":"2016-09-11","slot":"9 AM-10 AM","productNote":"qwerty","SpecsOptions":{"Size":"11 AM-12 PM"},"SequenceNumber":"340600122278","ProductCode":"340600122278"},"AllowOrderExceedInventory":false,"InventoryVisible":false,"VariantCount":0,"ShipFromAddressID":null},{"ReplenishmentPriceSchedule":null,"StandardPriceSchedule":{"ID":"dUdG2OoXYUOBANzzYnPe6Q","Name":"Home Decor & Accents ","ApplyTax":false,"ApplyShipping":false,"MinQuantity":1,"MaxQuantity":null,"UseCumulativeQuantity":false,"RestrictedQuantity":false,"OrderType":"Standard","PriceBreaks":[{"Quantity":1,"Price":69}],"xp":null},"ID":"cat9_cat1_prod5","Name":"Succulent Container Design Workshop","Description":"gfdgdf","QuantityMultiplier":1,"ShipWeight":null,"ShipHeight":null,"ShipWidth":null,"ShipLength":null,"Active":true,"Type":"Static","InventoryEnabled":false,"InventoryNotificationPoint":null,"VariantLevelInventory":false,"SpecCount":0,"xp":{"EventDate":"2016-08-18","Live":true,"":true,"slot":"9 AM-10 AM","venue":"305 Avenue Garden,minneapolis,MN,55401,Room NO 16,Max Store","SequenceNumber":"340600122278","ProductCode":"340600122278","IsBaseProduct":true,"BaseImageUrl":"","BaseDescription":"Sample Workshop Description","BaseProductTitle":"April Succulent Container Design Workshop","SpecsOptions":{"Size":"9 AM-10 AM"}},"AllowOrderExceedInventory":false,"InventoryVisible":false,"VariantCount":0,"ShipFromAddressID":null}]';
+	var events = JSON.parse(a);
+	var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+	var monthArr = ["JAN","FEB","MAR", "APR","MAY","JUN","JUL","AUG", "SEP","OCT","NOV","DEC"];  
+	var eventsArr = [];
+	angular.forEach(events, function(value, key){
+		var date = new Date(value.xp.EventDate);
+		value.day = date.getDate();
+		value.Month =monthArr[date.getMonth()];
+		value.week = days[date.getDay()];
+		value.price = value.StandardPriceSchedule.PriceBreaks[0].Price;
+		 var isAvailable= date > new Date();
+           if(isAvailable){value.isAvailable = true;}
+           else{value.isAvailable = false;}
+		eventsArr.push(value);
+	});
+	$scope.events = eventsArr;
+}
+
 /*For Workshop event controller function -- end*/
+
+function eventCalenderModalController($scope , $http, events, $state, $uibModalInstance){
+     $scope.events=[] 
+     $scope.events = events;
+ 
+     
+    //with this you can handle the events that generated by clicking the day(empty spot) in the calendar
+    $scope.dayClick = function( date, allDay, jsEvent, view ){
+    	//alert("with date selction");
+        
+    };
+    
+    //with this you can handle the click on the events
+    $scope.eventClick = function(event){  
+      // console.log(event);   
+      $uibModalInstance.dismiss('cancel');
+      $state.go('eventDescription', { 'sequence':event.productcode , 'prodId':event.id });
+    };
+     
+     $scope.renderView = function(view){  
+        var monthArr = ["January","February","March", "April","May","June","July","August", "September","October","November","December"];  
+        var prevMonth = new Date(view.calendar.getDate()).getMonth()-1;
+        var nxtMonth =  new Date(view.calendar.getDate()).getMonth()+1;
+
+        $('.fc-icon-right-single-arrow').text(monthArr[nxtMonth >= 12 ? 0: nxtMonth]);
+        $('.fc-icon-left-single-arrow').text(monthArr[prevMonth <= -1 ? 11: prevMonth]);
+
+       //  $('.fc-event-container').closest('table').find('thead tr td').eq($('.fc-event-container').);
+    };
+     
+    /* config object */
+    $scope.uiConfig = {
+		      calendar:{
+		        height: 550,
+		        editable: false,
+		        header:{
+		          left: 'prev',
+		          center: 'title',
+		          right: 'next',
+		          buttonIcons: false
+		        },
+		        dayClick: $scope.dayClick,
+		        eventClick: $scope.eventClick,
+		        viewRender: $scope.renderView,
+		        eventLimit: 4, // If you set a number it will hide the itens
+			    eventLimitText: "Events available",
+			    columnFormat: {
+				   month: 'dddd'
+				} 
+		      }    
+    };
+     
+    /* event sources array*/
+    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+}
 
 
 function storeLocatorController($scope, $timeout, $http, $compile) {

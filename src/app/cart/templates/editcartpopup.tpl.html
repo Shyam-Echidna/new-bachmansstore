@@ -19,7 +19,7 @@
         </p>
     </div>
     <div class="address-book">
-        <button class="view-address-link" ng-if="!!editRecipientPopup.isLoggedIn" ng-click="editRecipientPopup.addressBook()"><span class="svg-outer">
+        <a class="view-address-link" ng-if="!!editRecipientPopup.isLoggedIn" ng-click="editRecipientPopup.addressBook()"><span class="svg-outer">
                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
@@ -28,7 +28,7 @@
                     </g>
                     </svg>
                     </span>VIEW ADDRESS BOOK
-                    </button>
+                    </a>
         <a href="" ng-if="!!editRecipientPopup.showaddress" class="show-all" ng-click="editRecipientPopup.limit=100">show all</a>
         <div class="addressbookdiv" ng-if="!!editRecipientPopup.showaddress">
             <label ng-repeat="addressbook in editRecipientPopup.addressbook.Items | limitTo:editRecipientPopup.limit track by addressbook.ID" class="parentP">

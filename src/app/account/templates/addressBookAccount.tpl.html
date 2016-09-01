@@ -22,15 +22,15 @@
                 <form class="add-new-addr-form" name="addnewAddress" role="form" novalidate>
                     <div class="col-xs-6 form-group nick-name">
                         <label for="nickName">Nick Name</label>
-                        <input type="text" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.NickName" autocomplete="off" ng-requried="true" ng-model-options="{updateOn: 'blur'}">
+                        <input type="text" name="nickName" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
                     </div>
                     <div class="col-xs-6 form-group first-name">
                         <label for="firstName">First Name</label>
-                        <input type="text" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off" ng-required="true">
+                        <input type="text" name="firstName" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-6 form-group last-name">
                         <label for="nickName">Last Name</label>
-                        <input type="text" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off" ng-required="true">
+                        <input type="text" name="lastName" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off" ng-required="true">
                     </div>
                     <div class="col-xs-12 form-group address">
                         <label for="address">Address 1</label>

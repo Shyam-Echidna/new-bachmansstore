@@ -46,6 +46,9 @@
     .checkout-info {
         padding-left: 30px;
         border-bottom: 1px solid #cccccc;
+        .customer-info{
+            margin-bottom: 40px;
+        }
         .row {
             .review-content {
                 margin-bottom: 20px;
@@ -1065,6 +1068,96 @@
                                                                 margin-left: 5px;
                                                             }
                                                         }
+
+                                                        .selectRecipentDetails{
+                                                            border-bottom: 1px solid #f4f4f4;
+                                                            padding-bottom: 10px;
+                                                            margin-bottom: 15px;
+                                                             input[type=radio] {
+                                                                    display: none;
+                                                                }
+                                                                input[type=radio] {
+                                                                    opacity: 0;
+                                                                    &:not(old) {
+                                                                        &+ label .radioOutline,
+                                                                        &:checked + label .radioOutline {
+                                                                            border: 1px solid @base-bg-purple-dark;
+                                                                            border-radius: 50%;
+                                                                            background: transparent;
+                                                                            display: inline-block;
+                                                                            width: 16px;
+                                                                            height: 16px;
+                                                                            text-align: center;
+                                                                            vertical-align: middle;
+                                                                        }
+                                                                        &:checked + label .radioOutline .radioInside {
+                                                                            display: block;
+                                                                            width: 8px;
+                                                                            height: 8px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: @base-bg-purple-dark;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                        &+ label .radioOutline .radioInside {
+                                                                            display: block;
+                                                                            width: 10px;
+                                                                            height: 10px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: transparent;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                .selectRadio{
+                                                                    text-align: center;
+                                                                    .label-name{
+                                                                        font: 1em @proxima-regular;
+                                                                        color: #666666;
+                                                                        vertical-align: middle;
+                                                                    }
+                                                                }
+                                                                .recipientDetails{
+                                                                    margin-top: 20px;
+                                                                    li{
+                                                                        background-color: #f4f4f4;
+                                                                        padding: 7px 10px;
+                                                                        margin-bottom: 7px;
+                                                                        .label-name{
+                                                                            font: 0.875em @proxima-regular;
+                                                                            color: #000000;
+                                                                            vertical-align: middle;
+                                                                            &.right{
+                                                                                font-size: 0.7em;
+                                                                                margin-left: 55px;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    .viewAll{
+                                                                        text-align: right;
+                                                                        a{
+                                                                            font: 0.7em @proxima-regular;
+                                                                            color: #000000;
+                                                                            border-bottom: 1px solid #cccccc;
+                                                                            &:hover{
+                                                                                color: @font-purple-light;
+                                                                                border-color: @font-purple-light;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                        }
                                                         .billing-addr-div {
                                                             
                                                                 .first-name,
@@ -1152,14 +1245,15 @@
                                                                         border-radius: 2px;
                                                                     }
                                                                 }
-                                                                 .save-addr-btn{
+                                                                 .save-addr-btn,.save-btn{
                                                                             padding: 0px;
-                                                                            margin-top: 15px;
+                                                                            margin-top: 20px;
                                                                             button {
                                                                                 .green-button;
                                                                                 height: 45px;
                                                                                 text-transform: uppercase;
                                                                                 font: 1.000em @proxima-bold;
+                                                                                width: 50%;
                                                                                
                                                                             }
                                                                         }
@@ -1259,6 +1353,11 @@
                                     }                            
 
                                                                     
+                                                                }
+                                                                &:first-child{
+                                                                    .card-cont-header{
+                                                                        font-size: 1.05em;
+                                                                    }
                                                                 }
                                                                 .panel-body{
                                                                     .card-remember {
@@ -1373,45 +1472,70 @@
                                                                 }
                                                             }
                                                             }
-                                                            .panel-open{
-                                                                .panel-heading{
-                                                                    background-color: #f9f9f9;
-                                                                    .panel-title{
-                                                                        color: #000000;
-                                                                        font-weight: normal;
-                                                                        opacity: 1;
-                                                                        i{
-                                                                            color: #ffffff;
-                                                                        }
-                                                                            .addCardHead{
+                                                            .addCardHead{
                                                                                 label{
                                                                                     .detailLabel{
                                                                                         color: @font-purple-dark;
                                                                                         cursor: pointer;
+                                                                                        margin-left: 15px;
                                                                                     }
                                                                                 }
                                                                             }
-                                                                    }
-                                                                    .addCardHead{
-                                                                        background-color: #ffffff;
-                                                                        padding: 10px;
-                                                                        margin: -10px;
-                                                                    }
-                                                                }
-                                                                .panel-body{
-                                                                    .card-info-cont.addCardForm{
+                                                            .card-info-cont.addCardForm{
                                                                         background-color: transparent;
                                                                         padding: 0px 50px;
 
                                                                         .addCardBillForm{
                                                                             padding: 0px;
                                                                             margin-top: 15px;
+
                                                                         }
+                                                                             .card-remember {
+                                                                                margin-top: 15px;
+                                                            .cuctom-checkbox;
+                                                            .Checkbox {
+                                                                &-visible {
+                                                                    width: 18px;
+                                                                    height: 18px;
+                                                                    border: 1px solid #dedede;
+                                                                }
+                                                                > input:checked + .Checkbox-visible {
+                                                                    background-position: 1px;
+                                                                }
+                                                            }
+                                                            label {
+                                                                margin-left: 10px;
+                                                                color: #464646;
+                                                                font: 0.875em @proxima-regular;
+                                                            }
+                                                        }
 
                                                                     }
+                                                            .cardActive{
+                                                               
+                                                                .card-cont-header{
+                                                                    background-color: #f9f9f9;
+                                                                  
+                                                                        color: #000000;
+                                                                        font-weight: normal;
+                                                                        opacity: 1;
+                                                                        i{
+                                                                            color: #ffffff;
+                                                                        }
+                                                                            
+                                                                    
+                                                                    .addCardHead{
+                                                                        background-color: #ffffff;
+                                                                        padding: 10px;
+                                                                        margin: -10px;
+                                                                    }
+                                                                }
+                                                                    
                                                                     .paymentTabBody{
                                                                         border: none;
                                                                     }
+                                                                .card-cont-body.paymentTabBody{
+                                                                    border: none;
                                                                 }
                                                             }
                                                         
@@ -1441,6 +1565,114 @@
                                                             }
                                                         }
                                                     }
+                                                    .charges{
+                                                        padding: 0px;
+                                                        .payment-container-header{
+                                                            margin: 20px 0px;
+                                                            span{
+                                                                    font: 0.9375em @proxima-bold;
+                                                                    text-transform: uppercase;
+                                                            }
+                                                        }
+                                                        .payment-container{
+
+                                                            div{
+                                                                padding: 0px;
+                                                            }
+                                                            .defaultCharge,.enterCharge{
+                                                                margin-bottom: 10px;
+                                                                label{
+                                                                    cursor: pointer;
+                                                                }
+                                                                input[type=radio]{
+                                                                    opacity: 0;
+                                                                    display: none;
+                                                                    &:not(old){
+                                                                        &+ label .radioOutline, &:checked + label .radioOutline{
+                                                                            border: 1px solid @base-bg-purple-dark;
+                                                                            border-radius: 50%;
+                                                                            background: transparent;
+                                                                            display: inline-block;
+                                                                            width: 18px;
+                                                                            height: 18px;
+                                                                            text-align: center;
+                                                                            vertical-align: middle;
+                                                                        }
+                                                                        &:checked + label .radioOutline .radioInside{
+                                                                            display: block;
+                                                                            width: 10px;
+                                                                            height: 10px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: @base-bg-purple-dark;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                        &+ label .radioOutline .radioInside{
+                                                                            display: block;
+                                                                            width: 10px;
+                                                                            height: 10px;
+                                                                            border-radius: 50%;
+                                                                            display: inline-block;
+                                                                            background-color: transparent;
+                                                                            position: absolute;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            right: 0;
+                                                                            bottom: 0;
+                                                                            margin: auto;
+                                                                        }
+                                                                    }   
+                                                                }
+                                                                .detailLabel{
+                                                                    font:1em @proxima-regular;
+                                                                    color: #464646;
+                                                                    vertical-align: middle;
+                                                                    cursor: pointer;
+                                                                    input{
+                                                                        margin: 10px 0;
+                                                                        width: 90%;
+                                                                        height: 45px;
+                                                                        -moz-border-radius: 2px;
+                                                                        -webkit-border-radius: 2px;
+                                                                        border-radius: 2px;
+                                                                        background: #F4F4F4;
+                                                                        display: inline-block;
+                                                                        box-shadow: none;
+                                                                        outline: 0;
+                                                                        -webkit-appearance: none;
+                                                                        width: 100%;
+                                                                        &:focus{
+                                                                            border: 1px solid #ccc;
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                                 button {
+                                                                .purple-button;
+                                                                color: #fff;
+                                                                text-transform: uppercase;
+                                                                font: 0.875em @proxima-bold;
+                                                                height: 45px;
+                                                                width: 150px;
+                                                                /*-moz-border-radius: 2px;
+                                                                -webkit-border-radius: 2px;
+                                                                border-radius: 2px;*/
+                                                                -moz-border-radius: 0px;
+                                                                -webkit-border-radius: 0px;
+                                                                border-radius: 0px;
+                                                                box-shadow: none;
+                                                                &:focus{
+                                                                    box-shadow: none;
+                                                                }
+                                                            }
+                                                            }
+                                                        }
+                                                    }
                                                     .payment-gift-card-info {
                                                         position: relative;
                                                         //background: #fafafa;
@@ -1464,6 +1696,10 @@
                                                                 border-radius: 2px;
                                                                 background: #F4F4F4;
                                                                 display: inline-block;
+                                                                box-shadow: none;
+                                                                &:focus{
+                                                                    border: 1px solid #ccc;
+                                                                }
                                                             }
                                                             .card-help-icon {
                                                                 height: 17px;
@@ -1883,6 +2119,23 @@
                 }
                 div {
                     padding: 0px;
+                    .panelIn-panel{
+                        .panel-group{
+                           .panel {
+                            .panel-heading{
+                            margin: 0px 5px;
+                            .panel-title{
+                                padding: 0px 0px 0px 15px !important;
+                                div{
+                                    .client-name,.client-zip-code{
+                                        font-size: 0.875em;
+                                    }
+                                }
+                            }
+                           } 
+                       }
+                        }
+                        }  
                     .accordion-block {
                         border-left: none;
                         border-right: none;
@@ -1899,9 +2152,38 @@
                                      }
                                     .panel-heading {
                                         border: none;
+                                        padding: 0px;
+                                        height: 40px;
                                         //border-top: 1px solid #f1f1f1;
                                         .panel-title {
                                             font: 0.750em @proxima-bold;
+                                               padding: 0;
+                                                position: relative;
+                                                top: 50%;
+                                                transform: translateY(-50%);
+                                                padding: 0px 10px;
+                                                span{
+                                                    vertical-align: middle;
+                                                }
+                                            .svg-green{
+                                                height: 19px;
+                                                width: 19px;
+                                                border-radius: 50%;
+                                                border:1px solid #82c752;
+                                                text-align: center;
+                                                padding: 1px;
+                                                display: inline-block !important;
+                                                vertical-align: middle;
+                                                margin: -1px 3px 0px 0px;
+                                                svg{
+                                                    height: 15px;
+                                                    width: 15px;
+                                                    fill:#82c752;
+                                                }
+                                            }
+                                            .edit-here{
+                                                margin-top: 3px;
+                                            }
                                         }
                                     }
                                     &.panel-open {
@@ -1976,7 +2258,7 @@
                                                     padding: 12px 26px;
                                                 }
                                                 .delivery-address-details {
-                                                    padding: 14px 17px 23px 17px;
+                                                    padding: 15px 10px;
                                                     .review-delivery-info {
                                                         font: 0.750em @proxima-regular;
                                                         .phone-no {
@@ -2005,7 +2287,7 @@
                                                                         .signedin-user-content {
                                                                             padding: 15px 0px 14px 15px!important;
                                                                             .client-address {
-                                                                                margin-top: 24px;
+                                                                                margin-top: 0px;
                                                                             }
                                                                             .client-edit {
                                                                                 right: 15px;

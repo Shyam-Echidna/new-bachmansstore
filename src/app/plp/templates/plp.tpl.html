@@ -9,15 +9,24 @@
       </div> -->
       <div class="plp-banner">
          <div class="visible-xs visible-sm hidden-md hidden-lg pad-top" ></div>
-         <div class="owl-carousel owl-loaded owl-drag" id="plp-carousel-banner">
+        <!--  <div class="owl-carousel owl-loaded owl-drag" id="plp-carousel-banner">
             <div class="owl-carousel-item">
                <img alt="{{plp.plpBannerTitle}}" src="{{plp.plpBannerImg}}">
                <div class="promo-banner-txt">
-                  <!-- <h4 class="">Roses</h4> -->
                   <h4 class="">{{plp.plpBannerTitle}}</h4>
                </div>
             </div>
+         </div> -->
+         <div class="owl-carousel owl-loaded owl-drag" id="plp-carousel-banner">
+           <!--  <h4 class="">{{plp.CurrentCatgory.Name}}</h4> -->
+            <div class="owl-carousel-item" ng-repeat="banner in plp.clpContentPlp" ng-if="banner.displayName == 'PLP_ASpot'" >
+                <img alt="{{vm.CurrentCatgory.Name}}" src="{{banner.contentUrl}}">
+                <div class="promo-banner-txt">
+                  <h4 class="">{{plp.CurrentCatgory.Name}}</h4>
+                </div>
+            </div>
          </div>
+         
       </div>
        <div class="category-pdt-carousel plp-hybrid-slider">
          <div class="owl-carousel owl-theme" id="owl-carousel-plp-hybrid">
@@ -674,7 +683,7 @@
 
                        <div ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" class="prodImagewrap" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}" ng-init="plp.selectedProductInfo[Parentindex]['prodId'] = prod.ID">
 
-                           <div id="feature-label" class="feature-label">
+                           <div id="feature-label" class="feature-label" ng-if="prod.isNew">
                               <div class="ribbon-wrapper">
                                  <div class="ribbon-front">
                                     <p>New</p>

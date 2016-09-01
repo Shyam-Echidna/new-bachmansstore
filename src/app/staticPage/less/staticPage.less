@@ -239,15 +239,26 @@
 		color: #666666;
 	}
 	table {
-		/*font: 14px/18px "Proxima Regular",
-Arial,
-sans-serif;
-				margin-top: 15px;
-				font-weight: normal;*/
+		font: 14px/18px "Proxima Regular",Arial,sans-serif;
+		margin-top: 15px;
+		font-weight: normal;
+		h3{
+	 		font-size:15px;
+	 		font-family:@proxima-bold;
+	 		margin-bottom:5px;
+		}
+		td{
+			padding:6px 12px;
+		}
+		width:100%;
+		p{
+		 text-align:left;
+		}
 	}
 	table ul li {
-		list-style-type: disc;
-		margin-left: 20px;
+		list-style-type:disc;
+		margin:5px 0 5px 20px;
+
 	}
 	table th {
 		background-color: #F7F7F7;
@@ -4581,6 +4592,7 @@ div.store {
 		.right-content{
 			.container-fluid{
 				.p0;
+			
 				.row.info-banner{
 					span{
 						font-size: 0.688em;
@@ -5268,6 +5280,231 @@ h4 {
 		}
 		a.selected {
 			border-bottom-color: @color0;
+		}
+	}
+}
+
+.mobile-event-calender {
+	padding: 0 10px;
+	.event-item {
+		border: 1px solid #e2e2e2;
+		.bachman-border-radius(5px);
+		.bachman-box-shadow(0 4px 10px #ddd);
+		padding: 0;
+		margin-bottom: 15px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		.title {
+			background-color: #f8f8f8;
+			padding: 15px 10px;
+			font: 1em @proxima-bold;
+			vertical-align: middle;
+			color: #474647;
+		}
+		.details {
+			padding: 15px 10px 5px;
+			.event-date {
+				.month {
+					color: #606060;
+					font: 0.75em @proxima-bold;
+					text-transform: uppercase;
+				}
+				.date {
+					color: #606060;
+					font: 1em @proxima-bold;
+				}
+				.day {
+					color: #bfbfbf;
+					font: 0.6em @proxima-bold;
+					text-transform: uppercase;
+				}
+			}
+			.event-time {
+				text-align: right;
+				padding-right: 10px;
+				.time {
+					color: #606060;
+					font: 0.75em @proxima-bold;
+					text-transform: uppercase;
+				}
+				.price {
+					color: @font-purple-dark;
+					font: 1em @proxima-bold;
+				}
+			}
+			.register {
+				button {
+					background-color: #afd833;
+					font: 0.875em @proxima-bold;
+					text-transform: uppercase;
+					letter-spacing: normal;
+					color: #fff;
+				    border-radius: 0;
+				    height: 35px;
+				    padding: 0 10px;
+				    width: 100%;
+				    .background-fade;
+				    &:hover {
+				    	background-color: @green-hover;
+				    }
+				    &.expired {
+						background: #f3f3f3;
+						color: #d7d7d7;
+						cursor: default;
+						&:hover {
+							background: #f3f3f3;
+							color: #d7d7d7;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.fc-ltr .fc-basic-view .fc-day-number {
+	text-align: left;
+	font: 1.25em @proxima-bold;
+	color: @base-bg-purple-light;
+	padding-left: 10px;
+	&.no-event {
+		text-align: center;
+	    position: relative;
+	    top: 20px;
+	    color: #9a9a9a;
+	    font: 1.5em @proxima-regular;
+	    line-height: normal;
+	}
+	&.fc-today {
+		color: @base-bg-purple-dark;
+		position: relative;
+		font-size: 1.4em;
+	}
+}
+.fc-unthemed .fc-today {
+    /*background: #f7eefe;*/
+    background: rgba(171, 157, 206, 0.25);
+}
+.fc-row .fc-content-skeleton {
+	z-index: 0;
+}
+.fc-event-container, .fc-event {
+	border: none;
+	.bachman-border-radius(0);
+	background: transparent;
+}
+.fc-event {
+	color: #000;
+	font: 0.875em @proxima-regular;
+	padding-left: 10px;
+	position: relative;
+	&:hover {
+		color: @base-bg-purple-light;
+	}
+	&:before {
+		content: '';
+		width: 5px;
+		height: 7px;
+		background-color: #afd833;
+		background-color: #afd833;
+	    position: absolute;
+	    left: 2px;
+	    top: 5px;
+	}
+}
+.fc-day-grid-event .fc-time {
+	font-weight: normal;
+}
+.fc-day-grid-event .fc-content {
+	white-space: normal;
+}
+.fc-other-month {
+	position: relative;
+	&:before {
+		content: '';
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
+		background-color: #f7f7f7;
+	}
+}
+.quickViewModal  {
+	.modal-dialog {
+		.calendar {
+			.fc-toolbar {
+				margin: 0;
+				padding: 15px 0;
+				background-color: @base-bg-purple-light;
+				color: #fff;
+				.fc-left, .fc-right {
+					padding: 0 20px;
+					font-size: 1em;
+					button {
+						border: none;
+						background-color: @base-bg-purple-light;
+						color: #ddd;
+						background-image: none;
+						text-shadow: none;
+						.bachman-box-shadow(none);
+						&:hover {
+							background-color: @base-bg-purple-light;
+						}
+						&:focus, &:active {
+							outline: none;
+						}
+						.fc-icon {
+							color: #fafafa;
+							font: 0.875em @proxima-regular;
+							height: 28px;
+							line-height: 28px;
+							position: relative;
+							overflow: initial;
+						}
+					}
+				}
+				.fc-icon-left-single-arrow:after {
+					font-size: 1.8em;
+					position: absolute;
+					top: -2px;
+					left: -15px;
+				}
+				.fc-icon-right-single-arrow:after {
+					font-size: 24px;
+					position: absolute;
+					top: -2px;
+					right: -15px;
+				}
+				.fc-center {
+					h2 {
+						font: 1.25em @proxima-bold;
+					}
+				}
+			}
+			.fc-view-container {
+				.fc-view {
+					.fc-head {
+						background-color: @base-bg-purple-dark;
+						.fc-head-container {
+							border: none;
+							table {
+								background-color: @base-bg-purple-dark;
+								.fc-day-header {
+									border: none;
+									color: #fafafa;
+									font: 1em @proxima-regular;
+									padding: 10px 0;
+								}
+							}
+						}
+					}
+				}
+			}
+			.fc-row table {
+				background-color: transparent;
+			}
 		}
 	}
 }

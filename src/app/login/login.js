@@ -270,11 +270,11 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
                   LastName: vm.newUser.Lastname,
                   Email: vm.newUser.Email,
                   Phone:'('+vm.newUser.Phone1+')' +' '+ vm.newUser.Phone2 + '-'+ vm.newUser.Phone3,
-                  SecurityProfileID: "65c976de-c40a-4ff3-9472-b7b0550c47c3",
+                 // SecurityProfileID: "65c976de-c40a-4ff3-9472-b7b0550c47c3",
                   Active: true,
             xp:{
                 "SecurityQuestion":{
-                    "Question":vm.newUser.securityQuestion,
+                    "Question":vm.selectedItem,
                     "Answer":vm.newUser.securityAnswer
                 }
             }
@@ -283,6 +283,11 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
         };
         OrderCloud.Users.Create(user).then(function(res){
             console.log(res);
+            var userGroupAssignment =  {
+          "UserGroupID": "DcNHCSSokkKqfhLzGr0Qvg",
+          "UserID": res.ID
+        }
+            OrderCloud.UserGroups.SaveUserAssignment(userGroupAssignment);
             $uibModalInstance.dismiss('cancel');
             // $state.go('home');
             vm.menuClass='unhide';

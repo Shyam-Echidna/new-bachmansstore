@@ -121,7 +121,7 @@
 					</div>
 					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -2" >
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -1 && $index !=  base.tree.length -3" >
 							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -220,7 +220,7 @@
 					</div>
 					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTab" id="menuCont">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index !=  base.tree.length -1 && $index !=  base.tree.length -3">
 							<a class="maincat_link" >{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -501,7 +501,7 @@
 					</div>
 					<ul class="menu-hover-cont2 menu-container" ng-show="base.hideOnClick">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav" ng-if="$index !=  base.tree.length -2">
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav" ng-if="$index !=  base.tree.length -1 && $index !=  base.tree.length -3">
 							<a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -599,7 +599,7 @@
 					</div>
 					<ul class="menu-hover-cont2 menu-container menu-container-tab" ng-show="base.hideOnClickTabSticky" id="menuCont">
 						<ul class="empty-div"></ul>
-						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index != base.tree.length -2">			
+						<li ng-mouseover = "base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()" ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index !=  base.tree.length -1 && $index !=  base.tree.length -3">			
 							<a class="maincat_link" >{{categories.Name}}</a>
 							<div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
 								<div class="menuScrollCont-inner">
@@ -1043,7 +1043,7 @@
 
 								<ul ng-show="base.menu1" class="menu-container mobile-menu-container mobile-dropdown-cont2">
 									<li class="sub-nav" ng-click="base.initialSetup2()"><a href=""><span>Menu</span></a></li>
-									<li ng-click="base.openMenuLevel2({childCount:categories.ChildCount,ID:categories.ID})" ng-repeat="categories in base.tree" ng-if="$index !=  base.tree.length -2" class="sub-nav">
+									<li ng-click="base.openMenuLevel2({childCount:categories.ChildCount,ID:categories.ID})" ng-repeat="categories in base.tree" ng-if="$index !=  base.tree.length -1 && $index !=  base.tree.length -3" class="sub-nav">
 										<a class="maincat_link">{{categories.Name}}</a>
 										<ul ng-show="base.menu2" class="subcat menu-l2-container mobile-dropdown-cont3">
 											<p ng-click="base.openMenuLevel1();$event.stopPropagation();"><span>SHOP PRODUCTS</span></p>

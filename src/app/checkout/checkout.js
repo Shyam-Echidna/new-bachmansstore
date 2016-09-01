@@ -509,6 +509,16 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
         // vm.openACCItems['deliveryFunc'] = true;
 	}
 
+	vm.setBillAddressForm = function (billingAddress) {
+		vm.billingAddress = billingAddress;
+		PdpService.GetPhoneNumber(billingAddress.Phone).then(function (resPhones) {
+			vm.billingAddress.Phone1 = resPhones[0];
+			vm.billingAddress.Phone2 = resPhones[1];
+			vm.billingAddress.Phone3 = resPhones[2];
+		});
+		vm.billingAddress.Zip = parseInt(billingAddress.Zip);
+	}
+
     vm.EditBillAddressForm = function (index, card) {
 		if (vm['EditBillAddress' + index]) {
 			vm['EditBillAddress' + index] = false;

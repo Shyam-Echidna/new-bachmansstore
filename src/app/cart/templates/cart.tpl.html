@@ -121,7 +121,7 @@
                   </div> -->
                     <div class="left-shopping" ng-repeat="(lineindex,line) in cart.lineVal">
                         <div class="client-info">
-                             <!--<div class="client-info" ng-init="edit=true">-->
+                            <!--<div class="client-info" ng-init="edit=true">-->
                             <!--editrecipientpopup-->
                             <!-- <div class="recipient-details">Recipient:
                         <span>
@@ -132,12 +132,13 @@
                         <input type="text" value="{{cart.groups[line][0].ShippingAddress.Zip}}" ng-model="cart.groups[line][0].ShippingAddress.Zip" ng-class="{strike: edit==false}" ng-readonly="edit" />
                         </span>
                      </div> -->
-                            <div class="recipient-details">Recipient:
-                                 <div class="detail">
+                            <div class="recipient-details">
+                                 <p class="detail">
+                                    <span class="recipent">Recipient:</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.FirstName}}">{{cart.groups[line][0].ShippingAddress.FirstName}}</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.LastName}}">{{cart.groups[line][0].ShippingAddress.LastName}}</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.Zip}}" >{{cart.groups[line][0].ShippingAddress.Zip}}</span>
-                                </div>
+                                </p>
                                 <!--<div ng-show='edit'>
                                     <span value="{{cart.groups[line][0].ShippingAddress.FirstName}}" ng-model="cart.groups[line][0].ShippingAddress.FirstName" ng-class="{strike: edit==false}" ng-readonly="edit" ng-attr-contenteditable="edit || undefined">{{cart.groups[line][0].ShippingAddress.FirstName}}</span>
                                     <span value="{{cart.groups[line][0].ShippingAddress.LastName}}" ng-model="cart.groups[line][0].ShippingAddress.LastName" ng-class="{strike: edit==false}" ng-readonly="edit">{{cart.groups[line][0].ShippingAddress.LastName}}</span>
@@ -168,11 +169,12 @@
                                         </div>
                                     </form>
                                 </div>-->
-                            </div>
-                            <div class="client-eidt">
+                                <p class="client-eidt">
                                 <a href="javascript:void(0)" ng-click="cart.editrecipientpopup(cart.groups[line])" >Edit</a>
                                 <!--<a href="javascript:void(0)" ng-click="edit=!edit; cart.editrecipient(cart.groups[line])" ng-show="edit==false">Save</a>-->
+                            </p>
                             </div>
+                            
                         </div>
 
 
@@ -207,8 +209,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row" ng-repeat="lineItem in cart.groups[line]">
+
+                                <div class="row" ng-repeat="(inlineidx,lineItem) in cart.groups[line]">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  recipient-products">
                                         <div class="product-info">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ui-sref="pdp({ProductID:lineItem.ProductID})">
@@ -234,16 +236,16 @@
                                                         <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
                                                             <ul class="list-inline change-link">
                                                                 <li>
-                                                                    <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip = !lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
+                                                                    <a href="javascript:void(0)" popover-trigger="outsideClick" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Show Product Requests</a>
+                                                                    <a href="javascript:void(0)" popover-trigger="outsideClick" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Product Requests</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
                                                     </ul>
                                                     <script type="text/ng-template" id="showproductrequest.html">
-                                                        <div class="showproductrequestdiv" click-outside="cart.closePopover()">
+                                                        <div class="showproductrequestdiv" click-outside="lineItem.showproductrequest = !lineItem.showproductrequest">
                                                             <div class="head-text">
                                                                 <p>Product request for Bachmans</p>
                                                                 <p class="editLink" ng-click="cart.productrequestpopup(lineItem)">Edit</p>
@@ -252,11 +254,57 @@
                                                         </div>
                                                     </script>
                                                     <script type="text/ng-template" id="deleteNote.html">
-                                                        <div class="change-recipient" click-outside="cart.closePopover()">
+                                                        <div class="change-recipient" click-outside="lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip">
                                                             <div class="arrow-up"></div>
                                                             <div class="change-recipient-info">
                                                                 <div class="recipient-header">
                                                                     Change Recipient
+
+                                                                   <p class="close-icon" ng-click="lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip">
+                <a>
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                        <g>
+                            <g>
+                                <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48" />
+                            </g>
+                            <g>
+                                <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5" />
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </p>
+                                                                </div>
+                                                              
+     
+                                                                <div class="recipient-info">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-4     recipient-content">
+                                                                            <div class="recipient-list">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        {{lineItem.ShippingAddress.FirstName +" "+ lineItem.ShippingAddress.LastName }}
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                            <div class="zip-code-list">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        {{lineItem.ShippingAddress.Zip}}
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                                                            <div class="qty-list">
+                                                                                <input type="text" name="quantity" class="input-lg" value="{{lineItem.Quantity}}" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="recipient-info">
                                                                     <div class="row">
@@ -264,9 +312,9 @@
                                                                             <div class="recipient-names">Recipient</div>
                                                                             <div class="recipient-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index" name="changerecipient">
-                                                                                        <input type="radio" id="cr{{$index}}" ng-click="cart.changeRecipientfun(lineItem, cart.groups[changerecipient][0])" value="changerecipient" name="check" ng-checked="cart.groups[changerecipient][0].ShippingAddress==lineItem.ShippingAddress">
-                                                                                        <label for="cr{{$index}}">
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index" name="changerecipient" >
+                                                                                        <input type="radio" id="cr{{inlineidx+''+$index}}" ng-click="cart.changeRecipientfun(lineItem, cart.groups[changerecipient][0],inlineidx+''+$index)" value="changerecipient" name="check" ng-checked="cart.groups[changerecipient][0].ShippingAddress==lineItem.ShippingAddress">
+                                                                                        <label for="cr{{inlineidx+''+$index}}">
 
                                                                                 <span class="radioOutline">
                                                                                     <span class="radioInside"></span>
@@ -281,18 +329,33 @@
                                                                             <div class="recipient-zip-code">Zip Code</div>
                                                                             <div class="zip-code-list">
                                                                                 <ul>
-                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index">{{cart.groups[changerecipient][0].ShippingAddress.Zip}}</li>
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index" >{{cart.groups[changerecipient][0].ShippingAddress.Zip}}</li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
                                                                             <div class="recipient-qty">Qty.</div>
                                                                             <div class="qty-list">
-                                                                                <input type="text" name="quantity" class="input-lg" value="{{lineItem.Quantity}}">
+                                                                                <ul>
+                                                                                    <li ng-show="cart.selectedRecipient[inlineidx+''+$index]" ng-repeat="changerecipient in cart.lineVal track by $index">
+                                                                                        <input type="text" name="quantity" class="input-lg" value="{{lineItem.Quantity}}" readonly>
+                                                                                    </li>
+                                                                                </ul>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                            <div class="create-recipient" ng-click="cart.changerecipientpopup(lineItem)">
+                                                                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                            <div class="qty-list">
+                                                                                <ul>
+                                                                                    <li ng-repeat="changerecipient in cart.lineVal track by $index">
+                                                                                        {{cart.groups[changerecipient][0].ShippingAddress.Street1 +" "+cart.groups[changerecipient][0].ShippingAddress.City+" "+cart.groups[changerecipient][0].ShippingAddress.State+" "+cart.groups[changerecipient][0].ShippingAddress.Phone}}
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>-->
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 newRecipientDiv">
+                                                                            <div class="row">
+                                                                                <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
+                                                                                <div class="create-recipient" ng-click="cart.changerecipientpopup(lineItem)">
                                                                                 <span><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                      viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                                                   <g>
@@ -302,6 +365,12 @@
                                                                   </svg>
                                                                   </span>Create a New Recipient
                                                                             </div>
+                                                                            </div>
+                                                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 okBtn">
+                                                                            <button ng-click="cart.changeRecipientConfirm(lineItem);lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip" ng-disabled="!cart.selectedRecipient[inlineidx+''+$index]">OK</button>
+                                                                            </div>
+                                                                            
+                                                                            
                                                                         </div>
                                                                         <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                             <div class="new-recipient-form">
@@ -352,11 +421,11 @@
                                                 </div>
 
 
-                          <!--</div>
+                                                <!--</div>
                           <div class="col-xs-12 col-sm-12 hidden-md hidden-lg mobile-edit-links">
                             <div class="edit-links">
                                         <ul class="list-inline">-->
-                                            <!-- <li>Edit</li> | 
+                                                <!-- <li>Edit</li> | 
                                             <li ng-click="cart.wishlist(lineItem.Product.ID)">Move to Wishlist</li>
                                             <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
                                                 <ul class="list-inline change-link">
@@ -384,18 +453,18 @@
                                                  </div>-->
 
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg mobile-edit-links">
+                                            <!--<div class="col-xs-12 col-sm-12 hidden-md hidden-lg mobile-edit-links">
                                                 <div class="edit-links">
-                                                    <ul class="list-inline">
+                                                    <ul class="list-inline">-->
                                                         <!-- <li>Edit</li> | -->
-                                                        <li ng-click="cart.wishlist(lineItem)">Move to Wishlist</li>
+                                                        <!--<li ng-click="cart.wishlist(lineItem)">Move to Wishlist</li>
                                                         <li class="change-recipient-links" ng-init="lineItem.showDeliveryToolTip=false;lineItem.showproductrequest=false">
                                                             <ul class="list-inline change-link">
                                                                 <li class="change-recipent-link">
                                                                     <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showDeliveryToolTip" ng-click="lineItem.showDeliveryToolTip = !lineItem.showDeliveryToolTip" uib-popover-template="cart.deleteNote.templateUrl">Change Recipient</a>
                                                                 </li>
                                                                 <li class="product-request-link">
-                                                                    <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Show Product Requests</a>
+                                                                    <a href="javascript:void(0)" popover-trigger="none" popover-is-open="lineItem.showproductrequest" popover-placement="bottom" ng-click="lineItem.showproductrequest = !lineItem.showproductrequest" uib-popover-template="cart.showproductrequest.templateUrl">Product Requests</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -408,7 +477,7 @@
                                                             </div>
                                                             <textarea ng-readonly="true" rows="7">{{lineItem.xp.productRequest}}</textarea>
                                                         </div>
-                                                    </script>
+                                                    </script>-->
                                                     <!--<script type="text/ng-template" id="deleteNote.html">
                                                         <div class="change-recipient" click-outside="cart.closePopover()">
                                                             <div class="arrow-up"></div>
@@ -506,8 +575,8 @@
                                                             </div>
                                                         </div>
                                                     </script>-->
-                                                </div>
-                                            </div>
+                                                <!--</div>-->
+                                            <!--</div>-->
                                             <!-- <div class="hidden-lg hidden-md col-sm-8 col-xs-8 mobile-recipent-info">
                <p class="custom-name">
                   Starry Night Boutonnière
@@ -546,6 +615,8 @@
                                         <div class="delivery-info">
                                             <!--<p>{{cart.groups[line][0].xp.deliveryDate | date: 'MMMM d, yyyy'}}</p>-->
                                              <p>{{lineItem.xp.deliveryDate | date: 'MMMM d, yyyy'}}</p>
+                                          
+                                             <p ng-if="lineItem.xp.notsameday" class="notSameDay">Please Change Date</p>
                                             <p>
 
                                                 <span class="edit-svg">
@@ -561,7 +632,9 @@
                                                 </span>
                                                 <a href='' ng-click="cart.changeDate(lineindex+''+$index)">Change Date</a>
                                                 <!-- <input type="date" ng-model="lineItem.xp.deliveryDate" ng-change="cart.changeDeliveryDate(lineItem)" ng-show="cart.changeDate" ng-attr-min="{{lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday}}"> -->
-                                                <input type="text" ng-change="cart.changeDeliveryDate(lineItem,lineindex+''+$index)" ng-show="!!cart.changeLineDate[lineindex+''+$index]" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineItem.xp.deliveryDate" is-open="lineItem.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday, startingDay: 1}" ng-required="true" />
+                                                <input type="text" ng-change="cart.changeDeliveryDate(lineItem,lineindex+''+$index)" ng-show="!!cart.changeLineDate[lineindex+''+$index]" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineItem.xp.deliveryDate"
+                                                    is-open="lineItem.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday, startingDay: 1}" ng-required="true"
+                                                />
                                                 <span class=" date-svg" ng-show="!!cart.changeLineDate[lineindex+''+$index]">
                                                     <span class="" ng-click="lineItem.openCalenderPopUp=!lineItem.openCalenderPopUp">
                                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
@@ -624,7 +697,7 @@
                                                 </span>
 
 
-                                               <!--  <a href='' ng-click="cart.changeDate(lineindex+''+$index)">Change Date</a>
+                                                <!--  <a href='' ng-click="cart.changeDate(lineindex+''+$index)">Change Date</a>
                                                 <input type="date" ng-model="lineItem.xp.deliveryDate" ng-change="cart.changeDeliveryDate(lineItem,lineindex+''+$index)" ng-show="cart.changeLineDate[lineindex+''+$index]" ng-attr-min="{{lineItem.xp.DeliveryMethod == 'UPS' ? lineItem.xp.MinDays.UPS : lineItem.xp.MinDays.MinToday}}"> -->
 
 
@@ -634,7 +707,7 @@
                                     </div>
                                     <div class="col-lg-1 col-md-1 hidden-sm hidden-xs custom-info">
                                         <div class="quantity-info">
-                                            <input type="number" name="quantity" class="input-lg custom-info" value="{{lineItem.Quantity}}" ng-model="lineItem.Quantity" ng-blur="cart.changeQuantity(lineItem)"/>
+                                            <input type="number" name="quantity" class="input-lg custom-info" value="{{lineItem.Quantity}}" ng-model="lineItem.Quantity" ng-blur="cart.changeQuantity(lineItem)" />
                                         </div>
                                     </div>
                                     <div class="col-lg-1 col-md-1 hidden-sm hidden-xs custom-info">
@@ -1028,7 +1101,7 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 hidden-sm hidden-xs">
                                                 <div class="checkout">
-                                                    <button ui-sref="checkout" class="btn-block">CHECKOUT</button>
+                                                    <button ui-sref="checkout" class="btn-block" ng-disabled="cart.disableCheckOut">CHECKOUT</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1117,70 +1190,71 @@
             </div>
         </div>
     </div>
-<div class="bachman-suggests">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="category-pdt-carousel">
-                <h1>Bachman's Suggests</h1>
-                <div class="owl-carousel owl-theme" id="owl-carousel-cart">
-                    <div class="owl-carousel-item">
-                        <div class="category-prod">
-                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" />
+    <div class="bachman-suggests">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="category-pdt-carousel">
+                    <h1>Bachman's Suggests</h1>
+                    <div class="owl-carousel owl-theme" id="owl-carousel-cart">
+                        <div class="owl-carousel-item">
+                            <div class="category-prod">
+                                <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" />
                             <img class="mobile-img" src="assets/images/batch3web/Shooping cart/pink-frills.jpg" /> -->
-                             <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}"/>
-                        </div>
-                        <div class="category-prod-desc">
-                            <div class="">
-                                <div class="category-prod-desc-web">
-                                    <p>Pink Frills</p>
+                                <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}" />
+                            </div>
+                            <div class="category-prod-desc">
+                                <div class="">
+                                    <div class="category-prod-desc-web">
+                                        <p>Pink Frills</p>
+                                    </div>
+                                    <h5 class="pdt-carousel-price">$59.99 - $00.09</h5>
                                 </div>
-                                <h5 class="pdt-carousel-price">$59.99 - $00.09</h5>
                             </div>
                         </div>
-                    </div>
-                    <div class="owl-carousel-item">
-                        <div class="category-prod">
-                           <!--  <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" />
+                        <div class="owl-carousel-item">
+                            <div class="category-prod">
+                                <!--  <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" />
                             <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Dazzler.jpg" /> -->
-                            <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}"/>
-                        </div>
-                        <div class="category-prod-desc">
-                            <div class="">
-                                <div class="category-prod-desc-web">
-                                    <p>Pink Frills</p>
+                                <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}" />
+                            </div>
+                            <div class="category-prod-desc">
+                                <div class="">
+                                    <div class="category-prod-desc-web">
+                                        <p>Pink Frills</p>
+                                    </div>
+                                    <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                                 </div>
-                                <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                             </div>
                         </div>
-                    </div>
-                    <div class="owl-carousel-item">
-                        <div class="category-prod">
-                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" />
+                        <div class="owl-carousel-item">
+                            <div class="category-prod">
+                                <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" />
                             <img class="mobile-img" src="assets/images/batch3web/Shooping cart/Herloom.jpg" /> -->
-                             <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" />
-                        </div>
-                        <div class="category-prod-desc">
-                            <div class="">
-                                <div class="category-prod-desc-web">
-                                    <p>Pink Frills</p>
+                                <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" />
+                            </div>
+                            <div class="category-prod-desc">
+                                <div class="">
+                                    <div class="category-prod-desc-web">
+                                        <p>Pink Frills</p>
+                                    </div>
+                                    <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                                 </div>
-                                <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                             </div>
                         </div>
-                    </div>
-                    <div class="owl-carousel-item">
-                        <div class="category-prod">
-                            <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" />
+                        <div class="owl-carousel-item">
+                            <div class="category-prod">
+                                <!-- <img class="desktop-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" />
                             <img class="mobile-img" src="assets/images/batch3web/Shooping cart/My Strength.jpg" /> -->
-                            <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}"/>
+                                <img class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}" />
 
-                        </div>
-                        <div class="category-prod-desc">
-                            <div class="">
-                                <div class="category-prod-desc-web">
-                                    <p>Pink Frills</p>
+                            </div>
+                            <div class="category-prod-desc">
+                                <div class="">
+                                    <div class="category-prod-desc-web">
+                                        <p>Pink Frills</p>
+                                    </div>
+                                    <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                                 </div>
-                                <h5 class="pdt-carousel-price">$59.99 - $79.99</h5>
                             </div>
                         </div>
                     </div>
@@ -1188,7 +1262,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 </div>

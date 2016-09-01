@@ -4,21 +4,21 @@
             <p class="wish-title">Thank You For Your Order!</p>
             <div class="order-id">
                 <h5>Look for an Email Shortly From Bachman's</h5>
-                <p>Your Order Confirmation #: <span>123456789067</span></p>
+                <p>Your Order Confirmation #: <span>{{orderConfirmation.order.ID}}</span></p>
                 <p class="next-links">
                     <a href="">Print Order Confirmation</a>
-                    <a href="">Continue Shopping</a>
+                    <a href="" ng-click="orderConfirmation.continueShopping()">Continue Shopping</a>
                 </p>
             </div>
-            <div class="registration-form">
+            <div class="registration-form" ng-if="!orderConfirmation.isLoggedIn">
                 <div class="before-register">
                     <div class="bgColor-mobile">
                         <p>Want Fast Checkout and Exclusive Access to Discounts and Services?</p>
                         <p class="one-step">Register in One Easy Step.</p>
                         <div class="auto-details">
-                            <p class="name">Name <span>Sam White</span></p>
-                            <p class="phone">Phone <span>(651)555-5555</span></p>
-                            <p class="email">Email <span>S.White@gmail.com</span></p>
+                            <p class="name">Name <span>{{orderConfirmation.user.Username}}</span></p>
+                            <p class="phone">Phone <span>{{orderConfirmation.user.Phone}}</span></p>
+                            <p class="email">Email <span>{{orderConfirmation.user.Email}}</span></p>
                         </div>
                         <div class="fill-form">
                             <form class="form-horizontal" role="form">

@@ -19,25 +19,67 @@ function CategoryConfig( $stateProvider ) {
 		  	resolve: {
 
 	  		categoryImages: function(CategoryService){
-			var ticket = localStorage.getItem("alf_ticket");
-			return CategoryService.GetCategoryImages(ticket).then(function(res){
-				return res.items;
-			});
-		},
-			
+				var ticket = localStorage.getItem("alf_ticket");
+				return CategoryService.GetCategoryImages(ticket).then(function(res){
+					return res.items;
+				});
+			},
+			             /*  CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous) {
+                    var dfd = $q.defer();
+                    OrderCloud.Me.Get()
+                        .then(function (data) {
+                            dfd.resolve(data);
+                        })
+                        .catch(function () {
+                            if (anonymous) {
+                                if (!OrderCloud.Auth.ReadToken()) {
+                                    OrderCloud.Auth.GetToken('')
+                                        .then(function (data) {
+                                            OrderCloud.Auth.SetToken(data['access_token']);
+                                        })
+                                        .finally(function () {
+                                            OrderCloud.BuyerID.Set(buyerid);
+                                            dfd.resolve({});
+                                        });
+                                }
+                            } else {
+                                OrderCloud.Auth.RemoveToken();
+                                OrderCloud.Auth.RemoveImpersonationToken();
+                                OrderCloud.BuyerID.Set(null);
+                                $state.go('login');
+                                dfd.resolve();
+                            }
+                        });
+                    return dfd.promise;
+                },*/
+	        ticketTemp: function (LoginFact) {
+                return LoginFact.GetTemp()
+                    .then(function (data) {
+                        console.log('555555555Alf',data);
+                        var ticket = data.data.ticket;
+                        localStorage.setItem("alfTemp_ticket", ticket);
+                        return ticket;
+                    }, function () {
+                        return "";
+                    })
+            },
 			Tree: function( CategoryService,$stateParams,$state,$timeout) {
 				if(parseInt($stateParams.childCount) != 0){
-				return CategoryService.listChild($stateParams.ID);
-			}
-			else{
+					return CategoryService.listChild($stateParams.ID);
 
+				}
+				else{
+					$timeout(function(){
+						$state.go('plp', {catId: $stateParams.ID});
+					},10);
+				}
+			},
+			CurrentCatgory: function($stateParams, OrderCloud, $q){
+              return OrderCloud.Categories.Get($stateParams.ID, "bachmans").then(function(res){
+              return res;
+              });  
 
-				$timeout(function(){
-				$state.go('plp', {catId: $stateParams.ID});
-				},10);
-
-			}
-			}
+            },
 		},
 			templateUrl: 'category/templates/category.tpl.html',
 			controller: 'CategoryCtrl',
@@ -45,7 +87,7 @@ function CategoryConfig( $stateProvider ) {
 		})
 }
 
-function CategoryService( $rootScope, $q, $localForage, Underscore, $http, OrderCloud, alfrescourl) {
+function CategoryService( $rootScope, $q, $localForage, Underscore, $http, OrderCloud, alfrescourl, alfrescoStaticurl, $stateParams) {
 	var service = {		
 		
 		GetCategoryTree: _getCategoryTree,
@@ -55,7 +97,8 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 		GetBestSellerProducts:_getBestSellerProducts,
 		GetQuickLinks:_getQuickLinks,
 		GetCategoryImages:_getCategoryImages,
-		GetGridImgs:_getGridImgs
+		GetGridImgs:_getGridImgs,
+		GetAlfCategories:_getAlfCategories
 	};
 		//console.log("categoryImages 60===",categoryImages);	
 		function _getCategoryTree() {
@@ -98,6 +141,7 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 		return deferred.promise;
 
 	}
+
 	function _getCategoryBanner(ticket) {
 		var defferred = $q.defer(); 
 		$http({
@@ -208,16 +252,40 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 		});
 		return defferred.promise;
 	}
+	function _getAlfCategories(ticket) {
+		var selectedCatID = $stateParams.ID;
+		console.log('selectedCatID', selectedCatID);
+
+		var catName = underscoreToSlash(selectedCatID);
+		console.log('catName...', catName);
+
+	    var defferred = $q.defer();
+	    $http({
+	      method: 'GET',
+	      dataType:"json",
+	      url: alfrescoStaticurl+"Categories/"+catName+"/Media?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+		  headers: {
+	        'Content-Type': 'application/json'
+	      }
+	    }).success(function (data, status, headers, config) {
+	      defferred.resolve(data);
+	    }).error(function (data, status, headers, config) {
+	      defferred.reject(data);
+	    });
+	    return defferred.promise;
+	}
 	return service;
 
 	}
-function CategoryController(OrderCloud, Tree, CategoryService, PlpService, $q, Underscore,$scope, $window, $sce, alfcontenturl, categoryImages) {
+function CategoryController(OrderCloud, Tree, CurrentCatgory,CategoryService, PlpService, $q, Underscore,$scope, $window, $sce, alfcontenturl, categoryImages, alfStaticContenturl,$stateParams,$http) {
 	var ticket = localStorage.getItem("alf_ticket");
 	var vm = this;
 	/*vm.categoryTree = Tree;
 	console.log("tree ==", Tree);
 	console.log("categoryImages==",categoryImages);
 	*/
+   vm.CurrentCatgory = CurrentCatgory;
+
 	var arr = [];
 for(var i=0;i<Tree.length;i++){
   ss(i);
@@ -240,10 +308,48 @@ if(arr.length>0){
 }
 else{
 	vm.categoryList = Tree;
+
+	CategoryService.GetAlfCategories(ticket).then(function(res){
+	    var clpContent = [];
+		angular.forEach(Underscore.where(res.items), function (node) {
+            node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+            clpContent.push(node);
+        });
+
+        vm.clpContent = clpContent;
+		var categoryListNew = [];
+		if(vm.clpContent.length == 0){
+			clpContent.push({contentUrl : 'assets/images/placement_for_catImage.jpg'});
+		}
+		for (var i = 0; i < vm.clpContent.length; i++) {
+			/*angular.forEach(Underscore.where(vm.clpContent, { displayName:  vm.categoryList[i].ID }), function (node) {
+				categoryListNew.push(node);
+			});*/
+			for(var j = 0; j < vm.categoryList.length; j++){
+				var matchCatID = Underscore.where(vm.clpContent, { displayName:  vm.categoryList[j].ID });
+				if(matchCatID.length > 0){
+					angular.forEach(matchCatID, function (node) {
+						categoryListNew.push(node);
+					});
+				}else{
+					categoryListNew.push({contentUrl : 'assets/images/placement_for_catImage.jpg'});
+				}
+				vm.categoryListNew = categoryListNew;
+				if(vm.categoryListNew.length>0){
+					if(vm.categoryListNew[j] != ''){
+						vm.categoryList[j].imgPath = vm.categoryListNew[j].contentUrl;
+					}
+				}
+				console.log("categoryList...", vm.categoryList);
+			}
+		}
+		return res;
+	});
 }
+
 function EventsList(){
 		var ajaxarr = [];
-		  CategoryService.listChild("c10").then(function(catList) {
+		  CategoryService.listChild("WorkshopsEvents").then(function(catList) {
 
          angular.forEach(catList, function(cat) {
        //  var promise = OrderCloud.Me.ListProducts(cat.ID);
@@ -307,7 +413,7 @@ function EventsList(){
 	function EventsList1(){
 
 			 var ajaxarr = [];
-        CategoryService.listChild("c10").then(function(catList) {
+        CategoryService.listChild("WorkshopsEvents").then(function(catList) {
          angular.forEach(catList, function(cat) {
           var promise = PlpService.GetProductAssign(cat.ID);
           ajaxarr.push(promise);
@@ -498,6 +604,7 @@ function EventsList(){
 
 	var cat_article_content = alfcontenturl + res.items[1].contentUrl + "?alf_ticket=" + ticket;
 	vm.cat_article_content = $sce.trustAsResourceUrl(cat_article_content);
+	console.log('ssssccce',vm.cat_article_content);
 
 	var cat_slot_info_bottomDesign = alfcontenturl + res.items[5].contentUrl + "?alf_ticket=" + ticket;
 	vm.cat_slot_info_bottomDesign = $sce.trustAsResourceUrl(cat_slot_info_bottomDesign);
@@ -541,4 +648,29 @@ function EventsList(){
 			vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
 	    
 });
+	CategoryService.GetAlfCategories(ticket).then(function(res){
+	    var clpContent = [];
+	    var clpContentHTML = [];
+	    if(res.items.length>0){
+			angular.forEach(Underscore.where(res.items), function (node) {
+	            node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+	            clpContent.push(node);
+	            clpContentHTML.push($sce.trustAsResourceUrl(node.contentUrl));
+	        });
+		}else{
+			clpContent.push({contentUrl : 'assets/images/placement_for_CLP_ASpot.jpg',
+							displayName : 'CLP_ASpot'});
+		}
+        vm.clpContent = clpContent;
+		vm.clpContentHTML = clpContentHTML;
+
+		console.log("clpContent...", vm.clpContent);
+		console.log("GetCategoriesAlfHTML...", vm.clpContentHTML);
+	});
+
 }
+function underscoreToSlash(input){
+
+      return input.replace(/_/g, '/');
+} 
+

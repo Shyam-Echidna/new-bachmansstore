@@ -462,7 +462,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		return defered.promise;
 	}
 	function _getSeqProd(sequence) {
-		var defferred = $q.defer();
+	/*	var defferred = $q.defer();
 		$http({
 			method: 'GET',
 			dataType: "json",
@@ -478,10 +478,33 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			defferred.resolve(data);
 		}).error(function (data, status, headers, config) {
 		});
-		return defferred.promise;
+		return defferred.promise;*/
+		var defferred = $q.defer();
+	OrderCloud.Products.List(null, 1, 100, null, null, {"xp.sequencenumber":sequence}).then(function(res){
+			// var d= $q.defer();
+			var queue = [];
+			 angular.forEach(res.Items, function (node) {
+			queue.push(getprices(node));
 
+    	});
+			$q.all(queue).then(function(items){
+				defferred.resolve(items);
+			});
+		})
+  return defferred.promise;
 	}
 
+	function getprices(node){
+		var d = $q.defer();
+			OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
+			 		OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (success) {
+           			node["StandardPriceSchedule"] = success;
+           			d.resolve(node);
+           		
+        		});
+			});
+			return d.promise;
+	}
 	function _getProductCodeImages(prodCode) {
 		var deferred = $q.defer();
 		var ticket = localStorage.getItem("alf_ticket");

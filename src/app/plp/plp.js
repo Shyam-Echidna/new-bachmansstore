@@ -25,7 +25,17 @@ function PlpConfig($stateProvider) {
             url: '/plp?catId&filters&productpage&infopage&tab&productssortby&infosortby&min&max',
            resolve: {
                
-
+            ticketTemp: function (LoginFact) {
+                return LoginFact.GetTemp()
+                    .then(function (data) {
+                        console.log('555555555Alf',data);
+                        var ticket = data.data.ticket;
+                        localStorage.setItem("alfTemp_ticket", ticket);
+                        return ticket;
+                    }, function () {
+                        return "";
+                    })
+            },
             DisjunctiveFacets: function ($stateParams) {
                 if ($stateParams.filters) {
                     var result = [];
@@ -212,7 +222,8 @@ function PlpConfig($stateProvider) {
                       var imgcontentArray = [];
                      var imgcontentArray1=[];
                       for(var i=0;i<items.length;i++){
-                        var item = items[i].Items;
+                       // var item = items[i].Items;
+                         var item = items[i];
                     for(var j=0;j<item.length;j++){
                         var matchedImage = Underscore.where(productImages, {title: item[j].ID});
                         if(matchedImage.length > 0){
@@ -415,7 +426,7 @@ function PlpConfig($stateProvider) {
 
 }
 
-function PlpService($q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, alfrescourl, $cookieStore) {
+function PlpService($q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, alfrescourl, $cookieStore, alfrescoStaticurl,$stateParams) {
 
     var service = {
         GetProductAssign: _getProductAssign,
@@ -429,7 +440,8 @@ function PlpService($q, OrderCloud, Underscore, $timeout, $http, alfcontenturl, 
         GetHybridBanner:_getHybridBanner,
         GetHelpAndPromo:_getHelpAndPromo,
         GetPromoSvgDesign:_getPromoSvgDesign,
-        GetAddToCart:_getAddToCart
+        GetAddToCart:_getAddToCart,
+        GetPlpBannerAlf:_getPlpBannerAlf
     }
 
 function _getProductList(res, productImages){
@@ -654,6 +666,29 @@ function _getProductList(res, productImages){
       });
       return defferred.promise;
     }
+    function _getPlpBannerAlf(ticket) {
+
+    var selectedPLpCatID = $stateParams.catId;
+    console.log('selectedPLpCatID', selectedPLpCatID);
+
+    var catName = underscoreToSlash(selectedPLpCatID);
+     console.log('selectedPLpCatID2', catName);
+
+      var defferred = $q.defer(); 
+      $http({
+      method: 'GET',
+      dataType:"json",
+      url: alfrescoStaticurl+"Categories/"+catName+"/Media?alf_ticket="+localStorage.getItem('alfTemp_ticket'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+      }).success(function (data, status, headers, config) {              
+      defferred.resolve(data);
+      }).error(function (data, status, headers, config) {
+      defferred.reject(data);
+      });
+      return defferred.promise;
+    }
 
 
     return service;
@@ -661,7 +696,7 @@ function _getProductList(res, productImages){
 
 
 
-function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWithVarients, Selections, ProductSearchResult, SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, /*productList, */$scope, alfcontenturl,OrderCloud,$sce) {
+function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWithVarients, Selections, ProductSearchResult, SharedData, $state, $uibModal,$q, Underscore, $stateParams,PlpService, /*productList, */$scope, alfcontenturl,OrderCloud,$sce,alfStaticContenturl) {
 
 
     var vm = this;
@@ -675,6 +710,7 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
          vm.Selections = Selections;
          vm.currentProductPage = $stateParams.productpage;
    console.log("CurrentCatgory==",CurrentCatgory);
+
    vm.CurrentCatgory = CurrentCatgory;
  vm.CustomFacetList = FacetList;
 // vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
@@ -1135,6 +1171,21 @@ vm.selectedColorIndex = 0;
     var plp_promo_svgDesign = alfcontenturl + res.items[6].contentUrl + "?alf_ticket=" + ticket;
     vm.plp_promo_svgDesign = $sce.trustAsResourceUrl(plp_promo_svgDesign);
   });
+    PlpService.GetPlpBannerAlf(ticket).then(function(res){
+        var clpContentPlp = [];
+        if(res.items.length>0){
+            angular.forEach(Underscore.where(res.items), function (node) {
+                node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                clpContentPlp.push(node);
+            });
+        }else{
+            clpContentPlp.push({contentUrl : 'assets/images/placement_for_PLP_ASpot.jpg',
+                            displayName : 'PLP_ASpot'});
+        }
+        vm.clpContentPlp = clpContentPlp;
+
+        console.log("clpContentPlp...", vm.clpContentPlp);
+    });
 
   $.fn.is_on_screen = function(){
      
@@ -1769,6 +1820,7 @@ function addedToCartController($scope, $uibModalInstance,$q, alfcontenturl,Order
     });
 
 
+
     /* cart popup pdts scroll */
     vm.shiftSelectedCartRight= function(){
       var currentPos = angular.element('#owl-carousel-added-cart-pdt .owl-carousel-item').scrollLeft();
@@ -1907,3 +1959,6 @@ function NewLabelDirective(){
         }
     }
 }
+function underscoreToSlash(input){
+      return input.replace(/_/g, '/');
+} 

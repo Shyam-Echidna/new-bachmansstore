@@ -2369,6 +2369,70 @@ span.ng-isolate-scope:active {
 .pdp-recipient-modal {
     min-height: 260px;
     overflow-y: auto;
+         .uib-datepicker-popup{
+                    border: none;
+                    border-radius: 0;
+                    width: 100%;
+                    -webkit-appearance:none;
+                    outline: 0;
+                        li{
+                            -webkit-appearance:none;
+                            outline: 0;
+                            div{
+                                width: 100%;
+                            }
+                            table{
+                                -webkit-appearance:none;
+                                outline: 0;
+                                width: 100%;
+                               th, tr td{
+                                    button{
+                                        border-radius: 0px;
+                                        border: none;
+                                        span{
+                                            color: #000;
+                                            &.text-muted{
+                                                color: #ccc;
+                                            }
+                                        }
+                                        &:hover,&.active,&.active:hover,&:active,&.btn-info{
+                                            background: @base-bg-purple-light;
+                                            border-color: @base-bg-purple-dark;
+                                            box-shadow: none;
+                                            -webkit-appearance:none;
+                                            span{
+                                                color: #fff;
+                                            }
+                                            i{
+                                                color:#fff;
+                                            }
+                                        }
+                                        &:hover{
+                                            background: transparent;
+                                             span ,i{
+                                                color: @base-bg-purple-dark;
+                                             }
+                                        }
+                                        
+                                    }
+                                    small,strong{
+                                        color: @base-bg-purple-dark;
+                                    }
+                                }
+                                th{
+                                    button{
+                                        &:active,&:focus{
+                                            background: transparent;
+                                            box-shadow: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        &:active,&:focus,&:hover,&:active:hover{
+                            border: none;
+                        }
+                }
     .title-bar {
         margin: 15px 0px;
         padding: 0px 30px;
@@ -2424,7 +2488,10 @@ span.ng-isolate-scope:active {
             }
         }
         .show-all{
-            float: right;
+            //float: right;
+            position: absolute;
+            right: 0px;
+            top: -25px;
             text-transform: uppercase;
             font-size: 0.875em;
         }
@@ -2590,27 +2657,7 @@ span.ng-isolate-scope:active {
                                     display: none;
                                 }
                                 }
-                            .label-left-align {
-                                margin-left: -5px;
-                                .svg-right {
-                                    vertical-align: middle;
-                                    display: inline-block;
-                                    height: 20px;
-                                    width: 20px;
-                                    border-radius: 50%;
-                                    background: green;
-                                    text-align: center;
-                                    svg {
-                                        height: 20px;
-                                        width: 16px;
-                                    }
-                                }
-                                .delivery-text {
-                                    display: inline-block;
-                                    font: 0.75em @proxima-regular;
-                                    line-height: 45px;
-                                }
-                            }
+                            
                         }
                         /*	&:nth-child(1){
 													padding-left:0px;
@@ -2644,7 +2691,7 @@ span.ng-isolate-scope:active {
 									}*/
         }
         .name-block {
-            margin-top: 20px;
+            margin-top: 10px;
             div:first-child {
                 .row {
                     div {
@@ -2658,6 +2705,8 @@ span.ng-isolate-scope:active {
                                 display: inline-block;
                                     &+.has-error{
                                         display: inline-block;
+                                        font-size: 0.7em;
+                                        width: 120%;
                                     }
                             }
                     }
@@ -2672,6 +2721,47 @@ span.ng-isolate-scope:active {
                     margin-left: -5px;
                 }
             }
+            .label-left-align {
+                                margin-left: -5px;
+                                .svg-right {
+                                    vertical-align: middle;
+                                    display: inline-block;
+                                    height: 20px;
+                                    width: 20px;
+                                    border-radius: 50%;
+                                    background: green;
+                                    text-align: center;
+                                    position: relative;
+                                    svg {
+                                        height: 20px;
+                                        width: 16px;
+                                        position: absolute;
+                                        left: 50%;
+                                        transform:translateX(-50%);
+                                    }
+                                }
+                                .delivery-text {
+                                    display: inline-block;
+                                    font: 0.75em @proxima-regular;
+                                    line-height: 45px;
+                                }
+                            }
+            .date-svg{
+                        position: absolute;
+                        top: 50%;
+                        transform:translateY(-50%);
+                        right: 12%;
+                        svg{
+                            height: 23px;
+                            width: 23px;
+                            fill:#464646;
+                            &:hover{
+                                fill:@base-bg-purple-dark;
+                            }
+                        }
+                    }
+                
+
         }
         .radio-btn-group {
             margin-top: 10px;
@@ -2814,71 +2904,7 @@ span.ng-isolate-scope:active {
                         }
                     }
                 }
-                .uib-datepicker-popup{
-                    border: none;
-                    border-radius: 0;
-                    width: 100%;
-                    -webkit-appearance:none;
-                    outline: 0;
-                        li{
-                            -webkit-appearance:none;
-                            outline: 0;
-                            div{
-                                width: 100%;
-                            }
-                            table{
-                                -webkit-appearance:none;
-                                outline: 0;
-                                width: 100%;
-                               th, tr td{
-                                    button{
-                                        border-radius: 0px;
-                                        border: none;
-                                        span{
-                                            color: #000;
-                                            &.text-muted{
-                                                color: #ccc;
-                                            }
-                                        }
-                                        &:hover,&.active,&.active:hover,&:active,&.btn-info{
-                                            background: @base-bg-purple-light;
-                                            border-color: @base-bg-purple-dark;
-                                            box-shadow: none;
-                                            -webkit-appearance:none;
-                                            span{
-                                                color: #fff;
-                                            }
-                                            i{
-                                                color:#fff;
-                                            }
-                                        }
-                                        &:hover{
-                                            background: transparent;
-                                             span ,i{
-                                                color: @base-bg-purple-dark;
-                                             }
-                                        }
-                                        
-                                    }
-                                    small,strong{
-                                        color: @base-bg-purple-dark;
-                                    }
-                                }
-                                th{
-                                    button{
-                                        &:active,&:focus{
-                                            background: transparent;
-                                            box-shadow: none;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        &:active,&:focus,&:hover,&:active:hover{
-                            border: none;
-                        }
-                }
-                .date-svg{
+                               .date-svg{
                         position: absolute;
                         top: 44%;
                         right: 7%;
@@ -2984,11 +3010,29 @@ span.ng-isolate-scope:active {
                     color: #464646;
                 }
             }
+            .pickUpDate,.searchPhone{
+                div{
+                    width: 100%;
+                }
+                .willCallDate{
+                    margin: 0px !important;
+                }
+            }
         }
         .cardmsg{
-            border-top: 2px solid #f4f4f4;
-            margin-top: -25px;
-            padding-top: 20px;
+        margin-top: -25px;
+            .back-btn {
+                        .purple-button;
+                        background-color: @base-bg-purple-light;
+                        color: #fff;
+                        font-size:0.9em;
+                        height: 2.813em;
+                        width: 13.125em;
+                        line-height: 2.813em;
+                        text-transform: uppercase;
+                        margin: 0px;
+                        margin-bottom: 30px;
+                    }
         }
         .total-block {
             margin-top: 25px;
@@ -3203,6 +3247,51 @@ span.ng-isolate-scope:active {
                                     }
                 }
 
+                &.disable-fields{
+                    input[type=text],select,input[type=number],input[type=date],
+                                                        input[type="search"],.radio-btn-group label{
+                                                            cursor: no-drop !important;
+                                                        }
+
+                    #disable-dDate{
+                        cursor: pointer !important;
+                    }
+                }
+
+                .savedRecipentDetail{
+                    margin: 10px 0px 30px 0px;
+                    .viewAddr{
+                        .cuctom-checkbox;
+                        .Checkbox{
+                            top: -1px;
+                            margin-right: 5px;
+                            .Checkbox-visible{
+                                height: 16px;
+                                width: 16px;
+                                background-position: 14px 0px;
+                            }
+                            &+label{
+                                cursor: pointer;
+                                margin-bottom: 0px;
+                            }
+                        }
+                    }
+                    .aboveRecipentHead{
+                        label{
+                            font:1em @proxima-regular;
+                            color: #666666;
+                            text-transform: uppercase;
+                            font-weight: bold;
+                        }
+                    }
+                    .addrDetail{
+                        .addrBookDetail,.aboveRecipentDetail{
+                            border-bottom: 1px solid #f1f1f1;
+                        }
+                    }
+                    
+                }
+
     }
     .accordion-block {
         .panel-group {
@@ -3220,16 +3309,20 @@ span.ng-isolate-scope:active {
                     background: @half-white;
                     color: #666;
                     border: none;
-                    padding: 20px 30px;
+                    padding: 0px 0px 0px 30px;
+                    height: 60px;
                     border-radius: 0px;
                     box-shadow: none;
                     border-bottom: 1px solid #ccc;
                     .panel-title {
                         font: 1em @proxima-regular;
-                        font-weight: bold;
+                        font-weight: normal;
                         text-transform: uppercase;
                         position: relative;
                         top: 0px;
+                        position: relative;
+                        top: 50%;
+                        transform:translateY(-50%);
                         .cuctom-checkbox;
                         .Checkbox{
                             top: -1px;
@@ -3241,12 +3334,60 @@ span.ng-isolate-scope:active {
                             }
                             &+label{
                                 cursor: pointer;
+                                margin-bottom: 0px;
                             }
                         }
+                        
+                            p{
+                               display: inline-block;
+                               vertical-align: middle; 
+                            }
+                            
+                       
+                            .recipentName{
+                                span{
+                                    border-right: 1px solid #ddcceb;
+                                    padding-right: 8px;
+                                    margin-right: 8px;
+                                    &:last-child{
+                                        border: none;
+                                        padding: 0px;
+                                        margin: 0px;
+                                    }
+                                }
+                            }
+                       
+                     
                         .panel-head-price {
                             float: right;
                             padding-right: 70px;
                             cursor: default;
+                            font-family: @proxima-bold;
+                            .qtyBox{
+                                margin-right: 20px;
+                                label,input{
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    font: 1em @proxima-regular;
+                                }
+                                input{
+                                    width: 70px;
+                                    font: 1em @proxima-regular;
+                                    background: #f6f6f6;
+                                    color: #000;
+                                    height: 2em;
+                                    border: 1px solid #e4e4e4;
+                                    box-shadow: none;
+                                    padding: 0px 0px 0px 10px;
+                                    line-height: 2em;
+                                    vertical-align: middle;
+                                    border-radius: 2px;
+                                    position: relative;
+                                    top: -3px;
+                                    border-radius: 0px;
+
+                                }
+                            }
                         }
                         a {
                             span {
@@ -3356,6 +3497,21 @@ span.ng-isolate-scope:active {
 			            font-size: 0.9em;
 			            margin-top: 5px;
 			        }
+                     button {
+                        .purple-button;
+                        background-color: @base-bg-purple-light;
+                        color: #fff;
+                        height: 2.813em;
+                        width: 13.125em;
+                        line-height: 2.813em;
+                        text-transform: uppercase;
+                        margin: 0px;
+                        &[disabled]{
+                                background: #ccc;
+                                border-color: #ccc;
+                                cursor: no-drop;
+                            }
+                    }
 			    }
 			}
         }
@@ -3386,16 +3542,24 @@ span.ng-isolate-scope:active {
         .panel-body-content{
             padding: 0px 10px;
             .cardmsg{
-                margin-top: 0px;
-                padding-top: 25px;
+                //margin-top: 0px;
+                padding-top: 0px;
+                .back-btn{
+                    width: 100%;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 0.875em;
+                }
             }
             .message-lines,.request-box{
                 width: 100%;
                 display: block;
                 clear: both;
                 padding: 0px !important;
-                input[type="text"], input[type="search"]{
+                input[type="text"], input[type="search"],input[type="number"],select{
                     font-size: 0.750em;
+                    height: 40px;
+                    line-height: 40px;
                 }
             }
             .view-address-link{
@@ -3441,8 +3605,10 @@ span.ng-isolate-scope:active {
                                     label{
                                         font-size:0.749em;
                                     }
-                                    input[type=text],select, input[type="search"]{
+                                    input[type=text],select, input[type="search"],input[type="number"]{
                                         font-size:0.750em;
+                                        height: 40px;
+                                        line-height: 40px;
                                     }
                                 }
                             &.col-xs-offset-0,&.col-sm-offset-0{
@@ -3459,8 +3625,18 @@ span.ng-isolate-scope:active {
                     .row{
                         div{
                             padding: 0px;
+                            #zip-code{
+                                &+.has-error{
+                                    width: 100%;
+                                    padding-left: 10px;
+                                }
+                            }
                         }
                     }
+                }
+                .label-left-align{
+                    width: 100%;
+                    text-align: center;
                 }
             }
             .radio-btn-group{
@@ -3552,7 +3728,10 @@ span.ng-isolate-scope:active {
         .panel-group{
             .panel{
                     .panel-heading{
-                        padding:20px 15px;
+                        padding:0px;
+                        height: 45px;
+                        line-height: 45px;
+                        padding: 0px 10px;
                             .panel-title{
                                 font-size:0.813em;
                                 .panel-head-price {
@@ -3563,7 +3742,7 @@ span.ng-isolate-scope:active {
                 .panel-collapse{
                     .panel-body{
                         padding:15px 0px;
-                            
+                            border: none;
                                 .total-block{
                                     margin-top: 25px;
                                     .bill-content,.total-price{
@@ -3597,8 +3776,8 @@ span.ng-isolate-scope:active {
                                     padding: 0px 10px;
                                     button{
                                         width: 100%;
-                                        height: 2.5em;
-                                        line-height: 2.5em;
+                                        height: 40px;
+                                        line-height: 40px;
                                         font-size: 0.875em;
                                     }
                                 }
@@ -3610,7 +3789,7 @@ span.ng-isolate-scope:active {
                 }
 
                 .next-btn{
-                    margin: 15px 0px 20px 0px;
+                    margin: 0px 0px 20px 0px;
                     //padding-bottom: 20px;
                     padding: 0px 10px;
                     text-align: center;
@@ -3632,9 +3811,19 @@ span.ng-isolate-scope:active {
                         padding: 0px;
                         button{
                             width: 100%;
-                            height: 2.5em;
-                            line-height: 2.5em;
+                            height: 40px;
+                            line-height: 40px;
                             font-size: 0.875em;
+                        }
+                    }
+                    .add-recipent{
+                        margin-top: 25px;
+                        button{
+                            width: 100%;
+                            margin-bottom: 10px;
+                            font-size: 0.875em;
+                            height: 40px;
+                            line-height: 40px;
                         }
                     }
                         

@@ -28,7 +28,8 @@ angular.module( 'orderCloud', [
         'cb.x2js',
         'ngScrollbar',
         'ngScrollable',
-         'cgBusy'
+         'cgBusy',
+         'ui.calendar'
     ])
 
     .run( SetBuyerID )

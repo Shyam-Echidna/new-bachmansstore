@@ -22,37 +22,35 @@
 	<div class="category-content row">
 		<h2>Flowers & Specialty Plants</h2>
 		<div>
-			<div class="fl category-content-sub col-md-6"><img class="col-xs-12 col-sm-12 col-md-12 col-lg-12" src="{{category.categoryBanner}}"/></div>
+			<div class="fl category-content-sub col-md-6">
+			<img class="col-xs-12 col-sm-12 col-md-12 col-lg-12" src="{{category.categoryBanner}}"/></div>
 			<div class="fr category-content-sub col-md-6"><img class="col-xs-12 col-sm-12 col-md-12 col-lg-12" src="{{category.categoryBanner}}"/></div></div>
 	</div> -->
-	<div class="category-banner row">
-		<!-- <img class="desktop-img" src="{{category.categoryBanner_ctg_banner}}"/>  -->
-		<img class="desktop-img" src="{{category.categoryBanner_ctg_banner}}"/>
-		<img class="mobile-img" src="{{category.categoryBanner_ctg_banner}}"/>
-		<!-- <img class="mobile-img" src="assets/images/mobile/clp/Aspot.jpg"/> -->
+	<div class="category-banner row" ng-repeat="content in category.clpContent" ng-if="content.displayName == 'CLP_ASpot'" >
+		<img class="" ng-src="{{content.contentUrl}}"/>
 		<div class="banner-content">
+			<h1>{{content.title}}</h1>
+			<div class="fl category-content-sub ">
+				<p>{{category.CurrentCatgory.Name}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="category-banner row" >
+		<!-- <img class="desktop-img" src="{{category.categoryBanner_ctg_banner}}"/>
+		<img class="mobile-img" src="{{category.categoryBanner_ctg_banner}}"/> -->
+		<!-- <div class="banner-content">
 			<h1>{{category.categoryBanner_ctg_bannerTitle}}</h1>
 			<div class="fl category-content-sub ">
 				<p>{{category.categoryBanner_ctg_bannerDescription}}</p>
 			</div>
-			<!-- <h1>Flowers & Specialty Plants</h1>
-			<div class="fl category-content-sub ">
-				<p>30% Off Our Signature Collection!</p>
-			</div> -->
-		</div>
+		</div> -->
 	</div>	
 	<div class="shop-by-category row">
-		<!-- <h2>Shop by Category</h2> -->
-		
-		<div class="categories col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="categories col-xs-12 col-sm-12 col-md-12 col-lg-12" >
 			<ul>					
 				<li ng-repeat="categories in category.categoryList" class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3">
 					<div class="ctg-product-img">
-						<img ng-if="!categories.imgContent" src="assets/images/cat4.png">
-
-						<img ng-if="categories.imgContent" class="desktop-img" src="{{categories.imgContent.contentUrl}}">
-						<img ng-if="categories.imgContent" class="mobile-img" src="{{categories.imgContent.contentUrl}}">
-						<!-- <img class="mobile-img" src="assets/images/mobile/clp/cat1.png"/> -->
+						<img ng-if="!categories.imgContent" src="{{categories.imgPath}}">
 		 				<div>
 							<a class="maincat_link" ui-sref="category({ID:categories.ID,childCount:categories.ChildCount})" >{{categories.Name}}</a>
 						</div>
@@ -61,43 +59,52 @@
 			</ul>
 		</div>
 	</div>
-	<div class="category-content row">
-		<!-- <h2>Flowers & Specialty Plants</h2>  -->
+	<div class="category-content row">		
 		<div class="fl category-content-sub col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="promo-banner col-xs-12 col-sm-12 col-md-12 col-lg-12 red">
-				<!-- <img class="col-xs-12 col-sm-12 col-md-12 col-lg-12" src="{{category.categoryBanner_cat_slot1}}"/>  -->
 				<img class="desktop-img" src="{{category.cat_slot1}}"/> 
 				<img class="mobile-img" src="{{category.cat_slot1}}"/>
-				<!-- <img class="mobile-img" src="assets/images/mobile/clp/cat_slot1.png"/> -->
 				<div class="promo-banner-txt">
 					<h1>{{category.cat_slot1Title}}</h1>
 					<p>{{category.cat_slot1Description}}</p>
 					<button class="transparent-button">{{category.cat_slot1BtnTxt}}</button>
-					<!-- <h1>Wedding Flowers By Bachman's</h1>
-					<p>Match your style and personality</p>
-					<button class="transparent-button">SHOP WEDDING FLOWERS</button> -->
 				</div>
 			</div>
 		</div>
+		<!-- <div class="fl category-content-sub col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<div class="promo-banner col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="promo in category.clpContent" ng-if="promo.displayName == 'promo_left_half'" >
+				<img src="{{promo.contentUrl}}"/> 
+				<div class="promo-banner-txt">
+					<h1>{{promo.title}}</h1>
+					<p>{{promo.description}}</p>
+					<button class="transparent-button">{{promo.author}}</button>
+				</div>
+			</div>
+		</div> -->
 		<div class="fr category-content-sub col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="cat-slot2 promo-banner col-xs-12 col-sm-12 col-md-12 col-lg-12 red">
-				<!-- <img class="desktop-img" src="{{category.categoryBanner3_cat_slot2}}"/> -->
 				<img class="desktop-img" src="{{category.cat_slot2}}"/> 
-				<img class="mobile-img" src="{{category.cat_slot2}}"/> 
-				<!-- <img class="mobile-img" src="assets/images/mobile/clp/cat_slot2.png"/>  -->
 				<div class="promo-banner-txt">
-					<!-- <h2>Designer's <br> Choice</h2>
-					<h3>Unique Inspirations</h3>
-					<button class="white-button">SHOP ARRANGEMENTS</button> -->
 					<h2>{{category.cat_slot2Title}}</h2>
 					<h3>{{category.cat_slot2Description}}</h3>
 					<button class="white-button">{{category.cat_slot2BtnTxt}}</button>
 				</div>
 			</div>
 		</div>
+		<!-- <div class="fr category-content-sub col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<div class="cat-slot2 promo-banner col-xs-12 col-sm-12 col-md-12 col-lg-12 " ng-repeat="promo in category.clpContent" ng-if="promo.displayName == 'promo_right_half'">
+				<img class="desktop-img" src="{{promo.contentUrl}}"/> 
+				<div class="promo-banner-txt">
+					<h2>{{promo.title}}</h2>
+					<h3>{{promo.description}}</h3>
+					<button class="white-button">{{promo.author}}</button>
+				</div>
+			</div>
+		</div> -->
 	</div>
 
 	<div class="category-promotions2 promo-banner row">
+		<!-- <img ng-repeat="promo in category.clpContent" ng-if="promo.displayName == 'promo_full_width'" class="desktop-img" src="{{promo.contentUrl}}"> -->
 		<img class="desktop-img"src="{{category.cat_artcle}}">
 		
 		<div class="promo-banner-txt promo-banner-txt-left">
@@ -106,11 +113,14 @@
 				<button>SHOP WEDDING FLOWERS</button>
 				<button>READ THE FULL ARTICLE</button> -->
 				<div ng-include="category.cat_article_content"></div>
+				<!-- <div ng-repeat="promo in category.clpContentHTML" ng-if="$index == 17" ng-include="promo"></div> -->
 		</div>
 		<div class="img-crop ratio-4-to-3">
 			<img class="mobile-img" src="assets/images/mobile/clp/Banner_4-bottom.png"/>
 		</div>
-		
+		<!-- <div class="img-crop ratio-4-to-3" ng-repeat="promo in category.clpContent" ng-if="promo.displayName == 'promo_full_width_mobile'">
+			<img class="mobile-img" src="assets/images/mobile/clp/Banner_4-bottom.png"/>
+		</div> -->	
 <!-- 		<div class="cat-promo-img col-md-6">
 			<img src="../assets/images/cat_promo2.png">
 		</div> -->
@@ -330,7 +340,7 @@
 	<div class="events-slider-home">
 		<div class="events-promo row">
 			<div class="events-promo-sub1 col-xs-12 col-sm-12 col-md-7 col-lg-7"><h1>Workshops & Events</h1><h2>Create your own arrangements, get inspired by the ideas house & more great events</h2></div>
-			<div class="events-promo-sub2 col-xs-12 col-sm-12 col-md-5 col-lg-5"><button class="promo-button" ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c10'})" >View All Workshops & Events</button></div>
+			<div class="events-promo-sub2 col-xs-12 col-sm-12 col-md-5 col-lg-5"><button class="promo-button" ui-sref="category({parentId:categories.ID,childCount:'2',ID:'WorkshopsEvents'})" >View All Workshops & Events</button></div>
 		</div>
 		<div class="events-slider-cont">
 			<div class="events-slider owl-carousel" id="owl-carousel-events">

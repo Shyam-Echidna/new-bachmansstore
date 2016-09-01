@@ -64,6 +64,13 @@ function BaseConfig( $stateProvider ) {
                                             dfd.resolve({});
                                         });
                                 }
+                                else{
+                                OrderCloud.Auth.RemoveToken();
+                                OrderCloud.Auth.RemoveImpersonationToken();
+                                OrderCloud.BuyerID.Set(null);
+                                $state.reload();
+                                dfd.resolve();
+                                }
                             } else {
                                 OrderCloud.Auth.RemoveToken();
                                 OrderCloud.Auth.RemoveImpersonationToken();
@@ -1261,8 +1268,27 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
             windowClass: 'loginModalBg',
             templateUrl: 'login/templates/login.modal.tpl.html',
             controller:'LoginCtrl',
-            controllerAs: 'login'
-            // size: 'sm'
+            controllerAs: 'login',           
+            resolve:{
+              emailSubscribeList:function(ConstantContact){
+                return ConstantContact.GetListOfSubscriptions();
+              },
+              CurrentUser: function($q, $state, OrderCloud) {
+                var dfd = $q.defer();
+                OrderCloud.Me.Get()
+                  .then(function(data) {
+                    dfd.resolve(data);
+                  })
+                  .catch(function(){
+                    OrderCloud.Auth.RemoveToken();
+                    OrderCloud.Auth.RemoveImpersonationToken();
+                    // OrderCloud.BuyerID.Set(null);
+                    $state.go('home');
+                    dfd.resolve();
+                  });
+                return dfd.promise;
+              }
+            }
         });
 
         modalInstance.result.then(function() {

@@ -1,0 +1,21 @@
+   <div class="row mobile-event-calender">
+
+    	<div class="col-xs-12 event-item" ng-repeat="event in events" ng-class="{'disable-box': event.isAvailable == false }">
+    		<p class="title">{{event.Name}}</p>
+    		<div class="col-xs-12 details">
+    			<div class="col-xs-2 p0 event-date">
+    				<p class="month">{{event.Month}}</p>
+    				<p class="date">{{event.day}}</p>
+    				<p class="day">{{event.week}}</p>
+    			</div>
+    			<div class="col-xs-5 p0 event-time">
+    				<p class="time">{{event.xp.slot}}</p>
+    				<p class="price">&#36;{{event.price}}</p>
+    			</div>
+    			<div class="col-xs-5 p0 register">
+    				<button type="button" class="btn green-btn" ng-disabled="!event.isAvailable">Register Now</button>
+    			</div>
+    		</div>
+    	</div>
+    	
+    </div>
