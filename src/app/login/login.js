@@ -20,7 +20,8 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
     return {
         SendVerificationCode: _sendVerificationCode,
         ResetPassword: _resetPassword,
-        GetCurrentUser:_GetCurrentUser
+        GetCurrentUser:_GetCurrentUser,
+        GetSignUpUpdateSubscription:_getSignUpUpdateSubscription
     };
 
     function _sendVerificationCode(email) {
@@ -78,12 +79,33 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
                                 })
                                 return dfd.promise;
     }
+    function _getSignUpUpdateSubscription(ConstantContactId, subscriptionList){
+      var params = {
+            "ConstantContactId": ConstantContactId
+        }
+        return ConstantContact.GetSpecifiedContact(params).then(function (res) {
+
+            var userSubscriptions = res.data.lists;
+            if (userSubscriptions) {
+                var userSubIds = Underscore.pluck(userSubscriptions, "id");
+                angular.forEach(subscriptionList.data, function (subscription) {
+                    if (userSubIds.indexOf(subscription.id) > -1) {
+                        subscription.Checked = true;
+                    }
+                })
+            }
+            return subscriptionList.data;
+        })
+
+  }
 }
 
 
-function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $exceptionHandler, LoginService, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window) {
+function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $stateParams, $exceptionHandler, LoginService, Underscore, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window,emailSubscribeList,ConstantContact) {
 
     var vm = this;
+      vm.user=CurrentUser;
+  console.log("vm.user",vm.user);
     vm.token = $stateParams.token;
     vm.form = vm.token ? 'reset' : 'login';
     vm.setForm = function(form) {
@@ -141,6 +163,7 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
                 LoginService.GetCurrentUser().then(function(res){
                     console.log(res);
                 })
+
             })
             .catch(function(ex) {
                // $exceptionHandler(ex);
@@ -257,12 +280,15 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
         $('.menu-class').addClass('unhide');
         $('.main-mobile-menu-container').toggleClass('show-hide');
     };
+    vm.emailSubscription = false;
+    vm.signUpLoginForm = true;
+
     vm.create = function() {
        //vm.newUser=Users;
        //vm.newUser={};
         //console.log(vm.newUser);
 
-        var user = {
+       var user = {
 
                   Username: vm.newUser.Email,
                   Password: vm.newUser.Password,
@@ -281,14 +307,15 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
 
 
         };
+
         OrderCloud.Users.Create(user).then(function(res){
-            console.log(res);
+            console.log('1111',res);
             var userGroupAssignment =  {
-          "UserGroupID": "DcNHCSSokkKqfhLzGr0Qvg",
-          "UserID": res.ID
-        }
+              "UserGroupID": "DcNHCSSokkKqfhLzGr0Qvg",
+              "UserID": res.ID
+            }
             OrderCloud.UserGroups.SaveUserAssignment(userGroupAssignment);
-            $uibModalInstance.dismiss('cancel');
+/*            $uibModalInstance.dismiss('cancel');*/
             // $state.go('home');
             vm.menuClass='unhide';
             angular.element('.menu-class').removeClass('hide');
@@ -297,15 +324,66 @@ function LoginController( OrderCloud,$state, $cookieStore, $stateParams, $except
             angular.element('.main-mobile-menu-container').toggleClass('show-hide');
             angular.element('.mobile-signout-guest').css('display','none');
             angular.element('.mobile-signout-notGuest').css('display','block');
-
-            console.log(user);
-            vm.submit(user);
-
+       
+            angular.element('.email-subscription').css('display','block');
+            vm.emailSubscription = true;
+            vm.signUpLoginForm = false;
+            vm.createConstantContactID(res);
+            vm.subscribeToList = emailSubscribeList.data;
+            console.log("subscribeToList--",vm.subscribeToList);
         },
         function(data){
             console.log(data);
             vm.signupError = "User already exists";
         })
-    };
-        
+        vm.createConstantContactID = function(user){
+          var obj = {
+                "firstname": user.FirstName,
+                "lastname": user.LastName,
+                "email": user.Email,
+                "lists":[
+                    {
+                        "id":"1156621276",
+                        "status": "ACTIVE"
+                    }
+                ]
+          }
+          var newCCArray = [];
+          ConstantContact.CreateContact(obj).then(function (res) {
+            console.log('CCID',res.data);
+            newCCArray.push(res.data);
+            vm.newCCArray = newCCArray;
+            var objID = {
+                "xp": {
+                     "ConstantContact": {
+                      "ID": res.data.id
+                    }
+                  }
+            }
+            /*if(vm.newCCArray[0].lists[0] == "1156621276"){
+            }*/
+            var currentUserId = user.ID;
+            OrderCloud.Users.Patch(currentUserId, objID).then(function(ccRes){
+              //console.log('ccPatchedID',ccRes);
+            })
+          })
+        }
+        vm.signUpUpdateContact = function () {
+          //console.log('2222',vm.newCCArray);
+          var list = Underscore.filter(vm.subscribeToList, function (subscription) {
+            return subscription.Checked == true;
+          })
+          var
+            objUp = {
+              "id":vm.newCCArray[0].id,
+              "lists":list,
+              "email_addresses": [{"email_address":vm.newCCArray[0].email_addresses[0].email_address}]
+          }
+          ConstantContact.UpdateContact(objUp).then(function(response) {
+            console.log('upres',response);
+          })
+          vm.submit(user);
+        };
+
+    };       
 }
