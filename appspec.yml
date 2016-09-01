@@ -24,9 +24,7 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
-  - source: /scripts/vhosts.conf
-    destination: /etc/nginx/conf.d/
-  - source: /
+  - source: /src
     destination: /opt/alfresco-community/tomcat/webapps/Bachmans
 #- source:
 #  destination:
