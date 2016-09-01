@@ -26,6 +26,8 @@ os: linux
 files:
   - source: /src
     destination: /opt/alfresco-community/tomcat/webapps/Bachmans
+  - source: /
+    destination: /opt/alfresco-community/tomcat/webapps/Bachmans
 #- source:
 #  destination:
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
