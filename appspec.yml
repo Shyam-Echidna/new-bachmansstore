@@ -4,7 +4,7 @@ files:
   - source: /scripts/vhosts.conf
     destination: /etc/nginx/conf.d/
   - source: /
-    destination: /var/www/
+    destination: /opt/alfresco-community/tomcat/webapps/Bachmans
 permissions:
   - object: /var/www/
     pattern: "*"
