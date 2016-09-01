@@ -6,7 +6,7 @@
 #   "AWS CodeDeploy User Guide" at
 #   http://docs.aws.amazon.com/codedeploy/latest/userguide/app-spec-ref.html
 version: 0.0
-os:linux 
+os: linux 
 # Specify "os: linux" if this revision targets Amazon Linux, 
 #   Red Hat Enterprise Linux (RHEL), or Ubuntu Server  
 #   instances.
