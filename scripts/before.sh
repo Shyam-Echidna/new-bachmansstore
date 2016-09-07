@@ -1,2 +1,2 @@
-cd /opt/alfresco-community/tomcat/webapps/Bachmans
+cd /var/www/html/Bachmans
 sudo rm -rf *
