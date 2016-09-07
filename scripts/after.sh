@@ -1,5 +1,5 @@
 source /home/ec2-user/.bash_profile
-cd /opt/alfresco-community/tomcat/webapps/Bachmans
+cd /var/www/html/Bachmans
 npm install --quiet -g grunt-cli karma bower
 npm install
 bower install --allow-root
