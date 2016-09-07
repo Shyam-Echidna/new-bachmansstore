@@ -693,8 +693,8 @@
                                                          <div class="recipientDetails">
                                                             <ul>
                                                                <li ng-repeat="(line,value) in checkout.groups">
-                                                                   <input type="radio" id="recipient1" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
-                                                              <label for="recipient1">
+                                                                   <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
+                                                              <label for="recipient_{{$index}}">
                                                                   <span class="radioOutline"><span class="radioInside"></span></span>
                                                                   <span class="label-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}} | {{checkout.groups[line][0].ShippingAddress.Zip}}</span>
                                                                   <span class="label-name right">{{checkout.groups[line][0].ShippingAddress.Street1}}, {{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}} </span>
@@ -776,11 +776,11 @@
                                                 </div>
                                              </form>
                                           </div>
-                                          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
+                                          <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
                                              <!-- accordion starts -->
                                              <div ng-repeat="card in checkout.creditcards.Items" class="cardHolder" ng-class="{'cardActive':card==checkout.selectedCard}">
                                                 <div class="card-cont-header">
-                                                   <input type="radio" id="checkout_{{$index}}" name="creditCardSelection" ng-model="checkout.selectedCard" ng-value="card">
+                                                   <input type="radio" id="checkout_{{$index}}" name="creditCardSelection" ng-model="checkout.selectedCard" ng-value="card" ng-change="checkout.setBillingAddress($index,card)">
                                                    <label for="checkout_{{$index}}">
                                                    <span class="radioOutline"><span class="radioInside"></span></span>
                                                    <span class="detailLabel">
@@ -988,9 +988,9 @@
                                                             </div>
                                                             <div class="col-xs-12 form-group phone-number">
                                                                <label for="phone1">Phone Number</label>
-                                                               <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.phone1" ng-minlength="3" ng-maxlength="3" max-length="3" required/>
-                                                               <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.phone1" ng-minlength="3" ng-maxlength="3" max-length="3" required/>
-                                                               <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.phone1" ng-minlength="4" ng-maxlength="4" max-length="4" required/>
+                                                               <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.Phone1" ng-minlength="3" ng-maxlength="3" max-length="3" required/>
+                                                               <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.Phone2" ng-minlength="3" ng-maxlength="3" max-length="3" required/>
+                                                               <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.Phone3" ng-minlength="4" ng-maxlength="4" max-length="4" required/>
                                                             </div>
                                                             <div class="col-xs-12 form-group email-addr">
                                                                <label for="address">Enter Your Email Address</label>
@@ -1366,7 +1366,8 @@
                                     </uib-tab>
                                  </uib-tabset>
                                  </div>
-                                 <div class="col-xs-12 order-amt-cont">
+                              </div>
+                              <div class="col-xs-12 order-amt-cont">
                                     <div class="amt-cont-cover">
                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
                                           <p class="title">Total Amount Payable</p>
@@ -1377,7 +1378,6 @@
                                        </div>
                                     </div>
                                  </div>
-                              </div>
                            </div>
                         </div>
                   </uib-accordion-group>
@@ -1393,7 +1393,8 @@
                      </uib-accordion-group>-->
                </uib-accordion>
                </div>
-               <div class="row review-order-part" ng-if="checkout.openACCItems.name=='review '">
+               </div>
+               <div class="row review-order-part" ng-if="checkout.openACCItems.name=='review'">
                   <div class="signInTab">
                      <p class="headPart" >
                         1. 
@@ -1404,7 +1405,8 @@
                         </a>
                         Sign In <span class="editLink">Edit</span>
                      </p>
-                     <p class="detailPart">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
+                     <p class="detailPart" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
+                     <p class="detailPart" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">Continue as <span class="fullName">Guest</span></p>
                   </div>
                   <div class="deliveryInfoTab">
                      <p class="headPart" >
@@ -1448,7 +1450,7 @@
                         </a>
                         Payment <span class="editLink">Edit</span>
                      </p>
-                     <div class="detailPart row">
+                     <div class="detailPart row" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                            <p class="fullName">{{checkout.selectedCard.CardholderName}}</p>
                         </div>
@@ -1470,6 +1472,28 @@
                            <p>100</p>
                         </div>
                      </div>
+                     <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                           <p class="fullName">{{checkout.addPaymentInfo.card.CardholderName}}</p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                           <p>{{checkout.billingAddress.Street1}}</p>
+                           <p>{{checkout.billingAddress.Street2}}</p>
+                           <p>{{checkout.billingAddress.City}}, {{checkout.billingAddress.State}}</p>
+                           <p>{{checkout.billingAddress.Zip}}</p>
+                           <p class="phone">{{checkout.billingAddress.Phone}}</p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                           <p class="cardTitle">Credit Card</p>
+                           <p>xxxx xxx xxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
+                           <p class="cardExpires">Card Expires</p>
+                           <p>{{checkout.addPaymentInfo.card.ExpMonth}}/{{checkout.addPaymentInfo.card.ExpYear}}</p>
+                        </div>
+                        <!--<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                           <p class="pPerksTitle">Purple Perks Dollars Applied</p>
+                           <p>100</p>
+                        </div>-->
+                     </div>
                   </div>
                   <div class="row review-content-btn">
                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1477,7 +1501,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            
             
          </div>
          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 order-details">

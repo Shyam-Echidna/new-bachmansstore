@@ -16,7 +16,8 @@ function PdpConfig($stateProvider) {
 			url: '/pdp/:sequence?prodId',
 			templateUrl: 'pdp/templates/pdp.tpl.html',
 			resolve: {
-				productDetail: function (PlpService, PdpService, $q, $stateParams, $http, OrderCloud) {
+				productDetail: function (PlpService, PdpService, $q, $stateParams, $http, OrderCloud, $cookieStore) {
+					console.log($cookieStore.get('BachmanStoreFront.token'));
 					var filter = { "xp.sequencenumber": $stateParams.sequence };
 					var deferred = $q.defer();
 					PdpService.GetSeqProd($stateParams.sequence).then(function (res) {
@@ -24,7 +25,7 @@ function PdpConfig($stateProvider) {
 						angular.forEach(res.Items, function (value, key) {
 							var promise = PdpService.GetProdInventory(value.ID).then(function (res) {
 								if (res.Available > 1) {
-									return value;
+								 return value;
 								}
 							});
 							console.log(promise);
@@ -462,48 +463,48 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		return defered.promise;
 	}
 	function _getSeqProd(sequence) {
+			var defferred = $q.defer();
+			$http({
+				method: 'GET',
+				dataType: "json",
+				url: "https://api.ordercloud.io/v1/me/products?xp.sequencenumber=" + sequence,
+	
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + OrderCloud.Auth.ReadToken()
+				}
+	
+			}).success(function (data, status, headers, config) {
+	
+				defferred.resolve(data);
+			}).error(function (data, status, headers, config) {
+			});
+			return defferred.promise;
 	/*	var defferred = $q.defer();
-		$http({
-			method: 'GET',
-			dataType: "json",
-			url: "https://api.ordercloud.io/v1/me/products?xp.sequencenumber=" + sequence,
-
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + OrderCloud.Auth.ReadToken()
-			}
-
-		}).success(function (data, status, headers, config) {
-
-			defferred.resolve(data);
-		}).error(function (data, status, headers, config) {
-		});
-		return defferred.promise;*/
-		var defferred = $q.defer();
-	OrderCloud.Products.List(null, 1, 100, null, null, {"xp.sequencenumber":sequence}).then(function(res){
+		OrderCloud.Products.List(null, 1, 100, null, null, { "xp.sequencenumber": sequence }).then(function (res) {
 			// var d= $q.defer();
 			var queue = [];
-			 angular.forEach(res.Items, function (node) {
-			queue.push(getprices(node));
+			angular.forEach(res.Items, function (node) {
+					queue.push(getprices(node));
 
-    	});
-			$q.all(queue).then(function(items){
+				});
+			$q.all(queue).then(function (items) {
 				defferred.resolve(items);
 			});
 		})
-  return defferred.promise;
+		return defferred.promise;*/
 	}
 
-	function getprices(node){
+	function getprices(node) {
 		var d = $q.defer();
-			OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
-			 		OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (success) {
-           			node["StandardPriceSchedule"] = success;
-           			d.resolve(node);
-           		
-        		});
+		OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
+			OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (success) {
+				node["StandardPriceSchedule"] = success;
+				d.resolve(node);
+
 			});
-			return d.promise;
+		});
+		return d.promise;
 	}
 	function _getProductCodeImages(prodCode) {
 		var deferred = $q.defer();
@@ -766,7 +767,7 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 	vm.multirecipient = function () {
 		$scope.items = "";
 
-		if (activeProduct) {
+		//if (activeProduct) {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdropClass: 'multiRecipentModal',
@@ -835,11 +836,11 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 			}, function () {
 				angular.noop();
 			});
-		}
-		else {
+		//}
+		//else {
 			//alert("Please select prodcut");
-			vm.multirecipientSelectErr = "Please select product";
-		}
+		//	vm.multirecipientSelectErr = "Please select product";
+		//}
 	}
 
 
@@ -1780,6 +1781,12 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 				console.log("SetShippingAddress", data);
 				alert("Data submitted successfully");
+				
+				if(new Number(newline.LineTotal)!= new Number(newline.xp.TotalCost)){
+					OrderCloud.Orders.Patch(args,{ShippingCost:new Number(newline.xp.TotalCost-newline.LineTotal)}).then(function(ord){
+						console.log("shippingcost"+ord);
+					})
+				}
 				updatedeferred.resolve('updated');
 
 			});
@@ -2012,11 +2019,25 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 						LineItemHelpers.GetProductInfo(res.Items).then(function () {
+							angular.forEach(res.Items, function(val,key){
+								console.log(val,key);
+								PdpService.GetProductCodeImages(val.ID).then(function(res1){
+									console.log(res1);
+									val.productimages=res1[0];
+								})
+							})
+							console.log("addedToCartPopUp",res);
 							deferred.resolve(res);
 						})
 					})
 					//}
 
+					return deferred.promise;
+				},
+				Ordertotal: function($q){
+					var deferred = $q.defer();
+					console.log('vm.order',vm.order);
+					deferred.resolve(vm.order);
 					return deferred.promise;
 				}
 			}
@@ -2215,7 +2236,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 		});
 		//lineitem.ShippingAddress = null;
+		lineitem.xp.deliveryDate=null;
 		lineitem.xp.addressType = addressType;
+		vm.sameDay[index]=false;
 		vm.name[index] = "";
 
 	}
@@ -3142,11 +3165,23 @@ function pdpAddedToCartController($scope, $uibModalInstance) {
 	};
 }*/
 
-function addedToCartController1($scope, $uibModalInstance, $state, Orderid, $cookieStore) {
+function addedToCartController1($scope, $uibModalInstance, $state, Orderid, $cookieStore, Ordertotal, PdpService, OrderCloud) {
 	var vm = this;
 	vm.orderid = Orderid.Items;
 	console.log(vm.orderid);
 	vm.checkout = checkout;
+	OrderCloud.Orders.Get(Ordertotal.ID).then(function(data){
+		console.log(data);
+		vm.ordertotal = data;
+	})
+	/*angular.forEach(vm.orderid, function(val, key){
+		console.log(val,key);
+		PdpService.GetProductCodeImages(val.ID).then(function(res){
+			console.log(res);
+			vm.orderid[key].productimages=res[0];
+		})
+	})*/
+	console.log(vm.orderid);
 	//vm.continueShopping=continueShopping;
 	function checkout() {
 		$state.go('checkout');

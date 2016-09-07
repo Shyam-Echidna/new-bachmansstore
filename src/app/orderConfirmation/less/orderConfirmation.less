@@ -8,6 +8,12 @@
         color: @font-purple-dark;
         text-transform: uppercase;
     }
+    .signupError{
+                color: #a94442;
+                text-align: left;
+                font-size: 0.9em;
+                padding: 0 60px;
+            }
     .order-id {
         margin: 25px 0px 35px 0px;
         h5 {
@@ -84,7 +90,7 @@
             }
         }
         .fill-form {
-            form {
+        
                 .form-group {
                     margin-bottom: 7px;
                 }
@@ -94,7 +100,7 @@
                     padding: 0px;
                     line-height: 45px;
                 }
-                input {
+                input,select {
                     height: 45px;
                     background: #f4f4f4;
                     border: 1px solid #e9e9e9;
@@ -102,25 +108,124 @@
                     border-radius: 0px;
                     width: 350px;
                     -webkit-appearance: none;
+                    & + .password-instruction{
+                display: none;
+                font: 0.8em @proxima-light;
+                color: @base-bg-purple-light;
+                margin: 10px 0px;
+                
+            }
+            &+span.has-error{
+                text-align: left;
+                font-size: 0.9em;
+            }
+                    &:focus::-webkit-input-placeholder { color:transparent; }
+            &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+            &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+            &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+            &:focus{
+                background: @base-bg-white;
+                & + .password-instruction{
+                display: block;
+            }
+        }
                 }
-                .checkbox-block {
+                .checkbox-block,.corporateEmp {
                     .cuctom-checkbox;
-                    .checkbox {
+                    .checkboxContainer {
                         text-align: left;
                         label {
                             font: 0.875em @proxima-regular;
                             color: #464646;
                             margin-left: 7px;
+                            cursor: pointer;
                         }
                         .Checkbox-visible {
                             height: 17px;
                             width: 17px;
                         }
                     }
-                    margin: 10px 0px 25px 0px;
+                    margin: 10px 0px 15px 0px;
                 }
-                
+                .security-qtn-block {
+            margin-bottom: 20px;
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                text-indent: 1px;
+                text-overflow: '';
+                background-image: url('../../assets/images/button-down.svg');
+                background-repeat: no-repeat;
+                background-position: right center;
+                background-size: 35px 12px;
             }
+            #security-select1{
+                
+                        background-color: #f4f4f4;
+                        font: 0.8em @proxima-light;
+                        font-weight: bold;
+                        //height: initial;
+                        color: @label-link-color;
+                        border-radius: 2px;
+                        border: none;
+                        border: 1px solid #e2e2e2;
+                        box-shadow: none;
+                        -webkit-appearance: none;
+                        outline: 0;
+                        padding: 0px 12px;
+                        vertical-align: middle;
+                        line-height: initial; 
+                        min-height: 45px;
+                        background-image: url(../../assets/images/button-down.svg);
+                        background-repeat: no-repeat;
+                        background-position: right center;
+                        background-size: 35px 11px;
+                        cursor: pointer;
+                        width: 350px;
+                        text-align: left;
+                        &.open{
+                             background-image: url(../../assets/images/button-up.svg);
+                        }
+                        #sort-dropdown{
+                            height: 100%;
+                        }
+                        p{
+                            .block-vertical-center(relative);
+                            font: 1.1em @proxima-regular;
+                        } 
+                 
+                ul{
+                    width: 101%;
+                    border-radius: 0px;
+                    margin: 0px;
+                    margin-left: -2px;
+                    z-index: 1;
+                    li{
+                        a{
+                            width: 100%;
+                            white-space: pre-line;
+                            padding:7px;
+                            font: 1em @proxima-regular;
+                            &:hover{
+                            color: @base-bg-purple-light;
+                            background: transparent;
+                            
+                        }
+
+                        }
+                        &:hover{
+                            color: @base-bg-purple-light;
+                        }
+                    }
+                }
+               
+            }
+            .security-answer{
+                margin-top: 7px;
+            }
+        }
+                
+            
         }
         .after-register {
             padding: 10px 0px;
@@ -152,7 +257,7 @@
 
 @media screen and (min-width:320px) and (max-width:810px) {
     .orderConfirmation {
-    padding: 30px 5px 15px 5px;
+    padding: 30px 5px 0px 5px !important;
     width: 100%;
     div{
         padding: 0px;
@@ -211,7 +316,8 @@
         }
         .mobileButton{
             margin-top: 15px;
-            border-bottom: 2px solid #edede9;
+            margin-bottom: 0px;
+            border-bottom: 1px solid #edede9;
             padding-bottom: 50px;
         }
         .auto-details {
@@ -225,7 +331,7 @@
             }
         }
         .fill-form {
-            form {
+           
                 text-align: left;
                 .form-group {
                     margin: 0px;
@@ -238,20 +344,29 @@
                 input {
                     height: 35px;
                     width: inherit;
+                     & + .password-instruction,& + span.has-error{
+                        font-size: 0.75em;
+                     }
                 }
-                .checkbox-block {
+                .checkbox-block,.corporateEmp {
                     .cuctom-checkbox;
-                    .checkbox {
+                    .checkboxContainer {
                         label {
-                            font-size: 0.7em;
+                            font-size: 0.75em;
                             color: #464646;
                             margin-left: 7px;
                         }
                     }
                     margin: 0px 0px 10px 0px;
                 }
-                
-            }
+               .security-qtn-block{
+                 #security-select1{
+                    width: 100%;
+                    font-size: 0.75em;
+                    min-height: 35px;
+                 }
+               } 
+            
         }
         .after-register {
             padding: 20px 0px;
@@ -276,5 +391,276 @@
             }
         }
     }
+}
+}
+
+
+//ipad portrait
+@media screen and (max-width: 768px) and (min-width: 738px) {
+  .orderConfirmation{
+    .registration-form{
+        .fill-form{
+             label{
+                text-align: left;
+            }
+        } 
+    }
+    }  
+}
+
+//samsung tab 4 landscape
+@media screen and (max-width:962px) and (min-width:900px) {
+    .orderConfirmation{
+        width: 70%;
+    .registration-form{
+        padding: 20px 10px;
+        .fill-form{
+           
+            .form-group{
+                .col-lg-4{
+                    width: 33.33333333%;
+                }
+                .col-lg-8{
+                    width: 66.66666667%;
+                }
+                .col-lg-offset-4 {
+                    margin-left: 33.33333333%;
+                }
+            }
+        } 
+    }
+    .visible-xs{
+        display: none !important;
+    }
+    .hidden-xs{
+        display: block !important;
+    }
+    }  
+
+}
+
+/* media queries for Tablets & Ipad -- landscape*/
+
+@media screen and (max-width: 1110px) and (min-width: 767px) {
+    .orderConfirmation{
+    .registration-form{
+        .fill-form{
+            label{
+                font-size: 0.86em;
+            }
+            .checkbox-block,.corporateEmp {
+                .checkboxContainer{
+                   label{
+                    font-size: 0.8em;
+                   } 
+                }
+                }  
+        } 
+    }
+    }  
+}
+
+/* Order Print */
+
+.printBlock{
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+    div{
+        padding: 0px;
+    }
+    padding: 10px;
+}
+#printableArea{
+    padding: 0px;
+    width: 100%;
+    text-align: left;
+    .orderId,.totalProducts{
+        font: 1em @proxima-regular;
+        color: #000000;
+        text-align: center;
+        span{
+            font:1.1em @proxima-bold;
+        }
+    }
+    .totalProducts{
+        margin-bottom: 15px;
+    }
+    .billingAddr{
+        margin-top: 20px;
+        clear: both;
+        h5{
+            font: 1em @proxima-bold;
+            color: #000000;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .shippedTo{
+            padding-left: 20px;
+        }
+        .addr{
+            border: 1px solid #000000;
+            padding: 10px;
+            vertical-align: top;
+
+            p{
+                font:1em @proxima-regular;
+                color: #666666;
+                &.fName{
+                    font-family: @proxima-bold;
+                    margin-bottom: 5px;
+
+                }
+            }
+
+        }
+         .itemDetail{
+            padding-top: 30px;
+            padding-bottom: 15px;
+
+            .headers{
+              
+                 padding: 15px 0px;
+                  background-color: #f5f5f5 !important;
+    -webkit-print-color-adjust: exact; 
+                p{
+
+                       
+                        font: 0.875em "ProximaNova-Regular", Arial, sans-serif;
+                        color: #424242 !important;
+
+                        &.product-count-header{
+                            padding-left: 10px;
+                        }
+                }
+            }
+            .det{
+                div{
+                    padding-top: 15px;
+                    .row{
+                        padding-top: 0px;
+                        div{
+                            padding-top: 0px;
+                        }
+                    }
+                }
+                .imgBlock{
+                padding-right: 5px;
+                }
+                p{
+                    font: 0.85em @proxima-regular;
+                    color: #464646;
+                    padding-left: 5px;
+                    &.productName{
+                        font: 1em @proxima-bold;
+                        color: #484848;
+                    }
+                    &.itemNumber{
+                        margin: 10px 0px 5px 0px;
+                    }
+                }
+            }
+        }
+    }
+    .total{
+       /* width: 50%;
+        position: relative;
+        left: 45%*/;
+        margin-top: 20px;
+       padding-left: 5%;
+        div{
+            padding-left: 0px;
+        p{
+            font: 1em @proxima-regular;
+            color: #464646;
+            margin-bottom: 5px;
+            display: inline-block;
+            width: 40%;
+            text-align: right;
+            &:last-child{
+                text-align: left;
+                margin-left: 20px;
+            }
+            &.gTotal{
+                font-size: 1.2em;
+                font-family: @proxima-bold;
+            }
+
+        }
+    }
+    }
+} 
+
+@page {
+  size: A4;
+  margin: 0;
+
+}
+
+@media only print{
+    html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+    .printBlock{
+        display: block !important;
+        
+    }
+    #printableArea{
+        padding: 0px 10px !important;
+    }
+    .col-lg-12{
+        width: 100%;
+    }
+    .itemDetail .col-lg-6,.det .col-lg-6{
+        width: 47%;
+        display: inline-block;
+        vertical-align: top;
+    }
+     .itemDetail .col-lg-2,.det .col-lg-2{
+        width: 16.66666667%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .itemDetail .col-lg-1,.det .col-lg-1{
+        width: 8.33333333%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .det .row .col-lg-4{
+        width: 30%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .det .row .col-lg-8{
+        width: 66.66666667%;
+        display: inline-block;
+        vertical-align: top;
+    }
+.orderConfirmation{
+    display: none !important;
+}
+#printableArea .billingAddr .addr{
+    //width: 40%;
+    //float: left;
+    //display: inline-block;
+    //vertical-align: top;
+   // margin-right: 1%
+}
+.billedTo,.shippedTo{
+    width: 49%;
+    display: inline-block;
+}
+.total{
+        margin-left: 50% !important ;
+        width: 48% !important;
+        div{
+            p{
+                width: 30% !important;
+                &:first-child{
+                    width: 60% !important;
+                }
+            }
+        }
 }
 }

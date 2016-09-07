@@ -110,6 +110,9 @@
             }
         }
         .products-description {
+             .left-shopping{
+                    margin-bottom: 30px;
+                }
             .row {
                 div {
                     &.order-div{
@@ -225,7 +228,7 @@
                             border-bottom: 1px solid #f0f0f0;
                             .product-header {
                                 background: #f5f5f5;
-                                padding: 20px 0px;
+                                padding: 17px 0px;
                                 font: 0.875em @proxima-regular;
                                 color: #424242;
                                 .delivery-header,
@@ -342,7 +345,7 @@
                                                                      border-right: 2px solid #d1d1d1;
                                                                      padding-right: 5px;
                                                                      .popover{
-                                                                        z-index: 1;
+                                                                        z-index: 2;
                                                                         top: 0 !important;
                                                                         left: 0 !important;
                                                                         border: transparent;
@@ -353,6 +356,9 @@
                                                                                 }
                                                                             }
                                                                      }
+                                                                }
+                                                                &.qtyBorder{
+                                                                    border: none;
                                                                 }
                                                                 &:last-child{
                                                                     .popover{
@@ -619,7 +625,7 @@
                                     .change-recipient {
                                         position: absolute;
                                         background: #fff;
-                                        top: 176px;
+                                        top: 40px;
                                         z-index: 11;
                                         .arrow-up:after {
                                             content: '';
@@ -803,6 +809,11 @@
                                                     width: 100%;
                                                     height: 30px;
                                                     line-height: 30px;
+                                                    &[disabled]{
+                                background: #ccc;
+                                border-color: #ccc;
+                                cursor: no-drop;
+                            }
 
                                                 }
 
@@ -867,7 +878,7 @@
                                 .recipient-total {
                                     background: #f5f5f5;
                                     text-align: right;
-                                    padding: 14px 0px;
+                                    padding: 12px 0px;
                                     .recipient-total-info {
                                         font: 1.063em @proxima-regular;
                                         color: #464646;
@@ -1032,6 +1043,11 @@
                                                 .green-button;
                                                 font: 1.000em @proxima-bold;
                                                 height: 50px;
+                                                &[disabled]{
+                                                    background: #ccc;
+                                                    border-color: #ccc;
+                                                    cursor: no-drop;
+                                                }
                                             }
                                         }
                                     }
@@ -1304,8 +1320,9 @@
 /* media queries -- all mobiles & ipad portrait */
 
 @media only screen and (min-width:320px) and (max-width:810px) {
-    .container-fluid.cart-page.ng-scope {
-        padding: 75px 0px 0px 0px;
+    .container-fluid.cart-page {
+        //padding: 75px 0px 0px 0px;
+        padding: 0px !important;
     }
     .cart-page {
         .promo-banner {
@@ -1402,6 +1419,9 @@
                 }
             }
             .products-description {
+                 .left-shopping{
+                    margin-bottom: 10px;
+                }
                 .row {
                     div {
                         padding: 0px;
@@ -1486,8 +1506,93 @@
                                                     }
                                                 }
                                             }
+                                            .edit-links {
+                                                margin-left: -62%;
+                                                width: 162%;
+                                                .list-inline{
+                                                    li{
+                                                        font: 0.75em @proxima-regular;
+                                                padding: 0px;
+                                                color: #2c2c2c;
+                                                border-bottom: 1px solid #cacaca;
+                                                cursor: pointer;
+                                                display: block;
+                                                &:hover {
+                                                    color: #8b5bb3 !important
+                                                } 
+                                                    }
+                                                    .change-link{
+                                                        li{
+                                                            a{
+                                                                 font: 0.75em @proxima-regular;
+                                                padding: 0px;
+                                                color: #2c2c2c;
+                                                border-bottom: 1px solid #cacaca;
+                                                cursor: pointer;
+                                                &:hover {
+                                                    color: #8b5bb3 !important
+                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    } 
+                                            }
                                         }
-                                        .mobile-edit-links {
+
+                                    }
+                                        }
+                                    }
+                                    hr {
+                                        margin: 14px 0px;
+                                    }
+                                    padding:10px 10px 0 10px;
+                                    .level-promo {
+                                        font: 0.556em @neutraface-book !important;
+                                        width: 100%;
+                                        span {
+                                            font: 1.000em @neutraface-bold !important;
+                                        }
+                                    }
+                                    
+                                    
+                                    .recipient-total {
+                                        padding: 14px 10px 14px 0px;
+                                        margin:15px -10px 0px -10px;
+                                        .recipient-total-info {
+                                            font: 0.722em @proxima-regular;
+                                            span {
+                                                font: 1.077em @proxima-bold;
+                                            }
+                                        }
+                                    }
+                                }
+                                .mobile-checkout-info {
+                                    box-shadow: 0 -4px 5px #e2e2e2;
+                                    margin-top: 5px;
+                                    .total-amt {
+                                        font: 0.667em @proxima-regular;
+                                        text-align: center;
+                                        line-height: 46px !important;
+                                        span {
+                                            font: 1.167em @proxima-bold;
+                                        }
+                                    }
+                                    .checkout {
+                                        button {
+                                            .green-button;
+                                            height: 47px;
+                                            font: 0.778em @proxima-bold;
+                                            &[disabled]{
+                                background: #ccc;
+                                border-color: #ccc;
+                                cursor: no-drop;
+                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                         .mobile-edit-links {
                                         .view-location,
                                         .edit-product,
                                         .wishlist-link {
@@ -1515,6 +1620,7 @@
                                                 &:hover {
                                                     color: #8b5bb3 !important
                                                 }
+                                                
                                             }
                                             .change-recipient-links {
                                                 border-bottom: 1px solid transparent
@@ -1531,7 +1637,11 @@
 
                                                     border-right: 1px solid #909090;
                                                     padding-right: 7px;
+                                                    &:last-child{
+                                                        border-right: none;
+                                                    }
                                                     &.change-recipent-link{
+                                                        position: relative;
                                                         .popover {
                                                             left: 0px !important;
                                                             z-index: 1;
@@ -1603,9 +1713,10 @@
                                                 .change-recipient {
                                                     position: absolute;
                                                     top: 34px;
-                                                    width: 16.850em;
+                                                    width: initial;
                                                     font-size: 18px;
                                                     z-index: 1;
+                                                    width: 17em;
                                                     .change-recipient-info {
                                                         padding: 0px 5px !important;
                                                         .create-recipient {
@@ -1618,8 +1729,10 @@
                                                             .recipient-list {
                                                                 ul {
                                                                     li {
-                                                                        font-size: 18px;
+                                                                        font-size: 0.75em;
                                                                         border: none;
+                                                                        line-height: initial;
+                                                                        min-height: initial;
                                                                         label {
                                                                             font: 0.667em @proxima-regular;
                                                                         }
@@ -1653,54 +1766,6 @@
                                             }
                                         }
                                     }
-                                    }
-                                        }
-                                    }
-                                    hr {
-                                        margin: 14px 0px;
-                                    }
-                                    padding:10px 10px 0 10px;
-                                    .level-promo {
-                                        font: 0.556em @neutraface-book !important;
-                                        width: 100%;
-                                        span {
-                                            font: 1.000em @neutraface-bold !important;
-                                        }
-                                    }
-                                    
-                                    
-                                    .recipient-total {
-                                        padding: 14px 10px 14px 0px;
-                                        margin:15px -10px 0px -10px;
-                                        .recipient-total-info {
-                                            font: 0.722em @proxima-regular;
-                                            span {
-                                                font: 1.077em @proxima-bold;
-                                            }
-                                        }
-                                    }
-                                }
-                                .mobile-checkout-info {
-                                    box-shadow: 0 -4px 5px #e2e2e2;
-                                    margin-top: 5px;
-                                    .total-amt {
-                                        font: 0.667em @proxima-regular;
-                                        text-align: center;
-                                        line-height: 46px !important;
-                                        span {
-                                            font: 1.167em @proxima-bold;
-                                        }
-                                    }
-                                    .checkout {
-                                        button {
-                                            .green-button;
-                                            height: 47px;
-                                            font: 0.778em @proxima-bold;
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                     div {
                         .order-summary-info {
@@ -2006,6 +2071,9 @@
         }
         .shopping-cart-info {
             .products-description {
+                .left-shopping{
+                    margin-bottom: 10px;
+                }
                 .row {
                     .shopping-content {
                         padding: 0px;
@@ -2762,12 +2830,12 @@
 /* Media Querties */
 
 @media only screen and (min-width:320px) and (max-width: 810px) {
-    .changerecipientpopup {
-        .modal-dialog {
-            width: 100%;
-            left: 0%;
-        }
+   .changeRecipientpopup,.editRecipientPopupCart{
+    .modal-dialog {
+        width: 100%;
+        left: 0%;
     }
+}
     .change-recipient-modal {
         padding: 20px 10px;
         max-height: 100% !important;
@@ -2780,13 +2848,34 @@
         }
         .head-title{
             .title{
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
             .close-icon{
                 top: 10px;
                 right: 10px;
             }
         }
+        .radio-btn-group{
+                    padding: 0px;
+                    width: 100%;
+                label{
+                    font-size:0.874em;
+                    padding: 0px;
+            }       
+        
+                .receipient-location{
+                    width: 100%;
+                    padding-bottom: 10px;
+                    .radio-inline{
+                        width: 50%;
+                        display: inline-block;
+                        float: left;
+                        padding: 0px;
+                        margin: 0px 0px 15px 0px;
+                        padding-left: 5%;
+                    }
+                }
+            }
         .address-book{
             .view-address-link{
                 font-size: 0.9em;
@@ -2820,6 +2909,14 @@
             .row{
                 div{
                     padding: 0px;
+                    &.col-md-offset-1{
+                        margin: 0px;
+                    }
+                }
+            }
+            .funeral-det,.patient-det{
+                .lastName{
+                    padding-left: 0px;
                 }
             }
         }
@@ -3043,4 +3140,40 @@
 
             }
         }   
+}
+
+
+
+
+/* clear Cart , Prodct and Move to Wishlist PopUp */
+
+.confirmPopup {
+ .modal-dialog {
+        width:40%;
+        left:30%;
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: none;
+            text-align:center;
+            padding:20px 0px;
+         p{
+          font:1em @proxima-regular;
+          color:#424242;
+          margin-bottom:15px;
+         }
+         button{
+          &.save-btn{
+           .green-button;
+          }
+          &.cancel-btn{
+           .white-button;
+           background:#f4f4f4;
+           margin-left:30px;
+          }
+           height:2.5em;
+           line-height:2.5em;
+           width:100px;
+         }
+        }
+    }
 }

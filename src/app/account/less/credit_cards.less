@@ -185,6 +185,7 @@
 	    			}
     			}
     			.address-info {
+    				float: right;
     				.billing-addr {
     					padding: 0 15px 0 0;
     					margin-left: 30px;
@@ -208,9 +209,39 @@
 	    					.custom-select-box;
 	    				}
 	    			}
+	    			.addnewlink {
+	    				background: #fff;
+		                color: @font-purple-light;
+		                font: 0.875em @proxima-bold;
+		                display: inline-block;
+		                margin-top: 40px;
+		                cursor: pointer;
+		                &:hover {
+		                	color: @font-purple-dark;
+		                }
+	    			}
+	    			.address-book-container .row-address-search, 
+	    			.address-book-container .row-address-search .add-new-addr-cont
+	    			{
+	    				padding: 0 0 0 15px;
+	    				border: none;
+	    				margin: 0;
+	    			}
+	    			.address-book-container .row-address-search .add-new-addr-cont {
+	    				background-color: #fff;
+	    			}
+	    			.address-book-container .row-address-search .add-new-addr-cont .title {
+	    				padding-top: 0;
+	    				margin-top: 0;
+	    			}
+	    			.address-book-container .row-address-search .add-new-addr-cont .add-new-addr-div {
+	    				width: 100%;
+	    			}
     			}
     			.nav-buttons {
     				margin-top: 25px;
+    				float: left;
+    				clear: both;
     				.navig-btns {
     					padding: 0;
 	    				.savebtn {
@@ -253,6 +284,9 @@
 	    						}
 	    					}
 	    				}
+	    			}
+	    			&.withNewAddr {
+	    				clear: none;
 	    			}
     			}
     		}
@@ -399,6 +433,7 @@
 	    			.address-info {
 	    				margin-top: 25px;
 	    				padding: 0;
+	    				float: none;
 	    				.billing-addr {
 	    					padding: 0;
 	    					margin-bottom: 0;
@@ -414,9 +449,25 @@
 		                        .bs-inset-remove;
 		    				}
 		    			}
+		    			.addnewlink {
+		    				margin: 15px 0;
+		    			}
+		    			.address-book-container .row-address-search, 
+	    				.address-book-container .row-address-search .add-new-addr-cont
+	    				{
+	    					padding: 0;
+	    				}
+	    				.address-book-container .row-address-search .add-new-addr-cont {
+	    					border-bottom: 1px solid #aaa;
+	    				}
+	    				.address-book-container .row-address-search .add-new-addr-cont .add-new-addr-div .add-new-addr-form .phone-number {
+	    					width: 75%;
+	    				}
 	    			}
 	    			.nav-buttons {
 	    				margin-top: 25px;
+	    				float: none;
+					    width: 100%;
 	    				.navig-btns {
 	    					padding: 0;
 		    				.savebtn {
@@ -551,6 +602,16 @@
 						.billing-addr {
 							width: 75%;
 						}
+						.addnewlink {
+							margin-top: 0;
+							margin-bottom: 10px;
+							padding-left: 25px;
+						}
+						.address-book-container .row-address-search .add-new-addr-cont,
+						.address-book-container .row-address-search .add-new-addr-cont .add-new-addr-div .add-new-addr-form .phone-number
+						{
+							width: 100%;
+						}
 					}
 				}
 			}
@@ -600,6 +661,17 @@
 						.billing-addr {
 							margin-left: 0;
 						}
+						.addnewlink {
+							margin-top: 0;
+						}
+						.address-book-container .row-address-search, 
+	    				.address-book-container .row-address-search .add-new-addr-cont
+	    				{
+	    					padding: 0;
+	    				}
+	    				.address-book-container .row-address-search .add-new-addr-cont {
+	    					padding-top: 15px;
+	    				}
 					}
 				}
 			}
@@ -738,6 +810,11 @@
 	    						float: left;
 	    					}
 		    			}
+		    			.address-book-container .row-address-search, 
+	    				.address-book-container .row-address-search .add-new-addr-cont
+	    				{
+	    					padding-left: 15px;
+	    				}
 	    			}
 	    			.nav-buttons {
 	    				width: 60%;

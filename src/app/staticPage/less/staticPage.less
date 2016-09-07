@@ -239,7 +239,7 @@
 		color: #666666;
 	}
 	table {
-		font: 14px/18px "Proxima Regular",Arial,sans-serif;
+		
 		margin-top: 15px;
 		font-weight: normal;
 		h3{
@@ -249,11 +249,19 @@
 		}
 		td{
 			padding:6px 12px;
+
 		}
 		width:100%;
 		p{
 		 text-align:left;
 		}
+		td {
+			font: 0.875em @proxima-regular;
+		}
+
+		th {
+		font: 0.875em @proxima-bold;
+		}	
 	}
 	table ul li {
 		list-style-type:disc;
@@ -263,6 +271,11 @@
 	table th {
 		background-color: #F7F7F7;
 	}
+	.table-header{
+	 background: #f7f7f7;
+	}
+	
+
 }
 
 .table-first {
@@ -977,12 +990,12 @@ h3.accordion {
 										/*font: 16px @proxima-bold;*/
 										margin-top: 0;
 										&.footer-plus {
-											background-image: url('../assets/images/plus-light.svg');
+											background-image: url('/assets/images/plus-light.svg');
 											.background-img(11px,
 											right);
 										}
 										&.footer-minus {
-											background-image: url('../assets/images/minus-light.svg');
+											background-image: url('/assets/images/minus-light.svg');
 											.background-img(11px,
 											right);
 											color: @font-purple-dark;
@@ -4590,6 +4603,12 @@ div.store {
 	.right-content-Wrap{
 		.p0;
 		.right-content{
+		     .table-responsive {
+			    display: block;
+			    width: 100%;
+			    min-height: .01%;
+			    overflow-x: auto;
+			}
 			.container-fluid{
 				.p0;
 			

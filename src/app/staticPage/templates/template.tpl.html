@@ -31,8 +31,8 @@
                     {{folder.title}}
                 </div>
                 <uib-accordion close-others="true">
-                    <uib-accordion-group is-open="$index==template.isOpen" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-init="template.getFirstThingsFromALfresco(subfolder,$index)">
-                        <uib-accordion-heading ng-click="template.populateTabs(folder,subfolder,$index)">
+                    <uib-accordion-group is-open="$index==template.isOpen" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
+                        <uib-accordion-heading>
                             <svg class="close" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24"
                                  height="24" viewBox="0 0 24 24" ng-if="subfolder.subfolders.items.length>3">
@@ -49,7 +49,7 @@
                                 <rect y="10" width="50" height="8"/>
 
                             </svg>
-                            <span ng-click="template.populateTabs(folder,subfolder,$index)">{{subfolder.title}}</span>
+                            <span ng-click="template.populateTabs(folder,subfolder,$index,$event)">{{subfolder.title}}</span>
                         </uib-accordion-heading>
                         <div class="receipient-drpDown">
                             <ul>

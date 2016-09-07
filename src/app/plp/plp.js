@@ -19,10 +19,13 @@ angular.module('orderCloud')
 function PlpConfig($stateProvider) {
     $stateProvider
         .state('plp', {
-            parent: 'base',
-           // url:"/plp",
+            parent: 'base',           
             //url: '/plp/:catId',
             url: '/plp?catId&filters&productpage&infopage&tab&productssortby&infosortby&min&max',
+                     ncyBreadcrumb: {
+                    label: 'plp page',
+            parent:'category'
+                  },
            resolve: {
                
             ticketTemp: function (LoginFact) {
@@ -222,8 +225,8 @@ function PlpConfig($stateProvider) {
                       var imgcontentArray = [];
                      var imgcontentArray1=[];
                       for(var i=0;i<items.length;i++){
-                       // var item = items[i].Items;
-                         var item = items[i];
+                     var item = items[i].Items;
+                        // var item = items[i];
                     for(var j=0;j<item.length;j++){
                         var matchedImage = Underscore.where(productImages, {title: item[j].ID});
                         if(matchedImage.length > 0){

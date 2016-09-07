@@ -535,9 +535,11 @@
                                                                         border-radius: 2px;
                                                                         .delivery-days1 {
                                                                             width: 28%;
+                                                                            border-right: 1px solid #ededed;
                                                                         }
                                                                         .delivery-days2 {
                                                                             width: 32%;
+                                                                            border-right: 1px solid #ededed;
                                                                         }
                                                                         .delivery-days3 {
                                                                             width: 40%;
@@ -1027,7 +1029,7 @@
                                                                         width: 17px;
                                                                         border: 1px solid #8c58b5;
                                                                         border-radius: 50%;
-                                                                        margin-left: 10px;
+                                                                        margin-left: 7%;
                                                                         text-align: center;
                                                                         padding: 0px 1px;
                                                                         svg{
@@ -1229,6 +1231,8 @@
                                                                 .phone-number {
                                                                     padding: 0;
                                                                     margin: 25px 0 0 0;
+                                                                    position:relative;
+                                                                    margin-bottom:20px;
                                                                     label {
                                                                         color: #464646;
                                                                         font: 1em @proxima-regular;
@@ -1243,6 +1247,10 @@
                                                                         font: 1em @proxima-regular;
                                                                         height: 45px;
                                                                         border-radius: 2px;
+                                                                    }
+                                                                    .help-block.has-error.error-msg{
+                                                                        position: absolute;
+                                                                        top: 75px;
                                                                     }
                                                                 }
                                                                  .save-addr-btn,.save-btn{
@@ -1766,9 +1774,14 @@
                                                             float: right;
                                                             .order-amt {
                                                                 width: auto;
+                                                                float:none;
+                                                                vertical-align: middle;
+                                                                display: inline-block;
                                                                 .title {
                                                                     font: 1.1875em @proxima-regular;
                                                                     color: #464646;
+                                                                    padding-top:0;
+                                                                    margin-bottom:0;
                                                                 }
                                                                 .amount {
                                                                     font: 1.25em @proxima-bold;
@@ -1777,6 +1790,9 @@
                                                             }
                                                             .review-order {
                                                                 width: auto;
+                                                                float:none;
+                                                                vertical-align: middle;
+                                                                display: inline-block;
                                                                 button {
                                                                     /*.green-button;*/
                                                                     /*background: #7cc548;*/
@@ -1884,6 +1900,8 @@
                                                 text-transform: capitalize !important;
                                                 font-weight: bold;
                                                 color: @font-purple-dark;
+                                                vertical-align: top;
+                                                line-height: 35px;
                                             }
                                         .client-zip-code{
                                             border-left: 1px solid #c7c7c7;
@@ -1995,12 +2013,12 @@
                                                 background: transparent;
                                                 text-align: center;
                                                 border: 1px solid red;
+                                                line-height:15px;
                                             svg{
                                                 fill: red;
-                                                height: 10px;
-                                                width: 10px;
-                                                position: relative;
-                                                top: -5px;
+                                                height: 11px;
+                                                width: 11px;
+                                                padding:1px;
                                             }
                                         }
                                         .total-order-info {

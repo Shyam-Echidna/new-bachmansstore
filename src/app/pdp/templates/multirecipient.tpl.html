@@ -27,15 +27,18 @@
                 <uib-accordion-heading>
                    
 
-                    <p ng-class="{'footer-minus': multipleRecipient.openRecipient[$index], 'footer-plus': !multipleRecipient.openRecipient[$index]}">
+                    <p ng-class="{'footer-minus': multipleRecipient.openRecipient[$index], 'footer-plus': !multipleRecipient.openRecipient[$index]}"></p>
                     <p class="recipentName">
                          <div class="Checkbox">
-                            <input id="check{{$index+1}}" type="checkbox" ng-model="multipleRecipient.addAddress[$index]" ng-change="multipleRecipient.checkAddRecipient(lineitem,$index)" ng-click="$event.stopPropagation();" />
+                            <input id="check{{$index+1}}" type="checkbox" ng-model="multipleRecipient.addAddress[$index]" ng-change="multipleRecipient.checkAddRecipient(lineitem,$index)" ng-click="$event.stopPropagation()" />
                             <div class="Checkbox-visible"></div>
                         </div>
-                        <label for="check{{$index+1}}" class="recipentName"><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
-                    <span>{{lineitem.ShippingAddress.Zip}}</span>
-                </label>
+                        <label for="check{{$index+1}}" class="recipentName">
+                            <span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                            <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
+                            <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
+                            <span>{{lineitem.ShippingAddress.Zip}}</span>
+                        </label>
                     
                      </p>
                                                         
@@ -44,7 +47,7 @@
                         <p class="panel-head-price" >
                               <span class="qtyBox">
                                <label for="qty">Qty</label>
-                                <input type="text" id="qty" class="form-control" ng-model="lineitem.Quantity" ng-change="multipleRecipient.changeQuantity(lineitem.Quantity,$index)" numbers-only />
+                                <input type="text" id="qty" class="form-control" ng-model="lineitem.Quantity" ng-change="multipleRecipient.changeQuantity(lineitem.Quantity,$index)" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"-->
                               </span>
 
@@ -74,7 +77,7 @@
                                         <label for="disable-dDate">Delivery Date</label>
                                          <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
                                             ng-required="true" id="disable-dDate" />
                                         <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
@@ -143,7 +146,7 @@
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
-                                                <p class="delivery-text">Same-Day Available</p>
+                                                <p class="delivery-text">Same-Day Available!</p>
                                             </div>
                                          </div>
                                     </fieldset>
@@ -383,9 +386,11 @@
             </uib-accordion-group>
             <uib-accordion-group ng-repeat="(lineidx,lineitem) in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="multipleRecipient.isMultiplerecipient && !!multipleRecipient.activeOrders[0]" ng-init="$last && multipleRecipient.finished($index)">
                 <uib-accordion-heading>
-                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': multipleRecipient.activeRecipient[$index]}">
+                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': multipleRecipient.activeRecipient[$index]}"></p>
                     <p class="recipentName">
-                    <span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                    <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                    <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
+                    <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
                     <span>{{lineitem.ShippingAddress.Zip}}</span>
                      </p>
                                                         
@@ -394,7 +399,7 @@
                         <p class="panel-head-price" >
                               <span class="qtyBox">
                                <label for="qty">Qty</label>
-                               <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only />
+                               <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>"ng-pattern="'[1-9][0-9]{0,2}'" ng-maxlength="3" min='1' max="999"-->
                               </span>
 
@@ -417,7 +422,8 @@
                     </svg>
 
 
-                    </span>VIEW ADDRESS BOOK
+                    </span>
+                    <span>VIEW ADDRESS BOOK</span>
                     </a>
                       </div>
                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead">
@@ -497,7 +503,7 @@
                                         <label for="dDate">Delivery Date</label>
                                          <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
                                             ng-required="true" />
                                         <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
@@ -566,7 +572,7 @@
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
-                                                <p class="delivery-text">Same-Day Available</p>
+                                                <p class="delivery-text">Same-Day Available!</p>
                                             </div>
                                          </div>
                                     </fieldset>
@@ -870,7 +876,7 @@
 
                                         <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
-                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                            <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
                                                 ng-required="true" />
                                             <span class="input-group-btn date-svg">
                                                     <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
@@ -1067,10 +1073,10 @@
                                 <!-- <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label> -->
                                 <div class="check-message">
                                     <div class="Checkbox">
-                                        <input type="checkbox" ng-model="multipleRecipient.visible">
+                                        <input type="checkbox" id="noMsg1" ng-model="multipleRecipient.visible">
                                         <div class="Checkbox-visible"></div>
                                     </div>
-                                    <label>No Message</label>
+                                    <label for="noMsg1">No Message</label>
                                 </div>
 
                             </div>
@@ -1141,9 +1147,11 @@
             <uib-accordion-group ng-repeat="(lineidx,lineitem) in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="!multipleRecipient.isMultiplerecipient" ng-init="$last && multipleRecipient.finished($index)">
                 <uib-accordion-heading>
                    <!--  <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p> -->
-                   <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}" class="panelHeader">
+                   <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}" class="panelHeader"></p>
                     <p class="recipentName">
-                    <span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                     <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                    <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
+                    <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
                     <span>{{lineitem.ShippingAddress.Zip}}</span>
                      </p>                                        
                             
@@ -1151,7 +1159,7 @@
                         <p class="panel-head-price" >
                               <span class="qtyBox">
                                <label for="qty">Qty</label>
-                               <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only />
+                               <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>"ng-pattern="'[1-9][0-9]{0,2}'" ng-maxlength="3" min='1' max="999"-->
                               </span>
 
@@ -1174,7 +1182,8 @@
                     </svg>
 
 
-                    </span>VIEW ADDRESS BOOK
+                    </span>
+                    <span>VIEW ADDRESS BOOK</span>
                     </a>
                       </div>
                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead"  ng-show="multipleRecipient.activeOrders.length>1 && !$first ">
@@ -1257,7 +1266,7 @@
                                         <label for="dDate">Delivery Date</label>
                                          <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
                                             ng-required="true" />
                                         <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
@@ -1326,7 +1335,7 @@
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
-                                                <p class="delivery-text">Same-Day Available</p>
+                                                <p class="delivery-text">Same-Day Available!</p>
                                             </div>
                                          </div>
                                     </fieldset>
@@ -1638,7 +1647,7 @@
 
                                         <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
-                                            <input type="text" readonly class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                            <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
                                                 ng-required="true" />
                                             <span class="input-group-btn date-svg">
                                                     <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
@@ -1834,10 +1843,10 @@
                                 <!-- <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label> -->
                                 <div class="check-message">
                                     <div class="Checkbox">
-                                        <input type="checkbox" ng-model="multipleRecipient.visible">
+                                        <input type="checkbox" id="noMsg2" ng-model="multipleRecipient.visible">
                                         <div class="Checkbox-visible"></div>
                                     </div>
-                                    <label>No Message</label>
+                                    <label for="noMsg2">No Message</label>
                                 </div>
 
                             </div>
@@ -1915,7 +1924,7 @@
             </div>
             <div class="row next-btn" ng-if="multipleRecipient.isMultiplerecipient">
                 <!--ng-if="!multipleRecipient.crdmsg[multipleRecipient.lastIndex]" ng-form="form{{multipleRecipient.lastIndex}}"-->
-                <div class="col-md-6 col-lg-6 add-recipent" btn-click>
+                <div class="col-md-12 col-lg-12 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.addNewreceipent(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
                     <button class="add-btn" ng-click="multipleRecipient.submitRecipientDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid || multipleRecipient.disableAddToCart">Add to Cart</button>
                 </div>

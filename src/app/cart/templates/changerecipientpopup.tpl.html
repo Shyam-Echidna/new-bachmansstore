@@ -179,7 +179,7 @@
                 <div class="row hospital-search" ng-if="changeRecipientPopup.addressType=='Hospital'">
 
 
-                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                         <fieldset class="form-group">
                             <label for="Hospital">Find Hospital</label>
                             <input type="search" id="Hospital" class="form-control" ng-model='changeRecipientPopup.name' uib-typeahead="st for st in changeRecipientPopup.hospitalNames | filter:$viewValue" typeahead-on-select="changeRecipientPopup.hospitalDetails($item,changeRecipientPopup.item,changeRecipientPopup.name)"
@@ -192,7 +192,7 @@
         <div>
             <div class="row funeral-det" ng-if="changeRecipientPopup.addressType == 'Funeral'">
 
-                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="Funeral">Find FuneralHome</label>
                         <input type="search" id="Funeral" class="form-control" ng-model='changeRecipientPopup.name' uib-typeahead="st for st in changeRecipientPopup.funeralHomes | filter:$viewValue" typeahead-on-select="changeRecipientPopup.funeralHomeDetails($item,changeRecipientPopup.item,changeRecipientPopup.name)"
@@ -204,7 +204,7 @@
         </div>
         <div>
             <div class="row church-det" ng-if="changeRecipientPopup.addressType == 'Church'">
-                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="Church">Find Curchs</label>
                         <input type="search" id="Church" class="form-control" ng-model='changeRecipientPopup.name' uib-typeahead="st for st in changeRecipientPopup.churchNames | filter:$viewValue" typeahead-on-select="changeRecipientPopup.churchDetails($item,changeRecipientPopup.item,changeRecipientPopup.name)"
@@ -217,7 +217,7 @@
         <!--Cemetery-->
         <div>
             <div class="row church-det" ng-if="changeRecipientPopup.addressType == 'Cemetery'">
-                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="Cemetery">Find Cemeteries</label>
                         <input type="search" id="Cemetery" class="form-control" ng-model='changeRecipientPopup.name' uib-typeahead="st for st in changeRecipientPopup.cemeteries | filter:$viewValue" typeahead-on-select="changeRecipientPopup.cemeteryDetails($item,changeRecipientPopup.item,changeRecipientPopup.name)"
@@ -229,7 +229,7 @@
         </div>
         <div>
             <div class="row store-det" ng-if="changeRecipientPopup.addressType=='Will Call'">
-                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <fieldset class="form-group">
                         <label for="store">Find Store</label>
                         <input type="search" id="store" class="form-control" ng-model="changeRecipientPopup.name" uib-typeahead="st for st in changeRecipientPopup.storeNames | filter:$viewValue" typeahead-on-select="changeRecipientPopup.storesDetails($item,changeRecipientPopup.item,changeRecipientPopup.name)"

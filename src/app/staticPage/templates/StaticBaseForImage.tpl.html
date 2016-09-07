@@ -83,8 +83,9 @@
                                     <p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">
                                         {{template.mainCatName}}</p>
                                 </uib-accordion-heading>
-                                <div class="head-title" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-init="template.getFirstThingsFromALfresco(subfolder,$index)">
-                                    <h4 ng-click="template.populateTabs(folder,subfolder,$index);status.openfaqs=false" ng-style="template.mainCatName === subfolder.title ? { 'color':'#8c58b5'} : {}">{{subfolder.title}}</h4>
+                                <div class="head-title" ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" >
+                                    <h4 ng-click="template.populateTabs(folder,subfolder,$index,$event);status.openfaqs=false" ng-style="template.mainCatName === subfolder.title ? { 'color':'#8c58b5'} : {}">{{subfolder.title}}</h4>
+                                    <!--ui-sref="CareAdviceInformation({pageName:footerLink.displayName})"-->
                                     <ul>
                                         <li ng-repeat="subsubFolder in subfolder.subfolders.items" ng-if="subsubFolder.nodeType == 'ws:section' && subsubFolder.title !=''">
                                             <a ng-click="template.bannerHideArticle = true;template.getThingsFromALfresco(subfolder.fileName,subsubFolder,$index)"  ng-style="template.activeTab === subsubFolder.title ? { 'color':'#8c58b5'} : {}">

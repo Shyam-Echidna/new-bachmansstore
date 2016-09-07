@@ -1,73 +1,212 @@
-<div class="container-fluid orderConfirmation">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p class="wish-title">Thank You For Your Order!</p>
-            <div class="order-id">
-                <h5>Look for an Email Shortly From Bachman's</h5>
-                <p>Your Order Confirmation #: <span>{{orderConfirmation.order.ID}}</span></p>
-                <p class="next-links">
-                    <a href="">Print Order Confirmation</a>
-                    <a href="" ng-click="orderConfirmation.continueShopping()">Continue Shopping</a>
-                </p>
-            </div>
-            <div class="registration-form" ng-if="!orderConfirmation.isLoggedIn">
-                <div class="before-register">
-                    <div class="bgColor-mobile">
-                        <p>Want Fast Checkout and Exclusive Access to Discounts and Services?</p>
-                        <p class="one-step">Register in One Easy Step.</p>
-                        <div class="auto-details">
-                            <p class="name">Name <span>{{orderConfirmation.user.Username}}</span></p>
-                            <p class="phone">Phone <span>{{orderConfirmation.user.Phone}}</span></p>
-                            <p class="email">Email <span>{{orderConfirmation.user.Email}}</span></p>
+
+<div class="container-fluid orderConfirmation" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
+   <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+         <p class="wish-title">Thank You For Your Order!</p>
+         <div class="order-id">
+            <h5>Look for an Email Shortly From Bachman's</h5>
+            <p>Your Order Confirmation #: <span>{{orderConfirmation.order.ID}}</span></p>
+            <p class="next-links">
+               <!-- <a href="#" ng-click="orderConfirmation.print('printableArea')">Print Order Confirmation</a> -->
+               <a href="#" onclick="window.print()">Print Order Confirmation</a>
+               <a href="#" ng-click="orderConfirmation.continueShopping()">Continue Shopping</a>
+            </p>
+         </div>
+         <div class="registration-form" ng-if="!orderConfirmation.isLoggedIn">
+           <div class="before-register" ng-if="!orderConfirmation.registered">
+            <form class="form-horizontal" role="form" name="RegisterForm" ng-submit="orderConfirmation.create()" novalidate>
+               <div class="bgColor-mobile">
+                  <p>Want Fast Checkout and Exclusive Access to Discounts and Services?</p>
+                  <p class="one-step">Register in One Easy Step.</p>
+                  <div class="auto-details">
+                            <p class="name">Name <span>{{orderConfirmation.order.BillingAddress.FirstName}} {{orderConfirmation.order.BillingAddress.LastName}}</span></p>
+                            <p class="phone">Phone <span>{{orderConfirmation.order.BillingAddress.Phone}}</span></p>
+                            <p class="email">Email <span>{{orderConfirmation.order.BillingAddress.xp.Email}}</span></p>
                         </div>
-                        <div class="fill-form">
-                            <form class="form-horizontal" role="form">
+                  <div class="fill-form">
+                      <span class="signupError">{{orderConfirmation.signupError}}</span>
+                            
                                 <div class="form-group">
-                                    <label for="enter-password" class="control-label col-xs-12 col-sm-12 col-md-4 col-lg-4">Enter Password</label>
-                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                        <input type="password" class="form-control" id="enter-password" placeholder="">
+                           <label for="enter-password" class="control-label col-xs-12 col-sm-12 col-md-4 col-lg-4">Enter Password</label>
+                           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                              <input type="password" class="form-control" name="enterpassword" id="enterpassword" placeholder="Password" ng-model="orderConfirmation.newUser.Password" ng-required="true" ng-model-options="{updateOn: 'blur'}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%_@#£€*?&]{8,}$"
+                                            pattern-err-type="customPassword" >
+                                        <p class="password-instruction">Password must be Alphanumeric, minimum 8 characters</p>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirm-password" class="control-label col-xs-12 col-sm-12 col-md-4 col-lg-4">Confirm Password</label>
-                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                        <input type="password" class="form-control" id="confirm-password" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="form-group checkbox-block">
-                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
-                                        <div class="checkbox">
-                                            <div class="Checkbox">
-                                                <input type="checkbox" checked>
-                                                <div class="Checkbox-visible"></div>
-                                            </div>
-                                            <label>Sign Me Up for a Free Purple Perks Membership</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group hidden-xs hidden-sm">
-                                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
-                                        <button type="submit" class="btn btn-block">Register</button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                    </div>
-                    <div class="form-group visible-xs visible-sm mobileButton">
-                        <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
-                            <button type="submit" class="btn btn-block">Register</button>
+                        <div class="form-group">
+                           <label for="confirm-password" class="control-label col-xs-12 col-sm-12 col-md-4 col-lg-4">Confirm Password</label>
+                           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                             <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" ng-required="true" ng-model-options="{updateOn: 'blur'}" ng-model="login.newUser.ConfirmPassword" confirm-password="orderConfirmation.newUser.Password">
+                                    </div>
                         </div>
-                    </div>
-                </div>
-                <div class="after-register">
-                    <h4>Thank you for registering!</h4>
-                    <p class="nav-links">
-                        <a href="">Learn About Bachman's History</a>
-                        <a href="">Checkout Workshops and Events</a>
-                        <a href="">Explore Bachman's Services</a>
-                    </p>
-                </div>
+                        <div class="form-group security-qtn-block">
+                           <label for="securityQtn" class="control-label col-xs-12 col-sm-12 col-md-4 col-lg-4">Choose a Security Question</label>
+                           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                              <div uib-dropdown class="form-control " id="security-select1" ng-model="orderConfirmation.newUser.securityQuestion">
+                                 <div id="sort-dropdown" uib-dropdown-toggle>
+                                    <p class="sort-active-show">{{orderConfirmation.selectedItem}}</p>
+                                 </div>
+                                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="sort-dropdown">
+                                    <li role="menuitem" ng-repeat="item in orderConfirmation.sortItems" ng-click="orderConfirmation.changeSortSelection(item.label,$index);" ng-class="{active: $index == orderConfirmation.selectedMenu}">
+                                       <a data-value="{{item.value}}" href="">{{item.label}}</a>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
+ <input type="text" name="securityAnswer" class="form-control security-answer" ng-model="orderConfirmation.newUser.securityAnswer" placeholder="Enter Your Answer" ng-required="true">
+                                </div>
+                                </div>
+
+                        <div class="form-group checkbox-block">
+                           <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
+                              <div class="checkboxContainer">
+                                 <div class="Checkbox">
+                                    <input type="checkbox" ng-model="orderConfirmation.purplePerks" id="p-perks">
+                                    <div class="Checkbox-visible"></div>
+                                 </div>
+                                 <label for="p-perks">Sign Me Up for a Free Purple Perks Membership</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group corporateEmp">
+                           <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
+                              <div class="checkboxContainer">
+                                 <div class="Checkbox">
+                                    <input type="checkbox" id="c-employee">
+                                    <div class="Checkbox-visible"></div>
+                                 </div>
+                                 <label class="remember-text" for="c-employee">Select, if you are a Corporate Employee</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group hidden-xs hidden-sm">
+                           <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
+                             <button type="submit" class="btn btn-block" ng-disabled="RegisterForm.$invalid" ng-class="{'disabledbtn': RegisterForm.$invalid }">Register</button>
+                                    </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+               <div class="form-group visible-xs visible-sm mobileButton">
+                  <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
+                    <button type="submit" class="btn btn-block" ng-disabled="RegisterForm.$invalid" ng-class="{'disabledbtn': RegisterForm.$invalid }">Register</button>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
+            <div class="after-register" ng-if="orderConfirmation.registered">
+               <h4>Thank you for registering!</h4>
+               <p class="nav-links">
+                  <a href="">Learn About Bachman's History</a>
+                  <a href="">Checkout Workshops and Events</a>
+                  <a href="">Explore Bachman's Services</a>
+               </p>
+            </div>
+         </div>
+      </div>
+   </div>
+  
 </div>
+
+
+<div class="container-fluid printBlock">
+ <!-- <div class="row" ng-show="false"> -->
+   <div class="row">
+      <!--  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="printableArea"> -->
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="printableArea" class="printableArea">
+         <!--<div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product-count">
+                    Products ( {{orderConfirmation.lineItems.Meta.TotalCount }})
+                </div>
+            </div>
+            </div>-->
+         <p class="orderId">Your Order #: <span>{{orderConfirmation.order.ID}}</span></p>
+         <p class="totalProducts"> Total Products <span> ( {{orderConfirmation.lineItems.Meta.TotalCount }} ) </span></p>
+         <div class="row billingAddr" ng-repeat="lineItem in orderConfirmation.lineItems.Items">
+            <div class="col-md-6 col-lg-6 billedTo">
+               <h5>Billed To:</h5>
+               <div class="addr">
+                        <p class="fName">{{orderConfirmation.order.BillingAddress.FirstName}} {{orderConfirmation.order.BillingAddress.LastName}}</p>
+                        <p>{{orderConfirmation.order.BillingAddress.Street1}}</p>
+                        <p>{{orderConfirmation.order.BillingAddress.Street2}}</p>
+                        <p>{{orderConfirmation.order.BillingAddress.City}}e</p>
+                        <p>{{orderConfirmation.order.BillingAddress.State}},{{orderConfirmation.order.BillingAddress.Zip}}</p>
+                        <p>{{orderConfirmation.order.BillingAddress.Phone}}</p>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6 shippedTo">
+            <h5>Shipping To:</h5>
+            <div class="addr">
+               <p class="fName">{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</p>
+               <p>{{lineItem.ShippingAddress.Street1}}</p>
+               <p>{{lineItem.ShippingAddress.Street2}}</p>
+               <p>{{lineItem.ShippingAddress.City}}</p>
+               <p>{{lineItem.ShippingAddress.State}},{{lineItem.ShippingAddress.Zip}}</p>
+               <p>{{lineItem.ShippingAddress.Phone}}</p>
+            </div>
+            </div>
+
+            <div class="row itemDetail" >
+            <div class="row headers">
+               <div class="col-lg-6 col-md-6">
+                  <p class="product-count-header">
+                     Products 
+                  </p>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <p class="date-header">
+                     Delivered On 
+                  </p>
+               </div>
+               <div class="col-lg-1 col-md-1">
+                  <p class="quantity-header">Qty</p>
+               </div>
+               <div class="col-lg-1 col-md-1">
+                  <p class="price-header">Price</p>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <p class="total-amount-header">Sub Total</p>
+               </div>
+            </div>
+            <div class="row det" >
+               <div class="col-lg-6 col-md-6">
+                  <div class="row">
+                     <div class="col-lg-4 col-md-4 imgBlock">
+                        <img class="" src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile2.png">
+                     </div>
+                     <div class="col-lg-8 col-md-8">
+                        <p class="productName">{{lineItem.Product.Name}}</p>
+                        <p class="itemNumber">Item Number: <span>{{lineItem.Product.ID}}</p>
+                        <p>Type: {{orderConfirmation.order.Type}}</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <p>{{lineItem.xp.deliveryDate | date: 'MMMM d, yyyy'}}</p>
+               </div>
+                <div class="col-lg-1 col-md-1">
+                  <p>{{lineItem.Quantity}}</p>
+               </div>
+               <div class="col-lg-1 col-md-1">
+                 <p> {{lineItem.UnitPrice}}</p>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <p>{{lineItem.LineTotal}}</p>
+               </div>
+            </div>
+         </div>
+         </div>
+         
+         <div class=" row ">
+            <div class="col-lg-0ffset-4 col-lg-4 col-md-offset-8 col-md-8 total">
+            <div> <p>SubTotal:</p><p>{{orderConfirmation.order.Subtotal}}</p></div>
+            <div><p> Delivery Charges:</p><p>{{orderConfirmation.order.ShippingCost}}</p></div>
+            <div><p>Tax:</p><p>{{orderConfirmation.order.TaxCost}}</p></div>
+            <div><p >Grand Total:</p><p class="gTotal">{{orderConfirmation.order.Total}}</p></div>
+         </div>
+         </div>
+      </div>
+   </div>
+   </div>

@@ -67,13 +67,16 @@ function staticPageConfig($stateProvider) {
             }
 		})
 		.state( 'CareAdviceInformation.staticPage', {
-			url: '/infoPage/:staticFileName',
+			url: '/:parentName/:staticFileName',
 			templateUrl: 'staticPage/templates/StaticBaseForImage.tpl.html',
 			controller: 'staticPageBaseCtrl',
 			controllerAs: 'staticPageBase',
 			resolve:{
 				page : function($stateParams, page){
 					return $stateParams.staticFileName;
+				},
+				parentFolder:function($stateParams){
+					return $stateParams.parentName;
 				}
 			}
 		})
@@ -225,20 +228,20 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
 	var vm = this;
     console.log("staticPageData.articleData");
     var artileMetaData = staticPageData.articleData;
-    vm.articleContentUrl =  localStorage.getItem("contentUrl");
-    vm.locationpath =  localStorage.getItem("locationpath");
+    vm.articleContentUrl =  localStorage.getItem("contentUrl")?localStorage.getItem("contentUrl"):'';
+    vm.locationpath =  localStorage.getItem("locationpath")?localStorage.getItem("locationpath"):'';
     if(vm.locationpath.indexOf("documentLibrary")>=0)
         vm.locationpath = vm.locationpath.split("documentLibrary")[1];
-    vm.articleAuthor =  localStorage.getItem("articleAuthor");
-    vm.articleTitle = localStorage.getItem("articleTitle");
-    if(localStorage.getItem("modifiedOn").length > 15){
+    vm.articleAuthor =  localStorage.getItem("articleAuthor")?localStorage.getItem("articleAuthor"):'';
+    vm.articleTitle = localStorage.getItem("articleTitle")?localStorage.getItem("articleTitle"):'';
+    if(localStorage.getItem("modifiedOn") && localStorage.getItem("modifiedOn").length > 15){
         var d = new Date(localStorage.getItem("modifiedOn"));
         var n = d.toString();
         var date = d.getDate();
         var year = d.getFullYear();
         vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
     }else{
-        vm.articleDate = localStorage.getItem("modifiedOn");
+        vm.articleDate = localStorage.getItem("modifiedOn")?localStorage.getItem("modifiedOn"):'';
     }
     vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+vm.articleContentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
     console.log(alfStaticContenturl+vm.articleContentUrl+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
@@ -254,9 +257,9 @@ function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stat
         console.log(vm.articleBanner);
 	});
 
-    vm.getThingsFromALfresco = function(parent, child){
-        window.history.back();
-    }
+    // vm.getThingsFromALfresco = function(parent, child){
+    //     window.history.back();
+    // }
 }
 
 function contactController() {
@@ -387,11 +390,13 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
             localStorage.setItem("locationpath",obj.displayPath);
         }
         var paramName = obj.fileName ? obj.fileName :obj.name;
+		var parentFolderName = obj.displayPath.split('/');
         vm.bannerHideArticle = false;
-        $state.go('.staticPage', {staticFileName:paramName});
+        $state.go('.staticPage', {parentName:parentFolderName[parentFolderName.length-1],staticFileName:paramName});
     }
     
-    vm.populateTabs = function(f,sf,index){
+    vm.populateTabs = function(f,sf,index,event){
+		event.preventDefault();
         vm.mainCatName = sf.title;
         var first = true;
         vm.activeTab = "";
@@ -407,7 +412,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //                vm.getThingsFromALfresco(f.fileName,item.fileName,i);
 //            }
 //        });
-        $state.go('CareAdviceInformation',{pageName:page});
+        $state.go('CareAdviceInformation',{pageName:sf.displayName});
     }
     vm.pageChanged = function() {
         var newurls = articleUrl.split("page=");
@@ -418,7 +423,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
             $window.scrollTo(0,400);
             vm.articleList = data;
         },function(data){
-            vm.articleList.items = [];
+			vm.articleList = {"items":[]};
         });
     };
 //    var keepGoing = true;
@@ -441,7 +446,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
         staticPageData.GetFolders(articleUrl).then(function(data){
             vm.articleList = data;
         },function(data){
-            vm.articleList.items = [];
+            vm.articleList = {"items":[]};
         });
     }
     

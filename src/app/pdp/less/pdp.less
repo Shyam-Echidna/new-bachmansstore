@@ -1462,12 +1462,18 @@
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
+                                            width: 20px;
+                                            height: 20px;
+                                            float: right;
                                         }
                                         &.footer-minus {
                                             background-image: url('../../assets/images/minus-white.svg');
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
+                                            width: 20px;
+                                            height: 20px;
+                                            float: right;
                                         }
                                     }
                                 }
@@ -1487,12 +1493,18 @@
                                                 .background-img(18px,
                                                 right);
                                                 background-size: 18px;
+                                                width: 20px;
+                                                height: 20px;
+                                                float: right;
                                             }
                                             &.footer-minus {
                                                 background-image: url('../../assets/images/minus-white.svg');
                                                 .background-img(18px,
                                                 right);
                                                 background-size: 18px;
+                                                width: 20px;
+                                                height: 20px;
+                                                float: right;
                                             }
                                         }
                                     }
@@ -1632,11 +1644,17 @@
                                                 background-image: url('../../assets/images/plus-care.svg');
                                                 .background-img(18px,
                                                 right);
+                                                width: 20px;
+                                                height: 20px;
+                                                float: right;
                                             }
                                             &.footer-minus {
                                                 background-image: url('../../assets/images/minus-care.svg');
                                                 .background-img(18px,
                                                 right);
+                                                width: 20px;
+                                                height: 20px;
+                                                float: right;
                                             }
                                         }
                                     }
@@ -1672,11 +1690,17 @@
                                                     background-image: url('../../assets/images/plus-care.svg');
                                                     .background-img(18px,
                                                     right);
+                                                    width: 20px;
+                                                    height: 20px;
+                                                    float: right;
                                                 }
                                                 &.footer-minus {
                                                     background-image: url('../../assets/images/minus-care.svg');
                                                     .background-img(18px,
                                                     right);
+                                                    width: 20px;
+                                                    height: 20px;
+                                                    float: right;
                                                 }
                                             }
                                         }
@@ -2059,6 +2083,26 @@
             }
         }
     }
+    .pdp-recipient-modal .panel-body-content{
+        .savedRecipentDetail .aboveRecipentHead{
+            text-align: right;
+            .Checkbox {
+                vertical-align: middle;
+                display: inline-block;
+                .Checkbox-visible{
+                    margin:0; 
+                }
+                &+ label{
+                    font-size: 0.8em;
+                }
+            }
+        } 
+        a.show-all{
+            position: initial;
+            float: right;
+            padding-bottom: 5px;
+        }
+    } 
 }
 
 //ipad portrait
@@ -2472,6 +2516,7 @@ span.ng-isolate-scope:active {
             margin-top: 5px;
             .svg-outer {
                 margin-right: 5px;
+                vertical-align: middle;
                 svg {
                     height: 15px;
                     width: 15px;
@@ -2619,12 +2664,12 @@ span.ng-isolate-scope:active {
                             }
                             textarea,
                             #request {
-                                font: 1em @proxima-regular;
+                                font: 0.9em @proxima-regular;
                                 background: #f6f6f6;
                                 color: #000;
                                 border: 1px solid #e4e4e4;
                                 box-shadow: none;
-                                padding: 0px 0px 0px 10px;
+                                padding: 10px;
                                 vertical-align: middle;
                                 border-radius: 2px;
                                 -webkit-appearance: none;
@@ -2705,8 +2750,8 @@ span.ng-isolate-scope:active {
                                 display: inline-block;
                                     &+.has-error{
                                         display: inline-block;
-                                        font-size: 0.7em;
-                                        width: 120%;
+                                        font-size: 0.8em;
+                                        width: 100%;
                                     }
                             }
                     }
@@ -2714,11 +2759,11 @@ span.ng-isolate-scope:active {
             }
             input[type="text"]{
                 &+.has-error{
-                    font-size: 0.7em;
+                    font-size: 0.8em;
                     width: 100%;
                     border: none;
                     padding: 0;
-                    margin-left: -5px;
+                    margin-left: 0px;
                 }
             }
             .label-left-align {
@@ -2957,7 +3002,7 @@ span.ng-isolate-scope:active {
                 }
                 .patient-tilte,
                 .in-memory {
-                    font: 1.5em @proxima-regular;
+                    font: 1.1em @proxima-bold;
                     margin-bottom: 10px;
                 }
             }
@@ -3107,7 +3152,8 @@ span.ng-isolate-scope:active {
                         font-weight: bold;
                         text-transform: uppercase;
                         .svg-outer {
-                            margin-right: 5px;
+                            margin-right: 8px;
+                            vertical-align: middle;
                             svg {
                                 height: 15px;
                                 width: 15px;
@@ -3175,13 +3221,13 @@ span.ng-isolate-scope:active {
 	    }
 	    input[type="text"],
 	    textarea {
-	        font: 1em @proxima-regular;
+	        font: .9em @proxima-regular;
 	        background: #f6f6f6;
 	        color: #000;
 	        height: 2.813em;
 	        border: 1px solid #e4e4e4;
 	        box-shadow: none;
-	        padding: 0px 0px 0px 10px;
+	        padding: 10px;
 	        line-height: 2.813em;
 	        vertical-align: middle;
 	        border-radius: 2px;
@@ -3207,6 +3253,7 @@ span.ng-isolate-scope:active {
 	    }
 	    textarea {
 	        height: auto;
+            line-height:initial; 
 	    }
 
 	}
@@ -3277,6 +3324,13 @@ span.ng-isolate-scope:active {
                         }
                     }
                     .aboveRecipentHead{
+                        .Checkbox {
+                            vertical-align: middle;
+                            display: inline-block;
+                            .Checkbox-visible{
+                                margin:0; 
+                            }
+                        }
                         label{
                             font:1em @proxima-regular;
                             color: #666666;
@@ -3309,7 +3363,7 @@ span.ng-isolate-scope:active {
                     background: @half-white;
                     color: #666;
                     border: none;
-                    padding: 0px 0px 0px 30px;
+                    padding: 0px 30px 0px 30px;
                     height: 60px;
                     border-radius: 0px;
                     box-shadow: none;
@@ -3323,6 +3377,8 @@ span.ng-isolate-scope:active {
                         position: relative;
                         top: 50%;
                         transform:translateY(-50%);
+                        display: inline-block;
+                        width: 100%;
                         .cuctom-checkbox;
                         .Checkbox{
                             top: -1px;
@@ -3346,9 +3402,14 @@ span.ng-isolate-scope:active {
                        
                             .recipentName{
                                 span{
-                                    border-right: 1px solid #ddcceb;
-                                    padding-right: 8px;
-                                    margin-right: 8px;
+                                    float:none;
+                                    &.name{
+                                        &+.code{
+                                            border-right: 1px solid #ddcceb;
+                                            padding-right: 8px;
+                                            margin-right: 8px;
+                                        }
+                                    }
                                     &:last-child{
                                         border: none;
                                         padding: 0px;
@@ -3360,7 +3421,7 @@ span.ng-isolate-scope:active {
                      
                         .panel-head-price {
                             float: right;
-                            padding-right: 70px;
+                            padding-right: 40px;
                             cursor: default;
                             font-family: @proxima-bold;
                             .qtyBox{
@@ -3370,6 +3431,9 @@ span.ng-isolate-scope:active {
                                     vertical-align: middle;
                                     font: 1em @proxima-regular;
                                 }
+                                label{
+                                    .m0;
+                                }
                                 input{
                                     width: 70px;
                                     font: 1em @proxima-regular;
@@ -3378,32 +3442,47 @@ span.ng-isolate-scope:active {
                                     height: 2em;
                                     border: 1px solid #e4e4e4;
                                     box-shadow: none;
-                                    padding: 0px 0px 0px 10px;
+                                    padding: 0px 10px 0px 10px;
+                                    text-align:center;
                                     line-height: 2em;
                                     vertical-align: middle;
                                     border-radius: 2px;
                                     position: relative;
-                                    top: -3px;
-                                    border-radius: 0px;
+                                    top: 0px;
+                                    border-radius: 2px;
 
                                 }
                             }
                         }
                         a {
+                            display:block;
                             span {
+                                width: 100%;
+                                float: left;
+                                line-height: 2em;
                                 p {
                                     &.footer-plus {
                                         background-image: url('../../assets/images/plus-mr.svg');
                                         .background-img(18px,
                                         right);
                                         background-size: 18px;
+                                        width: 20px;
+                                        height: 2em;
+                                        float: right;
                                     }
                                     &.footer-minus {
                                         background-image: url('../../assets/images/minus-white.svg');
                                         .background-img(18px,
                                         right);
                                         background-size: 18px;
+                                        width: 20px;
+                                        height: 20px;
+                                        float: right;
                                     }
+                                }
+                                label span, .qtyBox{
+                                    width: 100%;
+                                    float: none;
                                 }
                             }
                         }
@@ -3427,12 +3506,18 @@ span.ng-isolate-scope:active {
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
+                                            width: 20px;
+                                            height: 2em;
+                                            float: right;
                                         }
                                         &.footer-minus {
                                             background-image: url('../../assets/images/minus-white.svg');
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
+                                            width: 20px;
+                                            height: 2em;
+                                            float: right;
                                         }
                                     }
                                 }
@@ -3450,6 +3535,7 @@ span.ng-isolate-scope:active {
             .next-btn {
 			    margin: 30px 0px 15px 0px;
 			    .btn-click {
+                    padding:0 30px ;
 			        text-align: right;
 			        button {
 			            .purple-button;
@@ -3468,6 +3554,7 @@ span.ng-isolate-scope:active {
 			        }
 			    }
 			    .add-recipent {
+                    padding:0 30px 10px;
 			        h3,
 			        h4 {
                         font: 1em @proxima-regular;
@@ -3476,7 +3563,8 @@ span.ng-isolate-scope:active {
                         text-transform: uppercase;
                         line-height: 45px;
                         .svg-outer {
-                            margin-right: 5px;
+                            margin-right: 8px;
+                            vertical-align: middle;
                             svg {
                                 height: 15px;
                                 width: 15px;
@@ -3506,6 +3594,9 @@ span.ng-isolate-scope:active {
                         line-height: 2.813em;
                         text-transform: uppercase;
                         margin: 0px;
+                        &.next-btn{
+                           margin-right:20px; 
+                        }
                         &[disabled]{
                                 background: #ccc;
                                 border-color: #ccc;
@@ -3700,7 +3791,9 @@ span.ng-isolate-scope:active {
                         font-size:0.875em;
                     }
                 }
-
+                .savedRecipentDetail{
+                    margin: 10px 0px 10px 0px;
+                }
             }
     .title-bar{
         padding:0px 10px 10px 10px;
@@ -3729,13 +3822,25 @@ span.ng-isolate-scope:active {
             .panel{
                     .panel-heading{
                         padding:0px;
-                        height: 45px;
-                        line-height: 45px;
+                        height: 3em;
+                        line-height: 3em;
                         padding: 0px 10px;
                             .panel-title{
                                 font-size:0.813em;
                                 .panel-head-price {
                                     padding-right: 50px;
+                                    .qtyBox {
+                                        label{
+                                            margin-top: -0.4em;
+                                        }
+                                        input{
+                                            height: 2.4em;
+                                            line-height: 2.4em;
+                                            border-radius:2px;
+                                            width:50px;
+                                            top:-0.53em;
+                                        }
+                                    }
                                 }
                             }
                     }
@@ -3795,6 +3900,9 @@ span.ng-isolate-scope:active {
                     text-align: center;
                     div{
                         padding: 0px;
+                        &.add-recipent{
+                            padding: 0px;
+                        }
                     }
                    .view-address-link{
                         h3{

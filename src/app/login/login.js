@@ -286,7 +286,7 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
     vm.create = function() {
        //vm.newUser=Users;
        //vm.newUser={};
-        //console.log(vm.newUser);
+        console.log(vm.newUser.PurplePerksChecked);
 
        var user = {
 
@@ -317,6 +317,21 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
             OrderCloud.UserGroups.SaveUserAssignment(userGroupAssignment);
 /*            $uibModalInstance.dismiss('cancel');*/
             // $state.go('home');
+            if(vm.newUser.PurplePerksChecked)
+            {
+          var Purple_perks=  {
+
+                "Name": "Purple Perks",
+                "Balance": 0.0
+              }
+              OrderCloud.SpendingAccounts.Create(Purple_perks).then(function(data){
+             var assign = {
+                "SpendingAccountID": data.ID,
+                "UserID":res.ID
+                }
+              OrderCloud.SpendingAccounts.SaveAssignment(assign);
+              });
+          }
             vm.menuClass='unhide';
             angular.element('.menu-class').removeClass('hide');
             angular.element('.menu-class').addClass('unhide');

@@ -116,6 +116,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.selectedRecipient = [];
     vm.changeRecipientConfirm = changeRecipientConfirm;
     vm.showDeliveryToolTip = false;
+    vm.showDeliveryToolTipMobile = false;
     vm.ShippingAddress = {};
 
     vm.changeDate = changeDate;
@@ -164,12 +165,28 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
 
     vm.wishlist = function (line) {
-        alert("test");
-        //PdpService
-        PdpService.AddToWishList(line.Product.ID, vm.isLoggedIn);
-        if (vm.isLoggedIn) {
-            vm.removeItem(vm.order, line);
-        }
+        var confirmPopupModalInstance = $uibModal.open({
+            animation: false,
+            windowClass: 'confirmPopup',
+            template: '<div class="">' +
+            '<p>Are you sure you want to clear Items?</p>' +
+            '<button class="save-btn" ng-click="confirmctrl.ok()">Ok</button>' +
+            '<button class="cancel-btn" ng-click="confirmctrl.cancel()">Cancel</button>' +
+            '</div>',
+            controller: 'confirmPopupCtrl',
+            controllerAs: 'confirmctrl'
+
+        });
+        confirmPopupModalInstance.result.then(function (result) {
+            if (result == 'yes') {
+                PdpService.AddToWishList(line.Product.ID, vm.isLoggedIn);
+                if (vm.isLoggedIn) {
+                    vm.removeItem(vm.order, line);
+                }
+            }
+        }, function () {
+            angular.noop();
+        });
     }
 
     angular.forEach(vm.lineItems.Items, function (line) {
@@ -256,6 +273,13 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         templateUrl: 'deleteNote.html',
     };
     vm.showproductrequest = {
+        templateUrl: 'showproductrequest.html',
+    };
+
+     vm.deleteNoteMobile = {
+        templateUrl: 'deleteNote.html',
+    };
+    vm.showproductrequestMobile = {
         templateUrl: 'showproductrequest.html',
     };
 
@@ -477,6 +501,9 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         vm.updateRecipientDetails(data).then(function (s) {
             if (s == 'success') {
                 vm.showDeliveryToolTip = false;
+                $state.go('cart', { ID: vm.order.ID });
+                
+                vm.showDeliveryToolTipMobile = false;
                 $state.go('cart', { ID: vm.order.ID });
 
             }
@@ -725,6 +752,11 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
                 alert("Data submitted successfully");
+                if(new Number(newline.LineTotal)!= new Number(newline.xp.TotalCost)){
+					OrderCloud.Orders.Patch(args,{ShippingCost:new Number(newline.xp.TotalCost-newline.LineTotal)}).then(function(ord){
+						console.log("shippingcost"+ord);
+					})
+				}
                 //vm.getLineItems();
                 defered.resolve('updated')
             });
