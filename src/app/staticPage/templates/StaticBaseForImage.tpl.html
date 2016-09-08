@@ -69,14 +69,14 @@
     <div class="right-content template2-content" id=" page-content-wrapper">
             <div class="container-fluid">
 
-                 <div class="row info-banner">
+                 <div class="row info-banner" ng-init="$parent.relatedArticles = []">
                     <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-xs hidden-sm">
                     <img src="{{staticPageBase.articleBanner}}" ng-if="staticPageBase.articleBanner!=undefined" width="100%" class="hidden-md hidden-lg">
                     <p>{{staticPageBase.articleDate}}</p>
                 </div>
                 <div class="row information-content1">
 
-                    <div class="mobile-receipient-details hidden-md hidden-lg">
+                    <div class="mobile-receipient-details hidden-md hidden-lg" >
                         <uib-accordion>
                                 <uib-accordion-group is-open="status.openfaqs" ng-repeat="folder in base.ListOfPages" ng-if="folder.nodeType == 'ws:section' && folder.fileName =='CareAdviceInformation'" ng-init="template.tabSetdata(folder)">
                                 <uib-accordion-heading>

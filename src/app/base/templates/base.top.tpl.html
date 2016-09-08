@@ -90,6 +90,7 @@
 				<li>ROSES</li>
 			</ul>
 		</div>
+		<!-- <ui-breadcrumbs displayname-property="data.displayName" abstract-proxy-property="data.proxy" template-url="../../common/breadcrumbs/uiBreadcrumbs.tpl.html"></ui-breadcrumbs> -->
 		<!-- <div class="row breadcrumb-box" ng-show="is('pdp')">
 	        <ul class="breadcrumb" >
 	            <li>HOME</li>
@@ -384,7 +385,7 @@
 									<a class="maincat_link" ui-sref="account.perpleperksAccount">My Purple Perks</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ng-click="baseTop.logout()">Sign Out</a>
+									<a class="maincat_link" ng-click="baseTop.logout();$event.stopPropagation();">Sign Out</a>
 								</li>
 							</ul>
 						</div>
@@ -758,7 +759,7 @@
 									<a class="maincat_link" ui-sref="account.perpleperksAccount">My Purple Perks</a>
 								</li>
 								<li class="sub-nav">
-									<a class="maincat_link" ng-click="baseTop.logout()">Sign Out</a>
+									<a class="maincat_link" ng-click="baseTop.logout();$event.stopPropagation();">Sign Out</a>
 								</li>
 							</ul>
 						</div>
@@ -940,7 +941,7 @@
 									<ul class="mobile-signout mobile-signout-notGuest">
 										<ul>
 											<li class="fl"><a href="">Hi, {{base.currentUser.FirstName}}</a></li>
-											<li class="fr"><a href="" ng-click="baseTop.logout()">SIGN OUT</a></li>
+											<li class="fr"><a href="" ng-click="baseTop.logout();$event.stopPropagation();">SIGN OUT</a></li>
 										</ul>
 									</ul>
 								</div>

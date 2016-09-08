@@ -224,39 +224,62 @@ function ladingPageController(folder) {
 	alert(JSON.stringify(folder));
 }
 
-function staticPageBaseController($http,page,$sce,alfcontenturl, LoginFact,$stateParams,x2js,staticPageData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom,alfrescoStaticurl) {
+function staticPageBaseController($http,$scope,page,$sce,alfcontenturl, parentFolder,$location,LoginFact,$stateParams,x2js,staticPageData,alfArticleData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom,alfrescoStaticurl) {
 	var vm = this;
-    console.log("staticPageData.articleData");
-    var artileMetaData = staticPageData.articleData;
-    vm.articleContentUrl =  localStorage.getItem("contentUrl")?localStorage.getItem("contentUrl"):'';
-    vm.locationpath =  localStorage.getItem("locationpath")?localStorage.getItem("locationpath"):'';
-    if(vm.locationpath.indexOf("documentLibrary")>=0)
-        vm.locationpath = vm.locationpath.split("documentLibrary")[1];
-    vm.articleAuthor =  localStorage.getItem("articleAuthor")?localStorage.getItem("articleAuthor"):'';
-    vm.articleTitle = localStorage.getItem("articleTitle")?localStorage.getItem("articleTitle"):'';
-    if(localStorage.getItem("modifiedOn") && localStorage.getItem("modifiedOn").length > 15){
-        var d = new Date(localStorage.getItem("modifiedOn"));
-        var n = d.toString();
-        var date = d.getDate();
-        var year = d.getFullYear();
-        vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
-    }else{
-        vm.articleDate = localStorage.getItem("modifiedOn")?localStorage.getItem("modifiedOn"):'';
-    }
-    vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+vm.articleContentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-    console.log(alfStaticContenturl+vm.articleContentUrl+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-    
-    $http.get(alfrescoStaticurl.substring(0,alfrescoStaticurl.length-1)+vm.locationpath+"/Media?alf_ticket="+localStorage.getItem("alfTemp_ticket"))
-    .then(function(res){
-        console.log(res);
-        angular.forEach(res.data.items,function(item){
-            if(item.fileName.indexOf(page.replace(".html",""))>=0){
-                vm.articleBanner = "http://52.206.111.191:8080/alfresco/service/"+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
-            }
-        });
-        console.log(vm.articleBanner);
-	});
+    // vm.articleContentUrl =  localStorage.getItem("contentUrl")?localStorage.getItem("contentUrl"):'';
+    // vm.locationpath =  localStorage.getItem("locationpath")?localStorage.getItem("locationpath"):'';
+    // if(vm.locationpath.indexOf("documentLibrary")>=0)
+    //     vm.locationpath = vm.locationpath.split("documentLibrary")[1];
+    // vm.articleAuthor =  localStorage.getItem("articleAuthor")?localStorage.getItem("articleAuthor"):'';
+    // vm.articleTitle = localStorage.getItem("articleTitle")?localStorage.getItem("articleTitle"):'';
+    // if(localStorage.getItem("modifiedOn") && localStorage.getItem("modifiedOn").length > 15){
+    //     var d = new Date(localStorage.getItem("modifiedOn"));
+    //     var n = d.toString();
+    //     var date = d.getDate();
+    //     var year = d.getFullYear();
+    //     vm.articleDate = date+" "+n.split(" ")[1]+" "+year;
+    // }else{
+    //     vm.articleDate = localStorage.getItem("modifiedOn")?localStorage.getItem("modifiedOn"):'';
+    // }
+	 
+	var getArticleDataFromID = function(){
+		$http.get(alfArticleData+"?id="+parentFolder+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"))
+			.then(function(res){
+				console.log(res);
+				vm.articleAuthor =  res.data.properties.author;
+    			vm.articleTitle = res.data.properties.title;
+				vm.articleDate = res.data.properties.modified;
+				vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+res.data.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+				vm.relatedArticles = res.data.associations.relatedArticles;
+				if(vm.relatedArticles)
+					$scope.$emit('update_parent_controller', vm.relatedArticles);
+				getMediaForArticle(res.data.displayPath);
+			},function(){
+				vm.staticTempright = $sce.trustAsHtml('<p>Article Data Not Found</p>');
+			});
+	}
 
+	if(vm.articleContentUrl && vm.articleContentUrl!=''){
+		vm.staticTempright = $sce.trustAsResourceUrl(alfcontenturl+vm.articleContentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+		console.log(alfStaticContenturl+vm.articleContentUrl+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+	}else{
+		getArticleDataFromID();
+	}
+
+	
+	var getMediaForArticle = function(path){
+			$http.get(alfrescoStaticurl+path.split("documentLibrary/")[1]+"/Media?alf_ticket="+localStorage.getItem("alfTemp_ticket"))
+			.then(function(res){
+				console.log(res);
+				angular.forEach(res.data.items,function(item){
+					if(item.fileName.indexOf(page.replace(".html",""))>=0){
+						vm.articleBanner = "http://52.206.111.191:8080/alfresco/service/"+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+					}
+				});
+				console.log(vm.articleBanner);
+			});
+	}
+	
     // vm.getThingsFromALfresco = function(parent, child){
     //     window.history.back();
     // }
@@ -274,11 +297,15 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     vm.active = 0;
     vm.articleSearch={};
     vm.mainCatName = "";
-    
+   // vm.relatedArticles = "sdfsdfgsfd";
     vm.alCurrentPage =1;
     var getFirstTag = true;
     var ticket = localStorage.getItem("alfTemp_ticket");
     var articleUrl = null;
+	$scope.relatedArticles = [];
+	$scope.$on("update_parent_controller", function(event, message){
+		$scope.relatedArticles = message;
+	});
     vm.getThingsFromALfresco = function(parent, child,index){
         setTimeout(function(){
             vm.active = index+1;
@@ -392,7 +419,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
         var paramName = obj.fileName ? obj.fileName :obj.name;
 		var parentFolderName = obj.displayPath.split('/');
         vm.bannerHideArticle = false;
-        $state.go('.staticPage', {parentName:parentFolderName[parentFolderName.length-1],staticFileName:paramName});
+        $state.go('.staticPage', {parentName:obj["node-uuid"],staticFileName:paramName});
     }
     
     vm.populateTabs = function(f,sf,index,event){
@@ -414,6 +441,13 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 //        });
         $state.go('CareAdviceInformation',{pageName:sf.displayName});
     }
+
+	vm.relatedArticlesLinks = function(article){
+		var category = article.displayPath.split('CareAdviceInformation/')[1];
+		var name = category.substring(0,category.lastIndexOf("/"));
+		$state.go('CareAdviceInformation.staticPage', {pageName:name,parentName:article.properties["node-uuid"],staticFileName:article.properties.name});
+	}
+
     vm.pageChanged = function() {
         var newurls = articleUrl.split("page=");
         var paramurl = newurls[1].substr(newurls[1].indexOf("&"), newurls[1].length);

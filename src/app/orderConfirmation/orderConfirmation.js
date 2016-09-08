@@ -8,19 +8,46 @@ function orderConfirmationConfig($stateProvider) {
 	$stateProvider
 		.state('orderConfirmation', {
 			parent: 'base',
-			url: '/orderConfirmation',
+			url: '/orderConfirmation/:userID/:ID',
 			templateUrl: 'orderConfirmation/templates/orderConfirmation.tpl.html',
 			controller: 'orderConfirmationCtrl',
-			controllerAs: 'orderConfirmation'
+			controllerAs: 'orderConfirmation',
+			resolve: {
+				Order: function ($stateParams, OrderCloud, $q) {
+					var deferred = $q.defer();
+					OrderCloud.Orders.Get($stateParams.ID)
+						.then(function (order) {
+							deferred.resolve(order);
+						})
+						.catch(function () {
+							deferred.reject();
+						});
+					return deferred.promise;
+				},
+				LineItems: function (OrderCloud, LineItemHelpers, $q, $stateParams) {
+					var deferred = $q.defer();
+					OrderCloud.LineItems.List($stateParams.ID).then(function (res) {
+						LineItemHelpers.GetProductInfo(res.Items).then(function () {
+							deferred.resolve(res);
+						});
+					}).catch(function (err) {
+						console.log(err);
+						deferred.reject();
+					})
+					return deferred.promise;
+				}
+			}
 		})
 }
-function orderConfirmationController($cookieStore, CurrentOrder, $state, OrderCloud, LineItemHelpers) {
+function orderConfirmationController($cookieStore, CurrentOrder, $state, OrderCloud, LineItemHelpers, Order, LineItems,ConstantContact) {
 
 	var vm = this;
 	vm.isLoggedIn = $cookieStore.get('isLoggedIn');
 	vm.order = {};
 	vm.newUser = {};
 	vm.continueShopping = continueShopping;
+	vm.order = Order;
+	vm.lineItems = LineItems
 	//vm.print = print;
 	vm.registered = false;
 	var sortItems = [
@@ -41,21 +68,21 @@ function orderConfirmationController($cookieStore, CurrentOrder, $state, OrderCl
 
 	};
 
-	CurrentOrder.Get().then(function (order) {
-		console.log("order= " + order);
-		vm.order = order;
-	});
-	CurrentOrder.GetID().then(function (orderID) {
-		console.log("orderID= " + order);
-		OrderCloud.LineItems.List(orderID).then(function (res) {
-			LineItemHelpers.GetProductInfo(res.Items).then(function () {
-				vm.lineItems = res
-			});
-		}).catch(function (err) {
-			console.log(err);
-		})
+	// CurrentOrder.Get().then(function (order) {
+	// 	console.log("order= " + order);
+	//vm.order = Order;
+	// });
+	// CurrentOrder.GetID().then(function (orderID) {
+	// 	console.log("orderID= " + order);
+	// 	OrderCloud.LineItems.List(orderID).then(function (res) {
+	// 		LineItemHelpers.GetProductInfo(res.Items).then(function () {
+				//vm.lineItems = LineItems
+	// 		});
+	// 	}).catch(function (err) {
+	// 		console.log(err);
+	// 	})
 
-	});
+	// });
 	// Take from Billing Address
 	// OrderCloud.Me.Get().then(function (res) {
 	// 	vm.user = res;
@@ -78,14 +105,18 @@ function orderConfirmationController($cookieStore, CurrentOrder, $state, OrderCl
 		//vm.newUser=Users;
 		//vm.newUser={};
         //console.log(vm.newUser);
+		vm.newUser.Firstname = vm.order.BillingAddress.FirstName;
+		vm.newUser.Lastname = vm.order.BillingAddress.LastName;
+		//vm.newUser.Email = vm.order.BillingAddress.xp.Email;
+		vm.newUser.Phone = vm.order.BillingAddress.Phone;
 
 		var user = {
 
-			Username: vm.newUser.Email,
+			Username: 'john@gmail.com',//vm.newUser.Email,
 			Password: vm.newUser.Password,
 			FirstName: vm.newUser.Firstname,
 			LastName: vm.newUser.Lastname,
-			Email: vm.newUser.Email,
+			Email: 'john@gmail.com',//vm.newUser.Email,
 			Phone: vm.newUser.Phone,
 			// SecurityProfileID: "65c976de-c40a-4ff3-9472-b7b0550c47c3",
 			Active: true,

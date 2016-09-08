@@ -29,9 +29,9 @@
 	<div class="category-banner row" ng-repeat="content in category.clpContent" ng-if="content.displayName == 'CLP_ASpot'" >
 		<img class="" ng-src="{{content.contentUrl}}"/>
 		<div class="banner-content">
-			<h1>{{content.title}}</h1>
+			<h1>{{category.CurrentCatgory.Name}}</h1>
 			<div class="fl category-content-sub ">
-				<p>{{category.CurrentCatgory.Name}}</p>
+				<p>{{category.categoryBanner_ctg_bannerDescription}}</p>
 			</div>
 		</div>
 	</div>

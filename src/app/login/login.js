@@ -111,7 +111,11 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
     vm.setForm = function(form) {
         vm.form = form;
     };
-
+    vm.credentials = {};
+    if($cookieStore.get('rememberMe.userName')){
+     
+      vm.credentials.Username = $cookieStore.get('rememberMe.userName');
+    } 
     /*vm.showScroll=function(){
       $uibModalInstance.opened.then(function() {
           $timeout(function() {
@@ -145,6 +149,9 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
                 OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
                 OrderCloud.Auth.SetToken(data.access_token);
              // ImpersonationService.StopImpersonating();
+             if(vm.rememberMe){
+              $cookieStore.put('rememberMe.userName', credentials.Username);
+             }
               $uibModalInstance.dismiss('cancel');
               vm.menuClass='unhide';
               angular.element('.menu-class').removeClass('hide');
@@ -286,8 +293,6 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
     vm.create = function() {
        //vm.newUser=Users;
        //vm.newUser={};
-        console.log(vm.newUser.PurplePerksChecked);
-
        var user = {
 
                   Username: vm.newUser.Email,
@@ -400,5 +405,6 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
           vm.submit(user);
         };
 
-    };       
+    };     
+
 }

@@ -1462,18 +1462,12 @@
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
-                                            width: 20px;
-                                            height: 20px;
-                                            float: right;
                                         }
                                         &.footer-minus {
                                             background-image: url('../../assets/images/minus-white.svg');
                                             .background-img(18px,
                                             right);
                                             background-size: 18px;
-                                            width: 20px;
-                                            height: 20px;
-                                            float: right;
                                         }
                                     }
                                 }
@@ -1493,18 +1487,12 @@
                                                 .background-img(18px,
                                                 right);
                                                 background-size: 18px;
-                                                width: 20px;
-                                                height: 20px;
-                                                float: right;
                                             }
                                             &.footer-minus {
                                                 background-image: url('../../assets/images/minus-white.svg');
                                                 .background-img(18px,
                                                 right);
                                                 background-size: 18px;
-                                                width: 20px;
-                                                height: 20px;
-                                                float: right;
                                             }
                                         }
                                     }
@@ -1644,17 +1632,11 @@
                                                 background-image: url('../../assets/images/plus-care.svg');
                                                 .background-img(18px,
                                                 right);
-                                                width: 20px;
-                                                height: 20px;
-                                                float: right;
                                             }
                                             &.footer-minus {
                                                 background-image: url('../../assets/images/minus-care.svg');
                                                 .background-img(18px,
                                                 right);
-                                                width: 20px;
-                                                height: 20px;
-                                                float: right;
                                             }
                                         }
                                     }
@@ -1690,17 +1672,11 @@
                                                     background-image: url('../../assets/images/plus-care.svg');
                                                     .background-img(18px,
                                                     right);
-                                                    width: 20px;
-                                                    height: 20px;
-                                                    float: right;
                                                 }
                                                 &.footer-minus {
                                                     background-image: url('../../assets/images/minus-care.svg');
                                                     .background-img(18px,
                                                     right);
-                                                    width: 20px;
-                                                    height: 20px;
-                                                    float: right;
                                                 }
                                             }
                                         }
@@ -1823,6 +1799,28 @@
                 height: 40px;
                 padding: 0px 55px;
                 font-size: 0.875em;
+            }
+        }
+    }
+    .pdp-recipient-modal .accordion-block .panel-group .panel .panel-heading .panel-title .recipentName{
+        /*width: 100px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;   
+        position: relative;
+        top: 1.2em;*/
+        span{
+            &.name{
+                display:none;
+                &+.code{
+                    display:none;
+                }
+            }
+            &:first-child{
+                display:none;
+            }
+            &:last-child{
+                display:none;
             }
         }
     }
@@ -2795,7 +2793,8 @@ span.ng-isolate-scope:active {
                         position: absolute;
                         top: 50%;
                         transform:translateY(-50%);
-                        right: 12%;
+                        right: 25px;
+                        width:auto;
                         svg{
                             height: 23px;
                             width: 23px;
@@ -3831,14 +3830,14 @@ span.ng-isolate-scope:active {
                                     padding-right: 50px;
                                     .qtyBox {
                                         label{
-                                            margin-top: -0.4em;
+                                            margin-top: 0;
                                         }
                                         input{
                                             height: 2.4em;
                                             line-height: 2.4em;
                                             border-radius:2px;
                                             width:50px;
-                                            top:-0.53em;
+                                            top:0;
                                         }
                                     }
                                 }
@@ -3932,6 +3931,9 @@ span.ng-isolate-scope:active {
                             font-size: 0.875em;
                             height: 40px;
                             line-height: 40px;
+                            &.next-btn{
+                                margin-right:0;
+                            }
                         }
                     }
                         
@@ -4048,5 +4050,18 @@ span.ng-isolate-scope:active {
             border-radius: 0px;
             box-shadow: none;
         }
+    }
+}
+.pdp-recipient-modal .panel-body-content .radio-btn-group{ 
+    .receipient-location{
+        .radio-inline{
+            padding-left:0;
+            padding-right:20px;
+            margin-left:0;
+            padding-bottom: 10px;
+            label{
+                padding-left:0;
+            }
+        } 
     }
 }

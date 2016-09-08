@@ -47,7 +47,7 @@ function CartConfig($stateProvider) {
                         $state.go('home');
                     }
                 },*/
-                LineItemsList: function ($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers) {
+                LineItemsList: function ($q, $state, Order, Underscore, OrderCloud, toastr, LineItemHelpers, PdpService) {
                     var dfd = $q.defer();
                     if (Order) {
                         OrderCloud.LineItems.List(Order.ID)
@@ -62,6 +62,13 @@ function CartConfig($stateProvider) {
                                 else {
                                     LineItemHelpers.GetProductInfo(data.Items)
                                         .then(function () {
+                                            angular.forEach(data.Items, function(val,key){
+                                                console.log(val,key);
+                                                PdpService.GetProductCodeImages(val.ID).then(function(res1){
+                                                    console.log(res1);
+                                                    val.productimages=res1[0];
+                                                })
+                                            })
                                             dfd.resolve(data);
                                         });
                                 }
@@ -98,6 +105,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
+    console.log("vm.lineItems", vm.lineItems);
     vm.removeItem = removeItem;
     vm.pagingfunction = PagingFunction;
     vm.signnedinuser = LoggedinUser;
@@ -169,8 +177,8 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             animation: false,
             windowClass: 'confirmPopup',
             template: '<div class="">' +
-            '<p>Are you sure you want to clear Items?</p>' +
-            '<button class="save-btn" ng-click="confirmctrl.ok()">Ok</button>' +
+            '<p>Are you sure want to move item to whishlist ?</p>' +
+            '<button class="save-btn" ng-click="confirmctrl.ok()">Yes</button>' +
             '<button class="cancel-btn" ng-click="confirmctrl.cancel()">Cancel</button>' +
             '</div>',
             controller: 'confirmPopupCtrl',
@@ -222,6 +230,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
 
     vm.groups = data;
+    console.log("234567890",vm.groups);
     vm.linetotalvalue = 0;
     vm.lineVal = [];
     vm.lineTotal = {};
@@ -240,7 +249,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             animation: false,
             windowClass: 'confirmPopup',
             template: '<div class="">' +
-            '<p>Are you sure you want to clear Items?</p>' +
+            '<p>Are you sure you want to clear Items ?</p>' +
             '<button class="save-btn" ng-click="confirmctrl.ok()">Ok</button>' +
             '<button class="cancel-btn" ng-click="confirmctrl.cancel()">Cancel</button>' +
             '</div>',
@@ -1092,12 +1101,20 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
         $state.go('cart', {}, { reload: true });
     };
 
-    vm.lineItemCall = function /*getLineItems*/(order) {
+    vm.lineItemCall = function getLineItems(order) {
         var dfd = $q.defer();
         var queue = [];
         OrderCloud.LineItems.List(order.ID)
             .then(function (li) {
                 vm.LineItems = li;
+                angular.forEach(vm.LineItems.Items, function(val,key){
+                    console.log(val,key);
+                    PdpService.GetProductCodeImages(val.ID).then(function(res1){
+                        console.log(res1);
+                        val.productimages=res1[0];
+                    })
+                })
+                console.log('vm.LineItems1231',vm.LineItems);
                 if (li.Meta.TotalPages > li.Meta.Page) {
                     var page = li.Meta.Page;
                     while (page < li.Meta.TotalPages) {

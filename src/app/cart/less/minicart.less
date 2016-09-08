@@ -4,7 +4,7 @@
     height: 300px;
     &:hover {
         height: auto!important;
-        width: 250px !important;
+        width: 300px !important;
         .info-cart-empty-div {
             display: block;
             background-color: #8c58b5;
@@ -49,9 +49,10 @@
                     left: auto !important;
                     margin-top: 0px;
                     box-shadow: none;
+                    padding: 0px;
                     .shopping-cart-blocks {
                         position: relative;
-                        padding: 12px 10px 37px;
+                        padding: 10px 10px 20px 10px;
                         background-color: #fff;
                         background: url("../assets/images/batch3web/zigzag.jpg") repeat-x bottom center;
                         /*-webkit-border-image: url('../assets/images/arrow-up.svg') 30 strech;
@@ -69,24 +70,36 @@
                                     color: #666666;
                                 }
                                 .custom-name {
-                                    height: 25px;
+                                    height: 30px;
                                     margin-top: -13px;
-                                    h6 {
+                                    line-height: 30px;
+                                    span {
                                         font: 12px @proxima-regular;
                                         display: inline-block;
                                         color: #666666;
-                                        vertical-align: top;
+                                        vertical-align: middle;
+                                        margin-left: 2px;
                                     }
                                     p {
                                         font: 12px @proxima-bold;
                                         display: inline-block;
                                         color: @font-purple-dark;
-                                        padding: 0 5px 5px 0;
-                                        vertical-align: top;
+                                        //padding: 0 5px 5px 0;
+                                        vertical-align: middle;
+                                        height: auto;
+                                        line-height: initial;
                                         &.cart-no {
                                             .fr;
                                             color: #666666;
                                             padding-right: 0px;
+                                            line-height: 30px;
+                                        }
+                                        &.full-name{
+                                            text-transform: capitalize;
+                                            max-width: 50%;
+                                            white-space: pre-line;
+
+                                            
                                         }
                                     }
                                 }
@@ -169,7 +182,7 @@
                         .taCenter;
                         color: #666666;
                         font: 12px/22px @proxima-regular;
-                        padding-top: 15px;
+                        //padding-top: 15px;
                         p {
                             font: 12px/20px @proxima-bold;
                             display: inline-block;
@@ -228,6 +241,9 @@
                             div {
                                 .cart-product-desc {
                                     padding-left: 20px;
+                                    h6{
+                                        font-size: 0.9em;
+                                    }
                                 }
                             }
                         }
@@ -236,6 +252,17 @@
                         width: 100%;
                     }
                 }
+            }
+        }
+    }
+
+    /* minicart edit recipient popup */
+
+    .minicartPopUp {
+        .radio-btn-group{
+            label{
+                font-size: 0.9em;
+                padding-left: 10px;
             }
         }
     }
@@ -270,11 +297,13 @@
                             .cart-product {
                                 width: 45%;
                                 float: left;
+
                             }
                             .cart-product-desc {
                                 width: 50%;
                                 float: right;
                                 margin-left: 6px;
+                               
                             }
                         }
                     }
@@ -286,129 +315,19 @@
             top: -23px !important;
         }
     }
-}
+    /* minicart edit recipient popup */
 
-
-
-
-
-
-/* miniCartEditModal */
-
-.miniCartEditModal{
-     .modal-dialog {
-        width: 80%;
-        position: absolute;
-        left: 10%;
-        .modal-content {
-            border-radius: 0px;
-            box-shadow: none;
-            border: none;
-
-            .name-block{
-                border: none;
-                margin-bottom: 10px;
+    .minicartPopUp {
+        .radio-btn-group{
+            label{
+                font-size: 0.85em;
+                padding-left: 5px !important;
             }
-            .radio-btn-group {
-            margin-top: 10px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #f1f1f1;
-            margin-bottom: 20px;
-            label {
-                font: 1em @proxima-regular;
-                color: #666;
-                display: inline-block;
-                cursor: pointer;
-                position: relative;
-                padding-left: 25px;
-                margin: 0px;
-                font-weight: normal;
-                vertical-align: middle;
-                .radioOutline {
-                    vertical-align: middle;
-                }
-                .label-name {
-                    vertical-align: middle;
-                }
-                &#first-label {
-                    padding-left: 0px;
-                }
-            }
-            input[type=radio] {
-                display: none;
-            }
-            input[type=radio] {
-                opacity: 0;
-                &:not(old) {
-                    &+ label .radioOutline,
-                    &:checked + label .radioOutline {
-                        border: 1px solid @base-bg-purple-dark;
-                        border-radius: 50%;
-                        background: transparent;
-                        display: inline-block;
-                        width: 18px;
-                        height: 18px;
-                        text-align: center;
-                    }
-                    &:checked + label .radioOutline .radioInside {
-                        display: block;
-                        width: 10px;
-                        height: 10px;
-                        border-radius: 50%;
-                        display: inline-block;
-                        background-color: @base-bg-purple-dark;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        margin: auto;
-                    }
-                    &+ label .radioOutline .radioInside {
-                        display: block;
-                        width: 10px;
-                        height: 10px;
-                        border-radius: 50%;
-                        display: inline-block;
-                        background-color: transparent;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        margin: auto;
-                    }
-                }
-            }
-            /*label:before {
-                                content: "";
-                                display: inline-block;
-                                width: 17px;
-                                height: 17px;
-                                margin-right: 10px;
-                                position: absolute;
-                                left: 0;
-                                bottom: 1px;
-                                border: 1px solid #ccc;
-                                background-color: transparent;
-                                border-radius: 10px;
-                            }
-                        
-                            input[type=radio]:checked + label:before {
-                                content: "\2022";
-                                color: @base-bg-purple-dark;
-                                font-size: 44px;
-                                text-align: center;
-                                line-height: 5px;
-                                -webkit-transition:color 0.3s linear;
-                                -o-transition:color 0.3s linear;
-                                -moz-transition:color 0.3s linear;
-                                transition:color 0.3s linear;
-                            }*/
-        #first-radio{
-            padding-left:0px;
-        }
-        }
         }
     }
 }
+
+
+
+
+

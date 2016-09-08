@@ -3189,7 +3189,7 @@ function addedToCartController1($scope, $uibModalInstance, $state, Orderid, $coo
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 
-		$state.go('cart', { ID: vm.orderid.ID });
+		//$state.go('cart', { ID: vm.orderid.ID });
 
 
 	};

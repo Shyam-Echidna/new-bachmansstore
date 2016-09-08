@@ -16,7 +16,7 @@ function CheckoutConfig($stateProvider) {
 			controller: 'CheckoutCtrl',
 			controllerAs: 'checkout',
 			resolve: {
-                LineItems: function (OrderCloud, $rootScope, $q, CurrentOrder, toastr, $state, LineItemHelpers) {
+                LineItems: function (OrderCloud, $rootScope, $q, CurrentOrder, toastr, $state, LineItemHelpers, PdpService) {
 					var deferred = $q.defer();
 					CurrentOrder.GetID()
 						.then(function (data) {
@@ -27,6 +27,13 @@ function CheckoutConfig($stateProvider) {
 
 										.then(function () {
 											console.log("res,", res);
+											angular.forEach(res.Items, function(val,key){
+                                                console.log(val,key);
+                                                PdpService.GetProductCodeImages(val.ID).then(function(res1){
+                                                    console.log(res1);
+                                                    val.productimages=res1[0];
+                                                })
+                                            })
 											deferred.resolve(res);
 										});
 
@@ -166,7 +173,9 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.changePreference = changePreference;
 	vm.gotoNext = gotoNext;
 	vm.ordersummarydata = LineItems;
+	console.log("vm.ordersummarydata",vm.ordersummarydata);
 	vm.orderdata = Order;
+	vm.orderTotal = angular.copy(Order.Total);
 	vm.init = init;
 	vm.creditcards = CreditCard;
 	vm.signnedinuser = LoggedinUser;
@@ -386,42 +395,6 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
     vm.changeAcItem = function (item) {
         vm.openACCItems.name = item;
-    }
-
-    vm.ApplySpendingAccCharges = function (obj, model, customCharges, orderDtls, type) {
-        var dat;
-        if (model != 'Full') {
-            dat = customCharges;
-        } else {
-            dat = obj.Balance;
-        }
-        if (type == "Bachman Charges")
-            vm.orderDtls.SpendingAccounts.BachmansCharges = {
-                "ID": obj.ID,
-				"Name": "Bachman's Charge applied",
-                "Amount": dat
-            };
-        if (type == "Purple Perks")
-            vm.orderDtls.SpendingAccounts.PurplePerks = {
-                "ID": obj.ID,
-				"Name": "Purple Perks applied",
-                "Amount": dat
-            };
-        vm.SumSpendingAccChrgs(orderDtls);
-    }
-
-    vm.SumSpendingAccChrgs = function () {
-        var sum = 0;
-        angular.forEach(vm.orderDtls.SpendingAccounts, function (val, key) {
-            //if(key!="Cheque")
-            sum = sum + val.Amount;
-        }, true);
-        if (_.isEmpty(vm.orderDtls.SpendingAccounts)) {
-            vm.orderdata.Total = vm.orderdata.Subtotal + vm.orderdata.ShippingCost + vm.orderdata.TaxCost;
-        } else {
-            vm.orderdata.Total = vm.orderdata.Subtotal + vm.orderdata.ShippingCost - sum + vm.orderdata.TaxCost;
-        }
-		return sum;
     }
 
 	function init() {
@@ -678,16 +651,15 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
                 var d1 = new Date();
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
                 if (d1 > d2) {
-                    vm.bachmansChargesApplied = true;
-                    vm.bachmansChargesAppliedAmount = vm.orderdata.Subtotal;
+					var amount = vm.orderdata.Total < vm.bachmanschargeacc.Balance ? vm.orderdata.Total : vm.orderdata.Total > vm.bachmanschargeacc.Balance ? vm.bachmanschargeacc.Balance : 100;
+					vm.ApplySpendingAccCharges(vm.bachmanschargeacc,amount,vm.orderdata,"Bachman Charges")
                 }
             } else if (bcdata.bachmanscharge == "custom" && bcdata.customChargeCode) {
 				var d1 = new Date();
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
                 if (d1 > d2) {
-                    if (bcdata.customChargeCode > vm.orderdata.Subtotal) {
-                        vm.bachmansChargesApplied = true;
-                        vm.bachmansChargesAppliedAmount = bcdata.customChargeCode;
+                    if (parseInt(bcdata.customChargeCode) < vm.orderdata.Subtotal) {
+						vm.ApplySpendingAccCharges(vm.bachmanschargeacc,bcdata.customChargeCode,vm.orderdata,"Bachman Charges")
                     } else {
                         alert("entered amount is greaterthan total");
                     }
@@ -722,6 +694,36 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		//        }else{
 		//            vm.giftcard(giftCardData);
 		//        }
+    }
+
+ vm.ApplySpendingAccCharges = function (obj, amount, orderDtls, type) {
+        if (type == "Bachman Charges")
+            vm.orderDtls.SpendingAccounts.BachmansCharges = {
+                "ID": obj.ID,
+				"Name": "Bachman's Charge applied",
+                "Amount": amount
+            };
+        if (type == "Purple Perks")
+            vm.orderDtls.SpendingAccounts.PurplePerks = {
+                "ID": obj.ID,
+				"Name": "Purple Perks applied",
+                "Amount": amount
+            };
+        vm.SumSpendingAccChrgs(orderDtls);
+    }
+
+    vm.SumSpendingAccChrgs = function () {
+        var sum = 0;
+        angular.forEach(vm.orderDtls.SpendingAccounts, function (val, key) {
+            //if(key!="Cheque")
+            sum = sum + val.Amount;
+        }, true);
+        if (_.isEmpty(vm.orderDtls.SpendingAccounts)) {
+            vm.orderTotal = vm.orderdata.Subtotal + vm.orderdata.ShippingCost + vm.orderdata.TaxCost;
+        } else {
+            vm.orderTotal = vm.orderdata.Subtotal + vm.orderdata.ShippingCost - sum + vm.orderdata.TaxCost;
+        }
+		return sum;
     }
 
 	vm.editPopUp = function (lineitem) {

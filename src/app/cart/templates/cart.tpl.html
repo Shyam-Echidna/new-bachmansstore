@@ -206,13 +206,13 @@
                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  recipient-products">
                               <div class="product-info">
                                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ui-sref="pdp({ProductID:lineItem.ProductID})">
-                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/Shooping cart/shopping-product2.jpg">
-                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile2.png">
+                                    <img class="visible-lg visible-md hidden-sm hidden-xs" src="{{lineItem.productimages}}">
+                                    <img class="hidden-lg hidden-md visible-sm visible-xs" src="{{lineItem.productimages}}">
                                  </div>
                                  <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8 desktop-recipent-info">
                                     <p class="custom-name">
                                        {{lineItem.Product.Name}}
-                                       <span class="visible-xs visible-sm">
+                                       <span class="visible-xs visible-sm" ng-click="cart.removeItem(cart.order, lineItem)">
                                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                              viewBox="0 0 93.1 93.1" style="enable-background:new 0 0 93.1 93.1;" xml:space="preserve">
                                              <polygon points="93.1,4.5 90.3,1.6 46.6,43.7 4.5,0 1.6,2.8 43.7,46.5 0,88.6 2.8,91.5 46.5,49.4 88.6,93.1 91.5,90.3 49.4,46.6 "/>
@@ -596,13 +596,13 @@
                                           </div>
                                        </script>
                                        <script type="text/ng-template" id="deleteNoteMobile.html">
-                                          <div class="change-recipient" click-outside="lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip">
+                                          <div class="change-recipient" click-outside="lineItem.showDeliveryToolTipMobile=!lineItem.showDeliveryToolTipMobile">
                                               <div class="arrow-up"></div>
                                               <div class="change-recipient-info">
                                                   <div class="recipient-header">
                                                       Change Recipient
                                           
-                                                     <p class="close-icon" ng-click="lineItem.showDeliveryToolTip=!lineItem.showDeliveryToolTip">
+                                                     <p class="close-icon" ng-click="lineItem.showDeliveryToolTipMobile=!lineItem.showDeliveryToolTipMobile">
                                           <a>
                                           <?xml version="1.0" encoding="utf-8"?>
                                           <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->

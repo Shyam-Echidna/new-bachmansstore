@@ -75,21 +75,30 @@
             }
             div {
                 .accordion-block {
-                    border-left: 1px solid #e5e5e5;
-                    border-right: 1px solid #e5e5e5;
-                    border-bottom: 1px solid #e5e5e5;
+                    border: 1px solid #e5e5e5;
+                    //border-right: 1px solid #e5e5e5;
+                    //border-bottom: 1px solid #e5e5e5;
                     uib-accordion {
                         .panel-group {
                             margin-bottom: 0px;
                             .panel {
+                                    &:first-child{
+                                        .panel-heading{
+                                            border-top:none;
+                                        }
+                                    }
                                 border: transparent;
                                 border-radius: 0px;
-                                margin-bottom: -5px;
+                                margin-bottom: 0;
+                                margin-top: 0;
                                 .panel-heading {
                                     background-color: #f1f1f1;
-                                    border: 1px solid #cfcfcf;
+                                    border-top: 1px solid #cfcfcf;
                                     border-radius: 0px;
                                     padding: 20px;
+                                    &:last-child{
+                                        border-bottom:1px solid #cfcfcf;
+                                    }
                                     .panel-title {
                                         color: #666666;
                                         font: 1.127em @proxima-bold;
@@ -546,8 +555,10 @@
                                                                         }
                                                                         .deliver-today,
                                                                         .deliver-tomorrow {
-                                                                            padding: 16px 12px !important;
+                                                                            padding: 16px 12px 0 !important;
                                                                             border-bottom: 2px solid transparent;
+                                                                            height: 6em;
+                                                                            line-height: 6em;
                                                                             .delivery-day,
                                                                             .preferences1,
                                                                             .preferences2,
@@ -561,6 +572,8 @@
                                                                             .preference-date {
                                                                                 font: 0.813em @proxima-regular;
                                                                                 color: #666666;
+                                                                            }
+                                                                            div{ 
                                                                             }
                                                                         }
                                                                     }
@@ -577,11 +590,13 @@
                                                                         }
                                                                     }
                                                                     .select-date-info {
-                                                                        padding: 11px 10px;
+                                                                        padding: 16px 12px 0 !important;
                                                                         border-bottom: 2px solid transparent;
+                                                                        height: 6em;
+                                                                        line-height: 6em;
                                                                         .select-date {
                                                                             text-align: center;
-                                                                            padding-bottom: 16px;
+                                                                            padding-bottom: 8px;
                                                                             font: 0.875em @proxima-bold;
                                                                             color: #000000;
                                                                         }
@@ -826,7 +841,8 @@
                                                                     a{
                                                                         padding: 0px;
                                                                         border: none;
-
+                                                                        height: auto;
+                                                                        display: inline-block;
                                                                         .credit-card-opt,
                                                                         .bachmans-opt,
                                                                         .gift-card-opt{
@@ -835,7 +851,10 @@
                                                                                 display: none;
                                                                             }
                                                                             .opt-title{
-                                                                                top: 40%;
+                                                                                position: static;
+                                                                                line-height: initial;
+                                                                                display: inline-block;
+                                                                                vertical-align: middle;
                                                                             }
                                                                             }
                                                                         }
@@ -856,6 +875,8 @@
                                                                             }
                                                                              .opt-title{
                                                                                 top:60%;
+                                                                                vertical-align: bottom;
+                                                                                padding-bottom: 10px;
                                                                             }
                                                                             }
                                                                         }
@@ -882,9 +903,17 @@
                                                             border: 1px solid #e4e4e4;
                                                             border-radius: 5px;
                                                             height: 80px;
+                                                            line-height: 80px;
                                                             position: relative;
                                                             cursor: pointer;
                                                             width: 100%;
+                                                            div{
+                                                                text-align: center;
+                                                                display: inline-block;
+                                                                line-height: initial;
+                                                                vertical-align: middle;
+                                                                width: 100%;
+                                                            }
                                                             .opt-title {
                                                                 color: #464646;
                                                                 font: 0.95em @proxima-regular;
@@ -897,17 +926,20 @@
                                                                 display: none;
                                                                 width: 35px;
                                                                 fill: @base-bg-purple-dark;
-                                                                position: absolute;
+                                                                //position: absolute;
                                                                 top: 17%;
                                                                 left: 50%;
-                                                                -webkit-transform: translateX(-50%);
+                                                                /*-webkit-transform: translateX(-50%);
                                                                 -moz-transform: translateX(-50%);
                                                                 -ms-transform: translateX(-50%);
                                                                 -o-transform: translateX(-50%);
-                                                                transform: translateX(-50%);
+                                                                transform: translateX(-50%);*/
+                                                                margin: auto;
+                                                                padding-bottom: 10px;
+                                                                padding-top: 5px;
                                                             }
                                                             .arrow-up {
-                                                                width: 0;
+                                                               /* width: 0;
                                                                 height: 0;
                                                                 border-left: 20px solid transparent;
                                                                 border-right: 20px solid transparent;
@@ -915,7 +947,7 @@
                                                                 position: absolute;
                                                                 left: 50%;
                                                                 transform: translateX(-50%);
-                                                                bottom: -25px;
+                                                                bottom: -26px;*/
                                                                 //display: none;
                                                             }
                                                             &.selected {
@@ -935,19 +967,19 @@
                                                             }
                                                         }
                                                         .credit-card-opt {
-                                                            padding: 5px;
+                                                            padding: 0 5px;
                                                             //width: 38%;
                                                             /*max-width: 165px;*/
                                                             margin-right: 2%;
                                                         }
                                                         .bachmans-opt {
-                                                            padding: 10px;
+                                                            padding: 0 5px;
                                                             //width: 38%;
                                                             /*max-width: 165px;*/
                                                             margin-right: 2%;
                                                         }
                                                         .gift-card-opt {
-                                                            padding: 10px;
+                                                            padding: 0 5px;
                                                             //width: 20%;
                                                             /*max-width: 100px;*/
                                                             &.selected{
@@ -1043,6 +1075,18 @@
                                                                 }
                                                             
                                                         }
+                                                        &.forGuestUser:before{
+                                                            content:'';
+                                                            width: 0;
+                                                            height: 0;
+                                                            border-left: 20px solid transparent;
+                                                            border-right: 20px solid transparent;
+                                                            border-bottom: 20px solid #fafafa;
+                                                            position: absolute;
+                                                            left: 16%;
+                                                            transform: translateX(-50%);
+                                                            top: -20px;
+                                                        }
                                                     }
                                                     .billing-addr-cont {
                                                         padding-right: 0;
@@ -1123,11 +1167,14 @@
                                                                     }
                                                                 }
                                                                 .selectRadio{
-                                                                    text-align: center;
+                                                                    text-align: left;
                                                                     .label-name{
                                                                         font: 1em @proxima-regular;
                                                                         color: #666666;
                                                                         vertical-align: middle;
+                                                                    }
+                                                                    .radio-inline{
+                                                                        padding-left: 10px;
                                                                     }
                                                                 }
                                                                 .recipientDetails{
@@ -1269,7 +1316,7 @@
                                                         }
                                                     }
                                                     .credit-card-details {
-                                                        margin-top: 35px;
+                                                        margin-top: 10px;
                                                         
                                                             .cardHolder{
                                                                 border: 1px solid #e9e9e9;
@@ -2089,6 +2136,15 @@
 /* media queries -- all mobiles & ipad portrait */
 
 @media only screen and (min-width:320px) and (max-width:810px) {
+    .checkout-page .checkout-info .row div .accordion-block uib-accordion .panel-group .panel .panel-collapse .panel-body .delivery-info .delivery-address-details .row div .delivery-address .delivery-adddress-form form .select-date-info{
+        height: 3.5em;
+        line-height: 3.5em;
+        padding: 0px 10px 0px !important;
+        div{
+            position:relative;
+            top:-1px;
+        }
+    }
     .checkout-page {
         padding: 0px;
         .checkout-header {
@@ -2141,7 +2197,7 @@
                         .panel-group{
                            .panel {
                             .panel-heading{
-                            margin: 0px 5px;
+                           // margin: 0px 5px;
                             .panel-title{
                                 padding: 0px 0px 0px 15px !important;
                                 div{
@@ -2334,7 +2390,7 @@
                                                                         .form-group {
                                                                             label,
                                                                             input {
-                                                                                font: 0.750em @proxima-regular;
+                                                                                //font: 0.750em @proxima-regular;
                                                                             }
                                                                             input {
                                                                                 margin-bottom: 14px;
@@ -2351,15 +2407,27 @@
                                                                             }
                                                                         }
                                                                         .delivery-days-info {
+                                                                            div{
+                                                                                .deliver-today,.deliver-tomorrow{
+                                                                                    padding:0px 10px 0px !important;
+                                                                                    border-bottom:1px solid #f1f1f1;
+                                                                                    height: 3.5em;
+                                                                                    line-height:3.5em;
+                                                                                    &.active-date,&:hover{
+                                                                                     border-bottom: 2px solid #8b5bb3;
+                                                                                    }
+                                                                                }
+                                                                            }
                                                                             .deliver-tomorrow,
                                                                             .deliver-today {
-                                                                                padding: 10px !important;
+                                                                                padding: 8px 10px 10px !important;
                                                                                 .delivery-day {
                                                                                     margin-right: 66px;
                                                                                     display: inline;
                                                                                     font: 0.750em @proxima-bold;
                                                                                     position: relative;
-                                                                                    top: 10px;
+                                                                                    //top: 10px;
+                                                                                    padding:0;
                                                                                 }
                                                                                 .delivery-avail {
                                                                                     display: block;
@@ -2371,16 +2439,41 @@
                                                                                     display: inline;
                                                                                     font: 0.688em @proxima-regular;
                                                                                 }
+                                                                                div{
+                                                                                    display: inline-block;
+                                                                                    vertical-align: middle;
+                                                                                    line-height:initial;
+                                                                                    p{
+                                                                                        &.delivery-avail{
+                                                                                            margin: 0;
+                                                                                            text-align: left;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            .delivery-day,.delivery-day,.select-date{
+                                                                                width: 40%;
+                                                                                margin-right: 0 !important;
+                                                                                display: inline-block !important;
+                                                                                text-align:left;
+                                                                                line-height:initial;
+
                                                                             }
                                                                             .deliver-tomorrow {
                                                                                 .delivery-day {
-                                                                                    margin-right: 40px;
+                                                                                    //margin-right: 40px;
                                                                                 }
+                                                                                border-left:none;
+                                                                                border-right:none;
                                                                             }
                                                                             .delivery-days1,
                                                                             .delivery-days2,
                                                                             .delivery-days3 {
                                                                                 width: 100%;
+                                                                                //border-bottom:1px solid #f1f1f1; 
+                                                                            }
+                                                                            .delivery-days3 {
+                                                                                border-bottom:1px solid #f1f1f1;
                                                                             }
                                                                             .preferences1,
                                                                             .preferences2,
@@ -2406,11 +2499,12 @@
                                                                             .select-date {
                                                                                 font: 0.750em @proxima-bold;
                                                                                 display: inline;
-                                                                                margin-right: 77px;
+                                                                                //margin-right: 77px;
                                                                             }
                                                                             .date {
                                                                                 font: 0.688em @proxima-bold;
-                                                                                display: inline;
+                                                                                display: inline-block;
+                                                                                width: 54%;
                                                                                 span {
                                                                                     float: none;
                                                                                     margin: 0px 0px 0px 6px;
@@ -2420,6 +2514,9 @@
                                                                                         width: 20px;
                                                                                         height: 20px;
                                                                                     }
+                                                                                }
+                                                                                .date-holder{
+
                                                                                 }
                                                                             }
                                                                         }
@@ -2453,10 +2550,26 @@
                                                                     margin: 40px 0px;
                                                                     .card-message {
                                                                         font: 0.875em @proxima-regular;
+                                                                        display: inline-block;
+                                                                        vertical-align: middle;
                                                                     }
                                                                     .no-message {
                                                                         label {
                                                                             font: 0.750em @proxima-regular;
+                                                                            margin-bottom:initial;
+                                                                        }
+                                                                    }
+                                                                    div{
+                                                                        .Checkbox{
+                                                                            display:inline-block;
+                                                                            vertical-align:middle;
+                                                                            .Checkbox-visible{
+                                                                                margin:0;
+                                                                            }
+                                                                        }
+                                                                        label{
+                                                                            display:inline-block;
+                                                                            vertical-align:middle;
                                                                         }
                                                                     }
                                                                 }

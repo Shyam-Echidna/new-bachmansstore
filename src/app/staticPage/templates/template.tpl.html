@@ -1,4 +1,4 @@
-<div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
+<div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}"  id="tempArticleContainer">
 
 	<div class="container-fluid p0 purple">
 		<div class="breadcrumb-box breadcrumbStatic">
@@ -11,12 +11,11 @@
 
 		</div>
 		<div class="banner-img" ng-if="template.bannerHideArticle">
-			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/2e34e2c3-5065-4791-88cd-b61bc73eac0e/08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-xs hidden-sm">
+			<!--<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/2e34e2c3-5065-4791-88cd-b61bc73eac0e/08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-xs hidden-sm">
 			<img src="http://103.227.151.37:8080/alfresco/d/a/workspace/SpacesStore/eb629c2f-ef33-4eda-9b4b-fa24ca8971d7/mobile-08_Care_Advice_Information_Landing_banner.png?a=true" class="hidden-md hidden-lg">
 			<div class="banner-title">
 				<h4>{{template.mainCatName}}</h4>
-				<!-- <h5>Florem ipsum lily of the valley</h5> -->
-			</div>
+			</div>-->
 		</div>
 	</div>
 
@@ -100,16 +99,16 @@
                 </uib-accordion>
 
 </div>
-            <ul class="related-articles hidden-xs hidden-sm" ng-if="!template.bannerHideArticle">
+            <ul class="related-articles hidden-xs hidden-sm" ng-if="relatedArticles && relatedArticles.length > 0">
 
               <div class="first-head">
                   Related articles
               </div>
 
-              <li>
-                  <a href="#">The house Experts by Dr. D. G. Hessayon</a>
+              <li ng-repeat="article in relatedArticles" ng-click="template.relatedArticlesLinks(article)">
+                  <a href="#">{{article.properties.title}}</a>
               </li>
-              <li>
+              <!--<li>
                   <a href="#">Orthos Guide to successful Houseplant</a>
               </li>
               <li>
@@ -120,7 +119,7 @@
               </li>
               <li>
                   <a href="#">Batchman's Information Sheet Watering Basics for Indoor Plants</a>
-              </li>
+              </li>-->
 
           </ul>
 </div>

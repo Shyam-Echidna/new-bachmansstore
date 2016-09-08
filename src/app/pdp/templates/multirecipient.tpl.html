@@ -1063,7 +1063,7 @@
 
                     </div>
                     <div class="cardmsg row" ng-if="!multipleRecipient.crdmsg[$index]">
-                       <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index]">Back to Address Info</button>
+                       <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index];multipleRecipient.formInValid=!multipleRecipient.formInValid">Back to Address Info</button>
                         <div ng-init="visible=false" class="row">
                             <!-- <div class="no-message">
                                     <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>
@@ -1833,7 +1833,7 @@
                     </div>
                     <div class="cardmsg row" ng-if="!multipleRecipient.crdmsg[$index]">
                        
-                        <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index]">Back to Address Info</button>
+                        <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index];multipleRecipient.formInValid=!multipleRecipient.formInValid">Back to Address Info</button>
                         <div ng-init="visible=false" class="row">
                             <!-- <div class="no-message">
                                     <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>

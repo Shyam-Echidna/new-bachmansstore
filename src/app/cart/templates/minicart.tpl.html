@@ -60,15 +60,16 @@
                                     <div class="cart-delivery-details">
                                         <h6>Delivering to:</h6>
                                         <div class="custom-name">
-                                            <p>{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</p>
-                                            <h6 ng-click="minicart.editcartdetails(lineItem)">[Edit]</h6>
-                                            <p class="cart-no">{{lineItem.ShippingAddress.Zip}}</p>
+                                            <p class="full-name">{{lineItem.ShippingAddress.FirstName}} {{lineItem.ShippingAddress.LastName}}</p>
+                                            <span ng-click="minicart.editcartdetails(lineItem)">[Edit]</span>
+                                            
+                                            <p class="cart-no zip-code">{{lineItem.ShippingAddress.Zip}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 cart-product">
-                                        <div ui-sref="pdp({sequence: lineItem.Product.xp.ProductCode, prodId: lineItem.Product.ID})"><img src="assets/images/batch3web/minicart/flowers1.png" /></div>
+                                        <div ui-sref="pdp({sequence: lineItem.Product.xp.ProductCode, prodId: lineItem.Product.ID})"><img src="{{lineItem.productimages}}" /></div>
 
                             </div>
                             <div class="col-md-7 cart-product-desc">

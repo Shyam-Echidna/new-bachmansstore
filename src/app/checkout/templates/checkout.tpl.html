@@ -52,7 +52,8 @@
                               </a>
                               <span>Sign In <span class="logged-in-user">Continue as {{checkout.user}}</span></span>
                            </span>
-                           <span ng-if="checkout.openACCItems.signinFunc" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
+                           {{checkout.signnedinuser.ID}}
+                           <span ng-if="checkout.openACCItems.signinFunc || checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
                         </p>
                      </uib-accordion-heading>
                      <div class="panel-body-content registered-customer">
@@ -316,16 +317,20 @@
                                                                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days1">
                                                                      <div class="deliver-today" ng-class="lineItem[0].xp.deliveryDate==checkout.today ?checkout.class:checkout.class=''" ng-click="checkout.notsameDay[$index]||checkout.changedeliveryDate(lineItem,checkout.today)">
                                                                         <p class="delivery-day">Deliver Today</p>
-                                                                        <p class="delivery-date">{{checkout.today | date}}</p>
-                                                                        <p class="delivery-avail" ng-if="!checkout.notsameDay[$index]">Available</p>
-                                                                        <p class="delivery-avail" ng-if="checkout.notsameDay[$index]">Not Available</p>
+                                                                        <div>
+                                                                           <p class="delivery-date">{{checkout.today | date}}</p>
+                                                                           <p class="delivery-avail" ng-if="!checkout.notsameDay[$index]">Available</p>
+                                                                           <p class="delivery-avail" ng-if="checkout.notsameDay[$index]">Not Available</p>
+                                                                        </div>
                                                                      </div>
                                                                   </div>
                                                                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days2">
                                                                      <div class="deliver-tomorrow" ng-class="lineItem[0].xp.deliveryDate==checkout.tomorrow ?checkout.class:checkout.class=''" ng-click="checkout.changedeliveryDate(lineItem,checkout.tomorrow)">
                                                                         <p class="delivery-day">Deliver Tomorrow</p>
-                                                                        <p class="delivery-date">{{checkout.tomorrow | date}}</p>
-                                                                        <p class="delivery-avail">Available</p>
+                                                                        <div>
+                                                                           <p class="delivery-date">{{checkout.tomorrow | date}}</p>
+                                                                           <p class="delivery-avail">Available</p>
+                                                                        </div>
                                                                      </div>
                                                                   </div>
                                                                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 delivery-days3">
@@ -465,10 +470,10 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                    <div class="no-message">
                                                       <div class="Checkbox">
-                                                         <input type="checkbox" checked ng-if="!!lineItem[0].xp.CardMessage">
+                                                         <input type="checkbox" checked ng-if="!!lineItem[0].xp.CardMessage" id="noMsgCheckout">
                                                          <div class="Checkbox-visible"></div>
                                                       </div>
-                                                      <label>No Message</label>
+                                                      <label for="noMsgCheckout">No Message</label>
                                                    </div>
                                                 </div>
                                              </div>
@@ -578,35 +583,37 @@
                                     <uib-tab>
                                        <uib-tab-heading>
                                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-opt selected" ng-click="checkout.showBillingAddress()">
-                                             <p class="opt-title text-center">Pay With Credit Card</p>
-                                             <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
-                                                <g>
+                                             <div>
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
                                                    <g>
-                                                      <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
-                                                         L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
-                                                         C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
-                                                         V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
-                                                         c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
                                                       <g>
+                                                         <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
                                                          <g>
                                                             <g>
-                                                               <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                               <g>
+                                                                  <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                               </g>
+                                                               <g>
+                                                                  <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                               </g>
                                                             </g>
                                                             <g>
-                                                               <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
-                                                            </g>
-                                                         </g>
-                                                         <g>
-                                                            <g>
-                                                               <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
-                                                                  C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
-                                                                  />
+                                                               <g>
+                                                                  <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                     C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                     />
+                                                               </g>
                                                             </g>
                                                          </g>
                                                       </g>
                                                    </g>
-                                                </g>
-                                             </svg>
+                                                </svg>
+                                                <p class="opt-title text-center">Pay With Credit Card</p>
+                                             </div>
                                              <div class="arrow-up"></div>
                                           </div>
                                        </uib-tab-heading>
@@ -614,7 +621,7 @@
                                           <div class="nocreditcards" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
                                              <form name="checkout.addCreditCardForm" class="billing-addr-form" role="form" novalidate>
                                                 <div class="row">
-                                                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont">
+                                                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 payment-method-cont forGuestUser">
                                                       <div class="col-xs-12 card-info-cont">
                                                          <p class="title">Input card information</p>
                                                          <div class="col-xs-12 form-group holder-name p0">
@@ -666,39 +673,39 @@
                                                    </div>
                                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 billing-addr-cont">
                                                       <p class="title">Billing Address</p>
-                                                     <!--  <div class="same-addr-chk">
+                                                      <!--  <div class="same-addr-chk">
                                                          <div class="Checkbox">
                                                             <input type="checkbox" ng-model="checkout.addPaymentInfo.sameAsDelivery" required>
                                                             <div class="Checkbox-visible"></div>
                                                          </div>
                                                          <label>Same as Delivery Address</label>
-                                                      </div> -->
+                                                         </div> -->
                                                       <div class="row selectRecipentDetails">
                                                          <div class="selectRadio">
                                                             <div class="radio-inline" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
-                                                              <input type="radio" id="addrBookRadio" name="selectRecipientAddr"  value="AddressBook">
-                                                              <label for="addrBookRadio">
-                                                                  <span class="radioOutline"><span class="radioInside"></span></span>
-                                                                  <span class="label-name">Address Book</span>
-                                                              </label>
-                                                          </div>
-                                                          <div class="radio-inline">
-                                                              <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" ng-model="checkout.BillingAddressOption" value="CurrentRecipients" ng-init="checkout.BillingAddressOption = 'CurrentRecipients'" >
-                                                              <label for="currRecipientRadio">
-                                                                  <span class="radioOutline"><span class="radioInside"></span></span>
-                                                                  <span class="label-name">Current Recipients</span>
-                                                              </label>
-                                                          </div>
+                                                               <input type="radio" id="addrBookRadio" name="selectRecipientAddr"  value="AddressBook">
+                                                               <label for="addrBookRadio">
+                                                               <span class="radioOutline"><span class="radioInside"></span></span>
+                                                               <span class="label-name">Address Book</span>
+                                                               </label>
+                                                            </div>
+                                                            <div class="radio-inline">
+                                                               <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" ng-model="checkout.BillingAddressOption" value="CurrentRecipients" ng-init="checkout.BillingAddressOption = 'CurrentRecipients'" >
+                                                               <label for="currRecipientRadio">
+                                                               <span class="radioOutline"><span class="radioInside"></span></span>
+                                                               <span class="label-name">Current Recipients</span>
+                                                               </label>
+                                                            </div>
                                                          </div>
                                                          <div class="recipientDetails">
                                                             <ul>
                                                                <li ng-repeat="(line,value) in checkout.groups">
-                                                                   <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
-                                                              <label for="recipient_{{$index}}">
+                                                                  <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
+                                                                  <label for="recipient_{{$index}}">
                                                                   <span class="radioOutline"><span class="radioInside"></span></span>
                                                                   <span class="label-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}} | {{checkout.groups[line][0].ShippingAddress.Zip}}</span>
                                                                   <span class="label-name right">{{checkout.groups[line][0].ShippingAddress.Street1}}, {{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}} </span>
-                                                              </label>
+                                                                  </label>
                                                                </li>
                                                             </ul>
                                                             <div class="viewAll">
@@ -707,73 +714,76 @@
                                                          </div>
                                                       </div>
                                                       <div class="billing-addr-div">
-                                                            <!--<div class="col-xs-12 form-group email-addr">
-                                                               <label for="address">Enter Your Email Address</label>
-                                                               <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" />
+                                                         <!--<div class="col-xs-12 form-group email-addr">
+                                                            <label for="address">Enter Your Email Address</label>
+                                                            <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" />
                                                             </div>-->
                                                          <div class="col-xs-6 form-group first-name">
-                                                               <label for="firstName">First Name</label>
-                                                               <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName" required/>
-                                                            </div>
-                                                            <div class="col-xs-6 form-group last-name">
-                                                               <label for="nickName">Last Name</label>
-                                                               <input type="text" class="form-control" id="lastName" ng-model="checkout.billingAddress.LastName" required/>
-                                                            </div>
-                                                            <div class="col-xs-6 form-group zip-code">
-                                                               <label for="zipCode">ZIP Code</label>
-                                                               <input type="number" class="form-control" id="zipCode" ng-model="checkout.billingAddress.Zip" ng-blur="checkout.addressValdation(checkout.billingAddress)" required/>
-                                                            </div>
-                                                            <!--<div class="col-xs-6 form-group zip-code-lookup">
-                                                               <a href="javascript:void(0)" class="zip-code-lookup-link">Zip Code Lookup</a>
+                                                            <label for="firstName">First Name</label>
+                                                            <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group last-name">
+                                                            <label for="nickName">Last Name</label>
+                                                            <input type="text" class="form-control" id="lastName" ng-model="checkout.billingAddress.LastName" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group zip-code">
+                                                            <label for="zipCode">ZIP Code</label>
+                                                            <input type="number" class="form-control" id="zipCode" ng-model="checkout.billingAddress.Zip" ng-blur="checkout.addressValdation(checkout.billingAddress)" required/>
+                                                         </div>
+                                                         <!--<div class="col-xs-6 form-group zip-code-lookup">
+                                                            <a href="javascript:void(0)" class="zip-code-lookup-link">Zip Code Lookup</a>
                                                             </div>-->
-                                                            <div class="col-xs-12 form-group address">
-                                                               <label for="address">Address 1</label>
-                                                               <input type="text" class="form-control" id="address" ng-model="checkout.billingAddress.Street1" ng-blur="checkout.addressValdation(checkout.billingAddress)" required />
-                                                            </div>
-                                                            <div class="col-xs-12 form-group address2">
-                                                               <label for="address2">Address 2 (Optional)</label>
-                                                               <input type="text" class="form-control" id="address2" ng-model="checkout.billingAddress.Street2" />
-                                                            </div>
+                                                         <div class="col-xs-12 form-group address">
+                                                            <label for="address">Address 1</label>
+                                                            <input type="text" class="form-control" id="address" ng-model="checkout.billingAddress.Street1" ng-blur="checkout.addressValdation(checkout.billingAddress)" required />
+                                                         </div>
+                                                         <div class="col-xs-12 form-group address2">
+                                                            <label for="address2">Address 2 (Optional)</label>
+                                                            <input type="text" class="form-control" id="address2" ng-model="checkout.billingAddress.Street2" />
+                                                         </div>
                                                          <div class="col-xs-6 form-group city">
-                                                               <label for="address">City</label>
-                                                               <input type="text" class="form-control" id="city" ng-model="checkout.billingAddress.City" required/>
+                                                            <label for="address">City</label>
+                                                            <input type="text" class="form-control" id="city" ng-model="checkout.billingAddress.City" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group state">
+                                                            <label for="state">State</label>
+                                                            <select class="form-control" id="state" ng-model="checkout.billingAddress.State" required>
+                                                               <option>MN</option>
+                                                               <option>LA</option>
+                                                               <option>LV</option>
+                                                            </select>
+                                                         </div>
+                                                         <div class="col-xs-12 form-group email-addr">
+                                                            <label for="email">Enter Your Email Address</label>
+                                                            <input type="text" class="form-control" id="email" placeholder="Email Address" name="loginEmail" ng-model="checkout.billingAddress.xp.Email"  ng-model-options="{updateOn: 'blur'}" custom-email-validation />
                                                             </div>
-                                                            <div class="col-xs-6 form-group state">
-                                                               <label for="state">State</label>
-                                                               <select class="form-control" id="state" ng-model="checkout.billingAddress.State" required>
-                                                                  <option>MN</option>
-                                                                  <option>LA</option>
-                                                                  <option>LV</option>
-                                                               </select>
-                                                            </div>
-                                                
-                                                            <div class="col-xs-12 form-group phone-number">
-                                                               <label for="phone1">Phone Number</label>
-                                                               <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.Phone1" ng-minlength="3" maxlength="3" max-length="3" required/>
-                                                               <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.Phone2" ng-minlength="3" maxlength="3" max-length="3" required/>
-                                                               <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.Phone3" ng-minlength="4" maxlength="4" max-length="4" required/>
-                                                            </div>
+                                                         <div class="col-xs-12 form-group phone-number">
+                                                            <label for="phone1">Phone Number</label>
+                                                            <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.Phone1" ng-minlength="3" maxlength="3" max-length="3" required/>
+                                                            <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.Phone2" ng-minlength="3" maxlength="3" max-length="3" required/>
+                                                            <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.Phone3" ng-minlength="4" maxlength="4" max-length="4" required/>
+                                                         </div>
                                                          <!-- <div class="col-xs-12 form-group email-addr">
                                                             <label for="address">Enter Your Email Address</label>
                                                             <input type="text" class="form-control" id="city" ng-model="checkout.addPaymentInfo.address.Email" placeholder="Email Address" required/>
-                                                         </div> -->
+                                                            </div> -->
                                                          <!--<div class="col-xs-12 form-group save-btn">
                                                             <button>Save</button>
-                                                         </div>-->
+                                                            </div>-->
                                                       </div>
                                                    </div>
                                                 </div>
-                                                <div class="col-xs-12 order-amt-cont">
-                                                    <div class="amt-cont-cover">
-                                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
-                                                        <p class="title">Total Amount Payable</p>
-                                                        <p class="amount">&#x24;525.00</p>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
-                                                        <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
-                                                    </div>
-                                                    </div>
-                                                </div>
+                                                <!--<div class="col-xs-12 order-amt-cont">
+                                                   <div class="amt-cont-cover">
+                                                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                                       <p class="title">Total Amount Payable</p>
+                                                       <p class="amount">&#x24;525.00</p>
+                                                   </div>
+                                                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                                       <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
+                                                   </div>
+                                                   </div>
+                                                   </div>-->
                                              </form>
                                           </div>
                                           <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
@@ -1248,7 +1258,37 @@
                                     <uib-tab ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.bachmanscharge()">
                                        <uib-tab-heading>
                                           <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt selected">
-                                             <p class="opt-title text-center">Bachman's Charge</p>
+                                             <div>
+                                                <svg version="1.1" id="Layer_1" class="svg-credit-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-684.8 463.7 71.3 48.7" style="enable-background:new -684.8 463.7 71.3 48.7;" xml:space="preserve">
+                                                   <g>
+                                                      <g>
+                                                         <path d="M-617.7,476.8V473c0-2.8-2.2-5-5-5h-52.6c-2.8,0-5,2.2-5,5v30c0,2.8,2.2,5,5,5h52.5c2.8,0,5-2.2,5-5
+                                                            L-617.7,476.8z M-621.3,485.5h-55.4c-0.6,0-1-0.4-1-1V479c0-0.6,0.4-1,1-1h55.5c0.6,0,1,0.4,1,1v5.5
+                                                            C-620.3,485.1-620.7,485.5-621.3,485.5z M-675.3,470.5h52.5c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.6-0.4,1-1,1h-55.5c-0.6,0-1-0.4-1-1
+                                                            V473C-677.8,471.6-676.6,470.5-675.3,470.5z M-622.8,505.5h-52.5c-1.4,0-2.5-1.1-2.5-2.5v-14c0-0.6,0.4-1,1-1h55.5
+                                                            c0.6,0,1,0.4,1,1v14C-620.3,504.4-621.4,505.5-622.8,505.5z" />
+                                                         <g>
+                                                            <g>
+                                                               <g>
+                                                                  <path d="M-639,495.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,495.5-639,495.5z" />
+                                                               </g>
+                                                               <g>
+                                                                  <path d="M-639,500.5h-32.5c-0.7,0-1.2-0.6-1.2-1.2s0.6-1.2,1.2-1.2h32.5c0.7,0,1.2,0.6,1.2,1.2S-638.3,500.5-639,500.5z" />
+                                                               </g>
+                                                            </g>
+                                                            <g>
+                                                               <g>
+                                                                  <path d="M-626.5,500.5h-7.5c-0.7,0-1.2-0.6-1.2-1.2v-5c0-0.7,0.6-1.2,1.2-1.2h7.5c0.7,0,1.2,0.6,1.2,1.2v5
+                                                                     C-625.2,499.9-625.8,500.5-626.5,500.5z M-632.7,498h5v-2.5h-5V498z"
+                                                                     />
+                                                               </g>
+                                                            </g>
+                                                         </g>
+                                                      </g>
+                                                   </g>
+                                                </svg>
+                                                <p class="opt-title text-center">Bachman's Charge</p>
+                                             </div>
                                              <div class="arrow-up"></div>
                                           </div>
                                        </uib-tab-heading>
@@ -1269,7 +1309,7 @@
                                                       <span class="radioOutline"><span class="radioInside"></span>
                                                       </span>
                                                       <span class="detailLabel">
-                                                      use {{checkout.orderdata.Subtotal < checkout.bachmanschargeacc.Balance ? checkout.orderdata.Subtotal : 100 | currency}} Bachman's Charge
+                                                      use {{checkout.orderdata.Total < checkout.bachmanschargeacc.Balance ? checkout.orderdata.Total : checkout.orderdata.Total > checkout.bachmanschargeacc.Balance ? checkout.bachmanschargeacc.Balance : 100 | currency}} Bachman's Charge
                                                       </span>
                                                       </label>
                                                    </div>
@@ -1301,42 +1341,45 @@
                                                 </div>
                                              </div>
                                           </div>
+                                       </div>
                                     </uib-tab>
                                     <uib-tab>
                                     <uib-tab-heading>
                                     <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt selected" ng-click="checkout.hideBillingAddress()">
-                                    <p class="opt-title text-center">Gift Card</p>
-                                    <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                       x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;"
-                                       xml:space="preserve">
-                                    <g>
-                                    <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
-                                       h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
-                                       M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
-                                       c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
-                                       C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
-                                       c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
-                                       c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
-                                       c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
-                                       c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
-                                       C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
-                                       c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
-                                       c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
-                                       c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
-                                       s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
-                                       c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
-                                       c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
-                                       />
-                                    <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
-                                       c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
-                                    <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
-                                       c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
-                                       />
-                                    <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
-                                       c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
-                                       />
-                                    </g>
-                                    </svg>
+                                       <div>
+                                          <svg version="1.1" id="Layer_1" class="svg-gift-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                             x="0px" y="0px" viewBox="-696.1 457.4 94.2 67.5" style="enable-background:new -696.1 457.4 94.2 67.5;"
+                                             xml:space="preserve">
+                                          <g>
+                                          <path d="M-681.8,461.8h65.5c2.6,0.1,5.1,1.4,6.6,3.5c1,1.3,1.5,3,1.6,4.6v42.4c-0.1,1.8-0.8,3.6-1.9,5.1c-1.5,1.9-3.9,3-6.3,3.1
+                                             h-65.5c-1.8-0.1-3.5-0.7-4.9-1.8c-2-1.5-3.2-3.9-3.3-6.4v-42.4c0.1-2.1,1-4.1,2.4-5.6C-686,462.8-683.9,461.8-681.8,461.8
+                                             M-683,466.7c-1.3,0.6-2.3,2-2.3,3.4c0,6.1,0,12.3,0,18.4c3.7,0,7.3,0,11,0c-1.6-1.4-2.9-3.1-3.7-5.1c-0.5-1.3-0.7-2.9-0.2-4.2
+                                             c0.4-1.1,1.2-2,2.3-2.4c1.3-0.6,2.9-0.4,4.2,0c2.4,0.8,4.4,2.4,5.9,4.4c0-4.9,0-9.9,0-14.8c-5.2,0-10.4,0-15.6,0
+                                             C-681.9,466.4-682.5,466.5-683,466.7 M-662.8,466.4c0,4.8,0,9.6,0,14.4c0.8-0.9,1.7-1.8,2.7-2.5c1.4-1,3.1-1.7,4.8-1.8
+                                             c1.2-0.1,2.5,0.3,3.4,1.1c0.9,0.8,1.3,2,1.4,3.1c0,1.5-0.4,2.9-1.1,4.2c-0.8,1.4-1.8,2.7-3,3.7c13.9,0,27.9,0,41.8,0
+                                             c0-6.1,0-12.2,0-18.3c0-0.5-0.1-0.9-0.3-1.4c-0.6-1.4-2-2.5-3.6-2.5C-631.9,466.4-647.4,466.4-662.8,466.4 M-674.6,479.6
+                                             c-0.3,0.1-0.6,0.3-0.7,0.6c-0.2,0.6-0.1,1.2,0.1,1.8c0.3,1.1,1,2.2,1.7,3c0.9,1,1.9,1.9,3.2,2.5c0.7,0.4,1.5,0.7,2.4,0.6
+                                             c0.4,0,0.9-0.2,1.1-0.6c0.3-0.6,0.1-1.3-0.1-2c-0.4-1.2-1-2.2-1.8-3.1c-1-1.1-2.2-2.1-3.6-2.6
+                                             C-672.9,479.6-673.9,479.4-674.6,479.6 M-655.5,479.6c-0.9,0.2-1.7,0.6-2.5,1.1c-1.1,0.7-2.1,1.7-2.8,2.7c-0.6,0.8-1.1,1.7-1.3,2.7
+                                             c-0.1,0.5-0.2,1.1,0.1,1.6c0.2,0.5,0.8,0.5,1.3,0.5c1,0,1.9-0.5,2.8-1c1.3-0.8,2.5-1.9,3.4-3.3c0.6-0.9,1-1.9,1.1-3
+                                             c0-0.5,0-1.1-0.5-1.3C-654.4,479.4-655,479.5-655.5,479.6 M-685.4,491.7c0,6.8,0,13.6,0,20.4c0,1.6,1.2,3.1,2.7,3.6
+                                             c0.7,0.2,1.4,0.2,2.1,0.2c4.9,0,9.8,0,14.7,0c0-7.3,0-14.7,0-22c-2.1,2.1-4.2,4.2-6.3,6.3c-0.5,0.6-1.5,0.7-2.2,0.2
+                                             s-0.8-1.7-0.1-2.3c2.1-2.1,4.2-4.2,6.4-6.4C-673.9,491.7-679.5,491.7-685.4,491.7 M-660.4,491.7c2.1,2.1,4.1,4.1,6.2,6.2
+                                             c0.2,0.2,0.5,0.5,0.5,0.8c0.2,0.7-0.1,1.5-0.7,1.8c-0.6,0.4-1.4,0.2-1.9-0.3c-2.2-2.2-4.3-4.4-6.5-6.5c0,7.4,0,14.7,0,22.1
+                                             c15.4,0,30.8,0,46.1,0c1.1,0,2.2-0.5,2.9-1.4c0.6-0.7,0.9-1.6,0.9-2.4c0-6.8,0-13.5,0-20.3C-628.6,491.7-644.5,491.7-660.4,491.7z"
+                                             />
+                                          <path d="M-644.4,495.5c8,0,16,0,24,0c0.5,0,1,0.2,1.3,0.7s0.4,1.1,0.1,1.6s-0.8,0.8-1.3,0.8c-8,0-16,0-24,0c-0.5,0-1-0.3-1.3-0.7
+                                             c-0.3-0.4-0.3-1-0.1-1.5C-645.4,495.9-644.9,495.6-644.4,495.5z" />
+                                          <path d="M-644.6,502.6c0.3-0.1,0.6-0.1,0.9-0.1c4.8,0,9.6,0,14.4,0c0.4,0,0.9-0.1,1.3,0.2c0.6,0.3,1,1.1,0.8,1.8
+                                             c-0.2,0.7-0.8,1.1-1.5,1.1c-5.1,0-10.3,0-15.4,0c-0.7,0-1.4-0.6-1.5-1.3C-645.9,503.6-645.4,502.8-644.6,502.6z"
+                                             />
+                                          <path d="M-644.6,509.5c0.1,0,0.2,0,0.4,0c6.6,0,13.2,0,19.7,0c0.3,0,0.6,0,0.9,0.1c0.6,0.2,1,0.8,1,1.4s-0.4,1.2-1,1.4
+                                             c-0.3,0.1-0.6,0.1-1,0.1c-6.5,0-13,0-19.6,0c-0.5,0-0.9-0.2-1.2-0.5c-0.4-0.4-0.5-1-0.3-1.5C-645.5,510-645.1,509.6-644.6,509.5z"
+                                             />
+                                          </g>
+                                          </svg>
+                                          <p class="opt-title text-center">Gift Card</p>
+                                       </div>
                                     <div class="arrow-up"></div>
                                     </div>
                                     </uib-tab-heading>
@@ -1366,18 +1409,18 @@
                                     </uib-tab>
                                  </uib-tabset>
                                  </div>
-                              </div>
+                              
                               <div class="col-xs-12 order-amt-cont">
-                                    <div class="amt-cont-cover">
-                                       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
-                                          <p class="title">Total Amount Payable</p>
-                                          <p class="amount">&#x24;525.00</p>
-                                       </div>
-                                       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
-                                          <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
-                                       </div>
+                                 <div class="amt-cont-cover">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
+                                       <p class="title">Total Amount Payable</p>
+                                       <p class="amount">&#x24;525.00</p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
+                                       <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
                                     </div>
                                  </div>
+                              </div>
                            </div>
                         </div>
                   </uib-accordion-group>
@@ -1393,290 +1436,301 @@
                      </uib-accordion-group>-->
                </uib-accordion>
                </div>
+            </div>
+            <div class="row review-order-part" ng-if="checkout.openACCItems.name=='review'">
+               <div class="signInTab">
+                  <p class="headPart" >
+                     1. 
+                     <a class="info-search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Sign In <span class="editLink">Edit</span>
+                  </p>
+                  <p class="detailPart" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
+                  <p class="detailPart" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">Continue as <span class="fullName">Guest</span></p>
                </div>
-               <div class="row review-order-part" ng-if="checkout.openACCItems.name=='review'">
-                  <div class="signInTab">
-                     <p class="headPart" >
-                        1. 
-                        <a class="info-search-icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                              <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
-                           </svg>
-                        </a>
-                        Sign In <span class="editLink">Edit</span>
-                     </p>
-                     <p class="detailPart" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
-                     <p class="detailPart" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">Continue as <span class="fullName">Guest</span></p>
-                  </div>
-                  <div class="deliveryInfoTab">
-                     <p class="headPart" >
-                        2. 
-                        <a class="info-search-icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                              <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
-                           </svg>
-                        </a>
-                        Delivery Information <span class="editLink">Edit</span>
-                     </p>
-                     <div class="detailPart row" ng-repeat="(line,value) in checkout.groups">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="fullName">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
-                           <p>{{checkout.groups[line][0].ShippingAddress.Street1}}</p>
-                           <p>{{checkout.groups[line][0].ShippingAddress.Street2}}</p>
-                           <p>{{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}}</p>
-                           <p>{{checkout.groups[line][0].ShippingAddress.Zip}}</p>
-                           <p class="phone">{{checkout.groups[line][0].ShippingAddress.Phone}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="dDate-title">Delivery Date</p>
-                           <p class="dDate">{{checkout.groups[line][0].xp.deliveryDate | date}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="dPreference-title">Delivery Preference</p>
-                           <p class="dayTime">{{checkout.groups[line][0].xp.DeliveryRuns.Name}}</p>
-                           <p class="time">{{checkout.groups[line][0].xp.DeliveryRuns.TimeSlot}}</p>
-                        </div>
+               <div class="deliveryInfoTab">
+                  <p class="headPart" >
+                     2. 
+                     <a class="info-search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Delivery Information <span class="editLink">Edit</span>
+                  </p>
+                  <div class="detailPart row" ng-repeat="(line,value) in checkout.groups">
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="fullName">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                        <p>{{checkout.groups[line][0].ShippingAddress.Street1}}</p>
+                        <p>{{checkout.groups[line][0].ShippingAddress.Street2}}</p>
+                        <p>{{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}}</p>
+                        <p>{{checkout.groups[line][0].ShippingAddress.Zip}}</p>
+                        <p class="phone">{{checkout.groups[line][0].ShippingAddress.Phone}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="dDate-title">Delivery Date</p>
+                        <p class="dDate">{{checkout.groups[line][0].xp.deliveryDate | date}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="dPreference-title">Delivery Preference</p>
+                        <p class="dayTime">{{checkout.groups[line][0].xp.DeliveryRuns.Name}}</p>
+                        <p class="time">{{checkout.groups[line][0].xp.DeliveryRuns.TimeSlot}}</p>
                      </div>
                   </div>
-                  <div class="paymentInfoTab">
-                     <p class="headPart" >
-                        3. 
-                        <a class="info-search-icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                              <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
-                           </svg>
-                        </a>
-                        Payment <span class="editLink">Edit</span>
-                     </p>
-                     <div class="detailPart row" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="fullName">{{checkout.selectedCard.CardholderName}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
-                           <p>{{checkout.selectedCard.BillingAddress.Street1}}</p>
-                           <p>{{checkout.selectedCard.BillingAddress.Street2}}</p>
-                           <p>{{checkout.selectedCard.BillingAddress.City}}, {{checkout.selectedCard.BillingAddress.State}}</p>
-                           <p>{{checkout.selectedCard.BillingAddress.Zip}}</p>
-                           <p class="phone">{{checkout.selectedCard.BillingAddress.Phone}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="cardTitle">Credit Card</p>
-                           <p>xxxx xxx xxx {{checkout.selectedCard.PartialAccountNumber}}</p>
-                           <p class="cardExpires">Card Expires</p>
-                           <p>{{checkout.selectedCard.ExpirationDate | date: 'dd '}}/{{checkout.selectedCard.ExpirationDate | date: 'yy '}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="pPerksTitle">Purple Perks Dollars Applied</p>
-                           <p>100</p>
-                        </div>
+               </div>
+               <div class="paymentInfoTab">
+                  <p class="headPart" >
+                     3. 
+                     <a class="info-search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Payment <span class="editLink">Edit</span>
+                  </p>
+                  <div class="detailPart row" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="fullName">{{checkout.selectedCard.CardholderName}}</p>
                      </div>
-                     <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="fullName">{{checkout.addPaymentInfo.card.CardholderName}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
-                           <p>{{checkout.billingAddress.Street1}}</p>
-                           <p>{{checkout.billingAddress.Street2}}</p>
-                           <p>{{checkout.billingAddress.City}}, {{checkout.billingAddress.State}}</p>
-                           <p>{{checkout.billingAddress.Zip}}</p>
-                           <p class="phone">{{checkout.billingAddress.Phone}}</p>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="cardTitle">Credit Card</p>
-                           <p>xxxx xxx xxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
-                           <p class="cardExpires">Card Expires</p>
-                           <p>{{checkout.addPaymentInfo.card.ExpMonth}}/{{checkout.addPaymentInfo.card.ExpYear}}</p>
-                        </div>
-                        <!--<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                           <p class="pPerksTitle">Purple Perks Dollars Applied</p>
-                           <p>100</p>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                        <p>{{checkout.selectedCard.BillingAddress.Street1}}</p>
+                        <p>{{checkout.selectedCard.BillingAddress.Street2}}</p>
+                        <p>{{checkout.selectedCard.BillingAddress.City}}, {{checkout.selectedCard.BillingAddress.State}}</p>
+                        <p>{{checkout.selectedCard.BillingAddress.Zip}}</p>
+                        <p class="phone">{{checkout.selectedCard.BillingAddress.Phone}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="cardTitle">Credit Card</p>
+                        <p>xxxx xxx xxx {{checkout.selectedCard.PartialAccountNumber}}</p>
+                        <p class="cardExpires">Card Expires</p>
+                        <p>{{checkout.selectedCard.ExpirationDate | date: 'dd '}}/{{checkout.selectedCard.ExpirationDate | date: 'yy '}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="pPerksTitle">Purple Perks Dollars Applied</p>
+                        <p>100</p>
+                     </div>
+                  </div>
+                  <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="fullName">{{checkout.addPaymentInfo.card.CardholderName}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                        <p>{{checkout.billingAddress.Street1}}</p>
+                        <p>{{checkout.billingAddress.Street2}}</p>
+                        <p>{{checkout.billingAddress.City}}, {{checkout.billingAddress.State}}</p>
+                        <p>{{checkout.billingAddress.Zip}}</p>
+                        <p class="phone">{{checkout.billingAddress.Phone}}</p>
+                     </div>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="cardTitle">Credit Card</p>
+                        <p>xxxx xxx xxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
+                        <p class="cardExpires">Card Expires</p>
+                        <p>{{checkout.addPaymentInfo.card.ExpMonth}}/{{checkout.addPaymentInfo.card.ExpYear}}</p>
+                     </div>
+                     <!--<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="pPerksTitle">Purple Perks Dollars Applied</p>
+                        <p>100</p>
                         </div>-->
-                     </div>
-                  </div>
-                  <div class="row review-content-btn">
-                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="place-order" ng-click="checkout.placeOrder()">Place Order</button>
-                     </div>
                   </div>
                </div>
-            
-            
+               <div class="row review-content-btn">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <button class="place-order" ng-click="checkout.placeOrder()">Place Order</button>
+                  </div>
+               </div>
+            </div>
          </div>
          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 order-details">
-               <div class="order-summary-info">
-                  <div class="order-summary-header">
+            <div class="order-summary-info">
+               <div class="order-summary-header">
+                  <div class="row">
+                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="order-summary-title">Your Order <span>({{checkout.ordersummarydata.Meta.TotalCount}} Items)</span></div>
+                     </div>
+                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="order-count"><a ui-sref="cart">Edit</a></div>
+                     </div>
+                  </div>
+               </div>
+               <div class="order-summary-details" ng-repeat="line in checkout.lineVal">
+                  <div class="client-info">
                      <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                           <div class="order-summary-title">Your Order <span>({{checkout.ordersummarydata.Meta.TotalCount}} Items)</span></div>
-                        </div>
+                        <p><span> Recipient</span> <span class="recipient-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</span><span> Zip Code</span>
+                           <span class="zip-code">{{checkout.groups[line][0].ShippingAddress.Zip}}</span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="recipient-order-details">
+                     <div class="row recipient-info" ng-repeat="lineItem in checkout.groups[line]">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <div class="order-count"><a ui-sref="cart">Edit</a></div>
+                           <img class="visible-lg visible-md hidden-sm hidden-xs" src="{{lineItem.productimages}}">
+                           <img class="hidden-lg hidden-md visible-sm visible-xs" src="{{lineItem.productimages}}">
                         </div>
-                     </div>
-                  </div>
-                  <div class="order-summary-details" ng-repeat="line in checkout.lineVal">
-                     <div class="client-info">
-                        <div class="row">
-                           <p><span> Recipient</span> <span class="recipient-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</span><span> Zip Code</span>
-                              <span class="zip-code">{{checkout.groups[line][0].ShippingAddress.Zip}}</span>
-                           </p>
-                        </div>
-                     </div>
-                     <div class="recipient-order-details">
-                        <div class="row recipient-info" ng-repeat="lineItem in checkout.groups[line]">
-                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                              <img class="visible-lg visible-md hidden-sm hidden-xs" src="assets/images/batch3web/checkout/chechout-product1.jpg">
-                              <img class="hidden-lg hidden-md visible-sm visible-xs" src="assets/images/batch3mobile/checkout/checkout-product-mobile1.png">
-                           </div>
-                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                              <p class="custom-name">{{lineItem.Product.Name}}</p>
-                              <p class="item-number">Item Number: <span>{{lineItem.Product.ID}}</span></p>
-                              <p class="product-type">Type: <span>Deluxe</span></p>
-                              <div class="row">
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="quantity-info">
-                                       Qty : {{lineItem.Quantity}}
-                                    </div>
-                                 </div>
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="total-amount-info">
-                                       {{lineItem.LineTotal | currency}}
-                                    </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                           <p class="custom-name">{{lineItem.Product.Name}}</p>
+                           <p class="item-number">Item Number: <span>{{lineItem.Product.ID}}</span></p>
+                           <p class="product-type">Type: <span>Deluxe</span></p>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                 <div class="quantity-info">
+                                    Qty : {{lineItem.Quantity}}
                                  </div>
                               </div>
-                           </div>
-                        </div>
-                        <div class="row">
-                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="sub-total-info">
-                                 <div class="row">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                       <div class="sub-total">Subtotal</div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                       <div class="sub-total-amount">{{checkout.orderdata.Subtotal | currency}}</div>
-                                    </div>
-                                 </div>
-                                 <div class="row">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                       <p class="delivery-charges">
-                                          Delivery Charges
-                                          <span class="cross-svg">
-                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
-                                                <g>
-                                                   <g>
-                                                      <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
-                                                   </g>
-                                                   <g>
-                                                      <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
-                                                   </g>
-                                                </g>
-                                             </svg>
-                                          </span>
-                                       </p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                       <div class="delivery-amount">$10.99</div>
-                                    </div>
-                                 </div>
-                                 <div class="row" ng-repeat="(key,value) in checkout.orderDtls.SpendingAccounts">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                       <p class="delivery-charges">{{value.Name}}<span></span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                       <div class="delivery-amount">{{value.Amount | currency}}</div>
-                                    </div>
-                                 </div>
-                                 <!--<div class="row" ng-if="checkout.giftCardApplied">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                        <p class="delivery-charges">Gift Card applied<span></span></p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <div class="delivery-amount">{{checkout.giftCardAppliedAmount | currency}}</div>
-                                    </div>
-                                    </div>-->
-                                 <div class="row" ng-if="checkout.bachmansChargesApplied">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                       <p class="delivery-charges">Bachman's Charge applied<span>
-                                          </span>
-                                       </p>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                       <div class="delivery-amount">{{checkout.bachmansChargesAppliedAmount | currency}}</div>
-                                    </div>
-                                 </div>
-                                 <div class="row">
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                       <div class="tax-info">Tax<span></span></div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                       <div class="tax-amount">{{checkout.orderdata.TaxCost | currency}}</div>
-                                    </div>
-                                 </div>
-                                 <div class="row total-order-info">
-                                    <div class="col-lg-6 col-md-6 col-sm-9 col-xs-9">
-                                       <div class="total-order-summary">Total</div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-3 col-xs-3">
-                                       <div class="total-order-amount">{{checkout.orderdata.Total | currency}}</div>
-                                    </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                 <div class="total-amount-info">
+                                    {{lineItem.LineTotal | currency}}
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="need-help-info">
                      <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                           <p class="need-help-header">Need Help?</p>
-                           <p class="call-us hidden-sm hidden-xs">
-                              <span>
-                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
-                                    <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image>
-                                    <g>
-                                       <g>
-                                          <g>
-                                             <path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path>
-                                          </g>
-                                       </g>
-                                    </g>
-                                 </svg>
-                              </span>
-                              Call us at 612-891-7311
-                           </p>
-                           <p class="mobile-call-us hidden-lg hidden-md">
-                              <span>
-                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
-                                    <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image>
-                                    <g>
-                                       <g>
-                                          <g>
-                                             <path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path>
-                                          </g>
-                                       </g>
-                                    </g>
-                                 </svg>
-                              </span>
-                              Call us
-                           </p>
-                           <div class="help-links">
+                           <div class="sub-total-info">
                               <div class="row">
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <ul class="list-inline">
-                                       <li><a href="#">Billing & Shipping</a></li>
-                                       <li><a href="#">Delivery Rates</a></li>
-                                       <li><a href="#">Returns & Exchange</a></li>
-                                    </ul>
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <div class="sub-total">Subtotal</div>
                                  </div>
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <ul class="list-inline">
-                                       <li><a href="#">FAQ</a></li>
-                                       <li><a href="#">Terms & Conditions</a></li>
-                                    </ul>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="sub-total-amount">{{checkout.orderdata.Subtotal | currency}}</div>
                                  </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <p class="delivery-charges">
+                                       Delivery Charges
+                                       <!--<span class="cross-svg">
+                                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                                             <g>
+                                                <g>
+                                                   <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
+                                                </g>
+                                                <g>
+                                                   <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
+                                                </g>
+                                             </g>
+                                          </svg>
+                                          </span>-->
+                                    </p>
+                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="delivery-amount">{{checkout.orderdata.ShippingCost | currency}}</div>
+                                 </div>
+                              </div>
+                              <div class="row" ng-repeat="(key,value) in checkout.orderDtls.SpendingAccounts">
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <p class="delivery-charges">
+                                       {{value.Name}}
+                                       <span class="cross-svg">
+                                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
+                                             <g>
+                                                <g>
+                                                   <rect x="-716.8" y="477.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6212 1361.5657)" width="5" height="48"></rect>
+                                                </g>
+                                                <g>
+                                                   <rect x="-738.8" y="499.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -866.6214 1361.5663)" width="48" height="5"></rect>
+                                                </g>
+                                             </g>
+                                          </svg>
+                                       </span>
+                                    </p>
+                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="delivery-amount">{{value.Amount | currency}}</div>
+                                 </div>
+                              </div>
+                              <!--<div class="row" ng-if="checkout.giftCardApplied">
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                     <p class="delivery-charges">Gift Card applied<span></span></p>
+                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                     <div class="delivery-amount">{{checkout.giftCardAppliedAmount | currency}}</div>
+                                 </div>
+                                 </div>-->
+                              <!--<div class="row" ng-if="checkout.bachmansChargesApplied">
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <p class="delivery-charges">Bachman's Charge applied<span>
+                                       </span>
+                                    </p>
+                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="delivery-amount">{{checkout.bachmansChargesAppliedAmount | currency}}</div>
+                                 </div>
+                                 </div>-->
+                              <div class="row">
+                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <div class="tax-info">Tax<span></span></div>
+                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="tax-amount">{{checkout.orderdata.TaxCost | currency}}</div>
+                                 </div>
+                              </div>
+                              <div class="row total-order-info">
+                                 <div class="col-lg-6 col-md-6 col-sm-9 col-xs-9">
+                                    <div class="total-order-summary">Total</div>
+                                 </div>
+                                 <div class="col-lg-6 col-md-6 col-sm-3 col-xs-3">
+                                    <div class="total-order-amount">{{checkout.orderTotal | currency}}</div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="need-help-info">
+                  <div class="row">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <p class="need-help-header">Need Help?</p>
+                        <p class="call-us hidden-sm hidden-xs">
+                           <span>
+                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                                 <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image>
+                                 <g>
+                                    <g>
+                                       <g>
+                                          <path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path>
+                                       </g>
+                                    </g>
+                                 </g>
+                              </svg>
+                           </span>
+                           Call us at 612-891-7311
+                        </p>
+                        <p class="mobile-call-us hidden-lg hidden-md">
+                           <span>
+                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                                 <image style="display:none;overflow:visible;" width="716" height="134" xlink:href="../../../Desktop/footer_icons.png" transform="matrix(0.5 0 0 0.5 -16 -101.5788)"></image>
+                                 <g>
+                                    <g>
+                                       <g>
+                                          <path class="" d="M16.7,54.4c-4.1,0-6.4-2.1-7.7-3.4l-0.4-0.4c-0.2-0.1-0.3-0.4-0.4-0.5c-0.2-0.4-1.5-1.8-3.1-3.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.4,0.2-0.8,0.5-1.1l12.5-11.9c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c2.7,2.7,3.4,3.5,3.6,3.9c0,0,0,0,0,0c0,0,0.1,0,0.3,0c3.4,0,11.1-6.6,13.2-11.3c0.6-1.2,0.6-2,0.4-2.3L34,19.4c-0.3-0.3-0.4-0.7-0.4-1.1c0-0.4,0.2-0.8,0.5-1.1L46.4,5.3c0.3-0.3,0.7-0.5,1.1-0.5c0.4,0,0.8,0.2,1.1,0.5c1.4,1.5,2.9,3,3.4,3.4c0.2,0.1,0.3,0.2,0.4,0.3l0.1,0.1l0.2,0.3c1.2,1.5,3.6,4.3,2.8,9.4c-1,5.8-6,13.1-15,21.7C30.5,49.9,22.7,54.4,16.7,54.4z M18.7,33.7c0,0-0.1,0-0.1,0.1L6,45.6c0,0,0,0,0,0.1c0,0.1,0,0.1,0.1,0.1c1,1,2.9,2.9,3.3,3.5c0.1,0.1,0.1,0.2,0.1,0.2l0,0L9.8,50c1.4,1.3,3.3,3.1,6.8,3.1c5.7,0,13.1-4.4,22.8-13.6C59.8,20.1,54,13.2,51.6,10.2L51.4,10c0,0,0,0-0.1-0.1l-0.1-0.1c-0.5-0.4-2.3-2.2-3.5-3.5c-0.1-0.1-0.1-0.1-0.1-0.1s0,0-0.1,0.1L35,18.2c0,0,0,0.1,0,0.1c0,0,0,0.1,0.1,0.1l3.4,3.7c0.7,0.8,0.6,2.1-0.1,3.8c-2.4,5.3-10.6,12.1-14.5,12.1c-0.3,0-1.1,0-1.5-0.7c-0.3-0.4-1.3-1.5-3.4-3.7C18.7,33.7,18.7,33.7,18.7,33.7z"></path>
+                                       </g>
+                                    </g>
+                                 </g>
+                              </svg>
+                           </span>
+                           Call us
+                        </p>
+                        <div class="help-links">
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                 <ul class="list-inline">
+                                    <li><a href="#">Billing & Shipping</a></li>
+                                    <li><a href="#">Delivery Rates</a></li>
+                                    <li><a href="#">Returns & Exchange</a></li>
+                                 </ul>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                 <ul class="list-inline">
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                 </ul>
                               </div>
                            </div>
                         </div>
@@ -1684,6 +1738,7 @@
                   </div>
                </div>
             </div>
+         </div>
       </div>
    </div>
 </div>
