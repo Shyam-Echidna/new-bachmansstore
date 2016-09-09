@@ -1178,7 +1178,7 @@ vm.selectedColorIndex = 0;
         var clpContentPlp = [];
         if(res.items.length>0){
             angular.forEach(Underscore.where(res.items), function (node) {
-                node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+                node.contentUrl = alfcontenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
                 clpContentPlp.push(node);
             });
         }else{

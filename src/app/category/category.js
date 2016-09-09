@@ -312,7 +312,7 @@ else{
 	CategoryService.GetAlfCategories(ticket).then(function(res){
 	    var clpContent = [];
 		angular.forEach(Underscore.where(res.items), function (node) {
-            node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+            node.contentUrl = alfcontenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
             clpContent.push(node);
         });
 
@@ -653,7 +653,7 @@ function EventsList(){
 	    var clpContentHTML = [];
 	    if(res.items.length>0){
 			angular.forEach(Underscore.where(res.items), function (node) {
-	            node.contentUrl = alfStaticContenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+	            node.contentUrl = alfcontenturl + node.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
 	            clpContent.push(node);
 	            clpContentHTML.push($sce.trustAsResourceUrl(node.contentUrl));
 	        });

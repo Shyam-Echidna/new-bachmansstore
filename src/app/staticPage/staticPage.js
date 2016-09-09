@@ -518,7 +518,7 @@ function template1Controller() {
 	/*$('.mobile-how-to-nav').css('margin-top', staticheaderHtmobile);*/
 }
 
-function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile,$uibModal) {
+function historyController($scope,alfcontenturl,$sce,$state,page,fileName,staticPageData,alfrescoStaticurl,$compile,$uibModal) {
 	var vm = this;
 	vm.isOpen = 2;
 	var owlHistory = angular.element("#owl-carousel-history");
@@ -529,7 +529,7 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 			vm.isOpen = undefined;
 		}
 	}
-	vm.alfStaticContenturl = alfStaticContenturl;
+	vm.alfStaticContenturl = alfcontenturl;
 	vm.parentPathChilde = $state.current;
 	vm.pageName = page;
 	vm.activeIndex = 0;
@@ -538,8 +538,8 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
 		console.log(data);
 		angular.forEach(data.items,function(item){
 			if(item.nodeType=="ws:article"){
-                console.log("content url",alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
-				vm.staticTempPage = $sce.trustAsResourceUrl(alfStaticContenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+                console.log("content url",alfcontenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
+				vm.staticTempPage = $sce.trustAsResourceUrl(alfcontenturl+item.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
                 vm.articleTitle = item.fileName.replace(".html","");
 			}
 			if(item.fileName == "Media"){
@@ -745,10 +745,10 @@ function historyController($scope,alfStaticContenturl,$sce,$state,page,fileName,
     
 }
 
-function InspirationalModalController($scope,inspirationalImages,$uibModalInstance,alfStaticContenturl) {
+function InspirationalModalController($scope,inspirationalImages,$uibModalInstance,alfStaticContenturl,alfcontenturl) {
     var vm = this;
     vm.cancel = cancel;
-    vm.alfStaticContenturl = alfStaticContenturl;
+    vm.alfStaticContenturl = alfcontenturl;
     vm.glImages = inspirationalImages;
     vm.siteToken = localStorage.getItem('alfTemp_ticket');
     function cancel() {
