@@ -42,6 +42,9 @@ function orderConfirmationConfig($stateProvider) {
 function orderConfirmationController($cookieStore, CurrentOrder, $state, OrderCloud, LineItemHelpers, Order, LineItems,ConstantContact) {
 
 	var vm = this;
+	//$('.orderConfirmationHeader').show();
+    $('.base-header-inner').hide();
+    $('.sticky-background').hide();
 	vm.isLoggedIn = $cookieStore.get('isLoggedIn');
 	vm.order = {};
 	vm.newUser = {};

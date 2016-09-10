@@ -225,8 +225,8 @@ function PlpConfig($stateProvider) {
                       var imgcontentArray = [];
                      var imgcontentArray1=[];
                       for(var i=0;i<items.length;i++){
-                     var item = items[i].Items;
-                        // var item = items[i];
+                     //var item = items[i].Items;
+                      var item = items[i];
                     for(var j=0;j<item.length;j++){
                         var matchedImage = Underscore.where(productImages, {title: item[j].ID});
                         if(matchedImage.length > 0){
@@ -716,7 +716,7 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
 
    vm.CurrentCatgory = CurrentCatgory;
  vm.CustomFacetList = FacetList;
-// vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+ vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
   vm.toggleFacet = function(facet, value) {
         var currentFilter = $stateParams.filters;
         if (!currentFilter) {
@@ -777,7 +777,7 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
     };
 
      vm.changePriceRange = function() {
-        console.log('hehehehe');
+        console.log('hehehehe', vm.sliderValue);
         var newMin;
         var newMax;
         if (vm.sliderValue[0] != vm.priceValue[0]) {

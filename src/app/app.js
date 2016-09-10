@@ -107,8 +107,15 @@ function AppCtrl( $q, $scope, $rootScope, $state, appname,  toastr, $ocMedia, lo
        cleanLoadingIndicators();
         if (toState.data && toState.data.componentName) {
             vm.title = appname + ' - ' + toState.data.componentName
-        } else {
+        }
+        if(toState.name == 'orderConfirmation' && toState.name == 'checkout'){
+            angular.element('.base-header-inner').hide();
+            angular.element('.orderConfirmationHeader').show();
+        }
+        else {
             vm.title = appname;
+            angular.element('.base-header-inner').show();
+            angular.element('.orderConfirmationHeader').hide();
         }
     });
 

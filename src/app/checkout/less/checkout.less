@@ -122,7 +122,7 @@
                                                 background: transparent;
                                                 text-align: center;
                                                 border: 1px solid @font-purple-dark;
-                                                margin: -3px 10px 0px 20px;
+                                                margin: -3px 10px 0px 15px;
                                                 padding: 2px 0px;
                                                 svg {
                                                     height: 20px;
@@ -1049,6 +1049,18 @@
                                                                 .cvv-number {
                                                                     padding: 0;
                                                                     float: right;
+                                                                    position:relative;
+                                                                    span.cvv-help{
+                                                                        position:absolute;
+                                                                        top: 44px;
+                                                                        left: 85px;
+                                                                        height: 18px;
+                                                                        width: 18px;
+                                                                        svg{
+                                                                            vertical-align:initial;
+                                                                            padding:1px;
+                                                                        }
+                                                                    }
                                                                     label {
                                                                         display: block;
                                                                     }
@@ -1481,8 +1493,9 @@
                                                                     }
                                                                     label {
                                                                         color: #464646;
-                                                                        font: 0.6875em @proxima-regular;
+                                                                        font: 0.75em @proxima-regular;
                                                                         display: block;
+                                                                        padding-top: 5px;
                                                                     }
                                                                 }
                                                                 .bill-addr-title {
@@ -2129,6 +2142,10 @@
                 }
             }
         }
+        span.checkout-acc-count{
+            width:15px;
+            display:inline-block;
+        }
     }
 }
 
@@ -2136,15 +2153,24 @@
 /* media queries -- all mobiles & ipad portrait */
 
 @media only screen and (min-width:320px) and (max-width:810px) {
-    .checkout-page .checkout-info .row div .accordion-block uib-accordion .panel-group .panel .panel-collapse .panel-body .delivery-info .delivery-address-details .row div .delivery-address .delivery-adddress-form form .select-date-info{
-        height: 3.5em;
-        line-height: 3.5em;
-        padding: 0px 10px 0px !important;
-        div{
-            position:relative;
-            top:-1px;
-        }
+    .has-error .help-block{
+       font-size: 0.75em; 
     }
+    .checkout-page .checkout-info .row div .accordion-block uib-accordion .panel-group .panel .panel-collapse .panel-body{
+        .delivery-info .delivery-address-details .row div .delivery-address .delivery-adddress-form form .select-date-info{
+            height: 3.5em;
+            line-height: 3.5em;
+            padding: 0px 10px 0px !important;
+            div{
+                position:relative;
+                top:-1px;
+            }
+        }
+        .payment-info-cont .payment-client-info .row .charges .payment-container-header span{
+            font: 0.875em "ProximaNova-Bold", Arial, sans-serif;
+        }
+    } 
+ 
     .checkout-page {
         padding: 0px;
         .checkout-header {
@@ -2189,6 +2215,56 @@
                         margin: 20px 13px;
                         float: none;
                         width: auto;
+                    }
+                }
+                .review-order-part{
+                    margin-top:0;
+                    .signInTab,.deliveryInfoTab, .paymentInfoTab{
+                        margin-bottom:0;
+                        border:none;
+                        .headPart{
+                            font: 1em @proxima-bold;
+                            padding: 12px;
+                        }
+                        .svg-green{
+                            height: 19px;
+                            width: 19px;
+                            border-radius: 50%;
+                            border:1px solid #82c752;
+                            text-align: center;
+                            padding: 1px;
+                            //display: inline-block !important;
+                            vertical-align: middle;
+                            margin: -1px 3px 0px 0px;
+                            display: inline-block !important;
+                            svg{
+                                height: 15px;
+                                width: 15px;
+                                fill:#82c752;
+                            }
+                        }
+                        .detailPart{
+                            padding: 16px 38px;
+                            div{
+                                padding:0 10px;
+                                p{
+                                    word-break: break-word;
+                                }
+                            }
+                            span{
+                                border:none;
+                            }
+                        }
+                    }
+                    .deliveryInfoTab{
+                        .detailPart{
+                            padding: 16px 28px;
+                        }
+                    }
+                    .review-content-btn{
+                        padding:15px 10px;
+                        border-top: 1px solid #f1f1f1;
+                        margin: 0 1%;
                     }
                 }
                 div {
@@ -2238,15 +2314,23 @@
                                                 padding: 0px 10px;
                                                 span{
                                                     vertical-align: middle;
+                                                    svg{
+                                                        height: 15px;
+                                                        width: 15px;
+                                                        fill: #82c752;
+                                                    }
                                                 }
                                             .svg-green{
+                                                display: inline-block !important;
+                                            }
+                                            .svg-green,.delivery-svg a.svg-right{
                                                 height: 19px;
                                                 width: 19px;
                                                 border-radius: 50%;
                                                 border:1px solid #82c752;
                                                 text-align: center;
                                                 padding: 1px;
-                                                display: inline-block !important;
+                                                //display: inline-block !important;
                                                 vertical-align: middle;
                                                 margin: -1px 3px 0px 0px;
                                                 svg{
@@ -2255,8 +2339,30 @@
                                                     fill:#82c752;
                                                 }
                                             }
+                                            .delivery-svg{
+                                                span{
+                                                    overflow:hidden;
+                                                    text-overflow:elipsis;
+                                                    white-space:nowrap;
+                                                    width:70px;
+                                                    display:inline-block;
+                                                    //padding:10px;
+                                                    &.checkout-acc-count{
+                                                        width: 15px;
+                                                        float: none;
+                                                        overflow: initial;
+                                                        text-overflow: initial;
+                                                        white-space: initial;
+                                                        display: inline-block;
+                                                        padding: 0;                                      
+                                                    }
+                                                }
+                                            }
                                             .edit-here{
-                                                margin-top: 3px;
+                                                //margin-top:8px;
+                                                vertical-align:middle; 
+                                                display: inline-block;
+                                                margin-left: 8px;
                                             }
                                         }
                                     }
@@ -2593,6 +2699,9 @@
                                                     .row {
                                                         .payment-method-cont {
                                                             padding: 0px;
+                                                            .card-info-cont{
+                                                                padding: 10px;
+                                                            }
                                                             .title {
                                                                 padding-top: 0;
                                                                 margin-bottom: 10px;
@@ -2600,8 +2709,10 @@
                                                             }
                                                             ul.nav-tabs{
                                                                 li{
-                                                                    width: 33%;
-                                                                    margin-right: 3%;
+                                                                    width: 31%;
+                                                                    margin-right: 1%;
+                                                                    float: none;
+                                                                    display: inline-block;
                                                                     a{
                                                                         width: 100%;
                                                                     }
@@ -2620,7 +2731,9 @@
                                                                 margin-right: 0;
                                                             }
                                                             .card-info-cont {
-                                                                padding: 15px;
+                                                                &.addCardForm{
+                                                                    padding:0 15px;
+                                                                }
                                                                 .title {
                                                                     padding-top: 0;
                                                                     font-size: 0.75em;
@@ -2629,7 +2742,7 @@
                                                                     .form-group {
                                                                         margin: 15px 0 0 0;
                                                                         label {
-                                                                            font-size: 0.75em;
+                                                                            font-size: 0.875em;
                                                                         }
                                                                         input {
                                                                             font-size: 0.75em;
@@ -2658,6 +2771,7 @@
                                                                         }
                                                                         .cvv-help{
                                                                             margin-left: 3px;
+                                                                            top: 36px;
                                                                         }
                                                                     }
                                                                 }
@@ -2771,19 +2885,35 @@
                                                         }
                                                         .payment-gift-card-info {
                                                             .title {
-                                                                font: 0.75em @proxima-bold;
-                                                                margin-top: 30px;
+                                                                font: 0.875em @proxima-bold;
+                                                                margin-top: 10px;
                                                             }
                                                             .title-helper {
                                                                 margin-top: 15px;
-                                                                font: 0.75em @proxima-regular;
+                                                                font: 0.875em @proxima-regular;
                                                             }
                                                             .pmt-gift-card-form {
                                                                 input#pmt-gift-card-num {
                                                                     width: 90%;
                                                                     height: 35px;
                                                                 }
-                                                                .card-help-icon {}
+                                                                .form-group{
+                                                                    position:relative;
+                                                                    .card-help-icon {
+                                                                        position:absolute;
+                                                                        top:0;
+                                                                        bottom:0;
+                                                                        margin:auto auto auto 10px;
+                                                                        display:inline-block;
+                                                                        left:90%;
+                                                                        height: 18px;
+                                                                        width: 18px;
+                                                                        svg{
+                                                                            padding:2px;
+                                                                            vertical-align: initial;
+                                                                        }
+                                                                    }
+                                                                }
                                                                 button {
                                                                     font: 0.875em @proxima-bold;
                                                                     height: 35px;
@@ -2808,7 +2938,7 @@
                                                                     .form-group {
                                                                         margin: 15px 0 0 0;
                                                                         label {
-                                                                            font-size: 0.75em;
+                                                                            font-size: 0.8c58b575em;
                                                                         }
                                                                         input,
                                                                         select {
@@ -2819,7 +2949,7 @@
                                                                     .zip-code-lookup {
                                                                         margin: 50px 0 0 0;
                                                                         .zip-code-lookup-link {
-                                                                            font-size: 0.625em;
+                                                                            font-size: 0.75em; 
                                                                         }
                                                                     }
                                                                     .phone-number {
@@ -2965,7 +3095,7 @@
                         }
                         .need-help-info {
                             padding: 10px;
-                            margin: 10px 0px;
+                            margin: 0px;
                             .need-help-header {
                                 font: 0.875em @neutraface-demi;
                             }
@@ -3008,8 +3138,92 @@
             }
         }
     }
-}
+    .checkout-page .checkout-info{
+        .customer-info{
+            margin-bottom: 0px;
+        }
+        .row div .accordion-block uib-accordion .panel-group .panel .panel-collapse .panel-body .payment-info-cont {
+            padding-bottom:20px;
+           .payment-client-info .row .credit-card-details .cardHolder{
+                .card-cont-header{
+                    padding:5px;
+                    input[type=radio]:not(old) + label .radioOutline, input[type=radio]:not(old):checked + label .radioOutline{
+                        width: 15px;
+                        height: 15px;
+                        vertical-align:initial;
+                        top:2px;
+                        .radioInside{
+                            width:9px;
+                            height:9px;
+                        }
+                    }
+                    #first-label .radioOutline {
+                        top: 5px;
+                    }
+                    .detailLabel{
+                        background-image: url('../../assets/images/plus-purple.svg');
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                        background-size: 14px;
+                        width: 15px;
+                        height: 15px;
+                        padding-left: 20px;
+                        margin-left: 10px;
+                        text-transform: uppercase;
+                        font: 0.875em @proxima-bold;
+                        letter-spacing: 1px;
+                        i{
+                            margin: 0px 5px 0;
+                            position: relative;
+                            top: 3px;
+                        }
+                        span{
+                            font-size: 0.75em;
+                            color: #000;
+                            padding:0 5px 0 0;
+                            display: inline-block;
+                            overflow-x: hidden; 
+                            &:last-child{
+                                white-space: nowrap;
+                                width: 15%;
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
 
+                }
+                .card-cont-body{
+                    padding: 12px 10px 12px 10px;
+                    .cvv-value input#cvvNumber{
+                        width: 100px;
+                        height:30px;
+                    }
+                    label{
+                        padding-left: 0px;
+                        padding-top: 10px;
+                    }
+                    .cvv-title{
+                        vertical-align: middle;
+                        display: inline-block;
+                        p{
+                            font: 0.875em "ProximaNova-Regular", Arial, sans-serif;
+                            height:30px;
+                            line-height:30px;
+                        }
+                    }
+                    .bill-addr-title, .bill-addr-value{
+                        p{
+                            font:.875em "ProximaNova-Regular", Arial, sans-serif;
+                        }
+                    }
+                    .email-value p{
+                        font: .8em/2.8125em "ProximaNova-Regular", Arial, sans-serif;
+                    }
+                } 
+            }
+        }
+    } 
+}
 
 /* media queries for Tablets & Ipad -- landscape*/
 
@@ -3184,6 +3398,18 @@
             }
         }
     }
+    .checkout-page .checkout-info .row div .accordion-block uib-accordion .panel-group .panel .panel-collapse .panel-body{
+        .delivery-info .delivery-address-details .row div .delivery-address .delivery-adddress-form form .delivery-days-info{
+            .deliver-today, .deliver-tomorrow{
+                height:7em;
+                line-height:7em;
+                padding: 10px 12px 0 !important;
+            }
+        } 
+        .payment-info-cont .payment-client-info .row .payment-gift-card-info .pmt-gift-card-form input#pmt-gift-card-num{
+            width:86%;
+        }
+    } 
 }
 
 //ipad portrait
@@ -3293,6 +3519,17 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
             font:0.875em @proxima-regular;
             color: #666666;
             padding: 17px 0px 17px 55px;
+            position:relative;
+            span{
+                border-right:1px solid #f1f1f1;
+                position:absolute;
+                top:16px;
+                bottom:16px;
+                &.fullName {
+                    border-right:none;
+                    position:static;
+                }
+            }
             p,.fullName,.address,.dDate,.dayTime,.time{
                 color: #000000;
             }

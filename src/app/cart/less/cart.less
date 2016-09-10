@@ -207,7 +207,8 @@
                             border: 1px solid #C5E6AC;
                             span {
                                 color: #71c139;
-                                font: 0.688em @neutraface-bold;
+                                font: 1em @neutraface-bold;
+                                vertical-align: middle;
                             }
                         }
                         .level-promo:after {
@@ -268,12 +269,16 @@
                                                 .custom-name {
                                                     font: 1.002em @proxima-bold;
                                                     color: #484848;
+                                                    margin-bottom: 5px;
                                                 }
                                                 .item-number,
                                                 .product-type {
                                                     font: 0.877em @proxima-regular;
                                                     color: #828282;
                                                     padding: 5px 0px;
+                                                }
+                                                .product-type{
+                                                    padding-top: 0px;
                                                 }
                                                 .event-details {
                                                     color: #464646;
@@ -359,6 +364,8 @@
                                                                 }
                                                                 &.qtyBorder{
                                                                     border: none;
+                                                                    min-height: 25px;
+                                                                    
                                                                 }
                                                                 &:last-child{
                                                                     .popover{
@@ -466,8 +473,20 @@
                                                                 height: 18px;
                                                                 width: 18px;
                                                                 fill:#2c2c2c;
+                                                                &:hover{
+                                                                    fill:@svg-fill;
+                                                                }
                                                             }
                                                         }
+                                                        &:hover{
+                                                            svg{
+                                                                fill:@svg-fill;
+                                                            }
+                                                            a{
+                                                                border-bottom: 1px solid @font-purple-light;
+                                                            }
+                                                        }
+
                                                     a {
                                                         color: #2c2c2c;
                                                         font: 0.750em @proxima-regular;
@@ -557,7 +576,7 @@
                 }
                 .date-svg{
                         position: absolute;
-                        top: 70%;
+                        top: 72%;
                         right: 10%;
                         svg{
                             height: 20px;
@@ -966,13 +985,15 @@
                                             margin: 15px 0px;
                                             font: 0.875em @proxima-regular;
                                             span {
+                                                cursor: pointer;
                                                 svg {
                                                     width: 17px;
                                                     height: 17px;
                                                     cursor: initial;
                                                     fill: #8c58b5;
                                                     vertical-align: middle;
-                                                    margin-left: 10px
+                                                    margin-left: 10px;
+                                                    cursor:pointer;
                                                 }
                                             }
                                         }
@@ -980,13 +1001,15 @@
                                             margin: 10px 0px 0px 0px;
                                             font: 0.875em @proxima-regular;
                                             span {
+                                                cursor: pointer;
                                                 svg {
                                                     width: 17px;
                                                     height: 17px;
                                                     cursor: initial;
                                                     fill: #8c58b5;
                                                     vertical-align: middle;
-                                                    margin-left: 10px
+                                                    margin-left: 10px;
+                                                    cursor:pointer;
                                                 }
                                             }
                                         }
@@ -1393,6 +1416,7 @@
             .no-products{
                 margin-top: 30px;
                 margin-bottom: 50px;
+                width: 100%;
                 p{
                     &:first-child{
                         font-size: 1em;
@@ -1480,11 +1504,15 @@
                                             .price-info,
                                             .quantity-info,
                                             .total-amount-info {
-                                                font-size: 0.8em;
+                                                font: 0.8em @proxima-regular;
                                                 padding: 5px 0px;
+                                                color: #828282;
                                                 span {
                                                     color: #464646;
                                                 }
+                                            }
+                                            .product-type{
+                                                margin-bottom: 0px;
                                             }
                                             .event-details {
                                                 font: 0.611em @proxima-regular;
@@ -1940,6 +1968,7 @@
                     font: 16px @neutraface-bold;
                     font: 1.000em @neutraface-bold;
                     padding: 30px 0 10px 15px;
+                    margin-left: 10px;
                 }
                 .owl-carousel {
                     padding: 0 20px 0px;
@@ -3028,6 +3057,7 @@
                                              &.col-md-1{
                                                 width: 8.33333333%;
                                             }
+                                            font-size: 0.9em;
                                         }
                                     }
                                 }
@@ -3061,6 +3091,16 @@
                                                     font-size: 0.7em;
                                                 }
                                                 }
+                                                &.mobile-edit-links{
+                                                    display: none !important;
+                                                }
+                                                &.delivery-info{
+                                                    width: 120%;
+                                                    margin-left: -20%;
+                                                    input[type="text"],.date-svg{
+                                                        z-index: 1;
+                                                    }
+                                                }
                                         }
                                         .recipient-products{
                                             div{
@@ -3080,6 +3120,10 @@
                                                                 display: none !important;
                                                             }
                                                         }
+                                                    }
+
+                                                    .visible-sm{
+                                                        display: none !important;
                                                     }
                                                 }
                                                 .edit-links{
@@ -3102,7 +3146,7 @@
                                                                     border-bottom: 1px solid #d1d1d1;
                                                                     font-family: @proxima-light;
                                                                     font-weight: bold;
-                                                                    font-size: 0.9em;
+                                                                    font-size: 1.01em;
                                                                 }
                                                                 &:first-child{
                                                                     border-right: 2px solid #d1d1d1;

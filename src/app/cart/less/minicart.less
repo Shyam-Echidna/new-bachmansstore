@@ -52,7 +52,7 @@
                     padding: 0px;
                     .shopping-cart-blocks {
                         position: relative;
-                        padding: 10px 10px 20px 10px;
+                        padding: 0px 10px 20px 10px;
                         background-color: #fff;
                         background: url("../assets/images/batch3web/zigzag.jpg") repeat-x bottom center;
                         /*-webkit-border-image: url('../assets/images/arrow-up.svg') 30 strech;
@@ -155,6 +155,31 @@
                             width: 100%;
                             height: 16px;
                         }*/
+                        .pdtBackground{
+                                background: @half-white;
+                                background-image: -webkit-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: -o-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: -moz-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: linear-gradient(to bottom, #fff, @half-white);
+                                background-repeat: no-repeat;
+                                position: relative;
+                                height: auto;
+                                width: 110%;
+                                margin-left: -10px;
+                                padding:0px 10px;
+                                &:after{
+                                        background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+                                        background: -moz-linear-gradient(315deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%, @half-white 75%, @half-white), -moz-linear-gradient(225deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -moz-linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -moz-linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white);
+                                        background: -webkit-linear-gradient(315deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(225deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white);
+                                        background: linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), linear-gradient(225deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), linear-gradient(315deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white);
+                                        background-position: 0.5em 0.5em, 0.5em 0.5em, 0 0.5em, 0 0.5em;
+                                        background-size: 1em 1em;
+                                        left: 0;
+                                        top: -1em;
+                                        height: 1em;
+                                        width: 100%;
+                                }
+                        }
                     }
                     &:before {
                         content: "";
@@ -207,6 +232,16 @@
                         text-transform: uppercase;
                         margin-bottom: 15px;
                         font: 16px/40px @proxima-bold;
+                    }
+                }
+                .no-product-miniCart{
+                    padding: 20px 0px;
+                    text-align: center;
+                    p{
+                        font: 1em @proxima-regular;
+                        color: @font-purple-dark;
+                        text-align: center;
+                        text-transform: uppercase;
                     }
                 }
             }

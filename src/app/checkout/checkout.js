@@ -27,11 +27,11 @@ function CheckoutConfig($stateProvider) {
 
 										.then(function () {
 											console.log("res,", res);
-											angular.forEach(res.Items, function(val,key){
-                                                console.log(val,key);
-                                                PdpService.GetProductCodeImages(val.ID).then(function(res1){
+											angular.forEach(res.Items, function (val, key) {
+                                                console.log(val, key);
+                                                PdpService.GetProductCodeImages(val.ProductID).then(function (res1) {
                                                     console.log(res1);
-                                                    val.productimages=res1[0];
+                                                    val.productimages = res1[0];
                                                 })
                                             })
 											deferred.resolve(res);
@@ -42,10 +42,8 @@ function CheckoutConfig($stateProvider) {
 								});
 							})
 						}).catch(function () {
-                            toastr.error('You do not have an active open order.', 'Error');
-                            if ($state.current.name.indexOf('checkout') > -1) {
-                                $state.go('home');
-                            }
+                            //toastr.error('You do not have an active open order.', 'Error');
+                            $state.go('home');
                             deferred.resolve(null);
                         });
 					return deferred.promise;
@@ -136,6 +134,54 @@ function checkOutService($q, $http, OrderCloud) {
 			lineitem: line
 		}
 	}
+	function _addCreditCard(card, billingAddress, vm) {
+		var d = $q.defer();
+		card = angular.copy(card);
+		card.ExpMonth = card.ExpMonth.substring(0, 2);
+		card.ExpYear = card.ExpYear.toString();
+		card.ExpYear = card.ExpYear.substring(2, 4);
+		billingAddress.Phone = "(" + billingAddress.Phone1 + ") " + billingAddress.Phone2 + "-" + billingAddress.Phone3;
+		billingAddress.Country = "US";
+		billingAddress.Billing = true;
+		delete billingAddress.ID;
+		_getCardType(card.CardNumber).then(function (cardtype) {
+			card.CardType = cardtype;
+			CreditCardService.Create(card).then(function (res) {
+				if (res.ResponseBody.ID) {
+					OrderCloud.As().Me.CreateAddress(billingAddress).then(function (res1) {
+						OrderCloud.As().Me.PatchCreditCard(res.ResponseBody.ID, { "xp": { "BillingAddressID": res1.ID } }).then(function (res2) {
+							console.log(res2);
+						});
+					});
+					d.resolve("1");
+				} else {
+					vm.TransactionError = res.messages;
+					d.resolve("0");
+				}
+			});
+		});
+		return d.promise;
+	}
+
+	function _CompareDate(endDate) {
+		var d = $q.defer();
+		$.ajax({
+			method: "GET",
+			dataType: "json",
+			contentType: "application/json",
+			url: GetCstTime
+		}).success(function (res) {
+			if (endDate == res.date)
+				d.resolve("1");
+			else
+				d.resolve(res);
+		}).error(function (err) {
+			console.log("err" + err);
+		});
+		d.resolve("1");
+		return d.promise;
+	}
+
     function _createCreditCard(data) {
         var defered = $q.defer();
         OrderCloud.CreditCards.Create(data).then(function (response) {
@@ -147,6 +193,9 @@ function checkOutService($q, $http, OrderCloud) {
 }
 function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q, CreditCardService, TaxService, CurrentOrder, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, LineItems, Order, OrderCloud, Buyers, CreditCard, LoggedinUser, LoginService, $cookieStore, $http, buyerid, checkOutService, AddressValidationService, $filter, PdpService) {
     console.log(LoggedinUser);
+    $('.base-header-inner').hide();
+    //$('.orderConfirmationHeader').show();
+    $('.sticky-background').hide();
 	var vm = this;
 	var date = new Date();
 	vm.lineItems = [];
@@ -173,7 +222,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.changePreference = changePreference;
 	vm.gotoNext = gotoNext;
 	vm.ordersummarydata = LineItems;
-	console.log("vm.ordersummarydata",vm.ordersummarydata);
+	console.log("vm.ordersummarydata", vm.ordersummarydata);
 	vm.orderdata = Order;
 	vm.orderTotal = angular.copy(Order.Total);
 	vm.init = init;
@@ -188,6 +237,10 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.orderDtls = { "SpendingAccounts": {} };
 	vm.addPaymentInfo = {};
 	vm.getCreditCardsBillingAddress(vm.creditcards.Items);
+	vm.addTaxtoLineItem = addTaxtoLineItem
+	PdpService.CompareDate().then(function (datatime) {
+		vm.cstDateTime = new Date(datatime);
+	});
 	var num = $filter('date')(new Date(), "yy");
     var years = [];
     for (var i = 0; i < 12; i++) {
@@ -505,10 +558,10 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
 	}
 
-	vm.setBillingAddress = function (index,card) {
-		if(card && card.BillingAddress){
+	vm.setBillingAddress = function (index, card) {
+		if (card && card.BillingAddress) {
 			vm.billingAddress = card.BillingAddress;
-		}else{
+		} else {
 			vm.billingAddress = {};
 			vm.addPaymentInfo.card = {};
 		}
@@ -523,57 +576,37 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	}
 
     vm.paymentInfoReview = function () {
-		if (vm.orderdata.Total > 0) {
+		if (vm.orderTotal > 0) {
 			if (vm.signnedinuser.ID != 'gby8nYybikCZhjMcwVPAiQ' && vm.selectedCard) {
-					if (vm.selectedCard == "newCreditCard") {
-						if (vm.newBillingForm.$valid && vm.newCreditCardForm.$valid) {
-							if (vm.billingAddress.saveCardFuture) {
-								if (addressValidated) {
-									vm.billingAddress.Phone = '(' + vm.billingAddress.Phone1 + ')' + " " + vm.billingAddress.Phone2 + '-' + vm.billingAddress.Phone3;
-									vm.billingAddress.Billing = true;
-									vm.billingAddress.xp["IsDefault"] = false;
-									vm.addPaymentInfo.card.CardType = getCardType(vm.addPaymentInfo);
-									vm.setBillingAddressonOrder(vm.billingAddress);
-									CreditCardService.Create(vm.addPaymentInfo.card).then(function (res) {
-										if (res && res.ResponseBody && res.ResponseBody.ID) {
-											vm.selectedCard = res.ResponseBody;
-											OrderCloud.Me.CreateAddress(vm.billingAddress).then(function (res1) {
-												console.log(res1);
-												OrderCloud.Me.PatchCreditCard(res.ResponseBody.ID, { "xp": { "BillingAddressID": res1.ID } }).then(function (res2) {
-													console.log(res2);
-												});
-												vm.createdAddress = res1;
-												vm.openACCItems.name = 'review';
-												vm.openACCItems['paymentFunc'] = true;
-											});
-										} else {
-											vm.ErrorMessage = res.messages;
-										}
-									});
-								} else {
-									alert("address not found");
-								}
+				if (vm.selectedCard == "newCreditCard") {
+					if (vm.newBillingForm.$valid && vm.newCreditCardForm.$valid) {
+						if (vm.billingAddress.saveCardFuture) {
+							if (addressValidated) {
+								addCreditCard();
 							} else {
-								vm.setBillingAddressonOrder(vm.billingAddress);
-								vm.openACCItems.name = 'review';
-								vm.openACCItems['paymentFunc'] = true;
+								alert("address not found");
 							}
 						} else {
-							alert("plese fill add card form");
+							vm.setBillingAddressonOrder(vm.billingAddress);
+							vm.openACCItems.name = 'review';
+							vm.openACCItems['paymentFunc'] = true;
 						}
-					} else if (vm.selectedCard.ID && vm.addPaymentInfo.card && vm.addPaymentInfo.card.CVV) {
-						vm.setBillingAddressonOrder(vm.billingAddress);
-						vm.openACCItems.name = 'review';
-						vm.openACCItems['paymentFunc'] = true;
 					} else {
-						alert("Please Enter CVV Number");
+						alert("plese fill add card form");
 					}
-			} else if (vm.addCreditCardForm && vm.addCreditCardForm.$valid && vm.addPaymentInfo && vm.billingAddress) {
-					vm.billingAddress.Phone =  '(' + vm.billingAddress.Phone1 + ')' + " " + vm.billingAddress.Phone2 + '-' + vm.billingAddress.Phone3;
-					vm.selectedCard = vm.addPaymentInfo.card;
+				} else if (vm.selectedCard.ID && vm.addPaymentInfo.card && vm.addPaymentInfo.card.CVV) {
 					vm.setBillingAddressonOrder(vm.billingAddress);
 					vm.openACCItems.name = 'review';
 					vm.openACCItems['paymentFunc'] = true;
+				} else {
+					alert("Please Enter CVV Number");
+				}
+			} else if (vm.addCreditCardForm && vm.addCreditCardForm.$valid && vm.addPaymentInfo && vm.billingAddress) {
+				vm.billingAddress.Phone = '(' + vm.billingAddress.Phone1 + ')' + " " + vm.billingAddress.Phone2 + '-' + vm.billingAddress.Phone3;
+				vm.selectedCard = vm.addPaymentInfo.card;
+				vm.setBillingAddressonOrder(vm.billingAddress);
+				vm.openACCItems.name = 'review';
+				vm.openACCItems['paymentFunc'] = true;
 			} else {
 				alert("plese select the card and billingAddress");
 			}
@@ -582,7 +615,28 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			vm.openACCItems['paymentFunc'] = true;
 		}
     }
-
+    function addCreditCard() {
+		vm.billingAddress.Phone = '(' + vm.billingAddress.Phone1 + ')' + " " + vm.billingAddress.Phone2 + '-' + vm.billingAddress.Phone3;
+		vm.billingAddress.Billing = true;
+		vm.billingAddress.xp["IsDefault"] = false;
+		vm.addPaymentInfo.card.CardType = getCardType(vm.addPaymentInfo);
+		vm.setBillingAddressonOrder(vm.billingAddress);
+		CreditCardService.Create(vm.addPaymentInfo.card).then(function (res) {
+			if (res && res.ResponseBody && res.ResponseBody.ID) {
+				vm.selectedCard = res.ResponseBody;
+				OrderCloud.Me.CreateAddress(vm.billingAddress).then(function (res1) {
+					OrderCloud.Me.PatchCreditCard(res.ResponseBody.ID, { "xp": { "BillingAddressID": res1.ID } }).then(function (res2) {
+						console.log(res2);
+					});
+					vm.createdAddress = res1;
+					vm.openACCItems.name = 'review';
+					vm.openACCItems['paymentFunc'] = true;
+				});
+			} else {
+				vm.ErrorMessage = res.messages;
+			}
+		});
+	}
 	vm.addressValdation = function (billingAddress) {
 		AddressValidationService.Validate(billingAddress).then(function (res) {
 			if (res.ResponseBody.ResultCode == 'Success') {
@@ -652,14 +706,14 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
                 if (d1 > d2) {
 					var amount = vm.orderdata.Total < vm.bachmanschargeacc.Balance ? vm.orderdata.Total : vm.orderdata.Total > vm.bachmanschargeacc.Balance ? vm.bachmanschargeacc.Balance : 100;
-					vm.ApplySpendingAccCharges(vm.bachmanschargeacc,amount,vm.orderdata,"Bachman Charges")
+					vm.ApplySpendingAccCharges(vm.bachmanschargeacc, amount, vm.orderdata, "Bachman Charges")
                 }
             } else if (bcdata.bachmanscharge == "custom" && bcdata.customChargeCode) {
 				var d1 = new Date();
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
                 if (d1 > d2) {
                     if (parseInt(bcdata.customChargeCode) < vm.orderdata.Subtotal) {
-						vm.ApplySpendingAccCharges(vm.bachmanschargeacc,bcdata.customChargeCode,vm.orderdata,"Bachman Charges")
+						vm.ApplySpendingAccCharges(vm.bachmanschargeacc, bcdata.customChargeCode, vm.orderdata, "Bachman Charges")
                     } else {
                         alert("entered amount is greaterthan total");
                     }
@@ -680,7 +734,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 						vm.orderDtls.SpendingAccounts.GiftCard = {
 							"ID": data.Items[0].ID,
 							"Name": "Gift Card applied",
-							"Amount": (data.Items[0].Balance > vm.orderdata.Subtotal) ? vm.orderdata.Subtotal : data.Items[0].Balance
+							"Amount": (data.Items[0].Balance > vm.orderdata.Total) ? vm.orderdata.Total : data.Items[0].Balance
 						};
 						vm.SumSpendingAccChrgs();
 					} else {
@@ -696,7 +750,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		//        }
     }
 
- vm.ApplySpendingAccCharges = function (obj, amount, orderDtls, type) {
+	vm.ApplySpendingAccCharges = function (obj, amount, orderDtls, type) {
         if (type == "Bachman Charges")
             vm.orderDtls.SpendingAccounts.BachmansCharges = {
                 "ID": obj.ID,
@@ -725,6 +779,37 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
         }
 		return sum;
     }
+
+	vm.deleteSpendingAcc = function (ChargesType) {
+		delete vm.orderDtls.SpendingAccounts[ChargesType];
+		vm.SumSpendingAccChrgs();
+	};
+
+	function spendingAccountsRedeemtion(SpendingAccounts) {
+		var PaymentType, TempStoredArray = [], dat = new Date(angular.copy(vm.cstDateTime)), d = $q.defer();
+		angular.forEach(SpendingAccounts, function (val, key) {
+			PaymentType = { "Type": "SpendingAccount", "SpendingAccountID": val.ID, "Description": key, "Amount": val.Amount, "xp": null };
+			if (key == "Cheque" || key == "PaidCash") {
+				PaymentType.Type = "PurchaseOrder";
+				delete PaymentType.ID;
+				if (key == "Cheque")
+					PaymentType.xp = { "ChequeNo": val.ChequeNo };
+			}
+			TempStoredArray.push(OrderCloud.Payments.Create(vm.order.ID, PaymentType));
+		}, true);
+		$q.all(TempStoredArray).then(function (result) {
+			TempStoredArray = [];
+			angular.forEach(result, function (val, key) {
+				TempStoredArray.push(OrderCloud.Payments.CreateTransaction(vm.order.ID, val.ID, { "Type": val.Type, "DateExecuted": (dat.getMonth() + 1) + "/" + dat.getDate() + "/" + dat.getFullYear(), "Amount": val.Amount, "xp": null }));
+			}, true);
+			$q.all(TempStoredArray).then(function (result2) {
+				console.log("===========>>>" + result2);
+				d.resolve("1");
+			});
+		});
+		return d.promise;
+	}
+
 
 	vm.editPopUp = function (lineitem) {
 		vm.edit = true;
@@ -800,6 +885,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				})
                 OrderCloud.Orders.TransferTempUserOrder(anonUserToken)
                     .then(function () {
+						$rootScope.$broadcast('getcurrentuser');
+						angular.element('#info-bar-acc, .sticky #info-bar-acc').addClass('expandAccBlockLoggedIn');
                         vm.openACCItems.name = 'delivery';
                         vm.openACCItems['signinFunc'] = true;
                         $state.reload();
@@ -841,13 +928,22 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		$('.credit-card-opt').on('click', function () { $('.billing-addr-cont').show() });
 	}
 
-	vm.setBillingAddressonOrder = function(address){
-		OrderCloud.Orders.SetBillingAddress(vm.orderdata.ID,address,null).then(function(data){
+	vm.setBillingAddressonOrder = function (address) {
+		OrderCloud.Orders.SetBillingAddress(vm.orderdata.ID, address, null).then(function (data) {
 			console.log(data);
 		});
 	}
 
+	vm.submitOrder = function () {
+		spendingAccountsRedeemtion().then(function (res1) {
+			if (res1 == "1") {
+				vm.placeOrder();
+			}
+		});
+	}
+
     vm.placeOrder = function () {
+		vm.orderdata.Total = vm.orderTotal;
 		if (vm.orderdata.Total > 0 && vm.selectedCard) {
             if (vm.selectedCard.ID) {
 				if (vm.addPaymentInfo.card.CVV) {
@@ -857,7 +953,9 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							OrderCloud.Orders.Submit(vm.orderdata.ID)
 								.then(function () {
 									TaxService.CollectTax(vm.orderdata.ID)
-										.then(function () {
+										.then(function (data) {
+											console.log(data);
+											vm.addTaxtoLineItem(data);
 											CurrentOrder.Remove();
 											$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
 										})
@@ -874,7 +972,9 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							OrderCloud.Orders.Submit(vm.orderdata.ID)
 								.then(function () {
 									TaxService.CollectTax(vm.orderdata.ID)
-										.then(function () {
+										.then(function (data) {
+											console.log(data);
+											vm.addTaxtoLineItem(data);
 											CurrentOrder.Remove();
 											$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
 										})
@@ -883,29 +983,40 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				} else {
 					alert("CVV Not Entered");
 				}
-                //once echidna adds correct html to add a credit card, they can add the rest of the credit card functions
-				// CreditCardService.Create(vm.addPaymentInfo.card).then(function (res) {
-				// 	if (res && res.ResponseBody && res.ResponseBody.ID) {
-				// 		OrderCloud.Me.PatchCreditCard(res.ResponseBody.ID, { "xp": { "BillingAddressID": vm.createdAddress.ID } }).then(function (res2) {
-				// 			console.log(res2);
-				// 		});
-
-				// 	} else {
-				// 		vm.ErrorMessage = res.messages;
-				// 	}
-				// });
             }
         } else {
 			OrderCloud.Orders.Submit(vm.orderdata.ID)
+
 				.then(function () {
 					TaxService.CollectTax(vm.orderdata.ID)
-						.then(function () {
+						.then(function (data) {
+							console.log(data);
+							vm.addTaxtoLineItem(data);
 							CurrentOrder.Remove();
 							$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
 						})
                 });
+
 		}
     }
+	function addTaxtoLineItem(data) {
+        var promise = [];
+		var count = 0;
+		angular.forEach(data.ResponseBody.TaxLines, function (item) {
+			promise[count] = callTaxtoLineItem(item);
+			count++
+		});
+		function callTaxtoLineItem(item) {
+			var defer = $q.defer();
+			OrderCloud.LineItems.Patch(Order.ID, item.LineNo, { xp: { Tax: item.Tax } }).then(function (data) {
+				defer.resolve(data);
+			});
+			return defer.promise;
+		}
+		$q.all(promise).then(function (result2) {
+			console.log("===========>>>" + result2);
+		});
+	}
 
 }
 function EditController($uibModalInstance, LineItem, Order, checkOutService, $rootScope) {

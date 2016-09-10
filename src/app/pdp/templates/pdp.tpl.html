@@ -59,11 +59,13 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
+
                             <h3 class="prod_title" >{{pdp.productTitle | lowercase}}</h3>
-                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size !== null">Select Size</h5> 
+
+                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">Select Size</h5> 
                             <div class="row radio-btn-container" >
 
-                                <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size !== null">
+                                <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">
                                                                       
                                     <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}"   ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
                                         <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}"   ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />

@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row pdtBackground">
                                     <div class="col-md-5 cart-product">
                                         <div ui-sref="pdp({sequence: lineItem.Product.xp.ProductCode, prodId: lineItem.Product.ID})"><img src="{{lineItem.productimages}}" /></div>
 
@@ -113,7 +113,7 @@
                     </div> -->
                 </li>
             </ul>
-            <div class="cart-edit-cont">
+            <div class="cart-edit-cont" ng-if="minicart.LineItems.Meta.TotalCount>0">
                 <a class="cart-edit-btn" ui-sref="cart">EDIT CART</a>
                 <div class="cart-delivery">Est. Delivery:
                     <!--<p>{{minicart.Order}}</p>-->
@@ -121,7 +121,10 @@
                 <div class="cart-total">Subtotal:
                     <p>{{minicart.Order.Subtotal | currency}}</p>
                 </div>
-                <button>checkout</button>
+                <button ui-sref="checkout">checkout</button>
+            </div>
+            <div class="no-product-miniCart" ng-if="minicart.LineItems.Meta==null">
+                <p>Sorry, No Product is Added</p>
             </div>
         </div>
     </div>

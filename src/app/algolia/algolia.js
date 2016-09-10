@@ -202,7 +202,8 @@ function AlgoliaConfig($stateProvider) {
                       var imgcontentArray = [];
                      var imgcontentArray1=[];
                       for(var i=0;i<items.length;i++){
-                        var item = items[i].Items;
+                        //var item = items[i].Items;
+                        var item = items[i]
                         for(var j=0;j<item.length;j++){
                     angular.forEach(Underscore.where(productImages, {title: item[j].ID}), function (node) {
                             node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;

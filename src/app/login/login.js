@@ -9,6 +9,7 @@ angular.module( 'orderCloud' )
 function LoginConfig( $stateProvider ) {
     $stateProvider
         .state( 'login', {
+            parent: 'base',
             url: '/login/:token',
             templateUrl:'login/templates/login.tpl.html',
             controller:'LoginCtrl',

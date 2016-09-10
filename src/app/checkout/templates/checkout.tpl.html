@@ -29,7 +29,7 @@
                   <div class="review-order">Review and Place Order</div>
                </div>
                <div class="col-lg-3 col-md-5 hidden-sm hidden-xs" ng-if="checkout.openACCItems.name=='review'">
-                  <div class="place-order">Place Order</div>
+                  <div class="place-order" ng-click="checkout.submitOrder()">Place Order</div>
                </div>
             </div>
             <div class="row accordion-block" ng-if="checkout.openACCItems.name!='review'">
@@ -38,21 +38,21 @@
                      <uib-accordion-heading>
                         <p ng-if="checkout.openACCItems.name=='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">1. Sign In</p>
                         <p ng-if="checkout.openACCItems.name!='signin'" ng-class="{'footer-minus': checkout.signin, 'footer-plus': !checkout.signin}">
-                           <span class="left-side">
+                           <span class="left-side ">
                               <a class="info-search-icon svg-green visible-xs visible-sm" ng-if="checkout.openACCItems.signinFunc">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                     <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
                                  </svg>
                               </a>
-                              1. 
+                              <span class="checkout-acc-count">1.</span> 
                               <a class="info-search-icon svg-right hidden-xs hidden-sm" ng-if="checkout.openACCItems.signinFunc">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                     <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
                                  </svg>
                               </a>
-                              <span>Sign In <span class="logged-in-user">Continue as {{checkout.user}}</span></span>
+                              <span>Sign In <span class="logged-in-user">Signed In as {{checkout.user}}</span></span>
                            </span>
-                           {{checkout.signnedinuser.ID}}
+                          <!--  {{checkout.signnedinuser.ID}} -->
                            <span ng-if="checkout.openACCItems.signinFunc || checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
                         </p>
                      </uib-accordion-heading>
@@ -98,18 +98,23 @@
                   </uib-accordion-group>
                   <uib-accordion-group is-open="checkout.openACCItems.name=='delivery'">
                      <uib-accordion-heading>
-                        <p ng-if="checkout.openACCItems.name=='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}" ng-click="checkout.changeAcItem('delivery')">2. Delivery Information </p>
+                        <p ng-if="checkout.openACCItems.name=='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}" ng-click="checkout.changeAcItem('delivery')" >2. Delivery Information</p>
                         <p ng-if="checkout.openACCItems.name !='delivery'" ng-class="{'footer-minus': checkout.delivery, 'footer-plus': !checkout.delivery}">
-                           <span class="left-side">
-                              2. 
+                           <span class="left-side delivery-svg">
+                               <a class="info-search-icon svg-green visible-xs visible-sm" ng-if="checkout.openACCItems.signinFunc">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                    <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
+                                 </svg>
+                              </a>
+                              <span class="checkout-acc-count">2.</span> 
                               <!-- <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.deliveryFunc"> -->
-                              <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.deliveryFunc">
+                              <a class="info-search-icon svg-right hidden-xs hidden-sm" ng-if="checkout.openACCItems.deliveryFunc">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                     <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
                                  </svg>
                               </a>
                               Delivery Information
-                              <span ng-repeat="lineItem in checkout.lineItems" class="del-det">{{lineItem[0].ShippingAddress.Street1}}, {{lineItem[0].ShippingAddress.Street2}}, {{lineItem[0].ShippingAddress.City}} </span>
+                              <!--<span ng-repeat="lineItem in checkout.lineItems" class="del-det">{{lineItem[0].ShippingAddress.Street1}}, {{lineItem[0].ShippingAddress.Street2}}, {{lineItem[0].ShippingAddress.City}} </span>-->
                            </span>
                            <span ng-if="checkout.openACCItems.deliveryFunc" ng-click="checkout.changeAcItem('delivery')" class="edit-here">Edit</span> 
                         </p>
@@ -562,9 +567,14 @@
                         <p ng-if="checkout.openACCItems.name=='payment'" ng-class="{'footer-minus': checkout.payment, 'footer-plus': !checkout.payment}" ng-click="checkout.changeAcItem('payment')">3. Payment </p>
                         <p ng-if="checkout.openACCItems.name !='payment'" ng-class="{'footer-minus': checkout.payment, 'footer-plus': !checkout.payment}">
                            <span class="left-side">
-                              3. 
+                              <a class="info-search-icon svg-green visible-xs visible-sm" ng-if="checkout.openACCItems.paymentFunc">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                    <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
+                                 </svg>
+                              </a>
+                              <span class="checkout-acc-count">3. </span>
                               <!-- <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.deliveryFunc"> -->
-                              <a class="info-search-icon svg-right" ng-if="checkout.openACCItems.paymentFunc">
+                              <a class="info-search-icon svg-right hidden-xs hidden-sm" ng-if="checkout.openACCItems.paymentFunc">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                     <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"/>
                                  </svg>
@@ -632,7 +642,7 @@
                                                             <label for="cardNumber">Card Number</label>
                                                             <input type="number" class="form-control" id="cardNumber" ng-model="checkout.addPaymentInfo.card.CardNumber" placeholder="Number" ng-minlength="14" maxlength="16" ng-maxlength="16" max-length="16" required/>
                                                          </div>
-                                                         <div class="col-xs-6 form-group exp-date p0">
+                                                         <div class="col-xs-6 col-md-12 col-lg-6 form-group exp-date p0">
                                                             <label for="expDate">Expiration Date</label>
                                                             <select class="form-control" id="month" placeholder="MM" ng-model="checkout.addPaymentInfo.card.ExpMonth" required>
                                                                <option>01</option>
@@ -652,9 +662,9 @@
                                                                <option ng-repeat="year in checkout.years">{{year}}</option>
                                                             </select>
                                                          </div>
-                                                         <div class="col-xs-4 col-xs-offset-2 form-group cvv-number">
+                                                         <div class="col-xs-4 col-md-12 col-lg-4 col-xs-offset-2 form-group cvv-number">
                                                             <label for="cvvNumber">CVV</label>
-                                                            <input type="number" class="form-control" id="cvvNumber" ng-model="checkout.addPaymentInfo.card.CVV" ng-minlength="3" maxlength="3" max-length="3" required/>
+                                                            <input type="number" class="form-control" id="cvvNumber" ng-model="checkout.addPaymentInfo.card.CVV" ng-minlength="3" ng-maxlength="3" max-length="3" required/>
                                                             <span class="cvv-help">
                                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                   viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
@@ -786,7 +796,7 @@
                                                    </div>-->
                                              </form>
                                           </div>
-                                          <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
+                                          <div class="col-xs-12 col-sm-12 col-md-10 col-lg-7 credit-card-details p0" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
                                              <!-- accordion starts -->
                                              <div ng-repeat="card in checkout.creditcards.Items" class="cardHolder" ng-class="{'cardActive':card==checkout.selectedCard}">
                                                 <div class="card-cont-header">
@@ -802,13 +812,13 @@
                                                    </label>
                                                 </div>
                                                 <div class="col-xs-12 card-cont-body paymentTabBody" ng-if="card==checkout.selectedCard">
-                                                   <div class="col-xs-4 cvv-title">
+                                                   <div class="col-xs-5 col-md-4 cvv-title">
                                                       <p>Enter CVV Code</p>
                                                    </div>
-                                                   <div class="col-xs-8 cvv-value">
+                                                   <div class="col-xs-7 col-md-8 cvv-value">
                                                       <form class="cvv-from" role="form" novalidate>
                                                          <div class="form-group">
-                                                            <input type="text" class="form-control" id="cvvNumber" ng-model="checkout.addPaymentInfo.card.CVV" />
+                                                            <input type="text" class="form-control" id="cvvNumber" ng-model="checkout.addPaymentInfo.card.CVV" ng-minlength="3" ng-maxlength="3" max-length="3"/>
                                                             <span class="cvv-help-icon">
                                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                   viewBox="0 0 14.4 23.9" style="enable-background:new 0 0 14.4 23.9;" xml:space="preserve">
@@ -827,17 +837,17 @@
                                                       </form>
                                                    </div>
                                                    <div ng-if="card.BillingAddress">
-                                                      <div class="col-xs-4 bill-addr-title">
+                                                      <div class="col-xs-5 col-md-4 bill-addr-title">
                                                          <p>Billing Address</p>
                                                       </div>
-                                                      <div class="col-xs-8 bill-addr-value">
+                                                      <div class="col-xs-7 col-md-8 bill-addr-value">
                                                          <p>{{card.BillingAddress.Street1}}</p>
                                                          <p>{{card.BillingAddress.Street2}}</p>
                                                          <p>{{card.BillingAddress.City}}, {{card.BillingAddress.State}}</p>
                                                          <p>{{card.BillingAddress.Zip}}</p>
                                                          <a href="javascript:void(0)" class="edit-link" ng-click="checkout.EditBillAddressForm($index,card)">Edit</a>
                                                       </div>
-                                                      <div class="col-xs-8 col-xs-offset-4 email-value">
+                                                      <div class="col-xs-7 col-md-8 fr email-value">
                                                          <p>{{card.BillingAddress.xp.Email}}</p>
                                                       </div>
                                                    </div>
@@ -909,7 +919,7 @@
                                                    <input type="radio" id="newCreditCard" class="input-card-radio" name="creditCardSelection" ng-click="checkout.setBillingAddress()" ng-model="checkout.selectedCard" value="newCreditCard">
                                                    <label for="newCreditCard" id="first-label">
                                                    <span class="radioOutline"><span class="radioInside"></span></span>
-                                                   <span class="detailLabel">+ Add/Pay with a new card</span>
+                                                   <span class="detailLabel"> Add/Pay with a new card</span>
                                                    </label>
                                                 </div>
                                                 <div class="col-xs-12 card-info-cont addCardForm" ng-if="checkout.selectedCard=='newCreditCard'">
@@ -1229,6 +1239,86 @@
                                                 </div>
                                              </div>
                                           </div>
+                                          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 billing-addr-cont">
+                                                      <p class="title">Billing Address</p>
+                                                      <div class="row selectRecipentDetails">
+                                                         <div class="selectRadio">
+                                                            <div class="radio-inline" >
+                                                               <input type="radio" id="addrBookRadio" name="selectRecipientAddr"  value="AddressBook">
+                                                               <label for="addrBookRadio">
+                                                               <span class="radioOutline"><span class="radioInside"></span></span>
+                                                               <span class="label-name">Address Book</span>
+                                                               </label>
+                                                            </div>
+                                                            <div class="radio-inline">
+                                                               <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" >
+                                                               <label for="currRecipientRadio">
+                                                               <span class="radioOutline"><span class="radioInside"></span></span>
+                                                               <span class="label-name">Current Recipients</span>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                         <div class="recipientDetails">
+                                                            <ul>
+                                                               <li>
+                                                                  <input type="radio" id="recipient_1" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" >
+                                                                  <label for="recipient_1">
+                                                                  <span class="radioOutline"><span class="radioInside"></span></span>
+                                                                  <span class="label-name">dsfd</span>
+                                                                  <span class="label-name right">ad </span>
+                                                                  </label>
+                                                               </li>
+                                                            </ul>
+                                                            <div class="viewAll">
+                                                               <a href="" >View All</a>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                      <div class="billing-addr-div">
+                                                         <div class="col-xs-6 form-group first-name">
+                                                            <label for="firstName">First Name</label>
+                                                            <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group last-name">
+                                                            <label for="nickName">Last Name</label>
+                                                            <input type="text" class="form-control" id="lastName" ng-model="checkout.billingAddress.LastName" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group zip-code">
+                                                            <label for="zipCode">ZIP Code</label>
+                                                            <input type="number" class="form-control" id="zipCode" ng-model="checkout.billingAddress.Zip" ng-blur="checkout.addressValdation(checkout.billingAddress)" required/>
+                                                         </div>
+                                                         <div class="col-xs-12 form-group address">
+                                                            <label for="address">Address 1</label>
+                                                            <input type="text" class="form-control" id="address" ng-model="checkout.billingAddress.Street1" ng-blur="checkout.addressValdation(checkout.billingAddress)" required />
+                                                         </div>
+                                                         <div class="col-xs-12 form-group address2">
+                                                            <label for="address2">Address 2 (Optional)</label>
+                                                            <input type="text" class="form-control" id="address2" ng-model="checkout.billingAddress.Street2" />
+                                                         </div>
+                                                         <div class="col-xs-6 form-group city">
+                                                            <label for="address">City</label>
+                                                            <input type="text" class="form-control" id="city" ng-model="checkout.billingAddress.City" required/>
+                                                         </div>
+                                                         <div class="col-xs-6 form-group state">
+                                                            <label for="state">State</label>
+                                                            <select class="form-control" id="state" ng-model="checkout.billingAddress.State" required>
+                                                               <option>MN</option>
+                                                               <option>LA</option>
+                                                               <option>LV</option>
+                                                            </select>
+                                                         </div>
+                                                         <div class="col-xs-12 form-group email-addr">
+                                                            <label for="email">Enter Your Email Address</label>
+                                                            <input type="text" class="form-control" id="email" placeholder="Email Address" name="loginEmail" ng-model="checkout.billingAddress.xp.Email"  ng-model-options="{updateOn: 'blur'}" custom-email-validation />
+                                                            </div>
+                                                         <div class="col-xs-12 form-group phone-number">
+                                                            <label for="phone1">Phone Number</label>
+                                                            <input type="number" class="form-control col-xs-3" id="phone1" ng-model="checkout.billingAddress.Phone1" ng-minlength="3" maxlength="3" max-length="3" required/>
+                                                            <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.Phone2" ng-minlength="3" maxlength="3" max-length="3" required/>
+                                                            <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.Phone3" ng-minlength="4" maxlength="4" max-length="4" required/>
+                                                         </div>
+                                                      </div>
+                                                   </div>
                                           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 p0 payment-gift-card-info info-bg-color" ng-if="checkout.giftcardcheckbox==true">
                                              <p class="title">Gift Card Information</p>
                                              <p class="title-helper">Enter 14 or 16 Digit Gift Card Number</p>
@@ -1403,7 +1493,8 @@
                                     </svg>
                                     </span>
                                     </div>
-                                    <button type="button" class="btn green-btn" ng-click="checkout.validateGiftCard(checkout.giftCardData)">Redeem Card</button>
+                                    <!-- <button type="button" class="btn green-btn" ng-click="checkout.validateGiftCard(checkout.giftCardData)">Redeem Card</button> -->
+                                    <button type="button" class="btn green-btn" ng-click="checkout.validateGiftCard(checkout.giftCardData)">Add Card</button>
                                     </form>
                                     </div>
                                     </uib-tab>
@@ -1414,7 +1505,7 @@
                                  <div class="amt-cont-cover">
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 order-amt">
                                        <p class="title">Total Amount Payable</p>
-                                       <p class="amount">&#x24;525.00</p>
+                                       <p class="amount">{{checkout.orderTotal | currency}}</p>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
                                        <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
@@ -1440,31 +1531,42 @@
             <div class="row review-order-part" ng-if="checkout.openACCItems.name=='review'">
                <div class="signInTab">
                   <p class="headPart" >
-                     1. 
-                     <a class="info-search-icon">
+                     <a class="info-search-icon svg-green visible-xs visible-sm ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                            <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
                         </svg>
                      </a>
-                     Sign In <span class="editLink">Edit</span>
+                     1. 
+                     <a class="info-search-icon hidden-xs hidden-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Sign In <span class="editLink" ng-click="checkout.changeAcItem('signin')">Edit</span>
                   </p>
                   <p class="detailPart" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">Signed In as <span class="fullName">{{checkout.signnedinuser.FirstName}} {{checkout.signnedinuser.LastName}}</span></p>
                   <p class="detailPart" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">Continue as <span class="fullName">Guest</span></p>
                </div>
                <div class="deliveryInfoTab">
                   <p class="headPart" >
-                     2. 
-                     <a class="info-search-icon">
+                     <a class="info-search-icon svg-green visible-xs visible-sm ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                            <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
                         </svg>
                      </a>
-                     Delivery Information <span class="editLink">Edit</span>
+                     2. 
+                     <a class="info-search-icon hidden-xs hidden-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Delivery Information <span class="editLink" ng-click="checkout.changeAcItem('delivery')">Edit</span>
                   </p>
                   <div class="detailPart row" ng-repeat="(line,value) in checkout.groups">
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="fullName">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
                         <p>{{checkout.groups[line][0].ShippingAddress.Street1}}</p>
                         <p>{{checkout.groups[line][0].ShippingAddress.Street2}}</p>
@@ -1472,10 +1574,12 @@
                         <p>{{checkout.groups[line][0].ShippingAddress.Zip}}</p>
                         <p class="phone">{{checkout.groups[line][0].ShippingAddress.Phone}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="dDate-title">Delivery Date</p>
                         <p class="dDate">{{checkout.groups[line][0].xp.deliveryDate | date}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="dPreference-title">Delivery Preference</p>
                         <p class="dayTime">{{checkout.groups[line][0].xp.DeliveryRuns.Name}}</p>
@@ -1485,18 +1589,24 @@
                </div>
                <div class="paymentInfoTab">
                   <p class="headPart" >
-                     3. 
-                     <a class="info-search-icon">
+                     <a class="info-search-icon svg-green visible-xs visible-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                            <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
                         </svg>
                      </a>
-                     Payment <span class="editLink">Edit</span>
+                     3. 
+                     <a class="info-search-icon hidden-xs hidden-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                           <path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46"></path>
+                        </svg>
+                     </a>
+                     Payment <span class="editLink" ng-click="checkout.changeAcItem('payment')">Edit</span>
                   </p>
                   <div class="detailPart row" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="fullName">{{checkout.selectedCard.CardholderName}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
                         <p>{{checkout.selectedCard.BillingAddress.Street1}}</p>
                         <p>{{checkout.selectedCard.BillingAddress.Street2}}</p>
@@ -1504,15 +1614,17 @@
                         <p>{{checkout.selectedCard.BillingAddress.Zip}}</p>
                         <p class="phone">{{checkout.selectedCard.BillingAddress.Phone}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="cardTitle">Credit Card</p>
                         <p>xxxx xxx xxx {{checkout.selectedCard.PartialAccountNumber}}</p>
                         <p class="cardExpires">Card Expires</p>
                         <p>{{checkout.selectedCard.ExpirationDate | date: 'dd '}}/{{checkout.selectedCard.ExpirationDate | date: 'yy '}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <p class="pPerksTitle">Purple Perks Dollars Applied</p>
-                        <p>100</p>
+                        <!--<p class="pPerksTitle">Purple Perks Dollars Applied</p>
+                        <p>100</p>-->
                      </div>
                   </div>
                   <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
@@ -1540,7 +1652,7 @@
                </div>
                <div class="row review-content-btn">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     <button class="place-order" ng-click="checkout.placeOrder()">Place Order</button>
+                     <button class="place-order" ng-click="checkout.submitOrder()">Place Order</button>
                   </div>
                </div>
             </div>
@@ -1626,7 +1738,7 @@
                                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                     <p class="delivery-charges">
                                        {{value.Name}}
-                                       <span class="cross-svg">
+                                       <span class="cross-svg" ng-click="checkout.deleteSpendingAcc(key)">
                                           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-737.5 479.1 44.5 44.5" style="enable-background:new -737.5 479.1 44.5 44.5;" xml:space="preserve">
                                              <g>
                                                 <g>

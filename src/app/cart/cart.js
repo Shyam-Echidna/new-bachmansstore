@@ -53,7 +53,7 @@ function CartConfig($stateProvider) {
                         OrderCloud.LineItems.List(Order.ID)
                             .then(function (data) {
                                 if (!data.Items.length) {
-                                    toastr.error("Your order does not contain any line items.", 'Error');
+                                    //toastr.error("Your order does not contain any line items.", 'Error');
                                     if ($state.current.name === 'cart') {
                                         $state.go('home');
                                     }
@@ -62,11 +62,12 @@ function CartConfig($stateProvider) {
                                 else {
                                     LineItemHelpers.GetProductInfo(data.Items)
                                         .then(function () {
-                                            angular.forEach(data.Items, function(val,key){
-                                                console.log(val,key);
-                                                PdpService.GetProductCodeImages(val.ID).then(function(res1){
+
+                                            angular.forEach(data.Items, function (val, key) {
+                                                console.log(val, key);
+                                                PdpService.GetProductCodeImages(val.ProductID).then(function (res1) {
                                                     console.log(res1);
-                                                    val.productimages=res1[0];
+                                                    val.productimages = res1[0];
                                                 })
                                             })
                                             dfd.resolve(data);
@@ -74,12 +75,12 @@ function CartConfig($stateProvider) {
                                 }
                             })
                             .catch(function () {
-                                toastr.error("Your order does not contain any line items.", 'Error');
+                                //toastr.error("Your order does not contain any line items.", 'Error');
                                 dfd.reject();
                             });
                     }
                     else {
-                        toastr.error("Your order does not contain any line items.", 'Error');
+                        //toastr.error("Your order does not contain any line items.", 'Error');
                         dfd.resolve(0);
                         if ($state.current.name === 'cart') {
                             $state.go('home');
@@ -105,7 +106,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     var vm = this;
     vm.order = Order;
     vm.lineItems = LineItemsList;
-    console.log("vm.lineItems", vm.lineItems);
+    console.log("vm.lineItems", vm.order);
     vm.removeItem = removeItem;
     vm.pagingfunction = PagingFunction;
     vm.signnedinuser = LoggedinUser;
@@ -121,11 +122,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     vm.isLoggedIn = $cookieStore.get('isLoggedIn');
     vm.disableCheckOut = false;
     vm.checkSameDay = checkSameDay;
-    vm.selectedRecipient = [];
+    vm.selectedRecipient = {};
     vm.changeRecipientConfirm = changeRecipientConfirm;
     vm.showDeliveryToolTip = false;
     vm.showDeliveryToolTipMobile = false;
     vm.ShippingAddress = {};
+    vm.selectedRecipientOk = false;
+    vm.updateLinedetails = updateLinedetails;
+    vm.calculateShippingCost = calculateShippingCost;
 
     vm.changeDate = changeDate;
     console.log(vm.order);
@@ -230,7 +234,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
 
     vm.groups = data;
-    console.log("234567890",vm.groups);
+    console.log("234567890", vm.groups);
     vm.linetotalvalue = 0;
     vm.lineVal = [];
     vm.lineTotal = {};
@@ -285,7 +289,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         templateUrl: 'showproductrequest.html',
     };
 
-     vm.deleteNoteMobile = {
+    vm.deleteNoteMobile = {
         templateUrl: 'deleteNote.html',
     };
     vm.showproductrequestMobile = {
@@ -494,11 +498,17 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             //     }
             // });
             if (vm.selectedRecipient)
-                vm.selectedRecipient.splice(0, vm.selectedRecipient.length)
+                // vm.selectedRecipient.splice(0, vm.selectedRecipient.length)
+                vm.selectedRecipient = {};
             vm.selectedRecipient[index] = true;
+            vm.selectedRecipientOk = vm.selectedRecipient[index];
         }
         else {
             alert("same Recipient");
+            if (vm.selectedRecipient)
+                vm.selectedRecipient = {};
+            vm.selectedRecipient[index] = true;
+            vm.selectedRecipientOk = false;
         }
         // lineitem.showDeliveryToolTip = !lineitem.showDeliveryToolTip;
     }
@@ -511,7 +521,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             if (s == 'success') {
                 vm.showDeliveryToolTip = false;
                 $state.go('cart', { ID: vm.order.ID });
-                
+
                 vm.showDeliveryToolTipMobile = false;
                 $state.go('cart', { ID: vm.order.ID });
 
@@ -751,7 +761,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         }
         return defered.promise;
     }
-    vm.updateLinedetails = updateLinedetails;
+
     function updateLinedetails(args, newline) {
         delete newline.xp.NoInStorePickUp;
         delete newline.xp.NoDeliveryExInStore;
@@ -761,17 +771,28 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
                 alert("Data submitted successfully");
-                if(new Number(newline.LineTotal)!= new Number(newline.xp.TotalCost)){
-					OrderCloud.Orders.Patch(args,{ShippingCost:new Number(newline.xp.TotalCost-newline.LineTotal)}).then(function(ord){
-						console.log("shippingcost"+ord);
-					})
-				}
+                vm.calculateShippingCost(args);
                 //vm.getLineItems();
                 defered.resolve('updated')
             });
 
         });
         return defered.promise;
+    }
+    function calculateShippingCost(args) {
+        var sum = 0;
+        OrderCloud.LineItems.List(args).then(function (dat) {
+            angular.forEach(dat.Items, function (value) {
+                if (new Number(value.LineTotal) != new Number(value.xp.TotalCost)) {
+                    sum += new Number(value.xp.TotalCost - value.LineTotal);
+                }
+            });
+            OrderCloud.Orders.Patch(args, { ShippingCost: sum }).then(function (ord) {
+                console.log("shippingcost" + ord);
+            })
+        });
+
+
     }
 
     function getCityState(line, zip) {
@@ -881,6 +902,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 OrderCloud.LineItems.SetShippingAddress(vm.order.ID, lineItem.ID, lineItem.ShippingAddress).then(function (data) {
                     console.log("SetShippingAddress", data);
                     alert("Data submitted successfully");
+                    $state.go('cart', { ID: vm.order.ID });
                     //vm.getLineItems();
 
                 });
@@ -1107,14 +1129,15 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
         OrderCloud.LineItems.List(order.ID)
             .then(function (li) {
                 vm.LineItems = li;
-                angular.forEach(vm.LineItems.Items, function(val,key){
-                    console.log(val,key);
-                    PdpService.GetProductCodeImages(val.ID).then(function(res1){
+
+                angular.forEach(vm.LineItems.Items, function (val, key) {
+                    console.log(val, key);
+                    PdpService.GetProductCodeImages(val.ProductID).then(function (res1) {
                         console.log(res1);
-                        val.productimages=res1[0];
+                        val.productimages = res1[0];
                     })
                 })
-                console.log('vm.LineItems1231',vm.LineItems);
+                console.log('vm.LineItems1231', vm.LineItems);
                 if (li.Meta.TotalPages > li.Meta.Page) {
                     var page = li.Meta.Page;
                     while (page < li.Meta.TotalPages) {
@@ -1449,11 +1472,27 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
                 console.log("SetShippingAddress", data);
                 alert("Data submitted successfully");
                 //vm.getLineItems();
+                vm.calculateShippingCost(args);
                 defered.resolve('updated')
             });
 
         });
         return defered.promise;
+    }
+    function calculateShippingCost(args) {
+        var sum = 0;
+        OrderCloud.LineItems.List(args).then(function (dat) {
+            angular.forEach(dat.Items, function (value) {
+                if (new Number(value.LineTotal) != new Number(value.xp.TotalCost)) {
+                    sum += new Number(value.xp.TotalCost - value.LineTotal);
+                }
+            });
+            OrderCloud.Orders.Patch(args, { ShippingCost: sum }).then(function (ord) {
+                console.log("shippingcost" + ord);
+            })
+        });
+
+
     }
 
     function checkLineItemsId(res, line, d) {

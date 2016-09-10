@@ -22,10 +22,10 @@ function PdpConfig($stateProvider) {
 					var deferred = $q.defer();
 					PdpService.GetSeqProd($stateParams.sequence).then(function (res) {
 						var inventoryFilteredList = []; // Array for Products with inventory
-						angular.forEach(res.Items, function (value, key) {
+						angular.forEach(res, function (value, key) {
 							var promise = PdpService.GetProdInventory(value.ID).then(function (res) {
 								if (res.Available > 1) {
-								 return value;
+									return value;
 								}
 							});
 							console.log(promise);
@@ -87,7 +87,7 @@ var guest = {
     "Claims": ["FullAccess"]
 };
 
-function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, x2js, alfrescourl, alfcontenturl, $rootScope, $cookieStore) {
+function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, x2js, alfrescourl, alfcontenturl, $rootScope, $cookieStore,localdeliverytimeurl) {
 	var service = {
 		AddToWishList: _addToWishList,
 		CreateOrder: _createOrder,
@@ -241,7 +241,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			method: "GET",
 			dataType: "json",
 			contentType: "application/json",
-			url: "http://103.227.151.31:8080/Bachman/localdeliverytime",
+			url: localdeliverytimeurl,
 			success: function (res) {
 				if (endDate == res.date)
 					d.resolve("1");
@@ -463,7 +463,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		return defered.promise;
 	}
 	function _getSeqProd(sequence) {
-			var defferred = $q.defer();
+		/*	var defferred = $q.defer();
 			$http({
 				method: 'GET',
 				dataType: "json",
@@ -479,20 +479,20 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 				defferred.resolve(data);
 			}).error(function (data, status, headers, config) {
 			});
-			return defferred.promise;
-	/*	var defferred = $q.defer();
+			return defferred.promise;*/
+	var defferred = $q.defer();
 		OrderCloud.Products.List(null, 1, 100, null, null, { "xp.sequencenumber": sequence }).then(function (res) {
 			// var d= $q.defer();
 			var queue = [];
 			angular.forEach(res.Items, function (node) {
-					queue.push(getprices(node));
+				queue.push(getprices(node));
 
-				});
+			});
 			$q.all(queue).then(function (items) {
 				defferred.resolve(items);
 			});
 		})
-		return defferred.promise;*/
+		return defferred.promise;
 	}
 
 	function getprices(node) {
@@ -517,7 +517,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			if (!arrayData) {
 				arrayData = {};
 				arrayData.link = {};
-				arrayData.link._href = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg';
+				arrayData.link._href = 'http://192.168.97.27:8080/alfresco/d/a/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg';
 			}
 			if (!Array.isArray(arrayData)) {
 				arrayData = [arrayData];
@@ -542,7 +542,27 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 						windowClass: 'loginModalBg',
 						templateUrl: 'login/templates/login.modal.tpl.html',
 						controller: 'LoginCtrl',
-						controllerAs: 'login'
+						controllerAs: 'login',
+						resolve: {
+							emailSubscribeList: function (ConstantContact) {
+								return ConstantContact.GetListOfSubscriptions();
+							},
+							CurrentUser: function ($q, $state, OrderCloud) {
+								var dfd = $q.defer();
+								OrderCloud.Me.Get()
+									.then(function (data) {
+										dfd.resolve(data);
+									})
+									.catch(function () {
+										OrderCloud.Auth.RemoveToken();
+										OrderCloud.Auth.RemoveImpersonationToken();
+										// OrderCloud.BuyerID.Set(null);
+										$state.go('home');
+										dfd.resolve();
+									});
+								return dfd.promise;
+							}
+						}
 					});
 					modalInstance.result.then(function () {
 
@@ -649,7 +669,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			method: "GET",
 			dataType: "json",
 			contentType: "application/json",
-			url: "http://103.227.151.31:8080/Bachman/localdeliverytime",
+			url: localdeliverytimeurl,
 			success: function (res) {
 				var datetime = new Date(res.datetime);
 				var time = datetime.getHours();
@@ -768,77 +788,77 @@ function PdpController($uibModal, $q, Underscore, OrderCloud, $stateParams, PlpS
 		$scope.items = "";
 
 		//if (activeProduct) {
-			var modalInstance = $uibModal.open({
-				animation: true,
-				backdropClass: 'multiRecipentModal',
-				windowClass: 'multiRecipentModal',
-				templateUrl: 'pdp/templates/multirecipient.tpl.html',
-				controller: 'MultipleRecipientCtrl',
-				controllerAs: 'multipleRecipient',
-				resolve: {
-					items: function () {
-						//if (vm.DeliveryType) {
-						activeProduct.xp.DeliveryMethod = vm.DeliveryType;
-						//}
-						vm.callAvailableOptions(activeProduct, vm.listCategories);
+		var modalInstance = $uibModal.open({
+			animation: true,
+			backdropClass: 'multiRecipentModal',
+			windowClass: 'multiRecipentModal',
+			templateUrl: 'pdp/templates/multirecipient.tpl.html',
+			controller: 'MultipleRecipientCtrl',
+			controllerAs: 'multipleRecipient',
+			resolve: {
+				items: function () {
+					//if (vm.DeliveryType) {
+					activeProduct.xp.DeliveryMethod = vm.DeliveryType;
+					//}
+					vm.callAvailableOptions(activeProduct, vm.listCategories);
 
-						return activeProduct;
-					},
-					Order: function ($rootScope, $q, $state, toastr, CurrentOrder, $cookieStore) {
-						// var dfd = $q.defer();
-						// CurrentOrder.Get()
-						// 	.then(function (order) {
-						// 		dfd.resolve(order)
-						// 	})
-						// 	.catch(function () {
-						// 		dfd.resolve(null);
-						// 	});
-						// // PdpService.CreateOrder().then(function (order) {
-						// // 	dfd.resolve(order);
-						// // })
-						// return dfd.promise;
-						return vm.order;
+					return activeProduct;
+				},
+				Order: function ($rootScope, $q, $state, toastr, CurrentOrder, $cookieStore) {
+					// var dfd = $q.defer();
+					// CurrentOrder.Get()
+					// 	.then(function (order) {
+					// 		dfd.resolve(order)
+					// 	})
+					// 	.catch(function () {
+					// 		dfd.resolve(null);
+					// 	});
+					// // PdpService.CreateOrder().then(function (order) {
+					// // 	dfd.resolve(order);
+					// // })
+					// return dfd.promise;
+					return vm.order;
 
-					},
-					Signedin: function ($q, $state, OrderCloud) {
-						// var dfd = $q.defer();
-						// OrderCloud.Me.Get().then(function (res) {
-						// 	console.log("zxcvbnm", res);
-						// 	dfd.resolve(res);
-						// })
-						// return dfd.promise;
-						return vm.signIn;
-					},
-					LineItems: function (CurrentOrder) {
-						// var dfd = $q.defer();
-						// CurrentOrder.Get()
-						// 	.then(function (order) {
-						// 		var promise = vm.getLineItems(order.ID)
-						// 		dfd.resolve(promise)
-						// 	})
-						// 	.catch(function () {
-						// 		dfd.resolve(null);
-						// 	});
-						// // PdpService.CreateOrder().then(function (order) {
-						// // 	dfd.resolve(order);
-						// // })
-						// return dfd.promise;
-						return vm.lineItems;
-					},
-					call: function () {
-						return vm.init;
-					}
+				},
+				Signedin: function ($q, $state, OrderCloud) {
+					// var dfd = $q.defer();
+					// OrderCloud.Me.Get().then(function (res) {
+					// 	console.log("zxcvbnm", res);
+					// 	dfd.resolve(res);
+					// })
+					// return dfd.promise;
+					return vm.signIn;
+				},
+				LineItems: function (CurrentOrder) {
+					// var dfd = $q.defer();
+					// CurrentOrder.Get()
+					// 	.then(function (order) {
+					// 		var promise = vm.getLineItems(order.ID)
+					// 		dfd.resolve(promise)
+					// 	})
+					// 	.catch(function () {
+					// 		dfd.resolve(null);
+					// 	});
+					// // PdpService.CreateOrder().then(function (order) {
+					// // 	dfd.resolve(order);
+					// // })
+					// return dfd.promise;
+					return vm.lineItems;
+				},
+				call: function () {
+					return vm.init;
 				}
-			});
+			}
+		});
 
-			modalInstance.result.then(function (selectedItem) {
-				$scope.selected = selectedItem;
-			}, function () {
-				angular.noop();
-			});
+		modalInstance.result.then(function (selectedItem) {
+			$scope.selected = selectedItem;
+		}, function () {
+			angular.noop();
+		});
 		//}
 		//else {
-			//alert("Please select prodcut");
+		//alert("Please select prodcut");
 		//	vm.multirecipientSelectErr = "Please select product";
 		//}
 	}
@@ -1453,6 +1473,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	vm.changeaddSameAddress = changeaddSameAddress;
 	vm.sameAddress = {};
 	vm.disableAddToCart = false;
+	vm.calculateShippingCost = calculateShippingCost;
 
 
 
@@ -1620,151 +1641,146 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	}
 
 	function submitDetails(activeitems) {
-
+        vm.submitDetailsPromise = submitDetailsCall(activeitems);
 		//console.log("activeitems" + JSON.stringify(activeitems));
 		//var deferred = $q.defer();
+		function submitDetailsCall(activeitems) {
+			var submitdefer = $q.defer();
+            var uniques = _.map(_.groupBy(activeitems, function (value) {
+				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
+			}), function (grouped) {
+				console.log("grouped ==" + JSON.stringify(grouped));
+				var TotalQuantity = 0;
+				TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
+				grouped[0].Quantity = Number(TotalQuantity);
 
-		var uniques = _.map(_.groupBy(activeitems, function (value) {
-			return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
-		}), function (grouped) {
-			console.log("grouped ==" + JSON.stringify(grouped));
-			var TotalQuantity = 0;
-			TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
-			grouped[0].Quantity = Number(TotalQuantity);
-
-			return grouped[0];
-		});
-        function lineDetails(line, order) {
-			var deferred = $q.defer();
-			if (line.ID == "") {
-				common(line);
-				createNewLineItem(line, order, deferred);
-				function common(line) {
-					//line.xp.addressType=vm.addressType;
-					if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
-						line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + " " + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
-						delete line.ShippingAddress.Phone1;
-						delete line.ShippingAddress.Phone2;
-						delete line.ShippingAddress.Phone3;
-
-					}
-					if (line.xp.deliveryDate) {
-						line.xp.deliveryDate = new Date(line.xp.deliveryDate);
-					}
-					if (line.xp.pickupDate) {
-						line.xp.pickupDate = new Date(line.xp.pickupDate);
-					}
-					if (line.xp.CardMessage) {
-						delete line.xp.CardMessage;
-					}
-					if (!line.xp.DeliveryNotes) {
-						delete line.xp.DeliveryNotes;
-					}
-					if (line.xp.addressType == "Residence" || !line.xp.addressType || line.xp.addressType == "Shipping" || line.xp.addressType == "Church" || line.xp.addressType == "School" || line.xp.addressType == "Business" || line.xp.addressType == "Cemetery") {
-						if (line.xp) {
-							delete line.xp.PatientFName;
-							delete line.xp.PatientLName;
-							delete line.xp.pickupDate;
-						}
-					}
-					else if (line.xp.addressType == "Will Call") {
-						if (line.xp) {
-							delete line.xp.PatientFName;
-							delete line.xp.PatientLName;
-							delete line.xp.deliveryDate;
+				return grouped[0];
+			});
+			function lineDetails(line, order) {
+				var deferred = $q.defer();
+				if (line.ID == "") {
+					common(line);
+					createNewLineItem(line, order, deferred);
+					function common(line) {
+						//line.xp.addressType=vm.addressType;
+						if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
+							line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + " " + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
+							delete line.ShippingAddress.Phone1;
+							delete line.ShippingAddress.Phone2;
+							delete line.ShippingAddress.Phone3;
 
 						}
+						if (line.xp.deliveryDate) {
+							line.xp.deliveryDate = new Date(line.xp.deliveryDate);
+						}
+						if (line.xp.pickupDate) {
+							line.xp.pickupDate = new Date(line.xp.pickupDate);
+						}
+						if (!line.xp.CardMessage) {
+							delete line.xp.CardMessage;
+						}
+						if (!line.xp.DeliveryNotes) {
+							delete line.xp.DeliveryNotes;
+						}
+						if (line.xp.addressType == "Residence" || !line.xp.addressType || line.xp.addressType == "Shipping" || line.xp.addressType == "Church" || line.xp.addressType == "School" || line.xp.addressType == "Business" || line.xp.addressType == "Cemetery") {
+							if (line.xp) {
+								delete line.xp.PatientFName;
+								delete line.xp.PatientLName;
+								delete line.xp.pickupDate;
+							}
+						}
+						else if (line.xp.addressType == "Will Call") {
+							if (line.xp) {
+								delete line.xp.PatientFName;
+								delete line.xp.PatientLName;
+								delete line.xp.deliveryDate;
+
+							}
+						}
 					}
-				}
-				function createNewLineItem(line, order, deferred) {
-					vm.calculateDeliveryCharges(line).then(function (data) {
-						if (data == '1') {
+					function createNewLineItem(line, order, deferred) {
+						vm.calculateDeliveryCharges(line).then(function (data) {
+							if (data == '1') {
 
-							var lineitemdtls = {
-								ProductID: line.ProductID,
-								Quantity: line.Quantity,
-								ShipFromAddressID: "testShipFrom"
-							};
-							console.log("line", line);
-							//PdpService.CreateOrder().then(function (order) {
-							// if (!vm.order) {
-							// 	vm.order = order;
-							// 	console.log("order"+order.ID);
-							// }
-							OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+								var lineitemdtls = {
+									ProductID: line.ProductID,
+									Quantity: line.Quantity,
+									ShipFromAddressID: "testShipFrom"
+								};
+								console.log("line", line);
+								//PdpService.CreateOrder().then(function (order) {
+								// if (!vm.order) {
+								// 	vm.order = order;
+								// 	console.log("order"+order.ID);
+								// }
+								OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 
-								lineitem.ShippingAddress = line.ShippingAddress;
-								lineitem.xp = line.xp;
-								lineitem.ShipFromAddressID = "testShipFrom"
+									lineitem.ShippingAddress = line.ShippingAddress;
+									lineitem.xp = line.xp;
+									lineitem.ShipFromAddressID = "testShipFrom"
 
-								if (lineitem.xp.deliveryDate) {
-									lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
-								}
-								if (lineitem.xp.pickupDate) {
-									lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
-								}
-								vm.updateLinedetails(order.ID, lineitem).then(function (data) {
-									if (data == 'updated') {
-										deferred.resolve('1');
+									if (lineitem.xp.deliveryDate) {
+										lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
 									}
+									if (lineitem.xp.pickupDate) {
+										lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
+									}
+									vm.updateLinedetails(order.ID, lineitem).then(function (data) {
+										if (data == 'updated') {
+											deferred.resolve('1');
+										}
+									})
+
+
 								})
+								//})
+
+							}
+						});
 
 
-							})
-							//})
 
-						}
-					});
-
+					}
 
 
 				}
+				else {
+					deferred.resolve(null);
+				}
 
-
+				return deferred.promise;
 			}
-			else {
-				deferred.resolve(null);
-			}
+			PdpService.CreateOrder().then(function (order) {
+				if (!vm.order) {
+					vm.order = order;
+					console.log("order" + order.ID);
+				}
+				// var promises = [];
+				// angular.forEach(uniques, function (line) {
+				// 	var p = lineDetails(line, order);
+				// 	promises.push(p);
+				// });
 
-			return deferred.promise;
+				var promises = uniques.map(function (line) {
+
+					return lineDetails(line, order);
+
+				});
+
+				$q.all(promises).then(function (data) {
+					$uibModalInstance.close();
+					vm.addedToCartPopUp();
+					submitdefer.resolve('1');
+				},function(err){
+                   console.log(err);
+				   submitdefer.resolve('1');
+				});
+
+			});
+			return submitdefer.promise;
 		}
-		PdpService.CreateOrder().then(function (order) {
-			if (!vm.order) {
-				vm.order = order;
-				console.log("order" + order.ID);
-			}
-			// var promises = [];
-			// angular.forEach(uniques, function (line) {
-			// 	var p = lineDetails(line, order);
-			// 	promises.push(p);
-			// });
-
-			var promises = uniques.map(function (line) {
-
-				return lineDetails(line, order);
-
-			});
-
-			$q.all(promises).then(function (data) {
-				$uibModalInstance.close();
-				vm.addedToCartPopUp();
-			});
-
-		});
-
-		//console.log("uniques" + JSON.stringify(uniques));
-		// var promiseArray=[]
-		// var promiseFunction=function(line){
 
 
-		//}
-		// angular.forEach(uniques, function (line, key, obj) {
-        //        var promise= promiseFunction(line);
-		// 		promiseArray.push(promise);
-		// });
-		// $q.all(promiseArray).then(function (result) {
-		// 	//return deferred.promise;
-		// });
 
 	}
 
@@ -1781,17 +1797,27 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 				console.log("SetShippingAddress", data);
 				alert("Data submitted successfully");
-				
-				if(new Number(newline.LineTotal)!= new Number(newline.xp.TotalCost)){
-					OrderCloud.Orders.Patch(args,{ShippingCost:new Number(newline.xp.TotalCost-newline.LineTotal)}).then(function(ord){
-						console.log("shippingcost"+ord);
-					})
-				}
+				vm.calculateShippingCost(args);
 				updatedeferred.resolve('updated');
 
 			});
 		});
 		return updatedeferred.promise;
+	}
+	function calculateShippingCost(args) {
+		var sum = 0;
+		OrderCloud.LineItems.List(args).then(function (dat) {
+			angular.forEach(dat.Items, function (value) {
+				if (new Number(value.LineTotal) != new Number(value.xp.TotalCost)) {
+					sum += new Number(value.xp.TotalCost - value.LineTotal);
+				}
+			});
+			OrderCloud.Orders.Patch(args, { ShippingCost: sum }).then(function (ord) {
+				console.log("shippingcost" + ord);
+			})
+		});
+
+
 	}
 	function getLineItems() {
 
@@ -2019,14 +2045,16 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 
 						LineItemHelpers.GetProductInfo(res.Items).then(function () {
+
 							angular.forEach(res.Items, function(val,key){
 								console.log(val,key);
-								PdpService.GetProductCodeImages(val.ID).then(function(res1){
+								PdpService.GetProductCodeImages(val.ProductID).then(function(res1){
+
 									console.log(res1);
-									val.productimages=res1[0];
+									val.productimages = res1[0];
 								})
 							})
-							console.log("addedToCartPopUp",res);
+							console.log("addedToCartPopUp", res);
 							deferred.resolve(res);
 						})
 					})
@@ -2034,9 +2062,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 					return deferred.promise;
 				},
-				Ordertotal: function($q){
+				Ordertotal: function ($q) {
 					var deferred = $q.defer();
-					console.log('vm.order',vm.order);
+					console.log('vm.order', vm.order);
 					deferred.resolve(vm.order);
 					return deferred.promise;
 				}
@@ -2236,106 +2264,123 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 		});
 		//lineitem.ShippingAddress = null;
-		lineitem.xp.deliveryDate=null;
+		lineitem.xp.deliveryDate = null;
 		lineitem.xp.addressType = addressType;
-		vm.sameDay[index]=false;
+		vm.sameDay[index] = false;
 		vm.name[index] = "";
 
 	}
 
 
 	function checkDeliverymethod(line, index) {
-		if (!!line.ShippingAddress.Zip) {
-			if (line.xp.DeliveryMethod == 'Mixed') {
-				PdpService.getCityState(line.ShippingAddress.Zip).then(function (res) {
-					var city = res.City;
 
-					if (city == "Minneapolis" || city == "Saint Paul") {
-						//vm.notLocal = false;
-						vm.callDeliveryOptions(line);
-					}
-					else {
-						line.xp.DeliveryMethod = ""
-						alert("Faster Delivery Is Only Local Delivery");
-						vm.GetDeliveryMethods(line.ProductID).then(function (res) {
+		vm.ZipCodePromise = call(line, index);
+		function call(line, index) {
+			var d = $q.defer();
+            if (!!line.ShippingAddress.Zip) {
+				if (line.xp.DeliveryMethod == 'Mixed') {
+					PdpService.getCityState(line.ShippingAddress.Zip).then(function (res) {
+						var city = res.City;
 
-							if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
-								line.xp.DeliveryMethod = "DirectShip";
+						if (city == "Minneapolis" || city == "Saint Paul") {
+							//vm.notLocal = false;
+							vm.callDeliveryOptions(line);
+						}
+						else {
+							line.xp.DeliveryMethod = ""
+							alert("Faster Delivery Is Only Local Delivery");
+							vm.GetDeliveryMethods(line.ProductID).then(function (res) {
 
-							if (res.Name == "Gift Cards") {
-								line.xp.DeliveryMethod = 'USPS'
-							}
-							if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS) {
-								line.xp.DeliveryMethod = 'UPS';
+								if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
+									line.xp.DeliveryMethod = "DirectShip";
 
-							}
-							if (res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
-								line.xp.DeliveryMethod = 'LocalDelivery';
-								vm.sameDay[index] = true;
-							}
-							if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS && res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
-								if (line.ShippingAddress.City == "Minneapolis" || line.ShippingAddress.City == "Saint Paul") {
-									line.xp.DeliveryMethod = 'LocalDelivery';
-									vm.sameDay[index] = true;
+								if (res.Name == "Gift Cards") {
+									line.xp.DeliveryMethod = 'USPS'
 								}
-								else {
-
+								if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS) {
 									line.xp.DeliveryMethod = 'UPS';
 
 								}
-							}
-							vm.callDeliveryOptions(line);
+								if (res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
+									line.xp.DeliveryMethod = 'LocalDelivery';
+									vm.sameDay[index] = true;
+									d.resolve(vm.sameDay[index]);
+								}
+								if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS && res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
+									if (line.ShippingAddress.City == "Minneapolis" || line.ShippingAddress.City == "Saint Paul") {
+										line.xp.DeliveryMethod = 'LocalDelivery';
+										vm.sameDay[index] = true;
+										d.resolve(vm.sameDay[index]);
+									}
+									else {
 
-						});
+										line.xp.DeliveryMethod = 'UPS';
+
+									}
+								}
+								vm.callDeliveryOptions(line);
+
+							});
 
 
-					}
-
-
-				});
-			}
-
-			// if (line.xp.DeliveryMethod == 'Mixed' && vm.notLocal == false) {
-
-			// 	vm.callDeliveryOptions(line);
-			// 	vm.sameDay = true;
-			// }
-			else {
-				vm.GetDeliveryMethods(line.ProductID).then(function (res) {
-
-					if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
-						line.xp.DeliveryMethod = "DirectShip";
-
-					if (res.Name == "Gift Cards") {
-						line.xp.DeliveryMethod = 'USPS'
-					}
-					if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS) {
-						line.xp.DeliveryMethod = 'UPS';
-
-					}
-					if (res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
-						line.xp.DeliveryMethod = 'LocalDelivery';
-						vm.sameDay[index] = true;
-					}
-					if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS && res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
-						if (line.ShippingAddress.City == "Minneapolis" || line.ShippingAddress.City == "Saint Paul") {
-							line.xp.DeliveryMethod = 'LocalDelivery';
-							vm.sameDay[index] = true;
 						}
-						else {
 
+
+					}).catch(function(err){
+						console.log(err);
+						d.reject();
+					});
+				}
+
+				// if (line.xp.DeliveryMethod == 'Mixed' && vm.notLocal == false) {
+
+				// 	vm.callDeliveryOptions(line);
+				// 	vm.sameDay = true;
+				// }
+				else {
+					vm.GetDeliveryMethods(line.ProductID).then(function (res) {
+
+						if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
+							line.xp.DeliveryMethod = "DirectShip";
+
+						if (res.Name == "Gift Cards") {
+							line.xp.DeliveryMethod = 'USPS'
+						}
+						if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS) {
 							line.xp.DeliveryMethod = 'UPS';
 
 						}
-					}
+						if (res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
+							line.xp.DeliveryMethod = 'LocalDelivery';
+							vm.sameDay[index] = true;
+							d.resolve(vm.sameDay[index]);
+						}
+						if (res.xp.DeliveryChargesCatWise.DeliveryMethods.UPS && res.xp.DeliveryChargesCatWise.DeliveryMethods.LocalDelivery) {
+							if (line.ShippingAddress.City == "Minneapolis" || line.ShippingAddress.City == "Saint Paul") {
+								line.xp.DeliveryMethod = 'LocalDelivery';
+								vm.sameDay[index] = true;
+								d.resolve(vm.sameDay[index]);
+							}
+							else {
+
+								line.xp.DeliveryMethod = 'UPS';
+
+							}
+						}
 
 
-				});
+					}).catch(function(err){
+						console.log(err);
+						d.reject();
+					});
 
-				vm.callDeliveryOptions(line);
+					vm.callDeliveryOptions(line);
 
+				}
 			}
+			return d.promise;
 		}
+
 	}
 	function GetDeliveryMethods(prodID) {
 		var deferred = $q.defer();
@@ -2394,8 +2439,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 						}, true);
 						dt = new Date();
 						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate()).slice(-2));
-						if (line.xp.MinDate.LocalDelivery)
-							line.xp.MinDays['MinToday'] = val.xp.MinDate.LocalDelivery;
+						// if (line.xp.MinDate.LocalDelivery)
+						// 	line.xp.MinDays['MinToday'] = val.xp.MinDate.LocalDelivery;
 					} else {
 						dt = new Date();
 						line.xp.MinDate = {};
@@ -2526,269 +2571,276 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 
 	}
 	function submitRecipientDetails(activeitems) {
+		vm.submitRecipientDetailsPromise=submitRecipientDetailscall(activeitems);
+		function submitRecipientDetailscall() {
+			var submitDetailsDefer = $q.defer();
 
-		if (activeitems[0]) {
-            var uniques = _.map(_.groupBy(activeitems, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
-			}), function (grouped) {
-				console.log("grouped ==" + JSON.stringify(grouped));
-				var TotalQuantity = 0;
-				TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
-				grouped[0].Quantity = Number(TotalQuantity);
+			if (activeitems[0]) {
+				var uniques = _.map(_.groupBy(activeitems, function (value) {
+					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
+				}), function (grouped) {
+					console.log("grouped ==" + JSON.stringify(grouped));
+					var TotalQuantity = 0;
+					TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
+					grouped[0].Quantity = Number(TotalQuantity);
 
-				return grouped[0];
-			});
-			if (vm.recipientLineitem) {
-                var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
-				var newArray = uniques.concat(arr);
+					return grouped[0];
+				});
+				if (vm.recipientLineitem) {
+					var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
+					var newArray = uniques.concat(arr);
+				}
+				else {
+					var newArray = uniques
+				}
+
+
+
+				var newUniques = _.map(_.groupBy(newArray, function (value) {
+					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + ' ' + value.xp.DeliveryMethod;
+				}), function (grouped) {
+					console.log("grouped ==" + JSON.stringify(grouped));
+					var TotalQuantity = 0;
+					TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
+					grouped[0].Quantity = Number(TotalQuantity);
+
+					return grouped[0];
+				});
 			}
 			else {
-				var newArray = uniques
+				var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
+				var newArray = arr
+				var newUniques = _.map(_.groupBy(newArray, function (value) {
+					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
+				}), function (grouped) {
+					console.log("grouped ==" + JSON.stringify(grouped));
+					var TotalQuantity = 0;
+					TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
+					grouped[0].Quantity = Number(TotalQuantity);
+
+					return grouped[0];
+				});
 			}
 
 
+			function lineDetails(line, order) {
+				var deferred = $q.defer();
+				if (line.ID == "") {
+					common(line);
+					OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
+						checkLineItemsId(res, line, deferred).then(function (data) {
 
-			var newUniques = _.map(_.groupBy(newArray, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + ' ' + value.xp.DeliveryMethod;
-			}), function (grouped) {
-				console.log("grouped ==" + JSON.stringify(grouped));
-				var TotalQuantity = 0;
-				TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
-				grouped[0].Quantity = Number(TotalQuantity);
+							if (data != 'sameId') {
+								checkLineItemsAddress(res, line, deferred).then(function (data) {
+									if (data != 'sameAddress') {
+										createNewLineItem(line, deferred);
 
-				return grouped[0];
-			});
-		}
-		else {
-			var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
-			var newArray = arr
-			var newUniques = _.map(_.groupBy(newArray, function (value) {
-				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
-			}), function (grouped) {
-				console.log("grouped ==" + JSON.stringify(grouped));
-				var TotalQuantity = 0;
-				TotalQuantity = _.reduce(_.pluck(grouped, 'Quantity'), function (memo, num) { return Number(memo) + Number(num); }, 0);
-				grouped[0].Quantity = Number(TotalQuantity);
-
-				return grouped[0];
-			});
-		}
-
-
-		function lineDetails(line, order) {
-			var deferred = $q.defer();
-			if (line.ID == "") {
-				common(line);
-				OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
-					checkLineItemsId(res, line, deferred).then(function (data) {
-
-						if (data != 'sameId') {
-							checkLineItemsAddress(res, line, deferred).then(function (data) {
-								if (data != 'sameAddress') {
-									createNewLineItem(line, deferred);
-
-								}
-							});
-						}
-					});
-				});
-				function common(line) {
-					if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
-						line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + " " + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
-						delete line.ShippingAddress.Phone1;
-						delete line.ShippingAddress.Phone2;
-						delete line.ShippingAddress.Phone3;
-
-					}
-					if (line.xp.deliveryDate) {
-						line.xp.deliveryDate = new Date(line.xp.deliveryDate);
-					}
-					if (line.xp.pickupDate) {
-						line.xp.pickupDate = new Date(line.xp.pickupDate);
-					}
-					if (line.xp.CardMessage) {
-						delete line.xp.CardMessage;
-					}
-					if (!line.xp.DeliveryNotes) {
-						delete line.xp.DeliveryNotes;
-					}
-					if (line.xp.addressType == "Residence" || !line.xp.addressType || line.xp.addressType == "Shipping" || line.xp.addressType == "Church" || line.xp.addressType == "School" || line.xp.addressType == "Business" || line.xp.addressType == "Cemetery") {
-						if (line.xp) {
-							delete line.xp.PatientFName;
-							delete line.xp.PatientLName;
-							delete line.xp.pickupDate;
-						}
-					}
-					else if (line.xp.addressType == "Will Call") {
-						if (line.xp) {
-							delete line.xp.PatientFName;
-							delete line.xp.PatientLName;
-							delete line.xp.deliveryDate;
-
-						}
-					}
-				}
-
-                function checkLineItemsId(res, line, deferred) {
-					var d1 = $q.defer();
-					var count = 0;
-					angular.forEach(res.Items, function (val, key, obj) {
-						var a = new Date(val.xp.deliveryDate);
-						var b = new Date(line.xp.deliveryDate);
-
-						var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
-						var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
-						if (val.ProductID == line.ProductID && val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && val.xp.DeliveryMethod == line.xp.DeliveryMethod && DateA == DateB) {
-							if (count == 0) {
-								val.Quantity += line.Quantity;
-								vm.calculateDeliveryCharges(val).then(function (data) {
-									if (data == '1') {
-										vm.updateLinedetails(vm.order.ID, val).then(function (data) {
-											if (data == 'updated') {
-												deferred.resolve("1");
-											}
-										})
 									}
 								});
-								count++;
-								d1.resolve('sameId');
+							}
+						});
+					});
+					function common(line) {
+						if (line.ShippingAddress.Phone1 && line.ShippingAddress.Phone2 && line.ShippingAddress.Phone3) {
+							line.ShippingAddress.Phone = '(' + line.ShippingAddress.Phone1 + ')' + " " + line.ShippingAddress.Phone2 + '-' + line.ShippingAddress.Phone3;
+							delete line.ShippingAddress.Phone1;
+							delete line.ShippingAddress.Phone2;
+							delete line.ShippingAddress.Phone3;
+
+						}
+						if (line.xp.deliveryDate) {
+							line.xp.deliveryDate = new Date(line.xp.deliveryDate);
+						}
+						if (line.xp.pickupDate) {
+							line.xp.pickupDate = new Date(line.xp.pickupDate);
+						}
+						if (!line.xp.CardMessage) {
+							delete line.xp.CardMessage;
+						}
+						if (!line.xp.DeliveryNotes) {
+							delete line.xp.DeliveryNotes;
+						}
+						if (line.xp.addressType == "Residence" || !line.xp.addressType || line.xp.addressType == "Shipping" || line.xp.addressType == "Church" || line.xp.addressType == "School" || line.xp.addressType == "Business" || line.xp.addressType == "Cemetery") {
+							if (line.xp) {
+								delete line.xp.PatientFName;
+								delete line.xp.PatientLName;
+								delete line.xp.pickupDate;
 							}
 						}
-					});
-					if (count == 0) {
-						d1.resolve(null);
+						else if (line.xp.addressType == "Will Call") {
+							if (line.xp) {
+								delete line.xp.PatientFName;
+								delete line.xp.PatientLName;
+								delete line.xp.deliveryDate;
+
+							}
+						}
 					}
-					return d1.promise;
-				}
 
-				function checkLineItemsAddress(res, line, deferred) {
-					var count = 0;
-					var d2 = $q.defer();
-					angular.forEach(res.Items, function (val, key, obj) {
+					function checkLineItemsId(res, line, deferred) {
+						var d1 = $q.defer();
+						var count = 0;
+						angular.forEach(res.Items, function (val, key, obj) {
+							var a = new Date(val.xp.deliveryDate);
+							var b = new Date(line.xp.deliveryDate);
 
-						var a = new Date(val.xp.deliveryDate);
-						var b = new Date(line.xp.deliveryDate);
+							var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
+							var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
+							if (val.ProductID == line.ProductID && val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && val.xp.DeliveryMethod == line.xp.DeliveryMethod && DateA == DateB) {
+								if (count == 0) {
+									val.Quantity += line.Quantity;
+									vm.calculateDeliveryCharges(val).then(function (data) {
+										if (data == '1') {
+											vm.updateLinedetails(vm.order.ID, val).then(function (data) {
+												if (data == 'updated') {
+													deferred.resolve("1");
+												}
+											})
+										}
+									});
+									count++;
+									d1.resolve('sameId');
+								}
+							}
+						});
+						if (count == 0) {
+							d1.resolve(null);
+						}
+						return d1.promise;
+					}
 
-						var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
-						var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
+					function checkLineItemsAddress(res, line, deferred) {
+						var count = 0;
+						var d2 = $q.defer();
+						angular.forEach(res.Items, function (val, key, obj) {
 
-						if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && DateA == DateB) {
-							if (count == 0) {
-								line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
+							var a = new Date(val.xp.deliveryDate);
+							var b = new Date(line.xp.deliveryDate);
+
+							var DateA = Date.UTC(a.getFullYear(), a.getMonth() + 1, a.getDate());
+							var DateB = Date.UTC(b.getFullYear(), b.getMonth() + 1, b.getDate());
+
+							if (val.ShippingAddress.FirstName == line.ShippingAddress.FirstName && val.ShippingAddress.LastName == line.ShippingAddress.LastName && (val.ShippingAddress.Street1).split(/(\d+)/g)[1] == (line.ShippingAddress.Street1).split(/(\d+)/g)[1] && DateA == DateB) {
+								if (count == 0) {
+									line.xp.TotalCost = parseFloat(line.UnitPrice) * parseFloat(line.Quantity);
+									var lineitemdtls = {
+										ProductID: line.ProductID,
+										Quantity: line.Quantity,
+										ShipFromAddressID: "testShipFrom"
+									};
+									console.log("line", line);
+									PdpService.CreateOrder().then(function (order) {
+										if (!vm.order) {
+											vm.order = order;
+										}
+										OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+
+											lineitem.ShippingAddress = line.ShippingAddress;
+											lineitem.xp = line.xp;
+											lineitem.ShipFromAddressID = "testShipFrom"
+
+											if (lineitem.xp.deliveryDate) {
+												lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
+											}
+											if (lineitem.xp.pickupDate) {
+												lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
+											}
+											vm.updateLinedetails(order.ID, lineitem).then(function (data) {
+												if (data == 'updated') {
+													deferred.resolve("1");
+												}
+											})
+
+
+										})
+									})
+									//PdpService.CreateOrder(line.ProductID);
+									count++
+									d2.resolve('sameAddress');
+								}
+							}
+						});
+						if (count == 0) {
+							d2.resolve(null);
+						}
+
+						return d2.promise;
+					}
+					function createNewLineItem(line, deferred) {
+						vm.calculateDeliveryCharges(line).then(function (data) {
+							if (data == '1') {
+
+
 								var lineitemdtls = {
 									ProductID: line.ProductID,
 									Quantity: line.Quantity,
 									ShipFromAddressID: "testShipFrom"
 								};
-								console.log("line", line);
-								PdpService.CreateOrder().then(function (order) {
-									if (!vm.order) {
-										vm.order = order;
+
+
+								OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
+
+									lineitem.ShippingAddress = line.ShippingAddress;
+									lineitem.xp = line.xp;
+									lineitem.ShipFromAddressID = "testShipFrom"
+
+									if (lineitem.xp.deliveryDate) {
+										lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
 									}
-									OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
-
-										lineitem.ShippingAddress = line.ShippingAddress;
-										lineitem.xp = line.xp;
-										lineitem.ShipFromAddressID = "testShipFrom"
-
-										if (lineitem.xp.deliveryDate) {
-											lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
+									if (lineitem.xp.pickupDate) {
+										lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
+									}
+									vm.updateLinedetails(order.ID, lineitem).then(function (data) {
+										if (data == 'updated') {
+											deferred.resolve("1");
 										}
-										if (lineitem.xp.pickupDate) {
-											lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
-										}
-										vm.updateLinedetails(order.ID, lineitem).then(function (data) {
-											if (data == 'updated') {
-												deferred.resolve("1");
-											}
-										})
-
-
 									})
+
+
 								})
-								//PdpService.CreateOrder(line.ProductID);
-								count++
-								d2.resolve('sameAddress');
+
+
 							}
-						}
-					});
-					if (count == 0) {
-						d2.resolve(null);
+						});
+
 					}
-
-					return d2.promise;
 				}
-				function createNewLineItem(line, deferred) {
-					vm.calculateDeliveryCharges(line).then(function (data) {
-						if (data == '1') {
-
-
-							var lineitemdtls = {
-								ProductID: line.ProductID,
-								Quantity: line.Quantity,
-								ShipFromAddressID: "testShipFrom"
-							};
-
-
-							OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
-
-								lineitem.ShippingAddress = line.ShippingAddress;
-								lineitem.xp = line.xp;
-								lineitem.ShipFromAddressID = "testShipFrom"
-
-								if (lineitem.xp.deliveryDate) {
-									lineitem.xp.deliveryDate = new Date(lineitem.xp.deliveryDate);
-								}
-								if (lineitem.xp.pickupDate) {
-									lineitem.xp.pickupDate = new Date(lineitem.xp.pickupDate);
-								}
-								vm.updateLinedetails(order.ID, lineitem).then(function (data) {
-									if (data == 'updated') {
-										deferred.resolve("1");
-									}
-								})
-
-
-							})
-
-
-						}
-					});
-
+				else {
+					deferred.resolve(null);
 				}
-            }
-			else {
-				deferred.resolve(null);
+
+				return deferred.promise;
 			}
+			var promises = newUniques.map(function (line) {
+				return lineDetails(line, vm.order);
+			});
+			// var promises = [];
+			// angular.forEach(newUniques, function (line) {
+			// 	//var d=$q.defer();
+			// 	var p = lineDetails(line, vm.order).then(function (data) {
+			// 		return data;
+			// 	})
+			// 	//  .then(function(data){
+			// 	//  d.resolve(data);
+			// 	//  },function(error){
+			// 	// 	 console.log(error);
+			// 	// 	 d.reject(null);
+			// 	//  });
 
-			return deferred.promise;
+			// 	promises.push(p);
+			// });
+
+			$q.all(promises).then(function (data) {
+				$uibModalInstance.close();
+				vm.addedToCartPopUp();
+				submitDetailsDefer.resolve('1')
+			}, function (error) {
+				console.s("error" + error);
+				submitDetailsDefer.resolve('1')
+			});
+
+			return submitDetailsDefer.promise;
 		}
-		var promises = newUniques.map(function (line) {
-			return lineDetails(line, vm.order);
-		});
-		// var promises = [];
-		// angular.forEach(newUniques, function (line) {
-		// 	//var d=$q.defer();
-		// 	var p = lineDetails(line, vm.order).then(function (data) {
-		// 		return data;
-		// 	})
-		// 	//  .then(function(data){
-		// 	//  d.resolve(data);
-		// 	//  },function(error){
-		// 	// 	 console.log(error);
-		// 	// 	 d.reject(null);
-		// 	//  });
-
-		// 	promises.push(p);
-		// });
-
-		$q.all(promises).then(function (data) {
-            $uibModalInstance.close();
-			vm.addedToCartPopUp();
-		}, function (error) {
-			console.s("error" + error);
-		});
-
 	}
 	vm.calculateDeliveryCharges = calculateDeliveryCharges;
 	function calculateDeliveryCharges(line) {
@@ -3170,7 +3222,7 @@ function addedToCartController1($scope, $uibModalInstance, $state, Orderid, $coo
 	vm.orderid = Orderid.Items;
 	console.log(vm.orderid);
 	vm.checkout = checkout;
-	OrderCloud.Orders.Get(Ordertotal.ID).then(function(data){
+	OrderCloud.Orders.Get(Ordertotal.ID).then(function (data) {
 		console.log(data);
 		vm.ordertotal = data;
 	})

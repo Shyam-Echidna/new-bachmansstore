@@ -25,11 +25,11 @@
         <uib-accordion close-others="multipleRecipient.oneAtATime" ng-init="multipleRecipient.activeRecipient[0]=true">
             <uib-accordion-group ng-repeat="lineitem in multipleRecipient.activerecipients" is-open="multipleRecipient.openRecipient[$index]" ng-if="multipleRecipient.isMultiplerecipient" ng-init="multipleRecipient.openRecipient[$index]=false;multipleRecipient.addAddress[$index]=false">
                 <uib-accordion-heading>
-                   
+
 
                     <p ng-class="{'footer-minus': multipleRecipient.openRecipient[$index], 'footer-plus': !multipleRecipient.openRecipient[$index]}"></p>
                     <p class="recipentName">
-                         <div class="Checkbox">
+                        <div class="Checkbox">
                             <input id="check{{$index+1}}" type="checkbox" ng-model="multipleRecipient.addAddress[$index]" ng-change="multipleRecipient.checkAddRecipient(lineitem,$index)" ng-click="$event.stopPropagation()" />
                             <div class="Checkbox-visible"></div>
                         </div>
@@ -39,21 +39,19 @@
                             <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
                             <span>{{lineitem.ShippingAddress.Zip}}</span>
                         </label>
-                    
-                     </p>
-                                                        
-                            
 
-                        <p class="panel-head-price" >
-                              <span class="qtyBox">
+                    </p>
+
+
+
+                    <p class="panel-head-price">
+                        <span class="qtyBox">
                                <label for="qty">Qty</label>
                                 <input type="text" id="qty" class="form-control" ng-model="lineitem.Quantity" ng-change="multipleRecipient.changeQuantity(lineitem.Quantity,$index)" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--ng-maxlength="3" ng-pattern="'[1-9][0-9]{0,2}'"-->
-                              </span>
-
-                            {{lineitem.UnitPrice | currency}}
-                        </p>
-                        </p>
+                              </span> {{lineitem.UnitPrice | currency}}
+                    </p>
+                    </p>
                 </uib-accordion-heading>
                 <div class="panel-body-content disable-fields">
                     <div class="row name-block">
@@ -62,24 +60,24 @@
                                 <div class="col-md-2 col-lg-2">
                                     <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Residence'|| multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
                                         <label for="zip-code">ZIP Code</label>
-                                       
 
-                                               <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off" readonly>
+
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off" readonly>
 
                                     </fieldset>
 
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12  col-md-10  col-lg-10" ng-if="multipleRecipient.addressType=='Residence' || multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
-                                    
-                                  
+
+
 
                                     <fieldset class="form-group delivery-date">
                                         <label for="disable-dDate">Delivery Date</label>
-                                         <div class="row">
+                                        <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
-                                            ng-required="true" id="disable-dDate" />
-                                        <span class="input-group-btn date-svg">
+                                                <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                                    ng-required="true" id="disable-dDate" />
+                                                <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
                                                 <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
@@ -139,22 +137,22 @@
                                                 </g>
                                             </svg>
                                         </span>
-                                        </span>
-                                         </div>
-                                         <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
+                                                </span>
+                                            </div>
+                                            <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
                                                 <p class="svg-right">
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
                                                 <p class="delivery-text">Same-Day Available!</p>
                                             </div>
-                                         </div>
+                                        </div>
                                     </fieldset>
-                               
-                                    
-                                     
+
+
+
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -173,7 +171,7 @@
                                         <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" readonly>
                                     </fieldset>
                                 </div>
-                               
+
 
 
                             </div>
@@ -283,11 +281,11 @@
                                         <input type="text" class="form-control" id="Country" placeholder="Country" ng-model="lineitem.ShippingAddress.Country" readonly>
                                     </fieldset>
                                 </div> -->
-                               
+
                             </div>
 
                             <div class="row" ng-form="multirecipient">
-                               <!--  <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                <!--  <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
@@ -359,7 +357,7 @@
 
 
                                 <div ng-if="multipleRecipient.name" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-0 col-md-5 col-lg-offset-0 col-lg-5 searchPhone">
-                                    <div >
+                                    <div>
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
@@ -388,31 +386,29 @@
                 <uib-accordion-heading>
                     <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': multipleRecipient.activeRecipient[$index]}"></p>
                     <p class="recipentName">
-                    <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
-                    <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
-                    <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
-                    <span>{{lineitem.ShippingAddress.Zip}}</span>
-                     </p>
-                                                        
-                            
+                        <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                        <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
+                        <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
+                        <span>{{lineitem.ShippingAddress.Zip}}</span>
+                    </p>
 
-                        <p class="panel-head-price" >
-                              <span class="qtyBox">
+
+
+                    <p class="panel-head-price">
+                        <span class="qtyBox">
                                <label for="qty">Qty</label>
                                <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>"ng-pattern="'[1-9][0-9]{0,2}'" ng-maxlength="3" min='1' max="999"-->
-                              </span>
-
-                            {{lineitem.UnitPrice | currency}}
-                        </p>
-                        </p>
+                              </span> {{lineitem.UnitPrice | currency}}
+                    </p>
+                    </p>
                 </uib-accordion-heading>
 
                 <div class="panel-body-content">
                     <div ng-show="multipleRecipient.crdmsg[$index]" class="savedRecipentDetail">
                         <div class="row viewAddr">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 addrBookHead" ng-if="!!multipleRecipient.isLoggedIn">
-                    <a class="view-address-link"  ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 addrBookHead" ng-if="!!multipleRecipient.isLoggedIn">
+                                <a class="view-address-link" ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
@@ -425,21 +421,21 @@
                     </span>
                     <span>VIEW ADDRESS BOOK</span>
                     </a>
-                      </div>
-                       <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead">
-                        <div class="Checkbox">
-                        <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />
-                        <div class="Checkbox-visible"></div>
-                        </div>
-                        <label for="sameas"> Same as Above</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead">
+                                <div class="Checkbox">
+                                    <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />
+                                    <div class="Checkbox-visible"></div>
+                                </div>
+                                <label for="sameas"> Same as Above</label>
 
-                    </div>
-                </div>
-                 <div class="row addrDetail">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addrBookDetail" ng-if="!!multipleRecipient.showaddress[$index]" >
-                    <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
-                    <div class="addressbookdiv" ng-if="!!multipleRecipient.showaddress[$index]">
-                        <label ng-repeat="addressbook in multipleRecipient.addressbook.Items | limitTo:multipleRecipient.limit track by addressbook.ID" class="parentP">
+                            </div>
+                        </div>
+                        <div class="row addrDetail">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addrBookDetail" ng-if="!!multipleRecipient.showaddress[$index]">
+                                <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                                <div class="addressbookdiv" ng-if="!!multipleRecipient.showaddress[$index]">
+                                    <label ng-repeat="addressbook in multipleRecipient.addressbook.Items | limitTo:multipleRecipient.limit track by addressbook.ID" class="parentP">
                                 <input type="radio" name="addressbook" ng-model="multipleRecipient.savedBookAddress" ng-value="addressbook" ng-change="multipleRecipient.addBookAddress(lineitem,multipleRecipient.savedBookAddress,$index)" id="address{{$index}}" />
                                 <label for="address{{$index}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
@@ -451,15 +447,15 @@
                                         <span><!-- Phone: --> {{addressbook.Phone}}</span>
                                     </p>
                                 </label>
-                        </label>
-                    </div>
-                    </div>
-                   
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 aboveRecipentDetail" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
-                    
-                        <a href=""  class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
-                        <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
-                            <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 aboveRecipentDetail" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+
+                                <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                                <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+                                    <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
                                 <input type="radio" name="sameasaddress{{lineidx}}" ng-model="multipleRecipient.sameAddress[lineidx]" value="true" ng-change="multipleRecipient.addSameAddress(lineitem,multipleRecipient.groups[line][0].ShippingAddress,$index)" id="sameAddress{{lineidx}}" />
                                 <label for="sameAddress{{lineidx}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
@@ -471,41 +467,42 @@
                                         <span>{{multipleRecipient.groups[line][0].ShippingAddress.Phone}}</span>
                                     </p>
                                 </label>
-                            </label>
-                        </div>
+                                    </label>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                    </div>
-                      <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
-                           <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
+                    <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
+                        <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
                             <div class="row">
-                            
+
                                 <div class="col-md-2 col-lg-2">
                                     <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Residence'|| multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
                                         <label for="zip-code">ZIP Code</label>
-                                       
 
-                                               <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
-                                                    ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
 
-                                                <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
-                                          
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
+                                            ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+
+                                        <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
+                                        <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+
 
                                     </fieldset>
 
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12  col-md-10  col-lg-10" ng-if="multipleRecipient.addressType=='Residence' || multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
-                                    
-                                  
+
+
 
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
-                                         <div class="row">
+                                        <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
-                                            ng-required="true" />
-                                        <span class="input-group-btn date-svg">
+                                                <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                                    ng-required="true" />
+                                                <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
                                                 <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
@@ -565,24 +562,24 @@
                                                 </g>
                                             </svg>
                                         </span>
-                                        </span>
-                                         </div>
-                                         <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
+                                                </span>
+                                            </div>
+                                            <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
                                                 <p class="svg-right">
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
                                                 <p class="delivery-text">Same-Day Available!</p>
                                             </div>
-                                         </div>
+                                        </div>
                                     </fieldset>
-                               
-                                    
-                                     
+
+
+
                                 </div>
-                                </div>
-                                </div>
-                      </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
 
                         <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
@@ -600,10 +597,10 @@
                                         <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" required>
                                     </fieldset>
                                 </div>
-                                
 
 
-                              
+
+
 
                             </div>
                         </div>
@@ -859,19 +856,19 @@
                                     </fieldset>
                                 </div>
                                 <div class="col-md-5 col-lg-5" ng-if="multipleRecipient.name[$index]">
-                                    
-                                        <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call' || multipleRecipient.addressType=='Cemetery'">
-                                            <label for="zip-code">ZIP Code</label>
-                                           
-                                                    <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off">
-                                               
-                                        </fieldset>
-                                   
+
+                                    <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call' || multipleRecipient.addressType=='Cemetery'">
+                                        <label for="zip-code">ZIP Code</label>
+
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off">
+
+                                    </fieldset>
+
                                 </div>
 
-                                
-                                 <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5 pickUpDate">
-                                    <div  class="col-md-12 col-lg-12" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Cemetery'">
+
+                                <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5 pickUpDate">
+                                    <div class="col-md-12 col-lg-12" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Cemetery'">
 
 
                                         <fieldset class="form-group delivery-date">
@@ -1010,8 +1007,8 @@
                                         </fieldset>
                                     </div>
                                 </div>
-                                </div>
-                           
+                            </div>
+
                             <div class="row">
 
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" ng-if="multipleRecipient.addressType=='Residence' || multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
@@ -1030,8 +1027,8 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-0 col-md-5 col-lg-offset-0 col-lg-5 searchPhone" >
-                                    <div  ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call'">
+                                <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-0 col-md-5 col-lg-offset-0 col-lg-5 searchPhone">
+                                    <div ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call'">
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
@@ -1047,8 +1044,8 @@
                                             </div>
                                         </fieldset>
                                     </div>
-                              
-                            </div>
+
+                                </div>
                             </div>
                             <div class="row save-address" ng-if="!!multipleRecipient.isLoggedIn">
                                 <div class="col-md-4 col-lg-4">
@@ -1063,7 +1060,7 @@
 
                     </div>
                     <div class="cardmsg row" ng-if="!multipleRecipient.crdmsg[$index]">
-                       <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index];multipleRecipient.formInValid=!multipleRecipient.formInValid">Back to Address Info</button>
+                        <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index];multipleRecipient.formInValid=!multipleRecipient.formInValid">Back to Address Info</button>
                         <div ng-init="visible=false" class="row">
                             <!-- <div class="no-message">
                                     <label><input type="checkbox" ng-model="visible" ng-init="visible=false" />No Card Message</label>
@@ -1146,33 +1143,31 @@
             </uib-accordion-group>
             <uib-accordion-group ng-repeat="(lineidx,lineitem) in multipleRecipient.activeOrders" is-open="multipleRecipient.activeRecipient[$index]" ng-if="!multipleRecipient.isMultiplerecipient" ng-init="$last && multipleRecipient.finished($index)">
                 <uib-accordion-heading>
-                   <!--  <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p> -->
-                   <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}" class="panelHeader"></p>
+                    <!--  <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}">{{lineitem.ShippingAddress.FirstName}}<span> </span>{{lineitem.ShippingAddress.LastName}}<span> </span>|<span> </span>{{lineitem.ShippingAddress.Zip}} <span class="panel-head-price">{{lineitem.UnitPrice | currency}}</span></p> -->
+                    <p ng-class="{'footer-minus': multipleRecipient.activeRecipient[$index], 'footer-plus': !multipleRecipient.activeRecipient[$index]}" class="panelHeader"></p>
                     <p class="recipentName">
-                     <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
-                    <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
-                    <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
-                    <span>{{lineitem.ShippingAddress.Zip}}</span>
-                     </p>                                        
-                            
+                        <span ng-if="!lineitem.ShippingAddress.FirstName">Recipient {{lineidx+1}}</span><span>{{lineitem.ShippingAddress.FirstName}}&nbsp;{{lineitem.ShippingAddress.LastName}}</span>
+                        <span ng-class="{'name':lineitem.ShippingAddress.FirstName.length>0 }"></span>
+                        <span ng-class="{'code':lineitem.ShippingAddress.Zip.length>0 }"></span>
+                        <span>{{lineitem.ShippingAddress.Zip}}</span>
+                    </p>
 
-                        <p class="panel-head-price" >
-                              <span class="qtyBox">
+
+                    <p class="panel-head-price">
+                        <span class="qtyBox">
                                <label for="qty">Qty</label>
                                <input type="text" id="qty" class="form-control" name="qtynumber" ng-model="lineitem.Quantity" numbers-only  ng-click="$event.stopPropagation();$event.preventDefault()"/>
                                         <!--<p ng-show="!form1.qtynumber.$valid">Enter valid Quantity</p>"ng-pattern="'[1-9][0-9]{0,2}'" ng-maxlength="3" min='1' max="999"-->
-                              </span>
-
-                            {{lineitem.UnitPrice | currency}}
-                        </p>
-                        </p>
+                              </span> {{lineitem.UnitPrice | currency}}
+                    </p>
+                    </p>
                 </uib-accordion-heading>
 
                 <div class="panel-body-content">
-                     <div ng-show="multipleRecipient.crdmsg[$index]" class="savedRecipentDetail">
+                    <div ng-show="multipleRecipient.crdmsg[$index]" class="savedRecipentDetail">
                         <div class="row viewAddr">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 addrBookHead" ng-if="!!multipleRecipient.isLoggedIn">
-                    <a class="view-address-link"  ng-if="!!multipleRecipient.isLoggedIn" ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 addrBookHead" ng-if="!!multipleRecipient.isLoggedIn">
+                                <a class="view-address-link" ng-if="!!multipleRecipient.isLoggedIn" ng-click="multipleRecipient.addressBook($index)"><span class="svg-outer">
                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g>
@@ -1185,21 +1180,21 @@
                     </span>
                     <span>VIEW ADDRESS BOOK</span>
                     </a>
-                      </div>
-                       <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead"  ng-show="multipleRecipient.activeOrders.length>1 && !$first ">
-                        <div class="Checkbox">
-                        <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />
-                        <div class="Checkbox-visible"></div>
-                        </div>
-                        <label for="sameas"> Same as Above</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 aboveRecipentHead" ng-show="multipleRecipient.activeOrders.length>1 && !$first ">
+                                <div class="Checkbox">
+                                    <input type="checkbox" id="sameas" ng-model="multipleRecipient.sameAsAboveAddress[$index]" ng-change="multipleRecipient.changeaddSameAddress(lineitem,multipleRecipient.sameAsAboveAddress[$index],lineidx)" />
+                                    <div class="Checkbox-visible"></div>
+                                </div>
+                                <label for="sameas"> Same as Above</label>
 
-                    </div>
-                </div>
-                 <div class="row addrDetail">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addrBookDetail" ng-if="!!multipleRecipient.showaddress[$index]" >
-                    <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
-                    <div class="addressbookdiv" ng-if="!!multipleRecipient.showaddress[$index]">
-                        <label ng-repeat="addressbook in multipleRecipient.addressbook.Items | limitTo:multipleRecipient.limit track by addressbook.ID" class="parentP">
+                            </div>
+                        </div>
+                        <div class="row addrDetail">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 addrBookDetail" ng-if="!!multipleRecipient.showaddress[$index]">
+                                <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                                <div class="addressbookdiv" ng-if="!!multipleRecipient.showaddress[$index]">
+                                    <label ng-repeat="addressbook in multipleRecipient.addressbook.Items | limitTo:multipleRecipient.limit track by addressbook.ID" class="parentP">
                                 <input type="radio" name="addressbook" ng-model="multipleRecipient.savedBookAddress" ng-value="addressbook" ng-change="multipleRecipient.addBookAddress(lineitem,multipleRecipient.savedBookAddress,$index)" id="address{{$index}}" />
                                 <label for="address{{$index}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
@@ -1211,15 +1206,15 @@
                                         <span><!-- Phone: --> {{addressbook.Phone}}</span>
                                     </p>
                                 </label>
-                        </label>
-                    </div>
-                    </div>
-                   
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 aboveRecipentDetail" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
-                    
-                        <a href=""  class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
-                        <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
-                            <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 aboveRecipentDetail" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+
+                                <a href="" class="show-all" ng-click="multipleRecipient.limit=100">show all</a>
+                                <div class="addressbookdiv" ng-if="multipleRecipient.sameAsAboveAddress[$index]">
+                                    <label ng-repeat="line in multipleRecipient.activesameAddress | limitTo:multipleRecipient.limit" class="parentP">
                                 <input type="radio" name="sameasaddress{{lineidx}}" ng-model="multipleRecipient.sameAddress[lineidx]" value="true" ng-change="multipleRecipient.addSameAddress(lineitem,multipleRecipient.groups[line][0].ShippingAddress,$index)" id="sameAddress{{lineidx}}" />
                                 <label for="sameAddress{{lineidx}}">
                                     <span class="radioOutline"><span class="radioInside"></span></span>
@@ -1231,44 +1226,46 @@
                                         <span>{{multipleRecipient.groups[line][0].ShippingAddress.Phone}}</span>
                                     </p>
                                 </label>
-                            </label>
+                                    </label>
+                                </div>
+
+                            </div>
                         </div>
-
-                    </div>
-                    </div>
                     </div>
 
-                    
+
 
                     <div class="row name-block zipCode-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
-                        
+
                         <div class="col-md-12 col-lg-12" ng-show="multipleRecipient.crdmsg[$index]">
                             <div class="row">
                                 <div class="col-md-2 col-lg-2">
-                                   <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Residence'|| multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
+                                    <fieldset class="form-group" ng-if="multipleRecipient.addressType=='Residence'|| multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
                                         <label for="zip-code">ZIP Code</label>
-                                       
 
-                                                <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
-                                                    ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
 
-                                                <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
-                                          
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
+                                            ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+                                        <!--<div cg-busy="multipleRecipient.ZipCodePromise"></div>-->
+                                        <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+
+                                        <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
+
 
                                     </fieldset>
 
                                 </div>
                                 <div class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12  col-md-10  col-lg-10" ng-if="multipleRecipient.addressType=='Residence' || multipleRecipient.addressType=='School' || multipleRecipient.addressType=='Business'">
-                                    
-                                  
+
+
 
                                     <fieldset class="form-group delivery-date">
                                         <label for="dDate">Delivery Date</label>
-                                         <div class="row">
+                                        <div class="row">
                                             <div class="col-md-5 col-lg-5">
-                                        <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
-                                            ng-required="true" />
-                                        <span class="input-group-btn date-svg">
+                                                <input type="text" readonly class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="lineitem.xp.deliveryDate" is-open="line.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: multipleRecipient.DeliveryMethod== 'UPS' ? multipleRecipient.mindays.UPS : multipleRecipient.mindays.MinToday, startingDay: 1}"
+                                                    ng-required="true" />
+                                                <span class="input-group-btn date-svg">
                                                 <!-- <button type="button" class="btn btn-default" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp"><i class="glyphicon glyphicon-calendar"></i></button> -->
                                                 <span class="" ng-click="line.openCalenderPopUp=!line.openCalenderPopUp">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
@@ -1328,25 +1325,25 @@
                                                 </g>
                                             </svg>
                                         </span>
-                                        </span>
-                                         </div>
-                                         <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
+                                                </span>
+                                            </div>
+                                            <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!multipleRecipient.sameDay[$index]">
                                                 <p class="svg-right">
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
                                                 </p>
                                                 <p class="delivery-text">Same-Day Available!</p>
                                             </div>
-                                         </div>
+                                        </div>
                                     </fieldset>
-                               
-                                    
-                                     
+
+
+
                                 </div>
-                                
+
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <div class="row name-block" ng-form="form{{$index}}" ng-init="multipleRecipient.crdmsg[$index]=true">
 
@@ -1365,7 +1362,7 @@
                                         <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="lineitem.ShippingAddress.LastName" required>
                                     </fieldset>
                                 </div>
-                                
+
 
                             </div>
                         </div>
@@ -1634,16 +1631,16 @@
                                 </div> -->
 
                                 <div class="col-md-5 col-lg-5" ng-if="multipleRecipient.name[$index]">
-                                        <fieldset class="form-group" ng-show="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call' || multipleRecipient.addressType=='Cemetery'">
-                                            <label for="zip-code">ZIP Code</label>
-                                          
-                                                    <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off">
-                                             
-                                        </fieldset>
-                                    </div>
-                                
+                                    <fieldset class="form-group" ng-show="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call' || multipleRecipient.addressType=='Cemetery'">
+                                        <label for="zip-code">ZIP Code</label>
+
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" ng-model="lineitem.ShippingAddress.Zip" autocomplete="off">
+
+                                    </fieldset>
+                                </div>
+
                                 <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-1 col-md-5 col-lg-offset-1 col-lg-5 pickUpDate">
-                                    <div  class="col-md-12 col-lg-12" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Cemetery'">
+                                    <div class="col-md-12 col-lg-12" ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Cemetery'">
 
                                         <fieldset class="form-group delivery-date">
                                             <label for="dDate">Delivery Date</label>
@@ -1801,7 +1798,7 @@
                                     </fieldset>
                                 </div>
                                 <div ng-if="multipleRecipient.name[$index]" class="col-xs-offset-0 col-xs-12 col-sm-offset-0 col-sm-12 col-md-offset-0 col-md-5 col-lg-offset-0 col-lg-5 searchPhone">
-                                    <div  ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call'">
+                                    <div ng-if="multipleRecipient.addressType=='Funeral'|| multipleRecipient.addressType=='Church' || multipleRecipient.addressType=='Hospital' || multipleRecipient.addressType=='Will Call'">
                                         <fieldset class="form-group phone-box">
                                             <label for="phone">Phone Number</label>
                                             <div class="row">
@@ -1832,7 +1829,7 @@
 
                     </div>
                     <div class="cardmsg row" ng-if="!multipleRecipient.crdmsg[$index]">
-                       
+
                         <button class="back-btn" ng-click="multipleRecipient.crdmsg[$index]=!multipleRecipient.crdmsg[$index];multipleRecipient.formInValid=!multipleRecipient.formInValid">Back to Address Info</button>
                         <div ng-init="visible=false" class="row">
                             <!-- <div class="no-message">
@@ -1917,9 +1914,10 @@
 
             <div class="row next-btn" ng-if="!multipleRecipient.isMultiplerecipient">
                 <!--ng-if="!multipleRecipient.crdmsg[multipleRecipient.lastIndex]" ng-form="form{{multipleRecipient.lastIndex}}"-->
-                <div class="col-md-6 col-lg-6 add-recipent" btn-click>
+                <div class="col-md-12 col-lg-6 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.newrecipient(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
-                    <button class="add-btn" ng-click="multipleRecipient.submitDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid">Add to Cart</button>
+                    <button class="add-btn" ng-click="multipleRecipient.submitDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid">Add to Cart </button>
+                    <div cg-busy="{promise:multipleRecipient.submitDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
                 </div>
             </div>
             <div class="row next-btn" ng-if="multipleRecipient.isMultiplerecipient">
@@ -1927,6 +1925,7 @@
                 <div class="col-md-12 col-lg-12 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.addNewreceipent(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
                     <button class="add-btn" ng-click="multipleRecipient.submitRecipientDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid || multipleRecipient.disableAddToCart">Add to Cart</button>
+                     <div cg-busy="{promise:multipleRecipient.submitRecipientDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
                 </div>
             </div>
         </uib-accordion>
