@@ -38,7 +38,7 @@
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
 									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
 									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName && history.childCount >=2">
-										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !=''">
+										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !='' && subsubfolders.fileName!='Media'">
 											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a></li>
 									</ul>
 								</li>
@@ -48,36 +48,44 @@
 				</uib-accordion>
 			</div>
 			<div class="mobile-receipient-details hidden-md hidden-lg">
+				<!--<uib-accordion close-others="oneAtATime" >
+					<uib-accordion-group is-open="$index==history.isOpen" ng-repeat="folder in base.ListOfPages | orderBy : 'description'" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
+						<uib-accordion-heading ng-click="history.accordianOpen($index)">
+							<!-- <span ng-click="history.accordianOpen($index)" ng-init="history.activeIndex = (history.parentPath == folder.fileName) ? $index : 0;">{{history.isOpen}}{{folder.title}}</span> 
+							<span ng-click="history.accordianOpen($index)" ng-init="history.assignIndex(folder.fileName,$index)">{{folder.title}}</span>
+						</uib-accordion-heading>
+						<div class="receipient-drpDown">
+							<ul>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
+									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName && history.childCount >=2">
+										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !=''">
+											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</uib-accordion-group>
+				</uib-accordion>-->
 				<uib-accordion>
 					<uib-accordion-group is-open="status.openfaqs">
 						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">Bachman’s History</p>
+							<p ng-class="{'footer-minus': status.openfaqs, 'footer-plus': !status.openfaqs}">{{history.activePageTitle}}</p>
 						</uib-accordion-heading>
 						<div class="head-title">
-							<h4>Services</h4>
+					<div ng-repeat="folder in base.ListOfPages | orderBy : 'description'" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
+							<h4>{{folder.title}}</h4>
 							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
+									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+									<ul ng-if="subfolder.subfolders.items.length > 0">
+										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !='' && subsubfolders.fileName!='Media'">
+											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a>
+										</li>
+									</ul>
+								</li>
 							</ul>
-							<h4>	Customer Services</h4>
-							<ul>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#" class="active">FAQ</a></li>
-								<li><a href="#">Returns & Exchanges</a></li>
-								<li><a href="#">Store Locator</a></li>
-								<li><a href="#">Delivery</a></li>
-								<li><a href="#">Gift Cards</a></li>
-								<li><a href="#">Perple Perks</a></li>
-							</ul>
-							<h4>	Corporate</h4>
-							<ul>
-								<li><a href="#">Fresh Cut Flower Articles</a></li>
-								<li><a href="#">Indoor Plant Articles</a></li>
-								<li><a href="#">Outdoor Plant Articles</a></li>
-								<li><a href="#">Gardening Articles</a></li>
-							</ul>
+					</div>
 						</div>
 
 						<!--<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">

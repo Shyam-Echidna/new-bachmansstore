@@ -1038,10 +1038,10 @@
                                 <div class="row save-address" ng-if="!!multipleRecipient.isLoggedIn">
                                     <div class="col-md-4 col-lg-4">
                                         <div class="Checkbox">
-                                            <input type="checkbox" ng-model="multipleRecipient.saveaddressdata[$index]" ng-change="multipleRecipient.saveUserAddressData(multipleRecipient.saveaddressdata[$index],lineitem,$index)">
+                                            <input type="checkbox" id="save" ng-model="multipleRecipient.saveaddressdata[$index]" ng-change="multipleRecipient.saveUserAddressData(multipleRecipient.saveaddressdata[$index],lineitem,$index)">
                                             <div class="Checkbox-visible"></div>
                                         </div>
-                                        <label> Save this address</label>
+                                        <label for="save"> Save this address</label>
                                     </div>
                                 </div>
                             </div>
@@ -1810,10 +1810,10 @@
                                 <div class="row save-address" ng-if="!!multipleRecipient.isLoggedIn">
                                     <div class="col-md-4 col-lg-4">
                                         <div class="Checkbox">
-                                            <input type="checkbox" ng-model="multipleRecipient.saveaddressdata[$index]" ng-change="multipleRecipient.saveUserAddressData(multipleRecipient.saveaddressdata[$index],lineitem,$index)">
+                                            <input type="checkbox"  id="save" ng-model="multipleRecipient.saveaddressdata[$index]" ng-change="multipleRecipient.saveUserAddressData(multipleRecipient.saveaddressdata[$index],lineitem,$index)">
                                             <div class="Checkbox-visible"></div>
                                         </div>
-                                        <label> Save this address</label>
+                                        <label for="save"> Save this address</label>
                                     </div>
                                 </div>
                             </div>

@@ -104,11 +104,11 @@ function staticPageConfig($stateProvider) {
 				page : function($stateParams,$state,$timeout){
 					if($stateParams.pageName.toLowerCase().indexOf("storelocator") >=0){
 						$timeout(function(){
-							$state.go("storelocator");
+							$state.go("storelocator",{},{location:"replace"});
 						},10);
 					}else if($stateParams.pageName.toLowerCase().indexOf("purpleperks") >=0){
 						$timeout(function(){
-							$state.go("purplePerks");
+							$state.go("purplePerks",{},{location:"replace"});
 						},10);
 					}else{
 						return $stateParams.pageName;

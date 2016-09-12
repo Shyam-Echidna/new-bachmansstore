@@ -266,7 +266,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
         years.push(parseInt(num) + i);
     }
     vm.years = years;
-	var addressValidated = false;
+	var addressValidated = true;
     if (vm.signnedinuser.ID !== "gby8nYybikCZhjMcwVPAiQ") {
 
         vm.openACCItems.name = 'delivery';
@@ -605,27 +605,27 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							if (addressValidated) {
 								addCreditCard();
 							} else {
-								alert("address not found");
+								//alert("address not found");
 							}
 						} else {
 							validateCardType();
 						}
 					} else {
-						alert("plese fill add card form");
+						//alert("plese fill add card form");
 					}
 				} else if (vm.selectedCard.ID && vm.addPaymentInfo.card && vm.addPaymentInfo.card.CVV) {
 					vm.setBillingAddressonOrder(vm.billingAddress);
 					vm.openACCItems.name = 'review';
 					vm.openACCItems['paymentFunc'] = true;
 				} else {
-					alert("Please Enter CVV Number");
+					//alert("Please Enter CVV Number");
 				}
 			} else if (vm.addCreditCardForm && vm.addCreditCardForm.$valid && vm.addPaymentInfo && vm.billingAddress) {
 				vm.billingAddress.Phone = '(' + vm.billingAddress.Phone1 + ')' + " " + vm.billingAddress.Phone2 + '-' + vm.billingAddress.Phone3;
 				vm.selectedCard = vm.addPaymentInfo.card;
 				validateCardType();
 			} else {
-				alert("plese select the card and billingAddress");
+				//alert("plese select the card and billingAddress");
 			}
 		} else {
 			vm.openACCItems.name = 'review';
@@ -639,7 +639,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			vm.openACCItems.name = 'review';
 			vm.openACCItems['paymentFunc'] = true;
 		},function(){
-			alert("card Number is not valid");
+			//alert("card Number is not valid");
 		});
 	}
 
@@ -666,25 +666,26 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				}
 			});
 		},function(){
-			alert("card Number is not valid");
+			//alert("card Number is not valid");
 		});
 		
 	}
 	vm.addressValdation = function (billingAddress) {
-		AddressValidationService.Validate(billingAddress).then(function (res) {
-			if (res.ResponseBody.ResultCode == 'Success') {
-				var validatedAddress = res.ResponseBody.Address;
-				var zip = validatedAddress.PostalCode.substring(0, 5);
-				billingAddress.Zip = parseInt(zip);
-				billingAddress.City = validatedAddress.City;
-				billingAddress.State = validatedAddress.Region;
-				billingAddress.Country = validatedAddress.Country;
-				addressValidated = true;
-				return true;
-			} else {
-				addressValidated = false;
-			}
-		});
+		addressValidated = true;
+		// AddressValidationService.Validate(billingAddress).then(function (res) {
+		// 	if (res.ResponseBody.ResultCode == 'Success') {
+		// 		var validatedAddress = res.ResponseBody.Address;
+		// 		var zip = validatedAddress.PostalCode.substring(0, 5);
+		// 		billingAddress.Zip = parseInt(zip);
+		// 		billingAddress.City = validatedAddress.City;
+		// 		billingAddress.State = validatedAddress.Region;
+		// 		billingAddress.Country = validatedAddress.Country;
+		// 		addressValidated = true;
+		// 		return true;
+		// 	} else {
+		// 		addressValidated = true;
+		// 	}
+		// });
 
 	}
 
@@ -755,7 +756,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
                     if (parseInt(bcdata.customChargeCode) < vm.orderdata.Subtotal) {
 						vm.ApplySpendingAccCharges(vm.bachmanschargeacc, bcdata.customChargeCode, vm.orderdata, "Bachman Charges")
                     } else {
-                        alert("entered amount is greaterthan total");
+                        //alert("entered amount is greaterthan total");
                     }
                 }
             }
@@ -778,10 +779,10 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 						};
 						vm.SumSpendingAccChrgs();
 					} else {
-						alert("is not a valid card");
+						//alert("is not a valid card");
 					}
 				} else {
-					alert("is not a valid card");
+					//alert("is not a valid card");
 				}
 			});
 		}
@@ -1002,7 +1003,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 								});
 						});
 				} else {
-					alert("CVV Not Entered");
+					//alert("CVV Not Entered");
 				}
             } else {
 				if (vm.addPaymentInfo.card.CVV) {
@@ -1021,10 +1022,10 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 									});
 						});
 					},function(){
-						alert("card Number is not valid");
+						//alert("card Number is not valid");
 					});
 				} else {
-					alert("CVV Not Entered");
+					//alert("CVV Not Entered");
 				}
             }
         } else {

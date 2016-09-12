@@ -504,7 +504,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             vm.selectedRecipientOk = vm.selectedRecipient[index];
         }
         else {
-            alert("same Recipient");
+           // alert("same Recipient");
             if (vm.selectedRecipient)
                 vm.selectedRecipient = {};
             vm.selectedRecipient[index] = true;
@@ -770,7 +770,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
             OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
-                alert("Data submitted successfully");
+                //alert("Data submitted successfully");
                 vm.calculateShippingCost(args);
                 //vm.getLineItems();
                 defered.resolve('updated')
@@ -901,7 +901,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
                 console.log("LineItemsUpdate", JSON.stringify(dat));
                 OrderCloud.LineItems.SetShippingAddress(vm.order.ID, lineItem.ID, lineItem.ShippingAddress).then(function (data) {
                     console.log("SetShippingAddress", data);
-                    alert("Data submitted successfully");
+                    //alert("Data submitted successfully");
                     $state.go('cart', { ID: vm.order.ID });
                     //vm.getLineItems();
 
@@ -1470,7 +1470,7 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
             console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
             OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
-                alert("Data submitted successfully");
+               // alert("Data submitted successfully");
                 //vm.getLineItems();
                 vm.calculateShippingCost(args);
                 defered.resolve('updated')
@@ -1659,7 +1659,7 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
                     $rootScope.$broadcast('newRecipientCreated', Lineitem);
                     $uibModalInstance.dismiss('cancel');
                 } else {
-                    alert("Address not found...");
+                    //alert("Address not found...");
                 }
             });
         // if (data.ShippingAddress.Phone1 && data.ShippingAddress.Phone2 && data.ShippingAddress.Phone3) {
@@ -2082,7 +2082,7 @@ function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Orde
                     $rootScope.$broadcast('recipientEdited', Lineitems);
                     $uibModalInstance.dismiss('cancel');
                 } else {
-                    alert("Address not found...");
+                    //alert("Address not found...");
                 }
             });
     }

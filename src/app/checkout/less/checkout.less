@@ -8,14 +8,16 @@
 
 .checkout-page {
     input[type=email],
+    select,
         input[type=password],
+        input[type=number],
         input[type=text]{
-            &:focus::-webkit-input-placeholder { color:transparent; }
-            &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
-            &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
-            &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+            &:focus::-webkit-input-placeholder { color:transparent !important; }
+            &:focus:-moz-placeholder { color:transparent !important; } /* FF 4-18 */
+            &:focus::-moz-placeholder { color:transparent !important; } /* FF 19+ */
+            &:focus:-ms-input-placeholder { color:transparent !important; } /* IE 10+ */
             &:focus{
-                background: @base-bg-white;
+                background: @base-bg-white !important;
             }
         }
     .checkout-header {
@@ -1459,6 +1461,7 @@
                                                                             margin-left: 10px;
                                                                             color: #464646;
                                                                             font: 0.875em @proxima-regular;
+                                                                            cursor: pointer;
                                                                         }
                                                                     }
                                                                 }
@@ -1575,6 +1578,7 @@
                                                                         }
                                                                              .card-remember {
                                                                                 margin-top: 15px;
+                                                                                cursor: pointer;
                                                             .cuctom-checkbox;
                                                             .Checkbox {
                                                                 &-visible {
@@ -1641,6 +1645,7 @@
                                                                 label {
                                                                     font: 0.875em @proxima-regular;
                                                                     margin-left: 10px;
+                                                                    cursor: pointer;
                                                                     span {
                                                                         color: @font-purple-light;
                                                                     }
@@ -1959,6 +1964,7 @@
                                                                 margin-left: 10px;
                                                                 color: #464646;
                                                                 font: 0.875em @proxima-regular;
+                                                                cursor: pointer;
                                                             }
                                                         }
                                                     }
@@ -3106,6 +3112,7 @@
                                                             }
                                                             .card-remember {
                                                                 margin-top: 15px;
+                                                                cursor: pointer;
                                                             }
                                                         }
                                                     }
