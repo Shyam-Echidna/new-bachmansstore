@@ -672,20 +672,20 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	}
 	vm.addressValdation = function (billingAddress) {
 		addressValidated = true;
-		// AddressValidationService.Validate(billingAddress).then(function (res) {
-		// 	if (res.ResponseBody.ResultCode == 'Success') {
-		// 		var validatedAddress = res.ResponseBody.Address;
-		// 		var zip = validatedAddress.PostalCode.substring(0, 5);
-		// 		billingAddress.Zip = parseInt(zip);
-		// 		billingAddress.City = validatedAddress.City;
-		// 		billingAddress.State = validatedAddress.Region;
-		// 		billingAddress.Country = validatedAddress.Country;
-		// 		addressValidated = true;
-		// 		return true;
-		// 	} else {
-		// 		addressValidated = true;
-		// 	}
-		// });
+		AddressValidationService.Validate(billingAddress).then(function (res) {
+			if (res.ResponseBody.ResultCode == 'Success') {
+				var validatedAddress = res.ResponseBody.Address;
+				var zip = validatedAddress.PostalCode.substring(0, 5);
+				billingAddress.Zip = parseInt(zip);
+				billingAddress.City = validatedAddress.City;
+				billingAddress.State = validatedAddress.Region;
+				billingAddress.Country = validatedAddress.Country;
+				addressValidated = true;
+				return true;
+			} else {
+				addressValidated = false;
+			}
+		});
 
 	}
 
@@ -985,8 +985,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
     vm.placeOrder = function () {
 		vm.orderdata.Total = vm.orderTotal;
-		$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
-		/*if (vm.orderdata.Total > 0 && vm.selectedCard) {
+		if (vm.orderdata.Total > 0 && vm.selectedCard) {
             if (vm.selectedCard.ID) {
 				if (vm.addPaymentInfo.card.CVV) {
 					vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
@@ -1043,7 +1042,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 						})
                 });
 
-		}*/
+		}
     }
 	function addTaxtoLineItem(data) {
         var promise = [];

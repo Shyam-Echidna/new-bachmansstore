@@ -1604,7 +1604,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		call();
 	};
 	function crdmsghide(line, index) {
-        /*AddressValidationService.Validate(line.ShippingAddress)
+        AddressValidationService.Validate(line.ShippingAddress)
             .then(function (response) {
                 if (response.ResponseBody.ResultCode == 'Success') {
                     var validatedAddress = response.ResponseBody.Address;
@@ -1637,17 +1637,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					vm.crdmsg[index] = true;
                 }
 
-            });*/
-vm.crdmsg[index] = !vm.crdmsg[index];
-     if (vm.lastIndex == index) {
-      vm.formInValid = false;
-      vm.disableAddToCart = false;
-
-     }
-     else {
-      vm.formInValid = true;
-      vm.disableAddToCart = true;
-     }
+            });
 	}
 
 	function submitDetails(activeitems) {
@@ -1806,7 +1796,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 			console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
 			OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
 				console.log("SetShippingAddress", data);
-				//alert("Data submitted successfully");
+				alert("Data submitted successfully");
 				vm.calculateShippingCost(args);
 				updatedeferred.resolve('updated');
 
@@ -2298,7 +2288,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 						}
 						else {
 							line.xp.DeliveryMethod = ""
-							//alert("Faster Delivery Is Only Local Delivery");
+							alert("Faster Delivery Is Only Local Delivery");
 							vm.GetDeliveryMethods(line.ProductID).then(function (res) {
 
 								if (res.xp.DeliveryChargesCatWise.DeliveryMethods.DirectShip)
@@ -2506,7 +2496,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 				innerCall();
 			}
 			else {
-				//alert("In store pick up only available");
+				alert("In store pick up only available");
 			}
 		}
 		if (!items.xp.NoInStorePickUp && items.xp.NoDeliveryExInStore) {
@@ -2515,7 +2505,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 				innerCall();
 			}
 			else {
-				//alert("In store pick up not available");
+				alert("In store pick up not available");
 			}
 		}
 		function innerCall() {
@@ -2559,7 +2549,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 					}
 					else {
 
-						//alert("Fast Delivery for local only");
+						alert("Fast Delivery for local only");
 
 						vm.recipientLineitem['item' + index].xp.DeliveryMethod = lineitem.xp.DeliveryMethod;
 						vm.callDeliveryOptions(vm.recipientLineitem['item' + index]);
@@ -2969,8 +2959,6 @@ vm.crdmsg[index] = !vm.crdmsg[index];
 		})
 		//}
 	}
-	var specialKeys = new Array();
-        specialKeys.push(8);
 	vm.IsNumeric = function ($e) {
         console.log($e);
         var keyCode = $e.which ? $e.which : $e.keyCode;
@@ -3309,7 +3297,6 @@ function numbersOnly() {
 							ngModelCtrl.$render();
 
 						}
-					
 						else {
 							return transformedInput;
 						}
