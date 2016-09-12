@@ -474,7 +474,7 @@
                                                 ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
 
                                             <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
-                                            <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+                                            <!-- <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div> -->
 
 
                                         </fieldset>
@@ -1238,7 +1238,7 @@
                                             <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="lineitem.ShippingAddress.Zip" ng-blur="multipleRecipient.getCityState(lineitem,lineitem.ShippingAddress.Zip);multipleRecipient.checkDeliverymethod(lineitem,$index)"
                                                 ng-change="multipleRecipient.zipCodeChange(lineitem.ShippingAddress.Zip,$index)" ng-maxlength="5" ng-minlength="5" autocomplete="off" ng-required="true">
                                             <!--<div cg-busy="multipleRecipient.ZipCodePromise"></div>-->
-                                            <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+                                           <!--  <div cg-busy="{promise:multipleRecipient.ZipCodePromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div> -->
 
                                             <!--<p ng-show="form1.zipcode1.$valid" ng-pattern="'^\b\d{5}(-\d{4})?\b$'">Enter valid zip code</p>-->
 
@@ -1909,7 +1909,7 @@
                 <div class="col-md-12 col-lg-6 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.newrecipient(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
                     <button class="add-btn" ng-click="multipleRecipient.submitDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid">Add to Cart </button>
-                    <div cg-busy="{promise:multipleRecipient.submitDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+                    <!-- <div cg-busy="{promise:multipleRecipient.submitDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div> -->
                 </div>
             </div>
             <div class="row next-btn" ng-if="multipleRecipient.isMultiplerecipient">
@@ -1917,7 +1917,7 @@
                 <div class="col-md-12 col-lg-12 add-recipent" btn-click>
                     <button class="next-btn" ng-click="multipleRecipient.addNewreceipent(multipleRecipient.lastIndex)" ng-disabled="multipleRecipient.formInValid">Add New Receipent</button>
                     <button class="add-btn" ng-click="multipleRecipient.submitRecipientDetails(multipleRecipient.activeOrders)" ng-disabled="multipleRecipient.formInValid || multipleRecipient.disableAddToCart">Add to Cart</button>
-                    <div cg-busy="{promise:multipleRecipient.submitRecipientDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div>
+                   <!--  <div cg-busy="{promise:multipleRecipient.submitRecipientDetailsPromise,message:'',templateUrl:'common/loading-indicators/templates/view.loading.tpl.html'}"></div> -->
                 </div>
             </div>
         </uib-accordion>
