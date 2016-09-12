@@ -1,5 +1,5 @@
 <article id="COMPONENT_AlgoliaSearchResults" class="container-fluid algolia-search-results" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}" > 
-    <h1>Search Results for <span>"Red"</span></h1>
+    <h1>Search Results for <span>"{{algoliaSearchResults.setSearchTerm}}"</span></h1>
     <uib-tabset active="algoliaSearchResults.activeTab" class="count-container">
         <uib-tab ng-click="algoliaSearchResults.toggleTab(0)" class="products-count">
             <uib-tab-heading>
@@ -140,17 +140,36 @@
                           </span>
                         </a>
                     </div>
-                    <div class="algolia-facet-selections" ng-repeat-end uib-collapse="algoliaSearchResults.facetBehavior[facet.name].close" ng-hide="facet.name == 'Price'">
-                        <div ng-class="{'algolia-no-results': !algoliaSearchResults.ProductResults.facets[facet.name][val]}" ng-repeat="val in facet.list" ng-click="algoliaSearchResults.toggleFacet(facet.name, val)"><a ><i class="fa" ng-class="{'fa-square': algoliaSearchResults.FiltersObject[facet.name] && algoliaSearchResults.FiltersObject[facet.name][val], 'fa-square-o': !algoliaSearchResults.FiltersObject[facet.name] || !algoliaSearchResults.FiltersObject[facet.name][val]}"></i></a> {{val|capitalize}}</div>
+                    <div class="algolia-facet-selections" ng-repeat-end uib-collapse="algoliaSearchResults.facetBehavior[facet.name].close" ng-hide="facet.name =='Price'">
+                        <div ng-class="{'algolia-no-results': !algoliaSearchResults.ProductResults.facets[facet.name][val]}" ng-repeat="val in facet.list" ng-click="algoliaSearchResults.toggleFacet(facet.name, val)"  ng-if="facet.name != 'Color'">
+                          <a><i class="fa" ng-class="{'fa-square': algoliaSearchResults.FiltersObject[facet.name] && algoliaSearchResults.FiltersObject[facet.name][val], 'fa-square-o': !algoliaSearchResults.FiltersObject[facet.name] || !algoliaSearchResults.FiltersObject[facet.name][val]}"></i></a> {{val|capitalize}}
+                        </div>
+
+                        <div ng-class="{'algolia-no-results': !algoliaSearchResults.ProductResults.facets[facet.name][val]}" ng-repeat="val in facet.list" ng-click="algoliaSearchResults.toggleFacet(facet.name, val)"  ng-if="facet.name == 'Color'" class="color-selection-panel">
+                          <p ng-class="{'activeCircle': algoliaSearchResults.FiltersObject[facet.name] && algoliaSearchResults.FiltersObject[facet.name][val], 'inActiveCircle': !algoliaSearchResults.FiltersObject[facet.name] || !algoliaSearchResults.FiltersObject[facet.name][val]}">
+                            <span ng-style={"background-color":val} title="{{val}}" class="{{val}}"></span>
+                          </p>
+                        </div>
                     </div>
-                    <div class="well well-sm algolia-facet-name" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
-                        Price
-                        <a class="pull-right" ng-click="algoliaSearchResults.facetBehavior['price'].close = !algoliaSearchResults.facetBehavior['price'].close">
-                          <!--   <i class="fa" ng-class="{'fa-caret-right': algoliaSearchResults.facetBehavior['price'].close, 'fa-caret-down': !algoliaSearchResults.facetBehavior['price'].close}"></i> -->
-                        </a>
+                    <div class="well well-sm algolia-facet-name" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing" ng-click="algoliaSearchResults.facetBehavior['price'].close = !algoliaSearchResults.facetBehavior['price'].close">
+                      Price
+                      <a class="pull-right" >
+                          <!-- <i class="fa" ng-class="{'fa-caret-right': plp.facetBehavior['price'].close, 'fa-caret-down': !plp.facetBehavior['price'].close}"></i> -->
+                          <span ng-class="{'plus': algoliaSearchResults.facetBehavior['price'].close, 'minus': !algoliaSearchResults.facetBehavior['price'].close}">
+                          <svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+                             <g>
+                                <rect x="12" class="" width="3" height="27"></rect>
+                                <rect y="12" class="" width="27" height="3"></rect>
+                             </g>
+                          </svg>
+                          <svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+                             <rect y="10" width="50" height="4"></rect>
+                          </svg>
+                        </span>
+                      </a>
                     </div>
-                    <div class="algolia-facet-selections price-slider" uib-collapse="algoliaSearchResults.facetBehavior['price'].close" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
-                      <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p> 
+     <!--                <div class="algolia-facet-selections price-slider" uib-collapse="algoliaSearchResults.facetBehavior['price'].close" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">                      
+                      <p class="price-range"><span class="pull-left">${{algoliaSearchResults.priceValue[0]}}</span><span class="pull-right">${{algoliaSearchResults.priceValue}}</span></p>  
                       <slider ng-model="algoliaSearchResults.sliderValue"
                         on-stop-slide="algoliaSearchResults.changePriceRange()"
                         range="true"
@@ -159,13 +178,17 @@
                         max="algoliaSearchResults.ProductResults.facets_stats.Price.ceiling || algoliaSearchResults.ProductResults.facets_stats.Price.max"
                         value="algoliaSearchResults.priceValue">
                       </slider>
+                    </div> -->
+                    <div class="algolia-facet-selections price-slider" uib-collapse="algoliaSearchResults.facetBehavior['price'].close" ng-hide="algoliaSearchResults.ProductResults.NotEnoughForPricing">
+                      <p class="price-range"><span class="pull-left">${{algoliaSearchResults.priceValue[0]}}</span><span class="pull-right">${{algoliaSearchResults.priceValue[1]}}</span></p> 
+                      <slider ng-model="algoliaSearchResults.sliderValue"
+                        on-stop-slide="algoliaSearchResults.changePriceRange()"
+                        range="true"
+                        min="algoliaSearchResults.ProductResults.facets_stats.Price.floor || algoliaSearchResults.ProductResults.facets_stats.Price.min"
+                        step="algoliaSearchResults.step"
+                        max="algoliaSearchResults.ProductResults.facets_stats.Price.ceiling || algoliaSearchResults.ProductResults.facets_stats.Price.max"
+                        value="algoliaSearchResults.priceValue"></slider>
                     </div>
-
-                    <div class="price-slider">
-                      <p class="price-range"><span class="pull-left">$20.99</span><span class="pull-right">$319.99</span></p> 
-                      <p class="price-bar"></p> 
-                      <input type="hidden" class="slider-input range-slider slider" value="23" />
-                   </div>
 
                     <div class="side-promo col-md-11">
                       <div class="row side-ban-1">

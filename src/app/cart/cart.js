@@ -516,7 +516,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
         lineitem.ShippingAddress = vm.ShippingAddress;
         var data = [];
         data[0] = lineitem;
-        console.log(lineitem, addressforlineitem);
+        //console.log(lineitem, addressforlineitem);
         vm.updateRecipientDetails(data).then(function (s) {
             if (s == 'success') {
                 vm.showDeliveryToolTip = false;

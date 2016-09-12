@@ -4,6 +4,7 @@
             color: #8b5bb3 !important;
         }
     }
+   
     .promo-banner {
         margin-top: 15px;
         .row {
@@ -242,7 +243,12 @@
                             .products-info-details {
                                 position: relative;
                                 padding: 20px 0px 0px 0px;
+                            
                                 .row {
+                                    &:nth-child(n+3){
+                                        border-top: 1px solid #f2f2f2;
+                                        padding-top: 25px;
+                                    }
                                     .recipient-products {
                                         padding-right: 0px;
                                         .product-info {
@@ -2611,7 +2617,7 @@
         }
         /* IE 10+ */
         &:focus {
-            background: @base-bg-white;
+            background: @base-bg-white !important;
         }
     }
     .name-block{

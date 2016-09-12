@@ -811,12 +811,14 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
             vm.hideOnClickTabSticky = false;
 
             $('body').removeClass('megaMenuTabScroll');
-             $('body').removeClass('megaMenuTabScrollSticky');
+            $('body').removeClass('megaMenuTabScrollSticky');
             //$('body').removeClass('hideBodyScroll');
 
             if($('.main-mobile-menu-container').hasClass('show-hide')){
               $('.main-mobile-menu-container').removeClass('show-hide');
             }
+
+            angular.element( ".zoomContainer" ).remove();
             
     });
      $rootScope.$on('$stateChangeStart', function(e, toState) {

@@ -1,11 +1,11 @@
-<div class="general-static-block container-fluid p0">
+<div class="general-static-block container-fluid p0" ng-style="!history.templateBannerImage && {'padding-top':  '300px'}">
 	<div class="container-fluid p0">
 		<div class="history-banner">
 			<img ng-src="{{history.alfStaticContenturl}}{{history.templateBannerImage}}?alf_ticket={{history.siteToken}}" title="prod1" alt="">
 			<!-- <img src="assets/images/service-sliders.png"> -->
 			<!--<img src="assets/images/mobile-service-sliders.png" class="hidden-md hidden-lg">-->
 			<div class="banner-content">
-				<h4>{{history.activePageTitle}}</h4>
+				<h4 ng-if="history.templateBannerImage">{{history.activePageTitle}}</h4>
 			</div>
 		</div>
 	</div>

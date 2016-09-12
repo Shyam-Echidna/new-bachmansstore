@@ -300,6 +300,110 @@
                                 }
                             }
                         }
+                        .faster-delivery-content{
+                            margin: 12px 0px;
+                            cursor: default;
+                            h5{
+                                font: 1.188em @proxima-regular;
+                                color: #000000;
+                                margin-bottom: 10px;
+                            }
+                            .radio-inline{
+                                padding-left: 0px;
+                                width: 23%;
+                                margin: 0px;
+                            }
+                            .placement{
+                                margin: 20px 0px;
+                            }
+                            .note{
+                                font: 0.85em @proxima-regular;
+                                color: #666666;
+                                margin-top: 7px;
+                                    span{
+                                        color: #000000;
+                                    }
+                            }
+                            input[type=radio] {
+                                    display: none;
+                                }
+                                input[type=radio]{
+                                    opacity: 0;
+                                    &:not(old){
+                                        &+ label .radioOutline, &:checked + label .radioOutline{
+                                            border: 1px solid @base-bg-purple-dark;
+                                            border-radius: 50%;
+                                            background: transparent;
+                                            display: inline-block;
+                                            width: 18px;
+                                            height: 18px;
+                                            text-align: center;
+                                            cursor: pointer;
+                                            vertical-align: middle;
+                                        }
+                                        &:checked + label .radioOutline .radioInside{
+                                            display: block;
+                                            width: 10px;
+                                            height: 10px;
+                                            border-radius: 50%;
+                                            display: inline-block;
+                                            background-color: @base-bg-purple-dark;
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            margin: auto;
+                                        }
+                                        &+ label .radioOutline .radioInside{
+                                            display: block;
+                                            width: 10px;
+                                            height: 10px;
+                                            border-radius: 50%;
+                                            display: inline-block;
+                                            background-color: transparent;
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            margin: auto;
+                                        }
+                                    }   
+                                }
+                                .label-name ,label{
+                                    font: 1em @proxima-regular;
+                                    color: #666666;
+                                    vertical-align: middle;
+                                    cursor: pointer;
+                                    text-transform: capitalize;
+                                    &.fastDelivery{
+                                        margin: 0px 0px 0px 5px;
+
+                                    }
+                                }
+                                .cuctom-checkbox;
+                                    .Checkbox {
+                                        &-visible {
+                                            width: 17px;
+                                            height: 17px;
+                                            border: 1px solid #b9b9b9;
+                                        }
+                                        > input:checked + .Checkbox-visible {
+                                            background-position: center;
+                                        }
+                                    }
+                                    textarea{
+                                        width: 80%;
+                                        padding: 5px 10px;
+                                        font: 0.9em @proxima-regular;
+                                        line-height: initial;
+                                        outline: 0;
+                                        border: 1px solid #ccc;
+                                        margin-top: 7px;
+                                    }
+                                   
+                        }
                         .cart-block {
                             div {
                                 form {
@@ -1279,6 +1383,23 @@
                                     }
                                 }
                             }
+                            .faster-delivery-content{
+                                h5{
+                                    font-size: 0.975em;
+                                }
+                                .radio-inline{
+                                    width: 48%;
+                                }
+                                label{
+                                    font-size: 0.875em;
+                                }
+                                .placement{
+                                    margin: 10px 0px;
+                                }
+                                textarea{
+                                    width: 100%;
+                                }
+                            }
                             .Delivery-info {
                                 margin-top: 20px;
                                 div {
@@ -1888,6 +2009,21 @@
             }
         }
     }
+    .slider-banner-container{
+        .detail-overlay-box{
+            .qv-page .row{
+                .overlay-content{
+                   .detail-container{
+                      .faster-delivery-content{
+                        .radio-inline{
+                            width: 40%;
+                        }
+                      }
+                   } 
+                }
+            }
+        }
+        }    
     .pdp-detail-block {
         .detail-content {
             .img-side {
@@ -3449,7 +3585,7 @@ span.ng-isolate-scope:active {
                                     position: relative;
                                     top: 0px;
                                     border-radius: 2px;
-
+                                    margin-left: 3px;
                                 }
                             }
                         }

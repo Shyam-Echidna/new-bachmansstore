@@ -1,5 +1,5 @@
 
-<form name="AlgoliaSearch" ng-submit="algoliaSearch.goToAlgoliaResultsPage(algoliaSearch.searchTerm)" class="algolia-search-input">
+<form name="AlgoliaSearch" ng-submit="algoliaSearch.goToAlgoliaResultsPage(algoliaSearch.searchTerm)" class="algolia-search-input" ng-class="{'expandSearchBox': algoliaSearch.searchTerm.length > 0}" >
     <input
             type="text"
             class="form-control input-block-level"

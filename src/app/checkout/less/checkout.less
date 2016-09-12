@@ -7,9 +7,21 @@
 }
 
 .checkout-page {
+    input[type=email],
+        input[type=password],
+        input[type=text]{
+            &:focus::-webkit-input-placeholder { color:transparent; }
+            &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+            &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+            &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+            &:focus{
+                background: @base-bg-white;
+            }
+        }
     .checkout-header {
         background: #8b5bb3;
-        padding: 18px 30px;
+        padding: 12px 30px;
+        margin-top: 5px;
         .row {
             div {
                 .logo {
@@ -20,7 +32,7 @@
                             .st1,
                             .st0,
                             .st2 {
-                                fill: transparent !important;
+                                //fill: transparent !important;
                             }
                         }
                     }
@@ -34,12 +46,13 @@
                     text-transform: uppercase;
                     font: 0.813em @proxima-bold;
                     letter-spacing: 1px;
+                    cursor: pointer;
                 }
             }
         }
     }
     .continue-shopping-info {
-        padding: 30px;
+        padding: 25px 0px 20px 30px;
         color: #333333;
         font: 0.875em @proxima-regular;
     }
@@ -1147,6 +1160,7 @@
                                                                             height: 16px;
                                                                             text-align: center;
                                                                             vertical-align: middle;
+                                                                            cursor: pointer;
                                                                         }
                                                                         &:checked + label .radioOutline .radioInside {
                                                                             display: block;
@@ -1184,6 +1198,7 @@
                                                                         font: 1em @proxima-regular;
                                                                         color: #666666;
                                                                         vertical-align: middle;
+                                                                        cursor: pointer;
                                                                     }
                                                                     .radio-inline{
                                                                         padding-left: 10px;
@@ -1632,6 +1647,32 @@
                                                                 }
                                                             }
                                                         }
+                                                    }
+                                                    .billing-addr-cont{
+                                                        p.title{
+                                                            padding-top:20px;
+                                                        }
+                                                        .selectRecipentDetails{
+                                                            margin-bottom:5px; 
+                                                            .selectRadio label .label-name{
+                                                                font-size:0.875em;
+                                                            }
+                                                            .recipientDetails{
+                                                                margin-top:10px;
+                                                            }
+                                                        }
+                                                        .billing-addr-div{
+                                                            div.form-group{
+                                                            margin-top:10px;
+                                                                label{
+                                                                    font-size:0.875em;
+                                                                }
+                                                                input, select{
+                                                                    font-size: 0.75em;
+                                                                    height: 35px;
+                                                                }
+                                                            }   
+                                                        }      
                                                     }
                                                     .charges{
                                                         padding: 0px;
@@ -2700,7 +2741,8 @@
                                                         .payment-method-cont {
                                                             padding: 0px;
                                                             .card-info-cont{
-                                                                padding: 10px;
+                                                                padding: 15px;
+
                                                             }
                                                             .title {
                                                                 padding-top: 0;
@@ -2736,7 +2778,30 @@
                                                                 }
                                                                 .title {
                                                                     padding-top: 0;
-                                                                    font-size: 0.75em;
+                                                                    font-size: 0.938em;
+                                                                    text-transform:capitalize;
+                                                                }
+                                                                .cvv-number span.cvv-help{
+                                                                    top:36px;
+                                                                    left:72px;
+                                                                }
+                                                                .cvv-number input{
+                                                                    width:70px;
+                                                                }
+                                                                div.form-group{
+                                                                    margin-top:15px;
+                                                                    input,select{
+                                                                        height:35px;
+                                                                        font-size: 0.75em;
+                                                                    }
+                                                                    &.exp-date{
+                                                                        select#year, select#month, #cvvNumber{
+                                                                            width:70px;
+                                                                        }
+                                                                    } 
+                                                                    label {
+                                                                        font-size: 0.875em;
+                                                                    }
                                                                 }
                                                                 .input-card-form {
                                                                     .form-group {
@@ -2931,7 +2996,7 @@
                                                         }
                                                         .billing-addr-cont {
                                                             .title {
-                                                                font-size: 0.875em;
+                                                                font-size: 0.938em;
                                                             }
                                                             .billing-addr-div {
                                                                 .billing-addr-form {
@@ -2958,6 +3023,26 @@
                                                                         }
                                                                     }
                                                                 }
+                                                                
+                                                            }
+                                                            .selectRecipentDetails .recipientDetails{
+                                                                li label{
+                                                                    width:100%;
+                                                                    .radioOutline{
+                                                                        float:left;
+                                                                        margin-top: 8px;
+                                                                    }
+                                                                    .label-name{
+                                                                        display:block;
+                                                                        width:100%;
+                                                                        padding-left:25px;
+                                                                        &.right{
+                                                                            margin:0;
+                                                                            font-size: 0.75em;
+                                                                            padding-top: 4px;
+                                                                        }
+                                                                    }
+                                                                } 
                                                             }
                                                         }
                                                         .order-amt-cont {

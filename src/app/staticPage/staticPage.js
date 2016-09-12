@@ -101,8 +101,18 @@ function staticPageConfig($stateProvider) {
 			controller: 'historyCtrl',
 			controllerAs: 'history',
 			resolve:{
-				page : function($stateParams){
-				    return $stateParams.pageName;
+				page : function($stateParams,$state,$timeout){
+					if($stateParams.pageName.toLowerCase().indexOf("storelocator") >=0){
+						$timeout(function(){
+							$state.go("storelocator");
+						},10);
+					}else if($stateParams.pageName.toLowerCase().indexOf("purpleperks") >=0){
+						$timeout(function(){
+							$state.go("purplePerks");
+						},10);
+					}else{
+						return $stateParams.pageName;
+					}
 				},
 				fileName : function($stateParams){
 				    return $stateParams.fileName;

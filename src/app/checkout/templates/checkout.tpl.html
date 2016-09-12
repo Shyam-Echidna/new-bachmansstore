@@ -17,18 +17,18 @@
    <div class="continue-shopping-info">
       <div class="row">
          <div class="col-lg-12 col-md-12">
-            <span></span>Continue Shopping
+            <span><&nbsp;</span>Continue Shopping
          </div>
       </div>
    </div>
    <div class="checkout-info">
       <div class="row">
          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 customer-info">
-            <div class="row review-content">
+            <div class="row review-content" ng-if="checkout.openACCItems.name=='review'">
                <div class="col-lg-9 col-md-7 col-sm-12 col-xs-12">
                   <div class="review-order">Review and Place Order</div>
                </div>
-               <div class="col-lg-3 col-md-5 hidden-sm hidden-xs" ng-if="checkout.openACCItems.name=='review'">
+               <div class="col-lg-3 col-md-5 hidden-sm hidden-xs" >
                   <div class="place-order" ng-click="checkout.submitOrder()">Place Order</div>
                </div>
             </div>
@@ -642,7 +642,7 @@
                                                             <label for="cardNumber">Card Number</label>
                                                             <input type="number" class="form-control" id="cardNumber" ng-model="checkout.addPaymentInfo.card.CardNumber" placeholder="Number" ng-minlength="14" maxlength="16" ng-maxlength="16" max-length="16" required/>
                                                          </div>
-                                                         <div class="col-xs-6 col-md-12 col-lg-6 form-group exp-date p0">
+                                                         <div class="col-xs-8 col-md-12 col-lg-6 form-group exp-date p0">
                                                             <label for="expDate">Expiration Date</label>
                                                             <select class="form-control" id="month" placeholder="MM" ng-model="checkout.addPaymentInfo.card.ExpMonth" required>
                                                                <option>01</option>
@@ -692,13 +692,6 @@
                                                          </div> -->
                                                       <div class="row selectRecipentDetails">
                                                          <div class="selectRadio">
-                                                            <div class="radio-inline" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
-                                                               <input type="radio" id="addrBookRadio" name="selectRecipientAddr"  value="AddressBook">
-                                                               <label for="addrBookRadio">
-                                                               <span class="radioOutline"><span class="radioInside"></span></span>
-                                                               <span class="label-name">Address Book</span>
-                                                               </label>
-                                                            </div>
                                                             <div class="radio-inline">
                                                                <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" ng-model="checkout.BillingAddressOption" value="CurrentRecipients" ng-init="checkout.BillingAddressOption = 'CurrentRecipients'" >
                                                                <label for="currRecipientRadio">
@@ -707,10 +700,10 @@
                                                                </label>
                                                             </div>
                                                          </div>
-                                                         <div class="recipientDetails">
+                                                         <div class="recipientDetails" ng-init="checkout.addressBookShowLimit = 5">
                                                             <ul>
                                                                <li ng-repeat="(line,value) in checkout.groups">
-                                                                  <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
+                                                                  <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="checkout.groups[line][0].ShippingAddress" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
                                                                   <label for="recipient_{{$index}}">
                                                                   <span class="radioOutline"><span class="radioInside"></span></span>
                                                                   <span class="label-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}} | {{checkout.groups[line][0].ShippingAddress.Zip}}</span>
@@ -719,7 +712,7 @@
                                                                </li>
                                                             </ul>
                                                             <div class="viewAll">
-                                                               <a href="" >View All</a>
+                                                                <a href="" ng-click="checkout.addressBookShowLimit = checkout.groups.length">View All</a>
                                                             </div>
                                                          </div>
                                                       </div>
@@ -765,7 +758,7 @@
                                                          </div>
                                                          <div class="col-xs-12 form-group email-addr">
                                                             <label for="email">Enter Your Email Address</label>
-                                                            <input type="text" class="form-control" id="email" placeholder="Email Address" name="loginEmail" ng-model="checkout.billingAddress.xp.Email"  ng-model-options="{updateOn: 'blur'}" custom-email-validation />
+                                                            <input type="text" class="form-control" id="email" placeholder="Email Address" name="loginEmail" ng-model="checkout.billingAddress.xp.Email"  ng-model-options="{updateOn: 'blur'}" custom-email-validation required/>
                                                             </div>
                                                          <div class="col-xs-12 form-group phone-number">
                                                             <label for="phone1">Phone Number</label>
@@ -851,7 +844,7 @@
                                                          <p>{{card.BillingAddress.xp.Email}}</p>
                                                       </div>
                                                    </div>
-                                                   <div class="col-xs-12 billing-addr-cont paymentForm" ng-show="checkout.EditBillAddress{{$index}}">
+                                                   <!--<div class="col-xs-12 billing-addr-cont paymentForm" ng-show="checkout.EditBillAddress{{$index}}">
                                                       <p class="title">Billing Address</p>
                                                       <div class="billing-addr-div">
                                                          <form name="checkout.cardsEditForm[$index]" class="billing-addr-form" role="form" novalidate>
@@ -898,14 +891,14 @@
                                                             </div>
                                                             <div class="col-xs-12 form-group email-addr">
                                                                <label for="address">Enter Your Email Address</label>
-                                                               <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" />
+                                                               <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" ng-model-options="{updateOn: 'blur'}" custom-email-validation required/>
                                                             </div>
                                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group save-addr-btn">
                                                                <button class="btn-block" ng-click="checkout.updateBillingAddress($index,checkout.billingAddress)">Save</button>
                                                             </div>
                                                          </form>
                                                       </div>
-                                                   </div>
+                                                   </div>-->
                                                 </div>
                                              </div>
                                              <div class="cardHolder">
@@ -932,7 +925,7 @@
                                                          <label for="cardNumber">Card Number</label>
                                                          <input type="number" class="form-control" id="cardNumber" placeholder="Number" ng-model="checkout.addPaymentInfo.card.CardNumber" ng-minlength="14" ng-maxlength="16" max-length="16" required/>
                                                       </div>
-                                                      <div class="col-xs-6 form-group exp-date p0">
+                                                      <div class="col-xs-8 form-group exp-date p0">
                                                          <label for="expDate">Expiration Date</label>
                                                          <select class="form-control" id="month" placeholder="MM" ng-model="checkout.addPaymentInfo.card.ExpMonth" required>
                                                             <option>01</option>
@@ -944,6 +937,9 @@
                                                             <option>07</option>
                                                             <option>08</option>
                                                             <option>09</option>
+                                                            <option>10</option>
+                                                            <option>11</option>
+                                                            <option>12</option>
                                                          </select>
                                                          <select class="form-control" id="year" placeholder="YY" ng-model="checkout.addPaymentInfo.card.ExpYear" required>
                                                             <option ng-repeat="year in checkout.years">{{year}}</option>
@@ -967,7 +963,7 @@
                                                          </span>
                                                       </div>
                                                    </form>
-                                                   <div class="col-xs-12 billing-addr-cont addCardBillForm">
+                                                   <!--<div class="col-xs-12 billing-addr-cont addCardBillForm">
                                                       <p class="title">Billing Address</p>
                                                       <div class="billing-addr-div">
                                                          <form name="checkout.newBillingForm" class="billing-addr-form" role="form" novalidate>
@@ -1014,14 +1010,14 @@
                                                             </div>
                                                             <div class="col-xs-12 form-group email-addr">
                                                                <label for="address">Enter Your Email Address</label>
-                                                               <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" />
+                                                               <input type="text" class="form-control" id="email" placeholder="Email Address" ng-model="checkout.billingAddress.xp.Email" ng-model-options="{updateOn: 'blur'}" custom-email-validation required/>
                                                             </div>
                                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group save-addr-btn">
                                                                <button class="btn-block" ng-disabled="newCreditCardForm.$invalid">Save</button>
                                                             </div>
                                                          </form>
                                                       </div>
-                                                   </div>
+                                                   </div>-->
                                                    <div class="col-xs-12 p0 form-group card-remember">
                                                       <div class="Checkbox">
                                                          <input type="checkbox" ng-model="checkout.billingAddress.saveCardFuture">
@@ -1244,37 +1240,51 @@
                                                       <div class="row selectRecipentDetails">
                                                          <div class="selectRadio">
                                                             <div class="radio-inline" >
-                                                               <input type="radio" id="addrBookRadio" name="selectRecipientAddr"  value="AddressBook">
+                                                               <input type="radio" id="addrBookRadio" name="selectRecipientAddr" ng-model="checkout.BillingAddressOption" value="AddressBook" ng-init="checkout.BillingAddressOption = 'AddressBook'">
                                                                <label for="addrBookRadio">
                                                                <span class="radioOutline"><span class="radioInside"></span></span>
                                                                <span class="label-name">Address Book</span>
                                                                </label>
                                                             </div>
                                                             <div class="radio-inline">
-                                                               <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" >
+                                                               <input type="radio" id="currRecipientRadio" name="selectRecipientAddr" ng-model="checkout.BillingAddressOption"  value="CurrentRecipients" >
                                                                <label for="currRecipientRadio">
                                                                <span class="radioOutline"><span class="radioInside"></span></span>
                                                                <span class="label-name">Current Recipients</span>
                                                                </label>
                                                             </div>
                                                          </div>
-                                                         <div class="recipientDetails">
-                                                            <ul>
-                                                               <li>
-                                                                  <input type="radio" id="recipient_1" name="detalRecipietns"  ng-value="line" ng-model="checkout.SelectedBillingAddressOption" >
-                                                                  <label for="recipient_1">
+                                                         <div class="recipientDetails" ng-init="checkout.addressBookShowLimit = 5">
+                                                            <ul ng-if="checkout.BillingAddressOption=='AddressBook'">
+                                                               <li ng-repeat="address in checkout.addressBook | limitTo:checkout.addressBookShowLimit">
+                                                                  <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="address" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(address)">
+                                                                  <label for="recipient_{{$index}}">
                                                                   <span class="radioOutline"><span class="radioInside"></span></span>
-                                                                  <span class="label-name">dsfd</span>
-                                                                  <span class="label-name right">ad </span>
+                                                                  <span class="label-name">{{address.FirstName}} {{address.LastName}} | {{address.Zip}}</span>
+                                                                  <span class="label-name right">{{address.Street1}}, {{address.City}}, {{address.State}} </span>
                                                                   </label>
                                                                </li>
                                                             </ul>
-                                                            <div class="viewAll">
-                                                               <a href="" >View All</a>
+                                                            <ul ng-if="checkout.BillingAddressOption=='CurrentRecipients'">
+                                                               <li ng-repeat="(line,value) in checkout.groups">
+                                                                  <input type="radio" id="recipient_{{$index}}" name="detalRecipietns"  ng-value="checkout.groups[line][0].ShippingAddress" ng-model="checkout.SelectedBillingAddressOption" ng-change="checkout.setBillAddressForm(checkout.groups[line][0].ShippingAddress)">
+                                                                  <label for="recipient_{{$index}}">
+                                                                  <span class="radioOutline"><span class="radioInside"></span></span>
+                                                                  <span class="label-name">{{checkout.groups[line][0].ShippingAddress.FirstName}} {{checkout.groups[line][0].ShippingAddress.LastName}} | {{checkout.groups[line][0].ShippingAddress.Zip}}</span>
+                                                                  <span class="label-name right">{{checkout.groups[line][0].ShippingAddress.Street1}}, {{checkout.groups[line][0].ShippingAddress.City}}, {{checkout.groups[line][0].ShippingAddress.State}} </span>
+                                                                  </label>
+                                                               </li>
+                                                            </ul>
+                                                            <div class="viewAll" ng-if="checkout.BillingAddressOption=='AddressBook'">
+                                                               <a href="" ng-click="checkout.addressBookShowLimit = checkout.addressBook.length">View All</a>
+                                                            </div>
+                                                            <div class="viewAll" ng-if="checkout.BillingAddressOption=='CurrentRecipients'">
+                                                               <a href="" ng-click="checkout.addressBookShowLimit = checkout.groups.length">View All</a>
                                                             </div>
                                                          </div>
                                                       </div>
                                                       <div class="billing-addr-div">
+                                                           <form name="checkout.newBillingForm" class="billing-addr-form" role="form" novalidate>
                                                          <div class="col-xs-6 form-group first-name">
                                                             <label for="firstName">First Name</label>
                                                             <input type="text" class="form-control" id="firstName" ng-model="checkout.billingAddress.FirstName" required/>
@@ -1317,6 +1327,7 @@
                                                             <input type="number" class="form-control col-xs-3" id="phone2" ng-model="checkout.billingAddress.Phone2" ng-minlength="3" maxlength="3" max-length="3" required/>
                                                             <input type="number" class="form-control col-xs-3" id="phone3" ng-model="checkout.billingAddress.Phone3" ng-minlength="4" maxlength="4" max-length="4" required/>
                                                          </div>
+                                                           </form>
                                                       </div>
                                                    </div>
                                           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 p0 payment-gift-card-info info-bg-color" ng-if="checkout.giftcardcheckbox==true">
@@ -1508,10 +1519,10 @@
                                        <p class="amount">{{checkout.orderTotal | currency}}</p>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 review-order">
-                                       <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)">Review Order</button>
+                                       <button type="button" class="btn green-btn" ng-click="checkout.paymentInfoReview(checkout.addPaymentInfo)" >Review Order</button>
                                     </div>
                                  </div>
-                              </div>
+                              </div>            
                            </div>
                         </div>
                   </uib-accordion-group>
@@ -1604,33 +1615,9 @@
                   </p>
                   <div class="detailPart row" ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'">
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <p class="fullName">{{checkout.selectedCard.CardholderName}}</p>
-                     </div>
-                     <span></span>
-                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
-                        <p>{{checkout.selectedCard.BillingAddress.Street1}}</p>
-                        <p>{{checkout.selectedCard.BillingAddress.Street2}}</p>
-                        <p>{{checkout.selectedCard.BillingAddress.City}}, {{checkout.selectedCard.BillingAddress.State}}</p>
-                        <p>{{checkout.selectedCard.BillingAddress.Zip}}</p>
-                        <p class="phone">{{checkout.selectedCard.BillingAddress.Phone}}</p>
-                     </div>
-                     <span></span>
-                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <p class="cardTitle">Credit Card</p>
-                        <p>xxxx xxx xxx {{checkout.selectedCard.PartialAccountNumber}}</p>
-                        <p class="cardExpires">Card Expires</p>
-                        <p>{{checkout.selectedCard.ExpirationDate | date: 'dd '}}/{{checkout.selectedCard.ExpirationDate | date: 'yy '}}</p>
-                     </div>
-                     <span></span>
-                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <!--<p class="pPerksTitle">Purple Perks Dollars Applied</p>
-                        <p>100</p>-->
-                     </div>
-                  </div>
-                  <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
-                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="fullName">{{checkout.addPaymentInfo.card.CardholderName}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
                         <p>{{checkout.billingAddress.Street1}}</p>
                         <p>{{checkout.billingAddress.Street2}}</p>
@@ -1638,17 +1625,43 @@
                         <p>{{checkout.billingAddress.Zip}}</p>
                         <p class="phone">{{checkout.billingAddress.Phone}}</p>
                      </div>
+                     <span></span>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <p class="cardTitle">Credit Card</p>
-                        <p>xxxx xxx xxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
+                        <p ng-if="checkout.addPaymentInfo.card.PartialAccountNumber">xxxx xxxx xxxx {{checkout.addPaymentInfo.card.PartialAccountNumber | limitTo:4:(checkout.addPaymentInfo.card.PartialAccountNumber.length-4)}}</p>
+                        <p ng-if="checkout.addPaymentInfo.card.CardNumber">xxxx xxxx xxxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
+                        <p class="cardExpires">Card Expires</p>
+                        <p ng-if="checkout.addPaymentInfo.card.ExpMonth">{{checkout.addPaymentInfo.card.ExpMonth}}/{{checkout.addPaymentInfo.card.ExpYear}}</p>
+                        <p ng-if="checkout.addPaymentInfo.card.ExpirationDate">{{checkout.addPaymentInfo.card.ExpirationDate | date: 'dd '}}/{{checkout.addPaymentInfo.card.ExpirationDate | date: 'yy '}}</p>
+                     </div>
+                     <span></span>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" ng-repeat="(key,value) in checkout.orderDtls.SpendingAccounts">
+                        <p class="pPerksTitle">{{value.Name}}</p>
+                        <p>{{value.Amount | currency}}</p>
+                    </div>
+                  </div>
+                    <div class="detailPart row" ng-if="checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'">
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="fullName">{{checkout.addPaymentInfo.card.CardholderName}}</p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 address">
+                        <p>{{checkout.billingAddress.Street1}}</p>
+                        <p>{{checkout.billingAddress.Street2}}</p>
+                        <p>{{checkout.billingAddress.City}}, {{checkout.billingAddress.State}}</p>
+                        <p>{{checkout.billingAddress.Zip}}</p>
+                        <p class="phone">{{checkout.billingAddress.Phone}}</p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <p class="cardTitle">Credit Card</p>
+                        <p>xxxx xxxx xxxx {{checkout.addPaymentInfo.card.CardNumber | limitTo:4:(checkout.addPaymentInfo.card.CardNumber.length-4)}}</p>
                         <p class="cardExpires">Card Expires</p>
                         <p>{{checkout.addPaymentInfo.card.ExpMonth}}/{{checkout.addPaymentInfo.card.ExpYear}}</p>
-                     </div>
-                     <!--<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <p class="pPerksTitle">Purple Perks Dollars Applied</p>
-                        <p>100</p>
-                        </div>-->
-                  </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" ng-repeat="(key,value) in checkout.orderDtls.SpendingAccounts">
+                        <p class="pPerksTitle">{{value.Name}}</p>
+                        <p>{{value.Amount | currency}}</p>
+                        </div>
+                    </div>
                </div>
                <div class="row review-content-btn">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
