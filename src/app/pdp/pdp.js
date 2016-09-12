@@ -2959,6 +2959,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		})
 		//}
 	}
+	var specialKeys = new Array();
+        specialKeys.push(8);
 	vm.IsNumeric = function ($e) {
         console.log($e);
         var keyCode = $e.which ? $e.which : $e.keyCode;
@@ -3297,6 +3299,7 @@ function numbersOnly() {
 							ngModelCtrl.$render();
 
 						}
+					
 						else {
 							return transformedInput;
 						}

@@ -1786,6 +1786,8 @@ function ChangeRecipientPopupController($uibModal, $scope, $uibModalInstance, Li
     //     });
     //     return d.promise;
     // }
+    var specialKeys = new Array();
+    specialKeys.push(8);
     vm.IsNumeric = function ($e) {
         console.log($e);
         var keyCode = $e.which ? $e.which : $e.keyCode;
@@ -2150,6 +2152,8 @@ function EditRecipientPopupController($uibModal, $scope, $uibModalInstance, Orde
         });
         return d.promise;
     }
+    var specialKeys = new Array();
+    specialKeys.push(8);
     vm.IsNumeric = function ($e) {
         console.log($e);
         var keyCode = $e.which ? $e.which : $e.keyCode;
