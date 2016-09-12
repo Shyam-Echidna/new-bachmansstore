@@ -985,7 +985,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
     vm.placeOrder = function () {
 		vm.orderdata.Total = vm.orderTotal;
-		if (vm.orderdata.Total > 0 && vm.selectedCard) {
+		$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
+		/*if (vm.orderdata.Total > 0 && vm.selectedCard) {
             if (vm.selectedCard.ID) {
 				if (vm.addPaymentInfo.card.CVV) {
 					vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
@@ -1032,6 +1033,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			OrderCloud.Orders.Submit(vm.orderdata.ID)
 
 				.then(function () {
+					$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
 					TaxService.CollectTax(vm.orderdata.ID)
 						.then(function (data) {
 							console.log(data);
@@ -1041,7 +1043,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 						})
                 });
 
-		}
+		}*/
     }
 	function addTaxtoLineItem(data) {
         var promise = [];
