@@ -1638,7 +1638,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
                 }
 
             });
-vm.crdmsg[index] = !vm.crdmsg[index];
+/*vm.crdmsg[index] = !vm.crdmsg[index];
      if (vm.lastIndex == index) {
       vm.formInValid = false;
       vm.disableAddToCart = false;
@@ -1647,7 +1647,7 @@ vm.crdmsg[index] = !vm.crdmsg[index];
      else {
       vm.formInValid = true;
       vm.disableAddToCart = true;
-     }
+     }*/
 	}
 
 	function submitDetails(activeitems) {
