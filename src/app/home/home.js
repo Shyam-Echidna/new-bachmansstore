@@ -388,14 +388,28 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
   var ajaxarr = [];
   var ticket = localStorage.getItem("alf_ticket");      
         var imgcontent;
-      for(var i=0;i<res.length;i++){
-      	angular.forEach(Underscore.where(productImages, {title: res[i].ID}), function (node) {
-            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-            imgcontent = node;
-        });
-        res[i].imgContent = imgcontent;
-       
-      }
+	    /*for(var i=0;i<res.length;i++){
+	      	angular.forEach(Underscore.where(productImages, {title: res[i].ID}), function (node) {
+	            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+	            imgcontent = node;
+	        });
+	        res[i].imgContent = imgcontent;
+	    }*/
+
+	    for(var i=0;i<res.length;i++){
+		    var matchedFeaturedImage = Underscore.where(productImages, {title: res[i].ID});
+		    if(matchedFeaturedImage.length > 0){
+			    angular.forEach(matchedFeaturedImage, function (node) {
+			        node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+			        imgcontent = node;
+			    });
+			    res[i].imgContent = imgcontent;
+		    }else{
+		          res[i].imgContent= {};
+		          res[i].imgContent['contentUrl'] = 'assets/images/noimg.jpg';
+			}
+		}
+
       vm.featuredProducts = res;
 		
           setTimeout(function(){

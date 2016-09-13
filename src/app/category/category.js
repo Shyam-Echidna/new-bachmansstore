@@ -64,9 +64,22 @@ function CategoryConfig( $stateProvider ) {
                     })
             },
 			Tree: function( CategoryService,$stateParams,$state,$timeout) {
+				/*if($stateParams.ID == "FlowersSpecialtyPlanters_Sympathy_ShopByCollection"){
+					$timeout(function(){
+						$state.go('plp', {catId: $stateParams.ID});
+					},10);
+				}*/
 				if(parseInt($stateParams.childCount) != 0){
-					return CategoryService.listChild($stateParams.ID);
-
+					var findChar = $stateParams.ID;
+					var charCount = findChar.replace(/[^_]/g, "").length;
+					if(charCount == 2){
+						$timeout(function(){
+							$state.go('plp', {catId: $stateParams.ID});
+						},10);
+					}
+					else{
+						return CategoryService.listChild($stateParams.ID);
+					}
 				}
 				else{
 					$timeout(function(){
@@ -546,14 +559,28 @@ function EventsList(){
 	CategoryService.GetBestSellerProducts().then(function(res){
      var ticket = localStorage.getItem("alf_ticket");      
         var imgcontent;
-      for(var i=0;i<res.length;i++){
-      	angular.forEach(Underscore.where(productImages, {title: res[i].ID}), function (node) {
-            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-            imgcontent = node;
-        });
-        res[i].imgContent = imgcontent;
-       
-      }
+      	/*for(var i=0;i<res.length;i++){
+	      	angular.forEach(Underscore.where(productImages, {title: res[i].ID}), function (node) {
+	            node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+	            imgcontent = node;
+	        });
+	        res[i].imgContent = imgcontent;
+      	}*/
+
+      	for(var i=0;i<res.length;i++){
+		    var matchedBestSellerImage = Underscore.where(productImages, {title: res[i].ID});
+		    if(matchedBestSellerImage.length > 0){
+			    angular.forEach(matchedBestSellerImage, function (node) {
+			        node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+			        imgcontent = node;
+			    });
+			    res[i].imgContent = imgcontent;
+		    }else{
+		          res[i].imgContent= {};
+		          res[i].imgContent['contentUrl'] = 'assets/images/noimg.jpg';
+			}
+		}
+
       vm.bestSeller = res;
     	setTimeout(function(){
       	var owl2 = angular.element("#owl-carousel2");	

@@ -228,7 +228,7 @@ function PlpConfig($stateProvider) {
                      //var item = items[i].Items;
                       var item = items[i];
                     for(var j=0;j<item.length;j++){
-                        var matchedImage = Underscore.where(productImages, {title: item[j].ID});
+                        var matchedImage = Underscore.where(productImages, {displayName: item[j].ID + '.jpg'});
                         if(matchedImage.length > 0){
                         angular.forEach(matchedImage, function (node) {
                                 node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
@@ -237,7 +237,8 @@ function PlpConfig($stateProvider) {
                         });
                         }else{
                               item[j].imgcontent= {};
-                              item[j].imgcontent['contentUrl'] = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg'+"?alf_ticket=" + ticket;;
+                              //tem[j].imgcontent['contentUrl'] = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg'+"?alf_ticket=" + ticket;
+                              item[j].imgcontent['contentUrl'] = 'assets/images/noimg.jpg';
                               imgcontentArray.push(item[j]);
                     }
                        

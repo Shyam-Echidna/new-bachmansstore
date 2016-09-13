@@ -497,13 +497,13 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 
 	function getprices(node) {
 		var d = $q.defer();
-		OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
-			OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (success) {
+		//OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
+			OrderCloud.PriceSchedules.Get(node.ID).then(function (success) {
 				node["StandardPriceSchedule"] = success;
 				d.resolve(node);
 
 			});
-		});
+		//});
 		return d.promise;
 	}
 	function _getProductCodeImages(prodCode) {
@@ -1633,11 +1633,21 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					}
 
                 } else {
-                    //alert("Address not found...");
+                    alert("Address not found...");
 					vm.crdmsg[index] = true;
                 }
 
-            });
+            });*/
+vm.crdmsg[index] = !vm.crdmsg[index];
+     if (vm.lastIndex == index) {
+      vm.formInValid = false;
+      vm.disableAddToCart = false;
+
+     }
+     else {
+      vm.formInValid = true;
+      vm.disableAddToCart = true;
+     }
 	}
 
 	function submitDetails(activeitems) {
@@ -2959,6 +2969,8 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		})
 		//}
 	}
+	var specialKeys = new Array();
+        specialKeys.push(8);
 	vm.IsNumeric = function ($e) {
         console.log($e);
         var keyCode = $e.which ? $e.which : $e.keyCode;
@@ -3297,6 +3309,7 @@ function numbersOnly() {
 							ngModelCtrl.$render();
 
 						}
+					
 						else {
 							return transformedInput;
 						}

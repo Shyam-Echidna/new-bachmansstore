@@ -645,7 +645,7 @@
                            <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | capitalize}}</span></p>
                            <p class="Price">{{prod.priceRange}}</p>
                         </div> -->
-                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "assets/images/Batch_2_Web_Images/04Bachmans_PLP/pdp-rec-pdt.jpg"/>
+                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
                         <div class="price-box">
                           <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                           <p class="Price">{{prod.priceRange}}</p>

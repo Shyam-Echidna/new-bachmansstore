@@ -1,28 +1,29 @@
 <div class="container-fluid my-account-wislist-container">
 
-	<p class="heading">My Wishlist 
-		<span>({{account.wishList.length}} items)</span>
-		<a href="javascript:void(0)" class="share-list-link">Share List</a>
-	</p>
-	<div class="row wishlist-cont">
-		<div class="col-xs-12 p0 hidden-xs hidden-sm wishlist-header">
-			<div class="col-xs-4 product-count">
-				Products ({{account.wishList.length}} items)
-			</div>
-			<div class="col-xs-1 quantity-header">
-                Qty.
+    <p class="heading">My Wishlist 
+        <span>({{wishlists.wishList.length}} items)</span>
+        <a href="javascript:void(0)" class="share-list-link">Share List</a>
+    </p>
+    <div ng-if="!wishlists.wishList.length">You dont have any wishlist items</div>
+    <div class="row wishlist-cont">
+        <div class="col-xs-12 p0 hidden-xs hidden-sm wishlist-header">
+            <div class="col-xs-4 product-count">
+                Products ({{wishlists.wishList.length}} items)
+            </div>
+            <div class="col-xs-1 quantity-header">
+              <!--   Qty. -->
             </div>
             <div class="col-xs-2 price-header">
                 Price
             </div>
             <div class="col-xs-2 total-amount-header">
-                Total Amount
+                <!-- Total Amount -->
             </div>
-		</div>
-		<div class="col-xs-12 p0 wishlist-item" ng-repeat="wish in account.wishList track by $index">
+        </div>
+        <div class="col-xs-12 p0 wishlist-item" ng-if="wishlists.wishList.length >0" ng-repeat="wish in wishlists.wishList track by $index">
             <!-- {{wish}} -->
             <!-- <div ng-repeat="wishn in account.wishList.StandardPriceSchedule.PriceBreaks.Price track by $index"> -->
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
                 <div class="col-xs-4 p0 prod-img">
                     <img src="assets/images/batch4web/wishlist/wishlist1.png" class="hidden-xs hidden-sm" />
                     <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
@@ -38,22 +39,22 @@
                 </div>
             </div>
             <div class="col-xs-1 quant-cont hidden-xs hidden-sm">
-                <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Quantity}}</p>
+                <!-- <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Quantity}}</p> -->
             </div>
             <div class="col-xs-2 price-cont hidden-xs hidden-sm">
                 <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Price | currency}}</p>
             </div>
             <div class="col-xs-2 total-amt-cont hidden-xs hidden-sm">
-                <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Price | currency}}</p>
+              <!--   <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Price | currency}}</p> -->
             </div>
             <div class="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-2 col-lg-2 addToCart-cont">
-                <button type="button"  class="btn green-btn" ui-sref=".create">Add to Cart</button>
-                <!-- <button type="button" ng-if="!wish.Available" class="btn green-btn" ui-sref=".create">Out OF Stock</button> -->
+                <button type="button"  ng-if="wish.inventory.Available > 0"  class="btn green-btn">Add to Cart</button>
+                <button type="button" ng-if="wish.inventory.Available == 0" class="btn green-btn out-of-stock">Out Of Stock</button>
             </div>
             <div class="col-xs-1 list-close-btn" ng-click="account.deleteWishList(wish.ID)">
-            	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
             </div>
-		</div>
+        </div>
         <!-- Static content - To Be DELETED  -->
         <div class="col-xs-12 p0 wishlist-item">
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
