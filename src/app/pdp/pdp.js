@@ -1633,7 +1633,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					}
 
                 } else {
-                    alert("Address not found...");
+                    //alert("Address not found...");
 					vm.crdmsg[index] = true;
                 }
 
