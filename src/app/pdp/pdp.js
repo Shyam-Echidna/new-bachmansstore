@@ -1637,7 +1637,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 					vm.crdmsg[index] = true;
                 }
 
-            });*/
+            });
 vm.crdmsg[index] = !vm.crdmsg[index];
      if (vm.lastIndex == index) {
       vm.formInValid = false;
