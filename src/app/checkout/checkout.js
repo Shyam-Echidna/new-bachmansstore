@@ -14,7 +14,7 @@ function CheckoutConfig($stateProvider) {
 			url: '/checkout',
 			templateUrl: 'checkout/templates/checkout.tpl.html',
 			controller: 'CheckoutCtrl',
-			// controllerAs: 'checkout',
+			 controllerAs: 'checkout',
 			resolve: {
                 LineItems: function (OrderCloud, $rootScope, $q, CurrentOrder, toastr, $state, LineItemHelpers, PdpService) {
 					var deferred = $q.defer();
