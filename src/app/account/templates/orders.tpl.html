@@ -89,7 +89,7 @@
                                     <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 delivery-info-cont">
                                         <div class="delivery-date-cont">
                                             <p class="title">Delivery Date</p>
-                                            <p class="value">{{line.xp.deliveryDate}}</p>
+                                            <p class="value">{{line.xp.deliveryDate | date:'longDate'}}</p>
                                         </div>
                                         <div class="delivery-pref-cont">
                                             <p class="title">Delivery Preferece</p>
@@ -188,7 +188,7 @@
                                             <p class="col-xs-6 value">&#x24;{{order.TaxCost}}</p>
                                         </div>
                                         <div class="delivery-charges col-xs-12">
-                                            <p class="col-xs-6 title">Delivery Charges</p>
+                                            <p class="col-xs-6 title">Delivery & Handling Charges</p>
                                             <p class="col-xs-6 value">&#x24;{{order.ShippingCost}}</p>
                                         </div>
                                         <div class="total col-xs-12">
