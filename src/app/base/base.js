@@ -240,6 +240,13 @@ function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
 function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
     var vm = this;
     vm.currentUser = CurrentUser;
+    $scope.$on("CurrentCatgory", function (evt, data) {
+        vm.name2 =  data;
+    });
+    $scope.$on("CurrentCatgory1", function (evt, data) {
+        vm.name3 =  data;
+    });
+    // vm.name2 = 'shyam';
     defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
         errorMessages['customPassword'] = 'Password must be at least eight characters long and include at least one letter and one number';
         //regex for customPassword = ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$

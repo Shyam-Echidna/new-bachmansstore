@@ -29,6 +29,8 @@ angular.module( 'orderCloud', [
         'ngScrollbar',
         'ngScrollable',
          'cgBusy',
+         'angularUtils.directives.uiBreadcrumbs',
+         'ncy-angular-breadcrumb',
          'ui.calendar'
     ])
 

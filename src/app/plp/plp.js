@@ -22,10 +22,7 @@ function PlpConfig($stateProvider) {
             parent: 'base',           
             //url: '/plp/:catId',
             url: '/plp?catId&filters&productpage&infopage&tab&productssortby&infosortby&min&max',
-                     ncyBreadcrumb: {
-                    label: 'plp page',
-            parent:'category'
-                  },
+                  
            resolve: {
                
             ticketTemp: function (LoginFact) {
@@ -425,7 +422,12 @@ function PlpConfig($stateProvider) {
             },
             templateUrl: 'plp/templates/plp.tpl.html',
             controller: 'PlpCtrl',
-            controllerAs: 'plp'
+            controllerAs: 'plp',
+               ncyBreadcrumb: {
+                        
+                        label:"{{base.name3}}",
+                        parent:"category"
+                  }
         })
 
 }
@@ -714,6 +716,12 @@ function PlpController(FacetList, FiltersObject, CurrentCatgory,ProductResultsWi
          vm.Selections = Selections;
          vm.currentProductPage = $stateParams.productpage;
    console.log("CurrentCatgory==",CurrentCatgory);
+   OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function(res){
+             // return res;
+               $scope.$emit("CurrentCatgory", res.Name);
+              });  
+   $scope.$emit("CurrentCatgory1", CurrentCatgory.Name);
+
 
    vm.CurrentCatgory = CurrentCatgory;
  vm.CustomFacetList = FacetList;

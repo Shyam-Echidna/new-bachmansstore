@@ -11,6 +11,7 @@ function CategoryConfig( $stateProvider ) {
 		.state( 'category', {
 			parent: 'base',
 			url: '/category/:childCount/:ID',
+			
 			/*params: {
 		    childCount:null,
 		    ID:null
@@ -96,7 +97,11 @@ function CategoryConfig( $stateProvider ) {
 		},
 			templateUrl: 'category/templates/category.tpl.html',
 			controller: 'CategoryCtrl',
-			controllerAs: 'category'
+			controllerAs: 'category',
+			ncyBreadcrumb: {
+		   parent : "home",
+		   label:"{{base.name2}}"
+  			},
 		})
 }
 
@@ -298,7 +303,8 @@ function CategoryController(OrderCloud, Tree, CurrentCatgory,CategoryService, Pl
 	console.log("categoryImages==",categoryImages);
 	*/
    vm.CurrentCatgory = CurrentCatgory;
-
+   //$scope.catName = CurrentCatgory.Name;
+      $scope.$emit("CurrentCatgory", CurrentCatgory.Name);
 	var arr = [];
 for(var i=0;i<Tree.length;i++){
   ss(i);

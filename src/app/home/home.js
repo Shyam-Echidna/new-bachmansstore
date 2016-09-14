@@ -13,6 +13,9 @@ function HomeConfig( $stateProvider ) {
 			templateUrl: 'home/templates/home.tpl.html',
 			controller: 'HomeCtrl',
 			controllerAs: 'home',
+			ncyBreadcrumb: {
+		    label: 'Home page'
+		  },
 	 resolve: {
   
 
@@ -465,7 +468,8 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 			1200:{
 				items:2,
 				dots:true,
-				stagePadding:130
+				stagePadding:10,
+				margin:0
 			},
 			1500:{
 				items:3,

@@ -26,7 +26,7 @@
         module = angular.module(moduleName, ['ui.router']);
     }
 
-    module.directive('uiBreadcrumbs', ['$interpolate', '$state', '$stateParams',  function($interpolate, $state, $stateParams) {
+    module.directive('uiBreadcrumbs1', ['$interpolate', '$state', function($interpolate, $state) {
             return {
                 restrict: 'E',
                 templateUrl: function(elem, attrs) {
@@ -37,7 +37,6 @@
                     abstractProxyProperty: '@?'
                 },
                 link: function(scope) {
-
                     scope.breadcrumbs = [];
                     if ($state.$current.name !== '') {
                         updateBreadcrumbsArray();
@@ -53,14 +52,14 @@
                     function updateBreadcrumbsArray() {
                         var workingState;
                         var displayName;
-                        var breadcrumbs = scope.breadcrumbs|| [];
+                        var breadcrumbs = breadcrumbs || [];
                         var currentState = $state.$current;
 
                         while(currentState && currentState.name !== '') {
                             workingState = getWorkingState(currentState);
                             if (workingState) {
                                 displayName = getDisplayName(workingState);
-                                    console.log("params",$stateParams.ID);
+
                                 if (displayName !== false && !stateAlreadyInBreadcrumbs(workingState, breadcrumbs)) {
                                     breadcrumbs.push({
                                         displayName: displayName,
@@ -70,7 +69,7 @@
                             }
                             currentState = currentState.parent;
                         }
-                        //breadcrumbs.reverse();
+                        breadcrumbs.reverse();
                         scope.breadcrumbs = breadcrumbs;
                     }
 
@@ -84,7 +83,7 @@
                     function getWorkingState(currentState) {
                         var proxyStateName;
                         var workingState = currentState;
-                          console.log("currentState == ",currentState);
+                        console.log("currentState == ",currentState);
                         if (currentState.abstract === true) {
                             if (typeof scope.abstractProxyProperty !== 'undefined') {
                                 proxyStateName = getObjectValue(scope.abstractProxyProperty, currentState);

@@ -1671,6 +1671,7 @@ btn-primary:hover:hover {
 					padding:0;
 					.giftCardContInner{
 						.block-vertical-center(absolute);
+						-webkit-transform: translateY(-50%);
 						width:100%;
 						div{
 							display:inline-block;
@@ -2086,6 +2087,7 @@ ul.empty-div {
 				//padding: 13px 10px 0 25px;
 				text-align: left;
 				.block-vertical-center(relative);
+				-webkit-transform: translateY(-50%);
 				padding: 0 10px 0 25px;
 				.user-name {
 					//font: 13px/16px @proxima-regular;
@@ -5353,6 +5355,7 @@ body {
     bottom: initial;
     margin: 0;
     .block-vertical-center(absolute);
+    -webkit-transform: translateY(-50%);
 }
 .menuScrollCont-arrow p.menu-prev{
 	opacity:0;
@@ -5522,5 +5525,16 @@ ordercloud-minicart{
 .webkit-inp-bg-fixer {
 	&:-webkit-autofill {
 		-webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+	}
+}
+.indicator{
+	background-color:rgba(255,255,255,.4); 
+	img{
+		margin:auto;
+		position:absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
 	}
 }
