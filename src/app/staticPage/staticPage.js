@@ -263,7 +263,11 @@ function staticPageBaseController($http,$scope,page,$sce,alfcontenturl, parentFo
 				vm.relatedArticles = res.data.associations.relatedArticles;
 				if(vm.relatedArticles)
 					$scope.$emit('update_parent_controller', vm.relatedArticles);
-				getMediaForArticle(res.data.displayPath);
+				if(res.data.associations.primaryImage && res.data.associations.primaryImage[0].contentUrl && res.data.associations.primaryImage[0].nodeType=='ws:image'){
+					vm.articleBanner = "http://52.206.111.191:8080/alfresco/service"+res.data.associations.primaryImage[0].contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket");
+				}else{
+					getMediaForArticle(res.data.displayPath);
+				}
 			},function(){
 				vm.staticTempright = $sce.trustAsHtml('<p>Article Data Not Found</p>');
 			});
@@ -828,30 +832,7 @@ function onFinishRender($timeout) {
 
 function staticpageController($scope, $uibModalInstance) {
 	var vm = this;
-	/*$scope.status = {
-		open1: true,
-		open1: false
-	};
-	$scope.status = {
-		open2: true,
-		open2: false
-	};
-	$scope.status = {
-		open3: true,
-		open3: false
-	};
-	$scope.status = {
-		open4: true,
-		open4: false
-	};
-	$scope.status = {
-		open5: true,
-		open5: false
-	};
-	$scope.status = {
-		open6: true,
-		open6: false
-	};*/
+	
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
@@ -911,34 +892,7 @@ function careAdviceController() {
 
 function FAQController($scope) {
 	var vm = this;
-	/*$scope.status = {
-		open1: true,
-		open1: false
-	};
-	$scope.status = {
-		open2: true,
-		open2: false
-	};
-	$scope.status = {
-		open3: true,
-		open3: false
-	};
-	$scope.status = {
-		open4: true,
-		open4: false
-	};
-	$scope.status = {
-		open5: true,
-		open5: false
-	};
-	$scope.status = {
-		open6: true,
-		open6: false
-	};
-	$scope.status = {
-		openfaqs: true,
-		openfaqs: false
-	};*/
+	
 }
 
 function perplePerksRegisteredController() {
