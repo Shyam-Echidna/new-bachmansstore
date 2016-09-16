@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-xs-12 form-group shipping-checkbox">
                         <div class="Checkbox">
-                            <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" />
+                            <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" ng-checked="true"/>
                             <div class="Checkbox-visible"></div>
                         </div>
                         <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
@@ -170,14 +170,14 @@
                         </div>
                         <div class="col-xs-12 form-group shipping-checkbox">
                             <div class="Checkbox">
-                                <input type="checkbox" id="ship-addr-chkb" ng-model="Address.editAddr.IsShipping" />
+                                <input type="checkbox" id="ship-addr-chkb" ng-model="Address.editAddr.addressType.IsShipping"/>
                                 <div class="Checkbox-visible"></div>
                             </div>
                             <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
                         </div>
                         <div class="col-xs-12 form-group billing-checkbox">
                             <div class="Checkbox">
-                                <input type="checkbox" id="bill-addr-chkb" ng-model="Address.editAddr.IsBilling" />
+                                <input type="checkbox" id="bill-addr-chkb" ng-model="Address.editAddr.addressType.IsBilling" />
                                 <div class="Checkbox-visible"></div>
                             </div>
                             <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
@@ -277,7 +277,7 @@
                             </div>
                             <div class="col-xs-12 form-group shipping-checkbox">
                                 <div class="Checkbox">
-                                    <input type="checkbox" id="ship-addr-chkb" ng-model="Address.editAddr.addressType.IsShipping" />
+                                    <input type="checkbox" id="ship-addr-chkb" ng-model="Address.editAddr.addressType.IsShipping"/>
                                     <div class="Checkbox-visible"></div>
                                 </div>
                                 <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
