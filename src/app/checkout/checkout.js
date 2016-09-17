@@ -14,7 +14,7 @@ function CheckoutConfig($stateProvider) {
 			url: '/checkout',
 			templateUrl: 'checkout/templates/checkout.tpl.html',
 			controller: 'CheckoutCtrl',
-			 controllerAs: 'checkout',
+			controllerAs: 'checkout',
 			resolve: {
                 LineItems: function (OrderCloud, $rootScope, $q, CurrentOrder, toastr, $state, LineItemHelpers, PdpService) {
 					var deferred = $q.defer();
@@ -253,7 +253,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	vm.orderDtls = { "SpendingAccounts": {} };
 	vm.addPaymentInfo = {};
 	vm.getCreditCardsBillingAddress(vm.creditcards.Items);
-	vm.addTaxtoLineItem = addTaxtoLineItem
+	vm.addTaxtoLineItem = addTaxtoLineItem;
+	vm.selecteditem={};
 	PdpService.CompareDate().then(function (datatime) {
 		vm.cstDateTime = new Date(datatime);
 	});
@@ -450,8 +451,9 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		// return d.promise;
 
     }
-	function changePreference(line, preference) {
-		line.xp.DeliveryRuns = preference;
+	function changePreference(line, preference,run) {
+		//line.xp.DeliveryRuns = preference;
+		line.xp.DeliveryRun = run;
 
 	}
 	function gotoNext(index) {
@@ -569,15 +571,19 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			vm['EditBillAddress' + index] = false;
 			vm.billingAddress = {};
 			vm.addPaymentInfo.card = {};
+			vm.showBillingEditForm = false;
 		} else {
 			vm.addPaymentInfo.card = {};
 			vm['EditBillAddress' + index] = true;
+			vm.showBillingEditForm = true;
 			vm.billingAddress = card.BillingAddress;
 		}
 
 	}
 
 	vm.setBillingAddress = function (index, card) {
+		vm.SelectedBillingAddressOption = undefined;
+		vm.BillingAddressOption = 'AddressBook';
 		if (card && card.BillingAddress) {
 			vm.addPaymentInfo.card = card;
 			delete vm.addPaymentInfo.card.CVV;
@@ -585,11 +591,12 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		} else {
 			vm.billingAddress = {};
 			vm.addPaymentInfo.card = {};
+			vm.showBillingEditForm = false;
 		}
 	}
 
-	vm.updateBillingAddress = function (index, data) {
-		if (vm.cardsEditForm[index].$dirty && vm.cardsEditForm[index].$valid) {
+	vm.updateBillingAddress = function (data) {
+		if (vm.cardsEditForm[index].$dirty && vm.cardsEditForm[index].$valid && data.ID) {
 			OrderCloud.Me.UpdateAddress(data.ID, data).then(function (res) {
 				console.log(res);
 			});
@@ -602,11 +609,12 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				if (vm.selectedCard == "newCreditCard") {
 					if (vm.newBillingForm.$valid && vm.newCreditCardForm.$valid) {
 						if (vm.billingAddress.saveCardFuture) {
-							if (addressValidated) {
-								addCreditCard();
-							} else {
-								//alert("address not found");
-							}
+							vm.addressValdation(vm.billingAddress).then(function(){
+								vm.openACCItems.name = 'review';
+								vm.openACCItems['paymentFunc'] = true;
+							},function(){
+								alert("address not found");
+							});
 						} else {
 							validateCardType();
 						}
@@ -658,8 +666,9 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							console.log(res2);
 						});
 						vm.createdAddress = res1;
-						vm.openACCItems.name = 'review';
-						vm.openACCItems['paymentFunc'] = true;
+						vm.existingCardAuthCapture(vm.selectedCard);
+						// vm.openACCItems.name = 'review';
+						// vm.openACCItems['paymentFunc'] = true;
 					});
 				} else {
 					vm.ErrorMessage = res.messages;
@@ -671,7 +680,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		
 	}
 	vm.addressValdation = function (billingAddress) {
-		addressValidated = true;
+		var defered = $q.defer();
 		AddressValidationService.Validate(billingAddress).then(function (res) {
 			if (res.ResponseBody.ResultCode == 'Success') {
 				var validatedAddress = res.ResponseBody.Address;
@@ -681,12 +690,13 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				billingAddress.State = validatedAddress.Region;
 				billingAddress.Country = validatedAddress.Country;
 				addressValidated = true;
-				return true;
+				defered.resolve();
 			} else {
 				addressValidated = false;
+				defered.reject();
 			}
 		});
-
+		return defered.promise;
 	}
 
 	function getCreditCardsBillingAddress(creditCards) {
@@ -989,50 +999,37 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
             if (vm.selectedCard.ID) {
 				if (vm.addPaymentInfo.card.CVV) {
 					vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
-					CreditCardService.ExistingCardAuthCapture(vm.selectedCard, vm.orderdata)
+					vm.existingCardAuthCapture(vm.selectedCard);
+				} else {
+					//alert("CVV Not Entered");
+				}
+            } else if (vm.selectedCard == "newCreditCard" && vm.billingAddress.saveCardFuture) {
+					addCreditCard();
+			}else if (vm.addPaymentInfo.card.CVV) {
+				//vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
+				getCardType(vm.addPaymentInfo).then(function(type){
+					vm.addPaymentInfo.card.cardType = type;
+					CreditCardService.SingleUseAuthCapture(vm.addPaymentInfo.card, vm.orderdata)
 						.then(function () {
 							OrderCloud.Orders.Submit(vm.orderdata.ID)
 								.then(function () {
 									TaxService.CollectTax(vm.orderdata.ID)
-										.then(function (data) {
-											console.log(data);
-											vm.addTaxtoLineItem(data);
+										.then(function () {
 											CurrentOrder.Remove();
 											$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
-										})
+										});
 								});
-						});
-				} else {
-					//alert("CVV Not Entered");
-				}
-            } else {
-				if (vm.addPaymentInfo.card.CVV) {
-					//vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
-					getCardType(vm.addPaymentInfo).then(function(type){
-						vm.addPaymentInfo.card.cardType = type;
-						CreditCardService.SingleUseAuthCapture(vm.addPaymentInfo.card, vm.orderdata)
-							.then(function () {
-								OrderCloud.Orders.Submit(vm.orderdata.ID)
-									.then(function () {
-										TaxService.CollectTax(vm.orderdata.ID)
-											.then(function () {
-												CurrentOrder.Remove();
-												$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
-											});
-									});
-						});
-					},function(){
-						//alert("card Number is not valid");
 					});
-				} else {
-					//alert("CVV Not Entered");
-				}
-            }
+				},function(){
+					//alert("card Number is not valid");
+				});
+			} else {
+				//alert("CVV Not Entered");
+			}
         } else {
 			OrderCloud.Orders.Submit(vm.orderdata.ID)
 
 				.then(function () {
-					$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
 					TaxService.CollectTax(vm.orderdata.ID)
 						.then(function (data) {
 							console.log(data);
@@ -1044,6 +1041,22 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
 		}
     }
+
+	vm.existingCardAuthCapture = function(cardData){
+		CreditCardService.ExistingCardAuthCapture(cardData, vm.orderdata)
+		.then(function () {
+			OrderCloud.Orders.Submit(vm.orderdata.ID)
+				.then(function () {
+					TaxService.CollectTax(vm.orderdata.ID)
+						.then(function (data) {
+							console.log(data);
+							vm.addTaxtoLineItem(data);
+							CurrentOrder.Remove();
+							$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
+						})
+				});
+		});
+	}
 	function addTaxtoLineItem(data) {
         var promise = [];
 		var count = 0;
