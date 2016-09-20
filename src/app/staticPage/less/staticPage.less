@@ -267,8 +267,7 @@
 			}
      }
 	ol {
-			
-    		padding-top: 0px;	
+		padding-top: 0px !important;	
 		  li{
 			   margin:5px 0 5px 20px;
 			   font-family: @proxima-regular;
@@ -326,6 +325,15 @@
 		tr{
 			 th {
 					font-family:@proxima-bold;
+					background-color: #F7F7F7;
+					text-align:center;
+					vertical-align: middle;
+					color:#333;
+					font-weight:normal;
+					padding: 10px;
+				}
+			.article-header{
+				font-family:@proxima-bold;
 					background-color: #F7F7F7;
 					text-align:center;
 					vertical-align: middle;
@@ -401,7 +409,9 @@
 
 .video1 {
 	margin-top: 20px;
-	
+	h5 {
+		font-weight: bold;
+	}
 	video {
 		width: 100%;
 		margin: 13px 0 0px;
@@ -943,6 +953,98 @@ h3.accordion {
 		padding: 40px 40px 0;
 		.col-md-3 {}
 		.col-md-9 {
+			.faq-content {
+					overflow: hidden;
+					margin-bottom: 20px;
+					h4{
+						font: 1.438em "ProximaNova-Bold", Arial, sans-serif;
+   						margin-bottom:20px;
+					}
+					.panel-group {
+						margin-bottom: 15px;
+						/*color: @blk-color;*/
+						.panel-default {
+							border-radius: 4px;
+							/*	border-left-width: 2px;
+							border-right-width: 2px;
+							-webkit-box-shadow: 0px 1px 0px #e7e7e7;
+							-moz-box-shadow: 0px 1px 0px #e7e7e7;
+							-o-box-shadow: 0px 1px 0px #e7e7e7;
+							box-shadow: 0px 1px 0px #e7e7e7;*/
+							.panel-heading {
+								border-radius: 4px;
+								padding: 15px 17px 15px 30px;
+								h4 {
+									font: 1em @proxima-bold;
+									margin-bottom:0px;
+									p {
+										font: 1em @proxima-bold;
+										/*font: 16px @proxima-bold;*/
+										margin-top: 0;
+										&.footer-plus {
+											background-image: url('/assets/images/plus-light.svg');
+											.background-img(11px,
+											right);
+										}
+										&.footer-minus {
+											background-image: url('/assets/images/minus-light.svg');
+											.background-img(11px,
+											right);
+											color: @font-purple-dark;
+										}
+									}
+								}
+							}
+							.panel-body {
+								.faq-drpDown {
+									padding-left: 15px;
+									margin-top: 12px;
+									p {
+										font: 0.875em @proxima-bold;
+										/*font: 14px @proxima-bold;*/
+									}
+									.col-md-7 {
+										padding: 0;
+										&.shipping-delivery {
+											h5 {
+												font: 0.875em @proxima-bold;
+												/*font: 14px @proxima-bold;*/
+												padding-bottom: 7px;
+												color: @blk-color;
+											}
+											p {
+												font: 0.875em @proxima-regular;
+												/*font: 14px @proxima-regular;*/
+												padding-bottom: 25px;
+											}
+										}
+									}
+									table {
+										margin-top: 0px;
+										thead tr {
+											th {
+												font: 0.875em @proxima-bold;
+												/*font: 14px @proxima-bold;*/
+												padding: 15px 25px;
+												border-bottom-width: inherit;
+											}
+										}
+										tbody tr {
+											&:nth-of-type(even) {
+												background: #f7f7f7;
+											}
+											td {
+												font: 0.875em @proxima-regular;
+												/*font: 14px @proxima-regular;*/
+												padding: 15px 25px;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			.container-fluid {
 				.right-content {
 					.col-md-3 {
@@ -973,7 +1075,6 @@ h3.accordion {
 						}
 					}
 					.full-content {
-
 						margin-left: 5px;
 						.col-md-12 {
 							padding-left: 0;
@@ -1171,7 +1272,7 @@ h3.accordion {
 				.tabs {
 					ul {
 						padding: 0 10px;
-					li {
+						li {
 							a {
 								font: 0.875em @proxima-regular;
 								//font: 14px @proxima-regular;
@@ -1287,7 +1388,7 @@ h3.accordion {
 											/*font: 16px @proxima-regular;*/
 											p.content {
 												margin-bottom: 5px;
-												font:0.875em @proxima-regular;
+												font-size:0.875em;
 											}
 											.sub-head {
 												font: 0.750em @proxima-bold;
@@ -2214,7 +2315,7 @@ h3.accordion {
 						}
 					}
 				}
-				/*ol {
+				ol {
 					margin-left: 20px;
 					padding-top: 10px;
 					li {
@@ -2223,7 +2324,7 @@ h3.accordion {
 						list-style-type: decimal;
 						padding-left: 10px;
 					}
-				}*/
+				}
 
 			}
 		}
@@ -3530,6 +3631,7 @@ div.store {
 							color: @font-purple-dark;
 							font: 1em @proxima-bold;
 							/*	font: 16px @proxima-bold;*/
+							margin-bottom:0px;
 						}
 						.footer-minus {
 							background-image: url('/assets/images/dropdownup-purple.svg');
@@ -3538,6 +3640,7 @@ div.store {
 							color: @font-purple-dark;
 							font: 1em @proxima-bold;
 							/*	font: 16px @proxima-bold;*/
+							margin-bottom:0px;
 						}
 					}
 					.panel-body {
@@ -4660,32 +4763,29 @@ div.store {
 			display: block !important;
 		}
 	}
-		.right-content-article{
-		 p{
-		 		margin -bottom:10px;
-		  }
-
-		.table-responsive {
+	.right-content-article{
+		  .table-responsive {
 			    display: block;
 			    width: 100%;
 			    min-height: .01%;
 			    overflow-x: auto;
 			}
 			.information-content1{
-				padding:0 15px;
-				margin-top:15px;
-				.xs-social-buttons{
-					margin-bottom: 15px;	
-				}
-			}
-		}
-
-
+			 padding:0 15px;
+			 .mobile-receipient-details{
+			  margin-top:15px;
+			  
+		  }
+		  .xs-social-buttons{
+			  	margin-bottom:20px;
+			  }
+	  }
+	}
 	/*For static page HOW TO and other static pages global less changes START*/
 	.right-content-Wrap{
 		.p0;
 		.right-content{
-		     
+		   
 			.container-fluid{
 				.p0;
 			
