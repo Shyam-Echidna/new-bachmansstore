@@ -22,7 +22,7 @@
                 <form class="add-new-addr-form" name="addnewAddress" role="form" novalidate>
                     <div class="col-xs-6 form-group nick-name">
                         <label for="nickName">NickName</label>
-                        <input type="text" name="nickName" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
+                        <input type="text" name="nickName" placeholder="Enter Nickname" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
                     </div>
                     <div class="col-xs-6 form-group first-name">
                         <label for="firstName">First Name</label>
@@ -46,7 +46,10 @@
                     </div>
                     <div class="col-xs-6 form-group city">
                         <label for="address">City</label>
-                        <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off" ng-required="true">
+                        <select ng-show="Cities" class="form-control" ng-init="addr.City = Cities[0]" ng-model="addr.City" id="city" ng-options="city as city for city in Cities">       
+                                <!--<option value="">Select Billling Address</option>  -->     
+                        </select>
+                        <input type="text" ng-hide="Cities" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off" ng-required="true"> 
                     </div>
                     <div class="col-xs-6 form-group state">
                         <label for="state">State</label>

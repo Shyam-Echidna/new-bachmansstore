@@ -69,18 +69,18 @@
                                 <div class="col-xs-12 product-info-details" ng-repeat="line in order.LineItems">
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont">
                                         <div class="col-xs-5 prod-img">
-                                            <img src="assets/images/batch4web/orderhistory/order1.png" class="hidden-xs hidden-sm order-img" alt="order-img" />
-                                            <img src="assets/images/batch4web/orderhistory/mobile/order1.png" class="visible-xs visible-sm hidden-md hidden-lg order-img" alt="order-img" />
+                                            <img src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{line.Product.ID}}?alf_ticket={{base.alf_ticket}}" class="order-img" alt="order-img" />
+                                           <!--  <img src="assets/images/batch4web/orderhistory/mobile/order1.png" class="visible-xs visible-sm hidden-md hidden-lg order-img" alt="order-img" /> -->
                                         </div>
                                         <div class="col-xs-7 prod-desc">
                                             <p class="custom-name">{{line.Product.Name}}</p>
                                             <p class="item-number">Item Number: <span>{{line.Product.ID}}</span></p>
                                             <p class="product-type">Type: <span>{{line.Product.Type}}</span></p>
-                                            <p class="order-mobile-ddate">Delivery Date: <span>March 21. 2016</span></p>
-                                            <p class="order-mobile-dpref">Delivery Preferece: <span>Morning 09:00 AM - 12:00 PM</span></p>
-                                            <p class="order-mobile-price">Price: <span>&#x24;269.99</span></p>
-                                            <p class="order-mobile-qty">Qty: <span>01</span></p>
-                                            <p class="order-mobile-total">Total: <span>&#x24;269.99</span></p>
+                                            <p class="order-mobile-ddate">Delivery Date: <span>{{line.xp.deliveryDate | date:'longDate'}}</span></p>
+                                            <p class="order-mobile-dpref">Delivery Preferece: <span>{{line.xp.DeliveryRuns.TimeSlot}}</span></p>
+                                            <p class="order-mobile-price">Price: <span>&#x24;{{order.LineItems[0].UnitPrice}}</span></p>
+                                            <p class="order-mobile-qty">Qty: <span>{{order.LineItems[0].Quantity}}</span></p>
+                                            <p class="order-mobile-total">Total: <span>&#x24;{{order.LineItems[0].LineTotal}}</span></p>
                                         </div>
                                         <div class="col-xs-12 p0 prod-text">
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
@@ -105,9 +105,39 @@
                                     <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 total-amt-cont">
                                         <p class="value">&#x24;{{order.LineItems[0].LineTotal}}</p>
                                     </div>
+                                    <div class="col-xs-12 total-info">
+                                        <div class="row progressbar">
+                                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 order-confirmation">
+                                                <p class="text-center">
+                                                    <span class="confirm-order">Order Confirmed</span>
+                                                    <span class="processing">Processing</span>
+                                                    <span class="delivery">Delivered</span>
+                                                </p>
+                                                <div class="order-measurement">
+                                                    <p class="order-bar"> 
+                                                        <span class="processbar"></span>
+                                                    </p>
+                                                </div>
+                                                <div class="delivery-info">
+                                                    <div class="delivery-dates">
+                                                        <p class="order-date">March 1, 2016</p>
+                                                    </div>
+                                                    <div class="processing-date">
+                                                        <p class="order-date">March 2, 2016</p>
+                                                        <p class="delivery-exp">Expected Delivery</p>
+                                                    </div>
+                                                    <div class="delivery-dates1">
+                                                        <!-- <p class="delivery-date">March 3, 2016</p>
+                                                        <p class="delivery-time">6:30 PM</p>
+                                                        <p class="delivery-exp">Expected Delivery</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xs-12 total-info">
-                                    <div class="row progressbar">
+                                    <!-- <div class="row progressbar">
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 order-confirmation">
                                             <p class="text-center">
                                                 <span class="confirm-order">Order Confirmed</span>
@@ -122,21 +152,19 @@
                                             <div class="delivery-info">
                                                 <div class="delivery-dates">
                                                     <p class="order-date">March 1, 2016</p>
-                                                    <!-- <p class="order-time">7:30 PM</p> -->
                                                 </div>
                                                 <div class="processing-date">
                                                     <p class="order-date">March 2, 2016</p>
-                                                    <!-- <p class="order-time">12:30 PM</p> -->
                                                     <p class="delivery-exp">Expected Delivery</p>
                                                 </div>
-                                                <div class="delivery-dates1">
+                                                <div class="delivery-dates1"> -->
                                                     <!-- <p class="delivery-date">March 3, 2016</p>
                                                     <p class="delivery-time">6:30 PM</p>
                                                     <p class="delivery-exp">Expected Delivery</p> -->
-                                                </div>
+                                                <!-- </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-xs-4 card-msg-cont">
                                         <div class="card-msg">
                                             <div class="card-bg-empty-div">

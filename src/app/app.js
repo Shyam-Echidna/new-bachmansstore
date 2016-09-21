@@ -29,7 +29,6 @@ angular.module( 'orderCloud', [
         'ngScrollbar',
         'ngScrollable',
          'cgBusy',
-         'angularUtils.directives.uiBreadcrumbs',
          'ncy-angular-breadcrumb',
          'ui.calendar'
     ])
@@ -119,6 +118,7 @@ function AppCtrl( $q, $scope, $rootScope, $state, appname,  toastr, $ocMedia, lo
             angular.element('.base-header-inner').show();
             angular.element('.orderConfirmationHeader').hide();
         }
+         $scope.$emit('CartUpdated');
     });
 
     $.ajax({

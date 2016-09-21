@@ -18,5 +18,8 @@
     "alfStaticUrls":{
         "alfcontentStaticSearchArticles": "http://52.206.111.191:8080/alfresco/service/lucene/search/query.json",
         "alfcontentStaticCategoryArticles": "http://52.206.111.191:8080/alfresco/service/search/cmis/query.json"
-    }
+    },
+    "GC_PP_Redemption": "https://Four51TRIAL104401.jitterbit.net/Bachmans_Dev/GiftCard_PurplePerks_Redemption",
+    "PPBalance" : "https://Four51TRIAL104401.jitterbit.net/BachmansOnPrem/PurplePerksBalanceCheck",
+    "GCBalance" : "https://Four51TRIAL104401.jitterbit.net/BachmansOnPrem/GiftCardBalance"
 }

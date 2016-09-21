@@ -90,7 +90,7 @@
 							margin-bottom: 10px;
 						}
 						input, select {
-							background: #F4F4F4;
+							background-color: #F4F4F4;
 							font: 1em @proxima-light;
 							font-weight: bold;
 						    height: 45px;
@@ -99,8 +99,11 @@
 						    border: 1px solid #e2e2e2;
 						    .bs-inset-remove;
 						    &:focus{
-                				background: @base-bg-white;
+                				background-color: @base-bg-white;
                 			}
+						}
+						select {
+							.custom-select-box;
 						}
 					}
 					/*.state {
@@ -119,6 +122,7 @@
 						clear: both;
 					}
 					.phone-number {
+						width: 70%;
 						label {
 							display: block;
 						}
@@ -385,6 +389,7 @@
 						margin-right: 0 !important;
 					}
 					.phone-number {
+						width: 80% !important;
 						.phone-txt {
 							div {
 								padding-right: 5px;
@@ -524,6 +529,16 @@
 	}
 }
 
+@media screen and (min-width:320px) and (max-width:810px) and (orientation:landscape) {
+	.address-book-container .row-address-search {
+		.add-new-addr-cont, .adress-edit-container {
+			.add-new-addr-div .add-new-addr-form .phone-number {
+				width: 60% !important;
+			}
+		}
+	}
+}
+
 @media screen and (min-width:767px) and (max-width:1110px) {
 	.address-book-container {
 		.row-address-search {
@@ -531,6 +546,14 @@
 			    width: 28%;
 			    display: block !important;
 			    float: right;
+			}
+		}
+	}
+	.address-book-container .row-address-search {
+		.add-new-addr-cont, .adress-edit-container {
+			.add-new-addr-div .add-new-addr-form .phone-number {
+				width: 50% !important;
+				padding-right: 15px !important;
 			}
 		}
 	}
@@ -591,7 +614,14 @@
 	    width: 70% !important;
 	}
 	.address-book-container .row-address-search .add-new-addr-cont .add-new-addr-div .add-new-addr-form .phone-number {
-		width: 80%;
+		width: 95% !important;
+		padding-right: 0 !important;
+		.phone-txt .col-sm-4 {
+			padding-right: 10px;
+			input {
+				padding: 6px;
+			}
+		} 
 	}
 }
 
@@ -633,5 +663,27 @@
 				}
 			}
 		}
+	}
+	.address-book-container .row-address-search .adress-edit-container .add-new-addr-div .add-new-addr-form .phone-number {
+		width: 70% !important;
+	}
+}
+
+@media screen and (min-width:900px) and (max-width:962px) and (orientation:landscape) {
+	.address-book-container .row-address-search .add-new-addr-cont {
+		width: 100%;
+		padding: 0 15px;
+		.add-new-addr-div {
+			width: 65%;
+			.add-new-addr-form .phone-number {
+				width: 70% !important;
+			}
+		}
+	}
+	.address-book-container .row-address-search .adress-edit-container .add-new-addr-div {
+		width: 65%;
+	}
+	.address-book-container .addr-book-list-cont .addr-book-list-item .address {
+		padding-right: 15px;
 	}
 }

@@ -36,20 +36,12 @@
 <meta property="og:video:type" content="application/x-shockwave-flash" />
 <div class="container-fluid slider-banner-container">
     <div class="row pdp-banner-top">
-        <!-- <div class="visible-xs visible-sm hidden-md hidden-lg" ></div> -->
-        <!-- <div class="row breadcrumb-box hidden-lg hidden-md" >
-            <ul class="breadcrumb" >
-                <li><a>HOME</a> </li>
-                <li>FLOWERS & SPECIALTY PLANTS</li>
-                <li>FLOWERS</li>                       
-                <li>STARGAZER</li>                      
-            </ul>
-        </div> -->
-        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-            <div class="owl-carousel" id="owl-carousel-pdp-banner">
-                <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
-                    <img cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2em'}" class="elevateZoom pdp-pdt-img" src="{{prodImage}}" data-zoom-image="{{prodImage}}" />
-<!-- 
+        <div class="owl-carousel-pdp-bannerCont col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="owl-carousel" id="owl-carousel-pdp-banner" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.55em'}">
+                <div ng-repeat="prodImage in pdp.productVarientImages" class="promo-banner promo-main-banner item col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <img class="elevateZoom pdp-pdt-img" src="{{prodImage}}" data-zoom-image="{{prodImage}}" />
+                    <!-- <img class="elevateZoom pdp-pdt-img" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{pdp.pdpPdtCode}}?alf_ticket={{base.alf_ticket}}" data-zoom-image="http://52.206.111.191:8080/alfresco/service/imagefinder/{{pdp.pdpPdtCode}}?alf_ticket={{base.alf_ticket}}" /> -->
+                    <!-- 
                     <img class="pdp-hero-banner-img" src="{{prodImage}}" ng-show = "prodImage.indexOf('_pdp')!=-1" /> -->
                 </div>
             </div>
@@ -60,15 +52,14 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
                         <div class="detail-container">
 
-                            <h3 class="prod_title" >{{pdp.productTitle | lowercase}}</h3>
-
-                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">Select Size</h5> 
-                            <div class="row radio-btn-container" >
+                            <h3 class="prod_title">{{pdp.productTitle | lowercase}}</h3>
+                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">Select Size</h5>
+                            <div class="row radio-btn-container">
 
                                 <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">
-                                                                      
-                                    <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}"   ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
-                                        <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}"   ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />
+
+                                    <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
+                                        <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}" ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />
                                         <label for="{{opt.xp.SpecsOptions.Size}}">
                                             <span class="radioOutline"><span class="radioInside"></span></span>
                                             <span class="visible-xs visible-sm horizontal-label">
@@ -90,13 +81,13 @@
                                 </div>
                             </div>
                             <!-- started -->
-                            <div class="row color-selection" >
+                            <div class="row color-selection">
                                 <h5>Select Color</h5>
                                 <div class="color-circle">
-                          
+
                                     <ul class="list-inline">
 
-                                       <!--  <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }">
+                                        <!--  <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }">
                                                 
                                               
                                                     <input type="radio"  name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/>  
@@ -108,18 +99,21 @@
                                         </li> -->
 
 
-                                        <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
-                                            <input type="radio"  name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/><!--  {{coloropt.xp.SpecsOptions.Color}} -->
-                                            <label style="display:block;display: block;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}" class="{{coloropt.xp.SpecsOptions.Color}}"> 
+                                        <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}" >
+                                            <input type="radio" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"
+                                            />
+                                            <!--  {{coloropt.xp.SpecsOptions.Color}} -->
+                                            <label style="display:block;display: block;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}" title="{{coloropt.xp.SpecsOptions.Color}}"
+                                                class="{{coloropt.xp.SpecsOptions.Color}}"> 
                                              <!--    <a href="" class="" style="display:block" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a> -->
-                                            </label>                                             
+                                            </label>
                                         </li>
                                     </ul>
-                                 
+
                                 </div>
                             </div>
 
-                            
+
                             <div class="row price-block" ng-if="pdp.productDetails[0].length == 1 &&  pdp.productDetails.length == 1">
                                 <ul ng-repeat="priceItem in pdp.productDetails[0][0].StandardPriceSchedule.PriceBreaks">
                                     <li class="new-price">{{priceItem.Price | currency}}</li>
@@ -133,96 +127,186 @@
                                     <li>Comes with seat cushions</li>
                                 </ul>
                             </div>
-                           
-                            <div class="row dropdown-box" >
+
+                            <div class="row dropdown-box">
                                 <h5>Add Something Extra</h5>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="row" >
-                                                <div ng-repeat="extras in pdp.productExtras track by $index" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder" >
-                                                    <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
-                                                    <div class="btn-group btn-block dropdown" uib-dropdown>
-                                                        <button id="single-button{{$index}}" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                    <div class="row">
+                                        <div ng-repeat="extras in pdp.productExtras track by $index" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
+                                            <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
+                                            <div class="btn-group btn-block dropdown" uib-dropdown>
+                                                <button id="single-button{{$index}}" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
                                                             <span class="category-name hidden-xs hidden-sm">{{extras[0].CategoryName}}</span>
                                                             <p>Select</p>
                                                         </button>
-                                                        <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button" >
-                                                            <li role="menuitem" ng-repeat="extra in extras" ng-click="pdp.SelectExtra(extra.Title, $event);">
-                                                                <div class="row">
-                                                                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                        <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
-                                                                    </div>
-                                                                    <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                        <h5>{{extra.Title}}</h5>
-                                                                        <p>{{extra.Price}}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>                                               
+                                                <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                                                    <li role="menuitem" ng-repeat="extra in extras" ng-click="pdp.SelectExtra(extra.Title, $event);">
+                                                        <div class="row">
+                                                            <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                                <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
+                                                            </div>
+                                                            <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                                <h5>{{extra.Title}}</h5>
+                                                                <p>{{extra.Price}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
                                 <div>
-                                     
+
                                     <!--<div ng-show="pdp.Courier">
                                         Courier<input type="radio" name="deliverytype" ng-model="pdp.DeliveryType" value="Courier" />
                                     </div>-->
                                 </div>
                             </div>
                             <div class="row faster-delivery-content">
-                                    <div class="assembly">
-                                        <h5>Assembly:</h5>
-                                        <div class="radio-inline">
-                                           <input type="radio" id="assembled" name="assembly" value="Assembled">
-                                           <label for="assembled">
+                                <div class="assembly">
+                                    <h5>Assembly:</h5>
+                                    <div class="radio-inline">
+                                        <input type="radio" id="assembled" name="assembly" value="Assembled">
+                                        <label for="assembled">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Assembled</span>
                                            </label>
-                                        </div>
-                                        <div class="radio-inline">
-                                           <input type="radio" id="notAssembled" name="assembly" value="Not Assembled">
-                                           <label for="notAssembled">
+                                    </div>
+                                    <div class="radio-inline">
+                                        <input type="radio" id="notAssembled" name="assembly" value="Not Assembled">
+                                        <label for="notAssembled">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Not Assembled</span>
                                            </label>
-                                        </div>
-                                        <p class="note"><span>Note:&nbsp;</span>Assembly charges may be applicable</p>
+
                                     </div>
-                                    <div class="placement">
-                                        <h5>Placement:</h5>
-                                        <div class="radio-inline">
-                                           <input type="radio" id="placed" name="placement" value="Placed">
-                                           <label for="placed">
+                                    <p class="note"><span>Note:&nbsp;</span>Assembly charges may apply</p>
+                                </div>
+                                <div class="placement">
+                                    <h5>Placement:</h5>
+                                    <div class="radio-inline">
+                                        <input type="radio" id="placed" name="placement" value="Placed">
+                                        <label for="placed">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Placed</span>
                                            </label>
-                                        </div>
-                                        <div class="radio-inline">
-                                           <input type="radio" id="notPlaced" name="placement"value="Not Placed">
-                                           <label for="notPlaced">
+                                    </div>
+                                    <div class="radio-inline">
+                                        <input type="radio" id="notPlaced" name="placement" value="Not Placed">
+                                        <label for="notPlaced">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Not Placed</span>
                                            </label>
-                                        </div>
-                                        <br>
-                                        <textarea placeholder="Placement Instruction" rows="4" cols="10"></textarea>
-                                        <p class="note"><span>Note:&nbsp;</span>Placement Charges Will be applicable</p>
                                     </div>
-                                    <!-- <div class="fastDelivery" ng-show="pdp.Faster"> -->
-                                        <div class="fastDelivery">
-                                         
-                                         <div class="Checkbox">
-                                            <input type="checkbox" name="deliverytype" id="fastDelivery" ng-model="pdp.DeliveryType" value="Mixed"  ng-true-value="'Mixed'" ng-false-value="'NO'" />
-                                           
-                                            <div class="Checkbox-visible"></div>
-                                         </div>
-                                         <label class="fastDelivery" for="fastDelivery">Select Faster Delivery</label>
-                                         <p class="note"><span>Note:&nbsp;</span>Faster Delivery Charges Will be applicable</p>
-                                    </div>
+                                    <br>
+                                    <textarea placeholder="Placement Instructions" rows="4" cols="10"></textarea>
+                                    <p class="note"><span>Note:&nbsp;</span>Placement charges may apply</p>
                                 </div>
+                                <!-- <div class="fastDelivery" ng-show="pdp.Faster"> -->
+                                <div class="fastDelivery" ng-show="pdp.Faster">
 
-                               
+                                    <div class="Checkbox">
+                                        <input type="checkbox" name="deliverytype" id="fastDelivery" ng-model="pdp.DeliveryType" value="Mixed" ng-true-value="'Mixed'" ng-false-value="'NO'" />
+
+                                        <div class="Checkbox-visible"></div>
+                                    </div>
+                                    <label class="fastDelivery" for="fastDelivery">Select Faster Delivery</label>
+                                    <p class="note"><span>Note:&nbsp;</span>Faster Delivery charges Will apply</p>
+                                </div>
+                            </div>
+                            <div class="row zipCodeCheck">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 zipCodeBlock">
+                                    <fieldset class="form-group" >
+                                        <label for="zip-code">ZIP Code</label>
+                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="pdp.line.ShippingAddress.Zip" ng-blur="pdp.checkDeliverymethod(pdp.line);pdp.getCityState(pdp.line,pdp.line.ShippingAddress.Zip)" ng-change="pdp.zipCodeChange(pdp.line.ShippingAddress.Zip)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 delDateBlock">
+                                    <fieldset class="form-group delivery-date">
+                                        <label for="dDate">Delivery Date</label>
+                                        <div class="row">
+                                            <div class="">
+                                                <input type="text"  class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="pdp.line.xp.deliveryDate" is-open="pdp.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: pdp.DeliveryMethod== 'UPS' ? pdp.mindays.UPS : pdp.mindays.MinToday, startingDay: 1}"
+                                                     />
+                                                <span class="input-group-btn date-svg">
+                                              
+                                                <span class="" ng-click="pdp.openCalenderPopUp=!pdp.openCalenderPopUp">
+                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M55,59.5c-6.2,0-11.3-5.1-11.3-11.3v-56c0-6.2,5.1-11.3,11.3-11.3h8c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-8
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v56c0,4.8,3.9,8.7,8.7,8.7h43.5l21.2-19.3V-7.8c0-4.8-3.9-8.7-8.7-8.7h-8c-0.7,0-1.3-0.6-1.3-1.3
+                                                                    s0.6-1.3,1.3-1.3h8c6.2,0,11.3,5.1,11.3,11.3v46.6L99.5,59.5H55z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M71-16.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h24c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H71z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M65-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H65z
+                                                                     M65-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H65z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M97-9.5c-1.8,0-3.3-1.5-3.3-3.3v-10c0-1.8,1.5-3.3,3.3-3.3h4c1.8,0,3.3,1.5,3.3,3.3v10c0,1.8-1.5,3.3-3.3,3.3H97z
+                                                                 M97-23.5c-0.4,0-0.7,0.3-0.7,0.7v10c0,0.4,0.3,0.7,0.7,0.7h4c0.4,0,0.7-0.3,0.7-0.7v-10c0-0.4-0.3-0.7-0.7-0.7H97z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M45-2.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h75c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H45z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M99,59.5c-0.7,0-1.3-0.6-1.3-1.3v-10c0-6.2,5.1-11.3,11.3-11.3h12c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3h-12
+                                                                    c-4.8,0-8.7,3.9-8.7,8.7v10C100.3,58.9,99.7,59.5,99,59.5z"></path>
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M79.7,12.9c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h30c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H79.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,23.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h36c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,35.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h33c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <path d="M57.7,29.5c-0.7,0-1.3-0.6-1.3-1.3s0.6-1.3,1.3-1.3h29c0.7,0,1.3,0.6,1.3,1.3s-0.6,1.3-1.3,1.3H57.7z"></path>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <polygon points="61.8,16.2 67.7,4.5 63.6,4.5 63.6,6.3 60.8,6.3 60.8,1.9 71.4,1.9 71.4,3.8 65.2,16.2                 "></polygon>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!pdp.sameDay">
+                                                <p class="svg-right">
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
+                                                </p>
+                                                <p class="delivery-text">Same-Day Available!</p>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                  <span ng-show='pdp.fasterDeliveryerr'>Faster Delivery is for Local Only</span>
+
+
+                                </div>
+                            </div>
+
                             <!-- <div class="row Delivery-info">
                                 <h5>Delivery Information</h5>
                                 <div class="col-md-10 col-lg-10">
@@ -265,7 +349,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div id="plus-label" class="plus-label" ng-click="plp.multirecipient()" ng-show="plusLabel">
                                 <div class="p-icon">
@@ -401,9 +485,8 @@
                                     </svg>
                                 </a>
                                 <a class=" email-share-icon " href="" onclick="window.print();">
-                                    <svg version="1.1" class="email-share-icon-svg"
-                                        id="Layer_1" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:svg="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-155.7 313.2 99.3 85.5"
+                                    <svg version="1.1" class="email-share-icon-svg" id="Layer_1" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:svg="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
+                                        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-155.7 313.2 99.3 85.5"
                                         style="enable-background:new -155.7 313.2 99.3 85.5;" xml:space="preserve">
                                         <g transform="translate(0,-952.36218)">
                                             <path d="M-106.2,1271.4c-0.1,0-0.2,0.1-0.3,0.2l-42,28c-0.3,0.2-0.4,0.5-0.4,0.8v44c0,0.6,0.4,1,1,1h84c0.6,0,1-0.4,1-1v-44
@@ -493,7 +576,7 @@
     <div class="row detail-content">
         <div class="col-sm-3 col-md-3 col-lg-3 img-side hidden-xs hidden-sm">
             <!--   <img src="assets/images/Batch_2_Web_Images/10Bachmans_PDP_Variation1/2.jpg"> -->
-            <img src="{{pdp.leftPromo}}" alt ="promo">
+            <img src="{{pdp.leftPromo}}" alt="promo">
             <!-- <div class="text">
             <h3>Entertaining Sets for your Next Party</h3>
             <p>Find the perfect set!</p>
@@ -608,7 +691,8 @@
                 <uib-tab heading="DESCRIPTION">
                     <p ng-bind="pdp.prodDesription"></p>
                     <!-- <p> {{pdp.productDetails.Description}}</p> -->
-                  <p>  Artfully arranged in a clear glass vase, our premium, long-stemmed red roses with accent greens are a beauty to behold. Send them to someone special to celebrate anniversaries, birthdays, special occasions, or as an everyday surprise. Because really, you don't need a reason to send roses!</p>
+                    <p> Artfully arranged in a clear glass vase, our premium, long-stemmed red roses with accent greens are a beauty to behold. Send them to someone special to celebrate anniversaries, birthdays, special occasions, or as an everyday surprise.
+                        Because really, you don't need a reason to send roses!</p>
                 </uib-tab>
                 <uib-tab heading="SPECIFICATIONS">
                     <p class="care-guide-link">
@@ -783,16 +867,33 @@
         </div>
     </div>
 </div>
-<div class="suggested-products">
+<div class="suggested-products" ng-if="pdp.suggestPdt.length>0">
     <div class="pdt-carousel">
         <h1>Bachman's Suggests</h1>
         <div class="owl-carousel owl-pdt-carousel" id="owl-suggested-pdt-carousel">
-            <div class="pdt-carousel-cont">
+            <div class="pdt-carousel-cont" ng-repeat="upsell in pdp.upSellProducts" data-sequence="{{upsell.xp.SequenceNumber}}" data-prodid="{{upsell.ID}}">
                 <div class="pdt-carousel-image">
-                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/98715e5b-f3d4-4129-b2c7-651a986aa538/cat2_cat11_cat2_prod6.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
+                    <!-- <img alt="{{upsell.Name}}" src="{{upsell.imgPath}}" ng-click="pdp.detailsPage($event);" /> -->
+                    <img alt="{{upsell.Name}}" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{upsell.ID}}?alf_ticket={{base.alf_ticket}}" ng-click="pdp.detailsPage($event);" />
                 </div>
                 <div class="pdt-carousel-desc-cont">
-                    <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
+                    <div class="pdt-carousel-desc">
+                        <div>
+                            <p ng-click="pdp.detailsPage($event);">{{upsell.Name}}</p>
+                        </div>
+                        <p class="pdt-carousel-price" ng-repeat="price in upsell.StandardPriceSchedule.PriceBreaks">{{price.Price| currency}}</p>
+                        <button ng-click="pdp.detailsPage($event);">BUY NOW</button>
+                    </div>
+                </div>
+                <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
+            </div>
+
+           <!--  <div class="pdt-carousel-cont">
+                <div class="pdt-carousel-image">
+                    <img alt="Flower Arrangement" class="" src="assets/images/noimg.jpg" id="item-1" />
+                </div>
+                <div class="pdt-carousel-desc-cont">
+                    <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> --
                     <div class="pdt-carousel-desc">
                         <div>
                             <p>Flower Arrangement</p>
@@ -802,39 +903,7 @@
                     </div>
                 </div>
                 <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <div class="pdt-carousel-image">
-                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/888b11b4-7f6e-453b-88e4-559a132ea42e/cat1_cat6_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
-                </div>
-                <div class="pdt-carousel-desc-cont">
-                    <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
-                    <div class="pdt-carousel-desc">
-                        <div>
-                            <p>Flower Arrangement</p>
-                        </div>
-                        <p class="pdt-carousel-price">$59.99 - $79.99</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <div class="pdt-carousel-image">
-                    <img alt="Flower Arrangement" class="" src="http://103.227.151.31:8080/alfresco/service/api/node/content/workspace/SpacesStore/8dd3368c-631c-4663-95cf-543dbd49920e/cat2_cat6_cat2_prod1.jpg?alf_ticket={{base.alf_ticket}}" id="item-1" />
-                </div>
-                <div class="pdt-carousel-desc-cont">
-                    <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
-                    <div class="pdt-carousel-desc">
-                        <div>
-                            <p>Flower Arrangement</p>
-                        </div>
-                        <p class="pdt-carousel-price">$59.99 - $79.99</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

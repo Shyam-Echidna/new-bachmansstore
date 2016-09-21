@@ -24,10 +24,17 @@ function orderConfirmationConfig($stateProvider) {
 						});
 					return deferred.promise;
 				},
-				LineItems: function (OrderCloud, LineItemHelpers, $q, $stateParams) {
+				LineItems: function (OrderCloud, LineItemHelpers, $q, $stateParams, PdpService) {
 					var deferred = $q.defer();
 					OrderCloud.LineItems.List($stateParams.ID).then(function (res) {
 						LineItemHelpers.GetProductInfo(res.Items).then(function () {
+							angular.forEach(res.Items, function (val, key) {
+                                console.log(val, key);
+                                PdpService.GetProductCodeImages(val.ProductID).then(function (res1) {
+                                    console.log(res1);
+                                    val.productimages = res1[0];
+                                })
+                            })
 							deferred.resolve(res);
 						});
 					}).catch(function (err) {

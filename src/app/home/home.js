@@ -14,7 +14,7 @@ function HomeConfig( $stateProvider ) {
 			controller: 'HomeCtrl',
 			controllerAs: 'home',
 			ncyBreadcrumb: {
-		    label: 'Home page'
+		    label: "<a href='/home'>Home</a>"
 		  },
 	 resolve: {
   
@@ -22,10 +22,23 @@ function HomeConfig( $stateProvider ) {
    }
 		})
 }
-function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope) {
+function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, $state) {
 
 	var vm = this;
 	$rootScope.showBreadCrumb = false;
+
+	vm.detailsPage = function($event){
+      var id = $($event.target).parents('.staticSeqId').attr('data-prodid');
+      var seq= $($event.target).parents('.staticSeqId').attr('data-sequence');
+      	if (typeof id != "undefined") {
+            var href = "/eventDescription/" + seq + "/prodId=" + id;
+            $state.go('eventDescription', { 'prodCode': seq, 'prodId': id });
+        } else {
+            var href = "/eventDescription/" + seq;
+            $state.go('eventDescription', { 'prodCode': seq });
+        }
+
+    }
 	function EventsList(){
 		var ajaxarr = [];
 		CategoryService.listChild("WorkshopsEvents").then(function(catList) {
@@ -81,6 +94,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 				},1000)
 			});
    		});  
+
 	}
 	function EventsList1(){
 

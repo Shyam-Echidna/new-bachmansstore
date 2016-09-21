@@ -10,13 +10,7 @@ function CategoryConfig( $stateProvider ) {
 	$stateProvider
 		.state( 'category', {
 			parent: 'base',
-			url: '/category/:childCount/:ID',
-			
-			/*params: {
-		    childCount:null,
-		    ID:null
-		    
-		  },*/
+			url: '/category/:ID',
 		  	resolve: {
 
 	  		categoryImages: function(CategoryService){
@@ -25,34 +19,7 @@ function CategoryConfig( $stateProvider ) {
 					return res.items;
 				});
 			},
-			             /*  CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous) {
-                    var dfd = $q.defer();
-                    OrderCloud.Me.Get()
-                        .then(function (data) {
-                            dfd.resolve(data);
-                        })
-                        .catch(function () {
-                            if (anonymous) {
-                                if (!OrderCloud.Auth.ReadToken()) {
-                                    OrderCloud.Auth.GetToken('')
-                                        .then(function (data) {
-                                            OrderCloud.Auth.SetToken(data['access_token']);
-                                        })
-                                        .finally(function () {
-                                            OrderCloud.BuyerID.Set(buyerid);
-                                            dfd.resolve({});
-                                        });
-                                }
-                            } else {
-                                OrderCloud.Auth.RemoveToken();
-                                OrderCloud.Auth.RemoveImpersonationToken();
-                                OrderCloud.BuyerID.Set(null);
-                                $state.go('login');
-                                dfd.resolve();
-                            }
-                        });
-                    return dfd.promise;
-                },*/
+
 	        ticketTemp: function (LoginFact) {
                 return LoginFact.GetTemp()
                     .then(function (data) {
@@ -65,43 +32,69 @@ function CategoryConfig( $stateProvider ) {
                     })
             },
 			Tree: function( CategoryService,$stateParams,$state,$timeout) {
-				/*if($stateParams.ID == "FlowersSpecialtyPlanters_Sympathy_ShopByCollection"){
-					$timeout(function(){
-						$state.go('plp', {catId: $stateParams.ID});
-					},10);
-				}*/
-				if(parseInt($stateParams.childCount) != 0){
-					var findChar = $stateParams.ID;
-					var charCount = findChar.replace(/[^_]/g, "").length;
-					if(charCount == 2){
-						$timeout(function(){
-							$state.go('plp', {catId: $stateParams.ID});
-						},10);
-					}
-					else{
-						return CategoryService.listChild($stateParams.ID);
-					}
-				}
-				else{
-					$timeout(function(){
-						$state.go('plp', {catId: $stateParams.ID});
-					},10);
-				}
+			
+				return CategoryService.listChild($stateParams.ID);
 			},
 			CurrentCatgory: function($stateParams, OrderCloud, $q){
+				
               return OrderCloud.Categories.Get($stateParams.ID, "bachmans").then(function(res){
               return res;
               });  
 
-            },
+            }
 		},
 			templateUrl: 'category/templates/category.tpl.html',
 			controller: 'CategoryCtrl',
 			controllerAs: 'category',
 			ncyBreadcrumb: {
-		   parent : "home",
-		   label:"{{base.name2}}"
-  			},
+		    parent : "home",
+		    label: "<a href='category/{{base.name1.ID}}'>{{base.name1.Name}}</a>"
+  		}
+		})
+		.state( 'secound', {
+			parent: 'base',
+			url: '/category/:ID/:subID',
+		  	resolve: {
+
+	  		categoryImages: function(CategoryService){
+				var ticket = localStorage.getItem("alf_ticket");
+				return CategoryService.GetCategoryImages(ticket).then(function(res){
+					return res.items;
+				});
+			},
+
+	        ticketTemp: function (LoginFact) {
+                return LoginFact.GetTemp()
+                    .then(function (data) {
+                        console.log('555555555Alf',data);
+                        var ticket = data.data.ticket;
+                        localStorage.setItem("alfTemp_ticket", ticket);
+                        return ticket;
+                    }, function () {
+                        return "";
+                    })
+            },
+			Tree: function( CategoryService,$stateParams,$state,$timeout) {
+			
+				return CategoryService.listChild($stateParams.subID);
+			},
+				CurrentCatgory: function($stateParams, OrderCloud, $q){
+				
+              return OrderCloud.Categories.Get($stateParams.subID, "bachmans").then(function(res){
+              return res;
+              });  
+
+            }
+			
+		},
+			templateUrl: 'category/templates/category.tpl.html',
+			controller: 'CategoryCtrl',
+			controllerAs: 'category',
+			ncyBreadcrumb: {
+		     parent : "category",
+		     label: "<a href='category/{{base.name1.ID}}/{{base.name2.ID}}'>{{base.name2.Name}}</a>"
+		   
+  			}
 		})
 }
 
@@ -295,16 +288,34 @@ function CategoryService( $rootScope, $q, $localForage, Underscore, $http, Order
 	return service;
 
 	}
-function CategoryController(OrderCloud, Tree, CurrentCatgory,CategoryService, PlpService, $q, Underscore,$scope, $window, $sce, alfcontenturl, categoryImages, alfStaticContenturl,$stateParams,$http) {
+function CategoryController($rootScope, OrderCloud, Tree, CurrentCatgory,CategoryService, PlpService, $q, Underscore,$scope, $window, $sce, alfcontenturl, categoryImages, alfStaticContenturl,$stateParams,$http) {
 	var ticket = localStorage.getItem("alf_ticket");
 	var vm = this;
 	/*vm.categoryTree = Tree;
 	console.log("tree ==", Tree);
 	console.log("categoryImages==",categoryImages);
 	*/
+	
    vm.CurrentCatgory = CurrentCatgory;
+   var tree = $rootScope.cattree;
+   if(CurrentCatgory.ParentID == null){
+   	$scope.$emit("CurrentCatgory1", CurrentCatgory);
+   }
+   else{
+   		$scope.$emit("CurrentCatgory2", CurrentCatgory);
+   		/*var parentCat =  _.where(tree, {ID: CurrentCatgory.ParentID});
+   		$scope.$emit("CurrentCatgory1", parentCat);*/
+   		   OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function(res){
+             // return res;
+               $scope.$emit("CurrentCatgory1", res);
+              });
+   }
    //$scope.catName = CurrentCatgory.Name;
-      $scope.$emit("CurrentCatgory", CurrentCatgory.Name);
+     /* $scope.$emit("CurrentCatgory2", CurrentCatgory);
+      OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function(res){
+             // return res;
+               $scope.$emit("CurrentCatgory1", res);
+              }); */
 	var arr = [];
 for(var i=0;i<Tree.length;i++){
   ss(i);

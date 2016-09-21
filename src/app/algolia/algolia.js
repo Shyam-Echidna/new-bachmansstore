@@ -201,7 +201,7 @@ function AlgoliaConfig($stateProvider) {
                       var ticket = localStorage.getItem("alf_ticket");      
                       var imgcontentArray = [];
                      var imgcontentArray1=[];
-                      for(var i=0;i<items.length;i++){
+                 /*     for(var i=0;i<items.length;i++){
                         //var item = items[i].Items;
                         var item = items[i]
                         for(var j=0;j<item.length;j++){
@@ -215,7 +215,8 @@ function AlgoliaConfig($stateProvider) {
                     }
                     imgcontentArray1.push(imgcontentArray);
                     imgcontentArray = []; 
-                }
+                }*/
+                imgcontentArray1 = items;
                 console.log("items after ==",imgcontentArray1);
                   var defaultGroupedProd = [];
                      angular.forEach(imgcontentArray1, function(value, key){
@@ -274,8 +275,8 @@ function AlgoliaConfig($stateProvider) {
                 }
 
             },
-        /*    InformationSearchResult: function(AlgoliaSvc, $stateParams) {
-                var infoIndex;
+          InformationSearchResult: function(AlgoliaSvc, $stateParams, alfStaticUrls, staticPageData) {
+             /*     var infoIndex;
                 if ($stateParams.infosortby) {
                     infoIndex = AlgoliaSvc.GetIndex($stateParams.infosortby);
                 } else {
@@ -287,8 +288,15 @@ function AlgoliaConfig($stateProvider) {
                 })
                     .then(function(data) {
                         return data;
-                    })
-            },*/
+                    })*/
+
+                    var info = alfStaticUrls.alfcontentStaticSearchArticles+"?id=66359001-bc7d-47d9-9918-9bb368174462&page=0&term="+decodeURIComponent($stateParams.searchterm)+"&alf_ticket="+localStorage.getItem("alfTemp_ticket");     
+                    console.log("info==",info);
+                   return staticPageData.GetFolders(info).then(function(data2){
+                        return data2.items;
+                    });
+                       
+            },
             FacetList: function(ProductSearchResult, $stateParams) {
                 if ($stateParams.filters) {
                     var tempArray = $stateParams.filters.split(",");
@@ -366,7 +374,7 @@ function AlgoliaSearchDirective() {
     }
 }
 
-function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$rootScope) {
+function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$rootScope, staticPageData, alfStaticUrls) {
     var vm = this;
     $rootScope.showBreadCrumb = false;
     vm.searchWidth = $scope.searchWidth;
@@ -404,9 +412,22 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
                     e.index = 'products';
                 });
                 output = data.hits;
+           var info = alfStaticUrls.alfcontentStaticSearchArticles+"?id=66359001-bc7d-47d9-9918-9bb368174462&page=0&term="+decodeURIComponent(value)+"&alf_ticket="+localStorage.getItem("alfTemp_ticket");     
+            console.log("info==",info);
+        staticPageData.GetFolders(info).then(function(data2){
+           console.log("info===",data2);
+            data2.items.forEach(function(e) {
+                e.index = 'information';
+                        });
+                        
+                        output = output.concat(data2.items);
+                         deferred.resolve(output);
+        },function(data){
+            data2.items = [];
+        });
                /* AlgoliaSvc.Search(infoIndex, value, null, {hitsPerPage: 3})
                     .then(function(data2) {
-                        data2.hits.forEach(function(e) {
+                        data2.hits.forEach(function(e) { 
                             e.index = 'information';
                         });
                         
@@ -414,7 +435,7 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
                         vm.loading = false;
                         deferred.resolve(output);
                     })*/
-                    deferred.resolve(output);
+                    //deferred.resolve(output);
             });
         return deferred.promise;
     }
@@ -425,9 +446,11 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
 
     vm.popupSearch = function(value) {
         vm.loading = true;
-        $scope.popupOpen = true;
-        console.log($scope.popupOpen);
+          if(value.length>2){
+        $scope.popupOpen = true;    
+      
         return getBothIndexes(value);
+    }
     };
 
     /*setTimeout(function(){
@@ -466,13 +489,16 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
         $state.go('catalog.product', {productid: match.model.Sku});
     };
     
-    $scope.selectArticle = function(match) {
+    $scope.selectArticle = function(article) {
         //this will go to the specified article
+        var category = article.displayPath.split('CareAdviceInformation/')[1];
+        var name = category.substring(0,category.lastIndexOf("/"));
+        $state.go('CareAdviceInformation.staticPage', {pageName:name,parentName:article["node-uuid"],staticFileName:article.name});
     }
 
 }
 
-function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResult,ProductResultsWithVarients, /*InformationSearchResult,*/ Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, $rootScope, alfcontenturl,OrderCloud,$sce, Underscore, $uibModal) {
+function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResult,ProductResultsWithVarients, InformationSearchResult, Selections, FiltersObject, DisjunctiveFacets, FacetList, $stateParams, $state, $scope, $rootScope, alfcontenturl,OrderCloud,$sce, Underscore, $uibModal) {
     var vm = this;
     $rootScope.showBreadCrumb = true;
     vm.FiltersObject = FiltersObject;
@@ -480,7 +506,8 @@ function AlgoliaSearchResultsController(AlgoliaSvc,SharedData, ProductSearchResu
     vm.ProductResults = ProductResultsWithVarients;
     console.log("ProductSearchResult==",ProductSearchResult);
     vm.selectedColorIndex = 0;
-   // vm.InfoResults = InformationSearchResult;
+   vm.InfoResults = InformationSearchResult;
+   console.log("InformationSearchResult==",InformationSearchResult);
     vm.CustomFacetList = FacetList;
     vm.disjunctives = DisjunctiveFacets;
     

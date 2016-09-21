@@ -1,10 +1,10 @@
 <div class="container-fluid my-account-wislist-container">
 
-	<p class="heading">My Wishlist 
+	<p class="heading">My Wish list 
 		<span>({{wishlists.wishList.length}} items)</span>
 		<a href="javascript:void(0)" class="share-list-link">Share List</a>
 	</p>
-    <div ng-if="!wishlists.wishList.length">You dont have any wishlist items</div>
+    <div ng-if="!wishlists.wishList.length">You dont have any wish list items</div>
 	<div class="row wishlist-cont">
 		<div class="col-xs-12 p0 hidden-xs hidden-sm wishlist-header">
 			<div class="col-xs-4 product-count">
@@ -24,12 +24,12 @@
             <!-- {{wish}} -->
             <!-- <div ng-repeat="wishn in account.wishList.StandardPriceSchedule.PriceBreaks.Price track by $index"> -->
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 prod-img-cont" >
-                <div class="col-xs-4 p0 prod-img">
-                    <img src="assets/images/batch4web/wishlist/wishlist1.png" class="hidden-xs hidden-sm" />
-                    <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" />
+                <div class="col-xs-4 p0 prod-img" ui-sref="pdp({sequence:wish.xp.SequenceNumber,prodId:wish.ID})">
+                    <img src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{wish.ID}}?alf_ticket={{base.alf_ticket}}" class="" />
+                   <!--  <img src="assets/images/batch3mobile/shopping cart images/shopping-product-mobile1.png" class="visible-xs visible-sm hidden-md hidden-lg" /> -->
                 </div>
                 <div class="col-xs-8 prod-desc">
-                    <p class="custom-name">{{wish.Name}}</p>
+                    <p class="custom-name" ui-sref="pdp({sequence:wish.xp.SequenceNumber,prodId:wish.ID})">{{wish.Name}}</p>
                     <p class="item-number">Item Number: <span>{{wish.ID}}</span></p>
                     <p class="product-type">Type: <span>{{wish.Type}}</span></p>
                     <p class="product-type">Color: <span class="color-desc" ng-style="{'background-color':wish.xp.SpecsOptions.Color}"></span></p>
@@ -48,7 +48,7 @@
                 <p class="value">{{wish.StandardPriceSchedule.PriceBreaks[0].Price | currency}}</p>
             </div> -->
             <div class="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-2 col-lg-2 addToCart-cont">
-                <button type="button"  ng-if="wish.inventory.Available > 0"  class="btn green-btn">Add to Cart</button>
+                <button type="button"  ng-if="wish.inventory.Available > 0"  class="btn green-btn" ng-click="account.multirecipient(wish.ID)">Add to Cart</button>
                 <button type="button" ng-if="wish.inventory.Available == 0" class="btn green-btn out-of-stock" ng-disabled="true">Out Of Stock</button>
             </div>
             <div class="col-xs-1 list-close-btn" ng-click="account.deleteWishList(wish.ID)">
@@ -89,8 +89,8 @@
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve"><g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="" width="45.6" height="1.6"></rect></g></g></svg>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 addAllToCart-cont">
+        <!-- <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 addAllToCart-cont">
         <button type="button" class="btn white-btn">Add All to Cart</button>
-    </div>
+    </div> -->
 </div>
 </div>

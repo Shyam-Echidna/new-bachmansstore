@@ -202,6 +202,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     }
 
     angular.forEach(vm.lineItems.Items, function (line) {
+        console.log(line);
         line.xp.deliveryDate = new Date(line.xp.deliveryDate);
         vm.checkSameDay(line);
     });
@@ -234,6 +235,14 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     });
 
     vm.groups = data;
+    angular.forEach(vm.groups, function(res, key){
+        angular.forEach(res, function(res1, key1){
+            OrderCloud.Promotions.Get(res1.Product.xp.PromotionsID).then(function(data1){
+                res1.Product.xp.PromotionDescription = data1.Description;
+            });
+
+        })
+    })
     console.log("234567890", vm.groups);
     vm.linetotalvalue = 0;
     vm.lineVal = [];
@@ -245,7 +254,6 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     }
 
     console.log("vm.lineVal", vm.groups);
-
     vm.clearcart = function () {
 
         //var confirmPopup = function () {
@@ -282,6 +290,24 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
     // vm.closePopover = function () {
     //     vm.showDeliveryToolTip = !vm.showDeliveryToolTip;
     // };
+
+    vm.promo = function(promotext){
+        OrderCloud.As().Orders.AddPromotion(vm.order.ID, promotext).then(function(promo){
+            console.log(promo);
+            vm.promoerror = "";
+            vm.promosuccess=true;
+        })
+        .catch(function(ex) {
+            vm.promoerror = ex.data.Errors[0].Message;
+            console.log(ex);
+            //deferred.reject(ex);
+        });
+    }
+    vm.removepromo = function(data){
+        OrderCloud.As().Orders.RemovePromotion(vm.order.ID, data).then(function(response){
+            console.log(response);
+        })
+    }
     vm.deleteNote = {
         templateUrl: 'deleteNote.html',
     };
@@ -504,7 +530,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
             vm.selectedRecipientOk = vm.selectedRecipient[index];
         }
         else {
-           // alert("same Recipient");
+            // alert("same Recipient");
             if (vm.selectedRecipient)
                 vm.selectedRecipient = {};
             vm.selectedRecipient[index] = true;
@@ -1072,7 +1098,7 @@ function CartController($q, $uibModal, $rootScope, $timeout, $scope, $state, Ord
 
 }
 
-function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder, $uibModal, PdpService) {
+function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers, CurrentOrder, $uibModal, PdpService,$scope) {
     var vm = this;
     vm.LineItems = {};
     vm.Order = null;
@@ -1096,7 +1122,9 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
     };
 
     vm.getLI();
-
+    $scope.$on('CartUpdated', function (evt) {
+        vm.getLI();
+    })
     vm.checkForExpress = function () {
         var expressCheckout = false;
         angular.forEach($state.get(), function (state) {
@@ -1470,7 +1498,7 @@ function MiniCartController($q, $state, $rootScope, OrderCloud, LineItemHelpers,
             console.log("LineItemsUpdate", JSON.stringify(newline.ShippingAddress));
             OrderCloud.LineItems.SetShippingAddress(args, newline.ID, newline.ShippingAddress).then(function (data) {
                 console.log("SetShippingAddress", data);
-               // alert("Data submitted successfully");
+                // alert("Data submitted successfully");
                 //vm.getLineItems();
                 vm.calculateShippingCost(args);
                 defered.resolve('updated')

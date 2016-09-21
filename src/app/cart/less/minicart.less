@@ -54,7 +54,7 @@
                     .shopping-cart-blocks {
                         position: relative;
                         cursor: default;
-                        padding: 0px 10px 20px 10px;
+                        padding: 0px 10px 0px 10px;
                         background-color: #fff;
                         background: url("../assets/images/batch3web/zigzag.jpg") repeat-x bottom center;
                         /*-webkit-border-image: url('../assets/images/arrow-up.svg') 30 strech;
@@ -96,12 +96,14 @@
                                             padding-right: 0px;
                                             line-height: 30px;
                                         }
-                                        &.full-name{
+                                        &.full-name {
                                             text-transform: capitalize;
                                             max-width: 50%;
                                             white-space: pre-line;
-
-                                            
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            height: 30px;
+                                            line-height: 30px;
                                         }
                                     }
                                 }
@@ -158,19 +160,23 @@
                             width: 100%;
                             height: 16px;
                         }*/
-                        .pdtBackground{
-                                background: @half-white;
+                        .pdtBackground {
+                            /* background: @half-white;
                                 background-image: -webkit-linear-gradient(to bottom, #fff, @half-white);
                                 background-image: -o-linear-gradient(to bottom, #fff, @half-white);
                                 background-image: -moz-linear-gradient(to bottom, #fff, @half-white);
                                 background-image: linear-gradient(to bottom, #fff, @half-white);
-                                background-repeat: no-repeat;
-                                position: relative;
-                                height: auto;
-                                width: 107%;
-                                margin-left: -10px;
-                                padding:0px 10px;
-                                &:after{
+                                background-repeat: no-repeat;*/
+                            position: relative;
+                            height: auto;
+                            width: 107%;
+                            margin-left: -10px;
+                            margin-bottom: 5px;
+                            padding-bottom: 10px;
+                            float: left;
+                            //padding:0px 10px;
+                            //background-image: url('../../assets/images/zigzag.png');
+                            /*&:after{
                                         background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
                                         background: -moz-linear-gradient(315deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%, @half-white 75%, @half-white), -moz-linear-gradient(225deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -moz-linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -moz-linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white);
                                         background: -webkit-linear-gradient(315deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(225deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white), -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 75%,  @half-white 75%,  @half-white);
@@ -181,6 +187,41 @@
                                         top: -1em;
                                         height: 1em;
                                         width: 100%;
+                                }*/
+                            .imgBlock {
+                                width: 100%;
+                                padding: 0px 10px 20px 10px;
+                                position: relative;
+                                float: left;
+                                background: @half-white;
+                                background-image: -webkit-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: -o-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: -moz-linear-gradient(to bottom, #fff, @half-white);
+                                background-image: linear-gradient(to bottom, #fff, @half-white);
+                                background-repeat: no-repeat;
+
+                                
+                            }
+                                &:after {
+                                    content: "";
+                                    /*background: url('../../assets/images/zigzag.png') repeat;
+                                    background-size: 50%;
+                                    height: 80px;
+                                    width: 100%;
+                                    display: block;
+                                    position: absolute;
+                                    bottom: 0px;*/
+                                        background: linear-gradient(135deg, @half-white 16px, transparent 0), linear-gradient(-135deg, @half-white 16px, transparent 0);
+                                        background-position: left-bottom;
+                                        background-repeat: repeat-x;
+                                        background-size: 20px 22px;
+                                        content: " ";
+                                        display: block;
+                                        position: absolute;
+                                        bottom: 0px;
+                                        left: 0px;
+                                        width: 100%;
+                                        height: 24px;
                                 }
                         }
                     }
@@ -195,6 +236,7 @@
                         width: 0;
                         opacity: 1;
                     }
+
                 }
                 .cart-edit-cont {
                     .cart-edit-btn {
@@ -237,10 +279,10 @@
                         font: 16px/40px @proxima-bold;
                     }
                 }
-                .no-product-miniCart{
+                .no-product-miniCart {
                     padding: 20px 0px;
                     text-align: center;
-                    p{
+                    p {
                         font: 1em @proxima-regular;
                         color: @font-purple-dark;
                         text-align: center;
@@ -279,7 +321,7 @@
                             div {
                                 .cart-product-desc {
                                     padding-left: 20px;
-                                    h6{
+                                    h6 {
                                         font-size: 0.9em;
                                     }
                                 }
@@ -293,12 +335,10 @@
             }
         }
     }
-
     /* minicart edit recipient popup */
-
     .minicartPopUp {
-        .radio-btn-group{
-            label{
+        .radio-btn-group {
+            label {
                 font-size: 0.9em;
                 padding-left: 10px;
             }
@@ -335,13 +375,11 @@
                             .cart-product {
                                 width: 45%;
                                 float: left;
-
                             }
                             .cart-product-desc {
                                 width: 50%;
                                 float: right;
                                 margin-left: 6px;
-                               
                             }
                         }
                     }
@@ -354,18 +392,12 @@
         }
     }
     /* minicart edit recipient popup */
-
     .minicartPopUp {
-        .radio-btn-group{
-            label{
+        .radio-btn-group {
+            label {
                 font-size: 0.85em;
                 padding-left: 5px !important;
             }
         }
     }
 }
-
-
-
-
-

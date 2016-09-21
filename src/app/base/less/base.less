@@ -5538,3 +5538,42 @@ ordercloud-minicart{
 		right:0;
 	}
 }
+ol.breadcrumb {
+    position: absolute;
+    margin-top:3.957em;
+    width: 100%;
+    padding:0;
+    padding-left:30px;
+    background: rgba(0, 0, 0, 0.5);
+    font: initial;  
+    border-radius: 0;
+    li {       
+        border-radius: 0px;
+        padding: 0;
+        color: #fff;
+        font: 0.750em/2.6em @proxima-regular;
+        text-transform: uppercase;
+        &.active{
+        	color:#fff;
+        }
+        span ,a{
+            color: #fff;
+            font: 0.950em/2.6em @proxima-regular;
+            text-transform: uppercase;
+        }
+        &:before{
+			vertical-align: middle;
+        }
+    }
+
+}  
+.custom-select-box {
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    background-image: url('../../assets/images/button-down.svg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 35px 12px;
+}

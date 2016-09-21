@@ -1,7 +1,7 @@
-<div class="general-static-block container-fluid p0" cont-top-padding ng-style="{'padding-top': pageTopPadding + 'px'}">
-	<div class="event-nav  p0">
+<div class="general-static-block container-fluid p0" >
+	<div class="event-nav  p0" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.55em'}">
 
-		<div class="breadcrumb-box">
+<!-- 		<div class="breadcrumb-box">
 			<ul class="breadcrumb hidden-xs hidden-sm">
 				<li><a href="index.html">HOME</a> </li>
 				<li>WORKSHOPS & EVENTS</li>
@@ -12,7 +12,7 @@
 				<li>WORKSHOPS & EVENTS</li>
 				<li>TERRARIUM DESIGN...</li>
 			</ul>
-		</div>
+		</div> -->
 
 	</div>
 	<!--<div class="mobile-plantZone-nav hidden-sm hidden-md hidden-lg p0">
@@ -33,7 +33,7 @@
 	</div>
 
 </div>-->
-	<div class="row eventDescription-content">
+	<!-- <div class="row eventDescription-content">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workshop-events">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<span class="back-to">Back to Workshops & Events</span>
@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 event-describes">
 				<div class="">
-					<h3>Terrarium Design Workshop</h3>
+					<h3>Terrarium Design Workshop</h3>{{eventDescription}}
 					<h5>$50.00</h5>
 					<p> Choose a date to register for: </p>
 					<uib-accordion>
@@ -83,7 +83,6 @@
 										<div class="Checkbox-visible"></div>
 									</div>
 									<span>9:00 a.m. - 10:00 a.m</span></label>
-
 							</div>
 						</uib-accordion-group>
 						<uib-accordion-group is-open="status.open2">
@@ -119,7 +118,72 @@
 						</label>
 						<input type="text">
 						<button>REGISTER</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tab-view">
+				<uib-tabset type="pills">
+					<uib-tab heading="Description" class="description col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<p>
+							Terrariums are unique ecosystems, constructed in a clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. Put together your own craetive visions with a little guidance from a Bachman's expert and learn how to design a terrarium with miniature plants and a mix of natural materials evocative of the sea.
+						</p>
+						<p>
+							Practical considerations and design elements will be discussed. Ticket cost covers all materials needed, participants may bring small objects of interest to personalize their botanical creation. One person may attend class workshop per ticket.
+						</p>
+					</uib-tab>
+					<uib-tab heading="Ticket Information" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<p>
+							Terrariums are unique ecosystems, constructed in a clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. Put together your own craetive visions with a little guidance from a Bachman's expert and learn how to design a terrarium with miniature plants and a mix of natural materials evocative of the sea.
+						</p>
+					</uib-tab>
+					<uib-tab heading="Cancellation/Policies" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">Tab 3 content</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
 
+	</div> -->
+	<div class="row eventDescription-content">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workshop-events">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<span class="back-to">Back to Workshops & Events</span>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 event-image-block">
+				<div class="event-image">
+					<img src="assets/images/Event_Description_Page_1.png" alt="">
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 event-describes">
+				<div class="" >
+					<h3 ng-repeat="event in eventDes.eventList" ng-if="event.xp.IsBaseProduct == true">{{event.Name}}</h3>
+					<h5 ng-repeat="event in eventDes.eventList" ng-if="event.xp.IsBaseProduct == true">${{event.xp.Price}}</h5>
+					<p> Choose a date to register for: </p>
+					<uib-accordion>
+						<uib-accordion-group is-open="status.open1" ng-repeat="(eventDate, eventSlots) in eventDes.eventListSplitOnDate">
+							<uib-accordion-heading>
+								<p ng-class="{'footer-minus': status.open1,'footer-plus': !status.open1}">
+									{{eventDate| date : "EEEE, MMMM d"}}th
+									<span>Select this Date to Choose Time</span>
+								</p>
+							</uib-accordion-heading>
+							<div class="event-drpDown" >
+								<label for="" ng-repeat="eventSlot in eventSlots" >
+									<div class="Checkbox">
+										<input type="checkbox">
+										<div class="Checkbox-visible"></div>
+									</div>
+									<span>{{eventSlot.xp.Slot.StartTime}} - {{eventSlot.xp.Slot.EndTime}}
+									</span>
+								</label>
+							</div>
+						</uib-accordion-group>
+					</uib-accordion>
+					<span class="more-dates">(See More Dates)</span>
+					<div class="col-xs-12 quantity">
+						<label for="">
+							Qty
+						</label>
+						<input type="number">
+						<button>REGISTER</button>
 					</div>
 				</div>
 			</div>
@@ -152,7 +216,7 @@
 					<h1>Workshops & Events</h1>
 					<h2>Create your own arrangements, get inspired by the ideas house & more great events</h2></div>
 				<div class="events-promo-sub2 col-xs-12 col-sm-12 col-md-5 col-lg-5">
-					<button class="promo-button" ui-sref="category({parentId:categories.ID,childCount:'2',ID:'c10'})">View All Workshops & Events</button>
+					<button class="promo-button" ui-sref="category({parentId:categories.ID,childCount:'2',ID:'WorkshopsEvents'})">View All Workshops & Events</button>
 				</div>
 			</div>
 			<div class="events-slider-cont">

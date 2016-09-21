@@ -246,9 +246,11 @@
 		line-height: 1.5em;
 		margin-bottom:20px;
 	}
-
+	strong{
+		font-family: "ProximaNova-Bold", Arial, sans-serif;	
+	}
 	h1,h2,h3,h4,h5,h6{
-		font:1em @proxima-bold;
+		font-size:1em;
 		margin-bottom: 10px;
     }
   
@@ -371,7 +373,7 @@
 				margin:0px !important;
 			}
 			td{
-				padding:0px;
+				padding:0px 5px;
 				vertical-align:middle !important;	
 			}
 				td:first-child{
@@ -637,6 +639,7 @@ h3.accordion {
 							padding: 7px 0;
 							margin-top: 0;
 							border: 0;
+							box-shadow: none;
 							.panel-heading {
 								background: #fff;
 								h4 {
@@ -644,13 +647,13 @@ h3.accordion {
 										margin-left: 3px;
 										padding-left: 28px;
 										&.footer-plus {
-											background-image: url('../assets/images/plus-black.svg');
+											background-image: url('../../assets/images/plus-black.svg');
 											.background-img(11px,
 											left);
 											background-position-y: 3px;
 										}
 										&.footer-minus {
-											background-image: url('../assets/images/minus.svg');
+											background-image: url('../../assets/images/minus.svg');
 											.background-img(11px,
 											left);
 											background-position-y: 3px;
@@ -685,8 +688,17 @@ h3.accordion {
 											font: 1em @proxima-regular;
 											/*	font: 16px @@proxima-regular;*/
 											padding-left: 15px;
+											text-transform: lowercase;
 										}
 									}
+								}
+							}
+							&.panel-open{
+								background-color:#f2f2f2;
+								padding-top: 0;
+   								margin-top: 10px;
+								.panel-heading{
+									background-color:#f2f2f2;
 								}
 							}
 						}
@@ -712,6 +724,7 @@ h3.accordion {
 							border: 1px solid #d6d6d6;
 							margin: 0 13px 0 7px;
 							text-align: center;
+							padding:0 5px;
 						}
 						button {
 							color: #fff;

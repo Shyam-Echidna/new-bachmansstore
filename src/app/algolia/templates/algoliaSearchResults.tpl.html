@@ -372,15 +372,17 @@
                         <h4>Written By</h4>
                     </div> -->
                 </div>
-                <div class="column search-info-result" ng-repeat="hit in algoliaSearchResults.InfoResults.hits">
+
+                <div class="column search-info-result" ng-repeat="hit in algoliaSearchResults.InfoResults">
+       
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-                            <h5>{{hit.Title}}</h5>
+                            <h5>{{hit.title}}</h5>
                             <div>
-                                <span ng-bind-html="hit._highlightResult.Content.value"></span>
+                                <span ng-bind-html="hit.description"></span>
                             </div>
                             <div class="p0">
-                                <h6>Written By <span>{{hit.Author}}</span></h6>
+                                <h6>Written By <span>{{hit.author}}</span></h6>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">

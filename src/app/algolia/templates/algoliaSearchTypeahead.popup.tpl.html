@@ -82,9 +82,9 @@
             </div>
         </div>
         <div class="typeahead-bottom-lower">
-            <div class="info-selection" ng-repeat="match in matches | IndexType:'information' track by $index" ng-click="$parent.$parent.selectArticle(match)">
-                <h6>{{match.model.Title}}</h6>
-                <p class="info-result" ng-bind-html="match.model._highlightResult.Content.value | limitTo:290"></p>
+            <div class="info-selection" ng-repeat="match in matches | IndexType:'information' track by $index" ng-click="$parent.$parent.selectArticle(match.model)">
+                <h6>{{match.model.title}}</h6>
+                <p class="info-result" ng-bind-html="match.model.description | limitTo:290"></p>
             </div>
         </div>
     </div>

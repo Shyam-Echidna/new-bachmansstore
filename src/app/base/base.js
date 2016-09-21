@@ -15,11 +15,11 @@ angular.module( 'orderCloud' )
   .directive('confirmPassword', ConfirmPasswordValidatorDirective)
   .filter('categoriesAsPerSeason', CategoriesAsPerSeasonFilter)
   .filter('capitalize', CapitalizeFilter)
- // .config(function($breadcrumbProvider) {
-    // $breadcrumbProvider.setOptions({
-      // templateUrl: '../common/breadcrumbs/breadcrumb.tpl.html'
-    // });
-  // });
+ .config(function($breadcrumbProvider) {
+    $breadcrumbProvider.setOptions({
+      templateUrl: '../common/breadcrumbs/breadcrumb.tpl.html'
+    });
+  });
 ;
 
 function BaseConfig( $stateProvider ) {
@@ -120,11 +120,20 @@ function BaseConfig( $stateProvider ) {
 }
 
 function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
+  var catTree = []
   var service = {
     GetCategoryTree: _getCategoryTree,
-    MinicartData: _minicartData
+    MinicartData: _minicartData,
+    FlattenCategoryArray:_flattenCategoryArray,
+    SetCatTree:_setCatTree,
+    GetCatTree:_getCatTree
   };
-    //_adminLogin();
+  function _setCatTree(tree){
+    catTree.push(tree);
+  }
+   function _getCatTree(){
+   return catTree;
+  }
   function _getCategoryTree() {
   var tree = [];
   var categories = [];
@@ -171,7 +180,35 @@ function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
     });
     return deferred.promise;
   }
+function _flattenCategoryArray(categories, approach) {
+        var array = [];
+        if (approach == 'topDown') {
+            var mergedArray = Underscore.pluck(categories, "children");
+            mergedArray = Underscore.flatten(Underscore.compact(mergedArray));
+            mergedArray.push(Underscore.pluck(mergedArray, "children"));
+            mergedArray = Underscore.flatten(Underscore.compact(mergedArray));
+            /*angular.forEach(mergedArray, function (element) {
+             try {
+             delete element["children"];
+             } catch (e) {
+             }
+             })*/
+            array.push(mergedArray);
+            angular.forEach(categories, function (category) {
+                category.parent = {Name: ''};
+                array[0].push(Underscore.omit(category, 'children'));
+            })
 
+            return array[0];
+        } else {
+            angular.forEach(categories, function (element) {
+                if (!element.parent) {
+                    element.parent = {'Name': ''};
+                }
+            })
+            return categories;
+        }
+    };
   /*function _getCategoryTree() {
       var tree = [];
       var deferred = $q.defer();
@@ -245,10 +282,13 @@ function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
 function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
     var vm = this;
     vm.currentUser = CurrentUser;
-    $scope.$on("CurrentCatgory", function (evt, data) {
+    $scope.$on("CurrentCatgory1", function (evt, data) {
+        vm.name1 =  data;
+    });
+     $scope.$on("CurrentCatgory2", function (evt, data) {
         vm.name2 =  data;
     });
-    $scope.$on("CurrentCatgory1", function (evt, data) {
+    $scope.$on("CurrentCatgory3", function (evt, data) {
         vm.name3 =  data;
     });
     // vm.name2 = 'shyam';
@@ -619,6 +659,9 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
           $(this).css('width', '90px');
         }
 
+        $(".info-bar-cart").hover(expandSearchWidth, collapseSearchWidth);
+
+
     }, 200);
   }
 
@@ -901,8 +944,9 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
                 });
             })
             vm.tree = data;
-        //    console.log("shyam==", vm.tree);
-
+          //  $rootScope.cattree = data;
+       $rootScope.cattree  = BaseService.FlattenCategoryArray(data,'topDown')
+        BaseService.SetCatTree($rootScope.cattree);
         });
         //$state.go($state.current.name);
    // }
@@ -1077,6 +1121,10 @@ LoginFact.GetContactInfo(ticket).then(function(res){
 
       var quicklinkPPHover = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
       vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
+
+    });
+    LoginFact.GetArun().then(function(res){
+      console.log('arun', res)
 
     });
 
@@ -1383,7 +1431,8 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
             GetPerplePerksSvg: _getPerplePerksSvg,
              GetContactList:_getcontactlist,
             CreateContactList:_createcontactlist,
-            UpdateEmailPreference:_updateemailpreference
+            UpdateEmailPreference:_updateemailpreference,
+            GetArun:_getArun
     };
     return service;
 
@@ -1403,6 +1452,33 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
         });
         return defferred.promise;
 
+    }
+    function _getArun() {
+        var data = {
+"card_number":"7777001112223333"
+};
+        var defferred = $q.defer();
+
+        $http({
+
+                method: 'POST',
+                dataType:"json",
+                url:"https://Four51TRIAL104401.jitterbit.net/BachmansOnPrem/PurplePerksBalanceCheck",
+            //  url: "http://192.168.100.184:8080/alfresco/service/api/login",
+             //  url: "http://103.227.151.31:8080/alfresco/service/api/login",
+
+                data: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            }).success(function (data, status, headers, config) {
+
+                defferred.resolve(data);
+            }).error(function (data, status, headers, config) {
+                defferred.reject(data);
+            });
+            return defferred.promise;
     }
     function _get() {
         var data = {

@@ -193,10 +193,39 @@ function staticPageConfig($stateProvider) {
 		})
 		.state('eventDescription', {
 			parent: 'base',
-			url: '/eventDescription',
+			url: '/eventDescription/:prodCode?prodId',
 			templateUrl: 'staticPage/templates/eventDescription.tpl.html',
 			controller: 'eventDescriptionCtrl',
-			controllerAs: 'eventDescription'
+			controllerAs: 'eventDes',
+			resolve: {
+				productDetail: function (PlpService, PdpService, $q, $stateParams, $http, OrderCloud, $cookieStore) {
+					console.log($cookieStore.get('BachmanStoreFront.token'));
+					var filter = { "xp.ProductCode": $stateParams.prodCode};
+					var deferred = $q.defer();
+					PdpService.GetProdCode($stateParams.prodCode).then(function (res) {
+						var inventoryFilteredList = []; // Array for Products with inventory
+						angular.forEach(res, function (value, key) {
+							var promise = PdpService.GetProdInventory(value.ID).then(function (res) {
+								//if (res.Available > 1) {
+									return value;
+								//}
+							});
+							console.log(promise);
+							inventoryFilteredList.push(promise);
+						});
+						$q.all(inventoryFilteredList).then(function (items) {
+							var data = items.filter(function (element) {
+								return element !== undefined;
+							});
+							deferred.resolve(data);
+						});
+					});
+					return deferred.promise;
+				},
+				selectedProduct: function ($stateParams) {
+					return $stateParams.prodId;
+				}
+			}
 		})
 		.state('storelocator', {
 			parent: 'base',
@@ -234,7 +263,7 @@ function ladingPageController(folder) {
 	alert(JSON.stringify(folder));
 }
 
-function staticPageBaseController($http,$scope,page,$sce,alfcontenturl, parentFolder,$location,LoginFact,$stateParams,x2js,staticPageData,alfArticleData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom,alfrescoStaticurl) {
+function staticPageBaseController($http,$scope,page,$sce,alfcontenturl,parentFolder,$location,LoginFact,$stateParams,x2js,staticPageData,alfArticleData,alfcontentStaticSearchurl,alfStaticContenturl,alfcontentStaticSearchurlAtom,alfrescoStaticurl) {
 	var vm = this;
     // vm.articleContentUrl =  localStorage.getItem("contentUrl")?localStorage.getItem("contentUrl"):'';
     // vm.locationpath =  localStorage.getItem("locationpath")?localStorage.getItem("locationpath"):'';
@@ -251,7 +280,6 @@ function staticPageBaseController($http,$scope,page,$sce,alfcontenturl, parentFo
     // }else{
     //     vm.articleDate = localStorage.getItem("modifiedOn")?localStorage.getItem("modifiedOn"):'';
     // }
-	 
 	var getArticleDataFromID = function(){
 		$http.get(alfArticleData+"?id="+parentFolder+"&alf_ticket="+localStorage.getItem("alfTemp_ticket"))
 			.then(function(res){
@@ -900,9 +928,15 @@ function perplePerksRegisteredController() {
 
 }
 
-function eventDescriptionController($scope) {
+function eventDescriptionController($scope, PdpService, productDetail, selectedProduct) {
 	var vm = this;
+	console.log(productDetail);
+	vm.eventList=productDetail;
 	
+    var eventListSplitOnDate = _.groupBy(productDetail, function(num){ return num.xp.EventDate });
+	
+	vm.eventListSplitOnDate = eventListSplitOnDate; 
+	console.log('gggggg',vm.eventListSplitOnDate);
 }
 
 

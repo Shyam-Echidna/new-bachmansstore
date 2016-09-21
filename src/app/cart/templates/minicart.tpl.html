@@ -68,6 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="row pdtBackground">
+                                    <div class="row imgBlock">
                                     <div class="col-md-5 cart-product">
                                         <div ui-sref="pdp({sequence: lineItem.Product.xp.ProductCode, prodId: lineItem.Product.ID})"><img src="{{lineItem.productimages}}" /></div>
 
@@ -83,6 +84,7 @@
                                     <!-- <button class="cart-product-edit">Edit</button> -->
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <!-- <div class="shopping-cart-blocks">
@@ -124,7 +126,7 @@
                 <button ui-sref="checkout">checkout</button>
             </div>
             <div class="no-product-miniCart" ng-if="minicart.LineItems.Meta==null">
-                <p>Sorry, No Product is Added</p>
+                <p>Empty, Your shopping cart is empty</p>
             </div>
         </div>
     </div>

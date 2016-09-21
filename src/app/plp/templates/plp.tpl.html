@@ -645,7 +645,7 @@
                            <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | capitalize}}</span></p>
                            <p class="Price">{{prod.priceRange}}</p>
                         </div> -->
-                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
+                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
                         <div class="price-box">
                           <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                           <p class="Price">{{prod.priceRange}}</p>
@@ -654,7 +654,7 @@
                         <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12  " ng-show="hoveringButtons">
                            <div class="row">
                               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
-                                 <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                                 <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.multirecipient(prod.ID)">
                               </div>
                               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                  <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
@@ -690,7 +690,7 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src= "{{prod.imgcontent.contentUrl}}"/>
+                           <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
                            <div class="price-box">
                               <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>
@@ -699,7 +699,7 @@
                            <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12 " ng-show="hoveringButtons">
                               <div class="row">
                                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
-                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.detailsPage($event);">
+                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.multirecipient(prod.ID)">
                                  </div>
                                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>

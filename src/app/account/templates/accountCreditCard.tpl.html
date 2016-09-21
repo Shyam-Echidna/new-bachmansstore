@@ -46,14 +46,14 @@
                </div>
             </div>
             <div class="col-xs-2 col-sm-4 col-md-1 col-lg-1 visa">
-                <img src="../../assets/images/batch4web/creditcard/{{card.CardType}}.svg" class="visa-icon" />
+                <img src="../../assets/images/{{card.CardType}}.svg" class="visa-icon" />
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
                 <p class="addr-line1">XXXX XXXX XXXX {{card.PartialAccountNumber}}</p>
             </div>
             <div class="col-xs-5 col-sm-5 col-md-2 col-lg-3 cr-card-name">
-                <p class="title">Cardholder's Name</p>
+                <p class="title">Name On Card</p>
                 <p class="value">{{card.CardholderName}}</p>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 expiry-date">
@@ -75,7 +75,7 @@
                 <form class="add-new-card-form ng-pristine ng-valid"  name="CreditCardCreateForm" role="form" novalidate="">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
-                            <label for="cardHoldName">Cardholder's Name</label>
+                            <label for="cardHoldName">Name On Card</label>
                             <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName" autocomplete="off"/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="text" maxlength="16" card-validation ng-minlength="14" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                            <input type="number" maxlength="16" card-validation ng-minlength="14" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate">Expiration Date</label>
@@ -136,15 +136,15 @@
                                     <div class="add-new-addr-div">
                                         <div class="add-new-addr-form">
                                             <div class="col-xs-6 form-group nick-name">
-                                                <label for="nickName">Nick Name</label>
-                                                <input type="text" name="nickName" placeholder="Enter Nick Name" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
+                                                <label for="nickName">Nickname</label>
+                                                <input type="text" name="nickName" placeholder="Enter Nickname" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
                                             </div>
                                             <div class="col-xs-6 form-group first-name">
                                                 <label for="firstName">First Name</label>
                                                 <input type="text" name="firstName" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off" ng-required="true">
                                             </div>
                                             <div class="col-xs-6 form-group last-name">
-                                                <label for="nickName">Last Name</label>
+                                                <label for="lastName">Last Name</label>
                                                 <input type="text" name="lastName" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off" ng-required="true">
                                             </div>
                                             <div class="col-xs-12 form-group address">
@@ -160,7 +160,7 @@
                                                 <input type="text" ng-minlength="5"  maxlength="5" placeholder="Enter Zip Code" class="form-control" id="zipCode" ng-model="addr.Zip" autocomplete="off" ng-keyup="Address.getLocation(addr.Zip)" ng-required="true">
                                             </div>
                                             <div class="col-xs-6 form-group city">
-                                                <label for="address">City</label>
+                                                <label for="city">City</label>
                                                 <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off" ng-required="true">
                                             </div>
                                             <div class="col-xs-6 form-group state">
@@ -227,7 +227,7 @@
                 <form class="add-new-card-form ng-pristine ng-valid" ng-submit="creditCards.updateCard()" name="CreditCardEditForm" role="form" novalidate="">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
-                            <label for="cardHoldNameEdit">Cardholder's Name</label>
+                            <label for="cardHoldNameEdit">Name On Card</label>
                             <input type="text" class="form-control" id="cardHoldNameEdit" placeholder="Name" ng-model="creditCards.card.CardholderName"/>
                         </div>
                         <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
