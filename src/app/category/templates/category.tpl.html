@@ -48,7 +48,7 @@
 	<div class="shop-by-category row">
 		<div class="categories col-xs-12 col-sm-12 col-md-12 col-lg-12" >
 			<ul>					
-				<li ng-repeat="categories in category.categoryList" class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3">
+				<li ng-repeat="categories in category.categoryList" class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 {{categories.ID}}" ng-if="categories.ID !='FlowersSpecialty/Balloon'">
 					<div class="ctg-product-img">
 						<img ng-if="!categories.imgContent" src="{{categories.imgPath}}">
 		 				<div>

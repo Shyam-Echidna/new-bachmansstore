@@ -63,8 +63,11 @@ function staticPageConfig($stateProvider) {
 				page : function($stateParams){
 				    return $stateParams.pageName;
 				}
-
-            }
+            },
+			ncyBreadcrumb: {
+				parent : "home",
+				label: "<a href='CareAdviceInformation/{{base.name1.ID}}'>{{base.name1.Name}}</a>"
+			}
 		})
 		.state( 'CareAdviceInformation.staticPage', {
 			url: '/:parentName/:staticFileName',
@@ -78,6 +81,10 @@ function staticPageConfig($stateProvider) {
 				parentFolder:function($stateParams){
 					return $stateParams.parentName;
 				}
+			},
+			ncyBreadcrumb: {
+				parent : "CareAdviceInformation",
+				label: "<a>{{base.name2.Name}}</a>"
 			}
 		})
 		.state('howto', {
@@ -286,6 +293,7 @@ function staticPageBaseController($http,$scope,page,$sce,alfcontenturl,parentFol
 				console.log(res);
 				vm.articleAuthor =  res.data.properties.author;
     			vm.articleTitle = res.data.properties.title;
+				$scope.$emit("CurrentCatgory2", {"ID":"asfdasd","Name":res.data.properties.parentSections[0].properties.title});
 				vm.articleDate = res.data.properties.modified;
 				vm.staticTempright = $sce.trustAsResourceUrl(alfStaticContenturl+res.data.contentUrl+"?alf_ticket="+localStorage.getItem("alfTemp_ticket"));
 				vm.relatedArticles = res.data.associations.relatedArticles;
@@ -348,6 +356,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
 	$scope.$on("update_parent_controller", function(event, message){
 		$scope.relatedArticles = message;
 	});
+	$scope.$emit("CurrentCatgory1", {"ID":"CareGuidesInformation","Name":"Care, Guides & Information"});
     vm.getThingsFromALfresco = function(parent, child,index){
         setTimeout(function(){
             vm.active = index+1;
@@ -363,13 +372,16 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
         },function(data){
             vm.articleList.items = [];
         });
+		//$scope.$emit("CurrentCatgory1", {"ID":page,"Name":child.title});
 //        LoginFact.GetArtcleList(ticket,route).then(function(response){
 //	       console.log("GetArtcleList",response);
 //	       vm.articleList = response;
 //        });
         $state.go('CareAdviceInformation',{pageName:page});
     }
-    
+	
+	
+
     vm.getFirstThingsFromALfresco = function(pp,index){
         if(pp.nodeType == 'ws:section' && pp.title !='' && getFirstTag){
 			this.articleSearch.description="";
@@ -385,6 +397,7 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
                 getFirstTag = false;
                 vm.isOpen = index;
 				vm.tabsData = pp;
+				$scope.$emit("CurrentCatgory1", {"ID":page,"Name":pp.title});
                 vm.parentCategoryArticles(pp.nodeRef,0); 
             }
         }

@@ -301,7 +301,6 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 			console.log("lineItems", vm.lineItems);
 		}
 	}
-
     function lineItemsData() {
         vm.lineItems = LineItems.Items;
 		angular.forEach(vm.lineItems, function (val, key, obj) {
@@ -617,6 +616,10 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 		vm.billingAddress.Zip = parseInt(billingAddress.Zip);
 	}
 
+	vm.selectedPaymentTab = function(tab) {
+		vm.selectedPaymentTabValue = tab;
+  	};
+
     vm.EditBillAddressForm = function (index, card) {
 		if (vm['EditBillAddress' + index]) {
 			vm['EditBillAddress' + index] = false;
@@ -656,13 +659,14 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
     vm.paymentInfoReview = function () {
 		if (vm.orderTotal > 0) {
-			if (vm.signnedinuser.ID != 'gby8nYybikCZhjMcwVPAiQ' && vm.selectedCard) {
+			if(vm.selectedPaymentTabValue =='PO' && vm.signnedinuser.xp.PO && vm.signnedinuser.xp.PO.PORequired=='Yes'){
+				vm.reviewOrder();
+			}else if (vm.signnedinuser.ID != 'gby8nYybikCZhjMcwVPAiQ' && vm.selectedCard) {
 				if (vm.selectedCard == "newCreditCard") {
 					if (vm.newBillingForm.$valid && vm.newCreditCardForm.$valid) {
 						if (vm.billingAddress.saveCardFuture) {
 							vm.addressValdation(vm.billingAddress).then(function(){
-								vm.openACCItems.name = 'review';
-								vm.openACCItems['paymentFunc'] = true;
+								vm.reviewOrder();
 							},function(){
 								alert("address not found");
 							});
@@ -675,8 +679,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 					}
 				} else if (vm.selectedCard.ID && vm.addPaymentInfo.card && vm.addPaymentInfo.card.CVV) {
 					vm.setBillingAddressonOrder(vm.billingAddress);
-					vm.openACCItems.name = 'review';
-					vm.openACCItems['paymentFunc'] = true;
+					vm.reviewOrder();
 				} else {
 					//alert("Please Enter CVV Number");
 				}
@@ -688,16 +691,14 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 				//alert("plese select the card and billingAddress");
 			}
 		} else {
-			vm.openACCItems.name = 'review';
-			vm.openACCItems['paymentFunc'] = true;
+			vm.reviewOrder();
 		}
     }
 	
 	function validateCardType(){
 		getCardType(vm.addPaymentInfo).then(function(type){
 			vm.setBillingAddressonOrder(vm.billingAddress);
-			vm.openACCItems.name = 'review';
-			vm.openACCItems['paymentFunc'] = true;
+			vm.reviewOrder();
 		},function(){
 			//alert("card Number is not valid");
 		});
@@ -719,8 +720,6 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 						});
 						vm.createdAddress = res1;
 						vm.existingCardAuthCapture(vm.selectedCard);
-						// vm.openACCItems.name = 'review';
-						// vm.openACCItems['paymentFunc'] = true;
 					});
 				} else {
 					vm.ErrorMessage = res.messages;
@@ -800,7 +799,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 	}
 
     vm.reviewOrder = function () {
-
+		vm.openACCItems.name = 'review';
+		vm.openACCItems['paymentFunc'] = true;
 	}
 
     vm.validateBachmanCharges = function (bcdata) {
@@ -808,14 +808,14 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
             if (bcdata.bachmanscharge == "useExisting") {
                 var d1 = new Date();
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
-                if (d1 > d2) {
+                if(new Date(vm.bachmanschargeacc.StartDate) <= new Date(angular.copy(vm.cstDateTime)) && new Date(vm.bachmanschargeacc.EndDate) >= new Date(angular.copy(vm.cstDateTime))){
 					var amount = vm.orderdata.Total < vm.bachmanschargeacc.Balance ? vm.orderdata.Total : vm.orderdata.Total > vm.bachmanschargeacc.Balance ? vm.bachmanschargeacc.Balance : 100;
 					vm.ApplySpendingAccCharges(vm.bachmanschargeacc, amount, vm.orderdata, "Bachman Charges")
                 }
             } else if (bcdata.bachmanscharge == "custom" && bcdata.customChargeCode) {
 				var d1 = new Date();
                 var d2 = new Date(vm.bachmanschargeacc.StartDate);
-                if (d1 > d2) {
+                if(new Date(vm.bachmanschargeacc.StartDate) <= new Date(angular.copy(vm.cstDateTime)) && new Date(vm.bachmanschargeacc.EndDate) >= new Date(angular.copy(vm.cstDateTime))){
                     if (parseInt(bcdata.customChargeCode) < vm.orderdata.Subtotal) {
 						vm.ApplySpendingAccCharges(vm.bachmanschargeacc, bcdata.customChargeCode, vm.orderdata, "Bachman Charges")
                     } else {
@@ -847,8 +847,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							data.Balance = res2.card_value;
 						vm.UserSpendingAcc[data.Name] = data;
 						var d1 = new Date();
-						var d2 = new Date(data.StartDate);
-						if (d1 > d2) {
+						var d2 = new Date(data.EndDate);
+						 if(new Date(data.StartDate) <= new Date(angular.copy(vm.cstDateTime)) && new Date(data.EndDate) >= new Date(angular.copy(vm.cstDateTime))){
 							vm.orderDtls.SpendingAccounts.GiftCard = {
 								"ID": data.ID,
 								"Name": "Gift Card applied",
@@ -1069,7 +1069,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 							vm.purplePerksAcc = val;
 							TempStoredCustomArray.push($http.post(PPBalance, {"card_number": val.RedemptionCode}));
 						}							
-						if(val.Name == "Bachman Charges")
+						if(val.Name == "Bachmans Charge")
 							vm.bachmanschargeacc = val;
 					}, true);
 					$q.all(TempStoredCustomArray).then(function(result2){
@@ -1107,7 +1107,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 
     vm.placeOrder = function () {
 		vm.orderdata.Total = vm.orderTotal;
-		if (vm.orderdata.Total > 0 && vm.selectedCard) {
+		if (vm.orderdata.Total > 0 && vm.selectedCard && vm.selectedPaymentTabValue !='PO') {
             if (vm.selectedCard.ID) {
 				if (vm.addPaymentInfo.card.CVV) {
 					vm.selectedCard.CVV = vm.addPaymentInfo.card.CVV;
@@ -1141,16 +1141,18 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 					//alert("CVV Not Entered");
 				}
         } else {
-			OrderCloud.Orders.Submit(vm.orderdata.ID)
-
-				.then(function () {
-					TaxService.CollectTax(vm.orderdata.ID)
-						.then(function (data) {
-							console.log(data);
-							vm.addTaxtoLineItem(data);
-							CurrentOrder.Remove();
-							$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
-						})
+			OrderCloud.Orders.Submit(vm.orderdata.ID).then(function () {
+				if(vm.selectedPaymentTabValue =='PO'){
+					vm.order.xp.PONumber = vm.CurrentUser.xp.PO.PONumber;
+     				OrderCloud.Orders.Update(vm.order.ID, vm.order);
+				}
+				TaxService.CollectTax(vm.orderdata.ID)
+					.then(function (data) {
+						console.log(data);
+						vm.addTaxtoLineItem(data);
+						CurrentOrder.Remove();
+						$state.go('orderConfirmation', { userID: vm.orderdata.FromUserID, ID: vm.orderdata.ID });
+					})
                 });
 
 		}

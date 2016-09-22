@@ -663,8 +663,8 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 payment-method-cont">
                                             <p class="title">Payment Method</p>
-                                            <uib-tabset active="active">
-                                                <uib-tab>
+                                            <uib-tabset>
+                                                <uib-tab  select="checkout.selectedPaymentTab('PC')">
                                                     <uib-tab-heading>
                                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 credit-card-opt selected" ng-click="checkout.showBillingAddress()">
                                                             <div>
@@ -1430,7 +1430,9 @@
                                                         </div>
                                                     </div>
                                                 </uib-tab>
-                                                <uib-tab ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.bachmanscharge()">
+
+
+                                                <uib-tab ng-if="checkout.signnedinuser.ID!='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.bachmanscharge()"  select="checkout.selectedPaymentTab('BC')">
                                                     <uib-tab-heading>
                                                         <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt selected">
                                                             <div>
@@ -1594,10 +1596,10 @@
                                                                     <div class="defaultCharge">
                                                                         <input type="radio" name="BachmansCharge" ng-model="checkout.bachmansChargeData.bachmanscharge" id="dCharge" value="useExisting" ng-disabled="checkout.bachmanschargeacc.Balance<=0" />
                                                                         <label for="dCharge">
-                                                                            <span class="radioOutline"><span class="radioInside"></span>
-                                                                            </span>
-                                                                            <span class="detailLabel">
-                                                      use {{checkout.orderdata.Total < checkout.bachmanschargeacc.Balance ? checkout.orderdata.Total : checkout.orderdata.Total > checkout.bachmanschargeacc.Balance ? checkout.bachmanschargeacc.Balance : 100 | currency}} Bachman's Charge
+                                                      <span class="radioOutline"><span class="radioInside"></span>
+                                                      </span>
+                                                      <span class="detailLabel">
+                                                      use {{checkout.orderdata.Total < checkout.bachmanschargeacc.Balance ? checkout.orderdata.Total : checkout.orderdata.Total > checkout.bachmanschargeacc.Balance ? checkout.bachmanschargeacc.Balance : 0 | currency}} Bachman's Charge
                                                       </span>
                                                                         </label>
                                                                     </div>
@@ -1631,7 +1633,12 @@
                                                         </div>
                                                     </div>
                                                 </uib-tab>
-                                                <uib-tab>
+
+
+
+
+
+                                                <uib-tab  select="checkout.selectedPaymentTab('GC')">
                                                     <uib-tab-heading>
                                                         <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 gift-card-opt selected" ng-click="checkout.hideBillingAddress()">
                                                             <div>
@@ -1689,6 +1696,41 @@
                                                             <!-- <button type="button" class="btn green-btn" ng-click="checkout.validateGiftCard(checkout.giftCardData)">Redeem Card</button> -->
                                                             <button type="button" class="btn green-btn" ng-click="checkout.validateGiftCard(checkout.giftCardData)">Add Card</button>
                                                         </form>
+                                                    </div>
+                                                </uib-tab>
+                                                <uib-tab ng-if="checkout.signnedinuser.xp.PO && checkout.signnedinuser.xp.PO.PORequired=='Yes'" select="checkout.selectedPaymentTab('PO')">
+                                                    <uib-tab-heading>
+                                                        <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 bachmans-opt selected">
+                                                            <div>
+                                                                <p class="opt-title text-center">Purchased Order</p>
+                                                            </div>
+                                                            <div class="arrow-up"></div>
+                                                        </div>
+                                                    </uib-tab-heading>
+                                                    <!-- Bachmans charges -->
+                                                    <div class="payment-method-container charges col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                        <div>
+                                                            <div class="payment-container-header">
+                                                                <!--<span>Bachman's Charge Limit Available</span>-->
+                                                                <!--<span class="total">{{checkout.bachmanschargeacc.Balance | currency}}</span>-->
+                                                            </div>
+                                                            <div class="payment-container row">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                   
+                                                                    <div class="enterCharge">
+                                                                        <label for="eCharge">
+                                                      <!--<span class="radioOutline"><span class="radioInside"></span>
+                                                      </span>-->
+                                                      <span class="detailLabel">
+                                                      <input type="text" class="form-control" ng-model="checkout.signnedinuser.xp.PO.PONumber"/>
+                                                      <br>
+                                                      </span>
+                                                      </label>
+                                                                        <!--<button class="form-control" ng-click="checkout.validateBachmanCharges(checkout.bachmansChargeData)">Apply</button>-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </uib-tab>
                                             </uib-tabset>

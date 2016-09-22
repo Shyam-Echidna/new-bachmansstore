@@ -236,10 +236,10 @@ function Interceptor( $httpProvider ) {
     $httpProvider.interceptors.push(function($q, $rootScope) {
         return {
             'responseError': function(rejection) {
-                if (rejection.config.url.indexOf('ordercloud.io') > -1 && rejection.status == 401) {
+                if (rejection.config && rejection.config.url.indexOf('ordercloud.io') > -1 && rejection.status == 401) {
                     $rootScope.$broadcast('OC:AccessInvalidOrExpired');
                 }
-                if (rejection.config.url.indexOf('ordercloud.io') > -1 && rejection.status == 403){
+                if (rejection.config && rejection.config.url.indexOf('ordercloud.io') > -1 && rejection.status == 403){
                     $rootScope.$broadcast('OC:AccessForbidden');
                 }
                 return $q.reject(rejection);

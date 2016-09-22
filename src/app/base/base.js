@@ -51,7 +51,7 @@ function BaseConfig( $stateProvider ) {
                 }
             },
             resolve: {
-                CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous) {
+                CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous, $window) {
                     var dfd = $q.defer();
                     OrderCloud.Me.Get()
                         .then(function (data) {
@@ -73,7 +73,7 @@ function BaseConfig( $stateProvider ) {
                                 OrderCloud.Auth.RemoveToken();
                                 OrderCloud.Auth.RemoveImpersonationToken();
                                 OrderCloud.BuyerID.Set(null);
-                                $state.reload();
+                                 $window.location.reload();
                                 dfd.resolve();
                                 }
                             } else {
@@ -1123,10 +1123,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
       vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
 
     });
-    LoginFact.GetArun().then(function(res){
-      console.log('arun', res)
 
-    });
 
   }
 /*floating header*/
@@ -1371,9 +1368,8 @@ function BaseTopController(LoginFact, $cookieStore, BaseService, $uibModal, $roo
         angular.element('.mobile-signout-notGuest').css('display','none');
         angular.element('.main-mobile-menu-container').toggleClass('show-hide');
         OrderCloud.Auth.RemoveToken();
-        OrderCloud.Auth.RemoveImpersonationToken();
-        //BuyerID.Set(null);
-       // ImpersonationService.StopImpersonating();
+        OrderCloud.Auth.RemoveImpersonationToken();  
+        $state.reload();     
         $state.go('home');
         vm.showuserdetail = false;
         if($('.main-mobile-menu-container').hasClass('show-hide')){
@@ -1431,8 +1427,7 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
             GetPerplePerksSvg: _getPerplePerksSvg,
              GetContactList:_getcontactlist,
             CreateContactList:_createcontactlist,
-            UpdateEmailPreference:_updateemailpreference,
-            GetArun:_getArun
+            UpdateEmailPreference:_updateemailpreference
     };
     return service;
 
@@ -1453,33 +1448,7 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
         return defferred.promise;
 
     }
-    function _getArun() {
-        var data = {
-"card_number":"7777001112223333"
-};
-        var defferred = $q.defer();
-
-        $http({
-
-                method: 'POST',
-                dataType:"json",
-                url:"https://Four51TRIAL104401.jitterbit.net/BachmansOnPrem/PurplePerksBalanceCheck",
-            //  url: "http://192.168.100.184:8080/alfresco/service/api/login",
-             //  url: "http://103.227.151.31:8080/alfresco/service/api/login",
-
-                data: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-
-            }).success(function (data, status, headers, config) {
-
-                defferred.resolve(data);
-            }).error(function (data, status, headers, config) {
-                defferred.reject(data);
-            });
-            return defferred.promise;
-    }
+ 
     function _get() {
         var data = {
 

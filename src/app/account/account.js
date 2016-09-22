@@ -94,23 +94,77 @@ function AccountConfig($stateProvider) {
             controller: 'PurpleperkCtrl',
             controllerAs: 'Purpleperk',
             resolve: {
-                PurplePerk: function (OrderCloud) {
+                PurplePerkBalance : function (PPBalance, OrderCloud, $q, $http){
+                            var defferred = $q.defer();
+                    OrderCloud.Me.Get().then(function (res) {
+                        var PPID = res.xp.LoyaltyID;
+                        if(PPID == null){
+                           var data = {
+                                    "card_number":"7777779529387135"
+                                    }; 
+                        }
+                        else{
+                            var data = {
+                                    "card_number":PPID
+                                    }; 
+                        }
+                          
+
+                        $http({
+
+                                method: 'POST',
+                                dataType:"json",
+                                url:PPBalance,       
+                                data: JSON.stringify(data),
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+
+                            }).success(function (data, status, headers, config) {
+
+                                defferred.resolve(data);
+                            }).error(function (data, status, headers, config) {
+                                defferred.reject(data);
+                            });
+                               
+
+                    });
+                        
+                   return defferred.promise;
+                },
+                PurplePerk: function (OrderCloud, $q) {
                     var vm = this;
-                    return OrderCloud.Me.Get().then(function (res) {
-                        return OrderCloud.SpendingAccounts.ListAssignments(null, res.ID, null, null, 1, null, null).then(function (assignment) {
-                            if (assignment.Items[0]) {
-                                return OrderCloud.SpendingAccounts.Get(assignment.Items[0].SpendingAccountID).then(function (purple) {
-                                    if (purple.Name == "Purple Perks") {
-                                        return purple;
-                                    } else {
-                                        return null;
-                                    }
+                    var defferred = $q.defer();
+                    OrderCloud.Me.Get().then(function (res) {
+                      OrderCloud.SpendingAccounts.ListAssignments(null, res.ID, null, null, 1, null, null).then(function (assignment) {
+                            if (assignment.Items) {
+                                var queue = [];
+                                 angular.forEach(assignment.Items, function (item) {
+                                    queue.push(getpurple(item));
+                          
+                                 }); 
+                                 $q.all(queue).then(function (items) {
+                                    angular.forEach(items, function (item) {
+                                    if(item.Name == 'Purple Perks'){
+                                   defferred.resolve(item);
+                               }                          
+                                 }); 
                                 });
-                            } else {
-                                return null;
-                            }
+                                 }
+                                 else{
+                                    return null;
+                                 }                           
                         })
+                       
                     })
+                     return defferred.promise;
+                    function getpurple(item){
+                        var d = $q.defer();
+                        OrderCloud.SpendingAccounts.Get(item.SpendingAccountID).then(function (purple) {
+                                 d.resolve(purple);  
+                                });
+                        return d.promise;
+                    }
                 }
             }
         })
@@ -650,8 +704,9 @@ function EventController(OrderCloud) {
     })
 }
 
-function PurpleperkController(PurplePerk) {
+function PurpleperkController(PurplePerk, PurplePerkBalance) {
     var vm = this;
+    console.log("PurplePerk==",PurplePerkBalance);
     vm.purpleperk = PurplePerk;
     if (vm.purpleperk) {
         vm.purpleperk = PurplePerk;
