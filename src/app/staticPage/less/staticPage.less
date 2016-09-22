@@ -267,6 +267,11 @@
              	  list-style-type: decimal !important;	
              	}
               }
+               ul{
+               	
+               	 	margin-bottom:0px;
+               	
+               }
 			}
      }
 	ol {
@@ -967,9 +972,12 @@ h3.accordion {
 		padding: 40px 40px 0;
 		.col-md-3 {}
 		.col-md-9 {
-			.faq-content {
+			.faq-content,.business-services,.wedding,.basehardscapetwo,.basehardscapes,.landscapegardenservices,.basehardscapes1,.heritage-room{
 					overflow: hidden;
 					margin-bottom: 20px;
+					width:100%;
+					float:left;
+					margin-top: 10px;
 					h4{
 						font: 1.438em "ProximaNova-Bold", Arial, sans-serif;
    						margin-bottom:20px;
@@ -985,9 +993,15 @@ h3.accordion {
 							-moz-box-shadow: 0px 1px 0px #e7e7e7;
 							-o-box-shadow: 0px 1px 0px #e7e7e7;
 							box-shadow: 0px 1px 0px #e7e7e7;*/
+							&.panel-open{
+								.panel-heading{
+									background:#f5f5f5;
+								}
+							}
 							.panel-heading {
 								border-radius: 4px;
 								padding: 15px 17px 15px 30px;
+								background:transparent;
 								h4 {
 									font: 1em @proxima-bold;
 									margin-bottom:0px;
@@ -1006,10 +1020,15 @@ h3.accordion {
 											right);
 											color: @font-purple-dark;
 										}
+
 									}
 								}
 							}
 							.panel-body {
+								p {
+										font: 0.875em @proxima-bold;
+										/*font: 14px @proxima-bold;*/
+									}
 								.faq-drpDown {
 									padding-left: 15px;
 									margin-top: 12px;
@@ -1193,9 +1212,11 @@ h3.accordion {
 							-moz-box-shadow: 0px 1px 0px #e7e7e7;
 							-o-box-shadow: 0px 1px 0px #e7e7e7;
 							box-shadow: 0px 1px 0px #e7e7e7;*/
+							
 							.panel-heading {
 								border-radius: 4px;
 								padding: 15px 17px 15px 30px;
+								background:transparent;
 								h4 {
 									font: 1em @proxima-bold;
 									p {
@@ -5285,8 +5306,7 @@ margin-top:100px;
 h4 {
 	 font: 1em @proxima-bold;
      color: #000;
-     width:100%;
-     float:left;
+    
 	}
  p {
 	 font: 0.875em/24px @proxima-regular;
