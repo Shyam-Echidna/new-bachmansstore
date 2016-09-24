@@ -422,7 +422,7 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
                         
                         output = output.concat(data2.items);
                          deferred.resolve(output);
-        },function(data){
+        },function(data2){
             data2.items = [];
         });
                /* AlgoliaSvc.Search(infoIndex, value, null, {hitsPerPage: 3})

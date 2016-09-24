@@ -148,6 +148,7 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
         OrderCloud.Auth.GetToken( credentials )
             .then(function(data) {
                 OrderCloud.BuyerID.Get() ? angular.noop() : OrderCloud.BuyerID.Set(buyerid);
+                $cookieStore.put('anonToken', OrderCloud.Auth.ReadToken());
                 OrderCloud.Auth.SetToken(data.access_token);
              // ImpersonationService.StopImpersonating();
              if(vm.rememberMe){

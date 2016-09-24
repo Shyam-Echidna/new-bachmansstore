@@ -2414,7 +2414,7 @@ border-radius: 2px;*/
                         }
                     }
                     .sign-in {
-                        padding: 5px 0px;
+                        padding: 0px 0px;
                         font: 0.750em @proxima-regular;
                     }
                 }
@@ -2470,6 +2470,7 @@ border-radius: 2px;*/
                                 height: 15px;
                                 width: 15px;
                                 fill: #82c752;
+                                vertical-align: top;
                             }
                         }
                         .detailPart {
@@ -2494,6 +2495,9 @@ border-radius: 2px;*/
                         padding: 15px 10px;
                         border-top: 1px solid #f1f1f1;
                         margin: 0 1%;
+                        .place-order{
+                            width: 100%;
+                        }
                     }
                 }
                 div {
@@ -2845,10 +2849,10 @@ border-radius: 2px;*/
                                                                                 display: inline-block;
                                                                                 width: 54%;
                                                                                 span {
-                                                                                    float: none;
+                                                                                    /*float: none;
                                                                                     margin: 0px 0px 0px 6px;
                                                                                     position: relative;
-                                                                                    top: 5px;
+                                                                                    top: 5px;*/
                                                                                     svg {
                                                                                         width: 20px;
                                                                                         height: 20px;
@@ -2968,6 +2972,9 @@ border-radius: 2px;*/
                                                                 .opt-title {
                                                                     font-size: 0.75em;
                                                                 }
+                                                                svg{
+                                                                    padding-bottom: 3px !important;
+                                                                }
                                                             }
                                                             .gift-card-opt {
                                                                 margin-right: 0;
@@ -2982,8 +2989,11 @@ border-radius: 2px;*/
                                                                     text-transform: capitalize;
                                                                 }
                                                                 .cvv-number span.cvv-help {
-                                                                    top: 36px;
+                                                                    top: 40px;
                                                                     left: 72px;
+                                                                    svg{
+                                                                        vertical-align: top;
+                                                                    }
                                                                 }
                                                                 .cvv-number input {
                                                                     width: 70px;
@@ -3178,7 +3188,7 @@ border-radius: 2px;*/
                                                                         width: 18px;
                                                                         svg {
                                                                             padding: 2px;
-                                                                            vertical-align: initial;
+                                                                            vertical-align: top;
                                                                         }
                                                                     }
                                                                 }
@@ -3587,13 +3597,16 @@ border-radius: 2px;*/
                                                                     form {
                                                                         .select-date-info {
                                                                             .date {
-                                                                                font: 0.563em @proxima-regular;
+                                                                                font: 0.8em @proxima-regular;
                                                                                 span {
                                                                                     svg {
-                                                                                        width: 14px;
-                                                                                        height: 14px;
+                                                                                        width: 17px;
+                                                                                        height: 17px;
                                                                                         margin-left: 1px;
                                                                                     }
+                                                                                }
+                                                                                .date-svg{
+                                                                                    top: 14px;
                                                                                 }
                                                                             }
                                                                         }
@@ -3601,6 +3614,7 @@ border-radius: 2px;*/
                                                                 }
                                                             }
                                                             .delivery-instructions {
+                                                                margin-left: 0px;
                                                                 .continue-payement {
                                                                     button {
                                                                         font: 0.875em @proxima-bold;
@@ -3609,6 +3623,18 @@ border-radius: 2px;*/
                                                             }
                                                         }
                                                     }
+                                                    .ipadFull{
+            width: 100%;
+            .delivery-days1,.delivery-days2{
+                width: 30% !important;
+            }
+            .delivery-days3{
+                width: 35% !important;
+            }
+            .delivery-pref1,.delivery-pref2,.delivery-pref3{
+                width: 33% !important
+            }
+        }
                                                 }
                                             }
                                             .payment-info-cont {
@@ -3728,7 +3754,7 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
                     select#month,
                     select#year,
                     input#cvvNumber {
-                        width: 20%;
+                        width: 30%;
                     }
                 }
             }
@@ -3741,6 +3767,14 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
             }
         }
     }
+    .checkout-page{
+        .uib-datepicker-popup{
+            width: 100% !important;
+            top: initial !important ;
+        }
+
+    }
+    
 }
 
 //for sam tab portrait & iphone landscape

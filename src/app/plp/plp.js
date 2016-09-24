@@ -365,9 +365,9 @@ function PlpConfig($stateProvider) {
                         });
                     }
                     console.log(ProductSearchResult.facets);
-                    OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
+                   // OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
 
-                        OrderCloud.Categories.List(null, 1, 100, null, null, { "parentID": res.ParentID }, "all").then(function (res) {
+                        OrderCloud.Categories.List(null, 1, 100, null, null, { "parentID": $stateParams.catId }, "all").then(function (res) {
                             console.log("Categories === ", res);
                             var categoryList = _.pluck(res.Items, 'Name');
                             console.log("categoryList == ", categoryList);
@@ -392,7 +392,7 @@ function PlpConfig($stateProvider) {
                             deferred.resolve(result);
                         });
 
-                    });
+                    //});
                     return deferred.promise;
                 },
                 Selections: function ($stateParams) {
