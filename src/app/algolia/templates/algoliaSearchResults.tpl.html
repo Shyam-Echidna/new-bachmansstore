@@ -249,7 +249,8 @@
                                 </div>
                                 <div ng-repeat="prod in groupedProducts  track by $index">
                                    <div  ng-if="prod.xp.IsDefaultProduct == 'true' || prod.xp.IsDefaultProduct == true" ng-click="algoliaSearchResults.detailsPage($event);" data-sequence="{{prod.xp.SequenceNumber}}" data-prodid="{{prod.ID}}"  class="prodImagewrap">
-                                       <img  ng-src= "{{prod.imgContent.contentUrl}}"/>
+                                      <!--  <img  ng-src= "{{prod.imgContent.contentUrl}}"/> -->
+                                       <img  ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
                                        <div ng-repeat="pricelist in prod.StandardPriceSchedule.PriceBreaks" class="price-box caption">
                                           <h4 class="product-name-plp"><span>{{prod.Name | lowercase}}</span></h4>
                                           <p class="Price">{{prod.priceRange}}</p>
