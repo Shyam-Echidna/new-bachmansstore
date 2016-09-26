@@ -97,7 +97,7 @@ var guest = {
     "Claims": ["FullAccess"]
 };
 
-function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, x2js, alfrescourl, alfcontenturl, $rootScope, $cookieStore, localdeliverytimeurl,GetCstTime) {
+function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, x2js, alfrescourl, alfcontenturl, $rootScope, $cookieStore, localdeliverytimeurl) {
 	var service = {
 		AddToWishList: _addToWishList,
 		CreateOrder: _createOrder,
@@ -252,7 +252,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			method: "GET",
 			dataType: "json",
 			contentType: "application/json",
-			url: GetCstTime,
+			url: localdeliverytimeurl,
 			success: function (res) {
 				if (endDate == res.date)
 					d.resolve("1");
