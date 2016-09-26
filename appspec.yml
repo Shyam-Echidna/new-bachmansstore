@@ -11,4 +11,4 @@ hooks:
       timeout: 60
   AfterInstall:
     - location: scripts/after.sh
-      timeout: 3000
+      timeout: 1200
