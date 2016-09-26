@@ -347,7 +347,7 @@
 						</li>
 					</ul>
 				</div>
-				<div ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'customerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'corporate' && footer.nodeType == 'ws:section' " class="footerBlkDiv">
+				<div ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'CustomerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'Corporate' && footer.nodeType == 'ws:section' " class="footerBlkDiv">
 					<p>{{footer.title}}</p>
 		 			<ul>
 						<li ng-repeat="footerLink in footer.subfolders|orderBy : 'description'" ng-if="footerLink.nodeType == 'ws:section'">
@@ -596,7 +596,7 @@
 			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
 		</div>
 	</div> -->
-	<div class="m0 service-list" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'services'">
+	<div class="m0 service-list" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'Services'">
 		<div>
 			<h5 ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">
 				<a ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{footerServiceLink.title}}</a>

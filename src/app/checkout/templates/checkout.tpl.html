@@ -1,5 +1,5 @@
-<div class="container-fluid checkout-page">
-    <div class="checkout-header">
+<div class="container-fluid checkout-page" id="checkoutpage">
+    <!-- <div class="checkout-header">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="logo">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="continue-shopping-info">
         <div class="row">
             <div class="col-lg-12 col-md-12">
@@ -124,7 +124,7 @@
                                     <span>Sign In <span class="logged-in-user">Signed In as {{checkout.user}}</span></span>
                                     </span>
                                     <!--  {{checkout.signnedinuser.ID}} -->
-                                    <span ng-if="checkout.openACCItems.signinFunc || checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
+                                    <span ng-if="checkout.openACCItems.signinFunc && checkout.signnedinuser.ID=='gby8nYybikCZhjMcwVPAiQ'" ng-click="checkout.changeAcItem('signin')" class="edit-here">Edit</span>
                                 </p>
                             </uib-accordion-heading>
                             <div class="panel-body-content registered-customer">

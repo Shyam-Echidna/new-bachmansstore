@@ -501,6 +501,7 @@ input[type=text] {
                                 outline: 0;
                                 border: 1px solid #ccc;
                                 margin-top: 7px;
+                                border-radius: 2px;
                             }
                         }
                         .zipCodeCheck {
@@ -556,6 +557,11 @@ input[type=text] {
                             }
                             .zipCodeBlock {
                                 padding-left: 0px;
+                            }
+                            .delDateBlock{
+                                input{
+                                    cursor: default;
+                                }
                             }
                             .date-svg {
                                 position: absolute;
@@ -1582,7 +1588,7 @@ input[type=text] {
                                 select,
                                 input[type=number] {
                                     height: 40px;
-                                    line-height: 40px;
+                                    line-height: initial;
                                 }
                                 .date-svg {
                                     //top: 47%;
@@ -1665,7 +1671,7 @@ input[type=text] {
                                             }
                                             button {
                                                 height: 40px;
-                                                line-height: 40px;
+                                                line-height: initial;
                                                 vertical-align: middle;
                                                 text-align: center;
                                                 padding-right: 0px;
@@ -2416,7 +2422,7 @@ input[type=text] {
                     margin: 0;
                 }
                 &+ label {
-                    font-size: 0.8em;
+                    font-size: 0.75em;
                 }
             }
         }
@@ -2424,6 +2430,9 @@ input[type=text] {
             position: initial;
             float: right;
             padding-bottom: 5px;
+            width: 100%;
+            text-align: right;
+            margin-bottom: 15px;
         }
     }
 }
@@ -3225,6 +3234,7 @@ span.ng-isolate-scope:active {
                     padding-left: 0px !important;
                     input[type=text] {
                         line-height: normal;
+                        cursor: default;
                     }
                     span {
                         top: 3px;
@@ -3950,7 +3960,7 @@ span.ng-isolate-scope:active {
                 }
             }
             .view-address-link {
-                font-size: 0.813em;
+                font-size: 0.7em;
                 float: left;
                 margin-bottom: 10px;
                 .svg-outer {
@@ -4403,5 +4413,19 @@ span.ng-isolate-scope:active {
             outline: 0 !important;
             outline: none;
         }
+    }
+}
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) {
+    .pdp-recipient-modal .panel-body-content .savedRecipentDetail .aboveRecipentHead{
+        text-align: left;
+    }
+    .pdp-recipient-modal .accordion-block .panel-group .panel .panel-heading .panel-title .recipentName span:first-child{
+        display: inline;
+        line-height: 2.5em;
+        font-size: 0.9em;
     }
 }

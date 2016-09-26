@@ -912,8 +912,8 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
         { 'value': 'PriceHighesttoLowest', 'label': 'Price Highest to Lowest', 'index': 'products_price_desc' },
         { 'value': 'PriceLowesttoHighest', 'label': 'Price Lowest to Highest', 'index': 'products_price_asc' },
         { 'value': 'BestSellers', 'label': 'Best Sellers', 'index': 'products' },
-        { 'value': 'Local Delivery', 'label': 'Local Delivery', 'index': 'products' },
-        { 'value': 'Nationwide Delivery', 'label': 'Nationwide Delivery', 'index': 'products' },
+       /* { 'value': 'Local Delivery', 'label': 'Local Delivery', 'index': 'products' },
+        { 'value': 'Nationwide Delivery', 'label': 'Nationwide Delivery', 'index': 'products' },*/
         { 'value': 'Most Popular', 'label': 'Most Popular', 'index': 'products' },
         { 'value': 'AZ', 'label': 'A - Z', 'index': 'products' },
         { 'value': 'ZA', 'label': 'Z - A', 'index': 'products_name_desc' },

@@ -281,7 +281,8 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
                 })
 
     });
-        vm.user = LoggedinUser.LastName + " " + LoggedinUser.FirstName
+        //vm.user = LoggedinUser.LastName + " " + LoggedinUser.FirstName
+        vm.user = LoggedinUser.FirstName + " " + LoggedinUser.LastName
         lineItemsData();
         vm.bachmanscharge();
     }
@@ -519,6 +520,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
     	OrderCloud.Auth.RemoveToken();
         OrderCloud.Auth.RemoveImpersonationToken();
         $state.go('home');
+        angular.element('#info-bar-acc, .sticky #info-bar-acc').removeClass('expandAccBlockLoggedIn');
     }
 
 	function init() {
@@ -1038,6 +1040,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
                         vm.openACCItems['signinFunc'] = true;
                         $state.reload();
                     }, function () {
+                    	$state.reload('checkout');
 						vm.openACCItems.name = 'delivery';
                         vm.openACCItems['signinFunc'] = true;
 					})

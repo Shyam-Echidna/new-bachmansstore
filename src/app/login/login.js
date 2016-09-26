@@ -172,7 +172,9 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
                 LoginService.GetCurrentUser().then(function(res){
                     console.log(res);
                 })
-
+                
+                //angular.element('#checkoutpage').scope().checkout.loginAsExistingUser(credentials);
+                $state.reload('checkout');
             })
             .catch(function(ex) {
                // $exceptionHandler(ex);

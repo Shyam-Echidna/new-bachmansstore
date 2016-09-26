@@ -101,9 +101,9 @@ function staticPageConfig($stateProvider) {
 			controller: 'historyCtrl',
 			controllerAs: 'history'
 		})
-		.state('customerService', {
+		.state('CustomerService', {
 			parent: 'base',
-			url: '/customerService/:pageName',
+			url: '/CustomerService/:pageName',
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
@@ -126,9 +126,9 @@ function staticPageConfig($stateProvider) {
 				}
             }
 		})
-		.state('corporate', {
+		.state('Corporate', {
 			parent: 'base',
-			url: '/corporate/:pageName/:fileName',
+			url: '/Corporate/:pageName/:fileName',
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',
@@ -162,9 +162,9 @@ function staticPageConfig($stateProvider) {
 			controller: 'servicesCtrl',
 			controllerAs: 'services'
 		})
-		.state('services', {
+		.state('Services', {
 			parent: 'base',
-			url: '/services/:pageName/:fileName',
+			url: '/Services/:pageName/:fileName',
 			templateUrl: 'staticPage/templates/services.tpl.html',
 			controller: 'historyCtrl',
 			controllerAs: 'history',

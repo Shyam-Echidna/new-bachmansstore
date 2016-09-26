@@ -5,7 +5,7 @@ angular.module('orderCloud')
     .controller('WishlistCtrl', WishlistController)
     .controller('PurpleperkCtrl', PurpleperkController)
     .controller('OrderCtrl', OrderController)
-    .controller('EventCtrl', EventController)
+    .controller('Eventctrl', EventController)
     .controller('AccountCtrl', AccountController)
     .controller('AddressCtrl', AddressController)
     .controller('profilectrl', ProfileController)
@@ -95,75 +95,74 @@ function AccountConfig($stateProvider) {
             controllerAs: 'Purpleperk',
             resolve: {
 
-                PurplePerkBalance : function (PPBalance, OrderCloud, $q, $http){
-                            var defferred = $q.defer();
-                    OrderCloud.Me.Get().then(function (res) {
+                PurplePerkBalance: function(PPBalance, OrderCloud, $q, $http) {
+                    var defferred = $q.defer();
+                    OrderCloud.Me.Get().then(function(res) {
                         var PPID = res.xp.LoyaltyID;
-                        if(PPID == null){
-                           var data = {
-                                    "card_number":"7777779529387135"
-                                    }; 
-                        }
-                        else{
+                        if (PPID == null) {
                             var data = {
-                                    "card_number":PPID
-                                    }; 
+                                "card_number": "7777779529387135"
+                            };
+                        } else {
+                            var data = {
+                                "card_number": PPID
+                            };
                         }
-                          
+
 
                         $http({
 
-                                method: 'POST',
-                                dataType:"json",
-                                url:PPBalance,       
-                                data: JSON.stringify(data),
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
+                            method: 'POST',
+                            dataType: "json",
+                            url: PPBalance,
+                            data: JSON.stringify(data),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
 
-                            }).success(function (data, status, headers, config) {
+                        }).success(function(data, status, headers, config) {
 
-                                defferred.resolve(data);
-                            }).error(function (data, status, headers, config) {
-                                defferred.reject(data);
-                            });
-                               
+                            defferred.resolve(data);
+                        }).error(function(data, status, headers, config) {
+                            defferred.reject(data);
+                        });
+
 
                     });
-                        
-                   return defferred.promise;
+
+                    return defferred.promise;
                 },
-                PurplePerk: function (OrderCloud, $q) {
+                PurplePerk: function(OrderCloud, $q) {
                     var vm = this;
                     var defferred = $q.defer();
-                    OrderCloud.Me.Get().then(function (res) {
-                      OrderCloud.SpendingAccounts.ListAssignments(null, res.ID, null, null, 1, null, null).then(function (assignment) {
+                    OrderCloud.Me.Get().then(function(res) {
+                        OrderCloud.SpendingAccounts.ListAssignments(null, res.ID, null, null, 1, null, null).then(function(assignment) {
                             if (assignment.Items) {
                                 var queue = [];
-                                 angular.forEach(assignment.Items, function (item) {
+                                angular.forEach(assignment.Items, function(item) {
                                     queue.push(getpurple(item));
-                          
-                                 }); 
-                                 $q.all(queue).then(function (items) {
-                                    angular.forEach(items, function (item) {
-                                    if(item.Name == 'Purple Perks'){
-                                   defferred.resolve(item);
-                               }                          
-                                 }); 
+
                                 });
-                                 }
-                                 else{
-                                    return null;
-                                 }                           
+                                $q.all(queue).then(function(items) {
+                                    angular.forEach(items, function(item) {
+                                        if (item.Name == 'Purple Perks') {
+                                            defferred.resolve(item);
+                                        }
+                                    });
+                                });
+                            } else {
+                                return null;
+                            }
                         })
-                       
+
                     })
-                     return defferred.promise;
-                    function getpurple(item){
+                    return defferred.promise;
+
+                    function getpurple(item) {
                         var d = $q.defer();
-                        OrderCloud.SpendingAccounts.Get(item.SpendingAccountID).then(function (purple) {
-                                 d.resolve(purple);  
-                                });
+                        OrderCloud.SpendingAccounts.Get(item.SpendingAccountID).then(function(purple) {
+                            d.resolve(purple);
+                        });
                         return d.promise;
                     }
                 }
@@ -223,20 +222,38 @@ function AccountConfig($stateProvider) {
         .state('account.event', {
             url: '/event',
             templateUrl: 'account/templates/myAccountEvents.tpl.html',
-            controller: 'AccountCtrl',
-            controllerAs: 'account',
+            controller: 'Eventctrl',
+            controllerAs: 'event',
             resolve: {
                 EventList: function($q, OrderCloud, $state, AccountService) {
                     var vm = this;
+                    ///var d = $q.defer();
                     var ajaxarr = [];
                     var arr = [];
-                    var filter = {
-                        "xp.IsEvent": true
-                    };
-                    OrderCloud.Me.ListOutgoingOrders(null, 1, 100, null, null, filter, null, null).then(function(res) {
-                            console.log("events respond", res);
-                        })
-                        /*var d = $q.defer();
+                    var events = [];
+                    return OrderCloud.Me.ListOutgoingOrders().then(function(res) {
+                        angular.forEach(res.Items, function(od) {
+                            var promise = AccountService.GetOrderDetails(od.ID);
+                            arr.push(promise);
+                        });
+                        return $q.all(arr).then(function(orderObj) {
+                            vm.line = orderObj;
+                            angular.forEach(vm.line, function(res) {
+                                angular.forEach(res.LineItems, function(prod) {
+                                    if (prod.Product.xp && prod.Product.xp.IsEvent == true) {
+                                        events.push(prod);
+
+                                    }
+                                })
+                            })
+                            return events;
+                        });
+                    })
+
+                    /*if(vm.line.LineItems[0].Product.xp.IsEvent==true){
+                                console.log("count one");
+                            }*/
+                    /*var d = $q.defer();
                     OrderCloud.Me.ListOutgoingOrders(null, 1, 100, null, null, filter, null, null).then(function(re) {
                         angular.forEach(re.Items, function(order) {
                             var obj = {
@@ -757,16 +774,14 @@ function MessageController($uibModalInstance) {
     };
 }
 
-function EventController(OrderCloud) {
+function EventController(OrderCloud, EventList) {
     var vm = this;
-    OrderCloud.Me.ListOutgoingOrders().then(function(respond) {
-        console.log("the oredrs are---", respond);
-    })
+    vm.eventlist = EventList;
+    console.log("eeeeeeee", vm.eventlist);
 }
-
 function PurpleperkController(PurplePerk, PurplePerkBalance) {
     var vm = this;
-    console.log("PurplePerk==",PurplePerkBalance);
+    console.log("PurplePerk==", PurplePerkBalance);
     vm.purpleperk = PurplePerk;
     if (vm.purpleperk) {
         vm.purpleperk = PurplePerk;

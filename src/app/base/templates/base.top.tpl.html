@@ -25,6 +25,30 @@
     </div>
 </div> -->
 
+<div class="checkout-header" ng-show="is('checkout')">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="logo">
+                    <a ui-sref="home" ng-include="base.logo">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right" uib-dropdown dropdown-append-to-body>
+                <div class="sign-in" uib-dropdown>
+                    <span ng-show="base.currentUser.ID =='gby8nYybikCZhjMcwVPAiQ'" ng-click="baseTop.login()">Sign In</span>
+                    <span id="btn-append-to-signOut" ng-show="base.currentUser.ID!='gby8nYybikCZhjMcwVPAiQ'" uib-dropdown-toggle>{{base.currentUser.FirstName}} {{base.currentUser.LastName}}</span>
+                    <div class="dropdown-menu-login-cont">
+                        <ul class="dropdown-menu-login chechoutUser" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-signOut">
+                            <li class="sub-nav">
+                                <a class="maincat_link" ng-click="baseTop.logout();$event.stopPropagation();">Sign Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div id="BaseTop2" class="base-header base-header-desktop base-header-non-sticky" ng-class="constantheader">
     <div class="sticky-background"></div>
     <div class="base-header-inner">

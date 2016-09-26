@@ -13,7 +13,9 @@
 .has-success .form-control {
     border-color: #cccccc;
 }
-
+.sign-in.dropdown.open .chechoutUser{
+    display:block;
+}
 .chechoutUser {
     position: absolute;
     left: initial !important;
@@ -28,6 +30,10 @@
             text-transform: uppercase;
             padding-left: 10px !important;
         }
+    }
+    &.dropdown-menu-login > li.sub-nav:last-child a:hover{
+        font: 1em "ProximaNova-Bold", Arial, sans-serif !important;
+        background-color:#fff;
     }
 }
 
@@ -4059,3 +4065,50 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
         display: initial;
     }
 }
+
+.checkout-header {
+        background: #8b5bb3;
+        padding: 12px 30px;
+        margin: 5px 5px 0;
+        .row {
+            div {
+                .logo {
+                    a {
+                        svg {
+                            width: 230px;
+                            height: 44px;
+                            .st1,
+                            .st0,
+                            .st2 {
+                                //fill: transparent !important;
+                                stroke: none;
+                            }
+                        }
+                    }
+                }
+            }
+            div {
+                .sign-in {
+                    text-align: right;
+                    padding: 18px 0px;
+                    color: #ffffff;
+                    text-transform: uppercase;
+                    font: 0.813em @proxima-bold;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    position: relative;
+                    span:nth-child(2){
+                        // display:none;
+                    } 
+                }
+            }
+        }
+        &.loggedInChecoutUser .row div{
+            .sign-in span:first-child{
+                //display:none;
+            } 
+            .sign-in span:nth-child(2){
+                display:block;
+            }  
+        }
+    }
