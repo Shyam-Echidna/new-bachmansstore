@@ -710,6 +710,13 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
     vm.ProductResults = ProductSearchResult;
     vm.FiltersObject = FiltersObject;
     console.log("FiltersObject == ", FiltersObject);
+    var test = [];
+    angular.forEach(ProductResultsWithVarients, function(item){
+       var def =  _.where(item, function(num){return num.xp.Featured == true});
+       
+       test.push(def);
+    });
+    console.log("test == ",test);
     // START: function for facet selection logic
     //  vm.Selections = [];
     vm.FiltersObject = FiltersObject;

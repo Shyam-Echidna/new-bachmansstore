@@ -1,11 +1,9 @@
-<div>
 <ol class="breadcrumb test">
     <li ng-repeat="step in steps | limitTo:(steps.length-1)" ng-bind-html="step.ncyBreadcrumbLabel">
-
+        <!-- <a ng-click = "testevent(step.name, step.ncyBreadcrumbLabel)" ng-bind-html="step.ncyBreadcrumbLabel"></a> -->
 
     </li>
     <li ng-repeat="step in steps | limitTo:-1" class="active" ng-bind-html="step.ncyBreadcrumbLabel">
-    
+       <!--  <span ng-bind-html="step.ncyBreadcrumbLabel"></span> -->
     </li>
 </ol>
-</div>

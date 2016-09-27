@@ -199,7 +199,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
 
     return {
         restrict: 'AE',
-      //  replace: true,
+        replace: true,
         scope: {},
         template: $breadcrumb.getTemplate($$templates),
         templateUrl: $breadcrumb.getTemplateUrl(),
