@@ -190,9 +190,8 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
             '</li>' +
             '</ul>',
         bootstrap3: '<ol class="breadcrumb">' +
-            '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract">' +
-            '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>' +
-            '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
+            '<li ng-repeat="step in steps | limitTo:(steps.length-1)" ng-bind-html="step.ncyBreadcrumbLabel"></li>' +
+            '<li ng-repeat="step in steps | limitTo:-1" class="active" ng-bind-html="step.ncyBreadcrumbLabel">' +            
             '</li>' +
             '</ol>'
     };
@@ -203,7 +202,7 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         scope: {},
        // template: $breadcrumb.getTemplate($$templates),
        // templateUrl: $breadcrumb.getTemplateUrl(),
-        templateUrl: 'breadcrumb.tpl.html',
+        template: $$templates.bootstrap3,
         controller: function ($scope,$state,$location, $rootScope) {
             $scope.testevent = function(statename, label){
            console.log($location.url());
