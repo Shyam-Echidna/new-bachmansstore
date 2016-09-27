@@ -15,11 +15,11 @@ angular.module( 'orderCloud' )
   .directive('confirmPassword', ConfirmPasswordValidatorDirective)
   .filter('categoriesAsPerSeason', CategoriesAsPerSeasonFilter)
   .filter('capitalize', CapitalizeFilter)
- .config(function($breadcrumbProvider) {
+/* .config(function($breadcrumbProvider) {
     $breadcrumbProvider.setOptions({
       templateUrl: '../common/breadcrumbs/breadcrumb.tpl.html'
     });
-  });
+  });*/
 ;
 
 function BaseConfig( $stateProvider ) {

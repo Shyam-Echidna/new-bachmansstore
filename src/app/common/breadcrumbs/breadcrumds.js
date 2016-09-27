@@ -201,8 +201,9 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
         restrict: 'AE',
         replace: true,
         scope: {},
-        template: $breadcrumb.getTemplate($$templates),
-        templateUrl: $breadcrumb.getTemplateUrl(),
+       // template: $breadcrumb.getTemplate($$templates),
+       // templateUrl: $breadcrumb.getTemplateUrl(),
+        templateUrl: 'breadcrumb.tpl.html',
         controller: function ($scope,$state,$location, $rootScope) {
             $scope.testevent = function(statename, label){
            console.log($location.url());
