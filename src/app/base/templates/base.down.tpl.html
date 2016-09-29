@@ -393,7 +393,7 @@
 							</li>
 						</ul>
 					</uib-accordion-group>
-					<uib-accordion-group is-open="status.footer.fileName" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'customerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'corporate' && footer.nodeType == 'ws:section' " >
+					<uib-accordion-group is-open="status.footer.fileName" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'CustomerService' || footer.fileName == 'CareAdviceInformation' || footer.fileName == 'Corporate' && footer.nodeType == 'ws:section' " >
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.footer.fileName, 'footer-plus': !status.footer.fileName}">{{footer.title}}</p>
 					    </uib-accordion-heading>
@@ -403,7 +403,7 @@
 					    	</li>
 					    </ul>
 					</uib-accordion-group>
-					<uib-accordion-group is-open="status.open6" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'services' && footer.nodeType == 'ws:section' ">
+					<uib-accordion-group is-open="status.open6" ng-repeat="footer in base.ListOfPages |orderBy : 'description'" ng-if="footer.fileName == 'Services' && footer.nodeType == 'ws:section' ">
 						<uib-accordion-heading>
 							<p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}">{{footer.title}}</p>
 						</uib-accordion-heading>

@@ -116,7 +116,13 @@
                 <li>ROSES</li>
             </ul>
         </div> -->
-        <div ncy-breadcrumb ng-show="is('pdp' || 'algoliaresults' || 'plp')"></div>
+        <div ncy-breadcrumb ng-show="is('pdp')"></div>
+        <div ncy-breadcrumb ng-show="is('plp')"></div>
+        <div ncy-breadcrumb ng-show="is('category')"></div>
+         <div ncy-breadcrumb ng-show="is('secound')"></div>
+        <div ncy-breadcrumb ng-show="is('workshopEventLanding')"></div>
+        <div ncy-breadcrumb ng-show="is('eventsListing')"></div>
+        <div ncy-breadcrumb ng-show="is('eventDescription')"></div>
         <!-- <ui-breadcrumbs displayname-property="data.displayName" abstract-proxy-property="data.proxy" template-url="../../common/breadcrumbs/uiBreadcrumbs.tpl.html"></ui-breadcrumbs>
         <!-- <div class="row breadcrumb-box" ng-show="is('pdp')">
             <ul class="breadcrumb" >
@@ -153,13 +159,13 @@
                         <ul class="empty-div"></ul>
                         <li ng-mouseover="base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()"
                             ng-repeat="categories in base.tree | orderBy:'categories.ID'"
-                            class="classForMenuArrow sub-nav" ng-if="$index !=  base.tree.length -2">
+                            class="classForMenuArrow sub-nav" ng-if="categories.ID != 'WorkshopsEvents'">
                             <a ui-sref="category({ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe" onscroll="$.leftofscreen('#lookInMe', '.peek', {threshold :-100}).removeClass('Right').addClass('Left');
 									$.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addClass('Right');">
-                                        <li ng-if="categories.ID =='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
                                             <!--<a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>-->
@@ -180,9 +186,9 @@
                                         </li>
                                         <li ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'"
                                             class="peek submaincat_link_div"
-                                            ng-if="categories.ID !='OccasionsHolidays' && subcategories.Active == true">
+                                            ng-if="categories.ID !='OccasionsHolidays'">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a> -->
-                                            <a ng-if="subcategories.ChildCount > 0"
+                                            <a ng-if="subcategories.ChildCount > 0 "
                                                ui-sref="secound({ID:categories.ID,subID:subcategories.ID})"
                                                class="submaincat_link">{{subcategories.Name}}</a>
                                             <a ng-if="subcategories.ChildCount == 0"
@@ -285,7 +291,7 @@
                         id="menuCont">
                         <ul class="empty-div"></ul>
                         <li ng-mouseover="base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()"
-                            ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index !=  base.tree.length -2">
+                            ng-repeat="categories in base.tree" class="sub-nav" ng-if="categories.ID != 'WorkshopsEvents'">
                             <a class="maincat_link">{{categories.Name}}</a>
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
@@ -293,7 +299,7 @@
 									$.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').addClass('Right3');">
                                         <li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})"><a
                                                 class="goto-cat">{{categories.Name}} | Home </a></li>
-                                        <li ng-if="categories.ID =='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -314,7 +320,7 @@
                                             </ul>
 
                                         </li>
-                                        <li ng-if="categories.ID !='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID !='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children"
                                             class="peek submaincat_link_div">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -418,7 +424,7 @@
                          class=" info-bar-care">
                         <a>{{footer.title}}</a>
                     </div>
-                    <div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
+                    <div class=" info-bar-events"><a ui-sref="workshopEventLanding">{{base.workshop.label}}</a></div>
                     <div class=" info-bar-search" id="info-bar-search">
                         <!-- <div class="info-search-text" nextopia-searcsearchTermhbar>
                             <input type="text" ng-controller="TypeaheadCtrl" placeholder="Search" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" />
@@ -621,14 +627,14 @@
                         <ul class="empty-div"></ul>
                         <li ng-mouseover="base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()"
                             ng-repeat="categories in base.tree | orderBy:'categories.ID'" class="sub-nav"
-                            ng-if="$index !=  base.tree.length -2">
+                            ng-if="categories.ID != 'WorkshopsEvents'">
                             <a ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})"
                                class="maincat_link">{{categories.Name}}</a>
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe2" onscroll="$.leftofscreen('#lookInMe2', '.peek2', {threshold :-100}).removeClass('Right2').addClass('Left2');
 									$.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
-                                        <li ng-if="categories.ID =='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'| categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -648,7 +654,7 @@
                                             </ul>
 
                                         </li>
-                                        <li ng-if="categories.ID !='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID !='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'"
                                             class="submaincat_link_div peek">
                                            <!--  <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -757,7 +763,7 @@
                         id="menuCont">
                         <ul class="empty-div"></ul>
                         <li ng-mouseover="base.hideShowMenuArrow()" ng-mouseleave="base.thisHoveredOut()"
-                            ng-repeat="categories in base.tree" class="sub-nav" ng-if="$index !=  base.tree.length -2">
+                            ng-repeat="categories in base.tree" class="sub-nav" ng-if="categories.ID != 'WorkshopsEvents'">
                             <a class="maincat_link">{{categories.Name}}</a>
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
@@ -765,7 +771,7 @@
 									$.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
                                         <li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})"><a
                                                 class="goto-cat">{{categories.Name}} | Home</a></li>
-                                        <li ng-if="categories.ID =='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children |  categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -785,7 +791,7 @@
                                             </ul>
 
                                         </li>
-                                        <li ng-if="categories.ID !='OccasionsHolidays' && subcategories.Active == true"
+                                        <li ng-if="categories.ID !='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children"
                                             class="peek submaincat_link_div">
                                             <!-- <a ui-sref="category({childCount:subcategories.ChildCount,ID:subcategories.ID})"
@@ -1266,7 +1272,7 @@
                                     <li class="sub-nav" ng-click="base.initialSetup2()"><a href=""><span>Menu</span></a>
                                     </li>
                                     <li ng-click="base.openMenuLevel2({childCount:categories.ChildCount,ID:categories.ID})"
-                                        ng-repeat="categories in base.tree" ng-if="$index !=  base.tree.length -2"
+                                        ng-repeat="categories in base.tree" ng-if="categories.ID != 'WorkshopsEvents'"
                                         class="sub-nav">
                                         <a class="maincat_link">{{categories.Name}}</a>
                                         <ul ng-show="base.menu2" class="subcat menu-l2-container mobile-dropdown-cont3">
@@ -1276,12 +1282,12 @@
                                                 <a ng-click="base.stateChange(categories);$event.stopPropagation();">{{categories.Name}}<span> | Home</span></a>
                                             </li>
 
-                                            <li ng-if="categories.ID =='OccasionsHolidays' && subcategories.Active == true"
+                                            <li ng-if="categories.ID =='OccasionsHolidays'"
                                                 ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();"
                                                 ng-repeat="(ParentIndex, subcategories) in categories.children| orderBy:'subcategories.ID'| categoriesAsPerSeason:application.cstdate "
                                                 class="submaincat_link_div">
 
-                                                <a class="submaincat_link" >{{subcategories.Name}}</a>
+                                                <a class="submaincat_link">{{subcategories.Name}}</a>
                                                 <ul ng-show="base.menu3 && base.isShowing(ParentIndex)"
                                                     class="subchildcategories menu-l3-container mobile-dropdown-cont4">
                                                     <li ng-click="base.openMenuLevel2({childCount:subcategories.ChildCount,ID:subcategories.ID});$event.stopPropagation();">
@@ -1302,7 +1308,7 @@
                                                     </li>
                                                 </ul> -->
                                             </li>
-                                            <li ng-if="categories.ID !='OccasionsHolidays' && subcategories.Active == true"
+                                            <li ng-if="categories.ID !='OccasionsHolidays'"
                                                 ng-click="base.openMenuLevel3({childCount:subcategories.ChildCount,ID:subcategories.ID}, ParentIndex);$event.stopPropagation();"
                                                 ng-repeat="(ParentIndex, subcategories) in categories.children"
                                                 class="submaincat_link_div">

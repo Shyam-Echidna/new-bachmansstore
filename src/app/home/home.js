@@ -17,16 +17,20 @@ function HomeConfig( $stateProvider ) {
 		    label: "<a href='/home'>Home</a>"
 		  },
 	 resolve: {
-  
+  		getBuyer : function(OrderCloud){
+  			return OrderCloud.Buyers.Get().then(function(res){
+  				return res;
+  			})
+  		}
 
    }
 		})
 }
-function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, $state) {
+function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, $state, getBuyer) {
 
 	var vm = this;
 	$rootScope.showBreadCrumb = false;
-
+	var siteEditorHome = getBuyer.xp.SiteEditor.HomePage;
 	vm.detailsPage = function($event){
       var id = $($event.target).parents('.staticSeqId').attr('data-prodid');
       var seq= $($event.target).parents('.staticSeqId').attr('data-sequence');
@@ -311,7 +315,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 
 	var ticket = localStorage.getItem("alf_ticket");
 
-	HomeFact.GetGridimgs(ticket).then(function(res){
+	HomeFact.GetGridimgs(ticket, siteEditorHome.GridSystem).then(function(res){
 		var gridImgs;
 		vm.gridImgs = [];
 		angular.forEach(res.items, function(item,key){
@@ -326,7 +330,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 	});
 
 
- HomeFact.GetHeroBanner(ticket).then(function(res){
+ HomeFact.GetHeroBanner(ticket, siteEditorHome.HeroBanner).then(function(res){
 
 	 console.log("GetHeroBanner",res);
         var heroBanners = [];
@@ -358,7 +362,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 	},500);
  });
 	
-	HomeFact.GetQuicklinks(ticket).then(function(res){
+	HomeFact.GetQuicklinks(ticket ,siteEditorHome.Quicklinks).then(function(res){
 		vm.quicklinks = [];
 		vm.title = [];
 		angular.forEach(res.items, function(item){
@@ -371,7 +375,7 @@ function HomeController( $scope, OrderCloud, $window, HomeFact, PlpService, $q, 
 	});
 
 
-	HomeFact.GetPromotions(ticket).then(function(res){
+	HomeFact.GetPromotions(ticket , siteEditorHome.Promotions).then(function(res){
 		console.log("banner== ",res);
 		vm.topPromo = alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket;
 		vm.leftPromo = alfcontenturl+res.items[1].contentUrl+"?alf_ticket="+ticket;
@@ -546,12 +550,12 @@ function HomeFact($http, $q, $exceptionHandler, alfrescourl, OrderCloud){
  };
  return service;
 
-	function _getHeroBanner(ticket) {
+	function _getHeroBanner(ticket, root) {
 		var defferred = $q.defer(); 
 		$http({
 			method: 'GET',
 			dataType:"json",
-			url:  alfrescourl+"HomePage/HeroBanner?alf_ticket="+ticket,
+			url:  alfrescourl+"HomePage/HeroBanner/"+root+"?alf_ticket="+ticket,
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -593,12 +597,12 @@ function HomeFact($http, $q, $exceptionHandler, alfrescourl, OrderCloud){
              });
              return defferred.promise;
 }
-	function _getPromotions(ticket) {
+	function _getPromotions(ticket , root) {
 		var defferred = $q.defer(); 
 		$http({
 			method: 'GET',
 			dataType:"json",
-			url:  alfrescourl+"HomePage/Promotions?alf_ticket="+ticket,
+			url:  alfrescourl+"HomePage/Promotions/"+root+"?alf_ticket="+ticket,
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -610,12 +614,12 @@ function HomeFact($http, $q, $exceptionHandler, alfrescourl, OrderCloud){
 		return defferred.promise;
 	}
 
-	function _getQuicklinks(ticket) {
+	function _getQuicklinks(ticket, root) {
 		var defferred = $q.defer(); 
 		$http({
 			method: 'GET',
 			dataType:"json",
-			url: alfrescourl+"HomePage/Quicklinks?alf_ticket="+ticket,
+			url: alfrescourl+"HomePage/Quicklinks/"+root+"?alf_ticket="+ticket,
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -627,12 +631,12 @@ function HomeFact($http, $q, $exceptionHandler, alfrescourl, OrderCloud){
 		return defferred.promise;
 	}
 
-function _getGridimgs(ticket) {
+function _getGridimgs(ticket, root) {
 		var defferred = $q.defer(); 
 		$http({
 			method: 'GET',
 			dataType:"json",
-			url: alfrescourl+"HomePage/GridSystem?alf_ticket="+ticket,
+			url: alfrescourl+"HomePage/GridSystem/"+root+"?alf_ticket="+ticket,
 			headers: {
 				'Content-Type': 'application/json'
 			}

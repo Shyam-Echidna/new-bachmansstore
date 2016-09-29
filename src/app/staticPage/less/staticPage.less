@@ -232,6 +232,7 @@
 	}
 }
 
+/* Articles css start*/
 .right-content-article{
 
 	font:0.875em @proxima-regular;
@@ -390,26 +391,10 @@
 		}
 	}
 }
+/*Articles css end*/
 
-/*.table-first {
-    border-collapse: separate;
-	tbody {
-		tr:nth-of-type(odd) {
-			background: #f7f7f7;
-		}
-        tr{
-            &:first-child{
-                td{
-                    border: solid 1px #000;
-                    &:first-child{
-                        border-top-left-radius: 10px;
-                    }
-                }
-            }
-        }
-	}
-}
-*/
+
+
 
 /* Video */
 
@@ -964,33 +949,177 @@ h3.accordion {
 		position: relative;
 		z-index: 1;
 		margin-top: -110px;
-		widows: ;
-		h: 96%;
 		width: 100%;
 		padding: 40px 40px 0;
-		.col-md-3 {}
-		.col-md-9 {
-			.faq-content,.business-services,.wedding,.basehardscapetwo,.basehardscapes,.landscapegardenservices,.basehardscapes1,.heritage-room {
-					overflow: hidden;
-					margin-bottom: 20px;
-					width:100%;
-					float:left;
-					margin-top: 10px;
-					h4{
-						font: 1.438em "ProximaNova-Bold", Arial, sans-serif;
-   						margin-bottom:20px;
+		.service-templates{
+					font:0.875em @proxima-regular;
+					line-height: 1.5em;
+					margin-top:100px;
+					.static-info{
+						margin-top:-100px;
 					}
-					.panel-group {
-						margin-bottom: 15px;
-						/*color: @blk-color;*/
+					 .wed-link{
+					 	    color: #8c58b5;
+				    		text-decoration: underline;
+				    		font-family: "ProximaNova-Bold", Arial, sans-serif;	
+					 }
+					 .title-name{
+					 	font:1.143em @proxima-bold;
+					 }
+					p{
+						font-family:@proxima-regular;
+						line-height: 1.5em;
+						margin-bottom:15px;
+					}
+					
+					h1,h2,h3,h4,h5,h6{
+						font-size:1em;
+						margin-bottom: 10px;
+				    }
+				  
+				     ul {
+				     	  margin-bottom:15px;
+				     		li{
+					 		list-style-type:disc;
+				            margin:5px 0 5px 20px;
+				            font-family:@proxima-regular;
+				            line-height: 1.5em;
+				             ol{
+				             	li{
+				             	  list-style-type: decimal !important;	
+				             	}
+				              }
+				              ul{
+				              	 margin-bottom:0px;
+				              }
+							}
+				     }
+					ol {
+						padding-top: 0px !important;	
+						  li{
+							   margin:5px 0 5px 20px;
+							   font-family: @proxima-regular;
+							   list-style-type: decimal;
+							   line-height: 1.5em;
+					      }
+						
+						}
+					table {
+						 margin:10px 0 20px 0;
+						 font-weight:normal;
+						 width:100%;
+						&.table-first{
+							
+							tr:nth-of-type(odd) {
+							background: #f7f7f7;
+						   }
+						   tr td:first-child {
+								font-family:@proxima-bold;
+							 	color:#333;
+							 	line-height: 1.5em;
+							 	vertical-align:middle;
+							}
+							tr td:last-child {
+								font-family:@proxima-regular;
+							 	color:#333;
+							 	line-height: 1.5em;
+							 	
+							 	
+							}	
+						}
+						&.table-second{
+							tr td:first-child {
+								font-family: @proxima-bold;
+							 	color:#333;
+							 	line-height: 1.5em;
+							 	vertical-align:middle;
+							}
+							tr td:last-child {
+								font-family: @proxima-regular;
+							 	line-height: 1.5em;
+							 	
+							}	
+						}
+						&.table-third{
+							tr:nth-of-type(odd) {
+							background: #f7f7f7;
+						   }
+						}
+						p{
+							font-family:@proxima-regular;
+							line-height: 1.5em;
+							margin-bottom:0px	
+						}
+						tr{
+							 th {
+									font-family:@proxima-bold;
+									background-color: #F7F7F7;
+									text-align:center;
+									vertical-align: middle;
+									color:#333;
+									font-weight:normal;
+									padding: 10px;
+								}
+							.article-header{
+								font-family:@proxima-bold;
+									background-color: #F7F7F7;
+									text-align:center;
+									vertical-align: middle;
+									color:#333;
+									font-weight:normal;
+									padding: 10px;
+								}
+							 td{
+							 	font-family: @proxima-regular;
+							 	color:#333;
+							 	line-height: 1.5em;
+							 	padding: 8px;
+							 	vertical-align: top;
+							 	ul {
+							 		  margin-bottom:0px;
+							 		 li{
+							 		list-style-type:disc;
+					                margin:5px 0 5px 20px;
+					                line-height: 1.5em;
+							 	    }
+							 	}
+							 }
+						}
+						ol{
+							padding-top: 0px;
+							li{
+								margin:5px 0 5px 20px;
+								list-style-type: decimal;
+								line-height: 1.5em;
+							}
+						}
+						table{
+							margin:0;
+							p{
+								margin:0px !important;
+							}
+							td{
+								padding:0px 5px;
+								vertical-align:middle !important;	
+							}
+								td:first-child{
+								font-family:@proxima-regular !important;
+								vertical-align:middle ;		
+							}
+							td:last-child{
+								vertical-align:middle !important;		
+							}
+						}
+					}
+					.static-accor{
+						overflow: hidden;
+						margin-bottom: 20px;
+						width:100%;
+						float:left;
+						margin-top: 10px;
+						.panel-group {
 						.panel-default {
 							border-radius: 4px;
-							/*	border-left-width: 2px;
-							border-right-width: 2px;
-							-webkit-box-shadow: 0px 1px 0px #e7e7e7;
-							-moz-box-shadow: 0px 1px 0px #e7e7e7;
-							-o-box-shadow: 0px 1px 0px #e7e7e7;
-							box-shadow: 0px 1px 0px #e7e7e7;*/
 							&.panel-open{
 								.panel-heading{
 								   background:#f5f5f5;
@@ -1001,11 +1130,11 @@ h3.accordion {
 								padding: 15px 17px 15px 30px;
 								background:transparent;
 								h4 {
-									font: 1em @proxima-bold;
 									margin-bottom:0px;
 									p {
-										font: 1em @proxima-bold;
+										font:1.143em @proxima-bold;
 										/*font: 16px @proxima-bold;*/
+										margin-bottom:0;
 										margin-top: 0;
 										&.footer-plus {
 											background-image: url('/assets/images/plus-light.svg');
@@ -1023,59 +1152,129 @@ h3.accordion {
 							}
 							.panel-body {
 								p {
-										font: 0.875em @proxima-bold;
+										font: 1em  @proxima-regular;
 										/*font: 14px @proxima-bold;*/
 									}
-								.faq-drpDown {
-									padding-left: 15px;
-									margin-top: 12px;
-									p {
-										font: 0.875em @proxima-bold;
-										/*font: 14px @proxima-bold;*/
-									}
-									.col-md-7 {
-										padding: 0;
-										&.shipping-delivery {
-											h5 {
-												font: 0.875em @proxima-bold;
-												/*font: 14px @proxima-bold;*/
-												padding-bottom: 7px;
-												color: @blk-color;
-											}
-											p {
-												font: 0.875em @proxima-regular;
-												/*font: 14px @proxima-regular;*/
-												padding-bottom: 25px;
-											}
-										}
-									}
-									table {
-										margin-top: 0px;
-										thead tr {
-											th {
-												font: 0.875em @proxima-bold;
-												/*font: 14px @proxima-bold;*/
-												padding: 15px 25px;
-												border-bottom-width: inherit;
-											}
-										}
-										tbody tr {
-											&:nth-of-type(even) {
-												background: #f7f7f7;
-											}
-											td {
-												font: 0.875em @proxima-regular;
-												/*font: 14px @proxima-regular;*/
-												padding: 15px 25px;
-											}
-										}
-									}
-								}
+								
 							}
 						}
 					}
-				}
-			.container-fluid {
+						ul{
+							
+							li{
+								list-style-type:disc;
+								font:1em @proxima-regular;
+								margin-left:40px;
+							}
+						}
+					  }
+					  .bachmans-center{
+					        background: #f7f7f7;
+						    float: left;
+						    padding: 30px;
+						  margin:15px 0;
+						    .address{
+						    	border-right:1px solid #ccc;
+						    }
+						    .address1{
+						    	width:46%;
+						    	margin-left:25px;
+						    }
+					      .center-header{
+					      	font: 2em @proxima-bold;
+					        color: #8c58b5;
+					        margin-bottom: 25px;
+					      }
+					      a{
+					      	font: 0.875em/24px @proxima-regular;
+					      	color: #000;
+					      	border-bottom:1px solid #ccc;
+					      }
+					      h4{
+					      		font:1em @proxima-bold;
+					      		color:#000;
+					      }
+				    }
+				     .motifs-gallery{
+				   		.motifs-img{
+				   			margin-bottom:25px;
+				   			img{
+				   			  width:100%;
+				   			}
+				   		}
+				   }
+				   .motifs-gallery,.wedding-gallery{
+					        background: #f7f7f7;
+						    padding:20px 40px;
+					   	  .gallery-header{
+					   	  	/*font: 2em @proxima-bold;*/
+					   	  	font: 1.5em roboto_slabregular;
+					        color: #8c58b5;
+					        margin-bottom:25px;
+					        letter-spacing: -1px;
+					   	 }
+					   	 .gallery-content{
+					   	 	margin-top:30px;
+					   	 	.gallery-desc{
+					   	 	 background:#fff;
+					   	 	 padding:10px;
+					   	 	
+					   	 	 h3{
+					   	 	 	font:1.000em @proxima-bold;
+					   	 	 	color:#333;
+					   	 	 }
+					   	 	 p{
+					   	 	 	color:#999;
+					   	 	 }
+					   	 	}
+					   	 	.owl-item {
+					   	 		border: 1px solid #eee;
+					   	 		
+					   	 	}
+					   	 	.owl-nav {
+					   	 		position: absolute;
+							    top: 40%;
+							    transform: translateY(-50%);
+							    width: 100%;
+					   	 		.owl-prev {
+					   	 			float: left;
+					   	 			margin-left: -40px;
+					   	 			.weddingTrendArrowPrev {
+					   	 				background-image:url('../../assets/images/arrow-big-next.svg');
+										.background-img(initial,center);
+										left:0px;
+										.owl-pdt-carousel-arrow;
+										-ms-transform: rotate(180deg);
+										-webkit-transform: rotate(180deg);
+										transform: rotate(180deg);
+										//width:100%;
+										background-position: initial;
+										position:relative;
+										display: inline-block;
+					   	 			}
+					   	 		}
+					   	 		.owl-next {
+					   	 			float: right;
+					   	 			margin-right: -40px;
+					   	 			.weddingTrendArrowNext {
+					   	 				background-image:url('../../assets/images/arrow-big-next.svg');
+										.background-img(initial,center);
+										right:0px;
+										.owl-pdt-carousel-arrow;
+										background-position: initial;
+										position:relative;
+										display: inline-block;
+					   	 			}
+					   	 		}
+					   	 	}
+					   	 }
+					   	 margin-bottom:40px;
+					   }
+					   .shipping-delivery {
+					   		font-family: @proxima-regular;	
+							
+				    }
+				    .container-fluid {
 				.right-content {
 					.col-md-3 {
 						padding: 5px;
@@ -1089,19 +1288,17 @@ h3.accordion {
 							padding-top: 14px;
 						}
 						p {
-							font: 0.875em/24px @proxima-regular;
+							font: 1em/24px @proxima-regular;
 							margin-top: 6px;
 						}
 						margin-top: 70px;
-						/*font: 14px/18px "Myriad Pro", Calibri, sans-serif;*/
+						
 						h4 {
-							/*font: 14px/18px "Myriad Pro", Calibri, sans-serif;*/
+						
 							color: @blk-color;
 						}
 						.history-body {
-							/*	font: 14px/18px "Myriad Pro",
-	Calibri,
-	sans-serif;*/
+					
 						}
 					}
 					.full-content {
@@ -1114,7 +1311,7 @@ h3.accordion {
 							color: @blk-color;
 						}
 						p {
-							font: 0.875em/24px @proxima-regular;
+							font: 1em/24px @proxima-regular;
 						}
 						.col-md-7 {
 							padding-left: 0;
@@ -1137,18 +1334,7 @@ h3.accordion {
 					}
 				}
 			}
-			&.service-templates {
-				.container-fluid {
-					padding: 0 30px 0 10px;
-					.service-full-content {
-						margin-top: 70px;
-						.col-xs-12 {
-							padding: 0;
-						}
-					}
-				}
-			}
-		}
+			  }
 	}
 	&.static-aside {
 		.static-full-content {
@@ -1192,7 +1378,7 @@ h3.accordion {
 			.container-fluid {
 				>h4 {
 					font: 1.438em @proxima-bold;
-					/*font: 23px @proxima-bold;*/
+					
 					margin-bottom: 20px;
 				}
 				.faq-details {
@@ -1200,15 +1386,10 @@ h3.accordion {
 					margin-bottom: 20px;
 					.panel-group {
 						margin-bottom: 15px;
-						/*color: @blk-color;*/
+						color: @blk-color;
 						.panel-default {
 							border-radius: 4px;
-							/*	border-left-width: 2px;
-							border-right-width: 2px;
-							-webkit-box-shadow: 0px 1px 0px #e7e7e7;
-							-moz-box-shadow: 0px 1px 0px #e7e7e7;
-							-o-box-shadow: 0px 1px 0px #e7e7e7;
-							box-shadow: 0px 1px 0px #e7e7e7;*/
+							
 							.panel-heading {
 								border-radius: 4px;
 								padding: 15px 17px 15px 30px;
@@ -1216,7 +1397,7 @@ h3.accordion {
 									font: 1em @proxima-bold;
 									p {
 										font: 1em @proxima-bold;
-										/*font: 16px @proxima-bold;*/
+										/*font: 16px @proxima-bold*/;
 										margin-top: 0;
 										&.footer-plus {
 											background-image: url('/assets/images/plus-light.svg');
@@ -1238,30 +1419,18 @@ h3.accordion {
 									margin-top: 12px;
 									p {
 										font: 0.875em @proxima-bold;
-										/*font: 14px @proxima-bold;*/
+										
 									}
 									.col-md-7 {
 										padding: 0;
-										&.shipping-delivery {
-											h5 {
-												font: 0.875em @proxima-bold;
-												/*font: 14px @proxima-bold;*/
-												padding-bottom: 7px;
-												color: @blk-color;
-											}
-											p {
-												font: 0.875em @proxima-regular;
-												/*font: 14px @proxima-regular;*/
-												padding-bottom: 25px;
-											}
-										}
+									
 									}
 									table {
 										margin-top: 0px;
 										thead tr {
 											th {
 												font: 0.875em @proxima-bold;
-												/*font: 14px @proxima-bold;*/
+												
 												padding: 15px 25px;
 												border-bottom-width: inherit;
 											}
@@ -1272,7 +1441,7 @@ h3.accordion {
 											}
 											td {
 												font: 0.875em @proxima-regular;
-												/*font: 14px @proxima-regular;*/
+												
 												padding: 15px 25px;
 											}
 										}
@@ -3635,6 +3804,9 @@ div.store {
 //@media only screen and (min-width:320px) and (max-width: 767px) {
 @media (max-width: @screen-sm-max) {
 	main {
+		.table-responsive{
+		display:block;
+		}
 		.mobile-receipient-details {
 			/*box-shadow: 0 0 2px 2px #E6E2F1;*/
 			/*	border-top-left-radius: 4px;
@@ -3719,15 +3891,14 @@ div.store {
 			.col-md-3 {
 				padding: 0;
 			}
-			.col-md-9 {
+			.service-templates {
+				margin-top:10px;
 				padding: 0;
-				float:left;
-				.services-content{
-					margin-top:0px;
-					h4{
-						margin: 20px 0 10px 0
-					}
-					.bachmans-center{
+				float:left;	
+				.static-info{
+					margin-top:0;
+				}
+				.bachmans-center{
 						padding:10px;
 						.center-header{
 						   font: 0.938em @proxima-bold;
@@ -3743,19 +3914,9 @@ div.store {
 					}
 					.motifs-gallery{
 						padding:20px 10px;
-
-						
-					}
-				}
-				&.service-templates {
-					.container-fluid {
-						padding: 0 5px;
-						.service-full-content ,.static-full-content,.services-content{
-							margin-top: 0;
 						}
-					}
-				}
-				.container-fluid .right-content {
+			
+			.container-fluid .right-content {
 					.col-md-3 {
 						padding: 0;
 						margin-top: 15px;
@@ -3764,13 +3925,13 @@ div.store {
 						padding: 0;
 						margin-top: 0;
 						h4 {
-							font: 0.813em @proxima-bold;
+							font: 0.875em @proxima-bold;
 							padding: 12px 5px 0;
 						}
 						.history-body {
 							margin-top: 5px;
 							padding: 0 5px;
-							font: 0.688em/20px @proxima-regular;
+							font: 0.875em/20px @proxima-regular;
 						}
 					}
 					.full-content {
@@ -3778,11 +3939,11 @@ div.store {
 							padding: 0;
 							h4 {
 								padding: 12px 0px 0px 0px;
-								font: 0.813em @proxima-bold;
+								font: 0.875em @proxima-bold;
 							}
 							.history-body1 {
 								padding: 0 5px 0 0;
-								font: 0.688em/20px @proxima-regular;
+								font: 0.875em/20px @proxima-regular;
 							}
 							&.aside-img {
 								margin-top: 7px;
@@ -3792,7 +3953,7 @@ div.store {
 						.history-body2 {
 							margin-left: 0;
 							padding: 0 5px 0 0;
-							font: 0.688em/20px @proxima-regular;
+							font: 0.875em/20px @proxima-regular;
 						}
 					}
 				}
@@ -4250,6 +4411,7 @@ div.store {
 													}
 												}
 											}
+
 										}
 										.col-md-7 {
 											padding: 0;
@@ -5319,105 +5481,7 @@ h4 {
       }
      }
    }
-   .bachmans-center{
-        background: #f7f7f7;
-	    float: left;
-	    padding: 30px;
-	    margin-top: 30px;
-	    .address{
-	    	border-right:1px solid #ccc;
-	    }
-	    .address1{
-	    	width:46%;
-	    	margin-left:25px;
-	    }
-      .center-header{
-      	font: 2em @proxima-bold;
-        color: #8c58b5;
-        margin-bottom: 25px;
-      }
-      a{
-      	font: 0.875em/24px @proxima-regular;
-      	color: #000;
-      	border-bottom:1px solid #ccc;
-      }
-   }
-   .motifs-gallery{
-   		.motifs-img{
-   			margin-bottom:25px;
-   			img{
-   			  width:100%;
-   			}
-   		}
-   }
-   .motifs-gallery,.wedding-gallery{
-        background: #f7f7f7;
-	    padding:20px 40px;
-   	  .gallery-header{
-   	  	/*font: 2em @proxima-bold;*/
-   	  	font: 1.5em roboto_slabregular;
-        color: #8c58b5;
-        margin-bottom:25px;
-        letter-spacing: -1px;
-   	 }
-   	 .gallery-content{
-   	 	margin-top:30px;
-   	 	.gallery-desc{
-   	 	 background:#fff;
-   	 	 padding:10px;
-   	 	
-   	 	 h3{
-   	 	 	font:1.000em @proxima-bold;
-   	 	 	color:#333;
-   	 	 }
-   	 	 p{
-   	 	 	color:#999;
-   	 	 }
-   	 	}
-   	 	.owl-item {
-   	 		border: 1px solid #eee;
-   	 		
-   	 	}
-   	 	.owl-nav {
-   	 		position: absolute;
-		    top: 40%;
-		    transform: translateY(-50%);
-		    width: 100%;
-   	 		.owl-prev {
-   	 			float: left;
-   	 			margin-left: -40px;
-   	 			.weddingTrendArrowPrev {
-   	 				background-image:url('../../assets/images/arrow-big-next.svg');
-					.background-img(initial,center);
-					left:0px;
-					.owl-pdt-carousel-arrow;
-					-ms-transform: rotate(180deg);
-					-webkit-transform: rotate(180deg);
-					transform: rotate(180deg);
-					//width:100%;
-					background-position: initial;
-					position:relative;
-					display: inline-block;
-   	 			}
-   	 		}
-   	 		.owl-next {
-   	 			float: right;
-   	 			margin-right: -40px;
-   	 			.weddingTrendArrowNext {
-   	 				background-image:url('../../assets/images/arrow-big-next.svg');
-					.background-img(initial,center);
-					right:0px;
-					.owl-pdt-carousel-arrow;
-					background-position: initial;
-					position:relative;
-					display: inline-block;
-   	 			}
-   	 		}
-   	 	}
-   	 }
-   	 margin-bottom:40px;
-   }
-}
+  }
 // Color variables (appears count calculates by raw css)
 @color0: #333333; // Appears 3 times
 @color1: #ffffff; // Appears 2 times

@@ -618,11 +618,10 @@
             </div>
          </div>
       </div>
-   <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block">
-
-      
-  
-
+   <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block noPdtsFound" ng-if="plp.ProductResults.hits.length == 0">
+      <div>NO PRODUCTS FOUND</div>
+   </div>
+   <div ng-if="plp.ProductResults.hits.length > 0" class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block">
    <div class="feature-products">
       
    <div class="row">

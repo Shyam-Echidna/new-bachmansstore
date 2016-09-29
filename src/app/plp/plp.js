@@ -147,6 +147,12 @@ function PlpConfig($stateProvider) {
                     }
 
                 },
+                GetFeaturedProducts: function (OrderCloud, $stateParams){
+                    return OrderCloud.Me.ListProducts(null, 1, 100, null, null, { "xp.Featured": true }, $stateParams.catId).then(function(res){
+                        return res.Items;
+                    })
+
+                },
                 ProductSearchResult: function (AlgoliaSvc, $stateParams, $q, DisjunctiveFacets, FilterStrings, PriceFilterString) {
                     var index;
                     if ($stateParams.productssortby) {
@@ -208,6 +214,71 @@ function PlpConfig($stateProvider) {
                         return res.items;
                     });
                 },*/
+                FeaturedWithVarients: function (GetFeaturedProducts, PdpService, $q, Underscore, alfcontenturl) {
+                    console.log("200 ===", GetFeaturedProducts);
+                    var deferred = $q.defer();
+                    var ajaxarr = [];
+                    angular.forEach(GetFeaturedProducts, function (node) {
+                        var promise = PdpService.GetSeqProd(node.xp.SequenceNumber)
+                        ajaxarr.push(promise);
+                    });
+                    $q.all(ajaxarr).then(function (items) {
+                        console.log("items==", items);
+                        var ticket = localStorage.getItem("alf_ticket");
+                        var imgcontentArray = [];
+                        var imgcontentArray1 = [];
+           
+                        imgcontentArray1 = items;
+                        console.log("GetFeaturedProducts ==", imgcontentArray1);
+                        var defaultGroupedProd = [];
+                        angular.forEach(imgcontentArray1, function (value, key) {
+                            var data;
+                            $.grep(value, function (e, i) {
+                                if (e.xp.IsDefaultProduct == 'true' || e.xp.IsDefaultProduct == true) {
+                                    data = i;
+                                }
+                            });
+                            if (data == undefined) {
+                                console.log("value==", value);
+                            }
+                            //var maxValue = _.max(value, _.property('StandardPriceSchedule.PriceBreaks[0].Price'));
+                            // var maxDate = _(value).map('StandardPriceSchedule.PriceBreaks[0]').flatten().max(Price);
+                            var lowest = Number.POSITIVE_INFINITY;
+                            var highest = Number.NEGATIVE_INFINITY;
+                            var tmp;
+                            //console.log("@@@" ,value.StandardPriceSchedule.PriceBreaks);
+                            var isNew = false;
+                            angular.forEach(value, function (prodValues, key) {
+                                tmp = prodValues.StandardPriceSchedule.PriceBreaks[0].Price;
+                                if (tmp < lowest) lowest = tmp;
+                                if (tmp > highest) highest = tmp;
+                                var d = new Date(prodValues.xp.DateAdded);
+                                var date = new Date(d.setMonth(d.getMonth() + 1)) > new Date();
+                                if (date) { isNew = true; }
+
+                            });
+                            var price;
+                            if (lowest != highest) {
+                                price = "$" + lowest + " - $" + highest;
+                            }
+                            else {
+                                price = "$" + lowest;
+                            }
+                            if (isNew) {
+                                value[data].isNew = true;
+                            }
+                        
+                            value[data].priceRange = price;
+                            var b = value[data];
+                            value[data] = value[0];
+                            value[0] = b;
+                            defaultGroupedProd.push(value);
+                        });
+                        console.log("final ==", defaultGroupedProd);
+                        deferred.resolve(defaultGroupedProd);
+                    });
+                    return deferred.promise;
+                },
                 ProductResultsWithVarients: function (ProductSearchResult, PdpService, $q, Underscore, alfcontenturl) {
                     console.log("200 ===", ProductSearchResult);
                     var deferred = $q.defer();
@@ -710,19 +781,12 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
     vm.ProductResults = ProductSearchResult;
     vm.FiltersObject = FiltersObject;
     console.log("FiltersObject == ", FiltersObject);
-    var test = [];
-    angular.forEach(ProductResultsWithVarients, function(item){
-       var def =  _.where(item, function(num){return num.xp.Featured == true});
-       
-       test.push(def);
-    });
-    console.log("test == ",test);
     // START: function for facet selection logic
     //  vm.Selections = [];
     vm.FiltersObject = FiltersObject;
     vm.Selections = Selections;
     vm.currentProductPage = $stateParams.productpage;
-    console.log("CurrentCatgory==", BaseService.GetCatTree());
+   
     OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function (res) {
         // return res;
         $scope.$emit("CurrentCatgory2", res);
@@ -743,12 +807,20 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
       }*/
     vm.CurrentCatgory = CurrentCatgory;
     vm.CustomFacetList = FacetList;
-    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    if(vm.ProductResults.hits.length>0){
+        vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    }
     vm.toggleFacet = function (facet, value) {
         var currentFilter = $stateParams.filters;
         if (!currentFilter) {
-            currentFilter = "Category" + ':' + CurrentCatgory.Name;
-            currentFilter += ',' + facet + ':' + value;
+            if(facet!="Category"){
+                currentFilter = "Category" + ':' + CurrentCatgory.Name;
+                currentFilter += ',' + facet + ':' + value;
+            }
+            else{
+                currentFilter = facet + ':' + value;
+            }
+            //currentFilter += ',' + facet + ':' + value;
 
         } else {
             if (currentFilter.indexOf(facet + ':' + value) > -1) {
@@ -919,8 +991,8 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
         { 'value': 'PriceHighesttoLowest', 'label': 'Price Highest to Lowest', 'index': 'products_price_desc' },
         { 'value': 'PriceLowesttoHighest', 'label': 'Price Lowest to Highest', 'index': 'products_price_asc' },
         { 'value': 'BestSellers', 'label': 'Best Sellers', 'index': 'products' },
-       /* { 'value': 'Local Delivery', 'label': 'Local Delivery', 'index': 'products' },
-        { 'value': 'Nationwide Delivery', 'label': 'Nationwide Delivery', 'index': 'products' },*/
+        { 'value': 'Local Delivery', 'label': 'Local Delivery', 'index': 'products' },
+        { 'value': 'Nationwide Delivery', 'label': 'Nationwide Delivery', 'index': 'products' },
         { 'value': 'Most Popular', 'label': 'Most Popular', 'index': 'products' },
         { 'value': 'AZ', 'label': 'A - Z', 'index': 'products' },
         { 'value': 'ZA', 'label': 'Z - A', 'index': 'products_name_desc' },

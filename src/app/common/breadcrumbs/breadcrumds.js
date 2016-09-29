@@ -189,20 +189,21 @@ function BreadcrumbDirective($interpolate, $breadcrumb, $rootScope) {
             '<span class="divider" ng-hide="$last">/</span>' +
             '</li>' +
             '</ul>',
-        bootstrap3: '<ol class="breadcrumb">' +
-            '<li ng-repeat="step in steps | limitTo:(steps.length-1)" ng-bind-html="step.ncyBreadcrumbLabel"></li>' +
-            '<li ng-repeat="step in steps | limitTo:-1" class="active" ng-bind-html="step.ncyBreadcrumbLabel">' +            
-            '</li>' +
+       bootstrap3: '<ol class="breadcrumb"><li ng-repeat="step in steps | limitTo:(steps.length-1)" ng-bind-html="step.ncyBreadcrumbLabel"></li>'+
+                '<li ng-repeat="step in steps | limitTo:-1" class="active" ng-bind-html="step.ncyBreadcrumbLabel"></li>' +
+            // '<li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract">' +
+            // '<a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>' +
+            // '<span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>' +
+            // '</li>' +
             '</ol>'
     };
 
     return {
         restrict: 'AE',
-        replace: true,
+       // replace: true,
         scope: {},
-       // template: $breadcrumb.getTemplate($$templates),
-       // templateUrl: $breadcrumb.getTemplateUrl(),
-        template: $$templates.bootstrap3,
+        template: $breadcrumb.getTemplate($$templates),
+        templateUrl: $breadcrumb.getTemplateUrl(),
         controller: function ($scope,$state,$location, $rootScope) {
             $scope.testevent = function(statename, label){
            console.log($location.url());

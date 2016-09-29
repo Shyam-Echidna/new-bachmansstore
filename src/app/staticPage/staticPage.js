@@ -21,6 +21,7 @@ angular.module('orderCloud')
 .controller('eventCalenderModalCtrl',eventCalenderModalController )
 .directive('onFinishRender', onFinishRender)
 .controller('EventCtrl', deviceEventsController)
+.controller('eventsListingCtrl', eventsListingController)
 
 ;
 
@@ -113,10 +114,6 @@ function staticPageConfig($stateProvider) {
 						$timeout(function(){
 							$state.go("storelocator",{},{location:"replace"});
 						},10);
-					}else if($stateParams.pageName.toLowerCase().indexOf("purpleperks") >=0){
-						$timeout(function(){
-							$state.go("purplePerks",{},{location:"replace"});
-						},10);
 					}else{
 						return $stateParams.pageName;
 					}
@@ -198,6 +195,13 @@ function staticPageConfig($stateProvider) {
 			controller: 'perplePerksRegisteredCtrl',
 			controllerAs: 'perplePerksRegistered'
 		})
+		.state('eventsListing', {
+			parent: 'base',
+			url: '/elp',
+			templateUrl: 'staticPage/templates/eventsListing.tpl.html',
+			controller: 'eventsListingCtrl',
+			controllerAs: 'elp'
+		})
 		.state('eventDescription', {
 			parent: 'base',
 			url: '/eventDescription/:prodCode?prodId',
@@ -264,7 +268,6 @@ function staticPageConfig($stateProvider) {
 		})
 
 }
-
 function ladingPageController(folder) {
 	var vm = this;
 	alert(JSON.stringify(folder));
@@ -1502,3 +1505,72 @@ function staticPageData($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 
 
 }
+function eventsListingController(PlpService, $stateParams,alfStaticContenturl,alfcontenturl,$sce) {
+	var vm = this;
+
+    // START: function for sort options selection
+    var sortItems = [
+        { 'value': 'New', 'label': 'New', 'index': 'products' },
+        { 'value': 'PriceHighesttoLowest', 'label': 'Price Highest to Lowest', 'index': 'products_price_desc' },
+        { 'value': 'PriceLowesttoHighest', 'label': 'Price Lowest to Highest', 'index': 'products_price_asc' },
+        { 'value': 'BestSellers', 'label': 'Best Sellers', 'index': 'products' },
+        { 'value': 'Local Delivery', 'label': 'Local Delivery', 'index': 'products' },
+        { 'value': 'Nationwide Delivery', 'label': 'Nationwide Delivery', 'index': 'products' },
+        { 'value': 'Most Popular', 'label': 'Most Popular', 'index': 'products' },
+        { 'value': 'AZ', 'label': 'A - Z', 'index': 'products' },
+        { 'value': 'ZA', 'label': 'Z - A', 'index': 'products_name_desc' },
+    ];
+    vm.sortItems = sortItems;
+    if ($stateParams.productssortby == undefined) {
+        vm.selectedItem = "Best Sellers";
+        vm.selectedMenu = 0;
+    }
+    else {
+
+        var slectItem = Underscore.where(vm.sortItems, { index: $stateParams.productssortby });
+        vm.selectedItem = slectItem[0].label;
+    }
+
+    vm.changeSortSelection = function changeSortSelection(selcetedItem, itemIndex) {
+        vm.selectedItem = selcetedItem;
+        vm.selectedMenu = itemIndex;
+
+    };
+
+    vm.SortByProducts = function (indexName, selcetedItem) {
+     /*   $state.go('elp', {
+            filters: $stateParams.filters,
+            productpage: vm.currentProductPage || 1,
+            productssortby: indexName,
+            min: $stateParams.min || null,
+            max: $stateParams.max || null
+        },
+            { reload: true })*/
+        vm.selectedItem = selcetedItem;
+    };
+    // END: function for sort options selection
+	var ticket = localStorage.getItem("alf_ticket");
+    PlpService.GetHelpAndPromo(ticket).then(function (res) {
+    	debugger;
+        vm.needHelp = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
+        vm.needHelpTitle = res.items[0].title;
+        vm.needHelpDescription = res.items[0].description;
+
+        vm.leftPromo = alfcontenturl + res.items[1].contentUrl + "?alf_ticket=" + ticket;
+        vm.leftPromoTitle = res.items[1].title;
+        vm.leftPromoDescription = res.items[1].description;
+        vm.leftPromoButton = res.items[1].author;
+
+        var giftCard = alfcontenturl + res.items[2].contentUrl + "?alf_ticket=" + ticket;
+        vm.giftCard = $sce.trustAsResourceUrl(giftCard);
+        vm.giftCardTitle = res.items[2].title;
+        vm.giftCardDescription = res.items[2].description;
+
+    });
+    PlpService.GetPromoSvgDesign(ticket).then(function (res) {
+        var elp_promo_svgDesign = alfcontenturl + res.items[6].contentUrl + "?alf_ticket=" + ticket;
+        vm.elp_promo_svgDesign = $sce.trustAsResourceUrl(elp_promo_svgDesign);
+    });
+
+}
+

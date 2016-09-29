@@ -15,11 +15,12 @@ angular.module( 'orderCloud' )
   .directive('confirmPassword', ConfirmPasswordValidatorDirective)
   .filter('categoriesAsPerSeason', CategoriesAsPerSeasonFilter)
   .filter('capitalize', CapitalizeFilter)
-/* .config(function($breadcrumbProvider) {
+ .config(function($breadcrumbProvider) {
     $breadcrumbProvider.setOptions({
-      templateUrl: '../common/breadcrumbs/breadcrumb.tpl.html'
+      //templateUrl: '../common/breadcrumbs/breadcrumb.tpl.html'
+      template: "bootstrap3"
     });
-  });*/
+  });
 ;
 
 function BaseConfig( $stateProvider ) {
@@ -51,7 +52,7 @@ function BaseConfig( $stateProvider ) {
                 }
             },
             resolve: {
-                CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous) {
+                CurrentUser: function ($q, $state, OrderCloud, buyerid, anonymous, $window) {
                     var dfd = $q.defer();
                     OrderCloud.Me.Get()
                         .then(function (data) {
@@ -73,7 +74,8 @@ function BaseConfig( $stateProvider ) {
                                 OrderCloud.Auth.RemoveToken();
                                 OrderCloud.Auth.RemoveImpersonationToken();
                                 OrderCloud.BuyerID.Set(null);
-                                $state.reload();
+                               // $state.reload();
+                               $window.location.reload();
                                 dfd.resolve();
                                 }
                             } else {
@@ -114,26 +116,32 @@ function BaseConfig( $stateProvider ) {
                     return CategoryService.GetCategoryImages(ticket).then(function (res) {
                         return res.items;
                     });
-                }
+                },
+                getBuyer : function(OrderCloud){
+                    return OrderCloud.Buyers.Get().then(function(res){
+                      return res;
+                    })
+              }
             }
         });
 }
 
 function BaseService( $q, $localForage, Underscore, OrderCloud, CurrentOrder) {
-  var catTree = []
+
   var service = {
     GetCategoryTree: _getCategoryTree,
     MinicartData: _minicartData,
     FlattenCategoryArray:_flattenCategoryArray,
-    SetCatTree:_setCatTree,
-    GetCatTree:_getCatTree
+    GetBuyer:_getBuyer
   };
-  function _setCatTree(tree){
-    catTree.push(tree);
-  }
-   function _getCatTree(){
-   return catTree;
-  }
+
+ function _getBuyer(){
+  var defferred = $q.defer();
+  OrderCloud.Buyers.Get().then(function(res){
+           defferred.resolve(res);
+        })
+  return defferred.promise;
+ }
   function _getCategoryTree() {
   var tree = [];
   var categories = [];
@@ -279,9 +287,10 @@ function _flattenCategoryArray(categories, approach) {
     return service;
 }
 
-function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
+function BaseController($scope, getBuyer, $cookieStore, CurrentUser, defaultErrorMessageResolver,validator, $timeout, $window, BaseService, $state, LoginService, $rootScope, LoginFact, OrderCloud, alfcontenturl, $sce, $http, PlpService,$q,ticket, Underscore,CategoryService,HomeFact,categoryImages,$location,CurrentOrder) {
     var vm = this;
     vm.currentUser = CurrentUser;
+    var siteEditorHome = getBuyer.xp.SiteEditor.HomePage;
     $scope.$on("CurrentCatgory1", function (evt, data) {
         vm.name1 =  data;
     });
@@ -946,7 +955,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
             vm.tree = data;
           //  $rootScope.cattree = data;
        $rootScope.cattree  = BaseService.FlattenCategoryArray(data,'topDown')
-        BaseService.SetCatTree($rootScope.cattree);
+       
         });
         //$state.go($state.current.name);
    // }
@@ -984,7 +993,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
 //            console.log(data);
         });
 });
-             LoginFact.GetServices(ticket).then(function(data){
+             LoginFact.GetServices(ticket, siteEditorHome.Services).then(function(data){
 //        console.log("GetServices==",data.items);
                  var services_mobile =[];
                  var services =[];
@@ -1007,7 +1016,7 @@ function BaseController($scope, $cookieStore, CurrentUser, defaultErrorMessageRe
                  vm.services_mobile = services_mobile;
 
 });
-LoginFact.GetContactInfo(ticket).then(function(res){
+LoginFact.GetContactInfo(ticket, siteEditorHome.Contactbar).then(function(res){
         vm.contactImgs = [];
         vm.contacttitle = [];
         vm.description = [];
@@ -1123,10 +1132,7 @@ LoginFact.GetContactInfo(ticket).then(function(res){
       vm.quicklinkPPHover = $sce.trustAsResourceUrl(quicklinkPPHover);
 
     });
-    LoginFact.GetArun().then(function(res){
-      console.log('arun', res)
 
-    });
 
   }
 /*floating header*/
@@ -1423,15 +1429,14 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
             GetServices:_getServices,
             GetContactInfo:_getContactInfo,
             GetStaticTemp:_getStaticTemp,
-		    GetFolders:_getFolders,
-		    GetSubFolders:_getSubFolders,
-        GetSubSubFolders:_getSubSubFolders,
-		    GetArtcleList:_getArtcleList,
+    		    GetFolders:_getFolders,
+    		    GetSubFolders:_getSubFolders,
+            GetSubSubFolders:_getSubSubFolders,
+    		    GetArtcleList:_getArtcleList,
             GetPerplePerksSvg: _getPerplePerksSvg,
              GetContactList:_getcontactlist,
             CreateContactList:_createcontactlist,
-            UpdateEmailPreference:_updateemailpreference,
-            GetArun:_getArun
+            UpdateEmailPreference:_updateemailpreference
     };
     return service;
 
@@ -1452,33 +1457,7 @@ function LoginFact($http, $q, alfrescourl, alflogin,alfStaticlogin, alfrescofold
         return defferred.promise;
 
     }
-    function _getArun() {
-        var data = {
-"card_number":"7777001112223333"
-};
-        var defferred = $q.defer();
 
-        $http({
-
-                method: 'POST',
-                dataType:"json",
-                url:"https://Four51TRIAL104401.jitterbit.net/BachmansOnPrem/PurplePerksBalanceCheck",
-            //  url: "http://192.168.100.184:8080/alfresco/service/api/login",
-             //  url: "http://103.227.151.31:8080/alfresco/service/api/login",
-
-                data: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-
-            }).success(function (data, status, headers, config) {
-
-                defferred.resolve(data);
-            }).error(function (data, status, headers, config) {
-                defferred.reject(data);
-            });
-            return defferred.promise;
-    }
     function _get() {
         var data = {
 
@@ -1628,7 +1607,7 @@ function _updateemailpreference(u_data){
 //End of updateemailpreference
 
 
-     function _getServices(ticket) {
+     function _getServices(ticket, root) {
 
         var defferred = $q.defer();
 
@@ -1636,7 +1615,7 @@ function _updateemailpreference(u_data){
 
                 method: 'GET',
                 dataType:"json",
-                url: alfrescourl+"HomePage/Services?alf_ticket="+ticket,
+                url: alfrescourl+"HomePage/Services/"+root+"?alf_ticket="+ticket,
 
                 headers: {
                     'Content-Type': 'application/json'
@@ -1650,12 +1629,12 @@ function _updateemailpreference(u_data){
             return defferred.promise;
     }
 
-    function _getContactInfo(ticket) {
+    function _getContactInfo(ticket,root) {
         var defferred = $q.defer();
         $http({
             method: 'GET',
             dataType:"json",
-            url: alfrescourl+"HomePage/Contactbar?alf_ticket="+ticket,
+            url: alfrescourl+"HomePage/Contactbar/"+root+"?alf_ticket="+ticket,
             headers: {
                 'Content-Type': 'application/json'
             }

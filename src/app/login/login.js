@@ -102,7 +102,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $stateParams, $exceptionHandler, LoginService, Underscore, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window,emailSubscribeList,ConstantContact) {
+function LoginController( OrderCloud,$state, $http, CurrentUser,$cookieStore, $stateParams, $exceptionHandler, LoginService, Underscore, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window,emailSubscribeList,ConstantContact) {
 
     var vm = this;
       vm.user=CurrentUser;
@@ -311,7 +311,8 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
                 "SecurityQuestion":{
                     "Question":vm.selectedItem,
                     "Answer":vm.newUser.securityAnswer
-                }
+                },                
+                "CreatedFrom":"web"
             }
 
 
@@ -326,6 +327,25 @@ function LoginController( OrderCloud,$state, CurrentUser,$cookieStore, $statePar
             OrderCloud.UserGroups.SaveUserAssignment(userGroupAssignment);
 /*            $uibModalInstance.dismiss('cancel');*/
             // $state.go('home');
+             // start  user integartion to Egle
+                var data = {
+                        "CustomerID":res.ID,
+                        "Action":"create"
+                        }
+        $http({
+
+                method: 'POST',
+                dataType:"json",
+                url:"https://Four51TRIAL104401.jitterbit.net/Bachmans_Dev/four51_to_eagle_filecreate",
+                data: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            }).success(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
+            });
+            // endof user integartion to Egle
             if(vm.newUser.PurplePerksChecked)
             {
           var Purple_perks=  {
