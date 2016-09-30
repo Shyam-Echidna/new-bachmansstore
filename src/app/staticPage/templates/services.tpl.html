@@ -19,7 +19,7 @@
 				<uib-accordion close-others="oneAtATime" >
 					<uib-accordion-group is-open="$index==history.isOpen" ng-repeat="folder in base.ListOfPages | orderBy : 'description'" ng-if="folder.nodeType == 'ws:section' && folder.fileName !='CareAdviceInformation' && folder.title !=''" >
 						<uib-accordion-heading >
-							<svg class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
+							<svg ng-click="history.accordianOpen($index)" class="close" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="24" height="24" viewBox="0 0 24 24">
 								<g>
 									<rect x="10" width="4" height="24" />
 									<rect y="10" width="24" height="4" />
@@ -27,7 +27,7 @@
 
 
 							</svg>
-							<svg class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
+							<svg ng-click="history.accordianOpen($index)" class="open" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="92" height="92" viewBox="0 0 92 92">
 								<rect y="10" width="50" height="8" />
 							</svg>
 							<!-- <span ng-click="history.accordianOpen($index)" ng-init="history.activeIndex = (history.parentPath == folder.fileName) ? $index : 0;">{{history.isOpen}}{{folder.title}}</span> -->

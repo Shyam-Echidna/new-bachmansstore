@@ -482,22 +482,20 @@ function templateController($http, $scope,$rootScope, alfcontenturl, $state, $st
     
     vm.populateTabs = function(f,sf,index,event){
 		event.preventDefault();
-        vm.mainCatName = sf.title;
-        var first = true;
-        vm.activeTab = "";
-        vm.active = 0;
-        vm.isOpen = index;
-        getFirstTag = true;
-        vm.tabsData = sf;
-        this.articleSearch.description="";
-        vm.parentCategoryArticles(sf.nodeRef,0);
-//        angular.forEach(sf.items, function(item,i) {
-//            if(item.nodeType == 'ws:section' && item.title !='' &first){
-//                first=false;
-//                vm.getThingsFromALfresco(f.fileName,item.fileName,i);
-//            }
-//        });
-        $state.go('CareAdviceInformation',{pageName:sf.displayName});
+		if(vm.isOpen != index){
+			vm.mainCatName = sf.title;
+			var first = true;
+			vm.activeTab = "";
+			vm.active = 0;
+			vm.isOpen = index;
+			getFirstTag = true;
+			vm.tabsData = sf;
+			this.articleSearch.description="";
+			vm.parentCategoryArticles(sf.nodeRef,0);
+			$state.go('CareAdviceInformation',{pageName:sf.displayName});
+		}else{
+			vm.isOpen = undefined;
+		}
     }
 
 	vm.relatedArticlesLinks = function(article){
