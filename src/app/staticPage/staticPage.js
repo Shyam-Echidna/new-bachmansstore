@@ -632,10 +632,8 @@ function historyController($scope,alfcontenturl,$sce,$state,page,fileName,static
 			}
 		}
 	}
-	vm.changePageData = function(filename,folder){
-		console.log(filename);
-		console.log(folder);
-		vm.activeIndex = folder.fileName;
+	vm.changePageData = function(filename,folder,activeFileName){
+		vm.activeIndex = activeFileName;
 		vm.childCount = 0;
 		var htmlName;
 		var param = folder.location.path.split(filename+'/')[1];
@@ -652,11 +650,7 @@ function historyController($scope,alfcontenturl,$sce,$state,page,fileName,static
 				}
 			})
 		}
-		if(vm.childCount > 2){
-		//	alert(count);
-		}else{
-			$state.go(filename, {pageName:param,fileName:htmlName});
-		}
+		$state.go(filename, {pageName:param,fileName:htmlName});
 	}
  vm.showCarouselData = false;
   vm.getMediaData = function(url){
@@ -1571,4 +1565,3 @@ function eventsListingController(PlpService, $stateParams,alfStaticContenturl,al
     });
 
 }
-

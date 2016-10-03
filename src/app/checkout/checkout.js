@@ -949,6 +949,7 @@ function CheckoutController($scope, $uibModal, $state, HomeFact, PlpService, $q,
 					}, true);
 					$q.all(TempStoredCustomArray).then(function(result){
 						console.log("========>>>>>>"+result);
+						d.resolve("1");
 					});
 				});
 			// $q.all(TempStoredCreatedArray).then(function (result2) {

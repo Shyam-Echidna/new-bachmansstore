@@ -605,11 +605,35 @@ h3.accordion {
             }
             .col-lg-6 {
                 &.event-describes {
-                    padding-left: 95px;
+                    padding-left: 50px;
                     h3 {
                         font: 1.375em @proxima-bold;
                         /*  font: 22px @@proxima-bold;*/
                         color: @font-purple-dark;
+                    }
+                    .event-describes-loc{
+                        width:100%;
+                        .fl;
+                        border-top:1px solid #f2f2f2;
+                        border-bottom:1px solid #f2f2f2;
+                        padding: 13px 0;
+                        .event-describes-loc-sub{
+                            width:100%;
+                            .fl;
+                            div{
+                                width:50%;
+                                .fl;
+                                p{
+                                   padding-right:10px;
+                                   .fl;  
+                                }
+                                span{
+                                    text-transform:capitalize;
+                                    display: block;
+                                }
+                            }
+                        }
+
                     }
                     h5 {
                         font: 1.375em @proxima-regular;
@@ -668,6 +692,9 @@ h3.accordion {
                                 .event-drpDown {
                                     label {
                                         .cuctom-checkbox;
+                                        .Checkbox{
+                                            margin-right: 15px;
+                                        }
                                         margin: 0;
                                         display: block;
                                         &+label {
@@ -676,7 +703,7 @@ h3.accordion {
                                         span {
                                             font: 1em @proxima-regular;
                                             /*  font: 16px @@proxima-regular;*/
-                                            padding-left: 15px;
+                                            //padding-left: 15px;
                                             text-transform: lowercase;
                                         }
                                     }
@@ -5166,6 +5193,7 @@ div.store {
                 padding: 0 15px;
                 margin: 5px 0 20px;
                 cursor: pointer;
+                width:auto;
                 .ctg-product-img {
                     overflow: hidden;
                     position: relative;
@@ -5794,6 +5822,8 @@ h4 {
 
 
 
+
+
 /* event listing page */
  
  .inBlock {
@@ -5803,22 +5833,27 @@ h4 {
  .elpBlock {
      box-shadow: 0px 0px 2px 2px #e6e6e6;
      margin-bottom: 2.5%;
+     &.row-eq-height {
+         display: flex;
+     }
      .imgSide,
      .contentSide {
          padding: 0px;
-         width: 25%
+         //width: 25%
      }
      .contentSide {
-         width: 72%;
+         //width: 72%;
          padding: 10px 10px 0px 0px;
-         margin-left: 2%;
+         padding-left: 2%;
+         padding-right: 2%;
+         position: relative;
          h4 {
              font: 1.4em @proxima-bold;
              color: @font-purple-dark;
              white-space: nowrap;
              text-transform: capitalize;
          }
-         p {
+         .event-content {
              font: 14px @proxima-regular;
              padding: 0px 0px;
              display: block;
@@ -5840,17 +5875,23 @@ h4 {
              height: auto;
              font: 0.875em @proxima-bold;
              cursor: pointer;
+             margin-bottom: 2.5%;
              &:hover {
                  color: @font-purple-dark;
              }
          }
          .free-entry {
-             color: #000000;
+             color: @font-purple-light;
              font: 0.875em @proxima-bold;
              text-transform: uppercase;
              height: auto;
+             display: initial;
+             border-bottom: 1px solid #afafaf;
+             &:hover {
+                 color: @font-purple-dark;
+             }
          }
-         .eventDate {
+         /* .eventDate {
              margin-top: 11%;
              .event-date {
                  font: 1.625em @proxima-bold;
@@ -5962,6 +6003,100 @@ h4 {
                      }
                  }
              }
+         }*/
+         .registerBlock {
+             div {
+                 padding: 0px;
+             }
+             position: absolute;
+             bottom: 5%;
+             display: block;
+             width: 95%;
+             .ePrice {
+                 p {
+                     font: 1.4em @proxima-bold;
+                     color: @font-purple-light;
+                     text-align: right;
+                     margin-bottom: 1%;
+                 }
+             }
+             .eDate {
+                 .dateSlot {
+                     span {
+                         font: 1em @proxima-bold;
+                         color: #464646;
+                         text-transform: uppercase;
+                         &.endDate {
+                             &:before {
+                                 content: '-';
+                                 margin-right: 1%;
+                             }
+                         }
+                     }
+                 }
+                 .timeSlot {
+                     .eDay {
+                         font: 0.63em @proxima-regular;
+                         color: #afafaf;
+                         text-transform: uppercase;
+                         margin-right: 2%;
+                     }
+                     .events-countdown {
+                         svg {
+                             fill: none;
+                             stroke: #000;
+                             width: 15px;
+                             height: 15px;
+                             position: relative;
+                             top: 2px;
+                         }
+                     }
+                     .eTime {
+                         font: 0.8em @proxima-regular;
+                         text-transform: uppercase;
+                         color: #333333;
+                     }
+                 }
+             }
+             .eRegister {
+                 text-align: right;
+                 .calendarBtn {
+                     background-color: #f3f3f3;
+                     font: 0.8em @proxima-regular;
+                     color: #464646;
+                     border: 1px solid #f3f3f3;
+                     &:hover {
+                         background-color: #dddddd;
+                         color: @font-purple-dark;
+                         border-color: #dddddd;
+                     }
+                 }
+                 .registerBtn {
+                     font: 0.8em @proxima-bold;
+                     color: #fff;
+                     background-color: #afd833;
+                     vertical-align: middle;
+                     border: none;
+                     box-shadow: none;
+                     margin-left: 2%;
+                     &:hover {
+                         background-color: #8dbb01;
+                     }
+                 }
+                 button {
+                     padding: 0% 4%;
+                     text-transform: uppercase;
+                     color: #fff;
+                     background-color: @base-bg-purple-dark;
+                     cursor: pointer;
+                     border: none;
+                     transition: background-color 0.4s ease-out;
+                     letter-spacing: 1px;
+                     height: 40px;
+                     line-height: 40px !important;
+                     letter-spacing: 0.8px;
+                 }
+             }
          }
      }
  }
@@ -6021,13 +6156,13 @@ h4 {
          .contentSide {
              margin: 0px;
              padding: 5px 5px 5px 12px;
-             padding-bottom: 12.5%;
+             padding-bottom: 45%;
              h4 {
                  font-size: 1em;
                  overflow: hidden;
                  text-overflow: ellipsis;
              }
-             p {
+             .event-content {
                  font-size: 0.8em;
                  padding: 5px 5px 0px 0px;
                  height: 4em;
@@ -6040,11 +6175,15 @@ h4 {
                  padding: 0;
                  font-size: 0.8em;
                  margin-top: 5px;
+                 margin: 0px;
              }
              .free-entry {
-                 font-size: 0.55em;
+                     display: block;
+    font-size: 0.55em;
+    margin-right: -1%;
+    margin-top: 5%;
              }
-             .eventDate {
+             /*.eventDate {
                  .event-date {
                      left: 6%;
                      bottom: 35%;
@@ -6053,11 +6192,11 @@ h4 {
                          top: 35px;
                          font-size: 0.33em;
                      }
-                     &.end-date{
-                        left: 30%;
-                        &:before{
-                            left: -30%;
-                        }
+                     &.end-date {
+                         left: 30%;
+                         &:before {
+                             left: -30%;
+                         }
                      }
                  }
                  .register-button {
@@ -6076,134 +6215,279 @@ h4 {
                          display: inline-block;
                      }
                  }
+             }*/
+             .registerBlock {
+                 .ePrice {
+                     position: absolute;
+                     top: -46%;
+                     right: 5%;
+                     p {
+                         display: initial;
+                         float: right;
+                         font-size: 0.8em;
+                     }
+                 }
+                 .eDate {
+                     position: absolute;
+                     top: -50%;
+                     .dateSlot{
+                        span{
+                            font-size: 0.8em;
+                        }
+                     }
+                     .timeSlot{
+                        .eTime{
+                            font-size: 0.62em;
+                        }
+                        .eDay{
+                                font-size: 0.55em;
+                                    margin-right: 1%;
+                        }
+                     }
+                 }
+                 .eRegister {
+                     position: relative;
+                     left: -90%;
+                     width: 195%;
+                     padding: 0 10%;
+                     bottom: -0.5em;
+                     button {
+                         width: 100%;
+                         display: block;
+                         margin: 0;
+                     }
+                     .registerBtn{
+                        margin: 0px;
+                        margin-top: 2%;
+                     }
+
+                 }
              }
          }
      }
  }
  /* iphone 6 */
-@media screen and (min-width:375px) and (max-width:413px) {
-            .elpBlock {
-         .contentSide {
-             .eventDate {
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -35px;
-                    }
-                 }
-             }
-         }
-     }
-}
-
- /* iphone 6+ */
-@media screen and (min-width:414px) and (max-width:736px) {
-        .elpBlock {
-         .contentSide {
-             .eventDate {
-                 .event-date{
-                    bottom: 40%;
-                    .event-day{
-                        top: 40px;
-                    }
-                    &.end-date{
-                        &:before{
-                            left: -40%;
-                        }
-                    }
-                 }
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -40px;
-                    }
-                 }
-             }
-         }
-     }
-}
-//for sam tab portrait & iphone landscape
-@media screen and (max-width:737px) and (min-width:560px) {
-            .elpBlock {
-         .contentSide {
-            padding-bottom: 20%;
-             .eventDate {
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -100px;
-                        left: 1%;
-                    }
-                    .event-time{
-                        margin-top: -26%;
-                    }
-                 }
-             }
-         }
-     }
-}
-
-@media only screen and (min-device-width: 375px) and (max-device-width: 736px) and (orientation: landscape) { 
-             .elpBlock {
-         .contentSide {
-             .eventDate {
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -125px;
-                        left: 1%;
-                    }
-                    .event-time{
-                        margin-top: -17%;
-                    }
-                 }
-                 .event-date{
-                    &.end-date{
-                        &:before{
-                            left: -60%;
-                        }
-                    }
-                 }
-             }
-         }
-     }
-}
-
-@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) { 
-             .elpBlock {
-         .contentSide {
-            padding-bottom: 22%;
-             .eventDate {
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -155px;
-                    }
-                    .event-time{
-                        margin-top: -14%;
-                    }
-                 }
-             }
-         }
-     }
-}
-
-
- /* media queries for Tablets & Ipad -- landscape*/
  
- @media screen and (max-width: 1110px) and (min-width: 767px) {
+ @media screen and (min-width:375px) and (max-width:413px) {
      .elpBlock {
          .contentSide {
              .eventDate {
-                 margin-top: 3.5%;
-                 .event-date{
-                    .event-day{
-                        font-size: 0.35em;
-                    }
-                    &.end-date{
-                        &:before{
-                            left: -40%;
-                        }
-                    }
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -35px;
+                     }
                  }
              }
          }
      }
+ }
+ /* iphone 6+ */
+ 
+ @media screen and (min-width:414px) and (max-width:736px) {
+     .elpBlock {
+         .contentSide {
+             .eventDate {
+                 .event-date {
+                     bottom: 40%;
+                     .event-day {
+                         top: 40px;
+                     }
+                     &.end-date {
+                         &:before {
+                             left: -40%;
+                         }
+                     }
+                 }
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -40px;
+                     }
+                 }
+             }
+         }
+     }
+ }
+  //for sam tab portrait & iphone landscape
+ @media screen and (max-width:737px) and (min-width:560px) {
+     .elpBlock {
+         .contentSide {
+            // padding-bottom: 20%;
+             /*.eventDate {
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -100px;
+                         left: 1%;
+                     }
+                     .event-time {
+                         margin-top: -26%;
+                     }
+                 }
+             }*/
+             .free-entry{
+                display: initial;
+             }
+              .registerBlock{
+                .eDate{
+                    top: -80%;
+                    .timeSlot{
+                        .eDay{
+                            font-size: 0.47em;
+                        }
+                        .eTime{
+                            font-size: 0.57em;
+                        }
+                    }
+                }
+                .ePrice{
+                    top: -70%;
+                }
+             }
+         }
+     }
+ }
+ 
+
+ @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait)  {
+      .elpBlock {
+         .contentSide {
+             .free-entry{
+                display: initial;
+             }
+            .registerBlock{
+                .eRegister{
+                        left: 0;
+    width: 100% !important;
+    padding: 0;
+                }
+                .eDate{
+                    top: -65%;
+                }
+                .ePrice{
+                    top: -50%;
+                }
+            }
+         }
+     }
+}
+ //for sam tab portrait & iphone landscape
+ /*@media screen and (max-width:737px) and (min-width:560px) {
+     .elpBlock {
+         .contentSide {
+             padding-bottom: 20%;
+             .eventDate {
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -100px;
+                         left: 1%;
+                     }
+                     .event-time {
+                         margin-top: -26%;
+                     }
+                 }
+             }
+         }
+     }
+ }
+ 
+ @media only screen and (min-device-width: 375px) and (max-device-width: 736px) and (orientation: landscape) {
+     .elpBlock {
+         .contentSide {
+             .eventDate {
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -125px;
+                         left: 1%;
+                     }
+                     .event-time {
+                         margin-top: -17%;
+                     }
+                 }
+                 .event-date {
+                     &.end-date {
+                         &:before {
+                             left: -60%;
+                         }
+                     }
+                 }
+             }
+         }
+     }
+ }*/
+ 
+ @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
+     .elpBlock {
+         .contentSide {
+             padding-bottom: 41%;
+          /*   .eventDate {
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -155px;
+                     }
+                     .event-time {
+                         margin-top: -14%;
+                     }
+                 }
+             }*/
+             .free-entry{
+                display: initial;
+             }
+             .registerBlock{
+                .eDate{
+                    top: -80%;
+                    .timeSlot{
+                        .eDay{
+                            font-size: 0.47em;
+                        }
+                        .eTime{
+                            font-size: 0.57em;
+                        }
+                    }
+                }
+                .ePrice{
+                    top: -70%;
+                }
+             }
+         }
+     }
+ }
+ /* media queries for Tablets & Ipad -- landscape*/
+ 
+ @media screen and (max-width: 1110px) and (min-width: 767px) {
+/*     .elpBlock {
+         .contentSide {
+             .eventDate {
+                 margin-top: 3.5%;
+                 .event-date {
+                     .event-day {
+                         font-size: 0.35em;
+                     }
+                     &.end-date {
+                         &:before {
+                             left: -40%;
+                         }
+                     }
+                 }
+             }
+         }
+     }*/
+     .elpBlock{
+        .contentSide{
+            .registerBlock{
+                .eDate{
+                    width: 45%;
+                }
+                .eRegister{
+                    width: 55%;
+                }
+            }
+        }
+        }   
  }
  
  @media screen and (max-width: 1350px) and (min-width: 1280px) {
@@ -6215,75 +6499,121 @@ h4 {
          }
      }
  }
- 
-/* tab4 potrait */
-@media screen and (max-width:810px) and (min-width:738px) {
-                .elpBlock {
-         .contentSide {
-            padding-bottom: 20%;
-             .eventDate {
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        bottom: -170px !important;
-                    }
-                    .event-time{
-                        margin-top: -14%;
-                    }
-                 }
-             }
-         }
-     }
-}
-//samsung tab 4 landscape
-@media screen and (max-width:962px) and (min-width:900px) {
-                .elpBlock {
-         .contentSide {
-            h4{
-                font-size: 1em;
-            }
-            p{
-                    font-size: 11px;
-    margin-top: -2%;
-    height: 40px;
-            }
-            .more-detail,.free-entry{
-                margin-bottom: 0px;
-            }
-             .eventDate {
-                margin-top: 5.3%;
-                 .register-button{
-                    .event-wishlist,.event-register{
-                        font-size: 0.7em;
-                    }
-                    .event-time{
-                        font-size: 0.7em;
-                    }
-                 }
-                 .event-date{
-                    font-size: 1.2em;
-                    bottom: 5px;
-                    .event-day{
-                        top: 33px;
-                    }
-                 }
-             }
-         }
-     }
-}
 
- @media (min-width: 1900px) {
+ 
+ //samsung tab 4 landscape
+ @media screen and (max-width:962px) and (min-width:900px) {
      .elpBlock {
          .contentSide {
+            padding: 0% 1%;
+             h4 {
+                 font-size: 1em;
+             }
+             .event-content {
+                 font-size: 11px;
+                 margin-top: -2%;
+                 height: 40px;
+             }
+             .more-detail,
+             .free-entry {
+                 margin-bottom: 0px;
+             }
              .eventDate {
-                 margin-top: 15%;
-                 &.end-date{
-                    &:before{
-                            left: -70%;
-    top: 15%;
+                 margin-top: 5.3%;
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         font-size: 0.7em;
+                     }
+                     .event-time {
+                         font-size: 0.7em;
+                     }
+                 }
+                 .event-date {
+                     font-size: 1.2em;
+                     bottom: 5px;
+                     .event-day {
+                         top: 33px;
+                     }
+                 }
+             }
+             .registerBlock{
+                width: 97%;
+                .ePrice{
+                    p{
+                        font-size: 1.1em;
                     }
+                }
+                .eDate{
+                    width: 42%;
+                    display: inline-block;
+                    vertical-align: middle;
+                    .dateSlot{
+                        span{
+                            font-size: 0.8em;
+                        }
+                    }
+                    .timeSlot{
+                        .eDay{
+                            font-size: 0.5em;
+                            margin-right: 0px;
+                        }
+                        .eTime{
+                            font-size: 0.6em;
+                        }
+                    }
+                }
+                .eRegister{
+                    width: 56%;
+                    display: inline-block;
+                    vertical-align: middle;
+                    button{
+                        padding: 0px;
+                    }
+                    .calendarBtn,.registerBtn{
+                        width: 47%;
+                        font-size: 0.63em;
+                        padding: 0px;
+                    }
+                }
+                }
+         }
+     }
+ }
+ 
+ /* tab4 potrait */
+ 
+ @media screen and (max-width:810px) and (min-width:738px) {
+     .elpBlock {
+         .contentSide {
+             padding-bottom: 20%;
+             .eventDate {
+                 .register-button {
+                     .event-wishlist,
+                     .event-register {
+                         bottom: -170px !important;
+                     }
+                     .event-time {
+                         margin-top: -14%;
+                     }
                  }
              }
          }
      }
  }
 
+ @media (min-width: 1900px) {
+     .elpBlock {
+         .contentSide {
+             .eventDate {
+                 margin-top: 15%;
+                 &.end-date {
+                     &:before {
+                         left: -70%;
+                         top: 15%;
+                     }
+                 }
+             }
+         }
+     }
+ }
