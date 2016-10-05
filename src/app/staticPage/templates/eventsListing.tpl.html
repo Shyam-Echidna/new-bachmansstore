@@ -248,87 +248,31 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block">
-            <!--<div class="row sorted-products">
-            <div>
-               <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 product-container" ng-mouseover="hoveringButtons = true; plusLabel= true" ng-mouseleave="hoveringButtons = false; plusLabel= false" style="">
-                  <div class="product-box">
-                     <div>
-                        <div data-sequence="{{}}" data-prodid="{{}}">
-                           <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" src="assets/images/noimg.jpg"/>
-                           <div class="price-box">
-                              <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>Name | capitalize</span></p>
-                              <p class="Price">priceRange</p>
-                           </div>
-                            hover buttons
-                           <div class="hover-buttons col-xs-12 col-sm-12 col-md-12 col-lg-12 " ng-show="hoveringButtons">
-                              <div class="row">
-                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 green-btn-outer">
-                                    <input type="button" class="green-btn btn" value="ADD TO CART" ng-click="plp.multirecipient(prod.ID)">
-                                 </div>
-                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    <p class="grey-btn btn" ng-click="plp.wishlistModal()">ADD TO WISHLIST</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <ordercloud-product-quick-view product="groupedProducts" selectedproductinfo="Parentindex"  ng-show="plusLabel"></ordercloud-product-quick-view>
-                  </div>
-               </div>
-            </div>
-         </div>-->
-         <div class="elpContent">
-            <div class="row row-eq-height elpBlock">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block noPdtsFound">
+          <div>{{elp.noEventsFound}}</div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 product-block" >
+          <div class="elpContent" ng-repeat="(events,eventSub) in elp.eventListGroupByProductCode">
+            <div class="row row-eq-height elpBlock" ng-repeat="eventPdt in eventSub | orderBy:'xp.SpecsOptions.Size'" ng-if="eventPdt.xp.IsDefaultProduct == true;">
                 <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
                     <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
                 </div>
-                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide">
-                    <h4>Terrarium design Workshop</h4>
-                    <p class="event-content">
-                        terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life.
-                    </p>
-                    <p class="more-detail">More details</p>
-                    <!-- <div class="row eventDate">
-                        <div class="event-date">
-                            <span class="event-month">Jun</span>
-                            <span class="event-dayNumber">11</span>
-                            <span class="event-day">Saturday</span>
-                        </div>
-                        <div class="event-date end-date">
-                            <span class="event-month">Jul</span>
-                            <span class="event-dayNumber">3</span>
-                            <span class="event-day">Monday</span>
-                        </div>
-                        <div class="register-button">
-                            <button class="event-wishlist">Add to wishlist</button>
-                            <button class="event-register">Register Now</button>
-                            <div class="event-time ">
-                                <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span> 
-                           9 AM-10 AM <span class="events-cost">$210.00</span>
-                            </div>
-                        </div>
-                    </div> -->
+                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide" data-sequence="{{event.xp.ProductCode}}" data-prodid="{{event.ID}}">
+                    <h4 ng-click="elp.detailsPage($event);" >{{eventPdt.Name}}</h4>
+                    <p>{{eventPdt.Description}}</p>
+                    <p class="more-detail" ng-click="elp.detailsPage($event);">More details</p>
+                    <a class="free-entry" ng-if="eventPdt.xp.IsWorkshop == false">Open to the Public & Free to Attend</a>
                     <div class="row registerBlock">
-                      <div class="row ePrice">
-                        <p>$50.99</p>
+                      <div class="row ePrice" ng-if="eventPdt.xp.IsWorkshop == true">
+                        <p>{{eventPdt.PriceSchedule.PriceBreaks[0].Price | currency}}</p>
                       </div>
                       <div class="col-md-6 col-lg-6 eDate">
                         <p class="dateSlot">
-                        <span class="startDate">FEB 20</span>
-                        <span class="endDate">MAR 03</span>
+                        <span class="startDate">{{eventPdt.xp.EventDate | date : "MMM" }} {{eventPdt.xp.EventDate | date : "dd" }}</span>
+                        <!-- <span class="endDate">MAR 03</span> -->
                       </p>
-                       <p class="timeSlot">
-                        <span class="eDay">saturday</span>
+                      <p class="timeSlot">
+                        <span class="eDay">{{eventPdt.xp.EventDate | date : "EEEE" }}</span>
                          <span class="events-countdown">   
                               <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
                                  <circle cx="29.3" cy="32.7" r="25"></circle>
@@ -338,308 +282,29 @@
                                  <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
                                  <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
                               </svg>
-                           </span>
-                        <span class="eTime">2:00 PM &ndash; 4:00 PM</span>
+                         </span>
+                         <span class="eTime">{{eventPdt.xp.SpecsOptions.Size}}</span>
+                         <span class="eTime" ng-if="event.xp.SpecsOptions.Color>1"> - {{eventPdt.xp.SpecsOptions.Color}}</span>
                       </p>
                       </div>
                       <div class="col-md-6 col-lg-6 eRegister">
                         <button class="calendarBtn">Add to calender</button>
-                        <button class="registerBtn">Register Now</button>
+                        <button class="registerBtn" ng-click="elp.detailsPage($event);">Register Now</button>
                       </div>
                     </div>
                 </div>
             </div>
-            <div class="row row-eq-height elpBlock">
-                <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
-                    <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide">
-                    <h4>winter farmer's market</h4>
-                    <p class="event-content">
-                        terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life.
-                    </p>
-                    <p class="more-detail">More details</p>
-                    <!-- <div class="row eventDate">
-                        <div class="event-date">
-                            <span class="event-month">Jun</span>
-                            <span class="event-dayNumber">11</span>
-                            <span class="event-day">Saturday</span>
-                        </div>
-                        <div class="event-date end-date">
-                            <span class="event-month">Jul</span>
-                            <span class="event-dayNumber">3</span>
-                            <span class="event-day">Monday</span>
-                        </div>
-                        <div class="register-button">
-                            <button class="event-wishlist">Add to wishlist</button>
-                            <button class="event-register">Register Now</button>
-                            <div class="event-time ">
-                                <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span> 
-                           9 AM-10 AM <span class="events-cost">$210.00</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row registerBlock">
-                      <div class="row ePrice">
-                        <p>$50.99</p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eDate">
-                        <p class="dateSlot">
-                        <span class="startDate">FEB 20</span>
-                        <span class="endDate">MAR 03</span>
-                      </p>
-                       <p class="timeSlot">
-                        <span class="eDay">saturday</span>
-                         <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span>
-                        <span class="eTime">2:00 PM &ndash; 4:00 PM</span>
-                      </p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eRegister">
-                        <button class="calendarBtn">Add to calender</button>
-                        <button class="registerBtn">Register Now</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row row-eq-height elpBlock">
-                <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
-                    <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide">
-                    <h4>mineesota peony society educational event</h4>
-                    <p class="event-content">
-                        terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life.
-                    </p>
-                    <p class="more-detail">More details</p>
-                    <a class="free-entry">Open to the public & Free to attend</a>
-                    <!-- <div class="row eventDate">
-                        <div class="event-date">
-                            <span class="event-month">Jun</span>
-                            <span class="event-dayNumber">11</span>
-                            <span class="event-day">Saturday</span>
-                        </div>
-                        <div class="event-date end-date">
-                            <span class="event-month">Jul</span>
-                            <span class="event-dayNumber">3</span>
-                            <span class="event-day">Monday</span>
-                        </div>
-                        <div class="register-button">
-                            <button class="event-wishlist">Add to wishlist</button>
-                            <button class="event-register">Register Now</button>
-                            <div class="event-time ">
-                                <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span> 
-                           9 AM-10 AM <span class="events-cost">$210.00</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row registerBlock">
-                      <div class="row ePrice">
-                        <p>$50.99</p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eDate">
-                        <p class="dateSlot">
-                        <span class="startDate">FEB 20</span>
-                        <span class="endDate">MAR 03</span>
-                      </p>
-                       <p class="timeSlot">
-                        <span class="eDay">saturday</span>
-                         <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span>
-                        <span class="eTime">2:00 PM &ndash; 4:00 PM</span>
-                      </p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eRegister">
-                        <button class="calendarBtn">Add to calender</button>
-                        <button class="registerBtn">Register Now</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row row-eq-height elpBlock">
-                <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
-                    <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide">
-                    <h4>Terrarium design Workshop</h4>
-                    <p class="event-content">
-                        terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life.
-                    </p>
-                    <p class="more-detail">More details</p>
-                    <!-- <div class="row eventDate">
-                        <div class="event-date">
-                            <span class="event-month">Jun</span>
-                            <span class="event-dayNumber">11</span>
-                            <span class="event-day">Saturday</span>
-                        </div>
-                        <div class="event-date end-date">
-                            <span class="event-month">Jul</span>
-                            <span class="event-dayNumber">3</span>
-                            <span class="event-day">Monday</span>
-                        </div>
-                        <div class="register-button">
-                            <button class="event-wishlist">Add to wishlist</button>
-                            <button class="event-register">Register Now</button>
-                            <div class="event-time ">
-                                <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span> 
-                           9 AM-10 AM <span class="events-cost">$210.00</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row registerBlock">
-                      <div class="row ePrice">
-                        <p>$50.99</p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eDate">
-                        <p class="dateSlot">
-                        <span class="startDate">FEB 20</span>
-                        <span class="endDate">MAR 03</span>
-                      </p>
-                       <p class="timeSlot">
-                        <span class="eDay">saturday</span>
-                         <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span>
-                        <span class="eTime">2:00 PM &ndash; 4:00 PM</span>
-                      </p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eRegister">
-                        <button class="calendarBtn">Add to calender</button>
-                        <button class="registerBtn">Register Now</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row row-eq-height elpBlock">
-                <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
-                    <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide">
-                    <h4>Terrarium design Workshop</h4>
-                    <p class="event-content">
-                        terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life. terrariums are unique ecosystems, constructed in clear glass container. Natural elements meet creative aesthetics, to bring an alluring environment to life.
-                    </p>
-                    <p class="more-detail">More details</p>
-                    <!-- <div class="row eventDate">
-                        <div class="event-date">
-                            <span class="event-month">Jun</span>
-                            <span class="event-dayNumber">11</span>
-                            <span class="event-day">Saturday</span>
-                        </div>
-                        <div class="event-date end-date">
-                            <span class="event-month">Jul</span>
-                            <span class="event-dayNumber">3</span>
-                            <span class="event-day">Monday</span>
-                        </div>
-                        <div class="register-button">
-                            <button class="event-wishlist">Add to wishlist</button>
-                            <button class="event-register">Register Now</button>
-                            <div class="event-time ">
-                                <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span> 
-                           9 AM-10 AM <span class="events-cost">$210.00</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row registerBlock">
-                      <div class="row ePrice">
-                        <p>$50.99</p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eDate">
-                        <p class="dateSlot">
-                        <span class="startDate">FEB 20</span>
-                        <span class="endDate">MAR 03</span>
-                      </p>
-                       <p class="timeSlot">
-                        <span class="eDay">saturday</span>
-                         <span class="events-countdown">   
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-                                 <circle cx="29.3" cy="32.7" r="25"></circle>
-                                 <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"></path>
-                                 <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"></path>
-                                 <polyline points="31.6,15.3 31.6,35 14.5,35 "></polyline>
-                                 <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"></line>
-                                 <line x1="17" y1="55.2" x2="12.2" y2="62.2"></line>
-                              </svg>
-                           </span>
-                        <span class="eTime">2:00 PM &ndash; 4:00 PM</span>
-                      </p>
-                      </div>
-                      <div class="col-md-6 col-lg-6 eRegister">
-                        <button class="calendarBtn">Add to calender</button>
-                        <button class="registerBtn">Register Now</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-            <div class="row pagination-block">
-                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10">
-                    <pagination total-items="plp.totalItems" ng-model="plp.currentPage" ng-change="plp.pageChanged()" class="pagination-sm" items-per-page="plp.itemsPerPage" max-size="plp.maxSize" boundary-link-numbers="true" next-text="Next" previous-text="Previous"></pagination>
-                </div>
-            </div>
-            <div class="pagination-container">
-                <uib-pagination total-items="plp.ProductResults.nbHits" ng-model="plp.currentProductPage" ng-change="plp.changePage()" class="pagination-sm" rotate="true" previous-text="Previous Page " next-text="Next Page" boundary-link-numbers="true" num-pages="plp.ProductResults.nbPages">
-                </uib-pagination>
-            </div>
+          </div>
+          <div class="row pagination-block">
+              <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10">
+                  <pagination total-items="plp.totalItems" ng-model="plp.currentPage" ng-change="plp.pageChanged()" class="pagination-sm" items-per-page="plp.itemsPerPage" max-size="plp.maxSize" boundary-link-numbers="true" next-text="Next" previous-text="Previous"></pagination>
+              </div>
+          </div>
+          <div class="pagination-container">
+              <uib-pagination total-items="plp.ProductResults.nbHits" ng-model="plp.currentProductPage" ng-change="plp.changePage()" class="pagination-sm" rotate="true" previous-text="Previous Page " next-text="Next Page" boundary-link-numbers="true" num-pages="plp.ProductResults.nbPages">
+              </uib-pagination>
+          </div>
+
         </div>
     </div>
 </div>

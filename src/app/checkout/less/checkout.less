@@ -13,9 +13,11 @@
 .has-success .form-control {
     border-color: #cccccc;
 }
-.sign-in.dropdown.open .chechoutUser{
-    display:block;
+
+.sign-in.dropdown.open .chechoutUser {
+    display: block;
 }
+
 .chechoutUser {
     position: absolute;
     left: initial !important;
@@ -31,9 +33,9 @@
             padding-left: 10px !important;
         }
     }
-    &.dropdown-menu-login > li.sub-nav:last-child a:hover{
+    &.dropdown-menu-login > li.sub-nav:last-child a:hover {
         font: 1em "ProximaNova-Bold", Arial, sans-serif !important;
-        background-color:#fff;
+        background-color: #fff;
     }
 }
 
@@ -262,7 +264,7 @@ margin-right: 5px;
                                                                     input {
                                                                         background: #f6f6f6;
                                                                         border: 1px solid #ededed;
-                                                                        padding: 20px;
+                                                                        padding: 0px 15px;
                                                                         color: #333333;
                                                                         font: 0.875em @proxima-regular;
                                                                         box-shadow: none;
@@ -693,7 +695,8 @@ margin-right: 5px;
                                                                     .deliver-tomorrow,
                                                                     .select-date-info {
                                                                         &:hover,
-                                                                        &.active-date,&:active {
+                                                                        &.active-date,
+                                                                        &:active {
                                                                             background: #f6edfd;
                                                                             border-bottom: 2px solid #8b5bb3;
                                                                         }
@@ -1254,9 +1257,43 @@ bottom: -26px;*/
                                                                     left: 85px;
                                                                     height: 18px;
                                                                     width: 18px;
+                                                                    cursor: pointer;
                                                                     svg {
                                                                         vertical-align: initial;
                                                                         padding: 1px;
+                                                                    }
+                                                                    .dropdown-menu-login-cont {
+                                                                        position: absolute;
+                                                                        top: -400%;
+                                                                        left: -800%;
+                                                                        display: none;
+                                                                        .dropdown-menu-login {
+                                                                            margin: 0;
+                                                                            padding: 5%;
+                                                                            width: 14em;
+                                                                            font: 0.8em @proxima-regular;
+                                                                            color: #666666;
+                                                                            cursor: default;
+                                                                            .clr{
+                                                                                color: @font-purple-dark;
+                                                                                font-size: 1.1em;
+                                                                            }
+                                                                            .itl{
+                                                                                font-style: italic;
+                                                                                color: @font-purple-light;
+                                                                            }
+                                                                            &:before {
+                                                                                top: initial;
+                                                                                right: 18%;
+                                                                                bottom: -35%;
+                                                                                transform: rotate(-180deg);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    &:hover{
+                                                                        .dropdown-menu-login-cont {
+                                                                            display: block;
+                                                                        }
                                                                     }
                                                                 }
                                                                 label {
@@ -2501,7 +2538,7 @@ border-radius: 2px;*/
                         padding: 15px 10px;
                         border-top: 1px solid #f1f1f1;
                         margin: 0 1%;
-                        .place-order{
+                        .place-order {
                             width: 100%;
                         }
                     }
@@ -2978,7 +3015,7 @@ border-radius: 2px;*/
                                                                 .opt-title {
                                                                     font-size: 0.75em;
                                                                 }
-                                                                svg{
+                                                                svg {
                                                                     padding-bottom: 3px !important;
                                                                 }
                                                             }
@@ -2997,7 +3034,7 @@ border-radius: 2px;*/
                                                                 .cvv-number span.cvv-help {
                                                                     top: 40px;
                                                                     left: 72px;
-                                                                    svg{
+                                                                    svg {
                                                                         vertical-align: top;
                                                                     }
                                                                 }
@@ -3532,19 +3569,20 @@ border-radius: 2px;*/
 
 //tab landscape
 @media screen and (max-width:962px) and (min-width:900px) {
-    .checkout-page{
-        .checkout-info{
-           .row .need-help-info{
-            .hidden-xs{
-                display: block !important;
+    .checkout-page {
+        .checkout-info {
+            .row .need-help-info {
+                .hidden-xs {
+                    display: block !important;
+                }
+                .hidden-lg {
+                    display: none !important;
+                }
             }
-            .hidden-lg{
-                display: none !important;
-            }
-           }
         }
-        }  
+    }
 }
+
 
 /* media queries for Tablets & Ipad -- landscape*/
 
@@ -3611,7 +3649,7 @@ border-radius: 2px;*/
                                                                                         margin-left: 1px;
                                                                                     }
                                                                                 }
-                                                                                .date-svg{
+                                                                                .date-svg {
                                                                                     top: 14px;
                                                                                 }
                                                                             }
@@ -3629,18 +3667,21 @@ border-radius: 2px;*/
                                                             }
                                                         }
                                                     }
-                                                    .ipadFull{
-            width: 100%;
-            .delivery-days1,.delivery-days2{
-                width: 30% !important;
-            }
-            .delivery-days3{
-                width: 35% !important;
-            }
-            .delivery-pref1,.delivery-pref2,.delivery-pref3{
-                width: 33% !important
-            }
-        }
+                                                    .ipadFull {
+                                                        width: 100%;
+                                                        .delivery-days1,
+                                                        .delivery-days2 {
+                                                            width: 30% !important;
+                                                        }
+                                                        .delivery-days3 {
+                                                            width: 35% !important;
+                                                        }
+                                                        .delivery-pref1,
+                                                        .delivery-pref2,
+                                                        .delivery-pref3 {
+                                                            width: 33% !important
+                                                        }
+                                                    }
                                                 }
                                             }
                                             .payment-info-cont {
@@ -3773,14 +3814,12 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
             }
         }
     }
-    .checkout-page{
-        .uib-datepicker-popup{
+    .checkout-page {
+        .uib-datepicker-popup {
             width: 100% !important;
-            top: initial !important ;
+            top: initial !important;
         }
-
     }
-    
 }
 
 //for sam tab portrait & iphone landscape
@@ -4067,48 +4106,48 @@ only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (or
 }
 
 .checkout-header {
-        background: #8b5bb3;
-        padding: 12px 30px;
-        margin: 5px 5px 0;
-        .row {
-            div {
-                .logo {
-                    a {
-                        svg {
-                            width: 230px;
-                            height: 44px;
-                            .st1,
-                            .st0,
-                            .st2 {
-                                //fill: transparent !important;
-                                stroke: none;
-                            }
+    background: #8b5bb3;
+    padding: 12px 30px;
+    margin: 5px 5px 0;
+    .row {
+        div {
+            .logo {
+                a {
+                    svg {
+                        width: 230px;
+                        height: 44px;
+                        .st1,
+                        .st0,
+                        .st2 {
+                            //fill: transparent !important;
+                            stroke: none;
                         }
                     }
                 }
             }
-            div {
-                .sign-in {
-                    text-align: right;
-                    padding: 18px 0px;
-                    color: #ffffff;
-                    text-transform: uppercase;
-                    font: 0.813em @proxima-bold;
-                    letter-spacing: 1px;
-                    cursor: pointer;
-                    position: relative;
-                    span:nth-child(2){
-                        // display:none;
-                    } 
+        }
+        div {
+            .sign-in {
+                text-align: right;
+                padding: 18px 0px;
+                color: #ffffff;
+                text-transform: uppercase;
+                font: 0.813em @proxima-bold;
+                letter-spacing: 1px;
+                cursor: pointer;
+                position: relative;
+                span:nth-child(2) {
+                    // display:none;
                 }
             }
         }
-        &.loggedInChecoutUser .row div{
-            .sign-in span:first-child{
-                //display:none;
-            } 
-            .sign-in span:nth-child(2){
-                display:block;
-            }  
+    }
+    &.loggedInChecoutUser .row div {
+        .sign-in span:first-child {
+            //display:none;
+        }
+        .sign-in span:nth-child(2) {
+            display: block;
         }
     }
+}

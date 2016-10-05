@@ -197,7 +197,7 @@ function staticPageConfig($stateProvider) {
 		})
 		.state('eventsListing', {
 			parent: 'base',
-			url: '/elp',
+			url: '/elp?catId',
 			templateUrl: 'staticPage/templates/eventsListing.tpl.html',
 			controller: 'eventsListingCtrl',
 			controllerAs: 'elp'
@@ -933,18 +933,98 @@ function FAQController($scope) {
 
 function perplePerksRegisteredController() {
 	var vm = this;
-
 }
 
-function eventDescriptionController($scope, PdpService, productDetail, selectedProduct) {
+function eventDescriptionController($scope, PdpService, productDetail, selectedProduct,OrderCloud,$q,HomeFact) {
 	var vm = this;
 	console.log(productDetail);
+
 	vm.eventList=productDetail;
-	
-    var eventListSplitOnDate = _.groupBy(productDetail, function(num){ return num.xp.EventDate });
-	
-	vm.eventListSplitOnDate = eventListSplitOnDate; 
-	console.log('gggggg',vm.eventListSplitOnDate);
+	console.log('gggggg',vm.eventList);
+
+	var queue = [];
+
+ 	function attachPriceSchedule(item) {
+ 		return OrderCloud.Products.ListAssignments(item.ID).then(function (list) {
+			return OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (PriceSchedule) {
+				item.PriceSchedule = PriceSchedule;
+				return item;
+			});
+		});
+ 	}
+ 	var eventsProducts = productDetail;
+
+    angular.forEach(eventsProducts, function(item) {
+        queue.push(attachPriceSchedule(item));
+    });
+
+    $q.all(queue).then(function(Products){
+		var eventListGroupByDate = _.groupBy(Products, function(num){ return num.xp.EventDate });
+		vm.eventListGroupByDate = eventListGroupByDate; 
+		//console.log('gggggg',vm.eventListGroupByDate);
+    })
+
+	vm.detailsPage = function($event){
+      var id = $($event.target).parents('.staticSeqId').attr('data-prodid');
+      var seq= $($event.target).parents('.staticSeqId').attr('data-sequence');
+      	if (typeof id != "undefined") {
+            var href = "/eventDescription/" + seq + "/prodId=" + id;
+            $state.go('eventDescription', { 'prodCode': seq, 'prodId': id });
+        } else {
+            var href = "/eventDescription/" + seq;
+            $state.go('eventDescription', { 'prodCode': seq });
+        }
+
+    }
+
+    HomeFact.GetEventsList().then(function(res){
+	 	console.log('GetEventsList',res);
+	 	var queue = [];
+	 	var eventListGroupByProductCode = _.groupBy(res, function(num){ return num.xp.ProductCode });
+		vm.eventListGroupByProductCode = eventListGroupByProductCode; 
+		console.log('PC',eventListGroupByProductCode);	
+		setTimeout(function(){
+			var owl = angular.element("#owl-carousel-eventsUpcoming");	
+			owl.owlCarousel({
+				items:2,
+				center:false,
+				loop: false,
+				nav:true,
+				navText: ['<span class="events-arrow-prev" aria-hidden="true"></span>','<span class="events-arrow-next" aria-hidden="true"></span>'],
+				autoWidth:true,
+				responsive : {
+					0 : {
+						margin:30
+					},
+					320 : {
+						margin:5
+					},
+					560 : {
+						margin:10
+					},
+					768 : {
+						margin:20
+					},
+					1024 : {
+						margin:20
+					}
+				},
+				onInitialized : function(event){
+					console.log("owl==",owl.find('.owl-item.active').last());
+					owl.find('.owl-item.active').last().addClass('fadeGrid');
+				}
+				});
+			owl.on('changed.owl.carousel', function(event) {
+				setTimeout(function(){
+					console.log("owl==",owl.find('.owl-item.active'));
+					owl.find('.owl-item').removeClass('fadeGrid');
+					
+					owl.find('.owl-item.active').last().addClass('fadeGrid');
+				},200);
+			})
+		},1000) 	
+	});
+
 }
 
 
@@ -1094,7 +1174,70 @@ function workshopEventController($state, $uibModal, $scope, $window, HomeFact, P
 
    var ticket = localStorage.getItem("alf_ticket");
 
+	HomeFact.GetEventsList().then(function(res){
+	 	console.log('GetEventsList',res);
+
+	 	var eventListGroupByEventType = _.groupBy(res, function(num){ return num.xp.CurrentFineline});
+		vm.eventListGroupByEventType = eventListGroupByEventType; 
+		console.log('ET',eventListGroupByEventType);	
+		setTimeout(function(){
+			var owl = angular.element("#owl-carousel-eventsTIH");	
+			owl.owlCarousel({
+				items:4,
+				loop: false,
+				nav:true,
+				navText: ['<span class="events-arrow-prev" aria-hidden="true"></span>','<span class="events-arrow-next" aria-hidden="true"></span>']
+				});
+		},1000)	 ;
+
+		var eventListGroupByProductCode = _.groupBy(res, function(num){ return num.xp.ProductCode });
+		vm.eventListGroupByProductCode = eventListGroupByProductCode; 
+		console.log('PC',eventListGroupByProductCode);	 
+		setTimeout(function(){
+			var owl = angular.element("#owl-carousel-eventsAll");	
+			owl.owlCarousel({
+				items:2,
+				center:false,
+				loop: false,
+				nav:true,
+				navText: ['<span class="events-arrow-prev" aria-hidden="true"></span>','<span class="events-arrow-next" aria-hidden="true"></span>'],
+				autoWidth:true,
+				responsive : {
+					0 : {
+						margin:30
+					},
+					320 : {
+						margin:5
+					},
+					560 : {
+						margin:10
+					},
+					768 : {
+						margin:20
+					},
+					1024 : {
+						margin:20
+					}
+				},
+				onInitialized : function(event){
+					console.log("owl==",owl.find('.owl-item.active').last());
+					owl.find('.owl-item.active').last().addClass('fadeGrid');
+				}
+				});
+			owl.on('changed.owl.carousel', function(event) {
+				setTimeout(function(){
+					console.log("owl==",owl.find('.owl-item.active'));
+					owl.find('.owl-item').removeClass('fadeGrid');
+					
+					owl.find('.owl-item.active').last().addClass('fadeGrid');
+				},200);
+			})
+		},1000)	;
+
+	});
+
 	HomeFact.GetGridimgs(ticket).then(function(res){
+		console.log('GI',res);
 		var gridImgs;
 		vm.gridImgs = [];
 		angular.forEach(res.items, function(item,key){
@@ -1102,9 +1245,11 @@ function workshopEventController($state, $uibModal, $scope, $window, HomeFact, P
 			vm.gridImgs.push(gridImgs);
 		});
 
+		vm.topGridImg = alfcontenturl+res.items[0].contentUrl+"?alf_ticket="+ticket;
+		vm.topGridTitle = res.items[0].title;
+		vm.topGridDescription = res.items[0].description;
+		vm.topGridBtnTxt = res.items[0].author;
 	});
-
-
 }
 
 function deviceEventsController(events, $scope){
@@ -1497,7 +1642,7 @@ function staticPageData($http, $q, alfrescourl, alflogin, alfrescofoldersurl) {
 
 
 }
-function eventsListingController(PlpService, $stateParams,alfStaticContenturl,alfcontenturl,$sce) {
+function eventsListingController(PlpService, $stateParams,alfStaticContenturl,alfcontenturl,$sce,HomeFact) {
 	var vm = this;
 
     // START: function for sort options selection
@@ -1543,7 +1688,6 @@ function eventsListingController(PlpService, $stateParams,alfStaticContenturl,al
     // END: function for sort options selection
 	var ticket = localStorage.getItem("alf_ticket");
     PlpService.GetHelpAndPromo(ticket).then(function (res) {
-    	debugger;
         vm.needHelp = alfcontenturl + res.items[4].contentUrl + "?alf_ticket=" + ticket;
         vm.needHelpTitle = res.items[0].title;
         vm.needHelpDescription = res.items[0].description;
@@ -1563,5 +1707,33 @@ function eventsListingController(PlpService, $stateParams,alfStaticContenturl,al
         var elp_promo_svgDesign = alfcontenturl + res.items[6].contentUrl + "?alf_ticket=" + ticket;
         vm.elp_promo_svgDesign = $sce.trustAsResourceUrl(elp_promo_svgDesign);
     });
+    vm.detailsPage = function($event){
+      var id = $($event.target).parents('.contentSide').attr('data-prodid');
+      var seq= $($event.target).parents('.contentSide').attr('data-sequence');
+      	if (typeof id != "undefined") {
+            var href = "/eventDescription/" + seq + "/prodId=" + id;
+            $state.go('eventDescription', { 'prodCode': seq, 'prodId': id });
+        } else {
+            var href = "/eventDescription/" + seq;
+            $state.go('eventDescription', { 'prodCode': seq });
+        }
+    }
 
+    HomeFact.GetEventsList().then(function(res){
+	 	console.log('GetEventsList',res);
+
+	 	var eventListGroupByEventType = _.groupBy(res, function(num){ return num.xp.CurrentFineline});
+		vm.eventListGroupByEventType = eventListGroupByEventType; 
+		console.log('ELPET',vm.eventListGroupByEventType);
+
+		var evenCat = $stateParams.catId;
+
+		var resByPc = eventListGroupByEventType[evenCat];
+		//console.log('resByPc',resByPc);
+
+		var eventListGroupByProductCode = _.groupBy(resByPc, function(num){ return num.xp.ProductCode});
+		vm.eventListGroupByProductCode = eventListGroupByProductCode;
+		console.log('ELPPC',vm.eventListGroupByProductCode);	
+
+	});
 }

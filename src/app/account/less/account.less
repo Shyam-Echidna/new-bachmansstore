@@ -74,10 +74,16 @@
 							color: @font-purple-dark;
 							svg {
 								fill: @base-bg-purple-dark;
+								&.path-color-hover {
+									path {
+										stroke: @base-bg-purple-dark;
+									}
+								}
 							}
 							&.nohover-icon {
 								svg {
 									fill: #000;
+									cursor: default;
 								}
 							}
 							&.nohover-title {
@@ -540,6 +546,7 @@
 /* delete popup */
 
 .deletePopup, .CardExceedLimitPopup {
+	transition: none;
 	.modal-dialog {
         width:40%;
         left:30%;
@@ -576,6 +583,31 @@
 		.modal-content {
 			padding: 20px 15px;
 		}
+	}
+}
+
+@media screen and (min-width:320px) and (max-width:810px) {
+	.modal.in.deletePopup, .CardExceedLimitPopup {
+		.modal-dialog {
+	        width:80%;
+	        left:10%;
+	        top: 50%;
+	        -webkit-transform: translateY(-50%);
+			-moz-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+			-o-transform: translateY(-50%);
+			transform: translateY(-50%);
+	        .modal-content {
+	            padding:10px 0px;
+	        	p{
+	        		font-size:0.875em;
+	        	}
+	        	button {
+	        		font-size:0.875em;
+	        		line-height: 1.5em;
+	        	}
+	        }
+	    }
 	}
 }
 

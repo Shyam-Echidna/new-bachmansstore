@@ -102,7 +102,7 @@ function LoginService( $q, $window,  clientid, OrderCloud) {
 }
 
 
-function LoginController( OrderCloud,$state, $http, CurrentUser,$cookieStore, $stateParams, $exceptionHandler, LoginService, Underscore, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window,emailSubscribeList,ConstantContact) {
+function LoginController( OrderCloud,$state,$http, CurrentUser,$cookieStore, $stateParams, $exceptionHandler, LoginService, Underscore, buyerid, $scope, $uibModalInstance, $rootScope, $timeout, $window,emailSubscribeList,ConstantContact) {
 
     var vm = this;
       vm.user=CurrentUser;
@@ -311,7 +311,7 @@ function LoginController( OrderCloud,$state, $http, CurrentUser,$cookieStore, $s
                 "SecurityQuestion":{
                     "Question":vm.selectedItem,
                     "Answer":vm.newUser.securityAnswer
-                },                
+                },
                 "CreatedFrom":"web"
             }
 
@@ -327,7 +327,7 @@ function LoginController( OrderCloud,$state, $http, CurrentUser,$cookieStore, $s
             OrderCloud.UserGroups.SaveUserAssignment(userGroupAssignment);
 /*            $uibModalInstance.dismiss('cancel');*/
             // $state.go('home');
-             // start  user integartion to Egle
+                 // start  user integartion to Egle
                 var data = {
                         "CustomerID":res.ID,
                         "Action":"create"

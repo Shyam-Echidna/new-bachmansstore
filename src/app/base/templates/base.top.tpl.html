@@ -1,5 +1,5 @@
 <!-- <div id="BaseTop">
-	<div class="link">
+    <div class="link">
         <a ng-click="application.toggleLeftNav()"><i class="fa fa-bars"></i></a>
     </div>
     <div class="logo">
@@ -64,17 +64,17 @@
                         <h3>{{base.delivery.deliverymsg}}</h3>
                     </div>
                     <h3 class="countdown fl col-xs-4 col-sm-4 col-md-3 col-lg-3">
-					<span>	
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-							<circle cx="29.3" cy="32.7" r="25"/>
-							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
-							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
-							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
-							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
-							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
-						</svg>
-					</span>
+                    <span>  
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+                            <circle cx="29.3" cy="32.7" r="25"/>
+                            <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+                            <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+                            <polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+                            <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+                            <line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+                        </svg>
+                    </span>
                         <span>{{countdown}}</span>
 
                         <!--  <span>10:30 More Hours</span>  -->
@@ -83,7 +83,7 @@
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-4 delivery-contact">
                 <div class="delivery-contact-cont">
-                    <h2><a>{{base.contact.label}}</a><span></span><a>{{base.storeloc.label}}</a></h2>
+                    <h2><a href="/storelocator">{{base.contact.label}}</a><span></span><a  href="/CustomerService/ContactUs">{{base.storeloc.label}}</a></h2>
                     <nav class="row">
                         <a class="col-xs-6 col-sm-12 col-md-12 col-lg-6" ng-repeat="contact in base.contactdetails">{{contact.label}}
                             &nbsp;<span>{{contact.number}}</span></a>
@@ -119,7 +119,7 @@
         <div ncy-breadcrumb ng-show="is('pdp')"></div>
         <div ncy-breadcrumb ng-show="is('plp')"></div>
         <div ncy-breadcrumb ng-show="is('category')"></div>
-         <div ncy-breadcrumb ng-show="is('secound')"></div>
+        <div ncy-breadcrumb ng-show="is('secound')"></div>
         <div ncy-breadcrumb ng-show="is('workshopEventLanding')"></div>
         <div ncy-breadcrumb ng-show="is('eventsListing')"></div>
         <div ncy-breadcrumb ng-show="is('eventDescription')"></div>
@@ -164,7 +164,7 @@
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe" onscroll="$.leftofscreen('#lookInMe', '.peek', {threshold :-100}).removeClass('Right').addClass('Left');
-									$.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addClass('Right');">
+                                    $.rightofscreen('#lookInMe', '.peek', {threshold : 0}).removeClass('Left').addClass('Right');">
                                         <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID' | categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
@@ -195,7 +195,7 @@
                                                ui-sref="plp({catId:subcategories.ID})" class="submaincat_link">{{subcategories.Name}}</a>
                                             <ul class="menu-hover-cont4 subchildcategories menu-l3-container">
                                                 <li ng-repeat="subchildcategories in subcategories.children | orderBy:'subchildcategories.ID'">
-                                                    <!-- 	<a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a> -->
+                                                    <!--    <a ui-sref="category({childCount:subchildcategories.ChildCount,ID:subchildcategories.ID})" class="subchildmaincat_link">{{subchildcategories.Name}}</a> -->
                                                     <a ui-sref="plp({catId:subchildcategories.ID})"
                                                        class="subchildmaincat_link">{{subchildcategories.Name}}</a>
                                                 </li>
@@ -296,7 +296,7 @@
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe3" onscroll="$.leftofscreen('#lookInMe3', '.peek3', {threshold :-100}).removeClass('Right3').addClass('Left3');
-									$.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').addClass('Right3');">
+                                    $.rightofscreen('#lookInMe3', '.peek3', {threshold : 0}).removeClass('Left3').addClass('Right3');">
                                         <li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})"><a
                                                 class="goto-cat">{{categories.Name}} | Home </a></li>
                                         <li ng-if="categories.ID =='OccasionsHolidays'"
@@ -419,10 +419,10 @@
             <div class="header-info-bar-position">
                 <div class="header-info-bar fr">
                     <!-- <div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div> -->
-                    <div ui-sref="home" ng-repeat="footer in base.ListOfPages |orderBy : 'description'"
+                    <div  ng-repeat="footer in base.ListOfPages |orderBy : 'description'"
                          ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section' "
                          class=" info-bar-care">
-                        <a>{{footer.title}}</a>
+                        <a href="/CareAdviceInformation/CareGuidesInformation">{{footer.title}}</a>
                     </div>
                     <div class=" info-bar-events"><a ui-sref="workshopEventLanding">{{base.workshop.label}}</a></div>
                     <div class=" info-bar-search" id="info-bar-search">
@@ -436,11 +436,11 @@
                         <a class="info-search-icon">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
 
-								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-								<circle class="st1" cx="23" cy="21.3" r="19.9" />
-								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-								<circle class="st1" cx="24" cy="21.3" r="19.9" />
-							</svg>
+                                <line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+                                <circle class="st1" cx="23" cy="21.3" r="19.9" />
+                                <line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+                                <circle class="st1" cx="24" cy="21.3" r="19.9" />
+                            </svg>
                         </a>
                     </div>
                     <div class=" info-bar-acc" id="info-bar-acc" ng-click="baseTop.login()" uib-dropdown
@@ -455,11 +455,11 @@
                         </a>
                         <a id="btn-append-to-body" ng-hide="base.showuserdetail" class="info-acc-icon ">
                             <!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
-							<span class="loggedOut-user">					
-								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-									 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
-								<style type="text/css">
-									.st0 {
+                            <span class="loggedOut-user">                   
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+                                <style type="text/css">
+                                    .st0 {
                                         fill: #FFFFFF;
                                     }
 
@@ -470,18 +470,18 @@
                                         stroke-linecap: round;
                                         stroke-miterlimit: 10;
                                     }
-								</style>
-								<g>
-									<g>
-										<path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
-											C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
-											c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
-									</g>
-									<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
-									<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
-								</g>
-								</svg>
-							</span>
+                                </style>
+                                <g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
+                                            C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
+                                            c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
+                                    </g>
+                                    <path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
+                                    <path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
+                                </g>
+                                </svg>
+                            </span>
                         </a>
                         <div class="dropdown-menu-login-cont">
                             <ul class="dropdown-menu-login">
@@ -540,7 +540,7 @@
                                 <g>
                                     <circle class="st1" cx="19.3" cy="46.7" r="5.4" />
                                     <circle class="st1" cx="47.1" cy="46.7" r="5.4" />
-                                    <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
+                                    <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8     " />
                                     <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
                                 </g>
                             </svg>
@@ -571,17 +571,17 @@
                         <h3>{{base.delivery.deliverymsg}}</h3>
                     </div>
                     <h3 class="countdown fl col-xs-4 col-sm-4 col-md-5 col-lg-3">
-					<span>	
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-							<circle cx="29.3" cy="32.7" r="25"/>
-							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
-							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
-							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
-							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
-							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
-						</svg>
-					</span>
+                    <span>  
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+                            <circle cx="29.3" cy="32.7" r="25"/>
+                            <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+                            <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+                            <polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+                            <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+                            <line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+                        </svg>
+                    </span>
                         <span>{{countdown}}</span>
 
                         <!--  <span>10:30 More Hours</span>  -->
@@ -633,7 +633,7 @@
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe2" onscroll="$.leftofscreen('#lookInMe2', '.peek2', {threshold :-100}).removeClass('Right2').addClass('Left2');
-									$.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
+                                    $.rightofscreen('#lookInMe2', '.peek2', {threshold : 0}).removeClass('Left2').addClass('Right2');">
                                         <li ng-if="categories.ID =='OccasionsHolidays'"
                                             ng-repeat="subcategories in categories.children | orderBy:'subcategories.ID'| categoriesAsPerSeason:application.cstdate"
                                             class="peek submaincat_link_div">
@@ -768,7 +768,7 @@
                             <div class="menu-hover-cont3 subcat menu-l2-container menuScrollCont">
                                 <div class="menuScrollCont-inner">
                                     <ul class="menu-hover-cont3-inner" id="lookInMe4" onscroll="$.leftofscreen('#lookInMe4', '.peek4', {threshold :-100}).removeClass('Right4').addClass('Left4');
-									$.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
+                                    $.rightofscreen('#lookInMe4', '.peek4', {threshold : 0}).removeClass('Left4').addClass('Right4');">
                                         <li ui-sref="category({childCount:categories.ChildCount,ID:categories.ID})"><a
                                                 class="goto-cat">{{categories.Name}} | Home</a></li>
                                         <li ng-if="categories.ID =='OccasionsHolidays'"
@@ -890,23 +890,23 @@
             <div class="header-info-bar-position">
                 <div class="header-info-bar fr">
                     <!-- <div ui-sref="home" class=" info-bar-care"><a>{{base.information.label}}</a></div> -->
-                    <div ui-sref="home" ng-repeat="footer in base.ListOfPages |orderBy : 'description'"
+                    <div ng-repeat="footer in base.ListOfPages |orderBy : 'description'"
                          ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section' "
                          class=" info-bar-care">
-                        <a>{{footer.title}}</a>
+                        <a href="/CareAdviceInformation/CareGuidesInformation">{{footer.title}}</a>
                     </div>
-                    <div class=" info-bar-events"><a>{{base.workshop.label}}</a></div>
+                    <div class=" info-bar-events"><a href="/workshopEventLanding">{{base.workshop.label}}</a></div>
                     <div class=" info-bar-search" id="info-bar-search">
                         <algolia-search class="info-search-text">
                         </algolia-search>
                         <a class="info-search-icon">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
 
-								<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-								<circle class="st1" cx="23" cy="21.3" r="19.9" />
-								<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-								<circle class="st1" cx="24" cy="21.3" r="19.9" />
-							</svg>
+                                <line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+                                <circle class="st1" cx="23" cy="21.3" r="19.9" />
+                                <line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+                                <circle class="st1" cx="24" cy="21.3" r="19.9" />
+                            </svg>
                         </a>
                     </div>
                     <div class=" info-bar-acc" id="info-bar-acc" uib-dropdown dropdown-append-to-body
@@ -922,11 +922,11 @@
                         </a>
                         <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
                             <!-- <a id="btn-append-to-body" ng-hide="baseTop.showuserdetail" class="info-acc-icon"> -->
-							<span class="loggedOut-user">					
-								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-									 viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
-								<style type="text/css">
-									.st0 {
+                            <span class="loggedOut-user">                   
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
+                                <style type="text/css">
+                                    .st0 {
                                         fill: #FFFFFF;
                                     }
 
@@ -937,18 +937,18 @@
                                         stroke-linecap: round;
                                         stroke-miterlimit: 10;
                                     }
-								</style>
-								<g>
-									<g>
-										<path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
-											C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
-											c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
-									</g>
-									<path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
-									<path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
-								</g>
-								</svg>
-							</span>
+                                </style>
+                                <g>
+                                    <g>
+                                        <path class="st1" style="stroke-width: 2;" d="M27.4,2.7c7,0,12.8,7.1,12.8,15.8s-5.7,15.8-12.8,15.8s-12.8-7.1-12.8-15.8c0-4.2,1.3-8.2,3.7-11.2
+                                            C20.8,4.3,24,2.7,27.4,2.7 M27.4,1.2c-3.9,0-7.5,1.9-10.2,5.2c-2.6,3.3-4,7.6-4,12.1c0,9.6,6.4,17.3,14.3,17.3
+                                            c7.9,0,14.3-7.8,14.3-17.3C41.7,9,35.3,1.2,27.4,1.2L27.4,1.2z"/>
+                                    </g>
+                                    <path class="st1" d="M29.6,52.4H1.9C1.5,36.9,12.2,35.5,16,35.5c0.2,0,0.3,0,0.3,0"/>
+                                    <path class="st1" d="M25,52.4h27.8c0.4-15.5-10.4-16.9-14.2-16.9v0"/>
+                                </g>
+                                </svg>
+                            </span>
                         </a>
                         <div class="dropdown-menu-login-cont">
                             <ul class="dropdown-menu-login">
@@ -1006,7 +1006,7 @@
                                 <g>
                                     <circle class="st1" cx="19.3" cy="46.7" r="5.4" />
                                     <circle class="st1" cx="47.1" cy="46.7" r="5.4" />
-                                    <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
+                                    <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8     " />
                                     <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
                                 </g>
                             </svg>
@@ -1031,25 +1031,25 @@
                         <h3>{{base.delivery.deliverymsg}}</h3>
                     </div>
                     <h3 class="countdown fl col-xs-4 col-sm-4 col-md-3 col-lg-3">
-						<span>	
-							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
-							<style type="text/css">
-								.st0 {
+                        <span>  
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 59 63" style="enable-background:new 0 0 59 63;" xml:space="preserve">
+                            <style type="text/css">
+                                .st0 {
                                     fill: none;
                                     stroke: #DCFB7C;
                                     stroke-width: 3;
                                     stroke-miterlimit: 10;
                                 }
-							</style>
-							<circle cx="29.3" cy="32.7" r="25"/>
-							<path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
-							<path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
-							<polyline points="31.6,15.3 31.6,35 14.5,35 "/>
-							<line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
-							<line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
-							</svg>
-						</span>
+                            </style>
+                            <circle cx="29.3" cy="32.7" r="25"/>
+                            <path d="M42.5,0.9c6.2,2.3,11.5,6.5,15.2,11.9"/>
+                            <path d="M0.9,12.8c3.4-5,8.1-9,13.8-11.4"/>
+                            <polyline points="31.6,15.3 31.6,35 14.5,35 "/>
+                            <line x1="40.2" y1="55.2" x2="45.1" y2="62.2"/>
+                            <line x1="17" y1="55.2" x2="12.2" y2="62.2"/>
+                            </svg>
+                        </span>
                         <span>{{countdown}}</span></h3>
                 </div>
             </div>
@@ -1095,10 +1095,10 @@
                                         </li> -->
                                         <li ng-repeat="footer in base.ListOfPages |orderBy : 'description'"
                                             ng-if="footer.fileName == 'CareAdviceInformation' && footer.nodeType == 'ws:section'">
-                                            <a>{{footer.title}}</a>
+                                            <a href="/CareAdviceInformation/CareGuidesInformation">{{footer.title}}</a>
                                         </li>
                                         <li class=" info-bar-events">
-                                            <a>{{base.workshop.label}}</a>
+                                            <a href="/workshopEventLanding">{{base.workshop.label}}</a>
                                         </li>
                                         <!-- <li><a href="">Care, Advice & Information</a></li>
                                         <li><a href="">Workshops & Events</a></li> -->
@@ -1106,12 +1106,12 @@
                                             <a class="" ng-click="baseTop.login()">My Account</a>
                                         </li>
                                         <li class="mobile-store-locator">
-                                            <a href="">{{base.contact.label}}</a>
+                                            <a href="/storelocator">{{base.contact.label}}</a>
                                         </li>
                                         <li class="mobile-contact-us">
                                             <ul>
                                                 <li>
-                                                    <a>{{base.storeloc.label}}</a>
+                                                    <a href="/CustomerService/ContactUs">{{base.storeloc.label}}</a>
                                                 </li>
                                                 <li>
                                                     <a ng-repeat="contact in base.contactdetails">{{contact.label}}
@@ -1401,30 +1401,30 @@
                     </div>
                     <div class="col-xs-6 col-sm-6 info-bar-icons">
                         <div class="come-on-in">
-                            <a class="">
+                            <a class="" href="/storelocator">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-									 viewBox="0 0 163.7 100" style="enable-background:new 0 0 163.7 100;" xml:space="preserve">
-								<style type="text/css">
-									.st0 {
+                                     viewBox="0 0 163.7 100" style="enable-background:new 0 0 163.7 100;" xml:space="preserve">
+                                <style type="text/css">
+                                    .st0 {
                                         fill: #8D55B7;
                                     }
-								</style>
-								<g>
-									<path class="stw" d="M129.4,85V51.3h5.2v-2.5h-8.1c-0.8-14.6-13-26.3-27.9-26.3c-3.3,0-6.4,0.6-9.4,1.6H53.8
-										c0.1-0.7,0.2-1.5,0.2-2.2c0-10.3-8.1-18.6-18-18.6c-10.1,0-18.3,8.4-18.3,18.6c0,11.9,14.4,30,16.7,32.8V85H26v2.5h51.7h14.1h58.1
-										V85H129.4z M124,48.8h-12.6c-0.3-2.7-1.5-5.1-3.3-7.1l8.9-8.9C121,37,123.7,42.6,124,48.8z M106.2,40c-1.8-1.3-3.9-2.1-6.2-2.3
-										V25.1c5.8,0.3,11,2.5,15.1,6L106.2,40z M97.5,37.7c-2.2,0.2-4.2,1-6,2.2l-9-9c4.1-3.4,9.3-5.5,14.9-5.8V37.7z M80.7,32.6l8.9,8.9
-										c-1.9,1.9-3.1,4.5-3.5,7.3H73.4C73.8,42.5,76.5,36.8,80.7,32.6z M98.7,40.2c5.1,0,9.3,3.7,10.1,8.6H88.6
-										C89.4,43.9,93.7,40.2,98.7,40.2z M84.1,26.7c-7.5,4.7-12.7,12.8-13.2,22.1H41.6c4.2-5.8,9.9-14.6,11.7-22.1H84.1z M36,5.8
-										c8.6,0,15.5,7.3,15.5,16.2c0,9.9-11.6,25.3-15.8,30.5C30.9,46.3,20.2,31.5,20.2,22C20.2,13,27.3,5.8,36,5.8z M37,54.8
-										c0.5-0.6,1.5-1.8,2.7-3.5h28.7V85H37V54.8z M80.3,85v-23h9v23H80.3z M77.8,59.5V85h-6.8V51.3h56V85H91.8V59.5H77.8z"/>
-									<rect x="26" y="95" class="st0" width="123.9" height="2.5"/>
-									<path class="stw" d="M43.9,59.5v15.3h11.6V59.5H43.9z M53,72.3h-6.6V62.1H53V72.3z"/>
-									<path class="stw" d="M121.9,59.5H96.5v15.3h25.4V59.5z M119.3,72.3H99.1V62.1h20.3V72.3z"/>
-									<path class="stw" d="M42,21.3c0-3.2-2.7-6-6-6s-6,2.7-6,6c0,3.3,2.7,6,6,6C39.3,27.3,42,24.6,42,21.3z M32.5,21.3
-										c0-2,1.6-3.5,3.5-3.5c2,0,3.5,1.6,3.5,3.5c0,2-1.6,3.5-3.5,3.5S32.5,23.2,32.5,21.3z"/>
-								</g>
-								</svg>
+                                </style>
+                                <g>
+                                    <path class="stw" d="M129.4,85V51.3h5.2v-2.5h-8.1c-0.8-14.6-13-26.3-27.9-26.3c-3.3,0-6.4,0.6-9.4,1.6H53.8
+                                        c0.1-0.7,0.2-1.5,0.2-2.2c0-10.3-8.1-18.6-18-18.6c-10.1,0-18.3,8.4-18.3,18.6c0,11.9,14.4,30,16.7,32.8V85H26v2.5h51.7h14.1h58.1
+                                        V85H129.4z M124,48.8h-12.6c-0.3-2.7-1.5-5.1-3.3-7.1l8.9-8.9C121,37,123.7,42.6,124,48.8z M106.2,40c-1.8-1.3-3.9-2.1-6.2-2.3
+                                        V25.1c5.8,0.3,11,2.5,15.1,6L106.2,40z M97.5,37.7c-2.2,0.2-4.2,1-6,2.2l-9-9c4.1-3.4,9.3-5.5,14.9-5.8V37.7z M80.7,32.6l8.9,8.9
+                                        c-1.9,1.9-3.1,4.5-3.5,7.3H73.4C73.8,42.5,76.5,36.8,80.7,32.6z M98.7,40.2c5.1,0,9.3,3.7,10.1,8.6H88.6
+                                        C89.4,43.9,93.7,40.2,98.7,40.2z M84.1,26.7c-7.5,4.7-12.7,12.8-13.2,22.1H41.6c4.2-5.8,9.9-14.6,11.7-22.1H84.1z M36,5.8
+                                        c8.6,0,15.5,7.3,15.5,16.2c0,9.9-11.6,25.3-15.8,30.5C30.9,46.3,20.2,31.5,20.2,22C20.2,13,27.3,5.8,36,5.8z M37,54.8
+                                        c0.5-0.6,1.5-1.8,2.7-3.5h28.7V85H37V54.8z M80.3,85v-23h9v23H80.3z M77.8,59.5V85h-6.8V51.3h56V85H91.8V59.5H77.8z"/>
+                                    <rect x="26" y="95" class="st0" width="123.9" height="2.5"/>
+                                    <path class="stw" d="M43.9,59.5v15.3h11.6V59.5H43.9z M53,72.3h-6.6V62.1H53V72.3z"/>
+                                    <path class="stw" d="M121.9,59.5H96.5v15.3h25.4V59.5z M119.3,72.3H99.1V62.1h20.3V72.3z"/>
+                                    <path class="stw" d="M42,21.3c0-3.2-2.7-6-6-6s-6,2.7-6,6c0,3.3,2.7,6,6,6C39.3,27.3,42,24.6,42,21.3z M32.5,21.3
+                                        c0-2,1.6-3.5,3.5-3.5c2,0,3.5,1.6,3.5,3.5c0,2-1.6,3.5-3.5,3.5S32.5,23.2,32.5,21.3z"/>
+                                </g>
+                                </svg>
                             </a>
                         </div>
                         <div class=" info-bar-search" ng-click="baseTop.searchPopup()"
@@ -1432,8 +1432,8 @@
                             <!-- <a class="info-search-text"><input type="text" placeholder="SEARCH" /></a> -->
                             <a class="info-search-icon">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1 0 55 55" style="enable-background:new 1 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
+                                    <style type="text/css">
+                                        .st0 {
                                             fill: none;
                                             stroke: #FFFFFF;
                                             stroke-width: 4;
@@ -1446,32 +1446,32 @@
                                             stroke-width: 4;
                                             stroke-miterlimit: 10;
                                         }
-									</style>
-									<line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
-									<circle class="st0" cx="23" cy="21.3" r="19.9" />
-									<line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
-									<circle class="st1" cx="24" cy="21.3" r="19.9" />
-								</svg>
+                                    </style>
+                                    <line class="st0" x1="36.9" y1="35.7" x2="55" y2="53.8" />
+                                    <circle class="st0" cx="23" cy="21.3" r="19.9" />
+                                    <line class="st1" x1="37.9" y1="35.7" x2="56" y2="53.8" />
+                                    <circle class="st1" cx="24" cy="21.3" r="19.9" />
+                                </svg>
                             </a>
                         </div>
                         <div class=" info-bar-cart">
-                            <a class="info-cart-icon">
+                            <a class="info-cart-icon" ui-sref="cart">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
-									<style type="text/css">
-										.st0 {
+                                    <style type="text/css">
+                                        .st0 {
                                             fill: none;
                                             stroke: #FFFFFF;
                                             stroke-width: 2;
                                             stroke-miterlimit: 10;
                                         }
-									</style>
-									<g>
-										<circle class="st1" cx="19.3" cy="46.7" r="5.4" />
-										<circle class="st1" cx="47.1" cy="46.7" r="5.4" />
-										<polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8 	" />
-										<path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
-									</g>
-								</svg>
+                                    </style>
+                                    <g>
+                                        <circle class="st1" cx="19.3" cy="46.7" r="5.4" />
+                                        <circle class="st1" cx="47.1" cy="46.7" r="5.4" />
+                                        <polyline class="st1" points="0,1.2 8.7,1.2 12.2,38.8 54.3,38.8     " />
+                                        <path class="st1" d="M11.5,30.7l35.7,0c0.4-0.1,2.6,0.6,3.6-3.2c1-3.8,3.1-15,3.1-15s0.8-4.6-3.4-4.7c-5.3,0-34.7,0-34.7,0" />
+                                    </g>
+                                </svg>
                                 <span class="cart-count">0</span>
                             </a>
                         </div>
@@ -1489,11 +1489,11 @@
                             <div class="close-search" ng-click="baseTop.searchPopupClose()">
                                 <a>
                                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-26.2 -77.7 33.4 33.4" style="enable-background:new -26.2 -77.7 33.4 33.4;" xml:space="preserve">
-										<style type="text/css">.st0 {
+                                        <style type="text/css">.st0 {
                                             fill: #FFFFFF;
                                         }</style>
-										<g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"></rect></g></g>
-									</svg>
+                                        <g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 26.916 -110.851)" class="stw" width="45.6" height="1.6"></rect></g><g><rect x="-32.3" y="-61.8" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 -59.351 -97.416)" class="stw" width="45.6" height="1.6"></rect></g></g>
+                                    </svg>
                                 </a>
                             </div>
                         </div>
@@ -1501,14 +1501,14 @@
                 </div>
 
                 <!--  <div class=" info-bar-acc" uib-dropdown dropdown-append-to-body>
-          <!-- 	<a id="btn-append-to-body" class="info-acc-text" uib-dropdown-toggle>
+          <!--  <a id="btn-append-to-body" class="info-acc-text" uib-dropdown-toggle>
                         <div class="loggedIn-user" >
                             <span class="user-name">Hello,{{baseTop.currentUser.Username}}</span>
                             <span class="user-account">MY ACCOUNT</span>
                         </div>
                     </a> -->
                 <!--  <a id="btn-append-to-body" ng-click="baseTop.login()" ng-hide="baseTop.showuserdetail" class="info-acc-icon">
-            <span class="loggedOut-user">					
+            <span class="loggedOut-user">                   
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="0 0 55 55" style="enable-background:new 0 0 55 55;" xml:space="preserve">
                             <style type="text/css">
@@ -1550,7 +1550,13 @@
             <li>STARGAZER</li>
         </ul>
     </div>
-    <!-- 	<div class="breadcrumb-box hidden-lg hidden-md" ng-show="is('pdp')">
+    <div ncy-breadcrumb ng-show="is('pdp')"></div>
+    <div ncy-breadcrumb ng-show="is('plp')"></div>
+    <div ncy-breadcrumb ng-show="is('workshopEventLanding')"></div>
+    <div ncy-breadcrumb ng-show="is('eventsListing')"></div>
+    <div ncy-breadcrumb ng-show="is('eventDescription')"></div>
+
+    <!-- <div class="breadcrumb-box hidden-lg hidden-md" ng-show="is('pdp')">
           <ul class="breadcrumb">
              <li><a href="index.html">HOME</a> </li>
              <li>PERENNIALS</li>

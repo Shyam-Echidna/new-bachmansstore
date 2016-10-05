@@ -280,6 +280,10 @@ input[type=number] {
                                     &:nth-child(n+2) {
                                         border-top: 1px solid #f2f2f2;
                                         padding-top: 25px;
+                                        .row{
+                                                border: none;
+                                                padding-top: 0;
+                                        }
                                     }
                                     .recipient-products {
                                         padding-right: 0px;
@@ -1657,6 +1661,7 @@ input[type=number] {
                                             }
                                         }
                                     }
+                                   
 
                                 }
                                 
@@ -1857,33 +1862,34 @@ input[type=number] {
                                 }
                             }
                         }
-                        .mobile-checkout-info {
-                                    box-shadow: 0 -4px 5px #e2e2e2;
-                                    margin:0px -10px !important;
-                                    padding-top: 0px !important;
-                                    .total-amt {
-                                        font: 0.85em @proxima-regular;
-                                        text-align: center;
-                                        line-height: 46px !important;
-                                        width: 40%;
-                                        span {
-                                            font: 1.3em @proxima-bold;
+                         .mobile-checkout-info {
+                                        box-shadow: 0 -4px 5px #e2e2e2;
+                                        margin:0px -10px !important;
+                                        padding-top: 0px !important;
+                                        .total-amt {
+                                            font: 0.85em @proxima-regular;
+                                            text-align: center;
+                                            line-height: 46px !important;
+                                            width: 40%;
+                                            span {
+                                                font: 1.3em @proxima-bold;
+                                            }
                                         }
-                                    }
-                                    .checkout {
-                                        width: 60%;
-                                        button {
-                                            .green-button;
-                                            height: 47px;
-                                            font:1em @proxima-bold;
-                                            &[disabled] {
-                                                background: #ccc;
-                                                border-color: #ccc;
-                                                cursor: no-drop;
+                                        .checkout {
+                                            width: 60%;
+                                            button {
+                                                .green-button;
+                                                height: 47px;
+                                                font:1em @proxima-bold;
+                                                &[disabled] {
+                                                    background: #ccc;
+                                                    border-color: #ccc;
+                                                    cursor: no-drop;
+                                                }
                                             }
                                         }
                                     }
-                                }
+
                     }
                     div {
                         .order-summary-info {
@@ -3239,9 +3245,6 @@ input[type=number] {
                                                 }
                                             }
                                         }
-                                    }
-                                    .mobile-checkout-info{
-                                        display: none !important;
                                     }
                                 }
                             }

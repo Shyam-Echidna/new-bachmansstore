@@ -1,20 +1,17 @@
-<div class="container-fluid my-account-purple-perks" ng-show="Purpleperk.purpleperkExist">
+<div class="container-fluid my-account-purple-perks">
 	<div class="">
-		<p class="my-account-content-title">Purple Perks</p>
+		<p class="my-account-content-title">Bachman's Charge</p>
 		<div class="purple-perks-container">
 			<div class="purple-perk-item">
-				<p class="purple-perk-title text-center">{{Purpleperk.purpleperk.xp.PointsEarned}}</p>
-				<p class="purple-perk-description text-center">Points earned today will be reflected within 24 hours</p>
-			</div>{{vm.purpleperk}}
-			<div class="purple-perk-item">
-				<p class="purple-perk-title text-center">{{Purpleperk.purpleperk.xp.EarnedToDate | currency}}</p>
-				<p class="purple-perk-description text-center">Purple Perks Dollars Available</p>
+				<p class="purple-perk-title text-center">{{bachmanscharge.bcharge[0].Balance  | currency}}</p>
+				<p class="purple-perk-description text-center">Credit Balance</p>
 			</div>
-			<p class="purple-perks-disclaimer">You can use Purple Perks Dollars at the time of checkout</p>
-			<p class="purple-perks-disclaimer">Your reward dollars will expire on December 31st, 2016. For more information on Purple Perks and Frequently Asked Questions, <a ui-sref="account.perpleperksAccount.perpleperkreg" class="link">Click here</a>.</p>
-		</div>
+			<div class="purple-perk-item">
+				<p class="purple-perk-title text-center">{{bachmanscharge.bcharge[0].xp.LimitPerTransaction  | currency}}</p>
+				<p class="purple-perk-description text-center">Credit Limit</p>
+			</div>
+			<p class="purple-perks-disclaimer">Member Since <b>{{bachmanscharge.bcharge[0].StartDate | date:'longDate'}}</b></p>
+			<p class="purple-perks-disclaimer">If you have any further queries on Bachman's Charge, please call our Order Center at <b>612-861-7311</b> to inquire
+			</div>
 	</div>
-</div>
-<div ng-show="Purpleperk.purpleperkDoesNotExist">
-	<p>user does not have purpleperk account</p>
 </div>

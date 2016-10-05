@@ -25,17 +25,6 @@ function PlpConfig($stateProvider) {
 
             resolve: {
 
-                ticketTemp: function (LoginFact) {
-                    return LoginFact.GetTemp()
-                        .then(function (data) {
-                            console.log('555555555Alf', data);
-                            var ticket = data.data.ticket;
-                            localStorage.setItem("alfTemp_ticket", ticket);
-                            return ticket;
-                        }, function () {
-                            return "";
-                        })
-                },
                 DisjunctiveFacets: function ($stateParams) {
                     if ($stateParams.filters) {
                         var result = [];
@@ -147,12 +136,6 @@ function PlpConfig($stateProvider) {
                     }
 
                 },
-                GetFeaturedProducts: function (OrderCloud, $stateParams){
-                    return OrderCloud.Me.ListProducts(null, 1, 100, null, null, { "xp.Featured": true }, $stateParams.catId).then(function(res){
-                        return res.Items;
-                    })
-
-                },
                 ProductSearchResult: function (AlgoliaSvc, $stateParams, $q, DisjunctiveFacets, FilterStrings, PriceFilterString) {
                     var index;
                     if ($stateParams.productssortby) {
@@ -208,77 +191,12 @@ function PlpConfig($stateProvider) {
                     return deferred.promise;
 
                 },
-             /*   productImages: function (PlpService) {
-                    var ticket = localStorage.getItem("alf_ticket");
-                    return PlpService.GetProductImages(ticket).then(function (res) {
-                        return res.items;
-                    });
-                },*/
-                FeaturedWithVarients: function (GetFeaturedProducts, PdpService, $q, Underscore, alfcontenturl) {
-                    console.log("200 ===", GetFeaturedProducts);
-                    var deferred = $q.defer();
-                    var ajaxarr = [];
-                    angular.forEach(GetFeaturedProducts, function (node) {
-                        var promise = PdpService.GetSeqProd(node.xp.SequenceNumber)
-                        ajaxarr.push(promise);
-                    });
-                    $q.all(ajaxarr).then(function (items) {
-                        console.log("items==", items);
-                        var ticket = localStorage.getItem("alf_ticket");
-                        var imgcontentArray = [];
-                        var imgcontentArray1 = [];
-           
-                        imgcontentArray1 = items;
-                        console.log("GetFeaturedProducts ==", imgcontentArray1);
-                        var defaultGroupedProd = [];
-                        angular.forEach(imgcontentArray1, function (value, key) {
-                            var data;
-                            $.grep(value, function (e, i) {
-                                if (e.xp.IsDefaultProduct == 'true' || e.xp.IsDefaultProduct == true) {
-                                    data = i;
-                                }
-                            });
-                            if (data == undefined) {
-                                console.log("value==", value);
-                            }
-                            //var maxValue = _.max(value, _.property('StandardPriceSchedule.PriceBreaks[0].Price'));
-                            // var maxDate = _(value).map('StandardPriceSchedule.PriceBreaks[0]').flatten().max(Price);
-                            var lowest = Number.POSITIVE_INFINITY;
-                            var highest = Number.NEGATIVE_INFINITY;
-                            var tmp;
-                            //console.log("@@@" ,value.StandardPriceSchedule.PriceBreaks);
-                            var isNew = false;
-                            angular.forEach(value, function (prodValues, key) {
-                                tmp = prodValues.StandardPriceSchedule.PriceBreaks[0].Price;
-                                if (tmp < lowest) lowest = tmp;
-                                if (tmp > highest) highest = tmp;
-                                var d = new Date(prodValues.xp.DateAdded);
-                                var date = new Date(d.setMonth(d.getMonth() + 1)) > new Date();
-                                if (date) { isNew = true; }
-
-                            });
-                            var price;
-                            if (lowest != highest) {
-                                price = "$" + lowest + " - $" + highest;
-                            }
-                            else {
-                                price = "$" + lowest;
-                            }
-                            if (isNew) {
-                                value[data].isNew = true;
-                            }
-                        
-                            value[data].priceRange = price;
-                            var b = value[data];
-                            value[data] = value[0];
-                            value[0] = b;
-                            defaultGroupedProd.push(value);
-                        });
-                        console.log("final ==", defaultGroupedProd);
-                        deferred.resolve(defaultGroupedProd);
-                    });
-                    return deferred.promise;
-                },
+                /*   productImages: function (PlpService) {
+                       var ticket = localStorage.getItem("alf_ticket");
+                       return PlpService.GetProductImages(ticket).then(function (res) {
+                           return res.items;
+                       });
+                   },*/
                 ProductResultsWithVarients: function (ProductSearchResult, PdpService, $q, Underscore, alfcontenturl) {
                     console.log("200 ===", ProductSearchResult);
                     var deferred = $q.defer();
@@ -292,29 +210,29 @@ function PlpConfig($stateProvider) {
                         var ticket = localStorage.getItem("alf_ticket");
                         var imgcontentArray = [];
                         var imgcontentArray1 = [];
-                     /*   for (var i = 0; i < items.length; i++) {
-                            //var item = items[i].Items;
-                            var item = items[i];
-                            for (var j = 0; j < item.length; j++) {
-                                var matchedImage = Underscore.where(productImages, { displayName: item[j].ID + '.jpg' });
-                                if (matchedImage.length > 0) {
-                                    angular.forEach(matchedImage, function (node) {
-                                        node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
-                                        item[j].imgcontent = node;
-                                        imgcontentArray.push(item[j]);
-                                    });
-                                } else {
-                                    item[j].imgcontent = {};
-                                    //tem[j].imgcontent['contentUrl'] = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg'+"?alf_ticket=" + ticket;
-                                    item[j].imgcontent['contentUrl'] = 'assets/images/noimg.jpg';
-                                    imgcontentArray.push(item[j]);
-                                }
-
-
-                            }
-                            imgcontentArray1.push(imgcontentArray);
-                            imgcontentArray = [];
-                        }*/
+                        /*   for (var i = 0; i < items.length; i++) {
+                               //var item = items[i].Items;
+                               var item = items[i];
+                               for (var j = 0; j < item.length; j++) {
+                                   var matchedImage = Underscore.where(productImages, { displayName: item[j].ID + '.jpg' });
+                                   if (matchedImage.length > 0) {
+                                       angular.forEach(matchedImage, function (node) {
+                                           node.contentUrl = alfcontenturl + node.contentUrl + "?alf_ticket=" + ticket;
+                                           item[j].imgcontent = node;
+                                           imgcontentArray.push(item[j]);
+                                       });
+                                   } else {
+                                       item[j].imgcontent = {};
+                                       //tem[j].imgcontent['contentUrl'] = 'http://192.168.97.27:8080/share/proxy/alfresco/slingshot/node/content/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg'+"?alf_ticket=" + ticket;
+                                       item[j].imgcontent['contentUrl'] = 'assets/images/noimg.jpg';
+                                       imgcontentArray.push(item[j]);
+                                   }
+   
+   
+                               }
+                               imgcontentArray1.push(imgcontentArray);
+                               imgcontentArray = [];
+                           }*/
                         imgcontentArray1 = items;
                         console.log("items after ==", imgcontentArray1);
                         var defaultGroupedProd = [];
@@ -436,32 +354,32 @@ function PlpConfig($stateProvider) {
                         });
                     }
                     console.log(ProductSearchResult.facets);
-                   // OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
+                    // OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
 
-                        OrderCloud.Categories.List(null, 1, 100, null, null, { "parentID": $stateParams.catId }, "all").then(function (res) {
-                            console.log("Categories === ", res);
-                            var categoryList = _.pluck(res.Items, 'Name');
-                            console.log("categoryList == ", categoryList);
-                            var result = [];
+                    OrderCloud.Categories.List(null, 1, 100, null, null, { "parentID": $stateParams.catId }, "all").then(function (res) {
+                        console.log("Categories === ", res);
+                        var categoryList = _.pluck(res.Items, 'Name');
+                        console.log("categoryList == ", categoryList);
+                        var result = [];
 
-                            for (var i in ProductSearchResult.facets) {
-                                var tempObj = {
-                                    name: i
-                                };
-                                if (i == "Category") {
-                                    tempObj.list = categoryList;
-                                }
-                                else {
-                                    var tempArray = [];
-                                    for (var x in ProductSearchResult.facets[i]) {
-                                        tempArray.push(x);
-                                    }
-                                    tempObj.list = tempArray;
-                                }
-                                result.push(tempObj);
+                        for (var i in ProductSearchResult.facets) {
+                            var tempObj = {
+                                name: i
+                            };
+                            if (i == "Category") {
+                                tempObj.list = categoryList;
                             }
-                            deferred.resolve(result);
-                        });
+                            else {
+                                var tempArray = [];
+                                for (var x in ProductSearchResult.facets[i]) {
+                                    tempArray.push(x);
+                                }
+                                tempObj.list = tempArray;
+                            }
+                            result.push(tempObj);
+                        }
+                        deferred.resolve(result);
+                    });
 
                     //});
                     return deferred.promise;
@@ -786,7 +704,6 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
     vm.FiltersObject = FiltersObject;
     vm.Selections = Selections;
     vm.currentProductPage = $stateParams.productpage;
-   
     OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function (res) {
         // return res;
         $scope.$emit("CurrentCatgory2", res);
@@ -807,20 +724,12 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
       }*/
     vm.CurrentCatgory = CurrentCatgory;
     vm.CustomFacetList = FacetList;
-    if(vm.ProductResults.hits.length>0){
-        vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
-    }
-    vm.toggleFacet = function (facet, value) {
+    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    vm.toggleFacet = function (facet,value) {
         var currentFilter = $stateParams.filters;
         if (!currentFilter) {
-            if(facet!="Category"){
-                currentFilter = "Category" + ':' + CurrentCatgory.Name;
-                currentFilter += ',' + facet + ':' + value;
-            }
-            else{
-                currentFilter = facet + ':' + value;
-            }
-            //currentFilter += ',' + facet + ':' + value;
+            currentFilter = "Category" + ':' + CurrentCatgory.Name;
+            currentFilter += ',' + facet + ':' + value;
 
         } else {
             if (currentFilter.indexOf(facet + ':' + value) > -1) {
@@ -836,15 +745,15 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
 
         }
         $state.go('plp', {
-            filters: currentFilter,
-            productpage: vm.currentProductPage || 1,
-            infopage: vm.currentInfoPage || 1,
-            tab: vm.activeTab,
-            infosortby: vm.infoSortTerm,
-            productssortby: vm.productSortTerm/*,
-            min: $stateParams.min || null,
-            max: $stateParams.max || null*/
-        },
+                filters: currentFilter,
+                productpage: vm.currentProductPage || 1,
+                infopage: vm.currentInfoPage || 1,
+                tab: vm.activeTab,
+                infosortby: vm.infoSortTerm,
+                productssortby: vm.productSortTerm/*,
+                 min: $stateParams.min || null,
+                 max: $stateParams.max || null*/
+            },
             { reload: true });
     };
     vm.changePage = function () {
@@ -916,10 +825,12 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
         var seq = $($event.target).parents('.prodImagewrap').attr('data-sequence');
         if (typeof id != "undefined") {
             var href = "/pdp/" + seq + "/prodId=" + id;
-            $state.go('pdp', { 'sequence': seq, 'prodId': id });
+
+            $state.go('pdp', { 'prodId': id, 'catId':$stateParams.catId});
+
         } else {
             var href = "/pdp/" + seq;
-            $state.go('pdp', { 'sequence': seq });
+            $state.go('pdp', { 'sequence': seq, 'catId': $stateParams.catId });
         }
     }
 
@@ -1131,7 +1042,21 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
             windowClass: 'filterBtnModal',
             templateUrl: 'plp/templates/filter-modal.tpl.html',
             controller: 'filterBtnCtrl',
-            controllerAs: 'filterBtn'
+            controllerAs: 'filterBtn',
+            resolve: {
+                Facets: function() {
+                    return FacetList;
+                },
+                ProductSearchResult : function () {
+                   return ProductSearchResult;
+                },
+                FiltersObject : function () {
+                    return FiltersObject;
+                },
+                CurrentCatgory : function () {
+                  return CurrentCatgory;
+                }
+            }
             // size: 'sm'
         });
 
@@ -1534,13 +1459,50 @@ function QuickviewController($scope, $uibModalInstance) {
 
 
 
-function filterBtnController($scope, $uibModalInstance) {
+function filterBtnController($scope,$state, $uibModalInstance, Facets, FiltersObject, ProductSearchResult, CurrentCatgory, $stateParams) {
     var vm = this;
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
     vm.selection = [];
+        vm.Facets = Facets;
+    vm.FiltersObject = FiltersObject;
+    vm.ProductResults = ProductSearchResult;
+    vm.CurrentCatgory = CurrentCatgory;
+    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    vm.toggleFacet = function (facet,value) {
+        console.log(facet,value);
+        var currentFilter = $stateParams.filters;
+        if (!currentFilter) {
+            currentFilter = "Category" + ':' + CurrentCatgory.Name;
+            currentFilter += ',' + facet + ':' + value;
 
+        } else {
+            if (currentFilter.indexOf(facet + ':' + value) > -1) {
+                currentFilter = currentFilter.replace(facet + ":" + value + ",", "");
+                currentFilter = currentFilter.replace(facet + ":" + value, "");
+            } else {
+                currentFilter += ',' + facet + ':' + value;
+            }
+        }
+        if (currentFilter.slice(-1) == ",") {
+            console.log('hit');
+            currentFilter = currentFilter.substring(0, currentFilter.length - 1);
+
+        }
+        $uibModalInstance.dismiss('cancel');
+        $state.go('plp', {
+                filters: currentFilter,
+                productpage: vm.currentProductPage || 1,
+                //infopage: vm.currentInfoPage || 1,
+                //tab: vm.activeTab,
+                //infosortby: vm.infoSortTerm,
+                //productssortby: vm.productSortTerm/*,
+                // min: $stateParams.min || null,
+                // max: $stateParams.max || null*/
+            },
+            { reload: true });
+    };
     /*vm.facetOwlReinitialise = function(){
       
     }*/
@@ -1574,6 +1536,7 @@ function filterBtnController($scope, $uibModalInstance) {
           
         }
     }*/
+
     vm.togglFaceteSelection = function togglFaceteSelection(facetName, isFromTopBar) {
         var idx = vm.selection.indexOf(facetName);
         // is currently selected
@@ -1703,7 +1666,7 @@ function ProductQuickViewController($uibModal, $scope) {
     };
 }
 
-function ProductQuickViewModalController(productDetail, extraProducts, selectedProduct, $timeout, $scope, PdpService, productImages, $uibModalInstance, $uibModal, $q, OrderCloud, $rootScope, $state, CurrentOrder, $cookieStore) {
+function ProductQuickViewModalController($stateParams, productDetail, extraProducts, selectedProduct, $timeout, $scope, PdpService, productImages, $uibModalInstance, $uibModal, $q, OrderCloud, $rootScope, $state, CurrentOrder, $cookieStore) {
     var vm = this;
     vm.multirecipient = multirecipient
     $scope.cancel = function () {
@@ -1739,7 +1702,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
     if (selectedProduct !== undefined) {
         $.grep(productDetail, function (e, i) {
             if (e.ID == selectedProduct) {
-                vm.gotoPdp = "/pdp/" + e.xp.ProductCode + "?prodId=" + e.ID;
+                vm.gotoPdp = "/pdp/" + $stateParams.catId + "?prodId=" + e.ID;
                 $scope.radio.selectedColor = e.xp.SpecsOptions.Color;
                 $scope.radio.selectedSize = e.xp.SpecsOptions.Size;
                 vm.productTitle = e.Name;
@@ -1863,7 +1826,7 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
         vm.productTitle = selectedSku.Name;
         vm.prodDesription = selectedSku.Description;
         vm.selectedProductId = selectedSku.ID;
-        vm.gotoPdp = "/pdp/" + selectedSku.xp.ProductCode + "?prodId=" + selectedSku.ID;
+        vm.gotoPdp = "/pdp/" + $stateParams.catId + "?prodId=" + selectedSku.ID;
         WishListHandler(selectedSku.ID, true);
         PdpService.GetProductCodeImages(selectedSku.ID).then(function (res) {
             vm.productVarientImages = res;
@@ -2051,6 +2014,17 @@ function ProductQuickViewModalController(productDetail, extraProducts, selectedP
                         removeFromwishList: false,
 
                     }
+                },
+                ExtraItems: function () {
+                    var extraItems = []
+                    // if (!_.isEmpty(vm.extraItems)) {
+                    //     angular.forEach(vm.extraItems, function (val, key) {
+                    //         extraItems.push(val)
+                    //     }, true)
+                    // }
+                    return extraItems;
+
+
                 }
             }
         });

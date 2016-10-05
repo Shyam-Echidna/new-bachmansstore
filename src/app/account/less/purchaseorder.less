@@ -1,0 +1,115 @@
+/* Purple Perks Style Starts */
+.my-account-purchase-order{
+.purple-perks-container {
+    padding: 0 15%;
+    .purple-perk-item {
+        display: inline-block;
+        width: 48%;
+        /*height: 100px;*/
+        min-height: 100px;
+        padding: 5px 5px 15px 5px;
+        border: 1px solid #AE83CF;
+        background-color: #faf3fc;
+        margin-bottom: 15px;
+        /*padding: 0px 5px;*/
+        float: left;
+        .purple-perk-title {
+            color: #AE83CF;
+            font: 1.875em @proxima-bold;
+            margin-top: 10px;
+            padding-top:10px;
+        }
+        .purple-perk-description {
+            color: #424242;
+            font: 0.8125em @proxima-bold;
+            margin-top: 10px;
+        }
+    }
+    .purple-perk-item:nth-child(even) {
+        margin-left: 2%;
+    }
+    .purple-perks-disclaimer {
+        float: left;
+        clear: both;
+        margin-top: 5px;
+        font: 0.875em @proxima-regular;
+        color: #464646;
+        .link {
+            color: @font-purple-light;
+            border-bottom: 1px solid @font-purple-light;
+            &:hover {
+                color: @font-purple-dark;
+                border-bottom: 1px solid @font-purple-dark;
+            }
+        }
+    }
+    .purple-perks-disclaimer + .purple-perks-disclaimer {
+        margin-top: 15px;
+    }
+}   
+}
+
+
+@media screen and (min-width:320px) and (max-width:810px) {
+    .my-account-purchase-order{
+        .my-account-content-title {
+        margin: 15px auto !important;
+       }
+        .purple-perks-container {
+        padding: 15px 0 0 0;
+        border-top: 1px solid #d6d6d6;
+        .purple-perk-item {
+            display: block;
+            width: 100%;
+            margin-bottom: 5px;
+            .purple-perk-title {
+                font: 1.625em @proxima-bold;
+            }
+            .purple-perk-description {
+                font: 0.75em @proxima-bold;
+            }
+        }
+        .purple-perk-item:nth-child(even) {
+            margin-left: 0;
+        }
+        .purple-perks-disclaimer {
+            font: 0.75em @proxima-regular;
+            text-align: center;
+            margin-top: 15px;
+            width: 100%;
+        }
+    }
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+     .my-account-purchase-order{
+               .purple-perks-container {
+        padding: 0 10%;
+        .purple-perk-item {
+            min-height: 110px;
+            .purple-perk-description {
+                margin-top: 0;
+            }
+        }
+    }
+  }
+}
+@media screen and (max-width:962px) and (min-width:900px) {
+    /*.purple-perks-container {
+    }*/
+}
+@media screen and (max-width:962px) and (min-width:900px) and (orientation: landscape) {
+    /*.purple-perks-container {
+    }*/
+}
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
+    .my-account-purchase-order{
+            .purple-perks-container {
+            .purple-perk-item {
+                min-height: 125px;
+          }
+       }
+    }
+}
+/* Purple Perks Style Ends */

@@ -46,21 +46,22 @@
                 </div>
             </div>
         </div>
-        <div class="row detail-overlay-box col-xs-12 col-sm-12 col-md-6 col-lg-6" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.6em'}">
-            <div class="qv-page">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
-                        <div class="detail-container">
+        <form>
+            <div class="row detail-overlay-box col-xs-12 col-sm-12 col-md-6 col-lg-6" cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.6em'}" ng-form="pdpAddtoCart">
+                <div class="qv-page">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 overlay-content">
+                            <div class="detail-container">
 
-                            <h3 class="prod_title">{{pdp.productTitle | lowercase}}</h3>
-                            <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">Select Size</h5>
-                            <div class="row radio-btn-container">
+                                <h3 class="prod_title">{{pdp.productTitle | lowercase}}</h3>
+                                <h5 ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">Select Size</h5>
+                                <div class="row radio-btn-container">
 
-                                <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">
+                                    <div ng-repeat="opt in pdp.allSizes" ng-if="pdp.allSizes[0].xp.SpecsOptions.Size != null">
 
-                                    <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
-                                        <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}" ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />
-                                        <label for="{{opt.xp.SpecsOptions.Size}}">
+                                        <div class="size-box col-xs-12 col-sm-12 col-md-4 col-lg-4" for="{{opt.xp.SpecsOptions.Size}}" ng-class="{ 'active-box': $index ==  pdp.selectedSizeIndex , 'disable-box': opt.isNotAvailable == true }" ng-click="">
+                                            <input type="radio" id="{{opt.xp.SpecsOptions.Size}}" name="sizeopt" ng-model="radio.selectedSize" value="{{opt.xp.SpecsOptions.Size}}" ng-disabled="opt.isNotAvailable" ng-change="pdp.selectVarients(radio.selectedSize, $index)" />
+                                            <label for="{{opt.xp.SpecsOptions.Size}}">
                                             <span class="radioOutline"><span class="radioInside"></span></span>
                                             <span class="visible-xs visible-sm horizontal-label">
                                             <span class="pdp-name">{{opt.xp.SpecsOptions.Size}}</span>
@@ -77,17 +78,17 @@
                                                 </span>
                                             </p>
                                         </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- started -->
-                            <div class="row color-selection">
-                                <h5>Select Color</h5>
-                                <div class="color-circle">
+                                <!-- started -->
+                                <div class="row color-selection">
+                                    <h5>Select Color</h5>
+                                    <div class="color-circle">
 
-                                    <ul class="list-inline">
+                                        <ul class="list-inline">
 
-                                        <!--  <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }">
+                                            <!--  <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }">
                                                 
                                               
                                                     <input type="radio"  name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"/>  
@@ -99,138 +100,143 @@
                                         </li> -->
 
 
-                                        <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}" >
-                                            <input type="radio" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"
-                                            />
-                                            <!--  {{coloropt.xp.SpecsOptions.Color}} -->
-                                            <label style="display:block;display: block;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}" title="{{coloropt.xp.SpecsOptions.Color}}"
-                                                class="{{coloropt.xp.SpecsOptions.Color}}"> 
+                                            <li ng-model="prodColor" style="padding:0" ng-repeat="coloropt in pdp.allColors  track by $index" ng-class="{ 'active-circle': $index == pdp.selectedProductIndex, 'disable-color': coloropt.isNotAvailable == true }" ng-attr-title="{{ coloropt.isNotAvailable ? 'Color not available' : coloropt.xp.SpecsOptions.Color}}">
+                                                <input type="radio" name="colors" id="{{coloropt.xp.SpecsOptions.Color}}" ng-disabled="coloropt.isNotAvailable" ng-model="radio.selectedColor" ng-change="pdp.selectColor($index,  coloropt.xp.SpecsOptions.Color)" value="{{coloropt.xp.SpecsOptions.Color}}"
+                                                />
+                                                <!--  {{coloropt.xp.SpecsOptions.Color}} -->
+                                                <label style="display:block;display: block;position: absolute;border-radius: 50%;right: 3px;left: 3px;top: 3px;bottom: 3px;cursor: pointer;padding: 0;margin: 0;" for="{{coloropt.xp.SpecsOptions.Color}}" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"
+                                                    title="{{coloropt.xp.SpecsOptions.Color}}" class="{{coloropt.xp.SpecsOptions.Color}}"> 
                                              <!--    <a href="" class="" style="display:block" ng-style="{'background-color': coloropt.xp.SpecsOptions.Color}"></a> -->
                                             </label>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
 
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            <div class="row price-block" ng-if="pdp.productDetails[0].length == 1 &&  pdp.productDetails.length == 1">
-                                <ul ng-repeat="priceItem in pdp.productDetails[0][0].StandardPriceSchedule.PriceBreaks">
-                                    <li class="new-price">{{priceItem.Price | currency}}</li>
-                                    <li class="old-price">{{priceItem.Price | currency}}</li>
-                                </ul>
-                            </div>
-                            <div class="row features-block" ng-if="pdp.productDetails[0].length == 1">
-                                <ul>
-                                    <li>Wrought Iron Construction</li>
-                                    <li>Seats up to 6</li>
-                                    <li>Comes with seat cushions</li>
-                                </ul>
-                            </div>
+                                <div class="row price-block" ng-if="pdp.productDetails[0].length == 1 &&  pdp.productDetails.length == 1">
+                                    <ul ng-repeat="priceItem in pdp.productDetails[0][0].StandardPriceSchedule.PriceBreaks">
+                                        <li class="new-price">{{priceItem.Price | currency}}</li>
+                                        <li class="old-price">{{priceItem.Price | currency}}</li>
+                                    </ul>
+                                </div>
+                                <div class="row features-block" ng-if="pdp.productDetails[0].length == 1">
+                                    <ul>
+                                        <li>Wrought Iron Construction</li>
+                                        <li>Seats up to 6</li>
+                                        <li>Comes with seat cushions</li>
+                                    </ul>
+                                </div>
 
-                            <div class="row dropdown-box">
-                                <h5>Add Something Extra</h5>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="row">
-                                        <div ng-repeat="extras in pdp.productExtras track by $index" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
-                                            <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
-                                            <div class="btn-group btn-block dropdown" uib-dropdown>
-                                                <button id="single-button{{$index}}" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                                <div class="row dropdown-box">
+                                    <h5>Add Something Extra</h5>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="row">
+                                            <div ng-repeat="extras in pdp.productExtras track by $index" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 btn-holder">
+                                                <p class="visible-xs visible-sm mobile-show-title">Balloons</p>
+                                                <div class="btn-group btn-block dropdown" uib-dropdown>
+                                                    <button id="single-button{{$index}}" type="button" class="btn btn-primary btn-block dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
                                                             <span class="category-name hidden-xs hidden-sm">{{extras[0].CategoryName}}</span>
                                                             <p>Select</p>
                                                         </button>
-                                                <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
-                                                    <li role="menuitem" ng-repeat="extra in extras" ng-click="pdp.SelectExtra(extra.Title, $event);">
-                                                        <div class="row">
-                                                            <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
-                                                                <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
+                                                    <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                                                        <li role="menuitem" ng-repeat="extra in extras" ng-click="pdp.SelectExtra(extra.Title, $event);">
+                                                            <div class="row">
+                                                                <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3">
+                                                                    <img ng-src="{{extra.imgContent[0].contentUrl}}" class="img-responsive" title="img" alt="">
+                                                                </div>
+                                                                <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+                                                                    <h5>{{extra.Title}}</h5>
+                                                                    <p>{{extra.Price}}</p>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
-                                                                <h5>{{extra.Title}}</h5>
-                                                                <p>{{extra.Price}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
+
                                         </div>
-
                                     </div>
-                                </div>
-                                <div>
+                                    <div>
 
-                                    <!--<div ng-show="pdp.Courier">
+                                        <!--<div ng-show="pdp.Courier">
                                         Courier<input type="radio" name="deliverytype" ng-model="pdp.DeliveryType" value="Courier" />
                                     </div>-->
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row faster-delivery-content">
-                                <div class="assembly">
-                                    <h5>Assembly:</h5>
-                                    <div class="radio-inline">
-                                        <input type="radio" id="assembled" name="assembly" value="Assembled">
-                                        <label for="assembled">
+                                <div class="row faster-delivery-content">
+                                    <div class="assembly" ng-if="pdp.assembly">
+                                        <h5>Assembly:</h5>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="assembled" name="assembly" value="Assembled" ng-click="pdp.assemblychecked=true;pdp.addAssemblyProducts(pdp.assemblychecked)" ng-required='pdp.assemblychecked'>
+                                            <label for="assembled">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Assembled</span>
                                            </label>
-                                    </div>
-                                    <div class="radio-inline">
-                                        <input type="radio" id="notAssembled" name="assembly" value="Not Assembled">
-                                        <label for="notAssembled">
+                                        </div>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="notAssembled" name="assembly" value="Not Assembled" ng-click="pdp.assemblychecked=false;pdp.addAssemblyProducts(pdp.assemblychecked)" ng-required='pdp.assemblychecked'>
+                                            <label for="notAssembled">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Not Assembled</span>
                                            </label>
 
+                                        </div>
+                                        <p class="note"><span>Note:&nbsp;</span>Assembly charges may apply</p>
                                     </div>
-                                    <p class="note"><span>Note:&nbsp;</span>Assembly charges may apply</p>
-                                </div>
-                                <div class="placement">
-                                    <h5>Placement:</h5>
-                                    <div class="radio-inline">
-                                        <input type="radio" id="placed" name="placement" value="Placed">
-                                        <label for="placed">
+                                    <div class="placement" ng-if="pdp.placement">
+                                        <h5>Placement:</h5>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="placed" name="placement" value="Placed" ng-click="pdp.placementchecked=true">
+                                            <label for="placed">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Placed</span>
                                            </label>
-                                    </div>
-                                    <div class="radio-inline">
-                                        <input type="radio" id="notPlaced" name="placement" value="Not Placed">
-                                        <label for="notPlaced">
+                                        </div>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="notPlaced" name="placement" value="Not Placed" ng-click="pdp.placementchecked=false" checked="checked">
+                                            <label for="notPlaced">
                                            <span class="radioOutline"><span class="radioInside"></span></span>
                                            <span class="label-name">Not Placed</span>
                                            </label>
+                                        </div>
+                                        <br>
+                                        <textarea placeholder="Placement Instructions" name="placement" rows="4" cols="10" ng-model="pdp.placementnotes" ng-required='pdp.placementchecked'></textarea>
+                                        <p class="note"><span>Note:&nbsp;</span>Placement charges may apply</p>
+                                        <div ng-messages="pdpAddtoCart.placement.$error" role="alert">
+                                            <div ng-message="required">This is required.</div>
+                                        </div>
                                     </div>
-                                    <br>
-                                    <textarea placeholder="Placement Instructions" rows="4" cols="10"></textarea>
-                                    <p class="note"><span>Note:&nbsp;</span>Placement charges may apply</p>
-                                </div>
-                                <!-- <div class="fastDelivery" ng-show="pdp.Faster"> -->
-                                <div class="fastDelivery" ng-show="pdp.Faster">
+                                    <!-- <div class="fastDelivery" ng-show="pdp.Faster"> -->
+                                    <div class="fastDelivery" ng-show="pdp.Faster">
 
-                                    <div class="Checkbox">
-                                        <input type="checkbox" name="deliverytype" id="fastDelivery" ng-model="pdp.DeliveryType" value="Mixed" ng-true-value="'Mixed'" ng-false-value="'NO'" />
+                                        <div class="Checkbox">
+                                            <input type="checkbox" name="deliverytype" id="fastDelivery" ng-model="pdp.DeliveryType" value="Faster" ng-true-value="'Faster'" ng-false-value="'NO'" />
 
-                                        <div class="Checkbox-visible"></div>
+                                            <div class="Checkbox-visible"></div>
+                                        </div>
+                                        <label class="fastDelivery" for="fastDelivery">Select Faster Delivery</label>
+                                        <p class="note"><span>Note:&nbsp;</span>Faster Delivery charges Will apply</p>
+                                        <p class="note"><span>Note:&nbsp;</span>Faster Delivery is Local only</p>
                                     </div>
-                                    <label class="fastDelivery" for="fastDelivery">Select Faster Delivery</label>
-                                    <p class="note"><span>Note:&nbsp;</span>Faster Delivery charges Will apply</p>
                                 </div>
-                            </div>
-                            <div class="row zipCodeCheck">
-                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 zipCodeBlock">
-                                    <fieldset class="form-group" >
-                                        <label for="zip-code">ZIP Code</label>
-                                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="pdp.line.ShippingAddress.Zip" ng-blur="pdp.checkDeliverymethod(pdp.line);pdp.getCityState(pdp.line,pdp.line.ShippingAddress.Zip)" ng-change="pdp.zipCodeChange(pdp.line.ShippingAddress.Zip)" ng-maxlength="5" ng-minlength="5" autocomplete="off" required>
-                                    </fieldset>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 delDateBlock">
-                                    <fieldset class="form-group delivery-date">
-                                        <label for="dDate">Delivery Date</label>
-                                        <div class="row">
-                                            <div class="">
-                                                <input type="text"  class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="pdp.line.xp.deliveryDate" is-open="pdp.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: pdp.DeliveryMethod== 'UPS' ? pdp.mindays.UPS : pdp.mindays.MinToday, startingDay: 1}"
-                                                     />
-                                                <span class="input-group-btn date-svg">
+                                <div class="row zipCodeCheck">
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 zipCodeBlock">
+                                        <fieldset class="form-group">
+                                            <label for="zip-code">ZIP Code</label>
+                                            <input type="text" class="form-control" id="zip-code" placeholder="Zip Code" name="zipcode1" ng-model="pdp.line.ShippingAddress.Zip" ng-blur="pdp.checkDeliverymethod(pdp.line);pdp.getCityState(pdp.line,pdp.line.ShippingAddress.Zip)" ng-change="pdp.zipCodeChange(pdp.line.ShippingAddress.Zip)"
+                                                ng-maxlength="5" ng-minlength="5" autocomplete="off" usZipcode>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 delDateBlock">
+                                        <fieldset class="form-group delivery-date">
+                                            <label for="dDate">Delivery Date</label>
+                                            <div class="row">
+                                                <div class="">
+                                                    <input type="text" class="form-control" placeholder="MM/DD/YYYY" uib-datepicker-popup="MM/dd/yyyy" ng-model="pdp.line.xp.deliveryDate" is-open="pdp.openCalenderPopUp" datepicker-options="{formatYear: 'yy', minDate: pdp.DeliveryMethod== 'UPS' ? pdp.mindays.UPS : pdp.mindays.MinToday, startingDay: 1}"
+                                                    />
+                                                    <span class="input-group-btn date-svg">
                                               
                                                 <span class="" ng-click="pdp.openCalenderPopUp=!pdp.openCalenderPopUp">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="33 -34 100 100" style="enable-background:new 33 -34 100 100;" xml:space="preserve" class="ng-scope">
@@ -290,24 +296,24 @@
                                                 </g>
                                             </svg>
                                         </span>
-                                                </span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!pdp.sameDay">
+                                                    <p class="svg-right">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
+                                                    </p>
+                                                    <p class="delivery-text">Same-Day Available!</p>
+                                                </div>
                                             </div>
-                                            <div class="col-md-5 col-lg-5 label-left-align" ng-show="!!pdp.sameDay">
-                                                <p class="svg-right">
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M5.378 11.37L2 7.59l1.438-1.286L5.374 8.47l5.185-5.84L12 3.91l-6.622 7.46" fill="#fff"/></svg>
-                                                </p>
-                                                <p class="delivery-text">Same-Day Available!</p>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                  <span ng-show='pdp.fasterDeliveryerr'>Faster Delivery is for Local Only</span>
+                                        </fieldset>
+                                        <span ng-show='pdp.fasterDeliveryerr'>Faster Delivery is for Local Only</span>
 
 
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- <div class="row Delivery-info">
+                                <!-- <div class="row Delivery-info">
                                 <h5>Delivery Information</h5>
                                 <div class="col-md-10 col-lg-10">
                                     <div class="row">
@@ -323,8 +329,8 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <div class="row cart-block">
-                                <!-- <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="row cart-block">
+                                    <!-- <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group">
                                             <label for="inputType" class="col-xs-1 col-sm-1 col-md-3 control-label">Qty</label>
@@ -334,26 +340,25 @@
                                         </div>
                                     </form>
                                 </div> -->
-                                <p>{{pdp.multirecipientSelectErr}}</p>
-                                <p>{{pdp.addToWishListSelectErr}}</p>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons-area">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <!-- <button class="btn btn-block add-cart-btn" type="submit" ng-click="pdp.addToCart(pdp.productDetails.ID)">ADD TO CART</button> -->
-                                            <button class="btn btn-block add-cart-btn" type="submit" ng-click="pdp.multirecipient(pdp.productDetails[0][0].ID); multiplerecipientview.multirecipientpopup()">ADD TO CART</button>
-                                            <!--<button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>-->
-                                        </div>
-                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
-                                            <button class="btn btn-block add-list-link" ng-if="pdp.displayWishList" ng-click="pdp.addToWishList(pdp.selectedProductId, false);" type="submit" ng-bind-html="pdp.wishListTxt"></button>
-                                            <!-- <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button> -->
+                                    <p>{{pdp.multirecipientSelectErr}}</p>
+                                    <p>{{pdp.addToWishListSelectErr}}</p>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons-area">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                <!-- <button class="btn btn-block add-cart-btn" type="submit" ng-click="pdp.addToCart(pdp.productDetails.ID)">ADD TO CART</button> -->
+                                                <button class="btn btn-block add-cart-btn" type="submit" ng-click="pdp.multirecipient(pdp.productDetails[0][0].ID); multiplerecipientview.multirecipientpopup()" ng-disabled="pdpAddtoCart.$invalid">ADD TO CART</button>
+                                                <!--<button class="btn btn-block add-cart-btn" type="submit">ADD TO CART</button>-->
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                                <button class="btn btn-block add-list-link" ng-if="pdp.displayWishList" ng-click="pdp.addToWishList(pdp.selectedProductId, false);" type="submit" ng-bind-html="pdp.wishListTxt"></button>
+                                                <!-- <button class="btn btn-block add-list-link" type="submit">ADD TO WISHLIST</button> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div id="plus-label" class="plus-label" ng-click="plp.multirecipient()" ng-show="plusLabel">
-                                <div class="p-icon">
-                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                <div id="plus-label" class="plus-label" ng-click="plp.multirecipient()" ng-show="plusLabel">
+                                    <div class="p-icon">
+                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                         <style type="text/css">
                                         .st0 {
                                             fill: #fff;
@@ -364,13 +369,14 @@
                                             <rect y="11" class="st0" width="25" height="1" />
                                         </g>
                                     </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <div class="row share-icons-block ">
             <div class="row share-block">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 left">
@@ -888,7 +894,7 @@
                 <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
             </div>
 
-           <!--  <div class="pdt-carousel-cont">
+            <!--  <div class="pdt-carousel-cont">
                 <div class="pdt-carousel-image">
                     <img alt="Flower Arrangement" class="" src="assets/images/noimg.jpg" id="item-1" />
                 </div>
@@ -3407,3 +3413,25 @@
 <!-- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script> -->
 
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-574850a97dfe4770"></script>
+<modal title="Assembled Items" visible="pdp.AssemblyModal" class="">
+    <div>
+        <ul>
+            <li ng-repeat="items in pdp.AssemblyProducts" ng-click="">
+                <div class="check">
+                    <input type="checkbox" id="saved" class="checkbox-custom" ng-model="pdp.ItemSelected[items.ID]">
+                    <label for="saved" class="checkbox-custom-label"></label>
+                </div>
+                <div class="prod_img">
+                    <img src="assets/images/flowers.jpg" />
+                </div>
+                <div class="prod-info">
+                    <h2>{{items.Name}}</h2>
+                    <h3>Size:<span>{{items.Size}}</span></h3>
+                    <h4>Color:<span>{{items.Color}}</span></h4>
+                    <h5>Price:<span>{{items.Price | currency}}</span></h5>
+                </div>
+            </li>
+        </ul>
+        <button ng-click="pdp.SelectedProducts()" class="done">Done</button>
+    </div>
+</modal>

@@ -36,10 +36,10 @@
 						<div class="receipient-drpDown">
 							<ul>
 								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
-									<a  ng-click="history.changePageData(folder.fileName,subfolder,subfolder.fileName)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
-									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName">
+									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
+									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName && history.childCount >=2">
 										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !='' && subsubfolders.fileName!='Media'">
-											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? {'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders,subfolder.fileName)">{{subsubfolders.title}}</a></li>
+											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a></li>
 									</ul>
 								</li>
 							</ul>

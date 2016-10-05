@@ -262,6 +262,35 @@
 		}
 	}
 }
+ol.breadcrumb {
+    position: absolute;
+    margin-top:3.957em;
+    width: 100%;
+    padding:0;
+    padding-left:30px;
+    background: rgba(0, 0, 0, 0.5);
+    font: initial;  
+    border-radius: 0;
+    li {       
+        border-radius: 0px;
+        padding: 0;
+        color: #fff;
+        font: 0.750em/2.6em @proxima-regular;
+        text-transform: uppercase;
+        &.active{
+        	color:#fff;
+        }
+        span ,a{
+            color: #fff;
+            font: 0.950em/2.6em @proxima-regular;
+            text-transform: uppercase;
+        }
+        &:before{
+			vertical-align: middle;
+        }
+    }
+
+} 
 #DashboardWrapper {
 	padding-left: 0;
 	transition: all 0.5s ease;
@@ -3131,6 +3160,10 @@ ul.empty-div {
 					&.info-bar-cart {
 						width: 26%;
 						width: 40px;
+						&:hover{
+							width: 40px !important;
+							height: 45px !important
+						}
 						.cart-count {
 							right: 1px;
 							top: 5px;
@@ -3858,6 +3891,15 @@ ul.empty-div {
 
 	/*For STORE Locator pages ENDS*/
 	/*for STORE LOCATOR mobile part END*/
+	ol.breadcrumb {
+	    margin-top:0;
+	    li {       
+	        font: 0.750em/1.8em @proxima-regular;
+	        span ,a{
+	            font: 0.950em/1.8em @proxima-regular;
+	        }
+	    }
+	}  
 }
 .headerTransparentDiv {
 	position: absolute;
@@ -5537,36 +5579,7 @@ ordercloud-minicart{
 		left:0;
 		right:0;
 	}
-}
-ol.breadcrumb {
-    position: absolute;
-    margin-top:3.957em;
-    width: 100%;
-    padding:0;
-    padding-left:30px;
-    background: rgba(0, 0, 0, 0.5);
-    font: initial;  
-    border-radius: 0;
-    li {       
-        border-radius: 0px;
-        padding: 0;
-        color: #fff;
-        font: 0.750em/2.6em @proxima-regular;
-        text-transform: uppercase;
-        &.active{
-        	color:#fff;
-        }
-        span ,a{
-            color: #fff;
-            font: 0.950em/2.6em @proxima-regular;
-            text-transform: uppercase;
-        }
-        &:before{
-			vertical-align: middle;
-        }
-    }
-
-}  
+} 
 .custom-select-box {
 	-webkit-appearance: none;
     -moz-appearance: none;
@@ -5576,4 +5589,22 @@ ol.breadcrumb {
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 35px 12px;
+}
+
+
+
+/* IE10+ CSS styles go here */
+
+@media all and (-ms-high-contrast: none),(-ms-high-contrast: active) {
+    .header-info-bar {
+        .info-bar-search {
+            .info-search-text {
+            	vertical-align: middle;
+            	input{
+            		vertical-align: middle;
+            	}
+                
+            }
+        }
+    }
 }
