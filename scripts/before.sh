@@ -1,5 +1,5 @@
 sudo su -
-cd /var/www/html
+cd /opt/Bachmans/
 rm -rf ./Bachmans
 mkdir Bachmans
 cd Bachmans
