@@ -319,7 +319,8 @@
 							</ul> -->
                     <ul class="footer_cat ">
                         <li ng-repeat="categories in base.tree" class="sub-nav ">
-                            <a ui-sref="category({parentId:categories.ID,childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
+                            <a ng-if="categories.Name != 'Workshops & Events'" ui-sref="category({parentId:categories.ID,childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
+                             <a ng-if="categories.Name == 'Workshops & Events'" href="/workshopEventLanding"  class="maincat_link">{{categories.Name}}</a>
                         </li>
                     </ul>
                 </div>

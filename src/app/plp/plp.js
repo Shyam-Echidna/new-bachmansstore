@@ -700,7 +700,7 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
     vm.FiltersObject = FiltersObject;
     console.log("FiltersObject == ", FiltersObject);
     // START: function for facet selection logic
-    //  vm.Selections = [];
+      vm.Selections = [];
     vm.FiltersObject = FiltersObject;
     vm.Selections = Selections;
     vm.currentProductPage = $stateParams.productpage;
@@ -724,13 +724,19 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
       }*/
     vm.CurrentCatgory = CurrentCatgory;
     vm.CustomFacetList = FacetList;
-    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    if(vm.ProductResults.hits.length>0){
+        vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    }
     vm.toggleFacet = function (facet,value) {
         var currentFilter = $stateParams.filters;
         if (!currentFilter) {
-            currentFilter = "Category" + ':' + CurrentCatgory.Name;
-            currentFilter += ',' + facet + ':' + value;
-
+           if(facet!="Category"){
+                currentFilter = "Category" + ':' + CurrentCatgory.Name;
+                currentFilter += ',' + facet + ':' + value;
+            }
+            else{
+                currentFilter = facet + ':' + value;
+            }
         } else {
             if (currentFilter.indexOf(facet + ':' + value) > -1) {
                 currentFilter = currentFilter.replace(facet + ":" + value + ",", "");
@@ -814,7 +820,9 @@ function PlpController(BaseService, $rootScope, FacetList, FiltersObject, Curren
 
     //Function for clear all facets
     vm.clearSelection = function () {
-        vm.selection = [];
+        console.log(vm.Selections);
+        $state.go('plp',{filters:''},{reload:true} );
+        vm.Selections = [];
         vm.facetName = {};
         angular.element('.plp-page .selected-list .left-part div .list-items .catLeftArrow').css({ 'display': 'none', 'visibility': 'hidden' });
         angular.element('.plp-page .selected-list .left-part div .list-items .catRightArrow').css({ 'display': 'none', 'visibility': 'hidden' });
@@ -1469,14 +1477,29 @@ function filterBtnController($scope,$state, $uibModalInstance, Facets, FiltersOb
     vm.FiltersObject = FiltersObject;
     vm.ProductResults = ProductSearchResult;
     vm.CurrentCatgory = CurrentCatgory;
-    vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+
+    if(vm.ProductResults.hits.length>0){
+        vm.priceValue = [parseInt($stateParams.min) || vm.ProductResults.facets_stats.Price.min, parseInt($stateParams.max) || vm.ProductResults.facets_stats.Price.max];
+    }
+    var currentFilter;
+
     vm.toggleFacet = function (facet,value) {
         console.log(facet,value);
-        var currentFilter = $stateParams.filters;
-        if (!currentFilter) {
-            currentFilter = "Category" + ':' + CurrentCatgory.Name;
-            currentFilter += ',' + facet + ':' + value;
+        if(vm.selection.indexOf(value)>-1){
+            vm.selection.splice(vm.selection.indexOf(value),1);
+        }else{
+            vm.selection.push(value);  
+        }
 
+        currentFilter = $stateParams.filters;
+        if (!currentFilter) {
+           if(facet!="Category"){
+                currentFilter = "Category" + ':' + CurrentCatgory.Name;
+                currentFilter += ',' + facet + ':' + value;
+            }
+            else{
+                currentFilter = facet + ':' + value;
+            }
         } else {
             if (currentFilter.indexOf(facet + ':' + value) > -1) {
                 currentFilter = currentFilter.replace(facet + ":" + value + ",", "");
@@ -1490,18 +1513,43 @@ function filterBtnController($scope,$state, $uibModalInstance, Facets, FiltersOb
             currentFilter = currentFilter.substring(0, currentFilter.length - 1);
 
         }
+
+    };
+    var newMin = vm.priceValue[0];
+    var newMax = vm.priceValue[1];
+    vm.ApplyFilters = function () {
         $uibModalInstance.dismiss('cancel');
         $state.go('plp', {
                 filters: currentFilter,
                 productpage: vm.currentProductPage || 1,
-                //infopage: vm.currentInfoPage || 1,
-                //tab: vm.activeTab,
-                //infosortby: vm.infoSortTerm,
-                //productssortby: vm.productSortTerm/*,
-                // min: $stateParams.min || null,
-                // max: $stateParams.max || null*/
+                min: newMin,
+                max: newMax
+
             },
             { reload: true });
+    }
+    vm.changePriceRange = function () {
+        console.log('hehehehe', vm.sliderValue);
+
+        if (vm.sliderValue[0] != vm.priceValue[0]) {
+            newMin = vm.sliderValue[0];
+        } else {
+            newMin = $stateParams.min || null;
+        }
+        if (vm.sliderValue[1] != vm.priceValue[1]) {
+            newMax = vm.sliderValue[1]
+        } else {
+            newMax = $stateParams.max || null;
+        }
+/*
+        $state.go('plp', {
+                filters: $stateParams.filters,
+                productpage: vm.currentProductPage || 1,
+                productssortby: vm.productSortTerm,
+                min: newMin,
+                max: newMax
+            },
+            { reload: true })*/
     };
     /*vm.facetOwlReinitialise = function(){
       

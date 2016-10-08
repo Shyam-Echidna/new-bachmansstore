@@ -19,29 +19,34 @@ function PdpConfig($stateProvider) {
 			templateUrl: 'pdp/templates/pdp.tpl.html',
 			resolve: {
 				productDetail: function (PlpService, PdpService, $q, $stateParams, $http, OrderCloud, $cookieStore) {
-					
-					var deferred = $q.defer()
-					OrderCloud.Products.Get($stateParams.prodId).then(function(data){
-					PdpService.GetSeqProd(data.xp.SequenceNumber).then(function (res) {
-						var inventoryFilteredList = []; // Array for Products with inventory
-						angular.forEach(res, function (value, key) {
-							var promise = PdpService.GetProdInventory(value.ID).then(function (res) {
-								//if (res.Available > 1) {
-								return value;
-								//}
+					var deferred = $q.defer();
+					OrderCloud.Products.Get($stateParams.prodId).then(function (data) {
+						PdpService.GetSeqProd(data.xp.SequenceNumber).then(function (res) {
+							var inventoryFilteredList = []; // Array for Products with inventory
+							angular.forEach(res, function (value, key) {
+								var promise = PdpService.GetProdInventory(value.ID).then(function (res) {
+									//if (res.Available > 1) {
+									return value;
+									//}
+								});
+								console.log(promise);
+								inventoryFilteredList.push(promise);
 							});
-							console.log(promise);
-							inventoryFilteredList.push(promise);
-						});
-						$q.all(inventoryFilteredList).then(function (items) {
-							var data = items.filter(function (element) {
-								return element !== undefined;
+							$q.all(inventoryFilteredList).then(function (items) {
+								var data = items.filter(function (element) {
+									return element !== undefined;
+								});
+								deferred.resolve(data);
 							});
-							deferred.resolve(data);
 						});
-					});
 					});
 					return deferred.promise;
+				},
+				CurrentCatgory: function ($stateParams, OrderCloud, $q) {
+					return OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
+						return res;
+					});
+
 				},
 				selectedProduct: function ($stateParams) {
 					return $stateParams.prodId;
@@ -85,11 +90,6 @@ function PdpConfig($stateProvider) {
 						dfr.resolve(new Date(dt));
 					});
 					return dfr.promise;
-				},
-				CurrentCatgory: function ($stateParams, OrderCloud, $q) {
-					return OrderCloud.Categories.Get($stateParams.catId, "bachmans").then(function (res) {
-						return res;
-					});
 				}
 			},
 			controller: 'PdpCtrl',
@@ -133,7 +133,8 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		GetProdCode: _getProdCode,
 		CheckDeliveryMethod: _CheckDeliveryMethod,
 		CallDeliveryOptions: _CallDeliveryOptions,
-		CalculateDeliveryCharges: _CalculateDeliveryCharges
+		CalculateDeliveryCharges: _CalculateDeliveryCharges,
+		getUpSellData: _getUpSellData
 	};
 	function _Getcemeteries() {
 		var defered = $q.defer();
@@ -165,10 +166,10 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		var d = $q.defer();
 		OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
 
-			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
-			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+			OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+				//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
 
-			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
+				//OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 				var key = {}, MinDate = {};
 				line.xp.NoInStorePickUp = true;
@@ -570,7 +571,7 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 			if (!arrayData) {
 				arrayData = {};
 				arrayData.link = {};
-				arrayData.link._href = 'http://192.168.97.27:8080/alfresco/d/a/workspace/SpacesStore/70589018-507f-4bed-a752-b0f7f578057c/noimg.jpg';
+				arrayData.link._href = 'http://52.206.111.191:8080/alfresco/d/a/workspace/SpacesStore/983a2452-9626-4258-b728-4212b73d39f4/noimg.jpg';
 			}
 			if (!Array.isArray(arrayData)) {
 				arrayData = [arrayData];
@@ -949,23 +950,86 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 		});
 		return d.promise;
 	}
+	function _getUpSellData(prodID) {
+		var d = $q.defer();
+		var upSellCategories = [];
+		var UpsellDtls = null;
+		var CategoryItemsUpsell = {};
+		upsell(prodID).then(function (res) {
+			d.resolve(res)
+		})
+		function upsell() {
+			var tempArr = [];
+			var cats = [];
+			var tempArr1 = [];
+			var d = $q.defer();
+
+			//OrderCloud.Products.Get(prodID).then(function (data) {
+			OrderCloud.Products.Get("cat2_cat12_prod2").then(function (data) {
+
+				UpsellDtls = data;
+				_.filter(UpsellDtls.xp.Upsell, function (row) {
+					_.each(row, function (val, key) {
+						cats.push(key);
+					});
+				});
+				angular.forEach(cats, function (line, index) {
+					//tempArr.push(OrderCloud.Categories.Get(line));
+					tempArr.push(OrderCloud.Categories.Get("c1_c9_c1"));
+				}, true);
+				$q.all(tempArr).then(function (res) {
+					angular.forEach(res, function (r) {
+						upSellCategories.push({ "ID": r.ID, "Name": r.Name });
+					}, true);
+					getCategoriesItems(upSellCategories[0].ID, 0);
+				});
+				angular.forEach(upSellCategories, function (line, index) {
+					//tempArr.push(OrderCloud.Categories.Get(line));
+					tempArr1.push(getCategoriesItems(upSellCategories[index].ID, upSellCategories[index].Name));
+				}, true);
+				$q.all(tempArr1).then(function (res) {
+					d.resolve(res);
+				});
+			});
+			return d.promise;
+		};
+		function getCategoriesItems(catID, index) {
+			var d = $q.defer();
+			catID = "c1_c1";// dummy
+			CategoryItemsUpsell[index] = [];
+			var upsel, tempArr = [];
+			var catData = _.find(UpsellDtls.xp.Upsell, function (row) {
+				if (row[catID]) {
+					upsel = row[catID];
+					return true;
+				}
+			});
+			angular.forEach(upsel, function (row) {
+				tempArr.push(OrderCloud.Products.Get(row));
+			}, true);
+			$q.all(tempArr).then(function (res1) {
+				angular.forEach(res1, function (r) {
+					CategoryItemsUpsell[index].push({ "ID": r.ID, "Name": r.Name, "Price": 25, "Description": r.Description, "Size": r.xp.SpecsOptions.Size, "Color": r.xp.SpecsOptions.Color });
+					d.resolve(CategoryItemsUpsell)
+				}, true);
+				// if ((upSellCategories.length - 1) != index) {
+				// 	index = index + 1;
+				// 	getCategoriesItems(upSellCategories[index].ID, index);
+				// } else {
+				// 	d.resolve()
+				// }
+			});
+			return d.promise;
+		};
+		return d.promise;
+	}
 
 	return service;
 }
 
-function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $stateParams, PlpService, productDetail, alfcontenturl, $sce, CurrentOrder, $rootScope, $scope, PdpService, productImages, selectedProduct, extraProducts, $cookieStore, $state, CstDateTime) {
+function PdpController(CurrentCatgory, $uibModal, $q, Underscore, OrderCloud, $stateParams, PlpService, productDetail, alfcontenturl, $sce, CurrentOrder, $rootScope, $scope, PdpService, productImages, selectedProduct, extraProducts, $cookieStore, $state, CstDateTime) {
 	var vm = this;
 	$rootScope.showBreadCrumb = true;
-	OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function (res) {
-		// return res;
-		$scope.$emit("CurrentCatgory2", res);
-		OrderCloud.Categories.Get(res.ParentID, "bachmans").then(function (res) {
-			// return res;
-			$scope.$emit("CurrentCatgory1", res);
-
-		});
-	});
-	$scope.$emit("CurrentCatgory3", CurrentCatgory.Name);
 	vm.selectedSizeIndex = 0;  // stores selected size index from vm.productDetails
 	vm.selectedProductIndex = 0; // stores selected product index under size array from vm.productDetails     	
 	vm.sizeGroupedProducts = []; // stores prodcuts in accrging to size 
@@ -979,6 +1043,19 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 	vm.line = {};
 
 	vm.pdpPdtCode = $stateParams.prodId;
+	   /* bread crumb*/
+	OrderCloud.Categories.Get(CurrentCatgory.ParentID, "bachmans").then(function (res) {
+		// return res;
+		$scope.$emit("CurrentCatgory2", res);
+		OrderCloud.Categories.Get(res.ParentID, "bachmans").then(function (res) {
+			// return res;
+			$scope.$emit("CurrentCatgory1", res);
+
+		});
+	});
+	$scope.$emit("CurrentCatgory3", CurrentCatgory.Name);
+
+	/* end of bread crumb*/
 
 	var availableColors, availableSizes = [];
 	$scope.radio = { selectedSize: -1, selectedColor: -1 };
@@ -1174,9 +1251,23 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 
 	//Extras for products
 	vm.productExtras = extraProducts;
-
-	vm.SelectExtra = function (selectedExtra, $event) {
+	vm.extraItems = {}
+	vm.SelectExtra = function (selectedExtra, item, $event) {
 		$('.dropdown.open button p').text(selectedExtra);
+
+		switch (item.CategoryName) {
+			case 'Balloons':
+				vm.extraItems[item.CategoryName] = item;
+				break;
+			case 'Plush':
+				vm.extraItems[item.CategoryName] = item;
+				break;
+			case 'Sweets':
+				vm.extraItems[item.CategoryName] = item;
+				break;
+
+		}
+		console.log('extraItems=' + vm.extraItems)
 	}
 
 	$scope.qty = 1;
@@ -1209,7 +1300,8 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 					//activeProduct.xp.BuyerXp = vm.buyerXp;
 					activeProduct.xp.Placement = vm.placementnotes;
 					if (vm.AssemblyList.length != 0) {
-						activeProduct.xp.AssemblyList = vm.AssemblyList
+						activeProduct.xp.AssemblyList = vm.AssemblyList;
+
 					}
 					// .then(function (data) {
 					// 	return data;
@@ -1285,6 +1377,17 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 					// });
 					// return dfd.promise
 					return vm.buyerXp
+				},
+				ExtraItems: function () {
+					var extraItems = []
+					if (!_.isEmpty(vm.extraItems)) {
+						angular.forEach(vm.extraItems, function (val, key) {
+							extraItems.push(val)
+						}, true)
+					}
+					return extraItems;
+
+
 				}
 
 			}
@@ -1293,8 +1396,15 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
 		}, function () {
-			$state.go($state.current, {}, { reload: true });
-			angular.noop();
+			if ($state.current == 'pdp') {
+				$state.go($state.current, {}, { reload: true });
+				angular.noop();
+			}
+			else {
+				angular.noop();
+			}
+
+
 		});
 		//}
 		//else {
@@ -1368,12 +1478,12 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 			$(".elevateZoom").elevateZoom({
 				easing: true,
 				responsive: true,
-				zoomWindowWidth: 500,
-				zoomWindowHeight: 500,
 				borderSize: 1,
+				zoomWindowPosition: 1,
 				zoomWindowOffetx: 100,
 				cursor: "crosshair"
 			});
+			$("#zoom_01").elevateZoom();
 		}
 		if ($(window).width() <= 1024) {
 			$(".elevateZoom").pinchzoomer();
@@ -1629,9 +1739,9 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 		vm.assembly = false;
 		OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
 
-			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
-			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-			OrderCloud.Categories.Get('GardenPlants_Annuals').then(function (res2) {
+			OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+				//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+				//OrderCloud.Categories.Get('GardenPlants_Annuals').then(function (res2) {
 				vm.listCategories = res2;
 				//vm.ItemInfo['DeliveryMethods']=vm.listCategories;
 				if (res2.xp.Placement) {
@@ -1919,9 +2029,9 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 	function GetAllDeliveryMethods(prodID) {
 		var deferred = $q.defer();
 		OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
-			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
-			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
+			OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+				//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+				//OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
 				deferred.resolve(res2);
@@ -2074,7 +2184,7 @@ function PdpController($uibModal, $q, CurrentCatgory , Underscore, OrderCloud, $
 	};
 }
 
-function MultipleRecipientController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, AddressValidationService, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order, $q, Signedin, LineItems, $cookieStore, WishList, $state, CstDateTime, BuyerXp, TaxService) {
+function MultipleRecipientController($uibModal, BaseService, $scope, $stateParams, $uibModalInstance, items, AddressValidationService, $rootScope, OrderCloud, CurrentOrder, LineItemHelpers, PdpService, Order, $q, Signedin, LineItems, $cookieStore, WishList, $state, CstDateTime, BuyerXp, TaxService, ExtraItems) {
 
 	var vm = this;
 	vm.oneAtATime = true;
@@ -2089,7 +2199,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
     vm.addAddress = [];
 	vm.crdmsg = [];
 	vm.activeRecipient = [];
-	vm.showNewRecipient = false;
+	//vm.showNewRecipient = false;
     vm.activeOrders = [];
 	vm.storeNames = [];
 	vm.crdmsghide = crdmsghide;
@@ -2141,6 +2251,10 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	vm.addAssemblyProducts = addAssemblyProducts;
 	vm.AssemblyList = [];
 	vm.CheckPromotion = CheckPromotion;
+	vm.addExtraItems = [];
+	vm.ExtraItems = ExtraItems;
+	vm.addExtraLineItems = addExtraLineItems;
+	vm.addExtraLineItemsCheck = addExtraLineItemsCheck;
 
 
 	var item = {
@@ -2165,6 +2279,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	item.xp.DeliveryMethod = items.xp.DeliveryMethod;
 	item.xp.Placement = items.xp.Placement;
 	item.xp.AssemblyList = items.xp.AssemblyList;
+	if (ExtraItems.length != 0) {
+		item.xp.extra = true
+	}
 
 
 	init();
@@ -2173,7 +2290,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			vm.order = Order
 			//vm.getLineItems();
 
-			if (!!LineItems) {
+			if (LineItems.length != 0) {
 				angular.forEach(LineItems, function (val, key, obj) {
 					if (val.xp.deliveryDate) {
 						val.xp.deliveryDate = new Date(val.xp.deliveryDate);
@@ -2198,39 +2315,46 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				vm.activeOrders[0] = null;
 				vm.formInValid = false;
 				vm.disableAddToCart = true;
-
+				vm.isMultiplerecipient = true;
+				//vm.showNewRecipient = false;
 			}
-			vm.isMultiplerecipient = true;
-			vm.showNewRecipient = false;
-			if (!LineItems) {
+
+			if (LineItems.length == 0) {
 				OrderCloud.LineItems.List(vm.order.ID).then(function (res) {
 					//vm.recipientLineitem.xp.LineItems = res;
 
 					//vm.allItems = res.Items;
-					angular.forEach(res.Items, function (val, key, obj) {
-						if (val.xp.deliveryDate) {
-							val.xp.deliveryDate = new Date(val.xp.deliveryDate);
-						}
-						if (val.xp.pickupDate) {
-							val.xp.pickupDate = new Date(val.xp.pickupDate);
-						}
-						if (val.ShippingAddress.Phone) {
-							PdpService.GetPhoneNumber(val.ShippingAddress.Phone).then(function (res) {
-								val.ShippingAddress.Phone1 = res[0];
-								val.ShippingAddress.Phone2 = res[1];
-								val.ShippingAddress.Phone3 = res[2];
-							});
+					if (res.Items.length != 0) {
+						angular.forEach(res.Items, function (val, key, obj) {
+							if (val.xp.deliveryDate) {
+								val.xp.deliveryDate = new Date(val.xp.deliveryDate);
+							}
+							if (val.xp.pickupDate) {
+								val.xp.pickupDate = new Date(val.xp.pickupDate);
+							}
+							if (val.ShippingAddress.Phone) {
+								PdpService.GetPhoneNumber(val.ShippingAddress.Phone).then(function (res) {
+									val.ShippingAddress.Phone1 = res[0];
+									val.ShippingAddress.Phone2 = res[1];
+									val.ShippingAddress.Phone3 = res[2];
+								});
 
 
-						}
-						val.Quantity = 1;
-						val.UnitPrice = items.StandardPriceSchedule.PriceBreaks[0].Price;
-						val.xp.MinDays = items.xp.MinDays;
-					});
-					vm.activerecipients = res.Items;
-					vm.activeOrders[0] = null;
-					vm.formInValid = false;
-					vm.disableAddToCart = true;
+							}
+							val.Quantity = 1;
+							val.UnitPrice = items.StandardPriceSchedule.PriceBreaks[0].Price;
+							val.xp.MinDays = items.xp.MinDays;
+						});
+						vm.activerecipients = res.Items;
+						vm.activeOrders[0] = null;
+						vm.formInValid = false;
+						vm.disableAddToCart = true;
+						vm.isMultiplerecipient = true;
+						//vm.showNewRecipient = false;
+					}
+					else {
+						vm.activeOrders[0] = item;
+					}
 				}).catch(function (err) {
 					console.log(err)
 					vm.activeOrders[0] = item;
@@ -2297,7 +2421,28 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//var deferred = $q.defer();
 		function submitDetailsCall(activeitems) {
 			var submitdefer = $q.defer();
-            var uniques = _.map(_.groupBy(activeitems, function (value) {
+			var someExtraItems = []
+			angular.forEach(activeitems, function (val, key) {
+				if (val.xp.extra) {
+					angular.forEach(vm.ExtraItems, function (val1, key1) {
+						var item = {
+							"ID": "",
+							"ProductID": val1.Skuid,
+							"Quantity": 1,
+							"UnitPrice": val1.Price,
+							"ShippingAddress": val.ShippingAddress,
+							"xp": val.xp
+						};
+						delete item.xp.AssemblyList;
+						delete item.xp.BaseLineItemID;
+						delete item.xp.extra;
+						someExtraItems.push(item);
+					});
+
+				}
+			}, true);
+			var new_array = activeitems.concat(someExtraItems);
+            var uniques = _.map(_.groupBy(new_array, function (value) {
 				return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
 			}), function (grouped) {
 				console.log("grouped ==" + JSON.stringify(grouped));
@@ -2361,11 +2506,15 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 						// 	vm.order = order;
 						// 	console.log("order"+order.ID);
 						// }
-						lineitemdtls.ShippingAddress = line.ShippingAddress;
+						//lineitemdtls.ShippingAddress = line.ShippingAddress;
 						lineitemdtls.xp = line.xp;
+						// OrderCloud.Addresses.Create(line.ShippingAddress).then(function (addressData) {
+						// 	lineitemdtls.ShippingAddressID = addressData.ID
 						OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 							lineitem.ShippingAddress = line.ShippingAddress;
 							lineitem.xp = line.xp;
+							//lineitem.ShippingAddress.ID = lineitem.ID
+
 							OrderCloud.LineItems.SetShippingAddress(order.ID, lineitem.ID, lineitem.ShippingAddress).then(function (data) {
 								TaxService.GetTax(order.ID).then(function (tax) {
 									if (tax.status != 500)
@@ -2390,11 +2539,13 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 										}
 									})
 								})
+								//})
+								//})
 							})
-						})
 
-						//}
-						//});
+							//}
+						});
+						//})
 
 
 
@@ -2446,8 +2597,11 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//delete newline.xp.BuyerXp
 		//delete newline.xp.MinDate
 		//delete newline.xp.MinDays
-		if (newline.xp.AssemblyList)
-			var AssemblyList = newline.xp.AssemblyList
+		if (newline.xp.AssemblyList) {
+			if (newline.xp.AssemblyList.length != 0) {
+				var AssemblyList = newline.xp.AssemblyList
+			}
+		}
 		delete newline.xp.DeliveryNotAvailable
 		delete newline.xp.AssemblyList
 		delete newline.xp.NoDeliveryFees
@@ -2477,9 +2631,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	function calculateShippingCost(args) {
 		var sum = 0;
 		OrderCloud.LineItems.List(args).then(function (dat) {
-			angular.forEach(dat.Items, function (value) {
-				if (new Number(value.LineTotal) != new Number(value.xp.TotalCost)) {
-					sum += new Number(value.xp.TotalCost - value.LineTotal);
+			angular.forEach(dat.Items, function (value, key) {
+				if (value.xp.deliveryCharges) {
+					sum += parseFloat(value.xp.deliveryCharges);
 				}
 			});
 			OrderCloud.Orders.Patch(args, { ShippingCost: sum }).then(function (ord) {
@@ -2570,6 +2724,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//vm.showNewRecipient = !vm.showNewRecipient;
 		vm.formInValid = true;
 		vm.disableAddToCart = true;
+		if (ExtraItems.length != 0) {
+			item.xp.extra = true
+		}
 		if (vm.activeOrders) {
 			var data = _.groupBy(vm.activeOrders, function (value) {
 				if (value.ShippingAddress != null) {
@@ -2616,6 +2773,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		//vm.addressType = 'Residence'
 		vm.visible = false;
 		//vm.line = item;
+		if (ExtraItems.length != 0) {
+			item.xp.extra = true
+		}
 		if (!vm.activeOrders[0]) {
 			vm.activeRecipient[index] = true;
 			vm.crdmsg[index] = true;
@@ -2636,7 +2796,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			}
 		}
 		else {
-            vm.activeRecipient[index] = false;
+			vm.activeRecipient[index] = false;
 			vm.activeRecipient[index + 1] = true;
 			//vm.activeRecipient = false;
 			vm.crdmsg[index] = true;
@@ -2950,9 +3110,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	function GetDeliveryMethods(prodID) {
 		var deferred = $q.defer();
 		OrderCloud.Categories.ListProductAssignments(null, prodID).then(function (res1) {
-			//OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function(res2){
-			//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
-			OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
+			OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+				//OrderCloud.Categories.Get('c2_c1_c1').then(function (res2) {
+				//OrderCloud.Categories.Get('OutdoorLivingDecor_Grilling_Grills').then(function (res2) {
 				//OrderCloud.Categories.Get('c4_c1').then(function (res2) {
 
 				deferred.resolve(res2);
@@ -3031,7 +3191,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 						line.xp.MinDate = {};
 						line.xp.MinDays['MinToday'] = dt.getFullYear() + "-" + (("0" + (dt.getMonth() + 1)).slice(-2)) + "-" + (("0" + dt.getDate() + 1).slice(-2));
 					}
-                    vm.mindays = line.xp.MinDays;
+					vm.mindays = line.xp.MinDays;
 				}
 			});
 
@@ -3079,6 +3239,9 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 			item.ShippingAddress = lineitem.ShippingAddress;
 			item.xp.addressType = lineitem.xp.addressType;
 			item.xp.deliveryDate = lineitem.xp.deliveryDate;
+			if (ExtraItems.length != 0) {
+				item.xp.extra = true
+			}
 			vm.recipientLineitem['item' + index] = item;
 
 			vm.addressType = lineitem.xp.addressType;
@@ -3114,8 +3277,29 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		function submitRecipientDetailscall(activeitems) {
 			var submitDetailsDefer = $q.defer();
 
-			if (activeitems[0]) {
-				var uniques = _.map(_.groupBy(activeitems, function (value) {
+			if (activeitems.length != 0) {
+				var someExtraItems = [];
+				angular.forEach(activeitems, function (val, key) {
+					if (val.xp.extra) {
+						angular.forEach(vm.ExtraItems, function (val1, key1) {
+							var item = {
+								"ID": "",
+								"ProductID": val1.Skuid,
+								"Quantity": 1,
+								"UnitPrice": val1.Price,
+								"ShippingAddress": val.ShippingAddress,
+								"xp": val.xp
+							};
+							delete item.xp.AssemblyList;
+							delete item.xp.BaseLineItemID;
+							delete item.xp.extra;
+							someExtraItems.push(item);
+						});
+
+					}
+				}, true);
+				var new_array = activeitems.concat(someExtraItems);
+				var uniques = _.map(_.groupBy(new_array, function (value) {
 					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
 				}), function (grouped) {
 					console.log("grouped ==" + JSON.stringify(grouped));
@@ -3147,7 +3331,28 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				});
 			}
 			else {
-				var arr = _.map(vm.recipientLineitem, function (value, key) { return vm.recipientLineitem[key] });
+				var someExtraItems = [];
+				angular.forEach(vm.recipientLineitem, function (val, key) {
+					if (val.xp.extra) {
+						angular.forEach(vm.ExtraItems, function (val1, key1) {
+							var item = {
+								"ID": "",
+								"ProductID": val1.Skuid,
+								"Quantity": 1,
+								"UnitPrice": val1.Price,
+								"ShippingAddress": val.ShippingAddress,
+								"xp": val.xp
+							};
+							delete item.xp.AssemblyList;
+							delete item.xp.BaseLineItemID;
+							delete item.xp.extra;
+							someExtraItems.push(item);
+						});
+
+					}
+				}, true);
+				var new_array = vm.recipientLineitem.concat(someExtraItems);
+				var arr = _.map(new_array, function (value, key) { return vm.recipientLineitem[key] });
 				var newArray = arr
 				var newUniques = _.map(_.groupBy(newArray, function (value) {
 					return value.ShippingAddress.FirstName + ' ' + value.ShippingAddress.LastName + ' ' + (value.ShippingAddress.Street1).split(/(\d+)/g)[1] + ' ' + value.ShippingAddress.Zip + '' + new Date(value.xp.deliveryDate) + '' + value.xp.DeliveryMethod;
@@ -3324,13 +3529,15 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 							Quantity: line.Quantity,
 							ShipFromAddressID: "testShipFrom"
 						};
-						lineitemdtls.ShippingAddress = line.ShippingAddress;
+						//lineitemdtls.ShippingAddress = line.ShippingAddress;
 						lineitemdtls.xp = line.xp;
 						//lineitemdtls.ShipFromAddressID = "testShipFrom"
-
+						// OrderCloud.Addresses.Create(line.ShippingAddress).then(function (addressData) {
+						// 	lineitemdtls.ShippingAddressID = addressData.ID
 						OrderCloud.LineItems.Create(order.ID, lineitemdtls).then(function (lineitem) {
 							lineitem.ShippingAddress = line.ShippingAddress;
 							lineitem.xp = line.xp;
+							//lineitem.ShippingAddress.ID = lineitem.ID
 							OrderCloud.LineItems.SetShippingAddress(order.ID, lineitem.ID, lineitem.ShippingAddress).then(function (data) {
 								TaxService.GetTax(order.ID).then(function (tax) {
 									if (tax.status != 500)
@@ -3357,6 +3564,7 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 								});
 							})
 						});
+						//});
 
 
 					}
@@ -3439,12 +3647,12 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 	var specialKeys = new Array();
 	specialKeys.push(8);
 	vm.IsNumeric = function ($e) {
-        console.log($e);
-        var keyCode = $e.which ? $e.which : $e.keyCode;
-        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
-        if (!ret)
-            $e.preventDefault();
-    }
+		console.log($e);
+		var keyCode = $e.which ? $e.which : $e.keyCode;
+		var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+		if (!ret)
+			$e.preventDefault();
+	}
 	function addBookAddress(lineitem, address, index) {
 		if (vm.addressType == "Residence") {
 			if (address)
@@ -3550,13 +3758,15 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 				ProductID: ID,
 				Quantity: 1,
 				ShipFromAddressID: "testShipFrom"
+				//ShippingAddressID:line.ShippingAddress.ID
 			};
 			console.log("line", line);
-			lineitemdtls.ShippingAddress = line.ShippingAddress;
+			//lineitemdtls.ShippingAddress = line.ShippingAddress;
 			lineitemdtls.xp = line.xp;
 			OrderCloud.LineItems.Create(order, lineitemdtls).then(function (lineitem) {
 				lineitem.ShippingAddress = line.ShippingAddress;
 				lineitem.xp = line.xp;
+				//lineitem.ShippingAddress.ID = lineitem.ID
 				vm.AssemblyList.push(lineitem.ID);
 				OrderCloud.LineItems.SetShippingAddress(order, lineitem.ID, lineitem.ShippingAddress).then(function (data) {
 					TaxService.GetTax(order).then(function (tax) {
@@ -3612,17 +3822,21 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 		var d = $q.defer();
 		OrderCloud.Categories.ListProductAssignments(null, line.ProductID).then(function (res1) {
 			OrderCloud.Me.GetProduct(line.ProductID).then(function (Product) {
-				if (!Product.xp.couponID.length == 0) {
+				if (!Product.xp.couponID || !Product.xp.couponID.length == 0) {
 					function call(line, val) {
 						var d = $q.defer();
-						OrderCloud.Categories.Get('GardenPlants_Annuals').then(function (res2) {
-							if (res2.xp.couponID.length != 0) {
-								line.xp.PromoId = val.CategoryID;
-								line.xp.PromoCode = res2.xp.couponID[0].coupon;
+						OrderCloud.Categories.Get(res1.Items[0].CategoryID).then(function (res2) {
+							//OrderCloud.Categories.Get('GardenPlants_Annuals').then(function (res2) {
+							if (res2.xp.couponID) {
+								if (res2.xp.couponID.length != 0) {
+									line.xp.PromoId = val.CategoryID;
+									line.xp.PromoCode = res2.xp.couponID[0].coupon;
+								}
 							}
 						})
 						return d.promise;
 					}
+
 					var promise = [], count = 0;
 					angular.forEach(res1.Items, function (val, key) {
 						//OrderCloud.Categories.Get(val.CategoryID).then(function (res2) {
@@ -3630,18 +3844,43 @@ function MultipleRecipientController($uibModal, BaseService, $scope, $stateParam
 						count++
 					}, true)
 					$q.all(promise).then(function (data) {
-                        d.resolve(data);
+						d.resolve(data);
 					}, function (err) {
 						d.resolve(null)
 					});
 
 				}
 				else {
-					d.resolve(null)
+					if (Product.xp.couponID || Product.xp.couponID.length != 0) {
+						line.xp.PromoCode = Product.xp.couponID[0].coupon;
+						d.resolve(line)
+					}
+					else {
+						d.resolve(null)
+					}
+
 				}
 			})
 		})
 		return d.promise;
+	}
+	function addExtraLineItems(exindex, line, index) {
+		if (exindex) {
+			line.xp.extra = true;
+		}
+		else {
+			line.xp.extra = false;
+		}
+
+
+	}
+	function addExtraLineItemsCheck(exindex, line, index) {
+		if (exindex) {
+			vm.recipientLineitem['item' + index].xp.extra = true;
+		}
+		else {
+			vm.recipientLineitem['item' + index].xp.extra = false;
+		}
 	}
 }
 /*

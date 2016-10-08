@@ -644,7 +644,8 @@
                            <p class="product-name-plp" ng-click="plp.detailsPage($event);"><span>{{prod.xp.BaseProductTitle | capitalize}}</span></p>
                            <p class="Price">{{prod.priceRange}}</p>
                         </div> -->
-                        <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
+                        <img class="prodImage-defalt" src="assets/images/plp_default_img.jpg"/>
+                        <img class="prodImage" ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
                         <div class="price-box">
                           <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                           <p class="Price">{{prod.priceRange}}</p>
@@ -689,7 +690,8 @@
                                  </div>
                               </div>
                            </div>
-                           <img ng-model="prodImage" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
+                           <img class="prodImage-defalt" src="assets/images/plp_default_img.jpg"/>
+                           <img ng-model="prodImage" class="prodImage prodImage-defalt" alt="{{prod.Name | capitalize}}" ng-click="plp.detailsPage($event);" ng-src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{prod.ID}}?alf_ticket={{base.alf_ticket}}"/>
                            <div class="price-box">
                               <p class="product-name-plp mozProLightBold" ng-click="plp.detailsPage($event);"><span>{{prod.Name | capitalize}}</span></p>
                               <p class="Price">{{prod.priceRange}}</p>

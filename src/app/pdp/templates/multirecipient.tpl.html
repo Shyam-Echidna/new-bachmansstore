@@ -838,6 +838,16 @@
                                         <label for="save"> Save this address</label>
                                     </div>
                                 </div>
+                                <div class="row save-address" ng-if="multipleRecipient.ExtraItems.length!=0" ng-init="multipleRecipient.addExtraItems[0]=true">
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="Checkbox">
+                                            <input type="checkbox" id="extraitems1{{$index}}" ng-model="multipleRecipient.addExtraItems[$index]" ng-change="multipleRecipient.addExtraLineItems(multipleRecipient.addExtraItems[$index],lineitem,$index)" ng-checked="multipleRecipient.addExtraItems[$index]">
+                                            <div class="Checkbox-visible"></div>
+                                        </div>
+                                        <label for="save">Do you Want To add Extra Items to this Recipient</label>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="cardmsg row" ng-if="!multipleRecipient.crdmsg[$index]">

@@ -12,39 +12,38 @@
 </div> -->
 
 <div class="container-fluid workshop-event-landing" > 
-	<div cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.55em'}">
+	<div cont-top-padding ng-style="{'margin-top': pageTopPadding + 'px','padding-top':'2.55em'}" class="workshop-event-landing-inner">
 	    <div class="row masnrydiv mansryeventLanding" >		
 			<div class="grid repeatable-blocks" style="width:100%;">
-				<div class="grid-item" ng-repeat="(wlp, wlpDetail) in workshopEvent.eventListGroupByEventType">					
+				<!-- <div class="grid-item" ng-repeat="(wlp, wlpDetail) in workshopEvent.eventListGroupByEventType">					
 					<div ng-repeat="wlp2 in wlpDetail" ng-if="$index == 0" ui-sref="eventsListing({catId:wlp2.xp.CurrentFineline})">
 						<div>
 		                    <img class="" src="assets/images/allSeminarEvents.jpg">			
 						</div>
 		                <div class="promo-banner-txt promo-banner-txt-left">		
-							<p>{{wlp2.xp.CurrentFineline}}</p>		
+							<p>{{wlp2.xp.subTypeName}}</p>		
 						</div>
 					</div>	           
-				</div>
-				<!-- <div class="grid-item" ui-sref="elp">
+				</div> -->
+				<div class="grid-item" ui-sref="eventsListing({catId:'WorkshopsEvent'})">
 					<div>
 	                    <img class="" src="assets/images/allSeminarEvents.jpg">			
 					</div>
 	                <div class="promo-banner-txt promo-banner-txt-left">		
 							<p>All seminars & events</p>		
 					</div>
-	                
 				</div>				
 				
-	            <div class="grid-item ng-scope">		
+	            <div class="grid-item" ui-sref="eventsListing({catId:'WorkshopsEvents_TicktedEvents_DesignWorkshops'})">		
 					<div>		
-						<img class="" src="assets/images/Landing_HowTo.jpg">		
+						<img class="" src="assets/images/Landing_DesignWorkshop.jpg">		
 					</div>	
 	                <div class="promo-banner-txt promo-banner-txt-left">		
 							<p>Design workshops</p>		
 					</div>
 				</div>
 	            
-	            <div class="grid-item ng-scope">		
+	            <div class="grid-item" ui-sref="eventsListing({catId:'WorkshopsEvents_TicktedEvents_HowToClasses'})">		
 					<div>		
 						<img class="" src="assets/images/Landing_HowTo.jpg">			
 					</div>	
@@ -54,76 +53,45 @@
 				</div>
 	            
 	            
-			    <div class="grid-item ng-scope">		
+			    <div class="grid-item " ng-click="workshopEvent.open();" >		
 					<div>		
-						<img class="" src="assets/images/Landing_HowTo.jpg">		
+						<img class="" src="assets/images/Landing_Calendar.jpg">		
 					</div>		
 	                <div class="promo-banner-txt promo-banner-txt-left">		
-							<p>Free events</p>		
+							<p>Events calendar </p>		
 					</div>
 				</div> 
 	            
-				<div class="grid-item ng-scope" ng-click="workshopEvent.open();">		
+				<div class="grid-item" ui-sref="eventsListing({catId:'WorkshopsEvents_FreeEvents'})" >		
 					<div>		
-						<img class="" src="assets/images/Landing_HowTo.jpg">
+						<img class="" src="assets/images/Landing_Free.jpg">
 					</div>	
 	                <div class="promo-banner-txt promo-banner-txt-left">		
-							<p>Events calendar</p>		
+							<p>Free events</p>		
 					</div>
-				</div>	-->
+				</div>
 			</div>
 		</div>
 	<div>
+		<!-- class="owl-carousel" id="owl-carousel-eventsTIH" -->
 	<div class="workshop-IdeasHouse">
         <h1>The Ideas House</h1>
     </div>
-    
     <div class="shop-by-category row">
         <div class="categories col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<ul ng-repeat="(wlp, wlpDetail) in workshopEvent.eventListGroupByEventType" ng-if="wlp == 'TIH'" class="owl-carousel" id="owl-carousel-eventsTIH">
-				 <li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 " ng-repeat="wlpDet in wlpDetail">
+			<ul ng-repeat="(wlp, wlpDetail) in workshopEvent.eventListIdeaHouse" >
+				 <li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 " ng-if="wlpDet.xp.IsDefaultProduct == true;" ng-repeat="wlpDet in wlpDetail">
 					<div class="ctg-product-img">
 						<img src="assets/images/placement_for_catImage.jpg" class="">
 		 				<div>
-							<a class="maincat_link ng-binding" ui-sref="" >{{wlpDet.Name}}</a>
+							<a class="maincat_link ng-binding" href="#">{{wlpDet.Name}}</a>
 						</div>
 					</div>
 				</li>
-                <!-- <li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 ng-scope">
-					<div class="ctg-product-img">
-						<img src="assets/images/placement_for_catImage.jpg" class="n">
-		 				<div>
-							<a class="maincat_link ng-binding" ui-sref="" >Spring Ideas House</a>
-						</div>
-					</div>
-				</li>
-				<li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 ng-scope">
-					<div class="ctg-product-img">
-						<img src="assets/images/placement_for_catImage.jpg" class="n">
-		 				<div>
-							<a class="maincat_link ng-binding" ui-sref="" >Fall Ideas House</a>
-						</div>
-					</div>
-				</li>
-				<li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 ng-scope">
-					<div class="ctg-product-img">
-						<img src="assets/images/placement_for_catImage.jpg" class="n">
-		 				<div>
-							<a class="maincat_link ng-binding" ui-sref="" >Holiday Ideas House</a>
-						</div>
-					</div>
-				</li>
-				<li class="sub-nav col-xs-6 col-sm-3 col-md-3 col-lg-3 ng-scope">
-					<div class="ctg-product-img">
-						<img src="assets/images/placement_for_catImage.jpg" class="n">
-		 				<div>
-							<a class="maincat_link ng-binding" ui-sref="" >Past Ideas House</a>
-						</div>
-					</div>
-				</li> -->
             </ul>
         </div>
     </div>
+
 	<!-- Page Content -->
 	<div style="clear:both"></div>
 	<div class="events-slider-home">
@@ -133,16 +101,32 @@
 		</div>
 		<div class="events-slider-cont">
 			<div class="events-slider owl-carousel" id="owl-carousel-eventsAll">
-				<div class="events-slider-block events-slider-block-w" ng-repeat="(events,eventSub) in workshopEvent.eventListGroupByProductCode " ng-if="$index < 10">
+				<div class="events-slider-block events-slider-block-w" ng-repeat="(events,eventSub) in workshopEvent.eventListGroupByProductCode " ng-if="$index <10">
 				<div ng-repeat="event in eventSub | orderBy:'xp.SpecsOptions.Size'" ng-if="event.xp.IsDefaultProduct == true;">
 					<div class="p0 m0 events-promo">
-						<img class="" src="assets/images/event.jpg"/>
+						<img class="free-event" ng-if="event.xp.IsWorkshop == false;" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{event.xp.Images[0].OriginalName| trim }}?alf_ticket={{base.alf_ticket}} "/>
+
+						<span class="free-event-default-image" ng-if="!event.xp.Images[0] && event.xp.IsWorkshop == false">
+							<span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+								<span ng-include="quicklink"></span>
+							</span>
+						</span>
+
+						<img class="paid-event" ng-if="event.xp.IsWorkshop == true" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{event.ID}}?alf_ticket={{base.alf_ticket}} "/>
+
+						<span class="paid-event-default-image" ng-if="event.xp.IsWorkshop == true">
+							<span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+								<span ng-include="quicklink"></span>
+							</span>
+						</span>
+
 					</div>
 					
 					<div class="events-desc staticSeqId"  data-sequence="{{event.xp.ProductCode}}" data-prodid="{{event.ID}}">
 						<h2 ng-click="workshopEvent.detailsPage($event);">{{event.Name}}</h2>
 						<p>{{event.Description}}</p>
 						<p class="more-details">More details</p>
+						<p class="freeEntryMobile visible-xs visible-sm" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</p>
 						<div class="row events-date">
 							<div class="event-date">{{event.xp.EventDate | date : "dd" }}<span>{{event.xp.EventDate | date : "MMM" }}</span><span class="event-day">{{event.xp.EventDate | date : "EEEE" }}</span></div>
 							<div class="">
@@ -162,7 +146,7 @@
 									<span>{{event.xp.SpecsOptions.Size}}</span>
 									<span ng-if="event.xp.SpecsOptions.Color>1"> - {{event.xp.SpecsOptions.Color}}</span>
 									<span ng-if="event.xp.IsWorkshop == true" class="events-cost" >{{event.PriceSchedule.PriceBreaks[0].Price | currency}}</span>
-									<span class="fl" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</span>
+									<span class="fl hidden-xs hidden-sm" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</span>
 								</div>
 							</div>
 						</div>
@@ -177,7 +161,8 @@
     
     <div class="clearfix"></div>
     <!-- static masonry arrangement start-->
-	<div class="row masnrydiv" >		
+    <div ng-include="workshopEvent.gridImgTemplate"></div>
+	<!-- <div class="row masnrydiv" >		
 		<div class="grid repeatable-blocks" style="width:100%;">
 			<div class="grid-item">
 				<div>
@@ -200,7 +185,7 @@
 			
 				
 		</div>
-	</div>	
+	</div>	 -->
     <!-- static masonry arrangement end-->
 
 </div>

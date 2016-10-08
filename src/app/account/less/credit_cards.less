@@ -149,7 +149,7 @@
     		.add-new-card-form {
     			.card-info {
     				.holder-name, .card-type, .card-number, .exp-date {
-    					padding: 0 15px 0 0;
+    					padding: 0 15px 15px 0;
 	    				label {
 	    					color: #464646;
 	                        font: 1em @proxima-regular;
@@ -161,6 +161,7 @@
 	    					color: #666666;
 	                        background: #F4F4F4;
 	                        font: 1em @proxima-regular;
+	                        font-size-adjust: 0.45;
 	                        height: 40px;
 	                        border-radius: 2px;
 	                        .bs-inset-remove;
@@ -168,12 +169,24 @@
     							background-color: #fff;
 	    					}
 	    				}
+	    				input[type='number'] {
+						    -moz-appearance:textfield;
+						}
+
+						input::-webkit-outer-spin-button,
+						input::-webkit-inner-spin-button {
+						    -webkit-appearance: none;
+						}
 	    				select {
 	    					.custom-select-box;
 	    					&:-moz-focusring {
 							    color: transparent;
 							    text-shadow: 0 0 0 #000;
 							}
+	    				}
+	    				.help-block {
+	    					position: absolute;
+	    					width: auto;
 	    				}
 	    			}
 	    			.exp-date {
@@ -205,6 +218,7 @@
 	    					color: #666666;
 	                        background: #F4F4F4;
 	                        font: 1em @proxima-regular;
+	                        font-size-adjust: 0.45;
 	                        height: 40px;
 	                        border-radius: 2px;
 	                        .bs-inset-remove;
@@ -409,6 +423,7 @@
 	    			.card-info {
 	    				.holder-name, .card-type, .card-number, .exp-date {
 	    					padding: 0;
+	    					padding-bottom: 15px;
 		    				label {
 		                        font: 0.875em @proxima-regular;
 		                        margin-bottom: 7px;
@@ -848,7 +863,7 @@
     display: block;
 	position: absolute;
 	right: -40px;
-	bottom: 5px;
+	bottom: 20px;
 	height: 30px;
 }
 .cardIcons{
@@ -880,4 +895,3 @@
 		display: block;
 	}
 }
-

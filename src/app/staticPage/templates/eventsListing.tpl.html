@@ -255,7 +255,22 @@
           <div class="elpContent" ng-repeat="(events,eventSub) in elp.eventListGroupByProductCode">
             <div class="row row-eq-height elpBlock" ng-repeat="eventPdt in eventSub | orderBy:'xp.SpecsOptions.Size'" ng-if="eventPdt.xp.IsDefaultProduct == true;">
                 <div class=" col-xs-4 col-sm-4 col-md-3 col-lg-3 imgSide">
-                    <img src="http://localhost:3000/assets/images/Workshops &EventsImage.png" />
+                    <img class="free-event" ng-if="eventPdt.xp.IsWorkshop == false;" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{eventPdt.xp.Images[0].OriginalName| trim }}?alf_ticket={{base.alf_ticket}} "/>
+
+                    <span class="free-event-default-image" ng-if="!eventPdt.xp.Images[0] && eventPdt.xp.IsWorkshop == false">
+                        <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+                            <span ng-include="quicklink"></span>
+                        </span>
+                    </span>
+
+                    <img class="paid-event" ng-if="eventPdt.xp.IsWorkshop == true" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{eventPdt.ID}}?alf_ticket={{base.alf_ticket}} "/>
+
+                    <span class="paid-event-default-image" ng-if="eventPdt.xp.IsWorkshop == true">
+                        <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+                            <span ng-include="quicklink"></span>
+                        </span>
+                    </span>
+
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9 contentSide" data-sequence="{{event.xp.ProductCode}}" data-prodid="{{event.ID}}">
                     <h4 ng-click="elp.detailsPage($event);" >{{eventPdt.Name}}</h4>

@@ -120,10 +120,26 @@ function BaseService($q, $localForage, Underscore, OrderCloud, CurrentOrder) {
     var service = {
         GetCategoryTree: _getCategoryTree,
         MinicartData: _minicartData,
-        FlattenCategoryArray: _flattenCategoryArray
+        FlattenCategoryArray: _flattenCategoryArray,
+        GetQuicklinks:_getQuicklinks
     };
 
-
+    function _getQuicklinks(ticket, root) {
+        var defferred = $q.defer();
+        $http({
+            method: 'GET',
+            dataType:"json",
+            url: alfrescourl+"HomePage/Quicklinks/"+root+"?alf_ticket="+ticket,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status, headers, config) {
+            defferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+            defferred.reject(data);
+        });
+        return defferred.promise;
+    }
     function _getCategoryTree() {
         var tree = [];
         var categories = [];
@@ -1220,6 +1236,17 @@ function BaseController($scope, $cookieStore, getBuyer, CurrentUser, defaultErro
             angular.element('body').addClass(browserClass);
     }
     _getBrowserName();
+    
+    HomeFact.GetQuicklinks(ticket, siteEditorHome.Quicklinks).then(function(res){
+        vm.quicklinks = [];
+        vm.title = [];
+        angular.forEach(res.items, function(item){
+            var quicklink = $sce.trustAsResourceUrl(alfcontenturl+item.contentUrl+"?alf_ticket="+ticket);
+            var title  = $sce.trustAsHtml(item.title);
+            vm.quicklinks.push(quicklink);
+            vm.title.push(title);
+        })
+    });
 }
 
 

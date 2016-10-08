@@ -150,7 +150,21 @@
 			<div ng-repeat="(eventDate, eventSlots) in eventDes.eventListGroupByDate">
 				<div ng-repeat="eventSlot in eventSlots | orderBy:'xp.SpecsOptions.Size'" ng-if="$index == 0" class="col-xs-12 col-sm-12 col-md-6 col-lg-6 event-image-block">
 					<div class="event-image">
-						<img src="assets/images/Event_Description_Page_1.png" alt="">
+						 <img class="free-event" ng-if="eventSlot.xp.IsWorkshop == false;" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{eventSlot.xp.Images[0].OriginalName| trim }}?alf_ticket={{base.alf_ticket}} "/>
+
+                            <span class="free-event-default-image" ng-if="!eventSlot.xp.Images[0] && eventSlot.xp.IsWorkshop == false">
+                                <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+                                    <span ng-include="quicklink"></span>
+                                </span>
+                            </span>
+
+                            <img class="paid-event" ng-if="eventSlot.xp.IsWorkshop == true" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{eventSlot.ID}}?alf_ticket={{base.alf_ticket}} "/>
+
+                            <span class="paid-event-default-image" ng-if="eventSlot.xp.IsWorkshop == true">
+                                <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+                                    <span ng-include="quicklink"></span>
+                                </span>
+                            </span>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 event-describes" >
@@ -305,8 +319,23 @@
 					<div class="events-slider-block events-slider-block-w" ng-repeat="(events,eventSub) in eventDes.eventListGroupByProductCode">
 						<div ng-repeat="event in eventSub | orderBy:'xp.SpecsOptions.Size'" ng-if="$index == 0">
 							<div class="p0 m0 events-promo">
-								<img class="" src="assets/images/event.jpg"/>
-							</div>
+	                            <img class="free-event" ng-if="event.xp.IsWorkshop == false;" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{event.xp.Images[0].OriginalName| trim }}?alf_ticket={{base.alf_ticket}} "/>
+
+	                            <span class="free-event-default-image" ng-if="!event.xp.Images[0] && event.xp.IsWorkshop == false">
+	                                <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+	                                    <span ng-include="quicklink"></span>
+	                                </span>
+	                            </span>
+
+	                            <img class="paid-event" ng-if="event.xp.IsWorkshop == true" src="http://52.206.111.191:8080/alfresco/service/imagefinder/{{event.ID}}?alf_ticket={{base.alf_ticket}} "/>
+
+	                            <span class="paid-event-default-image" ng-if="event.xp.IsWorkshop == true">
+	                                <span ng-repeat="quicklink in base.quicklinks" ng-if="$index == 4" >
+	                                    <span ng-include="quicklink"></span>
+	                                </span>
+	                            </span>
+
+	                        </div>
 							
 							<div class="events-desc staticSeqId"  data-sequence="{{event.xp.ProductCode}}" data-prodid="{{event.ID}}">
 								<h2 ng-click="eventDes.detailsPage($event);">{{event.Name}}</h2>
