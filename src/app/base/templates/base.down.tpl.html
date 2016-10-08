@@ -22,8 +22,6 @@
                     <h3>Stay Inspired, Be Informed!</h3>
                     <p>Purple Perks is a free program to celebrate & reward Bachman’s loyal retail customers.</p>
                 </div>
-                <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">Stay Inspired, Be Informed!</div>
-				<div class="col-xs3 col-sm-3 col-md-3 col-lg-3 signin-to-contact" ><button>Learn More or Sign Up</button></div> -->
                 <div class="p0 col-xs-12 col-sm-12 col-md-12 col-lg-12 connect-to-contact">
                     <form action="http://192.168.100.182:3000/purplePerks" target="_blank">
                         <button class="col-xs-12 col-sm-12 col-md-12 col-lg-12">JOIN NOW</button>
@@ -307,16 +305,6 @@
             <div class="contact-details-category col-md-12 ">
                 <div class="footerBlkDiv">
                     <p>Bachman’s Products</p>
-                    <!-- <ul>
-								<li>Occasions & Holidays</li>
-								<li>Specialty Baskets & Flowers</li>
-								<li>Indoor Plants</li>
-								<li>Plants, Trees & Shrubs</li>
-								<li>Gardening & Lawn Care</li>
-								<li>Outdoor Living & Decor</li>
-								<li>Gift & Home</li>
-								<li>Gift Cards</li>
-							</ul> -->
                     <ul class="footer_cat ">
                         <li ng-repeat="categories in base.tree" class="sub-nav ">
                             <a ng-if="categories.Name != 'Workshops & Events'" ui-sref="category({parentId:categories.ID,childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
@@ -324,20 +312,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- 	<div ng-repeat="list in base.footerlinks" class="footerBlkDiv">
-					<p>{{list.title}}</p>
-					<ul>
-						<li ng-repeat="link in list.links" ng-if="list.title=='Customer Service'">
-							<a ui-sref="customerService({pageName:link.url})">{{link.label}}</a>
-						</li>
-						<li ng-repeat="link in list.links" ng-if="list.title=='Corporate'">
-							<a ui-sref="corporate({pageName:link.url})">{{link.label}}</a>
-						</li>
-						<li ng-repeat="link in list.links" ng-if="list.title!='Customer Service' && list.title!='Corporate'">
-							<a ui-sref="{{link.url}}">{{link.label}}</a>
-						</li>
-					</ul>
-				</div> -->
                 <div ng-repeat="list in base.footerlinks" class="footerBlkDiv" ng-if="list.title == 'Workshops & Events'">
                     <p>{{list.title}}</p>
                     <ul>
@@ -370,18 +344,6 @@
                                 </li>
                             </ul>
                         </uib-accordion-group>
-                        <!-- <uib-accordion-group is-open="status.open2">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">Workshops & Events</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Design Workshops</a></li>
-							<li><a>How-To Classes</a></li>
-							<li><a>Seminars & Events</a></li>
-							<li><a>Ideas House</a></li>
-							<li><a>Events Calender</a></li>
-						</ul>
-					</uib-accordion-group> -->
                         <uib-accordion-group is-open="status.open2" ng-repeat="list in base.footerlinks" ng-if="list.title == 'Workshops & Events'">
                             <uib-accordion-heading>
                                 <p ng-class="{'footer-minus': status.open2, 'footer-plus': !status.open2}">{{list.title}}</p>
@@ -412,186 +374,12 @@
                                 </li>
                             </ul>
                         </uib-accordion-group>
-                        <!-- <uib-accordion-group is-open="status.open3">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open3, 'footer-plus': !status.open3}">Customer Service</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Contact Us</a></li>
-							<li><a>FAQs</a></li>
-							<li><a>Store Locator</a></li>
-							<li><a>Delivery</a></li>
-							<li><a>Gift Cards</a></li>
-							<li><a>Purple Perks</a></li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status.open4">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open4, 'footer-plus': !status.open4}">Care, Advice & Information</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Care Guides & Information</a></li>
-							<li><a>Plant Zone Map</a></li>
-							<li><a>How-Tos</a></li>
-							<li><a>Sending Sympathy</a></li>
-							<li><a>Ideas House</a></li>
-							<li><a>Plant, Tree & Shrub Library</a></li>
-						</ul>
-					</uib-accordion-group>
-					<uib-accordion-group is-open="status.open5">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open5, 'footer-plus': !status.open5}">Corporate</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Bachman’s History</a></li>
-							<li><a>Employment</a></li>
-							<li><a>Our Partners</a></li>
-							<li><a>The Heritage Room</a></li>
-							<li><a>Flagship Store Tour</a></li>
-						</ul>
-					</uib-accordion-group> 
-					<uib-accordion-group is-open="status.open6">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open6, 'footer-plus': !status.open6}">Services</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li ng-repeat="service in base.services"><a>{{service.title}}</a></li>
-						</ul>
-					</uib-accordion-group> -->
                     </uib-accordion>
-                    <!-- <p ng-click="accordion=1">Bachman’s Products</p>
-
-			  <ul ng-show="accordion==1" class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<li ng-repeat="categories in base.tree" class="sub-nav col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				  <a ui-sref="category({parentId:categories.ID,childCount:categories.ChildCount,ID:categories.ID})" class="maincat_link">{{categories.Name}}</a>
-				</li>
-			  </ul> -->
-                </div>
-                <!-- 	<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 wrkshp-events">
-				<uib-accordion>
-					<uib-accordion-group is-open="status.open">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open, 'footer-plus': !status.open}">Workshops & Events</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Design Workshops</a></li>
-							<li><a>How-To Classes</a></li>
-							<li><a>Seminars & Events</a></li>
-							<li><a>Ideas House</a></li>
-							<li><a>Events Calender</a></li>
-						</ul>
-					</uib-accordion-group>
-				</uib-accordion>
-			  <!-- <p ng-click="accordion=2">Workshops & Events</p>
-			  <ul ng-show="accordion==2">
-				<li><a>Design Workshops</a></li>
-				<li><a>How-To Classes</a></li>
-				<li><a>Seminars & Events</a></li>
-				<li><a>Ideas House</a></li>
-				<li><a>Events Calender</a></li>
-			  </ul>
-			</div> -->
-                <!-- <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 customer-service">
-				<uib-accordion>
-					<uib-accordion-group is-open="status.open">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open, 'footer-plus': !status.open}">Customer Service</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Contact Us</a></li>
-							<li><a>FAQs</a></li>
-							<li><a>Store Locator</a></li>
-							<li><a>Delivery</a></li>
-							<li><a>Gift Cards</a></li>
-							<li><a>Purple Perks</a></li>
-						</ul>
-					</uib-accordion-group>
-				</uib-accordion>
-			 <!--  <p ng-click="accordion=3">Customer Service</p>
-			  <ul ng-show="accordion==3">
-				<li><a>Contact Us</a></li>
-				<li><a>FAQs</a></li>
-				<li><a>Store Locator</a></li>
-				<li><a>Delivery</a></li>
-				<li><a>Gift Cards</a></li>
-				<li><a>Purple Perks</a></li>
-			  </ul>
-			</div> -->
-                <!-- <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 plant-care">
-				<uib-accordion>
-					<uib-accordion-group is-open="status.open">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open, 'footer-plus': !status.open}">Care, Advice & Information</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Care Guides & Information</a></li>
-							<li><a>Plant Zone Map</a></li>
-							<li><a>How-Tos</a></li>
-							<li><a>Sending Sympathy</a></li>
-							<li><a>Ideas House</a></li>
-							<li><a>Plant, Tree & Shrub Library</a></li>
-						</ul>
-					</uib-accordion-group>
-				</uib-accordion> -->
-                <!--  <p ng-click="accordion=4">Care, Advice & Information</p>
-			  <ul ng-show="accordion==4">
-				<li><a>Care Guides & Information</a></li>
-				<li><a>Plant Zone Map</a></li>
-				<li><a>How-Tos</a></li>
-				<li><a>Sending Sympathy</a></li>
-				<li><a>Ideas House</a></li>
-				<li><a>Plant, Tree & Shrub Library</a></li>
-			  </ul> -->
-                <!-- </div> -->
-                <!-- <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 corporate">
-				<uib-accordion>
-					<uib-accordion-group is-open="status.open">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open, 'footer-plus': !status.open}">Corporate</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li><a>Bachman’s History</a></li>
-							<li><a>Employment</a></li>
-							<li><a>Our Partners</a></li>
-							<li><a>The Heritage Room</a></li>
-							<li><a>Flagship Store Tour</a></li>
-						</ul>
-					</uib-accordion-group>
-				</uib-accordion> -->
-                <!-- <p ng-click="accordion=5">Corporate</p>
-			  <ul ng-show="accordion==5">
-				<li><a>Bachman’s History</a></li>
-				<li><a>Employment</a></li>
-				<li><a>Our Partners</a></li>
-				<li><a>The Heritage Room</a></li>
-				<li><a>Flagship Store Tour</a></li>
-			  </ul> -->
-                <!-- </div> -->
-                <!--  <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 service">
-				<uib-accordion>
-					<uib-accordion-group is-open="status.open">
-						<uib-accordion-heading>
-							<p ng-class="{'footer-minus': status.open, 'footer-plus': !status.open}">Services</p>
-						</uib-accordion-heading>
-						<ul class="footer_cat col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<li ng-repeat="service in base.services"><a>{{service.title}}</a></li>
-						</ul>
-					</uib-accordion-group>
-				</uib-accordion> -->
-                <!-- <p ng-click="accordion=6">Services</p>
-			  <ul ng-show="accordion==6">
-				<li ng-repeat="service in base.services"><a>{{service.title}}</a></li>
-			  </ul> -->
-                <!-- 	</div> -->
+                </div>              
             </div>
         </div>
         <h5 class="footer-copyrite">© 2016 Bachman's, Inc.</h5>
     </div>
-    <!-- 	<div class="m0 service-list" style="margin:0;">
-		<div>
-			<h5 ng-repeat="service in base.services"><a>{{service.title}}</a></h5>
-		</div>
-	</div> -->
     <div class="m0 service-list" style="margin:0;" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.fileName == 'Services'">
         <div>
             <h5 ng-repeat="footerServiceLink in footerService.subfolders|orderBy : 'description'" ng-if="footerServiceLink.nodeType == 'ws:section' ">

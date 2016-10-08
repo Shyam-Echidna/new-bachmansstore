@@ -446,11 +446,15 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
 
     vm.popupSearch = function(value) {
         vm.loading = true;
-          if(value.length>2){
-        $scope.popupOpen = true;    
-      
-        return getBothIndexes(value);
-    }
+         if(value.length>2){
+            $scope.popupOpen = true;   
+            var searchDropdownHt = $(window).height() - 200; 
+            $('.info-bar-search').css({'height':searchDropdownHt});
+            return getBothIndexes(value);
+        }
+        else{
+            $('.info-bar-search').css({'height':'3.375em'});
+        }
     };
 
     /*setTimeout(function(){
@@ -481,9 +485,11 @@ function AlgoliaSearchController(AlgoliaSvc, $q, $scope, $state, Underscore,$roo
     $scope.isActive = function($index) {
         return $index == activeIndex
     };
+    $scope.selectAll = function(tab){
+        
+        $state.go('algoliaresults', {searchterm: vm.searchTerm,tab: tab});
+    }
 
-
-    
     $scope.selectMatch = function(match) {
         console.log(match);
         $state.go('catalog.product', {productid: match.model.Sku});

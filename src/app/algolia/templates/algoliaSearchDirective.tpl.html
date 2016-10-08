@@ -6,7 +6,7 @@
             placeholder="Search"
             ng-model="algoliaSearch.searchTerm"
             typeahead-wait-ms="100"
-            typeahead-append-to-body="true"
+            typeahead-append-to-body="false"
             uib-typeahead="entry for entry in algoliaSearch.popupSearch($viewValue)"
             typeahead-popup-template-url="algolia/templates/algoliaSearchTypeahead.popup.tpl.html"
             typeahead-loading="algoliaSearch.loading"

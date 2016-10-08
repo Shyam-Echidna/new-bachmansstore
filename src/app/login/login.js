@@ -285,6 +285,14 @@ function LoginController( OrderCloud,$state,$http, CurrentUser,$cookieStore, $st
         vm.showPPReg = true;
     }
     vm.cancel = function () {
+        if(vm.newUser!=undefined){
+            var user = {
+
+                Username: vm.newUser.Email,
+                Password: vm.newUser.Password
+            }
+            vm.submit(user);
+        }
         $uibModalInstance.dismiss('cancel');
         vm.menuClass='unhide';
         $('.menu-class').removeClass('hide');
@@ -394,8 +402,8 @@ function LoginController( OrderCloud,$state,$http, CurrentUser,$cookieStore, $st
           }
           var newCCArray = [];
           ConstantContact.CreateContact(obj).then(function (res) {
-            console.log('CCID',res.data);
-            newCCArray.push(res.data);
+            console.log('CCID',res.config.data);
+            newCCArray.push(res.config.data);
             vm.newCCArray = newCCArray;
             var objID = {
                 "xp": {
@@ -421,7 +429,7 @@ function LoginController( OrderCloud,$state,$http, CurrentUser,$cookieStore, $st
             objUp = {
               "id":vm.newCCArray[0].id,
               "lists":list,
-              "email_addresses": [{"email_address":vm.newCCArray[0].email_addresses[0].email_address}]
+              "email_addresses": [{"email_address":vm.newCCArray[0].email}]
           }
           ConstantContact.UpdateContact(objUp).then(function(response) {
             console.log('upres',response);

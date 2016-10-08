@@ -551,13 +551,13 @@ function PdpService($q, Underscore, OrderCloud, CurrentOrder, $http, $uibModal, 
 
 	function getprices(node) {
 		var d = $q.defer();
-		OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
-			OrderCloud.PriceSchedules.Get(list.Items[0].StandardPriceScheduleID).then(function (success) {
+		//OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
+			OrderCloud.PriceSchedules.Get(node.ID).then(function (success) {
 				node["StandardPriceSchedule"] = success;
 				d.resolve(node);
 
 			});
-		});
+		//});
 		return d.promise;
 	}
 	function _getProductCodeImages(prodCode) {

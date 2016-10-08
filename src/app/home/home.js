@@ -688,11 +688,30 @@ function HomeFact($http, $q, $exceptionHandler, alfrescourl, OrderCloud){
 			}
 
 		}).success(function (data, status, headers, config) {
+			var queue = [];
+			angular.forEach(data.Items, function (node) {
+				queue.push(getCatgories(node));
 
-			defferred.resolve(data.Items);
+			});
+			$q.all(queue).then(function (items) {
+				defferred.resolve(items);
+			});
+
+			//defferred.resolve(data.Items);
 		}).error(function (data, status, headers, config) {
 		});
 		return defferred.promise;
+	}
+	function getCatgories(node) {
+		var d = $q.defer();
+		//OrderCloud.Products.ListAssignments(node.ID).then(function (list) {
+		OrderCloud.Categories.ListProductAssignments(null, node.ID, 1, 100, 'bachmans').then(function (success) {
+			node["catgoriesDetails"] = success;
+			d.resolve(node);
+
+		});
+		//});
+		return d.promise;
 	}
 	function _getPromotions(ticket,root) {
 		var defferred = $q.defer();

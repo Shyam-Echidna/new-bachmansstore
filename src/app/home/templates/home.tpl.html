@@ -21,12 +21,8 @@
     </div>
     <div class="promo-banner promo-banner-top row">
         <img class="desktop-img" src="{{home.topPromo}}" />
-        <!-- <img class="mobile-img" src="{{home.topPromo}}"/> -->
         <img class="mobile-img" src="{{home.topPromoMobile}}" />
         <div class="promo-banner-txt">
-            <!-- <h1>On Sale This Week</h1>
-            <p>Get great regular deals on floral, home, and garden needs.</p> 
-            <button class="promo-button">25% OFF SUCCULENTS</button> -->
             <h1>{{home.topPromoTitle}}</h1>
             <p>{{home.topPromoDescription}}</p>
             <button class="promo-button">{{home.topPromoBtnTxt}}</button>
@@ -37,10 +33,7 @@
             <div class="promo-banner promo-banner-left">
                 <img class="desktop-img" src="{{home.leftPromo}}" />
                 <img class="mobile-img" src="{{home.leftPromo}}" />
-                <!-- <img class="mobile-img" src="assets/images/mobile/home/home_promo.png"/> -->
                 <div class="promo-banner-txt">
-                    <!-- <h1>Don’t Forget Mom! :)</h1>
-                    <button>Shop Mother’s Day Gifts</button> -->
                     <h1>{{home.leftPromoTitle}}</h1>
                     <button>{{home.leftPromoBtnTxt}}</button>
                 </div>
@@ -50,10 +43,7 @@
             <div class="rewards-txt">
                 <div class="rewards-txt-up p0 col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="perple-perks-logo col-xs-5 col-sm-4 col-md-5 col-lg-5">
-                        <!-- <img class="desktop-img" src="{{home.rightPromo}}" />
-                        <img class="mobile-img" src="{{home.rightPromo}}" /> -->
                         <span ng-include="home.ppSvg"></span>
-                        <!-- <img class="mobile-img" src="assets/images/mobile/home/perple-perks-logo.png" /> -->
                     </div>
                     <div class="p0 col-xs-7 col-sm-8 col-md-7 col-lg-7 taCenter">
                         <h5>{{home.ppSvgTitle}}</h5>
@@ -61,67 +51,14 @@
                         <form action="http://192.168.100.182:3000/purplePerks" target="_blank">
                             <button class="promo-button">{{home.ppSvgBtnTxt}}</button>
                         </form>
-                        <!-- <h5>Get Free Rewards with</h5>
-                        <h2>Purple Perks</h2>
-                        <button class="promo-button">Register Now</button> -->
                     </div>
                 </div>
                 <div class="rewards-txt-down p0 col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div ng-include="home.ppText"></div>
-                    <!-- <p>Purple Perks Benefits:</p>
-                    <ul>
-                        <li>Earn $5 for every $200 spent during earn periods</li>
-                        <li>Receive a Monthly “Beautiful Living” e-newsletter</li>
-                        <li>Extended two-year warranty on trees, shrubs, evergreens, shrub roses, and hardy perennials</li>
-                        <li>Exclusive products, sales and event invitations! </li>
-                    </ul> -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="row masnrydiv" >       
-    <div class="grid repeatable-blocks" style="width:100%;">
-        <div class="grid-item-width2 grid-item">
-            <div><img src="assets/images/desktop/home/grid6.png" /></div>
-            <div class="promo-banner-txt promo-banner-txt-left">        
-                <h1>Backyard Inspiration</h1>       
-                <p>Florem ipsum lily of the valley sunflower dill goosefoot, orchid. Rosemary st john’s wort, spring cinquefoil eustoma. Cuckooflower honeysuckle lobster claw.</p>     
-                <button>SHOP HARDSCAPES</button>        
-            </div>      
-        </div>              
-        <div class="grid-sizer"></div>      
-        <div class="grid-item">     
-            <div>       
-                <img class="desktop-img" src="assets/images/desktop/home/grid6.png" />      
-                <img class="mobile-img" src="assets/images/desktop/home/grid6.png" />       
-            </div>      
-        </div>      
-        <div class="grid-item">     
-            <div>       
-                <img class="desktop-img" src="assets/images/desktop/home/grid6.png" />      
-                <img class="mobile-img" src="assets/images/desktop/home/grid6.png" />       
-            </div>      
-        </div>      
-        <div class="grid-item-width2 grid-item">        
-            <div>       
-                <img class="desktop-img" src="assets/images/desktop/home/grid6.png" />      
-                <img class="mobile-img" src="assets/images/desktop/home/grid6.png" />       
-            </div>      
-        </div>      
-        <div class="grid-item">     
-            <div>       
-                <img class="desktop-img" src="assets/images/desktop/home/grid6.png" />      
-                <img class="mobile-img" src="assets/images/desktop/home/grid6.png" />       
-            </div>      
-        </div>      
-        <div class="grid-item">     
-            <div>       
-                <img class="desktop-img" src="assets/images/desktop/home/grid6.png" />      
-                <img class="mobile-img" src="assets/images/desktop/home/grid6.png" />       
-            </div>      
-        </div>      
-    </div>      
-    </div>   -->
     <!-- static masonry arrangement -->
     <div ng-include="home.gridImgTemplate"></div>
     <!--<div class="row masnrydiv" >        
@@ -135,9 +72,9 @@
                         <p>{{home.topGridDescription}}</p>      
                         <button>{{home.topGridBtnTxt}}</button> 
                         <!-- <h1>Backyard Inspiration</h1>      
-                        <p>Florem ipsum lily of the valley sunflower dill goosefoot, orchid. Rosemary st john’s wort, spring cinquefoil eustoma. Cuckooflower honeysuckle lobster claw.</p>     
-                        <button>SHOP HARDSCAPES</button> -->
-    <!--</div>      
+                            <p>Florem ipsum lily of the valley sunflower dill goosefoot, orchid. Rosemary st john’s wort, spring cinquefoil eustoma. Cuckooflower honeysuckle lobster claw.</p>     
+                            <button>SHOP HARDSCAPES</button> -->
+                        <!--</div>      
                 </div>
             </div>              
             <div class="grid-item" ng-repeat="gridimg in home.gridImgs" ng-if="$index > 0">     
@@ -145,10 +82,7 @@
                     <img class="desktop-img" src="{{gridimg}}" />       
                     <img class="mobile-img" src="{{gridimg}}" />        
                 </div>      
-            </div>      
-        
-            
-                
+            </div>            
         </div>
     </div>  -->
     <div style="clear:both"></div>
@@ -158,7 +92,7 @@
                 <h1>Workshops & Events</h1>
                 <h2>Create your own arrangements, get inspired by the ideas house & more great events</h2></div>
             <div class="events-promo-sub2 col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                <button class="promo-button">View All Workshops & Events</button>
+                <button class="promo-button" ui-sref="eventsListing({catId:'WorkshopsEvent'})">View All Workshops & Events</button>
             </div>
         </div>
         <div class="events-slider-cont">
@@ -187,6 +121,7 @@
                             <h2 ng-click="home.detailsPage($event);">{{event.Name}}</h2>
                             <p>{{event.Description}}</p>
                             <p class="more-details">More details</p>
+                            <p class="freeEntryMobile visible-xs visible-sm" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</p>
                             <div class="row events-date">
                                 <div class="event-date">{{event.xp.EventDate | date : "dd" }}<span>{{event.xp.EventDate | date : "MMM" }}</span><span class="event-day">{{event.xp.EventDate | date : "EEEE" }}</span></div>
                                 <div class="">
@@ -206,8 +141,9 @@
                                         <span>{{event.xp.SpecsOptions.Size}}</span>
                                         <span ng-if="event.xp.SpecsOptions.Color>1"> - {{event.xp.SpecsOptions.Color}}</span>
                                         <span ng-if="event.xp.IsWorkshop == true" class="events-cost">{{event.PriceSchedule.PriceBreaks[0].Price | currency}}</span>
+                                        <span class="fl hidden-xs hidden-xs" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</span>
                                     </div>
-                                    <span class="fl" ng-if="event.xp.IsWorkshop == false">Open to the Public & Free to Attend</span>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -409,34 +345,48 @@
     </div> -->
     <div class="services-offered">
         <h1>Explore Our Services</h1>
-        <uib-tabset justified="true">
-            <uib-tab select="home.alertMe($index)" ng-repeat="service in base.services" heading="{{service.title}}">
-                <div class="promo-banner row">
-                    <img class="desktop-img" src="{{service.contentUrl}}" />
-                    <img class="mobile-img" src="{{base.services_mobile[$index]}}" />
-                    <!-- <img class="mobile-img" src="assets/images/mobile/home/Explore_Banner_1.png" /> -->
+        <uib-tabset justified="true" ng-repeat="footerService in base.ListOfPages" ng-if="footerService.title == 'Services'">
+            <uib-tab select="home.alertMe($index)" ng-repeat="footerServiceLink in footerService.subfolders | orderBy : 'description'"
+            ng-if="footerServiceLink.nodeType == 'ws:section' " heading="{{footerServiceLink.title}}">
+                <div class="promo-banner row" ng-repeat="service in base.services" ng-if="footerServiceLink.title == service.title">
+                    <img class="" src="{{service.contentUrl}}" />
                     <div class="promo-banner-txt promo-banner-txt-left">
                         <div class="fl">
                             <p>{{service.description}}</p>
                         </div>
-                        <!-- <button class="fr promo-button">Schedule a Consult Today</button> -->
-                        <button class="fr promo-button">{{service.author}}</button>
+                        <button class="fr promo-button" ui-sref="{{footerService.displayName}}({pageName:footerServiceLink.displayName})">{{service.author}}</button>
                     </div>
                 </div>
             </uib-tab>
         </uib-tabset>
     </div>
+   <!--  <div class="services-offered">
+        <h1>Explore Our Services</h1>
+        <uib-tabset justified="true">
+            <uib-tab select="home.alertMe($index)" ng-repeat="service in base.services" heading="{{service.title}}">
+                <div class="promo-banner row">
+                    <img class="desktop-img" src="{{service.contentUrl}}" />
+                    <img class="mobile-img" src="{{base.services_mobile[$index]}}" />
+                    <img class="mobile-img" src="assets/images/mobile/home/Explore_Banner_1.png" />
+                    <div class="promo-banner-txt promo-banner-txt-left">
+                        <div class="fl">
+                            <p>{{service.description}}</p>
+                        </div>
+                        <!-- <button class="fr promo-button">Schedule a Consult Today</button> --
+                        <button class="fr promo-button">{{service.author}}</button>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div> -->
     <div class="pdt-carousel">
         <h1>Featured Products</h1>
         <div class="owl-carousel owl-pdt-carousel" id="owl-pdt-carousel">
-            <div class="pdt-carousel-cont" ng-repeat="featuredProduct in home.featuredProducts">
+            <div class="pdt-carousel-cont" ng-repeat="featuredProduct in home.featuredProducts" ui-sref="pdp({ 'prodId': featuredProduct.ID, 'catId':featuredProduct.catgoriesDetails.Items[0].CategoryID})">
                 <div class="pdt-carousel-image">
-                    <img class="desktop-img" src="{{featuredProduct.imgContent.contentUrl}}" id="item-1" />
-                    <img class="mobile-img" src="{{featuredProduct.imgContent.contentUrl}}" />
-                    <!-- <img class="mobile-img" src="assets/images/mobile/home/featuredProd1.png" /> -->
+                    <img class="" src="{{featuredProduct.imgContent.contentUrl}}" id="item-1" />
                 </div>
                 <div class="pdt-carousel-desc-cont">
-                    <!-- <div class="pdt-carousel-promo">Outdoor Living & Decor</div> -->
                     <div class="pdt-carousel-desc">
                         <div>
                             <p>{{featuredProduct.Name}}</p>
@@ -447,90 +397,6 @@
                 </div>
                 <h6><span>nationwide shipping</span>FLOWERS & SPECIALTY BASKETS</h6>
             </div>
-            <!-- <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt3.png" id="item-2" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$2,499.00 - $2,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt1.png" id="item-3" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$3,499.00 - $3,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt3.png" id="item-4" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$4,499.00 - $4,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt1.png" id="item-5" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$5,499.00 - $5,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt3.png" id="item-6" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$6,499.00 - $6,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt1.png" id="item-7" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$7,499.00 - $7,499.00</p>
-                        <button>BUY NOW</button>
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div>
-            <div class="pdt-carousel-cont">
-                <img src="assets/images/pdt3.png" id="item-8" />
-                <div class="pdt-carousel-desc-cont">
-                    <div class="pdt-carousel-desc">
-                        <p>Manhattan 7PC Rectangle</p>
-                        <p>Dining Set</p>
-                        <p class="pdt-carousel-price">$8,499.00 - $8,499.00</p>
-                        <button>BUY NOW</button>    
-                    </div>
-                </div>
-                <h6><span>nationwide shipping</span>FLOWERS & SPECIALITY BASKETS</h6>
-            </div> -->
         </div>
     </div>
 </div>

@@ -412,9 +412,11 @@ function BaseController($scope, $cookieStore, getBuyer, CurrentUser, defaultErro
         }
 
         function preventDefaultForScrollKeys(e) {
-            if (keys[e.keyCode]) {
-                preventDefault(e);
-                return false;
+            if( keys != undefined){
+                if (keys[e.keyCode]) {
+                    preventDefault(e);
+                    return false;
+                }
             }
         }
 
@@ -643,47 +645,37 @@ function BaseController($scope, $cookieStore, getBuyer, CurrentUser, defaultErro
 
             $(".info-bar-search").hover(expandSearchWidth, collapseSearchWidth);
 
+            var searchDropdownHt = $(window).height() - 200;
             function expandSearchWidth() {
                 var ww = $('.expandAccBlockLoggedIn').width() - 90;
                 if ($cookieStore.get('isLoggedIn')) {
                     $('.info-bar-acc').addClass('donotXpandAcc');
                     var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
-                    $(this).css('width', expSearchWidthValue + 80 + ww);
+                    $(this).css({'width': expSearchWidthValue + 80 + ww, 'height':'3.375em'});
                 } else {
                     var expSearchWidthValue = $('.header-info-bar-position').width() - $('.header-info-bar').width();
-                    $(this).css('width', expSearchWidthValue + 80);
+                    $(this).css({'width': expSearchWidthValue + 80, 'height':'3.375em'});
+                }
+                if($('.algolia-search-input').hasClass('expandSearchBox')){
+                    $(this).css({'height':searchDropdownHt});
                 }
             }
+            $(".info-bar-search input").focus(function(){
+                //$('.info-bar-search').css({'height':searchDropdownHt});
+            });
+            $(".info-bar-search input").focusout(function(){
+                $('.info-bar-search').css({'height':'3.375em'});
+            });
 
-            /*if($('.algolia-search-input').hasClass('red')){
-          var expVal = $('.header-info-bar').width();
-          $('.info-bar-search').css('width', expVal + 80 );
-          alert(expVal);
-        }
-*/
             function collapseSearchWidth() {
                 if ($cookieStore.get('isLoggedIn')) {
                     $('.info-bar-acc').removeClass('donotXpandAcc');
                 }
-                $(this).css('width', '90px');
+                $(this).css({'width':'90px','height':'3.375em'});
             }
-
-            $(".info-bar-cart").hover(expandSearchWidth, collapseSearchWidth);
-
 
         }, 200);
     }
-
-    /*if($(window).width() > 1024){
-        setTimeout(function(){
-            $('#info-bar-search .info-search-text input').focus(function(){
-                $('.info-bar-search').addClass('info-bar-search-expand');
-            });
-            $('#info-bar-search .info-search-text input').focusout(function(){
-                $('.info-bar-search').removeClass('info-bar-search-expand');
-            });
-        },200)
-    }*/
 
     vm.menuClass = "unhide";
 
