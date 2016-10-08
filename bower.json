@@ -44,8 +44,7 @@
     "ng-scrollbar": "^0.0.8",
     "ngScrollable": "ng-scrollable#^0.2.5",
     "angular-busy": "^4.1.3",
-    "angular-ui-calendar": "latest",
-    "elevatezoom": "latest"
+    "angular-ui-calendar": "latest"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.0",
