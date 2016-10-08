@@ -309,6 +309,25 @@
 	    			&.withNewAddr {
 	    				clear: none;
 	    			}
+	    			&.mob-btn {
+    					display: none;
+	    			}
+    			}
+    			&.replaced-form {
+    				.address-info {
+    					margin-top: -100px;
+    					.addnewlink {
+							margin-top: 0;
+    					}
+    					input[type='number'] {
+						    -moz-appearance:textfield;
+						}
+
+						input::-webkit-outer-spin-button,
+						input::-webkit-inner-spin-button {
+						    -webkit-appearance: none;
+						}
+    				}
     			}
     		}
     	}
@@ -511,6 +530,12 @@
 		    					}
 		    				}
 		    			}
+		    			&.web-btn {
+	    					display: none;
+		    			}
+		    			&.mob-btn {
+	    					display: block;
+		    			}
 	    			}
 	    		}
 	    	}
@@ -637,6 +662,11 @@
 							width: 100%;
 						}
 					}
+					&.replaced-form {
+	    				.address-info {
+	    					margin-top: -75px;
+	    				}
+	    			}
 				}
 			}
 		}
@@ -700,6 +730,22 @@
 	    					padding-top: 15px;
 	    				}
 					}
+					.nav-buttons {
+	    				width: 60%;
+	    				clear: both;
+	    				&.web-btn {
+	    					display: none;
+	    				}
+	    				&.mob-btn {
+	    					display: block;
+	    					width: 100%;
+	    				}
+	    			}
+	    			&.replaced-form {
+	    				.address-info {
+	    					margin-top: 0;
+	    				}
+	    			}
 				}
 			}
 		}
@@ -847,6 +893,17 @@
 	    			.nav-buttons {
 	    				width: 60%;
 	    				clear: both;
+	    				&.web-btn {
+	    					display: block;
+	    				}
+	    				&.mob-btn {
+	    					display: none;
+	    				}
+	    			}
+	    			&.replaced-form {
+	    				.address-info {
+	    					margin-top: -85px;
+	    				}
 	    			}
 	    		}
 	    	}
