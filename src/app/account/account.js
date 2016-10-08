@@ -402,6 +402,7 @@ function AccountService($q, $uibModal, $exceptionHandler, ConstantContact, Order
         GetUpdateSubscription: _getUpdateSubscription,
         GetCardType: _getCardType,
         GetBillingAddress: _getBillingAddress,
+        ListBillingAddress:_listBillingAddress,
         ReAssignAddress: _reAssignAddress,
         ZipcodeValidation: _zipcodeValidation
     };
@@ -583,7 +584,28 @@ function AccountService($q, $uibModal, $exceptionHandler, ConstantContact, Order
             return $q.all(arr);
         })
     };
-
+  
+    function _listBillingAddress(ID){
+        var dfr = $q.defer();
+        var arr = {};
+        OrderCloud.Addresses.ListAssignments(null, ID).then(function(addrList){
+            var temp = [];
+            angular.forEach(addrList.Items, function(val){
+                temp.push(OrderCloud.Addresses.Get(val.AddressID));
+            }, true);
+            $q.all(temp).then(function(result){
+                arr["addresses"] = result;
+                arr["defaultAddr"]=_.filter(result, function(obj) {
+                    if(obj.xp && obj.xp!=null){
+                        if(obj.xp.IsDefault != null)
+                        return _.indexOf([obj.xp.IsDefault], true) > -1
+                    }
+                });
+                dfr.resolve(arr);
+            });
+        });
+        return dfr.promise;
+    }
 
     //******LIST ADDRESS END*****
 
@@ -1416,7 +1438,7 @@ function DeleteCreditcardController($rootScope, CreditCardService, OrderCloud, $
     };
 }
 
-function CreditCardController($rootScope, AccountService, toastr, $scope, $uibModal, $filter, CreditCardService, OrderCloud, CreditCards, CurrentUser) {
+function CreditCardController($rootScope, AccountService, toastr, $scope, $uibModal, $filter, CreditCardService, OrderCloud, CreditCards, CurrentUser,checkOutService,AddressValidationService) {
     var vm = this;
     vm.list = CreditCards.Items;
     vm.newcreditcard = false;
@@ -1426,6 +1448,11 @@ function CreditCardController($rootScope, AccountService, toastr, $scope, $uibMo
             vm.list = res.Items;
         });
     });
+
+    AccountService.ListBillingAddress(CurrentUser.ID).then(function (res) {
+        vm.addressBook = res.addresses;
+    }); 
+
     vm.newCardInput = function () {
         if (vm.list.length == 3) {
             var modalInstance = $uibModal.open({
@@ -1480,26 +1507,89 @@ function CreditCardController($rootScope, AccountService, toastr, $scope, $uibMo
     vm.ccc = function () {
         alert("fdddsds");
     }
-    vm.createCard = function (card) {
-        card.CVV = "999";
-        console.log("card.CVV");
-        card.CardType = AccountService.GetCardType(card.CardNumber);
-        CreditCardService.Create(card).then(function (res) {
-            OrderCloud.Me.ListCreditCards(null, 1, 100).then(function (response) {
-                vm.list = response.Items;
-                var filt = _.findWhere(vm.list, {
-                    ID: cardID
-                });
-                vm.list = _.without(vm.list, _.findWhere(vm.list, {
-                    ID: cardID
-                }));
-                vm.list.unshift(filt);
-            });
-        })
-            .catch(function () {
-                toastr('Sorry, something went wrong. Please check your card data and try again.');
-            })
 
+    vm.saveNewAddress = function(addr){
+        if(vm.newAddressForm.$valid){
+            AddressValidationService.Validate(addr).then(function (res) {
+                if (res.ResponseBody.ResultCode == 'Success') {
+                    var validatedAddress = res.ResponseBody.Address;
+                    var zip = validatedAddress.PostalCode.substring(0, 5);
+                    addr.Zip = parseInt(zip);
+                    addr.City = validatedAddress.City;
+                    addr.State = validatedAddress.Region;
+                    addr.Country = validatedAddress.Country;
+                    OrderCloud.Addresses.Create(addr).then(function (res1) {
+                        vm.addressBook.push(res1);
+                        var obj = { "AddressID": res1.ID, "UserID": CurrentUser.ID, "IsBilling": addr.Billing?addr.Billing:false, "IsShipping": addr.Shipping?addr.Shipping:false };
+                        OrderCloud.Addresses.SaveAssignment(obj).then(function (res) {
+                        });
+                        vm.cardnewaddress=false;
+                        vm.addr={};
+                    });
+                } else {
+                    toastr.error('Address validation failed.');
+                }
+            });
+        } else {
+            toastr.error('Please fill the form.');
+        }
+    }
+
+    vm.getLocation = function (zip) {
+        if (zip && zip.toString().length == 5) {
+            AccountService.getCityState(zip).then(function (res) {
+                console.log("res==", res);
+                if (res.Cities) {
+                    vm.addr.City = res.Cities[0];
+                    vm.Cities = res.Cities;
+                    vm.addr.State = res.State;
+                } else {
+                    vm.Cities = null;
+                    vm.addr.City = res.City;
+                    vm.addr.State = res.State;
+                }
+            });
+        }
+    }
+    
+    vm.IsPhone = function ($e) {
+        var keyCode = $e.which ? $e.which : $e.keyCode;
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        if (!ret)
+            $e.preventDefault();
+    }
+
+    vm.createCard = function (card) {
+        if(vm.CreditCardCreateForm.$valid){
+            card.CVV = "999";
+            console.log("card.CVV"+vm.addressBook[parseInt(card.selectedAddress)].ID);
+            card.CardType = AccountService.GetCardType(card.CardNumber);
+            CreditCardService.Create(card).then(function (res) {
+                if(card.selectedAddress == "newAddress"){
+                    
+                }else{
+                    OrderCloud.Me.PatchCreditCard(res.ResponseBody.ID, { "xp": { "BillingAddressID": vm.addressBook[parseInt(card.selectedAddress)].ID } }).then(function (res2) {
+                        console.log(res2);
+                    });
+                }
+                OrderCloud.Me.ListCreditCards(null, 1, 100).then(function (response) {
+                    vm.list = response.Items;
+                    vm.newcreditcard = false;
+                    vm.card={};
+                    var filt = _.findWhere(vm.list, {
+                        ID: cardID
+                    });
+                    vm.list = _.without(vm.list, _.findWhere(vm.list, {
+                        ID: cardID
+                    }));
+                    vm.list.unshift(filt);
+                });
+            }).catch(function () {
+                toastr.error('Sorry, something went wrong. Please check your card data and try again.');
+            })
+        } else {
+            toastr.error('Please fill the form.');
+        }
     };
     vm.cardtypeDetect = function (cardnumber) {
         //vm.card=card;
@@ -1718,7 +1808,7 @@ function TrackOrderController($exceptionHandler, TrackOrder, toastr, CurrentUser
 
 }
 
-function ProfileController($exceptionHandler, $anchorScroll, $location, $state, $uibModal, toastr, OrderCloud, AccountService, CurrentUser, Underscore, $q, $scope) {
+function ProfileController($http, $exceptionHandler, $anchorScroll, $location, $state, $uibModal, toastr, OrderCloud, AccountService, CurrentUser, Underscore, $q, $scope) {
     var vm = this;
     vm.newuser = {};
     vm.profileData = angular.copy(CurrentUser);
@@ -1772,8 +1862,30 @@ function ProfileController($exceptionHandler, $anchorScroll, $location, $state, 
             OrderCloud.Addresses.Update(vm.profileData.xp.ContactAddr, profile_addr).then(function (res) {
                 OrderCloud.Users.Update(vm.profileData.ID, vm.profileData).then(function (res) { });
             });
-
+            }
+            $location.hash('top');
+            $anchorScroll();
+        // start  user integartion to Egle
+        var data = {
+            "CustomerID":vm.profileData.ID,
+            "Action":"update"
         }
+        $http({
+
+            method: 'POST',
+            dataType:"json",
+            url:"https://Four51TRIAL104401.jitterbit.net/Bachmans_Dev/four51_to_eagle_filecreate",
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+
+        }).success(function (data, status, headers, config) {
+        }).error(function (data, status, headers, config) {
+        });
+        // endof user integartion to Egle
+
+
         $location.hash('top');
         $anchorScroll();
     }
