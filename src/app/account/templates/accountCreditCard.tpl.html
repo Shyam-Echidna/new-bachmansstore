@@ -46,7 +46,7 @@
                </div>
             </div>
             <div class="col-xs-2 col-sm-4 col-md-1 col-lg-1 visa">
-                <img src="../../assets/images/{{card.CardType}}.svg" class="visa-icon" />
+                <img src="../../assets/images/batch4web/creditcard/{{card.CardType}}.svg" class="visa-icon" />
             </div>
             <div class="col-xs-10 col-sm-4 col-md-3 col-lg-3 cr-card-num">
                 <p class="title">Card Number</p>
@@ -72,11 +72,11 @@
         <div class="col-xs-12 add-new-credit-card-cont p0">
             <p class="title">Input Card Information</p>
             <div class="add-new-card-div">
-                <form class="add-new-card-form ng-pristine ng-valid"  name="CreditCardCreateForm" role="form" novalidate="">
+                <form class="add-new-card-form"  name="creditCards.CreditCardCreateForm" role="form" novalidate="">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
                             <label for="cardHoldName">Name On Card</label>
-                            <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName" autocomplete="off"/>
+                            <input type="text" class="form-control" id="cardHoldName" placeholder="Enter Card Holder Name" ng-model="creditCards.card.CardholderName" autocomplete="off" required/>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
                             <label for="cardType">Card Type</label>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="number" maxlength="16" card-validation ng-minlength="14" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
+                            <input type="number" ng-minlength="14" maxlength="16" ng-maxlength="16" max-length="16" class="form-control" placeholder="Enter Card Number" id="cardNum" ng-model="creditCards.card.CardNumber" required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate">Expiration Date</label>
@@ -123,98 +123,120 @@
                      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 address-info">       
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group billing-addr">     
                             <label for="billingAddress">Billing Address</label>     
-                            <select class="form-control" id="billingAddress">       
-                                <option value="">Select Billling Address</option>       
+                            <select class="form-control" id="billingAddress" ng-model="creditCards.card.selectedAddress" required>       
+                                <option value="">Select Billling Address</option>  
+                                <option ng-repeat="address in creditCards.addressBook" value="{{$index}}" >{{address.FirstName}}&nbsp;{{address.LastName}}</option>      
                             </select>    
                         </div>
-
-                        <!-- Add Address from Credit Card -->
-                        <p class="addnewlink" ng-click="cardnewaddress=!cardnewaddress">+ Add New Address</p>
-                        <div class="row address-book-container">
-                            <div class="row row-address-search">
-                                <div class="col-xs-12 add-new-addr-cont" ng-show="cardnewaddress">
-                                    <div class="add-new-addr-div">
-                                        <div class="add-new-addr-form">
-                                            <div class="col-xs-6 form-group nick-name">
-                                                <label for="nickName">Nickname</label>
-                                                <input type="text" name="nickName" placeholder="Enter Nickname" class="form-control" id="nickName" ng-model="addr.xp.NickName" autocomplete="off" ng-requried="true">
-                                            </div>
-                                            <div class="col-xs-6 form-group first-name">
-                                                <label for="firstName">First Name</label>
-                                                <input type="text" name="firstName" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="addr.FirstName" autocomplete="off" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-6 form-group last-name">
-                                                <label for="lastName">Last Name</label>
-                                                <input type="text" name="lastName" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="addr.LastName" autocomplete="off" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-12 form-group address">
-                                                <label for="address">Address 1</label>
-                                                <input type="text" placeholder="Enter Address 1" class="form-control" id="address" ng-model="addr.Street1" autocomplete="off" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-12 form-group address2">
-                                                <label for="address2">Address 2</label>
-                                                <input type="text" placeholder="Enter Address 2" class="form-control" id="address2" ng-model="addr.Street2" autocomplete="off">
-                                            </div>
-                                            <div class="col-xs-6 form-group zip-code">
-                                                <label for="zipCode">ZIP Code</label>
-                                                <input type="text" ng-minlength="5"  maxlength="5" placeholder="Enter Zip Code" class="form-control" id="zipCode" ng-model="addr.Zip" autocomplete="off" ng-keyup="Address.getLocation(addr.Zip)" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-6 form-group city">
-                                                <label for="city">City</label>
-                                                <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="addr.City" autocomplete="off" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-6 form-group state">
-                                                <label for="state">State</label>
-                                                <input type="text" placeholder="Enter State" class="form-control" id="state" ng-model="addr.State" autocomplete="off" ng-required="true">
-                                            </div>
-                                            <div class="col-xs-6 form-group phone-number">
-                                                <label for="phone1">Phone Number</label>
-                                                <div class="row phone-txt">
-                                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" class="form-control"  ng-model="addr.Phone1" placeholder="Area code" ng-keypress="Address.IsPhone($event)" autocomplete="off" ng-required="true"></div>
-                                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="3" maxlength="3" placeholder="Prefix" class="form-control"  ng-model="addr.Phone2" ng-keypress="Address.IsPhone($event)" autocomplete="off" ng-required="true"></div>
-                                                            <div class="col-sm-4 col-md-4 col-xs-4"><input type="text" phone-validation ng-minlength="4" maxlength="4" class="form-control"  ng-model="addr.Phone3" ng-keypress="Address.IsPhone($event)" placeholder="Number"autocomplete="off" ng-required="true"></div>
-                                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 form-group shipping-checkbox">
-                                                <div class="Checkbox">
-                                                    <input type="checkbox" id="ship-addr-chkb" ng-model="addr.IsShipping" />
-                                                    <div class="Checkbox-visible"></div>
-                                                </div>
-                                                <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label>
-                                            </div>
-                                            <div class="col-xs-12 form-group billing-checkbox">
-                                                <div class="Checkbox">
-                                                    <input type="checkbox" id="bill-addr-chkb" ng-model="addr.IsBilling"/>
-                                                    <div class="Checkbox-visible"></div>
-                                                </div>
-                                                <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
-                                            </div>
-                                            <div class="col-xs-12 form-group navig-btns">
-                                                <div class="col-xs-6 savebtn">
-                                                    <button type="button" class="btn purple-btn col-xs-6" ng-class="{'disabledbtn': addnewAddress.$invalid }" class="btn purple-btn col-xs-6">Save</button>
-                                                </div>
-                                                <div class="col-xs-6 cancelbtn">
-                                                    <button type="button" class="btn gray-btn col-xs-6" ng-click="newaddress=!newaddress;addr=null">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="addnewlink" ng-click="creditCards.cardnewaddress=!creditCards.cardnewaddress;">+ Add New Address</p>
                     </div>
-                    <div class="col-xs-6 p0 nav-buttons" ng-class="{withNewAddr:cardnewaddress}">
+                    <!-- Desktop screen buttons for Card Save and Cancel -->
+                    <div class="col-xs-6 p0 nav-buttons web-btn" ng-class="{withNewAddr:cardnewaddress}">
                         <div class="col-xs-12 form-group navig-btns">
                             <div class="col-xs-6 savebtn">
-                                <button type="submit" class="btn purple-btn" ng-click="creditCards.createCard(creditCards.card);creditCards.newcreditcard = !creditCards.newcreditcard;">Save</button>
+                                <button type="submit" class="btn purple-btn" ng-click="creditCards.createCard(creditCards.card);">Save</button>
                             </div>
                             <div class="col-xs-6 cancelbtn">
-                                <button type="button" class="btn gray-btn" ng-click="creditCards.newcreditcard = !creditCards.newcreditcard; creditCards.card = null">Cancel</button>
+                                <button type="button" class="btn gray-btn" ng-click="creditCards.newcreditcard = !creditCards.newcreditcard; creditCards.card = {};">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </form>
+                <!-- Add Address from Credit Card -->
+                <div class="add-new-card-form replaced-form">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 address-info"> 
+                        <!-- <p class="addnewlink" ng-click="creditCards.cardnewaddress=!creditCards.cardnewaddress;">+ Add New Address</p> -->
+                        <div class="row address-book-container">
+                            <div class="row row-address-search">
+                                <div class="col-xs-12 add-new-addr-cont" ng-if="creditCards.cardnewaddress">
+                                    <form class="add-new-card-form"  name="creditCards.newAddressForm" role="form" novalidate="">
+                                    <div class="add-new-addr-div">
+                                        <div class="add-new-addr-form">
+                                            <div class="col-xs-6 form-group nick-name">
+                                                <label for="nickName">Nickname</label>
+                                                <input type="text" name="nickName" placeholder="Enter Nickname" class="form-control" id="nickName" ng-model="creditCards.addr.xp.NickName" autocomplete="off" ng-requried="true" required>
+                                            </div>
+                                            <div class="col-xs-6 form-group first-name">
+                                                <label for="firstName">First Name</label>
+                                                <input type="text" name="firstName" placeholder="Enter First Name" class="form-control" id="firstName" ng-model="creditCards.addr.FirstName" autocomplete="off" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-6 form-group last-name">
+                                                <label for="lastName">Last Name</label>
+                                                <input type="text" name="lastName" placeholder="Enter Last Name" class="form-control" id="lastName" ng-model="creditCards.addr.LastName" autocomplete="off" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-6 form-group zip-code">
+                                                <label for="zipCode">ZIP Code</label>
+                                                <input type="number" ng-minlength="5"  maxlength="5" placeholder="Enter Zip Code" class="form-control" id="zipCode" ng-model="creditCards.addr.Zip" autocomplete="off" ng-blur="creditCards.getLocation(creditCards.addr.Zip)" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-12 form-group address">
+                                                <label for="address">Address 1</label>
+                                                <input type="text" placeholder="Enter Address 1" class="form-control" id="address" ng-model="creditCards.addr.Street1" autocomplete="off" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-12 form-group address2">
+                                                <label for="address2">Address 2</label>
+                                                <input type="text" placeholder="Enter Address 2" class="form-control" id="address2" ng-model="creditCards.addr.Street2" autocomplete="off">
+                                            </div>
+                                            <div class="col-xs-6 form-group city">
+                                                <label for="city">City</label>
+                                                <input type="text" placeholder="Enter City" class="form-control" id="city" ng-model="creditCards.addr.City" autocomplete="off" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-6 form-group state">
+                                                <label for="state">State</label>
+                                                <input type="text" placeholder="Enter State" class="form-control" id="state" ng-model="creditCards.addr.State" autocomplete="off" ng-required="true" required>
+                                            </div>
+                                            <div class="col-xs-6 form-group phone-number">
+                                                <label for="phone1">Phone Number</label>
+                                                <div class="row phone-txt">
+                                                    <div class="col-sm-4 col-md-4 col-xs-4">
+                                                        <input type="number" phone-validation ng-minlength="3" maxlength="3" ng-maxlength="3" max-length="3" class="form-control"  ng-model="creditCards.addr.Phone1" placeholder="Area code" ng-keypress="creditCards.IsPhone($event)" autocomplete="off" ng-required="true"></div>
+                                                    <div class="col-sm-4 col-md-4 col-xs-4">
+                                                        <input type="number" phone-validation ng-minlength="3" maxlength="3" ng-maxlength="3" max-length="3" placeholder="Prefix" class="form-control"  ng-model="creditCards.addr.Phone2" ng-keypress="creditCards.IsPhone($event)" autocomplete="off" ng-required="true"></div>
+                                                    <div class="col-sm-4 col-md-4 col-xs-4">
+                                                        <input type="number" phone-validation ng-minlength="4" maxlength="4" ng-maxlength="4" max-length="4" class="form-control"  ng-model="creditCards.addr.Phone3" ng-keypress="creditCards.IsPhone($event)" placeholder="Number"autocomplete="off" ng-required="true"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 form-group shipping-checkbox">
+                                                <div class="Checkbox">
+                                                    <input type="checkbox" id="ship-addr-chkb" ng-model="creditCards.addr.Shipping" />
+                                                    <div class="Checkbox-visible"></div>
+                                                </div>
+                                                <label class="ship-addr-label" for="ship-addr-chkb">Shipping Address</label> 
+                                            </div>
+                                            <div class="col-xs-12 form-group billing-checkbox">
+                                                <div class="Checkbox">
+                                                    <input type="checkbox" id="bill-addr-chkb" ng-model="creditCards.addr.Billing"/>
+                                                    <div class="Checkbox-visible"></div>
+                                                </div>
+                                                <label class="bill-addr-label" for="bill-addr-chkb">Billing Address</label>
+                                            </div>
+                                            <!-- Buttons for Address Save and Cancel -->
+                                            <div class="col-xs-12 form-group navig-btns">
+                                                <div class="col-xs-6 savebtn">
+                                                    <button type="button" class="btn purple-btn col-xs-6" ng-class="{'disabledbtn': addnewAddress.$invalid }" class="btn purple-btn col-xs-6" ng-click="creditCards.saveNewAddress(creditCards.addr)">Save</button>
+                                                </div>
+                                                <div class="col-xs-6 cancelbtn">
+                                                    <button type="button" class="btn gray-btn col-xs-6" ng-click="creditCards.cardnewaddress=!creditCards.cardnewaddress;creditCards.addr={};">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mobile Buttons for Card Save and Cancel -->
+                    <div class="col-xs-6 p0 nav-buttons mob-btn" ng-class="{withNewAddr:cardnewaddress}">
+                        <div class="col-xs-12 form-group navig-btns">
+                            <div class="col-xs-6 savebtn">
+                                <button type="submit" class="btn purple-btn" ng-click="creditCards.createCard(creditCards.card);">Save</button>
+                            </div>
+                            <div class="col-xs-6 cancelbtn">
+                                <button type="button" class="btn gray-btn" ng-click="creditCards.newcreditcard = !creditCards.newcreditcard; creditCards.card = {};">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -228,7 +250,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p0 card-info">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group holder-name">
                             <label for="cardHoldNameEdit">Name On Card</label>
-                            <input type="text" class="form-control" id="cardHoldNameEdit" placeholder="Name" ng-model="creditCards.card.CardholderName"/>
+                            <input type="text" class="form-control" id="cardHoldNameEdit" placeholder="Name" ng-model="creditCards.card.CardholderName" required/>
                         </div>
                         <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-type">
                             <label for="cardType">Card Type</label>
@@ -242,7 +264,7 @@
                         </div> -->
                         <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group card-number">
                             <label for="cardNum">Card Number</label>
-                            <input type="text" maxlength="16" minlength="15" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" requried>
+                            <input type="text" ng-minlength="14" maxlength="16" ng-maxlength="16" max-length="16" class="form-control" id="cardNum" ng-model="creditCards.card.CardNumber" requried>
                         </div> -->
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group exp-date">
                             <label for="expDate2">Expiration Date</label>
