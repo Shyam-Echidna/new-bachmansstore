@@ -30,7 +30,8 @@ angular.module( 'orderCloud', [
         'ngScrollable',
          'cgBusy',
          'ncy-angular-breadcrumb',
-         'ui.calendar'
+         'ui.calendar',
+         'naturalSort'
     ])
 
     .run( SetBuyerID )
