@@ -2,6 +2,7 @@ angular.module('orderCloud')
 
 .config(staticPageConfig)
     .factory('staticPageData', staticPageData)
+    .factory('StaticService', StaticService)
     .controller('contactCtrl', contactController)
     .controller('templateCtrl', templateController)
     .controller('template1Ctrl', template1Controller)
@@ -266,6 +267,42 @@ function staticPageConfig($stateProvider) {
             }
         })
 
+}
+function StaticService($uibModal,Underscore, OrderCloud, $state) {
+    var service = {
+        OpenCalender: openCalender
+    };
+    return service;
+
+    function openCalender() {
+        if(!(/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()))){
+            $uibModal.open({
+                animation: true,
+                windowClass: 'quickViewModal',
+                templateUrl: 'staticPage/templates/event-calender-model.tpl.html',
+                controller: 'eventCalenderModalCtrl',
+                controllerAs: 'eventCalenderModal',
+                resolve: {
+                    events: function() {
+                        return OrderCloud.Me.ListProducts(null, 1, 100, null, null, { "xp.IsWorkshopEvent": true }, null).then(function(catList) {
+                            var events = [];
+                            angular.forEach(catList.Items, function(cat) {
+                                events.push({
+                                    id: cat.ID,
+                                    title: cat.Name,
+                                    start: new Date(cat.xp.EventDate), 
+                                    productcode: cat.xp.ProductCode
+                                })
+                            });
+                            return events;
+                        });
+                    }
+                }
+            });
+        } else {
+            $state.go('events');
+        }
+    } 
 }
 
 function ladingPageController(folder) {
@@ -619,10 +656,12 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
                 vm.childactiveIndex = pages[1];
                 console.log(data);
                 setTimeout(function() {
-                    if (data.subfolders.items.length > 3) {
-                        vm.childCount = 2;
+                    if (data.subfolders && data.subfolders.items) {
+                        var childData = _.filter(data.subfolders.items, function(node){ return node.nodeType == 'ws:section'; });
+                        if(childData.length > 1)
+                            vm.childCount = 2;
                     }
-                }, 1000)
+                }, 1000);
                 console.log(vm.activeIndex + "=" + vm.activePageTitle + "=" + vm.childactiveIndex);
             }
         } else {
@@ -632,6 +671,7 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
             }
         }
     }
+
     vm.changePageData = function(filename, folder, activeFileName) {
         vm.activeIndex = activeFileName;
         vm.childCount = 0;
@@ -652,41 +692,45 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
         }
         $state.go(filename, { pageName: param, fileName: htmlName });
     }
+
     vm.showCarouselData = false;
     vm.getMediaData = function(url) {
-            staticPageData.GetFolders(url + "?alf_ticket=" + vm.siteToken).then(function(data) {
-                console.log("mediaData", data);
-                angular.forEach(data.items, function(carousel) {
-                    if (carousel.nodeType == 'ws:image' && carousel.fileName.indexOf(vm.articleTitle.replace(".html", "")) >= 0) {
-                        vm.templateBannerImage = carousel.contentUrl;
-                    } else if (carousel.nodeType == "ws:section" && carousel.fileName == "articleImages") {
-                        vm.loadArticleImages(alfrescoStaticurl + carousel.location.path + "/" + carousel.fileName);
-                    } else if (carousel.nodeType == "ws:section" && carousel.fileName == "carouselImages") {
+        staticPageData.GetFolders(url + "?alf_ticket=" + vm.siteToken).then(function(data) {
+            console.log("mediaData", data);
+            angular.forEach(data.items, function(carousel) {
+                if (carousel.nodeType == 'ws:image' && carousel.fileName.indexOf(vm.articleTitle.replace(".html", "")) >= 0) {
+                    vm.templateBannerImage = carousel.contentUrl;
+                } else if (carousel.nodeType == "ws:section" && carousel.fileName == "articleImages") {
+                    vm.loadArticleImages(alfrescoStaticurl.substring(0, alfrescoStaticurl.length - 1) + carousel.location.path + "/" + carousel.fileName);
+                } else if (carousel.nodeType == "ws:section") {
+                    if(carousel.fileName == "carouselImages"){
                         vm.carouselSlotHeader = carousel.title;
-                        vm.loadCarouselImages(alfrescoStaticurl + carousel.location.path + "/" + carousel.fileName);
+                        vm.loadCarouselImages(alfrescoStaticurl.substring(0, alfrescoStaticurl.length - 1) + carousel.location.path + "/" + carousel.fileName);
                     } else {
                         $(".history-carousel").hide();
                     }
-                });
-            }, function(data) {
-                $(".history-carousel").hide();
-                console.log(data);
+                }
             });
-        }
+        }, function(data) {
+            $(".history-carousel").hide();
+            console.log(data);
+        });
+    }
+
         //vm.getMediaData(dataUrl);
     vm.loadCarouselImages = function(url) {
         $(".history-carousel").show();
         staticPageData.GetFolders(url + "?alf_ticket=" + vm.siteToken).then(function(data) {
-            vm.carouselData = data.items;
+            vm.carouselData = _.filter(data.items, function(node){ return node.nodeType == 'ws:image'; });
             if (vm.carouselData.length > 0) {
                 vm.showCarouselData = true;
                 setTimeout(function() {
                     owlHistory.owlCarousel({
                         /*responsive: true,*/
-                        loop: true,
+                        loop: false,
                         animateOut: 'fadeOut',
                         nav: true,
-                        navText: ['<span class="pdtCarousalArrowPrev" aria-hidden="true">next</span>', '<span class="pdtCarousalArrowNext" aria-hidden="true">prev</span>'],
+                        navText: vm.carouselData.length>3?['<span class="weddingTrendArrowPrev" aria-hidden="true">next</span>', '<span class="weddingTrendArrowNext" aria-hidden="true">prev</span>']:[],
                         responsive: {
                             0: {
                                 items: 1
@@ -711,25 +755,25 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
         staticPageData.GetFolders(url + "?alf_ticket=" + vm.siteToken).then(function(data) {
             console.log("loadArticleImages", data);
             if (data.items.length > 0) {
-                vm.articleImages = data.items;
+                vm.articleImages = _.filter(data.items, function(node){ return node.nodeType == 'ws:image'; });
                 var elem = angular.element("#articleImagesSlot");
                 var classn = "col-md-3";
                 if (vm.articleTitle == "memoryMotifs") {
                     classn = "col-md-4 motifs-img";
                 }
-                var html = '<div class="' + classn + ' owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
-                var owlHtml = ""
+                var html = '<div class="' + classn + ' owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages | orderBy:natural(\'fileName\')" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div>';
+                var owlHtml = "";
                 if (elem.hasClass("owl-carousel-initial")) {
-                    owlHtml = '<div class="owl-carousel owl-theme wedding-trend"><div class="owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div></div>';
+                    owlHtml = '<div class="owl-carousel owl-theme wedding-trend"><div class="owl-carousel-item portfolio-item" ng-repeat="articleImage in history.articleImages | orderBy:natural(\'fileName\')" ng-if="articleImage.nodeType==\'ws:image\'&& articleImage.fileName.indexOf(history.articleTitle)>=0"><a href="#"> <img class="img-responsive" ng-src="{{history.alfStaticContenturl}}{{articleImage.contentUrl}}?alf_ticket={{history.siteToken}}" alt=""> </a><div class="gallery-desc"><h3>{{articleImage.title}}</h3><p>{{articleImage.description}}</p></div></div></div>';
                     var el = $compile(angular.element(owlHtml))($scope);
                     elem.html(el);
                     setTimeout(function() {
                         angular.element(".owl-carousel").owlCarousel({
                             /*responsive: true,*/
-                            loop: true,
+                            loop:false,
                             animateOut: 'fadeOut',
                             nav: true,
-                            navText: ['<span class="weddingTrendArrowPrev" aria-hidden="true">next</span>', '<span class="weddingTrendArrowNext" aria-hidden="true">prev</span>'],
+                            navText: vm.articleImages.length>3?['<span class="weddingTrendArrowPrev" aria-hidden="true">next</span>', '<span class="weddingTrendArrowNext" aria-hidden="true">prev</span>']:[],
                             responsive: {
                                 0: {
                                     items: 1
@@ -750,11 +794,7 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
                     var el = $compile(angular.element(owlHtml))($scope);
                     elem.html(el);
                 }
-
-
-
             }
-
         })
     }
 
@@ -763,7 +803,8 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
         if (imageData.title.trim().length > 0) {
             staticPageData.GetFolders(alfrescoStaticurl.substring(0, alfrescoStaticurl.length - 1) + imageData.location.path + "/" + imageData.title + "?alf_ticket=" + vm.siteToken).then(function(data) {
                 console.log(data);
-                openInspirationModal(data.items);
+                var imagesData = _.filter(data.items, function(node){ return node.nodeType == 'ws:image'; });
+                openInspirationModal(imagesData);
             }, function(data) {
                 console.log(data);
             });
@@ -787,7 +828,7 @@ function historyController($scope, alfcontenturl, $sce, $state, page, fileName, 
         });
 
         modalInstance.result.then(function() {
-            alert("popup closed");
+           // alert("popup closed");
         }, function() {
             angular.noop();
         });
@@ -1043,10 +1084,13 @@ function eventDescriptionController($scope, PdpService, productDetail, selectedP
 
 
 /*For Workshop event controller function starts*/
-function workshopEventController($state, $uibModal, $scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, OrderCloud,getBuyer) {
+function workshopEventController($state, $uibModal, $scope, $window, HomeFact, PlpService, $q, $sce, alfcontenturl, CategoryService, Underscore, $rootScope, OrderCloud,getBuyer,StaticService) {
     var vm = this;
     var siteEditorHome = getBuyer.xp.SiteEditor.HomePage;
     vm.open = function () {
+        StaticService.OpenCalender();
+    }
+/*    vm.open = function () {
         // getEventDate().then(function(events){
             if(!(/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()))){
             $uibModal.open({
@@ -1081,7 +1125,7 @@ function workshopEventController($state, $uibModal, $scope, $window, HomeFact, P
             $state.go('events');
         }
         // })
-    }   
+    } */  
 
     function getEventDate() {
         var deferred = $q.defer();
@@ -1766,6 +1810,8 @@ function eventsListingController(PlpService, $stateParams, alfStaticContenturl, 
             vm.eventListGroupByEventType = eventListGroupByEventType.DESWS;
         } else if (eventCat == 'WorkshopsEvents_TicktedEvents_HowToClasses') {
             vm.eventListGroupByEventType = eventListGroupByEventType.HTCLS;
+        }else if (eventCat == 'WorkshopsEvents_TicktedEvents_IdeasHouse') {
+            vm.eventListGroupByEventType = eventListGroupByEventType.IDHSE;
         } else if (eventCat == 'WorkshopsEvents_FreeEvents') {
             vm.eventListGroupByEventType = eventListGroupByEventType.WorkshopsEvents_FreeEvents_BachmansEvents;
             var eventListGroupByEventType2 = eventListGroupByEventType.WorkshopsEvents_FreeEvents_HorticulturalMeetings;

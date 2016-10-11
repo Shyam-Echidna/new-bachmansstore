@@ -42,7 +42,7 @@
             
 <!--            <div class="mikado" id="gallerymikado">-->
         <div class="items" style="height: 99%;">
-            <div class="item with-icon no-text" ng-repeat="image in inspirational.glImages" on-finish-render="ngRepeatFinished">
+            <div class="item with-icon no-text" ng-repeat="image in inspirational.glImages" ng-if="image.nodeType=='ws:image'" on-finish-render="ngRepeatFinished">
                 <a title="" rel="gallerymikado" class="tile-inner mikado-lightbox" href="{{inspirational.alfStaticContenturl}}{{image.contentUrl}}?alf_ticket={{inspirational.siteToken}}" target="_blank"><img data-valign="middle" data-halign="center" class="pic" ng-src="{{inspirational.alfStaticContenturl}}{{image.contentUrl}}?alf_ticket={{inspirational.siteToken}}" alt="{{image.name}}">
                 </a>
             </div>
@@ -87,7 +87,7 @@
 				</div>
 -->
 <!--			</div>-->
-			<div class="mobile-gallery row hidden-md hidden-lg">
+			<!--<div class="mobile-gallery row hidden-md hidden-lg">
 
 				<div class="grid col-xs-12 col-sm-12">
 					<div> <img src="assets/images/gallery1.png" alt="gallery1"></div>
@@ -116,7 +116,7 @@
 					<div><img src="assets/images/gallery10.png" alt=""></div>
 				</div>
 
-			</div>
+			</div>-->
 
 		</div>
 	</div>

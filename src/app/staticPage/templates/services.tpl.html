@@ -35,9 +35,9 @@
 						</uib-accordion-heading>
 						<div class="receipient-drpDown">
 							<ul>
-								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''">
-									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}" ng-init="history.assignActiveIndex(subfolder,$index)" >{{subfolder.title}}</a>
-									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName && history.childCount >=2">
+								<li ng-repeat="subfolder in folder.subfolders" ng-if="subfolder.nodeType == 'ws:section' && subfolder.title !=''" ng-init="history.assignActiveIndex(subfolder,$index)">
+									<a  ng-click="history.changePageData(folder.fileName,subfolder)" ng-style="history.activeIndex === subfolder.fileName ? { 'color':'#8c58b5'} : {}">{{subfolder.title}}</a>
+									<ul class="sub-cat" ng-if="history.activeIndex === subfolder.fileName">
 										<li ng-repeat="subsubfolders in subfolder.subfolders.items" ng-if="subsubfolders.nodeType == 'ws:section' && subfolder.title !='' && subsubfolders.fileName!='Media'">
 											<a href="" ng-style="history.childactiveIndex === subsubfolders.fileName ? { 'color':'#8c58b5'} : {}" ng-click="history.changePageData(folder.fileName,subsubfolders)">{{subsubfolders.title}}</a></li>
 									</ul>
@@ -195,18 +195,6 @@
 		<div class="row bachman-herritage">
 			<h4>{{history.carouselSlotHeader}}</h4>
 			<div class="owl-carousel owl-theme" id="owl-carousel-history">
-				<!-- <div class="owl-carousel-item">
-					<div class="">
-						<div class="grid_1">
-							<a href=""><img src="assets/images/services-carousal1.png" title="prod1" alt=""> </a>
-							<div class="grid_desc">
-								<p class="title">Bridal Bounquet</p>
-
-							</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div> -->
 				<div class="owl-carousel-item" ng-repeat="carousel in history.carouselData" ng-if="carousel.nodeType=='ws:image'&&carousel.fileName.indexOf(history.articleTitle)<0">
 					<div class="">
 						<div class="grid_1">
@@ -215,7 +203,6 @@
 							<div class="grid_desc">
 								<h3 class="title" ng-if="carousel.title && carousel.title.length > 2">{{carousel.title}}</h3>
 								<p class="title" ng-if="carousel.description && carousel.description.length > 2">{{carousel.description}}</p>
-
 							</div>
 						</div>
 						<div class="clear"></div>
